@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "335330685775",
+    "project_id": "smart-stack-bills",
+    "storage_bucket": "smart-stack-bills.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:335330685775:android:98ae89b1b393c43bb14b3a",
+        "android_client_info": {
+          "package_name": "com.example.smartstackbills"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "335330685775-ngqfr5vqupj0smekoc1uvdjq5vmibkud.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.smartstackbills",
+            "certificate_hash": "f59dc0381d48c06e05e6f4fc3aa90c0d2336ef06"
+          }
+        },
+        {
+          "client_id": "335330685775-busm9leph5emh7ifp13925ncer4vrq4q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAnWpHkb8QLulbg2rwOPtTtV3sls4Dx4Ec"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "335330685775-busm9leph5emh7ifp13925ncer4vrq4q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
