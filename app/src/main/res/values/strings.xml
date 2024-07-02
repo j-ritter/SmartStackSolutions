@@ -20,4 +20,13 @@
     <string name="due">Due</string>
     <string name="reocurring">Reocurring</string>
     <string name="paid">Paid</string>
+    <string name="required" />
+    <string name="Title" />
+    <string name="Category" />
+    <string name="select_date">Select date</string>
+    <string name="title">Title</string>
+    <string name="amount">Amount</string>
+    <string name="vendor">Vendor</string>
+    <string name="category">Category</string>
+    <string name="write_your_title">Write your title</string>
 </resources>

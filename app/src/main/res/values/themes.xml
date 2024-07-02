@@ -4,6 +4,10 @@
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
+    
+    <style name="datePickerTheme" parent="android:Theme.Material.Light.Dialog">
+        <item name="android:colorAccent">#53a6f9</item>
+    </style>
 
     <style name="Theme.SmartStackBills" parent="Base.Theme.SmartStackBills" />
 </resources>
