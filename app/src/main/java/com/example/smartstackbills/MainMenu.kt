@@ -9,10 +9,16 @@ import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainMenu : AppCompatActivity() {
+    private var userEmail: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main_menu)
+
+
+        userEmail = intent.getStringExtra("USER_EMAIL")
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -24,20 +30,12 @@ class MainMenu : AppCompatActivity() {
             when (item.itemId) {
                 R.id.Bills -> {
                     val intent = Intent(this, MyBills::class.java)
+                    intent.putExtra("USER_EMAIL", userEmail) // Pasar el correo electrónico
                     startActivity(intent)
                     true
                 }
                 else -> false
             }
         }
-
-
-
-
-
-
-
-
-
     }
 }

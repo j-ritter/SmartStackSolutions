@@ -1,23 +1,27 @@
 package com.example.smartstackbills
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.EditText
-import android.widget.Spinner
-import android.widget.Toast
+import android.widget.*
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import java.time.Year
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class createBill : AppCompatActivity() {
+
+    private val db = FirebaseFirestore.getInstance()
+    private var userEmail: String? = null
+    private var userUid: String? = null
+
     val categories = arrayOf(
         "Accommodation", "Communication", "Insurance", "Subscription and Memberships",
         "Transportation", "Finances/Fees", "Taxes", "Health", "Education", "Shopping & Consumption"
     )
+
 
     val vendors = arrayOf(
         "Amazon", "Walmart", "Target", "Best Buy", "Macy's", "Costco", "Home Depot", "Lowe's",
@@ -56,29 +60,26 @@ class createBill : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_create_bill)
+
+        // Obtener el email y UID del Intent
+        userEmail = intent.getStringExtra("USER_EMAIL")
+        userUid = FirebaseAuth.getInstance().currentUser?.uid
+
         val edtDate = findViewById<EditText>(R.id.edtDate)
         edtDate.setOnClickListener {
             showDatePickerDialog()
         }
 
-
-
-
-
-        // Encuentra el Spinner en el layout
         val spinnerCategories = findViewById<Spinner>(R.id.spinnerCategories)
         val spinnerVendors = findViewById<Spinner>(R.id.spinnerVendors)
+        val saveButton = findViewById<Button>(R.id.btnGuardar)
 
-
-        // Crea un ArrayAdapter usando el array de categorías y un layout de spinner por defecto
         val arrayAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, categories)
-        val arrayAdapterVendors = ArrayAdapter(this,android.R.layout.simple_spinner_dropdown_item, vendors)
+        val arrayAdapterVendors = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, vendors)
 
-        // Asigna el adapter al spinner
         spinnerCategories.adapter = arrayAdapter
         spinnerVendors.adapter = arrayAdapterVendors
 
-        // Define el listener del spinner
         spinnerCategories.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val selectedItemCategories = parent?.getItemAtPosition(position).toString()
@@ -97,23 +98,73 @@ class createBill : AppCompatActivity() {
             }
         }
 
-
-
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        saveButton.setOnClickListener {
+            saveBill()
+        }
+
+        val btnCancel = findViewById<Button>(R.id.btnCancel)
+
+        btnCancel.setOnClickListener {
+            val intent = Intent(this, MyBills::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun showDatePickerDialog() {
-        val datePicker = DatePickerFragment{day,month,year -> onDateSelected(day,month, year)}
+        val datePicker = DatePickerFragment { day, month, year -> onDateSelected(day, month, year) }
         datePicker.show(supportFragmentManager, "datePicker")
     }
 
-    fun onDateSelected(day:Int,month:Int,year:Int){
-    val edtDate = findViewById<EditText>(R.id.edtDate)
+    fun onDateSelected(day: Int, month: Int, year: Int) {
+        val edtDate = findViewById<EditText>(R.id.edtDate)
         edtDate.setText("$day/$month/$year")
+    }
+
+    private fun saveBill() {
+        // Verificar que el email y UID no sean nulos
+        if (userEmail != null && userUid != null) {
+            // Obtener los datos de los EditText
+            val billName = findViewById<EditText>(R.id.edtTitle).text.toString()
+            val billAmount = findViewById<EditText>(R.id.edtAmount).text.toString()
+            val billDate = findViewById<EditText>(R.id.edtDate).text.toString()
+            val billCategory = findViewById<Spinner>(R.id.spinnerCategories).selectedItem.toString()
+            val billVendor = findViewById<Spinner>(R.id.spinnerVendors).selectedItem.toString()
+            val billComment = findViewById<EditText>(R.id.edtComments).text.toString()
+            val billPaid = findViewById<CheckBox>(R.id.checkBoxPaid).isChecked
+
+            // Crear un hash map con los datos de la factura
+            val bill = hashMapOf(
+                "name" to billName,
+                "amount" to billAmount,
+                "date" to billDate,
+                "category" to billCategory,
+                "vendor" to billVendor,
+                "comment" to billComment,
+                "Paid" to billPaid
+            )
+
+            // Guardar la factura en la subcolección 'bills' del usuario actual
+            db.collection("users").document(userUid!!).collection("bills")
+                .add(bill)
+                .addOnSuccessListener {
+                    // Factura guardada exitosamente
+                    Toast.makeText(this, "Factura guardada exitosamente", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, MyBills::class.java)
+                    startActivity(intent)
+                }
+                .addOnFailureListener { e ->
+                    // Error al guardar la factura
+                    Toast.makeText(this, "Error al guardar la factura: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
+        } else {
+            // El email o UID es nulo
+            Toast.makeText(this, "Error: No se pudo obtener el email o UID del usuario", Toast.LENGTH_SHORT).show()
+        }
     }
 }

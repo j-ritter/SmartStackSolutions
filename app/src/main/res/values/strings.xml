@@ -29,4 +29,12 @@
     <string name="vendor">Vendor</string>
     <string name="category">Category</string>
     <string name="write_your_title">Write your title</string>
+    <string name="write_your_comments">Write your comments</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+    <string name="Paid">Paid</string>
+    <string name="Amount">Amount</string>
+    <string name="create_new_bill">Create new Bill</string>
+    <string name="purchase_date">Purchase date</string>
+    <string name="comments">Comments</string>
 </resources>

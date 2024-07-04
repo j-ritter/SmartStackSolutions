@@ -62,12 +62,12 @@ class LogIn : AppCompatActivity() {
 
         val emailInput = email.text.toString()
         val passwordInput = password.text.toString()
-
         auth.signInWithEmailAndPassword(emailInput, passwordInput)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     // Sign in success, navigate to the mainmenu
                     val intent = Intent(this,MainMenu::class.java)
+                    intent.putExtra("USER_EMAIL", emailInput)
                     startActivity(intent)
 
                     Toast.makeText(
