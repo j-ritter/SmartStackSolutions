@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="27dp"
         android:layout_marginTop="16dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="9dp"
         android:text="@string/create_new_bill"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/textView5"
@@ -38,7 +38,7 @@
         android:id="@+id/edtComments"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="17dp"
         android:background="@drawable/edt_background"
         android:ems="10"
         android:hint="@string/write_your_comments"
@@ -48,7 +48,7 @@
         android:paddingRight="15dp"
         android:textColorHint="#A5A5A5"
         android:textSize="15sp"
-        app:layout_constraintBottom_toTopOf="@+id/btnCancel"
+        app:layout_constraintBottom_toTopOf="@+id/textView6"
         app:layout_constraintEnd_toEndOf="@+id/btnGuardar"
         app:layout_constraintStart_toStartOf="@+id/textView10"
         app:layout_constraintTop_toBottomOf="@+id/textView10" />
@@ -58,7 +58,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
 
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="11dp"
         app:layout_constraintBottom_toTopOf="@+id/txtVendor"
         app:layout_constraintEnd_toEndOf="@+id/spinnerVendors"
         app:layout_constraintStart_toStartOf="@+id/txtCategory"
@@ -69,17 +69,16 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
 
-        android:layout_marginBottom="13dp"
+        android:layout_marginBottom="9dp"
         app:layout_constraintBottom_toTopOf="@+id/textView8"
         app:layout_constraintEnd_toEndOf="@+id/checkBoxPaid"
-        app:layout_constraintStart_toStartOf="@+id/textView8"
+        app:layout_constraintStart_toStartOf="@+id/txtVendor"
         app:layout_constraintTop_toBottomOf="@+id/txtVendor" />
 
     <TextView
         android:id="@+id/textView8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
         android:text="@string/amount"
         app:layout_constraintBottom_toTopOf="@+id/edtAmount"
         app:layout_constraintStart_toStartOf="@+id/edtAmount"
@@ -89,29 +88,27 @@
         android:id="@+id/textView9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="27dp"
-        android:layout_marginBottom="17dp"
+        android:layout_marginBottom="9dp"
         android:text="@string/purchase_date"
         app:layout_constraintBottom_toTopOf="@+id/edtDate"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/edtDate"
         app:layout_constraintTop_toBottomOf="@+id/edtAmount" />
 
     <TextView
         android:id="@+id/textView10"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="27dp"
-        android:layout_marginBottom="18dp"
+        android:layout_marginBottom="12dp"
         android:text="@string/comments"
         app:layout_constraintBottom_toTopOf="@+id/edtComments"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/edtDate"
         app:layout_constraintTop_toBottomOf="@+id/edtDate" />
 
     <EditText
         android:id="@+id/edtTitle"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="14dp"
+        android:layout_marginBottom="11dp"
         android:background="@drawable/edt_background"
         android:ems="10"
         android:hint="@string/write_your_title"
@@ -123,14 +120,16 @@
         android:textSize="15sp"
         app:layout_constraintBottom_toTopOf="@+id/txtCategory"
         app:layout_constraintEnd_toEndOf="@+id/spinnerCategories"
-        app:layout_constraintStart_toStartOf="@+id/textView5"
+        app:layout_constraintStart_toStartOf="@+id/txtCategory"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
     <EditText
         android:id="@+id/edtDate"
-        android:layout_width="180dp"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="19dp"
+        android:layout_marginStart="27dp"
+        android:layout_marginEnd="21dp"
+        android:layout_marginBottom="12dp"
         android:background="@drawable/edt_background"
         android:clickable="false"
         android:ems="10"
@@ -142,8 +141,8 @@
         android:textColorHint="#A5A5A5"
         android:textSize="15sp"
         app:layout_constraintBottom_toTopOf="@+id/textView10"
-        app:layout_constraintEnd_toEndOf="@+id/textView9"
-        app:layout_constraintStart_toEndOf="@+id/textView9"
+        app:layout_constraintEnd_toStartOf="@+id/btnImage"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
     <TextView
@@ -151,7 +150,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="27dp"
-        android:layout_marginBottom="14dp"
+        android:layout_marginBottom="9dp"
         android:text="@string/category"
         app:layout_constraintBottom_toTopOf="@+id/spinnerCategories"
         app:layout_constraintStart_toStartOf="parent"
@@ -163,7 +162,7 @@
         android:layout_height="0dp"
         android:layout_marginStart="27dp"
         android:layout_marginEnd="35dp"
-        android:layout_marginBottom="27dp"
+        android:layout_marginBottom="14dp"
         android:background="@drawable/edt_background"
         android:ems="10"
         android:hint="@string/Amount"
@@ -182,10 +181,11 @@
         android:id="@+id/txtVendor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginStart="27dp"
+        android:layout_marginBottom="9dp"
         android:text="@string/vendor"
         app:layout_constraintBottom_toTopOf="@+id/spinnerVendors"
-        app:layout_constraintStart_toStartOf="@+id/spinnerVendors"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinnerCategories" />
 
     <CheckBox
@@ -202,11 +202,10 @@
         android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="27dp"
-        android:layout_marginBottom="13dp"
+        android:layout_marginBottom="12dp"
         android:text="Title"
         app:layout_constraintBottom_toTopOf="@+id/edtTitle"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textView7"
         app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
     <Button
@@ -221,7 +220,37 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnGuardar"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerRepeat" />
+
+    <Button
+        android:id="@+id/btnImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="36dp"
+        android:text="Upload image"
+        app:layout_constraintBaseline_toBaselineOf="@+id/edtDate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/edtDate" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:layout_marginBottom="9dp"
+        android:text="Repeat"
+        app:layout_constraintBottom_toTopOf="@+id/spinnerRepeat"
+        app:layout_constraintStart_toStartOf="@+id/edtComments"
         app:layout_constraintTop_toBottomOf="@+id/edtComments" />
+
+    <Spinner
+        android:id="@+id/spinnerRepeat"
+        android:layout_width="200dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="26dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnCancel"
+        app:layout_constraintStart_toStartOf="@+id/textView6"
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -17,6 +17,11 @@ class createBill : AppCompatActivity() {
     private var userEmail: String? = null
     private var userUid: String? = null
 
+
+    val repeat = arrayOf(
+        "No","Daily","Weekly","Every 2 Weeks","Monthly","Yearly"
+    )
+
     val categories = arrayOf(
         "Accommodation", "Communication", "Insurance", "Subscription and Memberships",
         "Transportation", "Finances/Fees", "Taxes", "Health", "Education", "Shopping & Consumption"
@@ -72,6 +77,7 @@ class createBill : AppCompatActivity() {
 
         val spinnerCategories = findViewById<Spinner>(R.id.spinnerCategories)
         val spinnerVendors = findViewById<Spinner>(R.id.spinnerVendors)
+        val spinnerReminder = findViewById<Spinner>(R.id.spinnerRepeat)
         val saveButton = findViewById<Button>(R.id.btnGuardar)
 
         val arrayAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, categories)
@@ -98,11 +104,22 @@ class createBill : AppCompatActivity() {
             }
         }
 
+        spinnerReminder.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val selectedItemVendors = parent?.getItemAtPosition(position).toString()
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                // Este método se llama cuando no se selecciona ningún elemento
+            }
+        }
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+
 
         saveButton.setOnClickListener {
             saveBill()
@@ -115,6 +132,7 @@ class createBill : AppCompatActivity() {
             startActivity(intent)
         }
     }
+
 
     private fun showDatePickerDialog() {
         val datePicker = DatePickerFragment { day, month, year -> onDateSelected(day, month, year) }
@@ -135,6 +153,7 @@ class createBill : AppCompatActivity() {
             val billDate = findViewById<EditText>(R.id.edtDate).text.toString()
             val billCategory = findViewById<Spinner>(R.id.spinnerCategories).selectedItem.toString()
             val billVendor = findViewById<Spinner>(R.id.spinnerVendors).selectedItem.toString()
+            val billRepeat = findViewById<Spinner>(R.id.spinnerRepeat).selectedItem.toString()
             val billComment = findViewById<EditText>(R.id.edtComments).text.toString()
             val billPaid = findViewById<CheckBox>(R.id.checkBoxPaid).isChecked
 
@@ -145,6 +164,7 @@ class createBill : AppCompatActivity() {
                 "date" to billDate,
                 "category" to billCategory,
                 "vendor" to billVendor,
+                "repeat" to billRepeat,
                 "comment" to billComment,
                 "Paid" to billPaid
             )
