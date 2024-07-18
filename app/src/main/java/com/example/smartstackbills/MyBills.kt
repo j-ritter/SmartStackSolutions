@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.ui.res.colorResource
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
@@ -20,7 +21,9 @@ class MyBills : AppCompatActivity() {
     private lateinit var myAdapter: MyAdapter
     private lateinit var db: FirebaseFirestore
     private var listenerRegistration: ListenerRegistration? = null
-    private lateinit var createBillButton: Button
+    private lateinit var fab: FloatingActionButton
+    private var userEmail: String? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,15 +33,17 @@ class MyBills : AppCompatActivity() {
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(this)
+        userEmail = intent.getStringExtra("USER_EMAIL")
 
 
         billsArrayList = ArrayList()
         myAdapter = MyAdapter(this, billsArrayList)
         recyclerView.adapter = myAdapter
 
-        createBillButton = findViewById(R.id.btnCreate)
-        createBillButton.setOnClickListener {
+        fab = findViewById(R.id.fabBills)
+        fab.setOnClickListener {
             val intent = Intent(this, createBill::class.java)
+            intent.putExtra("USER_EMAIL", userEmail)
             startActivity(intent)
         }
 

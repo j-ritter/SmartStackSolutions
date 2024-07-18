@@ -82,9 +82,11 @@ class createBill : AppCompatActivity() {
 
         val arrayAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, categories)
         val arrayAdapterVendors = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, vendors)
+        val arrayAdapterRepeat = ArrayAdapter(this,android.R.layout.simple_spinner_dropdown_item,repeat)
 
         spinnerCategories.adapter = arrayAdapter
         spinnerVendors.adapter = arrayAdapterVendors
+        spinnerReminder.adapter = arrayAdapterRepeat
 
         spinnerCategories.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -106,7 +108,7 @@ class createBill : AppCompatActivity() {
 
         spinnerReminder.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val selectedItemVendors = parent?.getItemAtPosition(position).toString()
+                val selectedItemReminder = parent?.getItemAtPosition(position).toString()
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 // Este método se llama cuando no se selecciona ningún elemento

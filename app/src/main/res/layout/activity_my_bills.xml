@@ -16,74 +16,62 @@
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/materialToolbar"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/button1"
-            app:layout_constraintEnd_toStartOf="@+id/toggleButton"
-            app:layout_constraintStart_toStartOf="@+id/toggleButton"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_height="59dp"
             app:menu="@menu/top_nav"
             app:navigationIcon="@drawable/ic_menu"
             app:title="SmartStackBills"
-            app:titleCentered="true" />
-
-        <com.google.android.material.button.MaterialButtonToggleGroup
-            android:id="@+id/toggleButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            app:layout_constraintBottom_toBottomOf="@+id/materialToolbar"
-            app:layout_constraintStart_toStartOf="@+id/button3"
-            app:layout_constraintTop_toBottomOf="@+id/materialToolbar"></com.google.android.material.button.MaterialButtonToggleGroup>
+            app:titleCentered="true"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <Button
             android:id="@+id/button1"
             style="?attr/materialButtonOutlinedStyle"
-            android:layout_width="wrap_content"
+            android:layout_width="95dp"
             android:layout_height="wrap_content"
             android:text="@string/incoming"
-            app:layout_constraintBaseline_toBaselineOf="@+id/button2"
-            app:layout_constraintStart_toStartOf="@+id/materialToolbar" />
+            android:textSize="8sp"
+            app:layout_constraintTop_toBottomOf="@+id/materialToolbar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/button2"
+            app:layout_constraintHorizontal_chainStyle="packed" />
 
         <Button
             android:id="@+id/button2"
             style="?attr/materialButtonOutlinedStyle"
-            android:layout_width="wrap_content"
+            android:layout_width="95dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="108dp"
-            android:layout_marginTop="56dp"
             android:text="@string/due"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:textSize="8sp"
+            app:layout_constraintTop_toBottomOf="@+id/materialToolbar"
+            app:layout_constraintStart_toEndOf="@+id/button1"
+            app:layout_constraintEnd_toStartOf="@+id/button3"
+            app:layout_constraintHorizontal_chainStyle="packed" />
 
         <Button
             android:id="@+id/button3"
             style="?attr/materialButtonOutlinedStyle"
-            android:layout_width="wrap_content"
+            android:layout_width="95dp"
             android:layout_height="wrap_content"
             android:text="@string/reocurring"
+            android:textSize="8sp"
+            app:layout_constraintTop_toBottomOf="@+id/materialToolbar"
             app:layout_constraintStart_toEndOf="@+id/button2"
-            app:layout_constraintTop_toBottomOf="@+id/materialToolbar" />
+            app:layout_constraintEnd_toStartOf="@+id/button4"
+            app:layout_constraintHorizontal_chainStyle="packed" />
 
         <Button
             android:id="@+id/button4"
             style="?attr/materialButtonOutlinedStyle"
-            android:layout_width="wrap_content"
+            android:layout_width="95dp"
             android:layout_height="wrap_content"
             android:text="@string/paid"
-            app:layout_constraintBaseline_toBaselineOf="@+id/button3"
-            app:layout_constraintStart_toEndOf="@+id/button3" />
-
-        <Button
-            android:id="@+id/btnCreate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="14dp"
-            android:background="@drawable/btnlogin"
-            android:text="Create"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
+            android:textSize="8sp"
+            app:layout_constraintTop_toBottomOf="@+id/materialToolbar"
+            app:layout_constraintStart_toEndOf="@+id/button3"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintHorizontal_chainStyle="packed" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomNavigationView"
@@ -92,28 +80,30 @@
             android:background="#FFFFFF"
             app:itemIconTint="@color/black"
             app:itemTextColor="#000000"
+            app:menu="@menu/bottom_nav"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:menu="@menu/bottom_nav">
-
-        </com.google.android.material.bottomnavigation.BottomNavigationView>
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginStart="1dp"
-            android:layout_marginTop="50dp"
-            android:layout_marginEnd="1dp"
-            android:layout_marginBottom="68dp"
-            app:layout_constraintBottom_toBottomOf="@+id/btnCreate"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button1"
+            app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/button1" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
-
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabBills"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_add"
+            app:backgroundTint="#1E97F4"
+            app:fabSize="normal"
+            app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
