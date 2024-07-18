@@ -3,34 +3,78 @@ package com.example.smartstackbills
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-
+import androidx.compose.ui.res.colorResource
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
 
 class MyBills : AppCompatActivity() {
-    private var userEmail: String? = null // Declarar userEmail como variable de instancia
+
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var billsArrayList: ArrayList<Bills>
+    private lateinit var myAdapter: MyAdapter
+    private lateinit var db: FirebaseFirestore
+    private var listenerRegistration: ListenerRegistration? = null
+    private lateinit var createBillButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_my_bills)
 
-        // Obtener el email del Intent
-        userEmail = intent.getStringExtra("USER_EMAIL")
+        recyclerView = findViewById(R.id.recyclerView)
+        recyclerView.setHasFixedSize(true)
+        recyclerView.layoutManager = LinearLayoutManager(this)
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
 
-        val btnCreate: Button = findViewById(R.id.btnCreate)
-        btnCreate.setOnClickListener {
+        billsArrayList = ArrayList()
+        myAdapter = MyAdapter(this, billsArrayList)
+        recyclerView.adapter = myAdapter
+
+        createBillButton = findViewById(R.id.btnCreate)
+        createBillButton.setOnClickListener {
             val intent = Intent(this, createBill::class.java)
-            intent.putExtra("USER_EMAIL", userEmail) // Pasar el correo electrónico
             startActivity(intent)
         }
+
+        db = FirebaseFirestore.getInstance()
+
+        setupEventChangeListener()
+    }
+
+    private fun setupEventChangeListener() {
+        val userUid = FirebaseAuth.getInstance().currentUser?.uid
+        if (userUid != null) {
+            listenerRegistration = db.collection("users").document(userUid).collection("bills")
+                .addSnapshotListener { snapshots, e ->
+                    if (e != null) {
+                        Toast.makeText(this, "Error al cargar las facturas: ${e.message}", Toast.LENGTH_SHORT).show()
+                        return@addSnapshotListener
+                    }
+
+                    if (snapshots != null) {
+                        billsArrayList.clear()
+                        for (document in snapshots.documents) {
+                            val bill = document.toObject(Bills::class.java)
+                            if (bill != null) {
+                                billsArrayList.add(bill)
+                            }
+                        }
+                        myAdapter.notifyDataSetChanged()
+                    }
+                }
+        } else {
+            Toast.makeText(this, "Error: Usuario no autenticado", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        listenerRegistration?.remove()
     }
 }

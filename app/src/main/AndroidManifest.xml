@@ -3,11 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_MEDIA_VISUAL_USER_SELECTED"/>
+    <uses-permission android:name="android.permission.READ_MEDIA_VISUAL_USER_SELECTED" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
-
-
 
     <application
         android:allowBackup="true"
@@ -19,6 +17,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SmartStackBills"
         tools:targetApi="31">
+        <activity
+            android:name=".MySpendings"
+            android:exported="false" />
         <activity
             android:name=".createBill"
             android:exported="false" />

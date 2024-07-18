@@ -37,4 +37,11 @@
     <string name="create_new_bill">Create new Bill</string>
     <string name="purchase_date">Purchase date</string>
     <string name="comments">Comments</string>
+    <string name="commentts">Comments:</string>
+    <string name="purchase_Date">Purchase date:</string>
+    <string name="pAid">Paid:</string>
+    <string name="aMount">Amount:</string>
+    <string name="vEndor">Vendor:</string>
+    <string name="CaTegory">Category:</string>
+    <string name="TiTle">Title:</string>
 </resources>

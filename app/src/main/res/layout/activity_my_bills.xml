@@ -16,9 +16,10 @@
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/materialToolbar"
             android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/button1"
+            app:layout_constraintEnd_toStartOf="@+id/toggleButton"
+            app:layout_constraintStart_toStartOf="@+id/toggleButton"
             app:layout_constraintTop_toTopOf="parent"
             app:menu="@menu/top_nav"
             app:navigationIcon="@drawable/ic_menu"
@@ -29,10 +30,10 @@
             android:id="@+id/toggleButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/materialToolbar"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
-        </com.google.android.material.button.MaterialButtonToggleGroup>
+            android:layout_marginStart="10dp"
+            app:layout_constraintBottom_toBottomOf="@+id/materialToolbar"
+            app:layout_constraintStart_toStartOf="@+id/button3"
+            app:layout_constraintTop_toBottomOf="@+id/materialToolbar"></com.google.android.material.button.MaterialButtonToggleGroup>
 
         <Button
             android:id="@+id/button1"
@@ -40,21 +41,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/incoming"
-            app:layout_constraintTop_toBottomOf="@id/toggleButton"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/button2"
-            app:layout_constraintHorizontal_chainStyle="spread" />
+            app:layout_constraintBaseline_toBaselineOf="@+id/button2"
+            app:layout_constraintStart_toStartOf="@+id/materialToolbar" />
 
         <Button
             android:id="@+id/button2"
             style="?attr/materialButtonOutlinedStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="108dp"
+            android:layout_marginTop="56dp"
             android:text="@string/due"
-            app:layout_constraintTop_toBottomOf="@id/toggleButton"
-            app:layout_constraintStart_toEndOf="@id/button1"
-            app:layout_constraintEnd_toStartOf="@id/button3"
-            app:layout_constraintHorizontal_chainStyle="spread" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/button3"
@@ -62,10 +61,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/reocurring"
-            app:layout_constraintTop_toBottomOf="@id/toggleButton"
-            app:layout_constraintStart_toEndOf="@id/button2"
-            app:layout_constraintEnd_toStartOf="@id/button4"
-            app:layout_constraintHorizontal_chainStyle="spread" />
+            app:layout_constraintStart_toEndOf="@+id/button2"
+            app:layout_constraintTop_toBottomOf="@+id/materialToolbar" />
 
         <Button
             android:id="@+id/button4"
@@ -73,24 +70,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/paid"
-            app:layout_constraintTop_toBottomOf="@id/toggleButton"
-            app:layout_constraintStart_toEndOf="@id/button3"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_chainStyle="spread" />
+            app:layout_constraintBaseline_toBaselineOf="@+id/button3"
+            app:layout_constraintStart_toEndOf="@+id/button3" />
 
         <Button
             android:id="@+id/btnCreate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="314dp"
-            android:layout_marginBottom="210dp"
+            android:layout_marginBottom="14dp"
             android:background="@drawable/btnlogin"
             android:text="Create"
             android:textColor="@color/white"
             app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button2" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomNavigationView"
@@ -106,19 +99,21 @@
 
         </com.google.android.material.bottomnavigation.BottomNavigationView>
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginEnd="1dp"
+            android:layout_marginBottom="68dp"
+            app:layout_constraintBottom_toBottomOf="@+id/btnCreate"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/button1" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/you_still_do_not_have_any_bill_registered"
-        app:layout_anchor="@id/constraintLayout"
-        app:layout_anchorGravity="center" />
-
-
-
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

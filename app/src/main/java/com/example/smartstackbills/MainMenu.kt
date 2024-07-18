@@ -34,6 +34,12 @@ class MainMenu : AppCompatActivity() {
                     startActivity(intent)
                     true
                 }
+                R.id.Spendings -> {
+                    val intent = Intent(this, MySpendings::class.java)
+                    intent.putExtra("USER_EMAIL", userEmail) // Pasar el correo electrónico
+                    startActivity(intent)
+                    true
+                }
                 else -> false
             }
         }
