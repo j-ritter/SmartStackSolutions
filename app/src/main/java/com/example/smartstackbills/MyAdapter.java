@@ -35,9 +35,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         holder.title.setText(bills.getName());
         holder.amount.setText(bills.getAmount());
         holder.category.setText(bills.getCategory());
-        holder.paid.setText(bills.isPaid() ? "Sí" : "No");
-        holder.vendor.setText(bills.getVendor());
-        holder.comments.setText(bills.getComment());
         holder.purchaseDate.setText(bills.getDate());
     }
 
@@ -48,17 +45,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView title, category, vendor, amount, paid, purchaseDate, comments;
+        TextView title, category, amount, purchaseDate;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.textviewTitle);
             category = itemView.findViewById(R.id.textviewCategory);
-            vendor = itemView.findViewById(R.id.textviewVendor);
             amount = itemView.findViewById(R.id.textviewAmount);
-            paid = itemView.findViewById(R.id.textviewPaid);
             purchaseDate = itemView.findViewById(R.id.textviewDate);
-            comments = itemView.findViewById(R.id.textviewComments);
         }
     }
 }
