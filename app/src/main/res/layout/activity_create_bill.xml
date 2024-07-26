@@ -61,16 +61,18 @@
         android:layout_marginBottom="11dp"
         android:background="@drawable/rounded_frame_background"
         app:layout_constraintBottom_toTopOf="@+id/txtVendor"
-        app:layout_constraintEnd_toEndOf="@+id/spinnerVendors"
+        app:layout_constraintEnd_toEndOf="@+id/autoCompleteVendors"
         app:layout_constraintStart_toStartOf="@+id/txtCategory"
         app:layout_constraintTop_toBottomOf="@+id/txtCategory" />
 
-    <Spinner
-        android:id="@+id/spinnerVendors"
+    <AutoCompleteTextView
+        android:id="@+id/autoCompleteVendors"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="9dp"
         android:background="@drawable/rounded_frame_background"
+        android:hint="@string/select_vendor"
+        android:textColorHint="#A5A5A5"
         app:layout_constraintBottom_toTopOf="@+id/textView8"
         app:layout_constraintEnd_toEndOf="@+id/checkBoxPaid"
         app:layout_constraintStart_toStartOf="@+id/txtVendor"
@@ -83,7 +85,7 @@
         android:text="@string/amount"
         app:layout_constraintBottom_toTopOf="@+id/edtAmount"
         app:layout_constraintStart_toStartOf="@+id/edtAmount"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerVendors" />
+        app:layout_constraintTop_toBottomOf="@+id/autoCompleteVendors" />
 
     <TextView
         android:id="@+id/textView9"
@@ -189,7 +191,7 @@
         android:layout_marginBottom="9dp"
         android:text="@string/vendor"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/spinnerVendors"
+        app:layout_constraintBottom_toTopOf="@+id/autoCompleteVendors"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinnerCategories" />
 

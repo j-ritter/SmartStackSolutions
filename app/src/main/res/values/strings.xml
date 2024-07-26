@@ -44,4 +44,6 @@
     <string name="vEndor">Vendor:</string>
     <string name="CaTegory">Category:</string>
     <string name="TiTle">Title:</string>
+    <string name="select_vendor">Select Vendor</string>
+
 </resources>

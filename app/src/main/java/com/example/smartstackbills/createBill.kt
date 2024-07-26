@@ -71,7 +71,7 @@ class createBill : AppCompatActivity() {
         val edtAmount = findViewById<EditText>(R.id.edtAmount)
         val edtDate = findViewById<EditText>(R.id.edtDate)
         val spinnerCategories = findViewById<Spinner>(R.id.spinnerCategories)
-        val spinnerVendors = findViewById<Spinner>(R.id.spinnerVendors)
+        val autoCompleteVendors = findViewById<AutoCompleteTextView>(R.id.autoCompleteVendors)
         val spinnerReminder = findViewById<Spinner>(R.id.spinnerRepeat)
         val saveButton = findViewById<Button>(R.id.btnGuardar)
         val btnCancel = findViewById<Button>(R.id.btnCancel)
@@ -81,7 +81,7 @@ class createBill : AppCompatActivity() {
         val arrayAdapterRepeat = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, repeat)
 
         spinnerCategories.adapter = arrayAdapter
-        spinnerVendors.adapter = arrayAdapterVendors
+        autoCompleteVendors.setAdapter(arrayAdapterVendors)
         spinnerReminder.adapter = arrayAdapterRepeat
 
         spinnerCategories.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -93,14 +93,13 @@ class createBill : AppCompatActivity() {
             }
         }
 
-        spinnerVendors.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                // Handle vendor selection
-            }
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                // Do nothing
-            }
+        autoCompleteVendors.setOnItemClickListener { parent, view, position, id ->
+            // Handle vendor selection
+            val selectedVendor = parent.getItemAtPosition(position).toString()
+            autoCompleteVendors.setText(selectedVendor)
         }
+
+
 
         spinnerReminder.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -169,7 +168,7 @@ class createBill : AppCompatActivity() {
             val billAmount = findViewById<EditText>(R.id.edtAmount).text.toString()
             val billDate = findViewById<EditText>(R.id.edtDate).text.toString()
             val billCategory = findViewById<Spinner>(R.id.spinnerCategories).selectedItem.toString()
-            val billVendor = findViewById<Spinner>(R.id.spinnerVendors).selectedItem.toString()
+            val billVendor = findViewById<Spinner>(R.id.autoCompleteVendors).selectedItem.toString()
             val billRepeat = findViewById<Spinner>(R.id.spinnerRepeat).selectedItem.toString()
             val billComment = findViewById<EditText>(R.id.edtComments).text.toString()
             val billPaid = findViewById<CheckBox>(R.id.checkBoxPaid).isChecked
