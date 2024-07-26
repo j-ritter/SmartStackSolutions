@@ -17,16 +17,14 @@ class createBill : AppCompatActivity() {
     private var userEmail: String? = null
     private var userUid: String? = null
 
-
     val repeat = arrayOf(
-        "No","Daily","Weekly","Every 2 Weeks","Monthly","Yearly"
+        "No", "Daily", "Weekly", "Every 2 Weeks", "Monthly", "Yearly"
     )
 
     val categories = arrayOf(
         "Accommodation", "Communication", "Insurance", "Subscription and Memberships",
         "Transportation", "Finances/Fees", "Taxes", "Health", "Education", "Shopping & Consumption"
     )
-
 
     val vendors = arrayOf(
         "Amazon", "Walmart", "Target", "Best Buy", "Macy's", "Costco", "Home Depot", "Lowe's",
@@ -58,7 +56,7 @@ class createBill : AppCompatActivity() {
         "Taco Bell", "Burger King", "Dunkin'", "Chipotle", "Panera Bread", "KFC", "Panda Express",
         "Olive Garden", "Red Lobster", "Chili's", "Outback Steakhouse", "Buffalo Wild Wings",
         "Applebee's", "IHOP", "Denny's", "Wendy's", "Jack in the Box", "Arby's", "Five Guys",
-        "Shake Shack", "Sonic Drive-In","Other"
+        "Shake Shack", "Sonic Drive-In", "Other"
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,23 +64,21 @@ class createBill : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_create_bill)
 
-        // Obtener el email y UID del Intent
         userEmail = intent.getStringExtra("USER_EMAIL")
         userUid = FirebaseAuth.getInstance().currentUser?.uid
 
+        val edtTitle = findViewById<EditText>(R.id.edtTitle)
+        val edtAmount = findViewById<EditText>(R.id.edtAmount)
         val edtDate = findViewById<EditText>(R.id.edtDate)
-        edtDate.setOnClickListener {
-            showDatePickerDialog()
-        }
-
         val spinnerCategories = findViewById<Spinner>(R.id.spinnerCategories)
         val spinnerVendors = findViewById<Spinner>(R.id.spinnerVendors)
         val spinnerReminder = findViewById<Spinner>(R.id.spinnerRepeat)
         val saveButton = findViewById<Button>(R.id.btnGuardar)
+        val btnCancel = findViewById<Button>(R.id.btnCancel)
 
         val arrayAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, categories)
         val arrayAdapterVendors = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, vendors)
-        val arrayAdapterRepeat = ArrayAdapter(this,android.R.layout.simple_spinner_dropdown_item,repeat)
+        val arrayAdapterRepeat = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, repeat)
 
         spinnerCategories.adapter = arrayAdapter
         spinnerVendors.adapter = arrayAdapterVendors
@@ -90,28 +86,28 @@ class createBill : AppCompatActivity() {
 
         spinnerCategories.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val selectedItemCategories = parent?.getItemAtPosition(position).toString()
+                // Handle category selection
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                // Este método se llama cuando no se selecciona ningún elemento
+                // Do nothing
             }
         }
 
         spinnerVendors.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val selectedItemVendors = parent?.getItemAtPosition(position).toString()
+                // Handle vendor selection
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                // Este método se llama cuando no se selecciona ningún elemento
+                // Do nothing
             }
         }
 
         spinnerReminder.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val selectedItemReminder = parent?.getItemAtPosition(position).toString()
+                // Handle reminder selection
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                // Este método se llama cuando no se selecciona ningún elemento
+                // Do nothing
             }
         }
 
@@ -121,20 +117,33 @@ class createBill : AppCompatActivity() {
             insets
         }
 
-
+        addTooltip(edtTitle, "Enter the title of your bill (required).")
+        addTooltip(edtAmount, "Enter the amount of your bill (required).")
+        addTooltip(edtDate, "Enter the date of your bill (required).")
+        addTooltip(spinnerCategories, "Select the category of your bill (required).")
 
         saveButton.setOnClickListener {
-            saveBill()
-        }
+            val title = edtTitle.text.toString().trim()
+            val amount = edtAmount.text.toString().trim()
+            val date = edtDate.text.toString().trim()
+            val category = spinnerCategories.selectedItem.toString()
 
-        val btnCancel = findViewById<Button>(R.id.btnCancel)
+            if (title.isEmpty() || amount.isEmpty() || date.isEmpty() || category.isEmpty()) {
+                Toast.makeText(this, "Please fill all required fields", Toast.LENGTH_SHORT).show()
+            } else {
+                saveBill()
+            }
+        }
 
         btnCancel.setOnClickListener {
             val intent = Intent(this, MyBills::class.java)
             startActivity(intent)
         }
-    }
 
+        edtDate.setOnClickListener {
+            showDatePickerDialog()
+        }
+    }
 
     private fun showDatePickerDialog() {
         val datePicker = DatePickerFragment { day, month, year -> onDateSelected(day, month, year) }
@@ -147,9 +156,7 @@ class createBill : AppCompatActivity() {
     }
 
     private fun saveBill() {
-        // Verificar que el email y UID no sean nulos
         if (userEmail != null && userUid != null) {
-            // Obtener los datos de los EditText
             val billName = findViewById<EditText>(R.id.edtTitle).text.toString()
             val billAmount = findViewById<EditText>(R.id.edtAmount).text.toString()
             val billDate = findViewById<EditText>(R.id.edtDate).text.toString()
@@ -159,7 +166,6 @@ class createBill : AppCompatActivity() {
             val billComment = findViewById<EditText>(R.id.edtComments).text.toString()
             val billPaid = findViewById<CheckBox>(R.id.checkBoxPaid).isChecked
 
-            // Crear un hash map con los datos de la factura
             val bill = hashMapOf(
                 "name" to billName,
                 "amount" to billAmount,
@@ -171,22 +177,26 @@ class createBill : AppCompatActivity() {
                 "Paid" to billPaid
             )
 
-            // Guardar la factura en la subcolección 'bills' del usuario actual
             db.collection("users").document(userUid!!).collection("bills")
                 .add(bill)
                 .addOnSuccessListener {
-                    // Factura guardada exitosamente
                     Toast.makeText(this, "Factura guardada exitosamente", Toast.LENGTH_SHORT).show()
                     val intent = Intent(this, MyBills::class.java)
                     startActivity(intent)
                 }
                 .addOnFailureListener { e ->
-                    // Error al guardar la factura
                     Toast.makeText(this, "Error al guardar la factura: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
         } else {
-            // El email o UID es nulo
             Toast.makeText(this, "Error: No se pudo obtener el email o UID del usuario", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun addTooltip(view: View, message: String) {
+        view.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }
