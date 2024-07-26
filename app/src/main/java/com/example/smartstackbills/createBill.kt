@@ -128,10 +128,16 @@ class createBill : AppCompatActivity() {
             val date = edtDate.text.toString().trim()
             val category = spinnerCategories.selectedItem.toString()
 
-            if (title.isEmpty() || amount.isEmpty() || date.isEmpty() || category.isEmpty()) {
-                Toast.makeText(this, "Please fill all required fields", Toast.LENGTH_SHORT).show()
-            } else {
-                saveBill()
+            when {
+                title.isEmpty() -> edtTitle.error = "Please enter the title"
+                amount.isEmpty() -> edtAmount.error = "Please enter the amount"
+                date.isEmpty() -> edtDate.error = "Please enter the date"
+                category.isEmpty() -> {
+                    val errorText = spinnerCategories.selectedView as TextView
+                    errorText.error = "Please select a category"
+                    errorText.requestFocus()
+                }
+                else -> saveBill()
             }
         }
 
@@ -156,7 +162,9 @@ class createBill : AppCompatActivity() {
     }
 
     private fun saveBill() {
+        // Ensure userEmail and userUid are not null
         if (userEmail != null && userUid != null) {
+            // Get data from input fields
             val billName = findViewById<EditText>(R.id.edtTitle).text.toString()
             val billAmount = findViewById<EditText>(R.id.edtAmount).text.toString()
             val billDate = findViewById<EditText>(R.id.edtDate).text.toString()
@@ -166,6 +174,7 @@ class createBill : AppCompatActivity() {
             val billComment = findViewById<EditText>(R.id.edtComments).text.toString()
             val billPaid = findViewById<CheckBox>(R.id.checkBoxPaid).isChecked
 
+            // Create a hash map with bill data
             val bill = hashMapOf(
                 "name" to billName,
                 "amount" to billAmount,
@@ -177,18 +186,19 @@ class createBill : AppCompatActivity() {
                 "Paid" to billPaid
             )
 
+            // Save bill to the user's 'bills' subcollection in Firestore
             db.collection("users").document(userUid!!).collection("bills")
                 .add(bill)
                 .addOnSuccessListener {
-                    Toast.makeText(this, "Factura guardada exitosamente", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Bill saved successfully", Toast.LENGTH_SHORT).show()
                     val intent = Intent(this, MyBills::class.java)
                     startActivity(intent)
                 }
                 .addOnFailureListener { e ->
-                    Toast.makeText(this, "Error al guardar la factura: ${e.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Error saving bill: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
         } else {
-            Toast.makeText(this, "Error: No se pudo obtener el email o UID del usuario", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Error: Unable to obtain user email or UID", Toast.LENGTH_SHORT).show()
         }
     }
 
