@@ -131,6 +131,7 @@ class createBill : AppCompatActivity() {
 
         btnCancel.setOnClickListener {
             val intent = Intent(this, MyBills::class.java)
+            intent.putExtra("USER_EMAIL", userEmail)
             startActivity(intent)
         }
     }
@@ -178,6 +179,7 @@ class createBill : AppCompatActivity() {
                     // Factura guardada exitosamente
                     Toast.makeText(this, "Factura guardada exitosamente", Toast.LENGTH_SHORT).show()
                     val intent = Intent(this, MyBills::class.java)
+                    intent.putExtra("USER_EMAIL", userEmail) // Pasar el email de vuelta
                     startActivity(intent)
                 }
                 .addOnFailureListener { e ->

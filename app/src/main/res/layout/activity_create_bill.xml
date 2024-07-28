@@ -12,103 +12,48 @@
         android:id="@+id/btnGuardar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="89dp"
+        android:layout_marginEnd="32dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/btnlogin"
         android:text="@string/save"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnCancel" />
+        app:layout_constraintStart_toEndOf="@+id/btnCancel"
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxPaid" />
 
     <TextView
         android:id="@+id/textView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="27dp"
         android:layout_marginTop="16dp"
-        android:layout_marginBottom="9dp"
+        android:layout_marginBottom="10dp"
         android:text="@string/create_new_bill"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/textView5"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/edtTitle"
+        app:layout_constraintStart_toStartOf="@+id/edtTitle"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/edtComments"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="17dp"
-        android:background="@drawable/edt_background"
-        android:ems="10"
-        android:hint="@string/write_your_comments"
-        android:inputType="text"
-        android:maxLength="30"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:textColorHint="#A5A5A5"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toTopOf="@+id/textView6"
-        app:layout_constraintEnd_toEndOf="@+id/btnGuardar"
-        app:layout_constraintStart_toStartOf="@+id/textView10"
-        app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
     <Spinner
         android:id="@+id/spinnerCategories"
         android:layout_width="0dp"
         android:layout_height="0dp"
 
-        android:layout_marginBottom="11dp"
-        app:layout_constraintBottom_toTopOf="@+id/txtVendor"
-        app:layout_constraintEnd_toEndOf="@+id/spinnerVendors"
-        app:layout_constraintStart_toStartOf="@+id/txtCategory"
+        android:layout_marginStart="29dp"
+        android:layout_marginEnd="29dp"
+        android:layout_marginBottom="7dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtCategory" />
-
-    <Spinner
-        android:id="@+id/spinnerVendors"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-
-        android:layout_marginBottom="9dp"
-        app:layout_constraintBottom_toTopOf="@+id/textView8"
-        app:layout_constraintEnd_toEndOf="@+id/checkBoxPaid"
-        app:layout_constraintStart_toStartOf="@+id/txtVendor"
-        app:layout_constraintTop_toBottomOf="@+id/txtVendor" />
-
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/amount"
-        app:layout_constraintBottom_toTopOf="@+id/edtAmount"
-        app:layout_constraintStart_toStartOf="@+id/edtAmount"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerVendors" />
-
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="9dp"
-        android:text="@string/purchase_date"
-        app:layout_constraintBottom_toTopOf="@+id/edtDate"
-        app:layout_constraintStart_toStartOf="@+id/edtDate"
-        app:layout_constraintTop_toBottomOf="@+id/edtAmount" />
-
-    <TextView
-        android:id="@+id/textView10"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        android:text="@string/comments"
-        app:layout_constraintBottom_toTopOf="@+id/edtComments"
-        app:layout_constraintStart_toStartOf="@+id/edtDate"
-        app:layout_constraintTop_toBottomOf="@+id/edtDate" />
 
     <EditText
         android:id="@+id/edtTitle"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="11dp"
+        android:layout_marginStart="27dp"
+        android:layout_marginEnd="27dp"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/edt_background"
         android:ems="10"
         android:hint="@string/write_your_title"
@@ -119,50 +64,110 @@
         android:textColorHint="#A5A5A5"
         android:textSize="15sp"
         app:layout_constraintBottom_toTopOf="@+id/txtCategory"
-        app:layout_constraintEnd_toEndOf="@+id/spinnerCategories"
-        app:layout_constraintStart_toStartOf="@+id/txtCategory"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
-
-    <EditText
-        android:id="@+id/edtDate"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="27dp"
-        android:layout_marginEnd="21dp"
-        android:layout_marginBottom="12dp"
-        android:background="@drawable/edt_background"
-        android:clickable="false"
-        android:ems="10"
-        android:focusable="false"
-        android:hint="@string/select_date"
-        android:inputType="text"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:textColorHint="#A5A5A5"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toTopOf="@+id/textView10"
-        app:layout_constraintEnd_toStartOf="@+id/btnImage"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
     <TextView
         android:id="@+id/txtCategory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="27dp"
-        android:layout_marginBottom="9dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginBottom="11dp"
         android:text="@string/category"
         app:layout_constraintBottom_toTopOf="@+id/spinnerCategories"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/edtTitle"
         app:layout_constraintTop_toBottomOf="@+id/edtTitle" />
+
+    <Button
+        android:id="@+id/btnCancel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="29dp"
+        android:layout_marginEnd="102dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/btnlog"
+        android:text="@string/cancel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnGuardar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnImage" />
+
+    <Button
+        android:id="@+id/btnImage"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="29dp"
+        android:layout_marginEnd="94dp"
+        android:layout_marginBottom="33dp"
+        android:text="Upload"
+        app:layout_constraintBottom_toTopOf="@+id/btnCancel"
+        app:layout_constraintEnd_toStartOf="@+id/checkBoxPaid"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerRepeat" />
+
+    <Spinner
+        android:id="@+id/spinnerVendors"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+
+        android:layout_marginStart="29dp"
+        android:layout_marginEnd="29dp"
+        android:layout_marginBottom="19dp"
+        app:layout_constraintBottom_toTopOf="@+id/edtAmount"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtVendor" />
+
+    <CheckBox
+        android:id="@+id/checkBoxPaid"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="34dp"
+        android:layout_marginBottom="33dp"
+        android:text="@string/Paid"
+        app:layout_constraintBottom_toTopOf="@+id/btnGuardar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnImage"
+        app:layout_constraintTop_toBottomOf="@+id/edtDate" />
+
+    <TextView
+        android:id="@+id/txtVendor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:layout_marginBottom="10dp"
+        android:text="@string/vendor"
+        app:layout_constraintBottom_toTopOf="@+id/spinnerVendors"
+        app:layout_constraintStart_toStartOf="@+id/spinnerSubcategories"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerSubcategories" />
+
+    <EditText
+        android:id="@+id/edtComments"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/edt_background"
+        android:ems="10"
+        android:hint="@string/write_your_comments"
+        android:inputType="text"
+        android:maxLength="30"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:textColorHint="#A5A5A5"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toTopOf="@+id/textView6"
+        app:layout_constraintEnd_toEndOf="@+id/edtDate"
+        app:layout_constraintStart_toStartOf="@+id/textView6"
+        app:layout_constraintTop_toBottomOf="@+id/edtAmount" />
 
     <EditText
         android:id="@+id/edtAmount"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="27dp"
-        android:layout_marginEnd="35dp"
-        android:layout_marginBottom="14dp"
+        android:layout_marginStart="29dp"
+        android:layout_marginEnd="48dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/edt_background"
         android:ems="10"
         android:hint="@string/Amount"
@@ -171,86 +176,78 @@
         android:paddingRight="15dp"
         android:textColorHint="#A5A5A5"
         android:textSize="15sp"
-        app:layout_constraintBottom_toTopOf="@+id/textView9"
-        app:layout_constraintEnd_toStartOf="@+id/checkBoxPaid"
+        app:layout_constraintBottom_toTopOf="@+id/edtComments"
+        app:layout_constraintEnd_toStartOf="@+id/edtDate"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView8"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerVendors"
         tools:ignore="Autofill,DuplicateSpeakableTextCheck" />
 
-    <TextView
-        android:id="@+id/txtVendor"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="27dp"
-        android:layout_marginBottom="9dp"
-        android:text="@string/vendor"
-        app:layout_constraintBottom_toTopOf="@+id/spinnerVendors"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerCategories" />
-
-    <CheckBox
-        android:id="@+id/checkBoxPaid"
+    <Spinner
+        android:id="@+id/spinnerRepeat"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="89dp"
-        android:text="@string/Paid"
-        app:layout_constraintBaseline_toBaselineOf="@+id/edtAmount"
+        android:layout_height="0dp"
+        android:layout_marginStart="29dp"
+        android:layout_marginEnd="29dp"
+        android:layout_marginBottom="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnImage"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/edtAmount" />
-
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        android:text="Title"
-        app:layout_constraintBottom_toTopOf="@+id/edtTitle"
-        app:layout_constraintStart_toStartOf="@+id/textView7"
-        app:layout_constraintTop_toBottomOf="@+id/textView7" />
-
-    <Button
-        android:id="@+id/btnCancel"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="27dp"
-        android:layout_marginEnd="47dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/btnlog"
-        android:text="@string/cancel"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnGuardar"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerRepeat" />
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
-    <Button
-        android:id="@+id/btnImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="36dp"
-        android:text="Upload image"
-        app:layout_constraintBaseline_toBaselineOf="@+id/edtDate"
+    <EditText
+        android:id="@+id/edtDate"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="363dp"
+        android:layout_marginEnd="34dp"
+        android:layout_marginBottom="178dp"
+        android:background="@drawable/edt_background"
+        android:clickable="false"
+        android:ems="10"
+        android:focusable="false"
+        android:hint="@string/purchase_datee"
+        android:inputType="text"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:textColorHint="#A5A5A5"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toTopOf="@+id/checkBoxPaid"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/edtDate" />
+        app:layout_constraintStart_toEndOf="@+id/edtAmount"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
-        android:layout_marginBottom="9dp"
+        android:layout_marginStart="27dp"
+        android:layout_marginBottom="10dp"
         android:text="Repeat"
         app:layout_constraintBottom_toTopOf="@+id/spinnerRepeat"
-        app:layout_constraintStart_toStartOf="@+id/edtComments"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edtComments" />
 
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="7dp"
+        android:text="Subcategory"
+        app:layout_constraintBottom_toTopOf="@+id/spinnerSubcategories"
+        app:layout_constraintStart_toStartOf="@+id/spinnerCategories"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerCategories" />
+
     <Spinner
-        android:id="@+id/spinnerRepeat"
-        android:layout_width="200dp"
+        android:id="@+id/spinnerSubcategories"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="26dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnCancel"
-        app:layout_constraintStart_toStartOf="@+id/textView6"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+        android:layout_marginStart="27dp"
+        android:layout_marginEnd="27dp"
+        android:layout_marginBottom="9dp"
+        app:layout_constraintBottom_toTopOf="@+id/txtVendor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
