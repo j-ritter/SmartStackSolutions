@@ -17,7 +17,6 @@ class createBill : AppCompatActivity() {
     private var userEmail: String? = null
     private var userUid: String? = null
 
-
     val repeat = arrayOf(
         "No","Daily","Weekly","Every 2 Weeks","Monthly","Yearly"
     )
@@ -27,38 +26,30 @@ class createBill : AppCompatActivity() {
         "Transportation", "Finances/Fees", "Taxes", "Health", "Education", "Shopping & Consumption"
     )
 
+    val subcategoriesMap = mapOf(
+        "Accommodation" to arrayOf("Rent", "Mortgage", "Home maintenance", "Utilities", "Furniture", "Repairs and renovations"),
+        "Communication" to arrayOf("Mobile phone", "Landline phone", "Internet", "Cable/satellite TV", "Messaging services"),
+        "Insurance" to arrayOf("Health insurance", "Life insurance", "Car insurance", "Home insurance", "Travel insurance", "Pet insurance"),
+        "Subscription and Memberships" to arrayOf("Magazine/newspaper subscriptions", "Streaming services", "Gym memberships", "Software subscriptions", "Clubs and associations"),
+        "Transportation" to arrayOf("Fuel", "Vehicle maintenance", "Public transportation", "Parking", "Vehicle rental"),
+        "Finances/Fees" to arrayOf("Bank fees", "Investment fees", "Loan interest", "Credit card fees", "Brokerage fees"),
+        "Taxes" to arrayOf("Income tax", "Property tax", "Sales tax", "Self-employment tax", "Capital gains tax"),
+        "Health" to arrayOf("Doctor visits", "Dental care", "Prescription medications", "Health supplements", "Medical equipment"),
+        "Education" to arrayOf("Tuition fees", "Textbooks", "Online courses", "School supplies", "Extracurricular activities"),
+        "Shopping & Consumption" to arrayOf("Groceries", "Clothing", "Electronics", "Household goods", "Personal care products")
+    )
 
-    val vendors = arrayOf(
-        "Amazon", "Walmart", "Target", "Best Buy", "Macy's", "Costco", "Home Depot", "Lowe's",
-        "IKEA", "Wayfair", "Overstock", "Nordstrom", "JCPenney", "Sears", "Kohl's", "TJ Maxx",
-        "Marshalls", "Bed Bath & Beyond", "Sam's Club", "Dollar Tree", "Dollar General",
-        "Five Below", "Big Lots", "Barnes & Noble", "Apple Store", "Microsoft Store", "Staples",
-        "Office Depot", "PetSmart", "Petco", "Whole Foods", "Trader Joe's", "Kroger", "Aldi",
-        "Safeway", "Publix", "Wegmans", "Sprouts Farmers Market", "Albertsons", "H-E-B",
-        "Hy-Vee", "Meijer", "Food Lion", "Giant Eagle", "Stop & Shop", "Hannaford", "WinCo Foods",
-        "ShopRite", "Fresh Market", "Harris Teeter", "Piggly Wiggly", "Save-A-Lot", "Comcast",
-        "Verizon", "AT&T", "Duke Energy", "Pacific Gas and Electric", "National Grid", "Con Edison",
-        "Xcel Energy", "Southern California Edison", "Florida Power & Light", "Dominion Energy",
-        "American Electric Power", "Entergy", "FirstEnergy", "PPL Electric Utilities",
-        "CenterPoint Energy", "Exelon", "Consumers Energy", "NRG Energy", "CVS Pharmacy",
-        "Walgreens", "Rite Aid", "Kaiser Permanente", "UnitedHealthcare", "Anthem", "Cigna",
-        "Blue Cross Blue Shield", "Humana", "Aetna", "Molina Healthcare", "WellCare", "Centene",
-        "Magellan Health", "CVS Health", "Uber", "Lyft", "Delta Airlines", "American Airlines",
-        "United Airlines", "Southwest Airlines", "Greyhound", "Amtrak", "JetBlue", "Alaska Airlines",
-        "Spirit Airlines", "Frontier Airlines", "Enterprise Rent-A-Car", "Hertz", "Avis", "Budget",
-        "National Car Rental", "Thrifty Car Rental", "Dollar Rent A Car", "Coursera", "Udemy",
-        "edX", "Khan Academy", "LinkedIn Learning", "Skillshare", "MasterClass", "FutureLearn",
-        "Udacity", "Codecademy", "Pluralsight", "Lynda.com", "Treehouse", "Duolingo", "Rosetta Stone",
-        "Netflix", "Hulu", "Spotify", "Disney+", "HBO Max", "Amazon Prime Video", "Apple Music",
-        "YouTube Premium", "Pandora", "Tidal", "SiriusXM", "Peacock", "Paramount+", "Showtime",
-        "Crunchyroll", "Funimation", "Deezer", "Audible", "Geico", "State Farm", "Progressive",
-        "Allstate", "Liberty Mutual", "Nationwide", "USAA", "Farmers Insurance", "Travelers",
-        "American Family Insurance", "Chubb", "MetLife", "AIG", "Hartford", "Erie Insurance",
-        "Amica", "Safeco", "Auto-Owners Insurance", "McDonald's", "Starbucks", "Subway", "Pizza Hut",
-        "Taco Bell", "Burger King", "Dunkin'", "Chipotle", "Panera Bread", "KFC", "Panda Express",
-        "Olive Garden", "Red Lobster", "Chili's", "Outback Steakhouse", "Buffalo Wild Wings",
-        "Applebee's", "IHOP", "Denny's", "Wendy's", "Jack in the Box", "Arby's", "Five Guys",
-        "Shake Shack", "Sonic Drive-In","Other"
+    val vendorsMap = mapOf(
+        "Accommodation" to arrayOf("IKEA", "Home Depot", "Lowe's", "Wayfair", "Overstock"),
+        "Communication" to arrayOf("Comcast", "Verizon", "AT&T", "T-Mobile"),
+        "Insurance" to arrayOf("Geico", "State Farm", "Progressive", "Allstate"),
+        "Subscription and Memberships" to arrayOf("Netflix", "Hulu", "Spotify", "Disney+"),
+        "Transportation" to arrayOf("Uber", "Lyft", "Delta Airlines", "American Airlines"),
+        "Finances/Fees" to arrayOf("Bank of America", "Wells Fargo", "Chase", "Citi"),
+        "Taxes" to arrayOf("TurboTax", "H&R Block"),
+        "Health" to arrayOf("CVS Pharmacy", "Walgreens", "Rite Aid"),
+        "Education" to arrayOf("Coursera", "Udemy", "edX"),
+        "Shopping & Consumption" to arrayOf("Amazon", "Walmart", "Target", "Best Buy")
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,31 +67,32 @@ class createBill : AppCompatActivity() {
         }
 
         val spinnerCategories = findViewById<Spinner>(R.id.spinnerCategories)
+        val spinnerSubcategories = findViewById<Spinner>(R.id.spinnerSubcategories)
         val spinnerVendors = findViewById<Spinner>(R.id.spinnerVendors)
         val spinnerReminder = findViewById<Spinner>(R.id.spinnerRepeat)
         val saveButton = findViewById<Button>(R.id.btnGuardar)
 
-        val arrayAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, categories)
-        val arrayAdapterVendors = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, vendors)
-        val arrayAdapterRepeat = ArrayAdapter(this,android.R.layout.simple_spinner_dropdown_item,repeat)
+        val arrayAdapterCategories = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, categories)
+        val arrayAdapterRepeat = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, repeat)
 
-        spinnerCategories.adapter = arrayAdapter
-        spinnerVendors.adapter = arrayAdapterVendors
+        spinnerCategories.adapter = arrayAdapterCategories
         spinnerReminder.adapter = arrayAdapterRepeat
 
         spinnerCategories.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val selectedItemCategories = parent?.getItemAtPosition(position).toString()
-            }
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                // Este método se llama cuando no se selecciona ningún elemento
-            }
-        }
+                val selectedCategory = parent?.getItemAtPosition(position).toString()
 
-        spinnerVendors.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val selectedItemVendors = parent?.getItemAtPosition(position).toString()
+                // Actualizar el spinner de subcategorías
+                val subcategories = subcategoriesMap[selectedCategory] ?: emptyArray()
+                val arrayAdapterSubcategories = ArrayAdapter(this@createBill, android.R.layout.simple_spinner_dropdown_item, subcategories)
+                spinnerSubcategories.adapter = arrayAdapterSubcategories
+
+                // Actualizar el spinner de vendors
+                val vendors = vendorsMap[selectedCategory] ?: emptyArray()
+                val arrayAdapterVendors = ArrayAdapter(this@createBill, android.R.layout.simple_spinner_dropdown_item, vendors)
+                spinnerVendors.adapter = arrayAdapterVendors
             }
+
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 // Este método se llama cuando no se selecciona ningún elemento
             }
@@ -110,6 +102,7 @@ class createBill : AppCompatActivity() {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val selectedItemReminder = parent?.getItemAtPosition(position).toString()
             }
+
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 // Este método se llama cuando no se selecciona ningún elemento
             }
@@ -121,21 +114,17 @@ class createBill : AppCompatActivity() {
             insets
         }
 
-
-
         saveButton.setOnClickListener {
             saveBill()
         }
 
         val btnCancel = findViewById<Button>(R.id.btnCancel)
-
         btnCancel.setOnClickListener {
             val intent = Intent(this, MyBills::class.java)
             intent.putExtra("USER_EMAIL", userEmail)
             startActivity(intent)
         }
     }
-
 
     private fun showDatePickerDialog() {
         val datePicker = DatePickerFragment { day, month, year -> onDateSelected(day, month, year) }
@@ -182,7 +171,8 @@ class createBill : AppCompatActivity() {
                     intent.putExtra("USER_EMAIL", userEmail) // Pasar el email de vuelta
                     startActivity(intent)
                 }
-                .addOnFailureListener { e ->
+                .addOnFailureListener {
+                    e ->
                     // Error al guardar la factura
                     Toast.makeText(this, "Error al guardar la factura: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
