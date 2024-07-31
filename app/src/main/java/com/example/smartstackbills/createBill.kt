@@ -82,19 +82,19 @@ class createBill : AppCompatActivity() {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val selectedCategory = parent?.getItemAtPosition(position).toString()
 
-                // Actualizar el spinner de subcategorías
+
                 val subcategories = subcategoriesMap[selectedCategory] ?: emptyArray()
                 val arrayAdapterSubcategories = ArrayAdapter(this@createBill, android.R.layout.simple_spinner_dropdown_item, subcategories)
                 spinnerSubcategories.adapter = arrayAdapterSubcategories
 
-                // Actualizar el spinner de vendors
+
                 val vendors = vendorsMap[selectedCategory] ?: emptyArray()
                 val arrayAdapterVendors = ArrayAdapter(this@createBill, android.R.layout.simple_spinner_dropdown_item, vendors)
                 spinnerVendors.adapter = arrayAdapterVendors
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                // Este método se llama cuando no se selecciona ningún elemento
+
             }
         }
 
@@ -104,7 +104,7 @@ class createBill : AppCompatActivity() {
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                // Este método se llama cuando no se selecciona ningún elemento
+
             }
         }
 
@@ -162,8 +162,11 @@ class createBill : AppCompatActivity() {
             )
 
             // Guardar la factura en la subcolección 'bills' del usuario actual
-            db.collection("users").document(userUid!!).collection("bills")
-                .add(bill)
+            val docRef = db.collection("users").document(userUid!!).collection("bills").document()
+            val billId = docRef.id
+            bill["billId"] = billId
+
+            docRef.set(bill)
                 .addOnSuccessListener {
                     // Factura guardada exitosamente
                     Toast.makeText(this, "Factura guardada exitosamente", Toast.LENGTH_SHORT).show()
@@ -171,8 +174,7 @@ class createBill : AppCompatActivity() {
                     intent.putExtra("USER_EMAIL", userEmail) // Pasar el email de vuelta
                     startActivity(intent)
                 }
-                .addOnFailureListener {
-                    e ->
+                .addOnFailureListener { e ->
                     // Error al guardar la factura
                     Toast.makeText(this, "Error al guardar la factura: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
