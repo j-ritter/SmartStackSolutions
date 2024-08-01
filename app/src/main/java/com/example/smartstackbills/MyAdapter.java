@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,17 +15,19 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     private Context context;
     private ArrayList<Bills> billsArrayList;
+    private OnBillClickListener onBillClickListener;
 
-    public MyAdapter(Context context, ArrayList<Bills> billsArrayList) {
+    public MyAdapter(Context context, ArrayList<Bills> billsArrayList, OnBillClickListener onBillClickListener) {
         this.context = context;
         this.billsArrayList = billsArrayList;
+        this.onBillClickListener = onBillClickListener;
     }
 
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(context).inflate(R.layout.items, parent, false);
-        return new MyViewHolder(v);
+        return new MyViewHolder(v, onBillClickListener);
     }
 
     @Override
@@ -42,21 +45,28 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         return billsArrayList.size();
     }
 
-    public void setBillsList(ArrayList<Bills> billsList) {
-        this.billsArrayList = billsList;
-        notifyDataSetChanged();
-    }
-
-    public static class MyViewHolder extends RecyclerView.ViewHolder {
+    public static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView title, category, amount, purchaseDate;
+        OnBillClickListener onBillClickListener;
 
-        public MyViewHolder(@NonNull View itemView) {
+        public MyViewHolder(@NonNull View itemView, OnBillClickListener onBillClickListener) {
             super(itemView);
             title = itemView.findViewById(R.id.textviewTitle);
             category = itemView.findViewById(R.id.textviewCategory);
             amount = itemView.findViewById(R.id.textviewAmount);
             purchaseDate = itemView.findViewById(R.id.textviewDate);
+            this.onBillClickListener = onBillClickListener;
+            itemView.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View v) {
+            onBillClickListener.onBillClick(getAdapterPosition());
+        }
+    }
+
+    public interface OnBillClickListener {
+        void onBillClick(int position);
     }
 }

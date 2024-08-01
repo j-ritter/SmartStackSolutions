@@ -3,14 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="8dp"
-    android:background="@color/light_gray">
+    android:padding="8dp">
 
     <TextView
-        android:id="@+id/textviewMonthYear"
-        android:layout_width="wrap_content"
+        android:id="@+id/textviewMonth"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="Month"
+        android:textSize="18sp"
         android:textStyle="bold"
-        android:textSize="16sp"
-        android:textColor="@android:color/black"/>
+        android:padding="8dp"
+        android:background="@color/light_gray"
+        android:textColor="@color/black" />
 </LinearLayout>

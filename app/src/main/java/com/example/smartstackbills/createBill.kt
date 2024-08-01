@@ -10,15 +10,23 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import android.app.AlertDialog
+import android.app.Activity
+import android.graphics.Bitmap
+import android.net.Uri
+import android.provider.MediaStore
 
 class createBill : AppCompatActivity() {
 
     private val db = FirebaseFirestore.getInstance()
     private var userEmail: String? = null
     private var userUid: String? = null
+    private val REQUEST_IMAGE_CAPTURE = 1
+    private val REQUEST_IMAGE_GALLERY = 2
+    private var imageUri: Uri? = null
 
     val repeat = arrayOf(
-        "No", "Daily", "Weekly", "Every 2 Weeks", "Monthly", "Yearly"
+        "No","Daily","Weekly","Every 2 Weeks","Monthly","Yearly"
     )
 
     val categories = arrayOf(
@@ -26,37 +34,30 @@ class createBill : AppCompatActivity() {
         "Transportation", "Finances/Fees", "Taxes", "Health", "Education", "Shopping & Consumption"
     )
 
-    val vendors = arrayOf(
-        "Amazon", "Walmart", "Target", "Best Buy", "Macy's", "Costco", "Home Depot", "Lowe's",
-        "IKEA", "Wayfair", "Overstock", "Nordstrom", "JCPenney", "Sears", "Kohl's", "TJ Maxx",
-        "Marshalls", "Bed Bath & Beyond", "Sam's Club", "Dollar Tree", "Dollar General",
-        "Five Below", "Big Lots", "Barnes & Noble", "Apple Store", "Microsoft Store", "Staples",
-        "Office Depot", "PetSmart", "Petco", "Whole Foods", "Trader Joe's", "Kroger", "Aldi",
-        "Safeway", "Publix", "Wegmans", "Sprouts Farmers Market", "Albertsons", "H-E-B",
-        "Hy-Vee", "Meijer", "Food Lion", "Giant Eagle", "Stop & Shop", "Hannaford", "WinCo Foods",
-        "ShopRite", "Fresh Market", "Harris Teeter", "Piggly Wiggly", "Save-A-Lot", "Comcast",
-        "Verizon", "AT&T", "Duke Energy", "Pacific Gas and Electric", "National Grid", "Con Edison",
-        "Xcel Energy", "Southern California Edison", "Florida Power & Light", "Dominion Energy",
-        "American Electric Power", "Entergy", "FirstEnergy", "PPL Electric Utilities",
-        "CenterPoint Energy", "Exelon", "Consumers Energy", "NRG Energy", "CVS Pharmacy",
-        "Walgreens", "Rite Aid", "Kaiser Permanente", "UnitedHealthcare", "Anthem", "Cigna",
-        "Blue Cross Blue Shield", "Humana", "Aetna", "Molina Healthcare", "WellCare", "Centene",
-        "Magellan Health", "CVS Health", "Uber", "Lyft", "Delta Airlines", "American Airlines",
-        "United Airlines", "Southwest Airlines", "Greyhound", "Amtrak", "JetBlue", "Alaska Airlines",
-        "Spirit Airlines", "Frontier Airlines", "Enterprise Rent-A-Car", "Hertz", "Avis", "Budget",
-        "National Car Rental", "Thrifty Car Rental", "Dollar Rent A Car", "Coursera", "Udemy",
-        "edX", "Khan Academy", "LinkedIn Learning", "Skillshare", "MasterClass", "FutureLearn",
-        "Udacity", "Codecademy", "Pluralsight", "Lynda.com", "Treehouse", "Duolingo", "Rosetta Stone",
-        "Netflix", "Hulu", "Spotify", "Disney+", "HBO Max", "Amazon Prime Video", "Apple Music",
-        "YouTube Premium", "Pandora", "Tidal", "SiriusXM", "Peacock", "Paramount+", "Showtime",
-        "Crunchyroll", "Funimation", "Deezer", "Audible", "Geico", "State Farm", "Progressive",
-        "Allstate", "Liberty Mutual", "Nationwide", "USAA", "Farmers Insurance", "Travelers",
-        "American Family Insurance", "Chubb", "MetLife", "AIG", "Hartford", "Erie Insurance",
-        "Amica", "Safeco", "Auto-Owners Insurance", "McDonald's", "Starbucks", "Subway", "Pizza Hut",
-        "Taco Bell", "Burger King", "Dunkin'", "Chipotle", "Panera Bread", "KFC", "Panda Express",
-        "Olive Garden", "Red Lobster", "Chili's", "Outback Steakhouse", "Buffalo Wild Wings",
-        "Applebee's", "IHOP", "Denny's", "Wendy's", "Jack in the Box", "Arby's", "Five Guys",
-        "Shake Shack", "Sonic Drive-In", "Other"
+    val subcategoriesMap = mapOf(
+        "Accommodation" to arrayOf("Rent", "Mortgage", "Home maintenance", "Utilities", "Furniture", "Repairs and renovations"),
+        "Communication" to arrayOf("Mobile phone", "Landline phone", "Internet", "Cable/satellite TV", "Messaging services"),
+        "Insurance" to arrayOf("Health insurance", "Life insurance", "Car insurance", "Home insurance", "Travel insurance", "Pet insurance"),
+        "Subscription and Memberships" to arrayOf("Magazine/newspaper subscriptions", "Streaming services", "Gym memberships", "Software subscriptions", "Clubs and associations"),
+        "Transportation" to arrayOf("Fuel", "Vehicle maintenance", "Public transportation", "Parking", "Vehicle rental"),
+        "Finances/Fees" to arrayOf("Bank fees", "Investment fees", "Loan interest", "Credit card fees", "Brokerage fees"),
+        "Taxes" to arrayOf("Income tax", "Property tax", "Sales tax", "Self-employment tax", "Capital gains tax"),
+        "Health" to arrayOf("Doctor visits", "Dental care", "Prescription medications", "Health supplements", "Medical equipment"),
+        "Education" to arrayOf("Tuition fees", "Textbooks", "Online courses", "School supplies", "Extracurricular activities"),
+        "Shopping & Consumption" to arrayOf("Groceries", "Clothing", "Electronics", "Household goods", "Personal care products")
+    )
+
+    val vendorsMap = mapOf(
+        "Accommodation" to arrayOf("IKEA", "Home Depot", "Lowe's", "Wayfair", "Overstock"),
+        "Communication" to arrayOf("Comcast", "Verizon", "AT&T", "T-Mobile"),
+        "Insurance" to arrayOf("Geico", "State Farm", "Progressive", "Allstate"),
+        "Subscription and Memberships" to arrayOf("Netflix", "Hulu", "Spotify", "Disney+"),
+        "Transportation" to arrayOf("Uber", "Lyft", "Delta Airlines", "American Airlines"),
+        "Finances/Fees" to arrayOf("Bank of America", "Wells Fargo", "Chase", "Citi"),
+        "Taxes" to arrayOf("TurboTax", "H&R Block"),
+        "Health" to arrayOf("CVS Pharmacy", "Walgreens", "Rite Aid"),
+        "Education" to arrayOf("Coursera", "Udemy", "edX"),
+        "Shopping & Consumption" to arrayOf("Amazon", "Walmart", "Target", "Best Buy")
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,49 +65,76 @@ class createBill : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_create_bill)
 
+        // Obtener el email y UID del Intent
         userEmail = intent.getStringExtra("USER_EMAIL")
         userUid = FirebaseAuth.getInstance().currentUser?.uid
 
-        val edtTitle = findViewById<EditText>(R.id.edtTitle)
-        val edtAmount = findViewById<EditText>(R.id.edtAmount)
         val edtDate = findViewById<EditText>(R.id.edtDate)
+        edtDate.setOnClickListener {
+            showDatePickerDialog()
+        }
+
         val spinnerCategories = findViewById<Spinner>(R.id.spinnerCategories)
-        val autoCompleteVendors = findViewById<AutoCompleteTextView>(R.id.autoCompleteVendors)
+        val spinnerSubcategories = findViewById<Spinner>(R.id.spinnerSubcategories)
+        val spinnerVendors = findViewById<Spinner>(R.id.spinnerVendors)
         val spinnerReminder = findViewById<Spinner>(R.id.spinnerRepeat)
         val saveButton = findViewById<Button>(R.id.btnGuardar)
-        val btnCancel = findViewById<Button>(R.id.btnCancel)
 
-        val arrayAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, categories)
-        val arrayAdapterVendors = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, vendors)
+        val arrayAdapterCategories = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, categories)
         val arrayAdapterRepeat = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, repeat)
 
-        spinnerCategories.adapter = arrayAdapter
-        autoCompleteVendors.setAdapter(arrayAdapterVendors)
+        spinnerCategories.adapter = arrayAdapterCategories
         spinnerReminder.adapter = arrayAdapterRepeat
 
         spinnerCategories.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                // Handle category selection
+                val selectedCategory = parent?.getItemAtPosition(position).toString()
+
+
+                val subcategories = subcategoriesMap[selectedCategory] ?: emptyArray()
+                val arrayAdapterSubcategories = ArrayAdapter(this@createBill, android.R.layout.simple_spinner_dropdown_item, subcategories)
+                spinnerSubcategories.adapter = arrayAdapterSubcategories
+
+
+                val vendors = vendorsMap[selectedCategory] ?: emptyArray()
+                val arrayAdapterVendors = ArrayAdapter(this@createBill, android.R.layout.simple_spinner_dropdown_item, vendors)
+                spinnerVendors.adapter = arrayAdapterVendors
             }
+
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                // Do nothing
+
             }
         }
-
-        autoCompleteVendors.setOnItemClickListener { parent, view, position, id ->
-            // Handle vendor selection
-            val selectedVendor = parent.getItemAtPosition(position).toString()
-            autoCompleteVendors.setText(selectedVendor)
+        val btnUpload = findViewById<Button>(R.id.btnImage)
+        btnUpload.setOnClickListener {
+            val options = arrayOf("Take Photo", "Choose from Gallery", "Cancel")
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Upload Bill Image")
+            builder.setItems(options) { dialog, which ->
+                when (options[which]) {
+                    "Take Photo" -> {
+                        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                        if (takePictureIntent.resolveActivity(packageManager) != null) {
+                            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+                        }
+                    }
+                    "Choose from Gallery" -> {
+                        val pickPhoto = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                        startActivityForResult(pickPhoto, REQUEST_IMAGE_GALLERY)
+                    }
+                    "Cancel" -> dialog.dismiss()
+                }
+            }
+            builder.show()
         }
-
-
 
         spinnerReminder.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                // Handle reminder selection
+                val selectedItemReminder = parent?.getItemAtPosition(position).toString()
             }
+
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                // Do nothing
+
             }
         }
 
@@ -116,39 +144,18 @@ class createBill : AppCompatActivity() {
             insets
         }
 
-        addTooltip(edtTitle, "Enter the title of your bill (required).")
-        addTooltip(edtAmount, "Enter the amount of your bill (required).")
-        addTooltip(edtDate, "Enter the date of your bill (required).")
-        addTooltip(spinnerCategories, "Select the category of your bill (required).")
-
         saveButton.setOnClickListener {
-            val title = edtTitle.text.toString().trim()
-            val amount = edtAmount.text.toString().trim()
-            val date = edtDate.text.toString().trim()
-            val category = spinnerCategories.selectedItem.toString()
-
-            when {
-                title.isEmpty() -> edtTitle.error = "Please enter the title"
-                amount.isEmpty() -> edtAmount.error = "Please enter the amount"
-                date.isEmpty() -> edtDate.error = "Please enter the date"
-                category.isEmpty() -> {
-                    val errorText = spinnerCategories.selectedView as TextView
-                    errorText.error = "Please select a category"
-                    errorText.requestFocus()
-                }
-                else -> saveBill()
-            }
+            saveBill()
         }
 
+        val btnCancel = findViewById<Button>(R.id.btnCancel)
         btnCancel.setOnClickListener {
             val intent = Intent(this, MyBills::class.java)
+            intent.putExtra("USER_EMAIL", userEmail)
             startActivity(intent)
         }
-
-        edtDate.setOnClickListener {
-            showDatePickerDialog()
-        }
     }
+
 
     private fun showDatePickerDialog() {
         val datePicker = DatePickerFragment { day, month, year -> onDateSelected(day, month, year) }
@@ -160,20 +167,44 @@ class createBill : AppCompatActivity() {
         edtDate.setText("$day/$month/$year")
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                REQUEST_IMAGE_CAPTURE -> {
+                    val imageBitmap = data?.extras?.get("data") as Bitmap
+                    val uri = saveImageToGallery(imageBitmap)
+                    imageUri = uri
+                }
+                REQUEST_IMAGE_GALLERY -> {
+                    imageUri = data?.data
+                }
+            }
+        }
+    }
+
+    private fun saveImageToGallery(bitmap: Bitmap): Uri? {
+        val path = MediaStore.Images.Media.insertImage(contentResolver, bitmap, "Title", null)
+        return Uri.parse(path)
+    }
+
+
     private fun saveBill() {
-        // Ensure userEmail and userUid are not null
+        // Verificar que el email y UID no sean nulos
         if (userEmail != null && userUid != null) {
-            // Get data from input fields
+            // Obtener los datos de los EditText
             val billName = findViewById<EditText>(R.id.edtTitle).text.toString()
             val billAmount = findViewById<EditText>(R.id.edtAmount).text.toString()
             val billDate = findViewById<EditText>(R.id.edtDate).text.toString()
             val billCategory = findViewById<Spinner>(R.id.spinnerCategories).selectedItem.toString()
-            val billVendor = findViewById<Spinner>(R.id.autoCompleteVendors).selectedItem.toString()
+            val billVendor = findViewById<Spinner>(R.id.spinnerVendors).selectedItem.toString()
             val billRepeat = findViewById<Spinner>(R.id.spinnerRepeat).selectedItem.toString()
             val billComment = findViewById<EditText>(R.id.edtComments).text.toString()
             val billPaid = findViewById<CheckBox>(R.id.checkBoxPaid).isChecked
 
-            // Create a hash map with bill data
+            val billAttachment = imageUri?.toString()
+
+            // Crear un hash map con los datos de la factura
             val bill = hashMapOf(
                 "name" to billName,
                 "amount" to billAmount,
@@ -182,30 +213,30 @@ class createBill : AppCompatActivity() {
                 "vendor" to billVendor,
                 "repeat" to billRepeat,
                 "comment" to billComment,
-                "Paid" to billPaid
+                "Paid" to billPaid,
+                "attachment" to billAttachment
             )
 
-            // Save bill to the user's 'bills' subcollection in Firestore
-            db.collection("users").document(userUid!!).collection("bills")
-                .add(bill)
+            // Guardar la factura en la subcolección 'bills' del usuario actual
+            val docRef = db.collection("users").document(userUid!!).collection("bills").document()
+            val billId = docRef.id
+            bill["billId"] = billId
+
+            docRef.set(bill)
                 .addOnSuccessListener {
-                    Toast.makeText(this, "Bill saved successfully", Toast.LENGTH_SHORT).show()
+                    // Factura guardada exitosamente
+                    Toast.makeText(this, "Factura guardada exitosamente", Toast.LENGTH_SHORT).show()
                     val intent = Intent(this, MyBills::class.java)
+                    intent.putExtra("USER_EMAIL", userEmail) // Pasar el email de vuelta
                     startActivity(intent)
                 }
                 .addOnFailureListener { e ->
-                    Toast.makeText(this, "Error saving bill: ${e.message}", Toast.LENGTH_SHORT).show()
+                    // Error al guardar la factura
+                    Toast.makeText(this, "Error al guardar la factura: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
         } else {
-            Toast.makeText(this, "Error: Unable to obtain user email or UID", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    private fun addTooltip(view: View, message: String) {
-        view.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) {
-                Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-            }
+            // El email o UID es nulo
+            Toast.makeText(this, "Error: No se pudo obtener el email o UID del usuario", Toast.LENGTH_SHORT).show()
         }
     }
 }
