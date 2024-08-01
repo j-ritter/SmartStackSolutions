@@ -2,11 +2,14 @@ package com.example.smartstackbills
 
 import android.app.Dialog
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -131,7 +134,16 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
         val edtDateDialog = dialog.findViewById<EditText>(R.id.edtDateDialog)
         val edtRepeatDialog = dialog.findViewById<EditText>(R.id.edtRepeatDialog)
         val edtCommentDialog = dialog.findViewById<EditText>(R.id.edtCommentDialog)
-        val edtAttachmentDialog = dialog.findViewById<EditText>(R.id.edtAttachmentDialog)
+        val edtAttachmentDialog = dialog.findViewById<ImageView>(R.id.edtAttachmentDialog)
+        val attachmentUri = bill.attachment
+
+        if (attachmentUri != null) {
+            edtAttachmentDialog.setImageURI(Uri.parse(attachmentUri))
+            edtAttachmentDialog.visibility = View.VISIBLE
+        } else {
+            edtAttachmentDialog.visibility = View.GONE
+        }
+        dialog.show()
 
         edtTitleDialog.setText(bill.name)
         edtAmountDialog.setText(bill.amount)

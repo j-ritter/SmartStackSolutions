@@ -1,5 +1,6 @@
 package com.example.smartstackbills
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -10,12 +11,20 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import android.graphics.Bitmap
+import android.net.Uri
+import android.provider.MediaStore
+import androidx.appcompat.app.AlertDialog
 
 class createBill : AppCompatActivity() {
 
     private val db = FirebaseFirestore.getInstance()
     private var userEmail: String? = null
     private var userUid: String? = null
+    private val REQUEST_IMAGE_CAPTURE = 1
+    private val REQUEST_IMAGE_GALLERY = 2
+    private var imageUri: Uri? = null
+
 
     val repeat = arrayOf(
         "No","Daily","Weekly","Every 2 Weeks","Monthly","Yearly"
@@ -108,6 +117,29 @@ class createBill : AppCompatActivity() {
             }
         }
 
+        val btnUpload = findViewById<Button>(R.id.btnImage)
+        btnUpload.setOnClickListener {
+            val options = arrayOf("Take Photo", "Choose from Gallery", "Cancel")
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Upload Bill Image")
+            builder.setItems(options) { dialog, which ->
+                when (options[which]) {
+                    "Take Photo" -> {
+                        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                        if (takePictureIntent.resolveActivity(packageManager) != null) {
+                            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+                        }
+                    }
+                    "Choose from Gallery" -> {
+                        val pickPhoto = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                        startActivityForResult(pickPhoto, REQUEST_IMAGE_GALLERY)
+                    }
+                    "Cancel" -> dialog.dismiss()
+                }
+            }
+            builder.show()
+        }
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -133,7 +165,29 @@ class createBill : AppCompatActivity() {
 
     fun onDateSelected(day: Int, month: Int, year: Int) {
         val edtDate = findViewById<EditText>(R.id.edtDate)
-        edtDate.setText("$day/$month/$year")
+        edtDate.setText("$day/${month + 1}/$year")
+    }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                REQUEST_IMAGE_CAPTURE -> {
+                    val imageBitmap = data?.extras?.get("data") as Bitmap
+                    val uri = saveImageToGallery(imageBitmap)
+                    imageUri = uri
+                }
+                REQUEST_IMAGE_GALLERY -> {
+                    imageUri = data?.data
+                }
+            }
+        }
+    }
+
+    private fun saveImageToGallery(bitmap: Bitmap): Uri? {
+        val path = MediaStore.Images.Media.insertImage(contentResolver, bitmap, "Title", null)
+        return Uri.parse(path)
     }
 
     private fun saveBill() {
@@ -144,10 +198,12 @@ class createBill : AppCompatActivity() {
             val billAmount = findViewById<EditText>(R.id.edtAmount).text.toString()
             val billDate = findViewById<EditText>(R.id.edtDate).text.toString()
             val billCategory = findViewById<Spinner>(R.id.spinnerCategories).selectedItem.toString()
+            val billSubcategory = findViewById<Spinner>(R.id.spinnerSubcategories).selectedItem.toString()
             val billVendor = findViewById<Spinner>(R.id.spinnerVendors).selectedItem.toString()
             val billRepeat = findViewById<Spinner>(R.id.spinnerRepeat).selectedItem.toString()
             val billComment = findViewById<EditText>(R.id.edtComments).text.toString()
             val billPaid = findViewById<CheckBox>(R.id.checkBoxPaid).isChecked
+            val billAttachment = imageUri?.toString()
 
             // Crear un hash map con los datos de la factura
             val bill = hashMapOf(
@@ -155,10 +211,12 @@ class createBill : AppCompatActivity() {
                 "amount" to billAmount,
                 "date" to billDate,
                 "category" to billCategory,
+                "subcategory" to billSubcategory,
                 "vendor" to billVendor,
                 "repeat" to billRepeat,
                 "comment" to billComment,
-                "paid" to billPaid
+                "paid" to billPaid,
+                "attachment" to billAttachment
             )
 
             // Guardar la factura en la subcolección 'bills' del usuario actual

@@ -45,4 +45,7 @@
     <string name="CaTegory">Category:</string>
     <string name="TiTle">Title:</string>
     <string name="purchase_datee">Purchase date</string>
+    <string name="details">Details</string>
+    <string name="titledialog">Title</string>
+    <string name="categorydbx">Category</string>
 </resources>
