@@ -158,7 +158,7 @@ class createBill : AppCompatActivity() {
                 "vendor" to billVendor,
                 "repeat" to billRepeat,
                 "comment" to billComment,
-                "Paid" to billPaid
+                "paid" to billPaid
             )
 
             // Guardar la factura en la subcolección 'bills' del usuario actual
