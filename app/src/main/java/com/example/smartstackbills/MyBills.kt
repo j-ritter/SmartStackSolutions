@@ -17,6 +17,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import android.net.Uri
+import android.view.View
 
 class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
 
@@ -118,8 +119,9 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
 
         if (attachmentUri != null) {
             edtAttachmentDialog.setImageURI(Uri.parse(attachmentUri))
+            edtAttachmentDialog.visibility = View.VISIBLE
         } else {
-            edtAttachmentDialog.setImageResource(R.drawable.default_image) // or hide the ImageView
+            edtAttachmentDialog.visibility = View.GONE
         }
 
         dialog.show()
