@@ -44,7 +44,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/title"
+                    android:text="@string/titledialog"
 
                     android:textSize="14sp"
                     android:textColor="@android:color/black" />
@@ -62,7 +62,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/category"
+                    android:text="@string/categorydbx"
 
                     android:layout_marginTop="4dp"
                     android:textSize="14sp"

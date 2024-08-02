@@ -205,7 +205,7 @@
         android:clickable="false"
         android:ems="10"
         android:focusable="false"
-        android:hint="@string/purchase_date"
+        android:hint="@string/purchase_datee"
         android:inputType="text"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"

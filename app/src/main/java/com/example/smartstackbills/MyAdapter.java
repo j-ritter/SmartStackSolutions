@@ -77,3 +77,4 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         void onBillClick(int position);
     }
 }
+
