@@ -15,6 +15,13 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.provider.MediaStore
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.FileProvider
+import android.os.Environment
+import java.io.File
+import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class createBill : AppCompatActivity() {
 
@@ -128,6 +135,22 @@ class createBill : AppCompatActivity() {
                         val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
                         if (takePictureIntent.resolveActivity(packageManager) != null) {
                             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+                            val photoFile: File? = try {
+                                createImageFile()
+                            } catch (ex: IOException) {
+                                // Error occurred while creating the File
+                                null
+                            }
+                            // Continue only if the File was successfully created
+                            photoFile?.also {
+                                val photoURI: Uri = FileProvider.getUriForFile(
+                                    this,
+                                    "${applicationContext.packageName}.provider",
+                                    it
+                                )
+                                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+                            }
                         }
                     }
                     "Choose from Gallery" -> {
@@ -175,9 +198,8 @@ class createBill : AppCompatActivity() {
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 REQUEST_IMAGE_CAPTURE -> {
-                    val imageBitmap = data?.extras?.get("data") as Bitmap
-                    val uri = saveImageToGallery(imageBitmap)
-                    imageUri = uri
+                    val file = File(currentPhotoPath)
+                    imageUri = Uri.fromFile(file)
                     txtImageAdded.text = "Image added"
                     txtImageAdded.visibility = View.VISIBLE
                 }
@@ -292,6 +314,22 @@ class createBill : AppCompatActivity() {
 
         return true
 
+    }
+    private var currentPhotoPath: String? = null
+
+    @Throws(IOException::class)
+    private fun createImageFile(): File {
+        // Create an image file name
+        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())
+        val storageDir: File = getExternalFilesDir(Environment.DIRECTORY_PICTURES)!!
+        return File.createTempFile(
+            "JPEG_${timeStamp}_", /* prefix */
+            ".jpg", /* suffix */
+            storageDir /* directory */
+        ).apply {
+            // Save a file: path for use with ACTION_VIEW intents
+            currentPhotoPath = absolutePath
+        }
     }
 
 }
