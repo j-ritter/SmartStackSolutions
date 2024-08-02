@@ -5,6 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background_blue1"
     tools:context=".createBill">
 
 
@@ -29,6 +30,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginBottom="10dp"
         android:text="@string/create_new_bill"
+        android:textStyle="bold"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/edtTitle"
         app:layout_constraintStart_toStartOf="@+id/edtTitle"
@@ -38,7 +40,7 @@
         android:id="@+id/spinnerCategories"
         android:layout_width="0dp"
         android:layout_height="0dp"
-
+        android:background="@drawable/rounded_frame_background"
         android:layout_marginStart="29dp"
         android:layout_marginEnd="29dp"
         android:layout_marginBottom="7dp"
@@ -54,7 +56,8 @@
         android:layout_marginStart="27dp"
         android:layout_marginEnd="27dp"
         android:layout_marginBottom="10dp"
-        android:background="@drawable/edt_background"
+        android:background="@drawable/rounded_frame_background"
+
         android:ems="10"
         android:hint="@string/write_your_title"
         android:inputType="text"
@@ -75,6 +78,7 @@
         android:layout_marginStart="2dp"
         android:layout_marginBottom="11dp"
         android:text="@string/category"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/spinnerCategories"
         app:layout_constraintStart_toStartOf="@+id/edtTitle"
         app:layout_constraintTop_toBottomOf="@+id/edtTitle" />
@@ -110,7 +114,7 @@
         android:id="@+id/spinnerVendors"
         android:layout_width="0dp"
         android:layout_height="0dp"
-
+        android:background="@drawable/rounded_frame_background"
         android:layout_marginStart="29dp"
         android:layout_marginEnd="29dp"
         android:layout_marginBottom="19dp"
@@ -126,6 +130,8 @@
         android:layout_marginEnd="34dp"
         android:layout_marginBottom="33dp"
         android:text="@string/Paid"
+        android:background="@drawable/rounded_frame_background"
+
         app:layout_constraintBottom_toTopOf="@+id/btnGuardar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btnImage"
@@ -138,6 +144,7 @@
         android:layout_marginStart="2dp"
         android:layout_marginBottom="10dp"
         android:text="@string/vendor"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/spinnerVendors"
         app:layout_constraintStart_toStartOf="@+id/spinnerSubcategories"
         app:layout_constraintTop_toBottomOf="@+id/spinnerSubcategories" />
@@ -147,7 +154,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="12dp"
-        android:background="@drawable/edt_background"
+        android:background="@drawable/rounded_frame_background"
         android:ems="10"
         android:hint="@string/write_your_comments"
         android:inputType="text"
@@ -168,7 +175,7 @@
         android:layout_marginStart="29dp"
         android:layout_marginEnd="48dp"
         android:layout_marginBottom="16dp"
-        android:background="@drawable/edt_background"
+        android:background="@drawable/rounded_frame_background"
         android:ems="10"
         android:hint="@string/Amount"
         android:inputType="numberDecimal"
@@ -189,6 +196,7 @@
         android:layout_marginStart="29dp"
         android:layout_marginEnd="29dp"
         android:layout_marginBottom="30dp"
+        android:background="@drawable/rounded_frame_background"
         app:layout_constraintBottom_toTopOf="@+id/btnImage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -201,7 +209,7 @@
         android:layout_marginTop="363dp"
         android:layout_marginEnd="34dp"
         android:layout_marginBottom="178dp"
-        android:background="@drawable/edt_background"
+        android:background="@drawable/rounded_frame_background"
         android:clickable="false"
         android:ems="10"
         android:focusable="false"
@@ -223,6 +231,7 @@
         android:layout_marginStart="27dp"
         android:layout_marginBottom="10dp"
         android:text="Repeat"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/spinnerRepeat"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edtComments" />
@@ -233,6 +242,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="7dp"
         android:text="Subcategory"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/spinnerSubcategories"
         app:layout_constraintStart_toStartOf="@+id/spinnerCategories"
         app:layout_constraintTop_toBottomOf="@+id/spinnerCategories" />
@@ -244,6 +254,7 @@
         android:layout_marginStart="27dp"
         android:layout_marginEnd="27dp"
         android:layout_marginBottom="9dp"
+        android:background="@drawable/rounded_frame_background"
         app:layout_constraintBottom_toTopOf="@+id/txtVendor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

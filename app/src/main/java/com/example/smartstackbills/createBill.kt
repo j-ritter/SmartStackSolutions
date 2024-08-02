@@ -191,54 +191,100 @@ class createBill : AppCompatActivity() {
     }
 
     private fun saveBill() {
-        // Verificar que el email y UID no sean nulos
-        if (userEmail != null && userUid != null) {
-            // Obtener los datos de los EditText
-            val billName = findViewById<EditText>(R.id.edtTitle).text.toString()
-            val billAmount = findViewById<EditText>(R.id.edtAmount).text.toString()
-            val billDate = findViewById<EditText>(R.id.edtDate).text.toString()
-            val billCategory = findViewById<Spinner>(R.id.spinnerCategories).selectedItem.toString()
-            val billSubcategory = findViewById<Spinner>(R.id.spinnerSubcategories).selectedItem.toString()
-            val billVendor = findViewById<Spinner>(R.id.spinnerVendors).selectedItem.toString()
-            val billRepeat = findViewById<Spinner>(R.id.spinnerRepeat).selectedItem.toString()
-            val billComment = findViewById<EditText>(R.id.edtComments).text.toString()
-            val billPaid = findViewById<CheckBox>(R.id.checkBoxPaid).isChecked
-            val billAttachment = imageUri?.toString()
+        if (validateMandatoryFields()) {
+            // Verificar que el email y UID no sean nulos
+            // Verificar que el email y UID no sean nulos
+            if (userEmail != null && userUid != null) {
+                // Obtener los datos de los EditText
+                val billName = findViewById<EditText>(R.id.edtTitle).text.toString()
+                val billAmount = findViewById<EditText>(R.id.edtAmount).text.toString()
+                val billDate = findViewById<EditText>(R.id.edtDate).text.toString()
+                val billCategory =
+                    findViewById<Spinner>(R.id.spinnerCategories).selectedItem.toString()
+                val billSubcategory =
+                    findViewById<Spinner>(R.id.spinnerSubcategories).selectedItem.toString()
+                val billVendor = findViewById<Spinner>(R.id.spinnerVendors).selectedItem.toString()
+                val billRepeat = findViewById<Spinner>(R.id.spinnerRepeat).selectedItem.toString()
+                val billComment = findViewById<EditText>(R.id.edtComments).text.toString()
+                val billPaid = findViewById<CheckBox>(R.id.checkBoxPaid).isChecked
+                val billAttachment = imageUri?.toString()
 
-            // Crear un hash map con los datos de la factura
-            val bill = hashMapOf(
-                "name" to billName,
-                "amount" to billAmount,
-                "date" to billDate,
-                "category" to billCategory,
-                "subcategory" to billSubcategory,
-                "vendor" to billVendor,
-                "repeat" to billRepeat,
-                "comment" to billComment,
-                "paid" to billPaid,
-                "attachment" to billAttachment
-            )
+                // Crear un hash map con los datos de la factura
+                val bill = hashMapOf(
+                    "name" to billName,
+                    "amount" to billAmount,
+                    "date" to billDate,
+                    "category" to billCategory,
+                    "subcategory" to billSubcategory,
+                    "vendor" to billVendor,
+                    "repeat" to billRepeat,
+                    "comment" to billComment,
+                    "paid" to billPaid,
+                    "attachment" to billAttachment
+                )
 
-            // Guardar la factura en la subcolección 'bills' del usuario actual
-            val docRef = db.collection("users").document(userUid!!).collection("bills").document()
-            val billId = docRef.id
-            bill["billId"] = billId
+                // Guardar la factura en la subcolección 'bills' del usuario actual
+                val docRef =
+                    db.collection("users").document(userUid!!).collection("bills").document()
+                val billId = docRef.id
+                bill["billId"] = billId
 
-            docRef.set(bill)
-                .addOnSuccessListener {
-                    // Factura guardada exitosamente
-                    Toast.makeText(this, "Factura guardada exitosamente", Toast.LENGTH_SHORT).show()
-                    val intent = Intent(this, MyBills::class.java)
-                    intent.putExtra("USER_EMAIL", userEmail) // Pasar el email de vuelta
-                    startActivity(intent)
-                }
-                .addOnFailureListener { e ->
-                    // Error al guardar la factura
-                    Toast.makeText(this, "Error al guardar la factura: ${e.message}", Toast.LENGTH_SHORT).show()
-                }
-        } else {
-            // El email o UID es nulo
-            Toast.makeText(this, "Error: No se pudo obtener el email o UID del usuario", Toast.LENGTH_SHORT).show()
+                docRef.set(bill)
+                    .addOnSuccessListener {
+                        // Factura guardada exitosamente
+                        Toast.makeText(this, "Factura guardada exitosamente", Toast.LENGTH_SHORT)
+                            .show()
+                        val intent = Intent(this, MyBills::class.java)
+                        intent.putExtra("USER_EMAIL", userEmail) // Pasar el email de vuelta
+                        startActivity(intent)
+                    }
+                    .addOnFailureListener { e ->
+                        // Error al guardar la factura
+                        Toast.makeText(
+                            this,
+                            "Error al guardar la factura: ${e.message}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+            } else {
+                // El email o UID es nulo
+                Toast.makeText(
+                    this,
+                    "Error: No se pudo obtener el email o UID del usuario",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
     }
+    private fun validateMandatoryFields(): Boolean {
+        val billName = findViewById<EditText>(R.id.edtTitle).text.toString()
+        val billAmount = findViewById<EditText>(R.id.edtAmount).text.toString()
+        val billDate = findViewById<EditText>(R.id.edtDate).text.toString()
+        val billCategory = findViewById<Spinner>(R.id.spinnerCategories).selectedItem.toString()
+
+
+        if (billName.isEmpty()) {
+            Toast.makeText(this, "Title is required", Toast.LENGTH_SHORT).show()
+            return false
+        }
+
+        if (billAmount.isEmpty()) {
+            Toast.makeText(this, "Amount is required", Toast.LENGTH_SHORT).show()
+            return false
+        }
+
+        if (billDate.isEmpty()) {
+            Toast.makeText(this, "Date is required", Toast.LENGTH_SHORT).show()
+            return false
+        }
+
+        if (billCategory.isEmpty() || billCategory == "Select Category") {
+            Toast.makeText(this, "Category is required", Toast.LENGTH_SHORT).show()
+            return false
+        }
+
+        return true
+
+    }
+
 }
