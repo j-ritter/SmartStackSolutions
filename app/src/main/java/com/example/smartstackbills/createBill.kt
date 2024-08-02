@@ -110,10 +110,10 @@ class createBill : AppCompatActivity() {
         spinnerReminder.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val selectedItemReminder = parent?.getItemAtPosition(position).toString()
+                managePaidCheckboxState(selectedItemReminder)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
-
             }
         }
 
@@ -285,6 +285,15 @@ class createBill : AppCompatActivity() {
 
         return true
 
+    }
+    private fun managePaidCheckboxState(selectedRepeat: String) {
+        val checkBoxPaid = findViewById<CheckBox>(R.id.checkBoxPaid)
+        if (selectedRepeat != "No") {
+            checkBoxPaid.isChecked = false
+            checkBoxPaid.isEnabled = false
+        } else {
+            checkBoxPaid.isEnabled = true
+        }
     }
 
 }
