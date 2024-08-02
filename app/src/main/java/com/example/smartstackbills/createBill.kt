@@ -1,5 +1,6 @@
 package com.example.smartstackbills
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -10,11 +11,10 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import android.app.AlertDialog
-import android.app.Activity
 import android.graphics.Bitmap
 import android.net.Uri
 import android.provider.MediaStore
+import androidx.appcompat.app.AlertDialog
 
 class createBill : AppCompatActivity() {
 
@@ -24,6 +24,7 @@ class createBill : AppCompatActivity() {
     private val REQUEST_IMAGE_CAPTURE = 1
     private val REQUEST_IMAGE_GALLERY = 2
     private var imageUri: Uri? = null
+
 
     val repeat = arrayOf(
         "No","Daily","Weekly","Every 2 Weeks","Monthly","Yearly"
@@ -105,6 +106,17 @@ class createBill : AppCompatActivity() {
 
             }
         }
+
+        spinnerReminder.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val selectedItemReminder = parent?.getItemAtPosition(position).toString()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+        }
+
         val btnUpload = findViewById<Button>(R.id.btnImage)
         btnUpload.setOnClickListener {
             val options = arrayOf("Take Photo", "Choose from Gallery", "Cancel")
@@ -128,16 +140,6 @@ class createBill : AppCompatActivity() {
             builder.show()
         }
 
-        spinnerReminder.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val selectedItemReminder = parent?.getItemAtPosition(position).toString()
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-
-            }
-        }
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -156,7 +158,6 @@ class createBill : AppCompatActivity() {
         }
     }
 
-
     private fun showDatePickerDialog() {
         val datePicker = DatePickerFragment { day, month, year -> onDateSelected(day, month, year) }
         datePicker.show(supportFragmentManager, "datePicker")
@@ -164,8 +165,9 @@ class createBill : AppCompatActivity() {
 
     fun onDateSelected(day: Int, month: Int, year: Int) {
         val edtDate = findViewById<EditText>(R.id.edtDate)
-        edtDate.setText("$day/$month/$year")
+        edtDate.setText("$day/${month + 1}/$year")
     }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -188,7 +190,6 @@ class createBill : AppCompatActivity() {
         return Uri.parse(path)
     }
 
-
     private fun saveBill() {
         // Verificar que el email y UID no sean nulos
         if (userEmail != null && userUid != null) {
@@ -197,11 +198,11 @@ class createBill : AppCompatActivity() {
             val billAmount = findViewById<EditText>(R.id.edtAmount).text.toString()
             val billDate = findViewById<EditText>(R.id.edtDate).text.toString()
             val billCategory = findViewById<Spinner>(R.id.spinnerCategories).selectedItem.toString()
+            val billSubcategory = findViewById<Spinner>(R.id.spinnerSubcategories).selectedItem.toString()
             val billVendor = findViewById<Spinner>(R.id.spinnerVendors).selectedItem.toString()
             val billRepeat = findViewById<Spinner>(R.id.spinnerRepeat).selectedItem.toString()
             val billComment = findViewById<EditText>(R.id.edtComments).text.toString()
             val billPaid = findViewById<CheckBox>(R.id.checkBoxPaid).isChecked
-
             val billAttachment = imageUri?.toString()
 
             // Crear un hash map con los datos de la factura
@@ -210,10 +211,11 @@ class createBill : AppCompatActivity() {
                 "amount" to billAmount,
                 "date" to billDate,
                 "category" to billCategory,
+                "subcategory" to billSubcategory,
                 "vendor" to billVendor,
                 "repeat" to billRepeat,
                 "comment" to billComment,
-                "Paid" to billPaid,
+                "paid" to billPaid,
                 "attachment" to billAttachment
             )
 
