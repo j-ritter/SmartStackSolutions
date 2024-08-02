@@ -110,10 +110,10 @@ class createBill : AppCompatActivity() {
         spinnerReminder.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val selectedItemReminder = parent?.getItemAtPosition(position).toString()
-                managePaidCheckboxState(selectedItemReminder)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
+
             }
         }
 
@@ -171,15 +171,20 @@ class createBill : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        val txtImageAdded = findViewById<TextView>(R.id.txtImageAdded)
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 REQUEST_IMAGE_CAPTURE -> {
                     val imageBitmap = data?.extras?.get("data") as Bitmap
                     val uri = saveImageToGallery(imageBitmap)
                     imageUri = uri
+                    txtImageAdded.text = "Image added"
+                    txtImageAdded.visibility = View.VISIBLE
                 }
                 REQUEST_IMAGE_GALLERY -> {
                     imageUri = data?.data
+                    txtImageAdded.text = "Image added"
+                    txtImageAdded.visibility = View.VISIBLE
                 }
             }
         }
@@ -189,6 +194,8 @@ class createBill : AppCompatActivity() {
         val path = MediaStore.Images.Media.insertImage(contentResolver, bitmap, "Title", null)
         return Uri.parse(path)
     }
+
+
 
     private fun saveBill() {
         if (validateMandatoryFields()) {
@@ -285,15 +292,6 @@ class createBill : AppCompatActivity() {
 
         return true
 
-    }
-    private fun managePaidCheckboxState(selectedRepeat: String) {
-        val checkBoxPaid = findViewById<CheckBox>(R.id.checkBoxPaid)
-        if (selectedRepeat != "No") {
-            checkBoxPaid.isChecked = false
-            checkBoxPaid.isEnabled = false
-        } else {
-            checkBoxPaid.isEnabled = true
-        }
     }
 
 }
