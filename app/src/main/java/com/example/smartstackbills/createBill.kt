@@ -31,6 +31,8 @@ class createBill : AppCompatActivity() {
     private val REQUEST_IMAGE_CAPTURE = 1
     private val REQUEST_IMAGE_GALLERY = 2
     private var imageUri: Uri? = null
+    private var currentPhotoPath: String? = null
+
 
 
     val repeat = arrayOf(
@@ -73,7 +75,6 @@ class createBill : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_create_bill)
 
-        // Obtener el email y UID del Intent
         userEmail = intent.getStringExtra("USER_EMAIL")
         userUid = FirebaseAuth.getInstance().currentUser?.uid
 
@@ -85,6 +86,7 @@ class createBill : AppCompatActivity() {
         val spinnerCategories = findViewById<Spinner>(R.id.spinnerCategories)
         val spinnerSubcategories = findViewById<Spinner>(R.id.spinnerSubcategories)
         val spinnerVendors = findViewById<Spinner>(R.id.spinnerVendors)
+        val edtCustomVendor = findViewById<EditText>(R.id.edtCustomVendor)
         val spinnerReminder = findViewById<Spinner>(R.id.spinnerRepeat)
         val saveButton = findViewById<Button>(R.id.btnGuardar)
 
@@ -98,29 +100,38 @@ class createBill : AppCompatActivity() {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val selectedCategory = parent?.getItemAtPosition(position).toString()
 
-
                 val subcategories = subcategoriesMap[selectedCategory] ?: emptyArray()
                 val arrayAdapterSubcategories = ArrayAdapter(this@createBill, android.R.layout.simple_spinner_dropdown_item, subcategories)
                 spinnerSubcategories.adapter = arrayAdapterSubcategories
 
-
                 val vendors = vendorsMap[selectedCategory] ?: emptyArray()
-                val arrayAdapterVendors = ArrayAdapter(this@createBill, android.R.layout.simple_spinner_dropdown_item, vendors)
+                val arrayAdapterVendors = ArrayAdapter(this@createBill, android.R.layout.simple_spinner_dropdown_item, vendors + "Create Own Vendor")
                 spinnerVendors.adapter = arrayAdapterVendors
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
+                // No action needed
+            }
+        }
 
+        spinnerVendors.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val selectedVendor = parent?.getItemAtPosition(position).toString()
+                edtCustomVendor.visibility = if (selectedVendor == "Create Own Vendor") View.VISIBLE else View.GONE
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                // No action needed
             }
         }
 
         spinnerReminder.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val selectedItemReminder = parent?.getItemAtPosition(position).toString()
+                managePaidCheckboxState(selectedItemReminder)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
-
             }
         }
 
@@ -134,20 +145,18 @@ class createBill : AppCompatActivity() {
                     "Take Photo" -> {
                         val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
                         if (takePictureIntent.resolveActivity(packageManager) != null) {
-                            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
                             val photoFile: File? = try {
                                 createImageFile()
                             } catch (ex: IOException) {
-                                // Error occurred while creating the File
                                 null
                             }
-                            // Continue only if the File was successfully created
                             photoFile?.also {
                                 val photoURI: Uri = FileProvider.getUriForFile(
                                     this,
                                     "${applicationContext.packageName}.provider",
                                     it
                                 )
+                                currentPhotoPath = it.absolutePath
                                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
                                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
                             }
@@ -191,7 +200,6 @@ class createBill : AppCompatActivity() {
         edtDate.setText("$day/${month + 1}/$year")
     }
 
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         val txtImageAdded = findViewById<TextView>(R.id.txtImageAdded)
@@ -215,30 +223,39 @@ class createBill : AppCompatActivity() {
     private fun saveImageToGallery(bitmap: Bitmap): Uri? {
         val path = MediaStore.Images.Media.insertImage(contentResolver, bitmap, "Title", null)
         return Uri.parse(path)
+
     }
 
-
+    private fun managePaidCheckboxState(selectedRepeat: String) {
+        val checkBoxPaid = findViewById<CheckBox>(R.id.checkBoxPaid)
+        if (selectedRepeat != "No") {
+            checkBoxPaid.isChecked = false
+            checkBoxPaid.isEnabled = false
+        } else {
+            checkBoxPaid.isEnabled = true
+        }
+    }
 
     private fun saveBill() {
         if (validateMandatoryFields()) {
-            // Verificar que el email y UID no sean nulos
-            // Verificar que el email y UID no sean nulos
             if (userEmail != null && userUid != null) {
-                // Obtener los datos de los EditText
                 val billName = findViewById<EditText>(R.id.edtTitle).text.toString()
                 val billAmount = findViewById<EditText>(R.id.edtAmount).text.toString()
                 val billDate = findViewById<EditText>(R.id.edtDate).text.toString()
-                val billCategory =
-                    findViewById<Spinner>(R.id.spinnerCategories).selectedItem.toString()
-                val billSubcategory =
-                    findViewById<Spinner>(R.id.spinnerSubcategories).selectedItem.toString()
-                val billVendor = findViewById<Spinner>(R.id.spinnerVendors).selectedItem.toString()
+                val billCategory = findViewById<Spinner>(R.id.spinnerCategories).selectedItem.toString()
+                val billSubcategory = findViewById<Spinner>(R.id.spinnerSubcategories).selectedItem.toString()
+                val spinnerVendors = findViewById<Spinner>(R.id.spinnerVendors)
+                val edtCustomVendor = findViewById<EditText>(R.id.edtCustomVendor)
+                val billVendor = if (spinnerVendors.selectedItem.toString() == "Create Own Vendor") {
+                    edtCustomVendor.text.toString()
+                } else {
+                    spinnerVendors.selectedItem.toString()
+                }
                 val billRepeat = findViewById<Spinner>(R.id.spinnerRepeat).selectedItem.toString()
                 val billComment = findViewById<EditText>(R.id.edtComments).text.toString()
                 val billPaid = findViewById<CheckBox>(R.id.checkBoxPaid).isChecked
                 val billAttachment = imageUri?.toString()
 
-                // Crear un hash map con los datos de la factura
                 val bill = hashMapOf(
                     "name" to billName,
                     "amount" to billAmount,
@@ -252,45 +269,31 @@ class createBill : AppCompatActivity() {
                     "attachment" to billAttachment
                 )
 
-                // Guardar la factura en la subcolección 'bills' del usuario actual
-                val docRef =
-                    db.collection("users").document(userUid!!).collection("bills").document()
+                val docRef = db.collection("users").document(userUid!!).collection("bills").document()
                 val billId = docRef.id
                 bill["billId"] = billId
 
                 docRef.set(bill)
                     .addOnSuccessListener {
-                        // Factura guardada exitosamente
-                        Toast.makeText(this, "Factura guardada exitosamente", Toast.LENGTH_SHORT)
-                            .show()
+                        Toast.makeText(this, "Factura guardada exitosamente", Toast.LENGTH_SHORT).show()
                         val intent = Intent(this, MyBills::class.java)
-                        intent.putExtra("USER_EMAIL", userEmail) // Pasar el email de vuelta
+                        intent.putExtra("USER_EMAIL", userEmail)
                         startActivity(intent)
                     }
                     .addOnFailureListener { e ->
-                        // Error al guardar la factura
-                        Toast.makeText(
-                            this,
-                            "Error al guardar la factura: ${e.message}",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        Toast.makeText(this, "Error al guardar la factura: ${e.message}", Toast.LENGTH_SHORT).show()
                     }
             } else {
-                // El email o UID es nulo
-                Toast.makeText(
-                    this,
-                    "Error: No se pudo obtener el email o UID del usuario",
-                    Toast.LENGTH_SHORT
-                ).show()
+                Toast.makeText(this, "Error: No se pudo obtener el email o UID del usuario", Toast.LENGTH_SHORT).show()
             }
         }
     }
+
     private fun validateMandatoryFields(): Boolean {
         val billName = findViewById<EditText>(R.id.edtTitle).text.toString()
         val billAmount = findViewById<EditText>(R.id.edtAmount).text.toString()
         val billDate = findViewById<EditText>(R.id.edtDate).text.toString()
         val billCategory = findViewById<Spinner>(R.id.spinnerCategories).selectedItem.toString()
-
 
         if (billName.isEmpty()) {
             Toast.makeText(this, "Title is required", Toast.LENGTH_SHORT).show()
@@ -313,13 +316,10 @@ class createBill : AppCompatActivity() {
         }
 
         return true
-
     }
-    private var currentPhotoPath: String? = null
 
     @Throws(IOException::class)
     private fun createImageFile(): File {
-        // Create an image file name
         val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())
         val storageDir: File = getExternalFilesDir(Environment.DIRECTORY_PICTURES)!!
         return File.createTempFile(
@@ -327,9 +327,6 @@ class createBill : AppCompatActivity() {
             ".jpg", /* suffix */
             storageDir /* directory */
         ).apply {
-            // Save a file: path for use with ACTION_VIEW intents
             currentPhotoPath = absolutePath
         }
-    }
-
-}
+    }}
