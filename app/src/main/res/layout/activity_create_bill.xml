@@ -5,6 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background_blue1"
     tools:context=".createBill">
 
 
@@ -38,7 +39,7 @@
         android:id="@+id/spinnerCategories"
         android:layout_width="0dp"
         android:layout_height="0dp"
-
+        android:background="@drawable/rounded_frame_background"
         android:layout_marginStart="29dp"
         android:layout_marginEnd="29dp"
         android:layout_marginBottom="7dp"
@@ -54,7 +55,7 @@
         android:layout_marginStart="27dp"
         android:layout_marginEnd="27dp"
         android:layout_marginBottom="10dp"
-        android:background="@drawable/edt_background"
+        android:background="@drawable/rounded_frame_background"
         android:ems="10"
         android:hint="@string/write_your_title"
         android:inputType="text"
@@ -106,14 +107,41 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinnerRepeat" />
 
+    <TextView
+        android:id="@+id/txtImageAdded"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="29dp"
+        android:layout_marginEnd="94dp"
+        android:text="Image added"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/btnCancel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnImage" />
+
     <Spinner
         android:id="@+id/spinnerVendors"
         android:layout_width="0dp"
         android:layout_height="0dp"
-
+        android:background="@drawable/rounded_frame_background"
         android:layout_marginStart="29dp"
         android:layout_marginEnd="29dp"
         android:layout_marginBottom="19dp"
+        app:layout_constraintBottom_toTopOf="@+id/edtAmount"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtVendor" />
+
+    <EditText
+        android:id="@+id/edtCustomVendor"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="29dp"
+        android:layout_marginEnd="29dp"
+        android:layout_marginBottom="19dp"
+        android:hint="Enter custom vendor"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/edtAmount"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -147,7 +175,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="12dp"
-        android:background="@drawable/edt_background"
+        android:background="@drawable/rounded_frame_background"
         android:ems="10"
         android:hint="@string/write_your_comments"
         android:inputType="text"
@@ -168,7 +196,7 @@
         android:layout_marginStart="29dp"
         android:layout_marginEnd="48dp"
         android:layout_marginBottom="16dp"
-        android:background="@drawable/edt_background"
+        android:background="@drawable/rounded_frame_background"
         android:ems="10"
         android:hint="@string/Amount"
         android:inputType="numberDecimal"
@@ -184,6 +212,7 @@
 
     <Spinner
         android:id="@+id/spinnerRepeat"
+        android:background="@drawable/rounded_frame_background"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="29dp"
@@ -201,7 +230,7 @@
         android:layout_marginTop="363dp"
         android:layout_marginEnd="34dp"
         android:layout_marginBottom="178dp"
-        android:background="@drawable/edt_background"
+        android:background="@drawable/rounded_frame_background"
         android:clickable="false"
         android:ems="10"
         android:focusable="false"
@@ -239,6 +268,7 @@
 
     <Spinner
         android:id="@+id/spinnerSubcategories"
+        android:background="@drawable/rounded_frame_background"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="27dp"
