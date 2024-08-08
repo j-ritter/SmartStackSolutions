@@ -27,4 +27,3 @@ firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-

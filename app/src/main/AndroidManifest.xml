@@ -20,6 +20,9 @@
         android:theme="@style/Theme.SmartStackBills"
         tools:targetApi="31">
         <activity
+            android:name=".createSpending2"
+            android:exported="false" />
+        <activity
             android:name=".MySpendings"
             android:exported="false" />
         <activity
@@ -46,6 +49,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
