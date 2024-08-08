@@ -36,12 +36,14 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
     private lateinit var dialog: Dialog
 
     private val essentialSubcategories = setOf(
-        "Rent", "Mortgage", "Home maintenance", "Utilities", "Furniture", "Repairs and renovations",
-        "Mobile phone", "Landline phone", "Internet", "Cable/satellite TV", "Messaging services",
-        "Health insurance", "Life insurance", "Car insurance", "Home insurance", "Travel insurance", "Pet insurance",
-        "Fuel", "Vehicle maintenance", "Public transportation", "Parking", "Vehicle rental",
-        "Doctor visits", "Dental care", "Prescription medications", "Health supplements", "Medical equipment",
-        "Groceries"
+        "Rent", "Mortgage", "Home maintenance", "Utilities",
+        "Mobile phone", "Landline phone", "Internet",
+        "Health insurance", "Life insurance", "Car insurance", "Home insurance",
+        "Fuel", "Vehicle maintenance", "Public transportation",
+        "Doctor visits", "Dental care", "Prescription medications", "Medical equipment",
+        "Groceries", "Clothing", "Household goods", "Personal care products",
+        "Income tax", "Property tax", "Sales tax", "Self-employment tax", "Capital gains tax",
+        "Tuition fees", "Textbooks", "School supplies"
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {

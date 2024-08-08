@@ -384,6 +384,7 @@ class createSpending : AppCompatActivity() {
                     "attachment" to spendingAttachment
                 )
 
+
                 val docRef = db.collection("users").document(userUid!!).collection("spendings").document()
                 val spendingId = docRef.id
                 spending["spendingId"] = spendingId
