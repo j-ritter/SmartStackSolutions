@@ -15,6 +15,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -56,6 +57,24 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
             intent.putExtra("USER_EMAIL", userEmail)
             startActivity(intent)
         }
+        val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationView)
+        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.Bills -> {
+                    val intent = Intent(this, MyBills::class.java)
+                    intent.putExtra("USER_EMAIL", userEmail) // Pasar el correo electrónico
+                    startActivity(intent)
+                    true
+                }
+                R.id.Spendings -> {
+                    val intent = Intent(this, MySpendings::class.java)
+                    intent.putExtra("USER_EMAIL", userEmail) // Pasar el correo electrónico
+                    startActivity(intent)
+                    true
+                }
+                else -> false
+            }
+        }
 
         db = FirebaseFirestore.getInstance()
         setupDialog()
@@ -67,6 +86,8 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
         findViewById<Button>(R.id.btnRecurring).setOnClickListener { filterBills("recurring") }
         findViewById<Button>(R.id.btnPaid).setOnClickListener { filterBills("paid") }
     }
+
+
 
     private fun setupDialog() {
         dialog = Dialog(this)
@@ -212,4 +233,5 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
         myAdapter.updateBills(filteredBills)
         Log.d("Filter", "Filtered bills count for $filter: ${filteredBills.size}")
     }
+
 }

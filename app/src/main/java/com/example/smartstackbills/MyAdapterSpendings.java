@@ -52,10 +52,10 @@ public class MyAdapterSpendings extends RecyclerView.Adapter<MyAdapterSpendings.
 
         public MyViewHolder(@NonNull View itemView, OnSpendingClickListener onSpendingClickListener) {
             super(itemView);
-            title = itemView.findViewById(R.id.textviewTitle);
-            category = itemView.findViewById(R.id.textviewCategory);
-            amount = itemView.findViewById(R.id.textviewAmount);
-            purchaseDate = itemView.findViewById(R.id.textviewDate);
+            title = itemView.findViewById(R.id.textviewTitleSpendings);
+            category = itemView.findViewById(R.id.textviewCategorySpendings);
+            amount = itemView.findViewById(R.id.textviewAmountSpendings);
+            purchaseDate = itemView.findViewById(R.id.textviewDateSpendings);
             this.onSpendingClickListener = onSpendingClickListener;
             itemView.setOnClickListener(this);
         }

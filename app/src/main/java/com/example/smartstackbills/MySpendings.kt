@@ -76,7 +76,6 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
         findViewById<Button>(R.id.btnEssential).setOnClickListener { filterSpendings("essential") }
         findViewById<Button>(R.id.btnNonEssential).setOnClickListener { filterSpendings("non-essential") }
     }
-
     private fun setupDialog() {
         dialog = Dialog(this)
         dialog.setContentView(R.layout.dialog_box_spendings)
@@ -84,7 +83,7 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
         dialog.window?.setBackgroundDrawable(getDrawable(R.drawable.dialog_box_spendings_bg))
         dialog.setCancelable(false)
 
-        val btnCloseDialog = dialog.findViewById<Button>(R.id.btnCloseDialog)
+        val btnCloseDialog = dialog.findViewById<Button>(R.id.btnCloseDialogSpendings)
         btnCloseDialog.setOnClickListener {
             dialog.dismiss()
         }
