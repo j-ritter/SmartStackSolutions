@@ -26,7 +26,7 @@ public class MyAdapterSpendings extends RecyclerView.Adapter<MyAdapterSpendings.
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(context).inflate(R.layout.items, parent, false);
+        View v = LayoutInflater.from(context).inflate(R.layout.items_spendings, parent, false);
         return new MyViewHolder(v, onSpendingClickListener);
     }
 

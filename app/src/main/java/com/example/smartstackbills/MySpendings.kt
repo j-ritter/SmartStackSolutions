@@ -76,6 +76,7 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
         findViewById<Button>(R.id.btnEssential).setOnClickListener { filterSpendings("essential") }
         findViewById<Button>(R.id.btnNonEssential).setOnClickListener { filterSpendings("non-essential") }
     }
+
     private fun setupDialog() {
         dialog = Dialog(this)
         dialog.setContentView(R.layout.dialog_box_spendings)
@@ -134,14 +135,14 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
     }
 
     private fun showSpendingDetailsDialog(spending: Spendings) {
-        val edtTitleDialog = dialog.findViewById<EditText>(R.id.edtTitleDialog)
-        val edtAmountDialog = dialog.findViewById<EditText>(R.id.edtAmountDialog)
-        val edtCategoryDialog = dialog.findViewById<EditText>(R.id.edtCategoryDialog)
-        val edtSubcategoryDialog = dialog.findViewById<EditText>(R.id.edtSubcategoryDialog)
-        val edtVendorDialog = dialog.findViewById<EditText>(R.id.edtVendorDialog)
-        val edtDateDialog = dialog.findViewById<EditText>(R.id.edtDateDialog)
-        val edtCommentDialog = dialog.findViewById<EditText>(R.id.edtCommentDialog)
-        val edtAttachmentDialog = dialog.findViewById<ImageView>(R.id.edtAttachmentDialog)
+        val edtTitleDialog = dialog.findViewById<EditText>(R.id.edtTitleDialogSpendings)
+        val edtAmountDialog = dialog.findViewById<EditText>(R.id.edtAmountDialogSpendings)
+        val edtCategoryDialog = dialog.findViewById<EditText>(R.id.edtCategoryDialogSpendings)
+        val edtSubcategoryDialog = dialog.findViewById<EditText>(R.id.edtSubcategoryDialogSpendings)
+        val edtVendorDialog = dialog.findViewById<EditText>(R.id.edtVendorDialogSpendings)
+        val edtDateDialog = dialog.findViewById<EditText>(R.id.edtDateDialogSpendings)
+        val edtCommentDialog = dialog.findViewById<EditText>(R.id.edtCommentDialogSpendings)
+        val edtAttachmentDialog = dialog.findViewById<ImageView>(R.id.edtAttachmentDialogSpendings)
         val attachmentUri = spending.attachment
 
         if (attachmentUri != null) {

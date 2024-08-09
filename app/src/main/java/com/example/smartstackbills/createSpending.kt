@@ -327,7 +327,7 @@ class createSpending : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        val txtImageAdded = findViewById<TextView>(R.id.txtImageAdded)
+        val txtImageAdded = findViewById<TextView>(R.id.txtImageAddedSpending)
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 REQUEST_IMAGE_CAPTURE -> {
