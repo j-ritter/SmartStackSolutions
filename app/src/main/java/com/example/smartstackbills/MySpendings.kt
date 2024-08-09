@@ -15,6 +15,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -66,6 +67,24 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
             val intent = Intent(this, createSpending::class.java)
             intent.putExtra("USER_EMAIL", userEmail)
             startActivity(intent)
+        }
+        val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationView)
+        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.Bills -> {
+                    val intent = Intent(this, MyBills::class.java)
+                    intent.putExtra("USER_EMAIL", userEmail) // Pasar el correo electrónico
+                    startActivity(intent)
+                    true
+                }
+                R.id.Spendings -> {
+                    val intent = Intent(this, MySpendings::class.java)
+                    intent.putExtra("USER_EMAIL", userEmail) // Pasar el correo electrónico
+                    startActivity(intent)
+                    true
+                }
+                else -> false
+            }
         }
 
         db = FirebaseFirestore.getInstance()

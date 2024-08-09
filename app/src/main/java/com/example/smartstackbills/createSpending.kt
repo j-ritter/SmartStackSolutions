@@ -233,7 +233,7 @@ class createSpending : AppCompatActivity() {
         spinnerCategories.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val selectedCategory = parent?.getItemAtPosition(position).toString()
-                loadVendors(selectedCategory)
+
 
                 val subcategories = subcategoriesMap[selectedCategory] ?: emptyArray()
                 val arrayAdapterSubcategories = ArrayAdapter(this@createSpending, android.R.layout.simple_spinner_dropdown_item, subcategories)
@@ -364,8 +364,7 @@ class createSpending : AppCompatActivity() {
                 val edtCustomVendor = findViewById<EditText>(R.id.edtCustomVendorSpending)
                 val spendingVendor = if (spinnerVendors.selectedItem.toString() == "Create Own Vendor") {
                     val newVendor = edtCustomVendor.text.toString()
-                    loadVendors(spendingCategory)  // Call loadVendors to update the list after adding new vendor
-                    updateVendorsList(spendingCategory, newVendor)
+
                     newVendor
                 } else {
                     spinnerVendors.selectedItem.toString()
@@ -440,32 +439,8 @@ class createSpending : AppCompatActivity() {
         return true
     }
 
-    private fun updateVendorsList(category: String, newVendor: String) {
-        val categoryVendorsRef = db.collection("categories").document(category)
-        categoryVendorsRef.update("vendors", FieldValue.arrayUnion(newVendor))
-            .addOnSuccessListener {
-                // Successfully added the new vendor to the list in Firebase
-            }
-            .addOnFailureListener { e ->
-                Toast.makeText(this, "Error adding vendor: ${e.message}", Toast.LENGTH_SHORT).show()
-            }
-    }
 
-    private fun loadVendors(category: String) {
-        val categoryVendorsRef = db.collection("categories").document(category)
-        categoryVendorsRef.get()
-            .addOnSuccessListener { document ->
-                if (document != null && document.exists()) {
-                    val vendors = document.get("vendors") as? List<String> ?: emptyList()
-                    val arrayAdapterVendors = ArrayAdapter(this@createSpending, android.R.layout.simple_spinner_dropdown_item, vendors + "Create Own Vendor")
-                    val spinnerVendors = findViewById<Spinner>(R.id.spinnerVendorsSpending)
-                    spinnerVendors.adapter = arrayAdapterVendors
-                }
-            }
-            .addOnFailureListener { e ->
-                Toast.makeText(this, "Error loading vendors: ${e.message}", Toast.LENGTH_SHORT).show()
-            }
-    }
+
 
 
     @Throws(IOException::class)
