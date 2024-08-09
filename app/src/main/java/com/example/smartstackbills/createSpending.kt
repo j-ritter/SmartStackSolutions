@@ -40,83 +40,142 @@ class createSpending : AppCompatActivity() {
         "Transportation", "Finances/Fees", "Taxes", "Health", "Education", "Shopping & Consumption", "Others"
     )
 
+    // Subcategory definitions without "Essential" or "Non-essential" labels
     val subcategoriesMap = mapOf(
         "Accommodation" to arrayOf(
-            "Rent" to "Essential",
-            "Mortgage" to "Essential",
-            "Home maintenance" to "Essential",
-            "Utilities" to "Essential",
-            "Furniture" to "Non-essential",
-            "Repairs and renovations" to "Non-essential"
+            "Rent",
+            "Mortgage",
+            "Home maintenance",
+            "Utilities",
+            "Furniture",
+            "Repairs and renovations"
         ),
         "Communication" to arrayOf(
-            "Mobile phone" to "Essential",
-            "Landline phone" to "Essential",
-            "Internet" to "Essential",
-            "Cable/satellite TV" to "Non-essential",
-            "Messaging services" to "Non-essential"
+            "Mobile phone",
+            "Landline phone",
+            "Internet",
+            "Cable/satellite TV",
+            "Messaging services"
         ),
         "Insurance" to arrayOf(
-            "Health insurance" to "Essential",
-            "Life insurance" to "Essential",
-            "Car insurance" to "Essential",
-            "Home insurance" to "Essential",
-            "Travel insurance" to "Non-essential",
-            "Pet insurance" to "Non-essential"
+            "Health insurance",
+            "Life insurance",
+            "Car insurance",
+            "Home insurance",
+            "Travel insurance",
+            "Pet insurance"
         ),
         "Subscription and Memberships" to arrayOf(
-            "Magazine/newspaper subscriptions" to "Non-essential",
-            "Streaming services" to "Non-essential",
-            "Gym memberships" to "Non-essential",
-            "Software subscriptions" to "Non-essential",
-            "Clubs and associations" to "Non-essential"
+            "Magazine/newspaper subscriptions",
+            "Streaming services",
+            "Gym memberships",
+            "Software subscriptions",
+            "Clubs and associations"
         ),
         "Transportation" to arrayOf(
-            "Fuel" to "Essential",
-            "Vehicle maintenance" to "Essential",
-            "Public transportation" to "Essential",
-            "Parking" to "Non-essential",
-            "Vehicle rental" to "Non-essential"
+            "Fuel",
+            "Vehicle maintenance",
+            "Public transportation",
+            "Parking",
+            "Vehicle rental"
         ),
         "Finances/Fees" to arrayOf(
-            "Bank fees" to "Essential",
-            "Investment fees" to "Non-essential",
-            "Loan interest" to "Essential",
-            "Credit card fees" to "Essential",
-            "Brokerage fees" to "Non-essential"
+            "Bank fees",
+            "Investment fees",
+            "Loan interest",
+            "Credit card fees",
+            "Brokerage fees"
         ),
         "Taxes" to arrayOf(
-            "Income tax" to "Essential",
-            "Property tax" to "Essential",
-            "Sales tax" to "Essential",
-            "Self-employment tax" to "Essential",
-            "Capital gains tax" to "Essential"
+            "Income tax",
+            "Property tax",
+            "Sales tax",
+            "Self-employment tax",
+            "Capital gains tax"
         ),
         "Health" to arrayOf(
-            "Doctor visits" to "Essential",
-            "Dental care" to "Essential",
-            "Prescription medications" to "Essential",
-            "Health supplements" to "Non-essential",
-            "Medical equipment" to "Essential"
+            "Doctor visits",
+            "Dental care",
+            "Prescription medications",
+            "Health supplements",
+            "Medical equipment"
         ),
         "Education" to arrayOf(
-            "Tuition fees" to "Essential",
-            "Textbooks" to "Essential",
-            "Online courses" to "Non-essential",
-            "School supplies" to "Essential",
-            "Extracurricular activities" to "Non-essential"
+            "Tuition fees",
+            "Textbooks",
+            "Online courses",
+            "School supplies",
+            "Extracurricular activities"
         ),
         "Shopping & Consumption" to arrayOf(
-            "Groceries" to "Essential",
-            "Clothing" to "Essential",
-            "Electronics" to "Non-essential",
-            "Household goods" to "Essential",
-            "Personal care products" to "Essential"
+            "Groceries",
+            "Clothing",
+            "Electronics",
+            "Household goods",
+            "Personal care products"
         ),
         "Others" to arrayOf(
-            "Others" to "Non-essential"
+            "Others"
         )
     )
+
+    // Separate map for filtering purposes in MySpendings
+    val subcategoryFilterMap = mapOf(
+        "Rent" to "Essential",
+        "Mortgage" to "Essential",
+        "Home maintenance" to "Essential",
+        "Utilities" to "Essential",
+        "Furniture" to "Non-essential",
+        "Repairs and renovations" to "Non-essential",
+        "Mobile phone" to "Essential",
+        "Landline phone" to "Essential",
+        "Internet" to "Essential",
+        "Cable/satellite TV" to "Non-essential",
+        "Messaging services" to "Non-essential",
+        "Health insurance" to "Essential",
+        "Life insurance" to "Essential",
+        "Car insurance" to "Essential",
+        "Home insurance" to "Essential",
+        "Travel insurance" to "Non-essential",
+        "Pet insurance" to "Non-essential",
+        "Magazine/newspaper subscriptions" to "Non-essential",
+        "Streaming services" to "Non-essential",
+        "Gym memberships" to "Non-essential",
+        "Software subscriptions" to "Non-essential",
+        "Clubs and associations" to "Non-essential",
+        "Fuel" to "Essential",
+        "Vehicle maintenance" to "Essential",
+        "Public transportation" to "Essential",
+        "Parking" to "Non-essential",
+        "Vehicle rental" to "Non-essential",
+        "Bank fees" to "Essential",
+        "Investment fees" to "Non-essential",
+        "Loan interest" to "Essential",
+        "Credit card fees" to "Essential",
+        "Brokerage fees" to "Non-essential",
+        "Income tax" to "Essential",
+        "Property tax" to "Essential",
+        "Sales tax" to "Essential",
+        "Self-employment tax" to "Essential",
+        "Capital gains tax" to "Essential",
+        "Doctor visits" to "Essential",
+        "Dental care" to "Essential",
+        "Prescription medications" to "Essential",
+        "Health supplements" to "Non-essential",
+        "Medical equipment" to "Essential",
+        "Tuition fees" to "Essential",
+        "Textbooks" to "Essential",
+        "Online courses" to "Non-essential",
+        "School supplies" to "Essential",
+        "Extracurricular activities" to "Non-essential",
+        "Groceries" to "Essential",
+        "Clothing" to "Essential",
+        "Electronics" to "Non-essential",
+        "Household goods" to "Essential",
+        "Personal care products" to "Essential",
+        "Others" to "Non-essential"
+    )
+
 
     val vendorsMap = mapOf(
         "Accommodation" to arrayOf(
@@ -438,10 +497,6 @@ class createSpending : AppCompatActivity() {
 
         return true
     }
-
-
-
-
 
     @Throws(IOException::class)
     private fun createImageFile(): File {
