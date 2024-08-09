@@ -40,7 +40,7 @@
     <EditText
         android:id="@+id/edtTitleSpending"
         android:layout_width="0dp"
-        android:layout_height="36dp"
+        android:layout_height="48dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/rounded_frame_background"
         android:hint="@string/write_your_title"
@@ -69,7 +69,7 @@
     <Spinner
         android:id="@+id/spinnerCategoriesSpending"
         android:layout_width="0dp"
-        android:layout_height="36dp"
+        android:layout_height="48dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/rounded_frame_background"
         app:layout_constraintTop_toBottomOf="@+id/txtCategorySpending"
@@ -91,7 +91,7 @@
     <Spinner
         android:id="@+id/spinnerSubcategoriesSpending"
         android:layout_width="0dp"
-        android:layout_height="36dp"
+        android:layout_height="48dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/rounded_frame_background"
         app:layout_constraintTop_toBottomOf="@+id/txtSubcategorySpending"
@@ -113,7 +113,7 @@
     <Spinner
         android:id="@+id/spinnerVendorsSpending"
         android:layout_width="0dp"
-        android:layout_height="36dp"
+        android:layout_height="48dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/rounded_frame_background"
         app:layout_constraintTop_toBottomOf="@+id/txtVendorSpending"
@@ -148,7 +148,7 @@
     <EditText
         android:id="@+id/edtAmountSpending"
         android:layout_width="0dp"
-        android:layout_height="36dp"
+        android:layout_height="48dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/rounded_frame_background"
         android:hint="@string/amount"
@@ -176,7 +176,7 @@
     <EditText
         android:id="@+id/edtDateSpending"
         android:layout_width="0dp"
-        android:layout_height="36dp"
+        android:layout_height="48dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/rounded_frame_background"
         android:hint="@string/purchase_date"
@@ -204,7 +204,7 @@
     <EditText
         android:id="@+id/edtCommentSpending"
         android:layout_width="0dp"
-        android:layout_height="36dp"
+        android:layout_height="48dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/rounded_frame_background"
         android:hint="@string/write_your_comments"
@@ -232,12 +232,12 @@
 
     <Button
         android:id="@+id/btnUploadImageSpending"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="36dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="4dp"
-        android:background="@drawable/rounded_frame_background"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="0dp"
         android:text="@string/Upload"
+        android:background="@drawable/rounded_frame_background"
         app:layout_constraintStart_toEndOf="@+id/txtAttachmentSpending"
         app:layout_constraintTop_toTopOf="@+id/txtAttachmentSpending" />
 
@@ -260,7 +260,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/btnlog"
         android:text="@string/cancel"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -273,7 +273,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/btnlogin"
         android:text="@string/save"
         android:textColor="@color/white"
