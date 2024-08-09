@@ -19,7 +19,7 @@
             android:layout_height="59dp"
             app:menu="@menu/top_nav"
             app:navigationIcon="@drawable/ic_menu"
-            app:title="SmartStackBills"
+            app:title="Spendings"
             app:titleCentered="true"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
