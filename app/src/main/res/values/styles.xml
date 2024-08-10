@@ -1,0 +1,7 @@
+<resources>
+
+    <!-- Custom style for Spinner items -->
+    <style name="SpinnerTextAppearance" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">18sp</item>
+    </style>
+</resources>

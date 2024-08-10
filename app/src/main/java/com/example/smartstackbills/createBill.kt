@@ -166,11 +166,14 @@ class createBill : AppCompatActivity() {
         val spinnerReminder = findViewById<Spinner>(R.id.spinnerRepeat)
         val saveButton = findViewById<Button>(R.id.btnGuardar)
 
-        val arrayAdapterCategories = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, categories)
-        val arrayAdapterRepeat = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, repeat)
-
+        val arrayAdapterCategories = ArrayAdapter(this, R.layout.spinner_item, categories)
+        arrayAdapterCategories.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerCategories.adapter = arrayAdapterCategories
+
+        val arrayAdapterRepeat = ArrayAdapter(this, R.layout.spinner_item, repeat)
+        arrayAdapterRepeat.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerReminder.adapter = arrayAdapterRepeat
+
 
         spinnerCategories.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {

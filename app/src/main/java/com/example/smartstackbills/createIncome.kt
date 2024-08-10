@@ -56,10 +56,13 @@ class createIncome : AppCompatActivity() {
         val spinnerRepeat = findViewById<Spinner>(R.id.spinnerRepeatIncome)
         val saveButton = findViewById<Button>(R.id.btnSaveIncome)
 
-        val arrayAdapterCategories = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, categories)
-        val arrayAdapterRepeat = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, repeatOptions)
-
+        // Set up ArrayAdapter for Spinners to match TextView textSize and style
+        val arrayAdapterCategories = ArrayAdapter(this, R.layout.spinner_item, categories)
+        arrayAdapterCategories.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerCategories.adapter = arrayAdapterCategories
+
+        val arrayAdapterRepeat = ArrayAdapter(this, R.layout.spinner_item, repeatOptions)
+        arrayAdapterRepeat.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerRepeat.adapter = arrayAdapterRepeat
 
         spinnerCategories.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {

@@ -1,5 +1,6 @@
 package com.example.smartstackbills
 
+import android.R.layout.simple_spinner_dropdown_item
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -34,90 +35,6 @@ class createSpending : AppCompatActivity() {
     private var imageUri: Uri? = null
     private var currentPhotoPath: String? = null
 
-
-    val categories = arrayOf(
-        "Accommodation", "Communication", "Insurance", "Subscription and Memberships",
-        "Transportation", "Finances/Fees", "Taxes", "Health", "Education", "Shopping & Consumption", "Others"
-    )
-
-    // Subcategory definitions without "Essential" or "Non-essential" labels
-    val subcategoriesMap = mapOf(
-        "Accommodation" to arrayOf(
-            "Rent",
-            "Mortgage",
-            "Home maintenance",
-            "Utilities",
-            "Furniture",
-            "Repairs and renovations"
-        ),
-        "Communication" to arrayOf(
-            "Mobile phone",
-            "Landline phone",
-            "Internet",
-            "Cable/satellite TV",
-            "Messaging services"
-        ),
-        "Insurance" to arrayOf(
-            "Health insurance",
-            "Life insurance",
-            "Car insurance",
-            "Home insurance",
-            "Travel insurance",
-            "Pet insurance"
-        ),
-        "Subscription and Memberships" to arrayOf(
-            "Magazine/newspaper subscriptions",
-            "Streaming services",
-            "Gym memberships",
-            "Software subscriptions",
-            "Clubs and associations"
-        ),
-        "Transportation" to arrayOf(
-            "Fuel",
-            "Vehicle maintenance",
-            "Public transportation",
-            "Parking",
-            "Vehicle rental"
-        ),
-        "Finances/Fees" to arrayOf(
-            "Bank fees",
-            "Investment fees",
-            "Loan interest",
-            "Credit card fees",
-            "Brokerage fees"
-        ),
-        "Taxes" to arrayOf(
-            "Income tax",
-            "Property tax",
-            "Sales tax",
-            "Self-employment tax",
-            "Capital gains tax"
-        ),
-        "Health" to arrayOf(
-            "Doctor visits",
-            "Dental care",
-            "Prescription medications",
-            "Health supplements",
-            "Medical equipment"
-        ),
-        "Education" to arrayOf(
-            "Tuition fees",
-            "Textbooks",
-            "Online courses",
-            "School supplies",
-            "Extracurricular activities"
-        ),
-        "Shopping & Consumption" to arrayOf(
-            "Groceries",
-            "Clothing",
-            "Electronics",
-            "Household goods",
-            "Personal care products"
-        ),
-        "Others" to arrayOf(
-            "Others"
-        )
-    )
 
     // Separate map for filtering purposes in MySpendings
     val subcategoryFilterMap = mapOf(
@@ -283,23 +200,38 @@ class createSpending : AppCompatActivity() {
 
         val saveButton = findViewById<Button>(R.id.btnSaveSpending)
 
-        val arrayAdapterCategories = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, categories)
-
-
+        // Reference the array from arrays.xml
+        val arrayAdapterCategories = ArrayAdapter.createFromResource(
+            this, R.array.shared_categories, simple_spinner_dropdown_item
+        )
         spinnerCategories.adapter = arrayAdapterCategories
 
 
         spinnerCategories.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val selectedCategory = parent?.getItemAtPosition(position).toString()
+                // Load the corresponding subcategories array based on the selected category
+                val subcategoriesArrayId = when (selectedCategory) {
+                    "Accommodation" -> R.array.accommodation_subcategories
+                    "Communication" -> R.array.communication_subcategories
+                    "Insurance" -> R.array.insurance_subcategories
+                    "Subscription and Memberships" -> R.array.subscription_memberships_subcategories
+                    "Transportation" -> R.array.transportation_subcategories
+                    "Finances/Fees" -> R.array.finances_fees_subcategories
+                    "Taxes" -> R.array.taxes_subcategories
+                    "Health" -> R.array.health_subcategories
+                    "Education" -> R.array.education_subcategories
+                    "Shopping & Consumption" -> R.array.shopping_consumption_subcategories
+                    else -> R.array.others_subcategories
+                }
 
-
-                val subcategories = subcategoriesMap[selectedCategory] ?: emptyArray()
-                val arrayAdapterSubcategories = ArrayAdapter(this@createSpending, android.R.layout.simple_spinner_dropdown_item, subcategories)
+                val arrayAdapterSubcategories = ArrayAdapter.createFromResource(
+                    this@createSpending, subcategoriesArrayId, android.R.layout.simple_spinner_dropdown_item
+                )
                 spinnerSubcategories.adapter = arrayAdapterSubcategories
 
                 val vendors = vendorsMap[selectedCategory] ?: emptyArray()
-                val arrayAdapterVendors = ArrayAdapter(this@createSpending, android.R.layout.simple_spinner_dropdown_item, vendors + "Create Own Vendor")
+                val arrayAdapterVendors = ArrayAdapter(this@createSpending, simple_spinner_dropdown_item, vendors + "Create Own Vendor")
                 spinnerVendors.adapter = arrayAdapterVendors
             }
 
