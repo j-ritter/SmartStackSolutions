@@ -37,17 +37,20 @@
     <string name="Attachment">Attachment</string>
     <string name="create_new_bill">Create new Bill</string>
     <string name="create_new_spending">Create new Spending</string>
+    <string name="create_new_income">Create new Income</string>
     <string name="purchase_date">Purchase date</string>
     <string name="Date">Date</string>
     <string name="comments">Comments</string>
     <string name="comment">Comment</string>
     <string name="commentts">Comments:</string>
-    <string name="purchase_Date">Purchase date:</string>
+    <string name="purchase_Date">Date of Purchase:</string>
+    <string name="income_date">Date of Income:</string>
     <string name="pAid">Paid:</string>
     <string name="aMount">Amount:</string>
     <string name="vEndor">Vendor:</string>
     <string name="CaTegory">Category:</string>
     <string name="TiTle">Title:</string>
+    <string name="repeat">Repeat</string>
     <string name="purchase_datee">Purchase date</string>
     <string name="details">Details</string>
     <string name="Upload">Upload</string>
@@ -55,4 +58,5 @@
     <string name="categorydbx">Category</string>
     <string name="essential">Essential</string>
     <string name="non_essential">Non-Essential</string>
+    <string name="one_time">One-time</string>
 </resources>

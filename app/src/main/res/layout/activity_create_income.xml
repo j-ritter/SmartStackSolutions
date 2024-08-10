@@ -5,8 +5,8 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_blue1"
-    tools:context=".createSpending">
+    android:background="@drawable/background_yellow"
+    tools:context=".createIncome">
 
     <!-- Vertical Guideline -->
     <androidx.constraintlayout.widget.Guideline
@@ -29,20 +29,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/create_new_spending"
+        android:text="@string/create_new_income"
         android:textStyle="bold"
         android:textSize="24sp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Spending Title -->
+    <!-- Income Title -->
     <EditText
-        android:id="@+id/edtTitleSpending"
+        android:id="@+id/edtTitleIncome"
         android:layout_width="0dp"
-        android:layout_height="48dp"
+        android:layout_height="36dp"
         android:layout_marginTop="16dp"
-        android:background="@drawable/rounded_frame_background"
+        android:background="@drawable/rounded_frame_background_blue"
         android:hint="@string/write_your_title"
         android:inputType="text"
         android:maxLength="30"
@@ -56,157 +56,144 @@
 
     <!-- Category -->
     <TextView
-        android:id="@+id/txtCategorySpending"
+        android:id="@+id/txtCategoryIncome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/category"
         android:textStyle="bold"
         android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@+id/edtTitleSpending"
+        app:layout_constraintTop_toBottomOf="@+id/edtTitleIncome"
         app:layout_constraintStart_toStartOf="@+id/guidelineStart" />
 
     <Spinner
-        android:id="@+id/spinnerCategoriesSpending"
+        android:id="@+id/spinnerCategoriesIncome"
         android:layout_width="0dp"
-        android:layout_height="48dp"
+        android:layout_height="36dp"
         android:layout_marginTop="8dp"
-        android:background="@drawable/rounded_frame_background"
-        app:layout_constraintTop_toBottomOf="@+id/txtCategorySpending"
+        android:background="@drawable/rounded_frame_background_blue"
+        app:layout_constraintTop_toBottomOf="@+id/txtCategoryIncome"
         app:layout_constraintStart_toStartOf="@+id/guidelineStart"
         app:layout_constraintEnd_toEndOf="@+id/guidelineEnd" />
 
     <!-- Subcategory -->
     <TextView
-        android:id="@+id/txtSubcategorySpending"
+        android:id="@+id/txtSubcategoryIncome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Subcategory"
         android:textStyle="bold"
         android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerCategoriesSpending"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerCategoriesIncome"
         app:layout_constraintStart_toStartOf="@+id/guidelineStart" />
 
     <Spinner
-        android:id="@+id/spinnerSubcategoriesSpending"
+        android:id="@+id/spinnerSubcategoriesIncome"
         android:layout_width="0dp"
-        android:layout_height="48dp"
+        android:layout_height="36dp"
         android:layout_marginTop="8dp"
-        android:background="@drawable/rounded_frame_background"
-        app:layout_constraintTop_toBottomOf="@+id/txtSubcategorySpending"
-        app:layout_constraintStart_toStartOf="@+id/guidelineStart"
-        app:layout_constraintEnd_toEndOf="@+id/guidelineEnd" />
-
-    <!-- Vendor -->
-    <TextView
-        android:id="@+id/txtVendorSpending"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/vendor"
-        android:textStyle="bold"
-        android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerSubcategoriesSpending"
-        app:layout_constraintStart_toStartOf="@+id/guidelineStart" />
-
-    <Spinner
-        android:id="@+id/spinnerVendorsSpending"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/rounded_frame_background"
-        app:layout_constraintTop_toBottomOf="@+id/txtVendorSpending"
-        app:layout_constraintStart_toStartOf="@+id/guidelineStart"
-        app:layout_constraintEnd_toEndOf="@+id/guidelineEnd" />
-
-    <!-- Custom Vendor -->
-    <EditText
-        android:id="@+id/edtCustomVendorSpending"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:hint="Enter custom vendor"
-        android:visibility="gone"
-        android:background="@drawable/rounded_frame_background"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerVendorsSpending"
+        android:background="@drawable/rounded_frame_background_blue"
+        app:layout_constraintTop_toBottomOf="@+id/txtSubcategoryIncome"
         app:layout_constraintStart_toStartOf="@+id/guidelineStart"
         app:layout_constraintEnd_toEndOf="@+id/guidelineEnd" />
 
     <!-- Amount -->
     <TextView
-        android:id="@+id/txtAmountSpending"
+        android:id="@+id/txtAmountIncome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/amount"
         android:textStyle="bold"
         android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@+id/edtCustomVendorSpending"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerSubcategoriesIncome"
         app:layout_constraintStart_toStartOf="@+id/guidelineStart" />
 
     <EditText
-        android:id="@+id/edtAmountSpending"
+        android:id="@+id/edtAmountIncome"
         android:layout_width="0dp"
-        android:layout_height="48dp"
+        android:layout_height="36dp"
         android:layout_marginTop="8dp"
-        android:background="@drawable/rounded_frame_background"
+        android:background="@drawable/rounded_frame_background_blue"
         android:hint="@string/amount"
         android:inputType="numberDecimal"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:textColorHint="#A5A5A5"
         android:textSize="15sp"
-        app:layout_constraintTop_toBottomOf="@+id/txtAmountSpending"
+        app:layout_constraintTop_toBottomOf="@+id/txtAmountIncome"
         app:layout_constraintStart_toStartOf="@+id/guidelineStart"
         app:layout_constraintEnd_toEndOf="@+id/guidelineEnd" />
 
     <!-- Date -->
     <TextView
-        android:id="@+id/txtDateSpending"
+        android:id="@+id/txtDateIncome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/Date"
         android:textStyle="bold"
         android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@+id/edtAmountSpending"
+        app:layout_constraintTop_toBottomOf="@+id/edtAmountIncome"
         app:layout_constraintStart_toStartOf="@+id/guidelineStart" />
 
     <EditText
-        android:id="@+id/edtDateSpending"
+        android:id="@+id/edtDateIncome"
         android:layout_width="0dp"
-        android:layout_height="48dp"
+        android:layout_height="36dp"
         android:layout_marginTop="8dp"
-        android:background="@drawable/rounded_frame_background"
-        android:hint="@string/purchase_date"
+        android:background="@drawable/rounded_frame_background_blue"
+        android:hint="@string/income_date"
         android:inputType="text"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:textColorHint="#A5A5A5"
         android:textSize="15sp"
-        app:layout_constraintTop_toBottomOf="@+id/txtDateSpending"
+        app:layout_constraintTop_toBottomOf="@+id/txtDateIncome"
+        app:layout_constraintStart_toStartOf="@+id/guidelineStart"
+        app:layout_constraintEnd_toEndOf="@+id/guidelineEnd" />
+
+    <!-- Repeat -->
+    <TextView
+        android:id="@+id/txtRepeatIncome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/repeat"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@+id/edtDateIncome"
+        app:layout_constraintStart_toStartOf="@+id/guidelineStart" />
+
+    <Spinner
+        android:id="@+id/spinnerRepeatIncome"
+        android:layout_width="0dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/rounded_frame_background_blue"
+        app:layout_constraintTop_toBottomOf="@+id/txtRepeatIncome"
         app:layout_constraintStart_toStartOf="@+id/guidelineStart"
         app:layout_constraintEnd_toEndOf="@+id/guidelineEnd" />
 
     <!-- Comment -->
     <TextView
-        android:id="@+id/txtCommentSpending"
+        android:id="@+id/txtCommentIncome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/comment"
         android:textStyle="bold"
         android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@+id/edtDateSpending"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerRepeatIncome"
         app:layout_constraintStart_toStartOf="@+id/guidelineStart" />
 
     <EditText
-        android:id="@+id/edtCommentSpending"
+        android:id="@+id/edtCommentIncome"
         android:layout_width="0dp"
-        android:layout_height="48dp"
+        android:layout_height="36dp"
         android:layout_marginTop="8dp"
-        android:background="@drawable/rounded_frame_background"
+        android:background="@drawable/rounded_frame_background_blue"
         android:hint="@string/write_your_comments"
         android:inputType="text"
         android:maxLength="30"
@@ -214,48 +201,13 @@
         android:paddingRight="15dp"
         android:textColorHint="#A5A5A5"
         android:textSize="15sp"
-        app:layout_constraintTop_toBottomOf="@+id/txtCommentSpending"
+        app:layout_constraintTop_toBottomOf="@+id/txtCommentIncome"
         app:layout_constraintStart_toStartOf="@+id/guidelineStart"
         app:layout_constraintEnd_toEndOf="@+id/guidelineEnd" />
 
-    <!-- Attachment and Upload Button -->
-    <TextView
-        android:id="@+id/txtAttachmentSpending"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/Attachment"
-        android:textStyle="bold"
-        android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@+id/edtCommentSpending"
-        app:layout_constraintStart_toStartOf="@+id/guidelineStart" />
-
-    <Button
-        android:id="@+id/btnUploadImageSpending"
-        android:layout_width="wrap_content"
-        android:layout_height="36dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="0dp"
-        android:text="@string/Upload"
-        android:background="@drawable/rounded_frame_background"
-        app:layout_constraintStart_toEndOf="@+id/txtAttachmentSpending"
-        app:layout_constraintTop_toTopOf="@+id/txtAttachmentSpending" />
-
-    <TextView
-        android:id="@+id/txtImageAddedSpending"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Image added"
-        android:textStyle="bold"
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@+id/btnUploadImageSpending"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
     <!-- Buttons -->
     <Button
-        android:id="@+id/btnCancelSpending"
+        android:id="@+id/btnCancelIncome"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -264,11 +216,11 @@
         android:background="@drawable/btnlog"
         android:text="@string/cancel"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnSaveSpending"
+        app:layout_constraintEnd_toStartOf="@+id/btnSaveIncome"
         app:layout_constraintStart_toStartOf="@+id/guidelineStart" />
 
     <Button
-        android:id="@+id/btnSaveSpending"
+        android:id="@+id/btnSaveIncome"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -278,7 +230,7 @@
         android:text="@string/save"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnCancelSpending"
+        app:layout_constraintStart_toEndOf="@+id/btnCancelIncome"
         app:layout_constraintEnd_toEndOf="@+id/guidelineEnd" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

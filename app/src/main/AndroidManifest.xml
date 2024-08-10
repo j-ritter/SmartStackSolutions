@@ -20,6 +20,12 @@
         android:theme="@style/Theme.SmartStackBills"
         tools:targetApi="31">
         <activity
+            android:name=".createIncome"
+            android:exported="false" />
+        <activity
+            android:name=".MyIncome"
+            android:exported="false" />
+        <activity
             android:name=".createSpending"
             android:exported="false" />
         <activity
