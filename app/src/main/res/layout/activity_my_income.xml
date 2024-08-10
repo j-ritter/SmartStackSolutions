@@ -27,7 +27,7 @@
 
         <!-- Recurring Button -->
         <Button
-            android:id="@+id/btnRecurring"
+            android:id="@+id/btnRecurringIncome"
             style="?attr/materialButtonOutlinedStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -35,19 +35,19 @@
             android:textSize="10sp"
             app:layout_constraintTop_toBottomOf="@+id/materialToolbar"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/btnOneTime"
+            app:layout_constraintEnd_toStartOf="@+id/btnOneTimeIncome"
             app:layout_constraintHorizontal_chainStyle="packed" />
 
         <!-- One-time Button -->
         <Button
-            android:id="@+id/btnOneTime"
+            android:id="@+id/btnOneTimeIncome"
             style="?attr/materialButtonOutlinedStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/one_time"
             android:textSize="10sp"
             app:layout_constraintTop_toBottomOf="@+id/materialToolbar"
-            app:layout_constraintStart_toEndOf="@+id/btnRecurring"
+            app:layout_constraintStart_toEndOf="@+id/btnRecurringIncome"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_chainStyle="packed" />
 
@@ -69,7 +69,7 @@
             android:id="@+id/recyclerView"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@+id/btnRecurring"
+            app:layout_constraintTop_toBottomOf="@+id/btnRecurringIncome"
             app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />

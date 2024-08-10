@@ -50,7 +50,7 @@
                     android:textColor="@android:color/black" />
 
                 <EditText
-                    android:id="@+id/edtTitleDialog"
+                    android:id="@+id/edtTitleDialogIncome"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="false"
@@ -69,7 +69,7 @@
                     android:textColor="@android:color/black" />
 
                 <EditText
-                    android:id="@+id/edtCategoryDialog"
+                    android:id="@+id/edtCategoryDialogIncome"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="false"
@@ -88,7 +88,7 @@
                     android:textColor="@android:color/black" />
 
                 <EditText
-                    android:id="@+id/edtSubcategoryDialog"
+                    android:id="@+id/edtSubcategoryDialogIncome"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="false"
@@ -107,7 +107,7 @@
                     android:textColor="@android:color/black" />
 
                 <EditText
-                    android:id="@+id/edtAmountDialog"
+                    android:id="@+id/edtAmountDialogIncome"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="false"
@@ -126,7 +126,7 @@
                     android:textColor="@android:color/black" />
 
                 <EditText
-                    android:id="@+id/edtDateDialog"
+                    android:id="@+id/edtDateDialogIncome"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="false"
@@ -145,7 +145,7 @@
                     android:textColor="@android:color/black" />
 
                 <EditText
-                    android:id="@+id/edtRepeatDialog"
+                    android:id="@+id/edtRepeatDialogIncome"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="false"
@@ -164,7 +164,7 @@
                     android:textColor="@android:color/black" />
 
                 <EditText
-                    android:id="@+id/edtCommentDialog"
+                    android:id="@+id/edtCommentDialogIncome"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="false"
@@ -181,7 +181,7 @@
                 android:paddingTop="8dp">
 
                 <Button
-                    android:id="@+id/btnCloseDialog"
+                    android:id="@+id/btnCloseDialogIncome"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Close"

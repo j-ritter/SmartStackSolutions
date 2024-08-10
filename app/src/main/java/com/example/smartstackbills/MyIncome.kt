@@ -85,8 +85,8 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
         setupDialog()
         setupEventChangeListener()
 
-        findViewById<Button>(R.id.btnRecurring).setOnClickListener { filterIncome("recurring") }
-        findViewById<Button>(R.id.btnOneTime).setOnClickListener { filterIncome("one-time") }
+        findViewById<Button>(R.id.btnRecurringIncome).setOnClickListener { filterIncome("recurring") }
+        findViewById<Button>(R.id.btnOneTimeIncome).setOnClickListener { filterIncome("one-time") }
     }
 
     private fun setupDialog() {
@@ -96,7 +96,7 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
         dialog.window?.setBackgroundDrawable(getDrawable(R.drawable.dialog_box_income_bg))
         dialog.setCancelable(false)
 
-        val btnCloseDialog = dialog.findViewById<Button>(R.id.btnCloseDialog)
+        val btnCloseDialog = dialog.findViewById<Button>(R.id.btnCloseDialogIncome)
         btnCloseDialog.setOnClickListener {
             dialog.dismiss()
         }
@@ -146,13 +146,13 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
     }
 
     private fun showIncomeDetailsDialog(income: Income) {
-        val edtTitleDialog = dialog.findViewById<EditText>(R.id.edtTitleDialog)
-        val edtAmountDialog = dialog.findViewById<EditText>(R.id.edtAmountDialog)
-        val edtCategoryDialog = dialog.findViewById<EditText>(R.id.edtCategoryDialog)
-        val edtSubcategoryDialog = dialog.findViewById<EditText>(R.id.edtSubcategoryDialog)
-        val edtDateDialog = dialog.findViewById<EditText>(R.id.edtDateDialog)
-        val edtRepeatDialog = dialog.findViewById<EditText>(R.id.edtRepeatDialog)
-        val edtCommentDialog = dialog.findViewById<EditText>(R.id.edtCommentDialog)
+        val edtTitleDialog = dialog.findViewById<EditText>(R.id.edtTitleDialogIncome)
+        val edtAmountDialog = dialog.findViewById<EditText>(R.id.edtAmountDialogIncome)
+        val edtCategoryDialog = dialog.findViewById<EditText>(R.id.edtCategoryDialogIncome)
+        val edtSubcategoryDialog = dialog.findViewById<EditText>(R.id.edtSubcategoryDialogIncome)
+        val edtDateDialog = dialog.findViewById<EditText>(R.id.edtDateDialogIncome)
+        val edtRepeatDialog = dialog.findViewById<EditText>(R.id.edtRepeatDialogIncome)
+        val edtCommentDialog = dialog.findViewById<EditText>(R.id.edtCommentDialogIncome)
 
         edtTitleDialog.setText(income.name)
         edtAmountDialog.setText(income.amount)
