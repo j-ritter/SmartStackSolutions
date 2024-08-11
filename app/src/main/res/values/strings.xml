@@ -48,4 +48,17 @@
     <string name="details">Details</string>
     <string name="titledialog">Title</string>
     <string name="categorydbx">Category</string>
+    <string name="create_new_income" />
+    <string name="Date" />
+    <string name="date">Date</string>
+    <string name="subcategory">Subcategory</string>
+    <string name="income_date" />
+    <string name="repeat" />
+    <string name="comment" />
+    <string name="create_new_spending" />
+    <string name="Attachment" />
+    <string name="Upload" />
+    <string name="essential" />
+    <string name="non_essential" />
+    <string name="one_time" />
 </resources>

@@ -65,6 +65,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             onBillClickListener.onBillClick(getAdapterPosition());
         }
     }
+    public interface OnBillClickListener {
+        void onBillClick(int position);
+    }
 
     // Método para actualizar la lista de facturas
     public void updateBills(ArrayList<Bills> newBills) {
@@ -73,8 +76,5 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         notifyDataSetChanged();
     }
 
-    public interface OnBillClickListener {
-        void onBillClick(int position);
-    }
-}
 
+}

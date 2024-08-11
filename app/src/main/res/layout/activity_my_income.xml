@@ -6,7 +6,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MySpendings">
+    tools:context=".MyIncome">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
@@ -19,36 +19,39 @@
             android:layout_height="59dp"
             app:menu="@menu/top_nav"
             app:navigationIcon="@drawable/ic_menu"
-            app:title="Spendings"
+            app:title="Income"
             app:titleCentered="true"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
+        <!-- Recurring Button -->
         <Button
-            android:id="@+id/btnEssential"
+            android:id="@+id/btnRecurringIncome"
             style="?attr/materialButtonOutlinedStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/essential"
+            android:text="@string/recurring"
             android:textSize="10sp"
             app:layout_constraintTop_toBottomOf="@+id/materialToolbar"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/btnNonEssential"
+            app:layout_constraintEnd_toStartOf="@+id/btnOneTimeIncome"
             app:layout_constraintHorizontal_chainStyle="packed" />
 
+        <!-- One-time Button -->
         <Button
-            android:id="@+id/btnNonEssential"
+            android:id="@+id/btnOneTimeIncome"
             style="?attr/materialButtonOutlinedStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/non_essential"
+            android:text="@string/one_time"
             android:textSize="10sp"
             app:layout_constraintTop_toBottomOf="@+id/materialToolbar"
-            app:layout_constraintStart_toEndOf="@+id/btnEssential"
+            app:layout_constraintStart_toEndOf="@+id/btnRecurringIncome"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_chainStyle="packed" />
 
+        <!-- Bottom Navigation View -->
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomNavigationView"
             android:layout_width="0dp"
@@ -61,17 +64,19 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
+        <!-- RecyclerView -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@+id/btnEssential"
+            app:layout_constraintTop_toBottomOf="@+id/btnRecurringIncome"
             app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
+        <!-- Floating Action Button -->
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fabSpendings"
+            android:id="@+id/fabIncome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_add"
@@ -81,6 +86,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
-            android:contentDescription="@string/create_new_spending"/>
+            android:contentDescription="@string/create_new_income"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

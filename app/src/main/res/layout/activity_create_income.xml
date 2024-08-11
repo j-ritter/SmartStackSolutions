@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_yellow"
+    tools:context=".createIncome">
+
+    <!-- Vertical Guideline -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="32dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineEnd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="32dp" />
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/textViewTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/create_new_income"
+        android:textStyle="bold"
+        android:textSize="24sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Income Title -->
+    <EditText
+        android:id="@+id/edtTitleIncome"
+        android:layout_width="0dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/rounded_frame_background_blue"
+        android:hint="@string/write_your_title"
+        android:inputType="text"
+        android:maxLength="30"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:textColorHint="#A5A5A5"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="@+id/guidelineEnd"
+        app:layout_constraintStart_toStartOf="@+id/guidelineStart"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTitle" />
+
+    <!-- Category -->
+    <TextView
+        android:id="@+id/txtCategoryIncome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/category"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@+id/edtTitleIncome"
+        app:layout_constraintStart_toStartOf="@+id/guidelineStart" />
+
+    <Spinner
+        android:id="@+id/spinnerCategoriesIncome"
+        android:layout_width="0dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/rounded_frame_background_blue"
+        app:layout_constraintTop_toBottomOf="@+id/txtCategoryIncome"
+        app:layout_constraintStart_toStartOf="@+id/guidelineStart"
+        app:layout_constraintEnd_toEndOf="@+id/guidelineEnd" />
+
+    <!-- Subcategory -->
+    <TextView
+        android:id="@+id/txtSubcategoryIncome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/subcategory"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerCategoriesIncome"
+        app:layout_constraintStart_toStartOf="@+id/guidelineStart" />
+
+    <Spinner
+        android:id="@+id/spinnerSubcategoriesIncome"
+        android:layout_width="0dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/rounded_frame_background_blue"
+        app:layout_constraintTop_toBottomOf="@+id/txtSubcategoryIncome"
+        app:layout_constraintStart_toStartOf="@+id/guidelineStart"
+        app:layout_constraintEnd_toEndOf="@+id/guidelineEnd" />
+
+    <!-- Amount -->
+    <TextView
+        android:id="@+id/txtAmountIncome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/amount"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerSubcategoriesIncome"
+        app:layout_constraintStart_toStartOf="@+id/guidelineStart" />
+
+    <EditText
+        android:id="@+id/edtAmountIncome"
+        android:layout_width="0dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/rounded_frame_background_blue"
+        android:hint="@string/amount"
+        android:inputType="numberDecimal"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:textColorHint="#A5A5A5"
+        android:textSize="15sp"
+        app:layout_constraintTop_toBottomOf="@+id/txtAmountIncome"
+        app:layout_constraintStart_toStartOf="@+id/guidelineStart"
+        app:layout_constraintEnd_toEndOf="@+id/guidelineEnd" />
+
+    <!-- Date -->
+    <TextView
+        android:id="@+id/txtDateIncome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/date"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@+id/edtAmountIncome"
+        app:layout_constraintStart_toStartOf="@+id/guidelineStart" />
+
+    <EditText
+        android:id="@+id/edtDateIncome"
+        android:layout_width="0dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/rounded_frame_background_blue"
+        android:hint="@string/income_date"
+        android:inputType="text"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:textColorHint="#A5A5A5"
+        android:textSize="15sp"
+        app:layout_constraintTop_toBottomOf="@+id/txtDateIncome"
+        app:layout_constraintStart_toStartOf="@+id/guidelineStart"
+        app:layout_constraintEnd_toEndOf="@+id/guidelineEnd" />
+
+    <!-- Repeat -->
+    <TextView
+        android:id="@+id/txtRepeatIncome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/repeat"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@+id/edtDateIncome"
+        app:layout_constraintStart_toStartOf="@+id/guidelineStart" />
+
+    <Spinner
+        android:id="@+id/spinnerRepeatIncome"
+        android:layout_width="0dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/rounded_frame_background_blue"
+        app:layout_constraintTop_toBottomOf="@+id/txtRepeatIncome"
+        app:layout_constraintStart_toStartOf="@+id/guidelineStart"
+        app:layout_constraintEnd_toEndOf="@+id/guidelineEnd" />
+
+    <!-- Comment -->
+    <TextView
+        android:id="@+id/txtCommentIncome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/comment"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerRepeatIncome"
+        app:layout_constraintStart_toStartOf="@+id/guidelineStart" />
+
+    <EditText
+        android:id="@+id/edtCommentIncome"
+        android:layout_width="0dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/rounded_frame_background_blue"
+        android:hint="@string/write_your_comments"
+        android:inputType="text"
+        android:maxLength="30"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:textColorHint="#A5A5A5"
+        android:textSize="15sp"
+        app:layout_constraintTop_toBottomOf="@+id/txtCommentIncome"
+        app:layout_constraintStart_toStartOf="@+id/guidelineStart"
+        app:layout_constraintEnd_toEndOf="@+id/guidelineEnd" />
+
+    <!-- Buttons -->
+    <Button
+        android:id="@+id/btnCancelIncome"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/btnlog"
+        android:text="@string/cancel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnSaveIncome"
+        app:layout_constraintStart_toStartOf="@+id/guidelineStart" />
+
+    <Button
+        android:id="@+id/btnSaveIncome"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/btnlogin"
+        android:text="@string/save"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnCancelIncome"
+        app:layout_constraintEnd_toEndOf="@+id/guidelineEnd" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

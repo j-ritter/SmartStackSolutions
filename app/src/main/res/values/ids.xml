@@ -1,4 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="placeholder" type="id" />
+    <item name="edtTitleSpending" type="id" />
+    <item name="txtCategorySpending" type="id" />
+    <item name="spinnerCategoriesSpending" type="id" />
+    <item name="txtSubcategorySpending" type="id" />
+    <item name="spinnerSubcategoriesSpending" type="id" />
+    <item name="txtVendorSpending" type="id" />
+    <item name="spinnerVendorsSpending" type="id" />
+    <item name="edtCustomVendorSpending" type="id" />
+    <item name="txtAmountSpending" type="id" />
+    <item name="edtAmountSpending" type="id" />
+    <item name="txtDateSpending" type="id" />
+    <item name="edtDateSpending" type="id" />
+    <item name="txtCommentSpending" type="id" />
+    <item name="edtCommentSpending" type="id" />
+    <item name="txtAttachmentSpending" type="id" />
+    <item name="btnUploadImageSpending" type="id" />
+    <item name="txtImageAddedSpending" type="id" />
+    <item name="btnCancelSpending" type="id" />
+    <item name="btnSaveSpending" type="id" />
 </resources>

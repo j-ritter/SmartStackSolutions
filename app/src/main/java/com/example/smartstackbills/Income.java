@@ -1,39 +1,26 @@
 package com.example.smartstackbills;
 
-public class Spendings {
+public class Income {
 
-    String name, date, comment, category, amount, vendor, subcategory, attachment;
-    boolean isEssential;
+    private String name;
+    private String date;
+    private String comment;
+    private String category;
+    private String amount;
+    private String repeat;
+    private String subcategory;
 
-    public Spendings() {
+    public Income() {
         // Default constructor needed for Firestore
     }
 
-    public Spendings(String name, String date, String comment, String category, String amount, String vendor, String subcategory, String attachment, boolean isEssential) {
+    public Income(String name, String date, String comment, String category, String amount, String repeat, String subcategory) {
         this.name = name;
         this.date = date;
         this.comment = comment;
         this.category = category;
         this.amount = amount;
-        this.vendor = vendor;
-        this.subcategory = subcategory;
-        this.attachment = attachment;
-        this.isEssential = isEssential;
-    }
-
-    public String getAttachment() {
-        return attachment;
-    }
-
-    public void setAttachment(String attachment) {
-        this.attachment = attachment;
-    }
-
-    public String getSubcategory() {
-        return subcategory;
-    }
-
-    public void setSubcategory(String subcategory) {
+        this.repeat = repeat;
         this.subcategory = subcategory;
     }
 
@@ -77,15 +64,19 @@ public class Spendings {
         this.amount = amount;
     }
 
-    public String getVendor() {
-        return vendor;
+    public String getRepeat() {
+        return repeat;
     }
 
-    public void setVendor(String vendor) {
-        this.vendor = vendor;
+    public void setRepeat(String repeat) {
+        this.repeat = repeat;
     }
 
-    public boolean isEssential() {
-        return isEssential;
+    public String getSubcategory() {
+        return subcategory;
+    }
+
+    public void setSubcategory(String subcategory) {
+        this.subcategory = subcategory;
     }
 }

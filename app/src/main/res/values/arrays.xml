@@ -1,0 +1,176 @@
+<resources>
+    <!-- Shared Categories for Spendings and Bills -->
+    <string-array name="shared_categories">
+        <item>Accommodation</item>
+        <item>Communication</item>
+        <item>Insurance</item>
+        <item>Subscription and Memberships</item>
+        <item>Transportation</item>
+        <item>Finances/Fees</item>
+        <item>Taxes</item>
+        <item>Health</item>
+        <item>Education</item>
+        <item>Shopping &amp; Consumption</item>
+        <item>Others</item>
+    </string-array>
+
+    <!-- Subcategories for Shared Categories -->
+    <string-array name="accommodation_subcategories">
+        <item>Rent</item>
+        <item>Mortgage</item>
+        <item>Home maintenance</item>
+        <item>Utilities</item>
+        <item>Furniture</item>
+        <item>Repairs and renovations</item>
+    </string-array>
+
+    <string-array name="communication_subcategories">
+        <item>Mobile phone</item>
+        <item>Landline phone</item>
+        <item>Internet</item>
+        <item>Cable/satellite TV</item>
+        <item>Messaging services</item>
+    </string-array>
+
+    <string-array name="insurance_subcategories">
+        <item>Health insurance</item>
+        <item>Life insurance</item>
+        <item>Car insurance</item>
+        <item>Home insurance</item>
+        <item>Travel insurance</item>
+        <item>Pet insurance</item>
+    </string-array>
+
+    <string-array name="subscription_memberships_subcategories">
+        <item>Magazine/newspaper subscriptions</item>
+        <item>Streaming services</item>
+        <item>Gym memberships</item>
+        <item>Software subscriptions</item>
+        <item>Clubs and associations</item>
+    </string-array>
+
+    <string-array name="transportation_subcategories">
+        <item>Fuel</item>
+        <item>Vehicle maintenance</item>
+        <item>Public transportation</item>
+        <item>Parking</item>
+        <item>Vehicle rental</item>
+    </string-array>
+
+    <string-array name="finances_fees_subcategories">
+        <item>Bank fees</item>
+        <item>Investment fees</item>
+        <item>Loan interest</item>
+        <item>Credit card fees</item>
+        <item>Brokerage fees</item>
+    </string-array>
+
+    <string-array name="taxes_subcategories">
+        <item>Income tax</item>
+        <item>Property tax</item>
+        <item>Sales tax</item>
+        <item>Self-employment tax</item>
+        <item>Capital gains tax</item>
+    </string-array>
+
+    <string-array name="health_subcategories">
+        <item>Doctor visits</item>
+        <item>Dental care</item>
+        <item>Prescription medications</item>
+        <item>Health supplements</item>
+        <item>Medical equipment</item>
+    </string-array>
+
+    <string-array name="education_subcategories">
+        <item>Tuition fees</item>
+        <item>Textbooks</item>
+        <item>Online courses</item>
+        <item>School supplies</item>
+        <item>Extracurricular activities</item>
+    </string-array>
+
+    <string-array name="shopping_consumption_subcategories">
+        <item>Groceries</item>
+        <item>Clothing</item>
+        <item>Electronics</item>
+        <item>Household goods</item>
+        <item>Personal care products</item>
+    </string-array>
+
+    <string-array name="others_subcategories">
+        <item>Others</item>
+    </string-array>
+
+    <!-- Income-Specific Categories -->
+    <string-array name="income_categories">
+        <item>Salary</item>
+        <item>Self-Employment/Freelance Work</item>
+        <item>Rental and Lease Income</item>
+        <item>Investment Income</item>
+        <item>Business Income</item>
+        <item>Retirement and Pensions</item>
+        <item>Social Benefits</item>
+        <item>Scholarships and Grants</item>
+        <item>Royalties and Copyrights</item>
+        <item>Other Income</item>
+        <item>Create new type of income</item>
+    </string-array>
+
+    <!-- Subcategories for Income Categories -->
+    <string-array name="salary_subcategories">
+        <item>Regular salary</item>
+        <item>Overtime pay</item>
+        <item>Bonuses or incentives</item>
+    </string-array>
+
+    <string-array name="self_employment_subcategories">
+        <item>Fees for service</item>
+        <item>Project-based income</item>
+    </string-array>
+
+    <string-array name="rental_lease_income_subcategories">
+        <item>Real estate</item>
+        <item>Vehicles</item>
+        <item>Equipment</item>
+    </string-array>
+
+    <string-array name="investment_income_subcategories">
+        <item>Dividends</item>
+        <item>Interest earnings</item>
+        <item>Capital gains</item>
+    </string-array>
+
+    <string-array name="business_income_subcategories">
+        <item>Profit shares</item>
+        <item>Executive salary</item>
+    </string-array>
+
+    <string-array name="retirement_pensions_subcategories">
+        <item>State pension</item>
+        <item>Company pension plans</item>
+        <item>Private pension insurance</item>
+    </string-array>
+
+    <string-array name="social_benefits_subcategories">
+        <item>Unemployment benefits</item>
+        <item>Sickness benefits</item>
+        <item>Parental benefits</item>
+    </string-array>
+
+    <string-array name="scholarships_grants_subcategories">
+        <item>Educational scholarships</item>
+        <item>Research grants</item>
+    </string-array>
+
+    <string-array name="royalties_copyrights_subcategories">
+        <item>Patents</item>
+        <item>Software licenses</item>
+        <item>Book publications</item>
+    </string-array>
+
+    <string-array name="other_income_subcategories">
+        <item>Benefits in kind</item>
+        <item>Inheritances and gifts</item>
+        <item>Crowdfunding/Crowdinvesting returns</item>
+    </string-array>
+</resources>
