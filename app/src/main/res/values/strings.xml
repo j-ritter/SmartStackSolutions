@@ -49,6 +49,7 @@
     <string name="aMount">Amount:</string>
     <string name="vEndor">Vendor:</string>
     <string name="CaTegory">Category:</string>
+    <string name="Subcategory">Subcategory</string>
     <string name="TiTle">Title:</string>
     <string name="repeat">Repeat</string>
     <string name="purchase_datee">Purchase date</string>
@@ -59,4 +60,5 @@
     <string name="essential">Essential</string>
     <string name="non_essential">Non-Essential</string>
     <string name="one_time">One-time</string>
+    <string name="delete_income">delete income</string>
 </resources>

@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_yellow"
+    android:background="@drawable/background_blue1"
     tools:context=".createIncome">
 
     <!-- Vertical Guideline -->
@@ -40,7 +40,7 @@
     <EditText
         android:id="@+id/edtTitleIncome"
         android:layout_width="0dp"
-        android:layout_height="36dp"
+        android:layout_height="48dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/rounded_frame_background_blue"
         android:hint="@string/write_your_title"
@@ -69,7 +69,7 @@
     <Spinner
         android:id="@+id/spinnerCategoriesIncome"
         android:layout_width="0dp"
-        android:layout_height="36dp"
+        android:layout_height="48dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/rounded_frame_background_blue"
         app:layout_constraintTop_toBottomOf="@+id/txtCategoryIncome"
@@ -82,7 +82,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Subcategory"
+        android:text="@string/Subcategory"
         android:textStyle="bold"
         android:textSize="18sp"
         app:layout_constraintTop_toBottomOf="@+id/spinnerCategoriesIncome"
@@ -91,7 +91,7 @@
     <Spinner
         android:id="@+id/spinnerSubcategoriesIncome"
         android:layout_width="0dp"
-        android:layout_height="36dp"
+        android:layout_height="48dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/rounded_frame_background_blue"
         app:layout_constraintTop_toBottomOf="@+id/txtSubcategoryIncome"
@@ -113,7 +113,7 @@
     <EditText
         android:id="@+id/edtAmountIncome"
         android:layout_width="0dp"
-        android:layout_height="36dp"
+        android:layout_height="48dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/rounded_frame_background_blue"
         android:hint="@string/amount"
@@ -141,7 +141,7 @@
     <EditText
         android:id="@+id/edtDateIncome"
         android:layout_width="0dp"
-        android:layout_height="36dp"
+        android:layout_height="48dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/rounded_frame_background_blue"
         android:hint="@string/income_date"
@@ -169,7 +169,7 @@
     <Spinner
         android:id="@+id/spinnerRepeatIncome"
         android:layout_width="0dp"
-        android:layout_height="36dp"
+        android:layout_height="48dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/rounded_frame_background_blue"
         app:layout_constraintTop_toBottomOf="@+id/txtRepeatIncome"
@@ -191,7 +191,7 @@
     <EditText
         android:id="@+id/edtCommentIncome"
         android:layout_width="0dp"
-        android:layout_height="36dp"
+        android:layout_height="48dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/rounded_frame_background_blue"
         android:hint="@string/write_your_comments"

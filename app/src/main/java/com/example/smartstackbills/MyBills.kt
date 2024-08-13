@@ -35,6 +35,7 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
     private lateinit var fab: FloatingActionButton
     private var userEmail: String? = null
     private lateinit var dialog: Dialog
+    private var selectedBill: Bills? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -103,9 +104,16 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
         dialog.setCancelable(false)
 
         val btnCloseDialog = dialog.findViewById<Button>(R.id.btnCloseDialog)
+        val imgDeleteBill = dialog.findViewById<ImageView>(R.id.imgDeleteBill)
+
         btnCloseDialog.setOnClickListener {
             dialog.dismiss()
         }
+
+        imgDeleteBill.setOnClickListener {
+            deleteBill()
+        }
+
     }
 
     private fun setupEventChangeListener() {
@@ -149,6 +157,7 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
 
     override fun onBillClick(position: Int) {
         val bill = billsArrayList[position]
+        selectedBill = bill // Set selectedBill here
         showBillDetailsDialog(bill)
     }
 
@@ -182,6 +191,25 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
         edtCommentDialog.setText(bill.comment)
 
         dialog.show()
+    }
+    private fun deleteBill() {
+        selectedBill?.let { bill ->
+            val userUid = FirebaseAuth.getInstance().currentUser?.uid
+            if (userUid != null) {
+                db.collection("users").document(userUid).collection("bills").document(bill.billId)
+                    .delete()
+                    .addOnSuccessListener {
+                        Toast.makeText(this, "Bill deleted successfully", Toast.LENGTH_SHORT).show()
+                        dialog.dismiss()
+                        // Refresh the list after deletion
+                        setupEventChangeListener()
+                    }
+                    .addOnFailureListener { e ->
+                        Toast.makeText(this, "Error deleting bill: ${e.message}", Toast.LENGTH_SHORT).show()
+                        Log.e("Delete Error", e.message.toString())
+                    }
+            }
+        }
     }
 
     private fun filterBills(filter: String) {
@@ -241,3 +269,6 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
     }
 
 }
+
+
+

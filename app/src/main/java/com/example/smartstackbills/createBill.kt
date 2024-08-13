@@ -154,17 +154,17 @@ class createBill : AppCompatActivity() {
         userEmail = intent.getStringExtra("USER_EMAIL")
         userUid = FirebaseAuth.getInstance().currentUser?.uid
 
-        val edtDate = findViewById<EditText>(R.id.edtDate)
+        val edtDate = findViewById<EditText>(R.id.edtDateBill)
         edtDate.setOnClickListener {
             showDatePickerDialog()
         }
 
-        val spinnerCategories = findViewById<Spinner>(R.id.spinnerCategories)
-        val spinnerSubcategories = findViewById<Spinner>(R.id.spinnerSubcategories)
-        val spinnerVendors = findViewById<Spinner>(R.id.spinnerVendors)
-        val edtCustomVendor = findViewById<EditText>(R.id.edtCustomVendor)
-        val spinnerReminder = findViewById<Spinner>(R.id.spinnerRepeat)
-        val saveButton = findViewById<Button>(R.id.btnGuardar)
+        val spinnerCategories = findViewById<Spinner>(R.id.spinnerCategoriesBill)
+        val spinnerSubcategories = findViewById<Spinner>(R.id.spinnerSubcategoriesBill)
+        val spinnerVendors = findViewById<Spinner>(R.id.spinnerVendorsBill)
+        val edtCustomVendor = findViewById<EditText>(R.id.edtCustomVendorBill)
+        val spinnerReminder = findViewById<Spinner>(R.id.spinnerRepeatBill)
+        val saveButton = findViewById<Button>(R.id.btnSaveBill)
 
         val arrayAdapterCategories = ArrayAdapter(this, R.layout.spinner_item, categories)
         arrayAdapterCategories.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -215,7 +215,7 @@ class createBill : AppCompatActivity() {
             }
         }
 
-        val btnUpload = findViewById<Button>(R.id.btnImage)
+        val btnUpload = findViewById<Button>(R.id.btnUploadImageBill)
         btnUpload.setOnClickListener {
             val options = arrayOf("Take Photo", "Choose from Gallery", "Cancel")
             val builder = AlertDialog.Builder(this)
@@ -262,7 +262,7 @@ class createBill : AppCompatActivity() {
             saveBill()
         }
 
-        val btnCancel = findViewById<Button>(R.id.btnCancel)
+        val btnCancel = findViewById<Button>(R.id.btnCancelBill)
         btnCancel.setOnClickListener {
             val intent = Intent(this, MyBills::class.java)
             intent.putExtra("USER_EMAIL", userEmail)
@@ -276,13 +276,13 @@ class createBill : AppCompatActivity() {
     }
 
     fun onDateSelected(day: Int, month: Int, year: Int) {
-        val edtDate = findViewById<EditText>(R.id.edtDate)
+        val edtDate = findViewById<EditText>(R.id.edtDateBill)
         edtDate.setText("$day/${month + 1}/$year")
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        val txtImageAdded = findViewById<TextView>(R.id.txtImageAdded)
+        val txtImageAdded = findViewById<TextView>(R.id.txtImageAddedBill)
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 REQUEST_IMAGE_CAPTURE -> {
@@ -319,13 +319,13 @@ class createBill : AppCompatActivity() {
     private fun saveBill() {
         if (validateMandatoryFields()) {
             if (userEmail != null && userUid != null) {
-                val billName = findViewById<EditText>(R.id.edtTitle).text.toString()
-                val billAmount = findViewById<EditText>(R.id.edtAmount).text.toString()
-                val billDate = findViewById<EditText>(R.id.edtDate).text.toString()
-                val billCategory = findViewById<Spinner>(R.id.spinnerCategories).selectedItem.toString()
-                val billSubcategory = findViewById<Spinner>(R.id.spinnerSubcategories).selectedItem.toString()
-                val spinnerVendors = findViewById<Spinner>(R.id.spinnerVendors)
-                val edtCustomVendor = findViewById<EditText>(R.id.edtCustomVendor)
+                val billName = findViewById<EditText>(R.id.edtTitleBill).text.toString()
+                val billAmount = findViewById<EditText>(R.id.edtAmountBill).text.toString()
+                val billDate = findViewById<EditText>(R.id.edtDateBill).text.toString()
+                val billCategory = findViewById<Spinner>(R.id.spinnerCategoriesBill).selectedItem.toString()
+                val billSubcategory = findViewById<Spinner>(R.id.spinnerSubcategoriesBill).selectedItem.toString()
+                val spinnerVendors = findViewById<Spinner>(R.id.spinnerVendorsBill)
+                val edtCustomVendor = findViewById<EditText>(R.id.edtCustomVendorBill)
                 val billVendor = if (spinnerVendors.selectedItem.toString() == "Create Own Vendor") {
                     val newVendor = edtCustomVendor.text.toString()
                     loadVendors(billCategory)  // Call loadVendors to update the list after adding new vendor
@@ -334,8 +334,8 @@ class createBill : AppCompatActivity() {
                 } else {
                     spinnerVendors.selectedItem.toString()
                 }
-                val billRepeat = findViewById<Spinner>(R.id.spinnerRepeat).selectedItem.toString()
-                val billComment = findViewById<EditText>(R.id.edtComments).text.toString()
+                val billRepeat = findViewById<Spinner>(R.id.spinnerRepeatBill).selectedItem.toString()
+                val billComment = findViewById<EditText>(R.id.edtCommentBill).text.toString()
                 val billPaid = findViewById<CheckBox>(R.id.checkBoxPaid).isChecked
                 val billAttachment = imageUri?.toString()
 
@@ -373,10 +373,10 @@ class createBill : AppCompatActivity() {
     }
 
     private fun validateMandatoryFields(): Boolean {
-        val billName = findViewById<EditText>(R.id.edtTitle).text.toString()
-        val billAmount = findViewById<EditText>(R.id.edtAmount).text.toString()
-        val billDate = findViewById<EditText>(R.id.edtDate).text.toString()
-        val billCategory = findViewById<Spinner>(R.id.spinnerCategories).selectedItem.toString()
+        val billName = findViewById<EditText>(R.id.edtTitleBill).text.toString()
+        val billAmount = findViewById<EditText>(R.id.edtAmountBill).text.toString()
+        val billDate = findViewById<EditText>(R.id.edtDateBill).text.toString()
+        val billCategory = findViewById<Spinner>(R.id.spinnerCategoriesBill).selectedItem.toString()
 
         if (billName.isEmpty()) {
             Toast.makeText(this, "Title is required", Toast.LENGTH_SHORT).show()
@@ -431,7 +431,7 @@ class createBill : AppCompatActivity() {
                 if (document != null && document.exists()) {
                     val vendors = document.get("vendors") as? List<String> ?: emptyList()
                     val arrayAdapterVendors = ArrayAdapter(this@createBill, android.R.layout.simple_spinner_dropdown_item, vendors + "Create Own Vendor")
-                    val spinnerVendors = findViewById<Spinner>(R.id.spinnerVendors)
+                    val spinnerVendors = findViewById<Spinner>(R.id.spinnerVendorsBill)
                     spinnerVendors.adapter = arrayAdapterVendors
                 }
             }

@@ -35,7 +35,7 @@ class createIncome : AppCompatActivity() {
         "Social Benefits" to arrayOf("Unemployment benefits", "Sickness benefits", "Parental benefits"),
         "Scholarships and Grants" to arrayOf("Educational scholarships", "Research grants"),
         "Royalties and Copyrights" to arrayOf("Patents", "Software licenses", "Book publications"),
-        "Other Income" to arrayOf("Benefits in kind", "Inheritances and gifts", "Crowdfunding/Crowdinvesting returns")
+        "Other Income" to arrayOf("Benefits in kind", "Inheritances and gifts", "Crowdfunding/Crowdinvesting returns", "Others")
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
