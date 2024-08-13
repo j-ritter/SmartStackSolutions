@@ -2,14 +2,16 @@ package com.example.smartstackbills;
 
 public class Bills {
 
+    String billId;
     String name, date, comment, category, amount, vendor, repeat, subcategory, attachment;
     boolean paid;
 
     public Bills() {
-        // Constructor por defecto necesario para Firestore
+        // Default constructor required for Firestore
     }
 
-    public Bills(String name, String date, String comment, String category, String amount, String vendor, boolean paid, String repeat, String subcategory, String attachment) {
+    public Bills(String billId, String name, String date, String comment, String category, String amount, String vendor, boolean paid, String repeat, String subcategory, String attachment) {
+        this.billId = billId;
         this.name = name;
         this.date = date;
         this.comment = comment;
@@ -20,6 +22,14 @@ public class Bills {
         this.repeat = repeat;
         this.subcategory = subcategory;
         this.attachment = attachment;
+    }
+
+    public String getBillId() {
+        return billId;
+    }
+
+    public void setBillId(String billId) {
+        this.billId = billId;
     }
 
     public String getAttachment(){return attachment;}

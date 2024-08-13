@@ -61,4 +61,6 @@
     <string name="essential" />
     <string name="non_essential" />
     <string name="one_time" />
+    <string name="navigation_drawer_open">Open</string>
+    <string name="navigation_drawer_close">Close</string>
 </resources>
