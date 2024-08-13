@@ -67,11 +67,28 @@ class MainMenu : AppCompatActivity() {
         val navView: NavigationView = findViewById(R.id.nav_view)
         navView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
-                R.id.nav_item_eight -> {
+                R.id.nav_item_aboutus -> {
+                    val intent = Intent(this, AboutUs::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.nav_item_logout -> {
                     logoutUser()
                     true
                 }
                 else -> false
+            }
+        }
+
+
+        // Apply alternating background colors
+        val menu = navView.menu
+        for (i in 0 until menu.size()) {
+            val menuItem = menu.getItem(i)
+            if (i % 2 == 0) {
+                menuItem.actionView?.setBackgroundResource(R.drawable.nav_item_background_light)
+            } else {
+                menuItem.actionView?.setBackgroundResource(R.drawable.nav_item_background_dark)
             }
         }
     }
