@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FAQs">
+
+    <!-- Back Arrow -->
+    <ImageView
+        android:id="@+id/btnBackFAQs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_arrow_back"
+        android:contentDescription="Back"
+        android:layout_margin="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/faqs_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="FAQs"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        app:layout_constraintTop_toBottomOf="@id/btnBackFAQs"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"/>
+
+    <!-- Scroll View for Questions and Answers -->
+    <ScrollView
+        android:id="@+id/scroll_view_faqs"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/faqs_title"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Question 1 -->
+            <TextView
+                android:id="@+id/question_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="1. What is SmartStackBills?"
+                android:textSize="16sp"
+                android:textColor="@android:color/black"
+                android:background="@drawable/nav_item_background_light"
+                android:padding="16dp"/>
+
+            <!-- Answer 1 -->
+            <TextView
+                android:id="@+id/answer_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Answer: SmartStackBills is a comprehensive financial management app designed to help users keep track of their bills, expenses, incomes, and payments. It allows users to categorize transactions, set reminders, and view financial data in various formats to help with budgeting and financial planning."
+                android:textSize="16sp"
+                android:textColor="@android:color/black"
+                android:background="@drawable/nav_item_background_dark"
+                android:padding="16dp"/>
+
+            <!-- Question 2 -->
+            <TextView
+                android:id="@+id/question_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="2. How do I add a new bill?"
+                android:textSize="16sp"
+                android:textColor="@android:color/black"
+                android:background="@drawable/nav_item_background_light"
+                android:padding="16dp"/>
+
+            <!-- Answer 2 -->
+            <TextView
+                android:id="@+id/answer_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Answer: To add a new bill, go to the 'Bills' section of the app, click on the 'Create Bill' button, and fill in the necessary details such as title, category, amount, and date. You can also mark if the bill has been paid and add any relevant comments."
+                android:textSize="16sp"
+                android:textColor="@android:color/black"
+                android:background="@drawable/nav_item_background_dark"
+                android:padding="16dp"/>
+
+            <!-- Question 3 -->
+            <TextView
+                android:id="@+id/question_3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="3. Can I categorize my expenses?"
+                android:textSize="16sp"
+                android:textColor="@android:color/black"
+                android:background="@drawable/nav_item_background_light"
+                android:padding="16dp"/>
+
+            <!-- Answer 3 -->
+            <TextView
+                android:id="@+id/answer_3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Answer: Yes, SmartStackBills allows you to categorize your expenses into predefined categories and subcategories. You can also add custom categories for more personalized tracking."
+                android:textSize="16sp"
+                android:textColor="@android:color/black"
+                android:background="@drawable/nav_item_background_dark"
+                android:padding="16dp"/>
+
+            <!-- Question 4 -->
+            <TextView
+                android:id="@+id/question_4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="4. How can I view my expenses by status (paid, due, incoming)?"
+                android:textSize="16sp"
+                android:textColor="@android:color/black"
+                android:background="@drawable/nav_item_background_light"
+                android:padding="16dp"/>
+
+            <!-- Answer 4 -->
+            <TextView
+                android:id="@+id/answer_4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Answer: In the 'Bills' section, you can filter your bills based on their status. Bills marked as paid will be under 'Paid,' those with due dates that have passed will be under 'Due,' and upcoming payments will be under 'Incoming.'"
+                android:textSize="16sp"
+                android:textColor="@android:color/black"
+                android:background="@drawable/nav_item_background_dark"
+                android:padding="16dp"/>
+
+            <!-- Question 5 -->
+            <TextView
+                android:id="@+id/question_5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="5. Is it possible to scan bills and automatically fill in the details?"
+                android:textSize="16sp"
+                android:textColor="@android:color/black"
+                android:background="@drawable/nav_item_background_light"
+                android:padding="16dp"/>
+
+            <!-- Answer 5 -->
+            <TextView
+                android:id="@+id/answer_5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Answer: No, SmartStackBills does not support bill scanning."
+                android:textSize="16sp"
+                android:textColor="@android:color/black"
+                android:background="@drawable/nav_item_background_dark"
+                android:padding="16dp"/>
+
+            <!-- Question 6 -->
+            <TextView
+                android:id="@+id/question_6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="6. How do I set reminders for upcoming payments?"
+                android:textSize="16sp"
+                android:textColor="@android:color/black"
+                android:background="@drawable/nav_item_background_light"
+                android:padding="16dp"/>
+
+            <!-- Answer 6 -->
+            <TextView
+                android:id="@+id/answer_6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Answer: When creating or editing a bill, you can set a reminder date. The app will notify you on the set date to ensure you don't miss any payments."
+                android:textSize="16sp"
+                android:textColor="@android:color/black"
+                android:background="@drawable/nav_item_background_dark"
+                android:padding="16dp"/>
+
+            <!-- Question 7 -->
+            <TextView
+                android:id="@+id/question_7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="7. Can I track my income with SmartStackBills?"
+                android:textSize="16sp"
+                android:textColor="@android:color/black"
+                android:background="@drawable/nav_item_background_light"
+                android:padding="16dp"/>
+
+            <!-- Answer 7 -->
+            <TextView
+                android:id="@+id/answer_7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Answer: Yes, you can track your income by adding income entries in the 'Income' section of the app. Fill in details such as title, category, amount, and date received to keep an accurate record of your earnings."
+                android:textSize="16sp"
+                android:textColor="@android:color/black"
+                android:background="@drawable/nav_item_background_dark"
+                android:padding="16dp"/>
+
+            <!-- Question 8 -->
+            <TextView
+                android:id="@+id/question_8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="8. What security measures does SmartStackBills have to protect my data?"
+                android:textSize="16sp"
+                android:textColor="@android:color/black"
+                android:background="@drawable/nav_item_background_light"
+                android:padding="16dp"/>
+
+            <!-- Answer 8 -->
+            <TextView
+                android:id="@+id/answer_8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Answer: SmartStackBills employs robust security measures such as data encryption, secure login protocols, and regular backups to ensure your financial data is protected. Additionally, the app does not store sensitive payment information."
+                android:textSize="16sp"
+                android:textColor="@android:color/black"
+                android:background="@drawable/nav_item_background_dark"
+                android:padding="16dp"/>
+
+            <!-- Question 9 -->
+            <TextView
+                android:id="@+id/question_9"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="9. What is the Premium Account, and what are its benefits?"
+                android:textSize="16sp"
+                android:textColor="@android:color/black"
+                android:background="@drawable/nav_item_background_light"
+                android:padding="16dp"/>
+
+            <!-- Answer 9 -->
+            <TextView
+                android:id="@+id/answer_9"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Answer: The Premium Account unlocks all the functionalities of SmartStackBills. It allows you to create more than three entries, access advanced features, and receive priority customer support. The Premium Account is ideal for users who need extensive tracking and management capabilities."
+                android:textSize="16sp"
+                android:textColor="@android:color/black"
+                android:background="@drawable/nav_item_background_dark"
+                android:padding="16dp"/>
+
+            <!-- Question 10 -->
+            <TextView
+                android:id="@+id/question_10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="10. How can I upgrade to the Premium Account?"
+                android:textSize="16sp"
+                android:textColor="@android:color/black"
+                android:background="@drawable/nav_item_background_light"
+                android:padding="16dp"/>
+
+            <!-- Answer 10 -->
+            <TextView
+                android:id="@+id/answer_10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Answer: To upgrade to the Premium Account, go to the 'Settings' section and select 'Upgrade to Premium.' Follow the instructions to complete your purchase and unlock all features."
+                android:textSize="16sp"
+                android:textColor="@android:color/black"
+                android:background="@drawable/nav_item_background_dark"
+                android:padding="16dp"/>
+
+            <!-- Question 11 -->
+            <TextView
+                android:id="@+id/question_11"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="11. What is the difference between bills and spendings?"
+                android:textSize="16sp"
+                android:textColor="@android:color/black"
+                android:background="@drawable/nav_item_background_light"
+                android:padding="16dp"/>
+
+            <!-- Answer 11 -->
+            <TextView
+                android:id="@+id/answer_11"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Answer: Bills are records of transactions where you have received a service or product and may need to make a payment. Spendings, on the other hand, are records of your expenses. The app allows you to track both bills (incoming payments or due payments) and general spendings to help you manage your finances better."
+                android:textSize="16sp"
+                android:textColor="@android:color/black"
+                android:background="@drawable/nav_item_background_dark"
+                android:padding="16dp"/>
+
+            <!-- Question 12 -->
+            <TextView
+                android:id="@+id/question_12"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="12. What do I do if I encounter a problem with the app?"
+                android:textSize="16sp"
+                android:textColor="@android:color/black"
+                android:background="@drawable/nav_item_background_light"
+                android:padding="16dp"/>
+
+            <!-- Answer 12 -->
+            <TextView
+                android:id="@+id/answer_12"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Answer: If you encounter any issues with the app, you can contact our support team via the 'Help &amp; Support' section in the navigation menu. Provide a detailed description of the problem, and our team will assist you promptly."
+                android:textSize="16sp"
+                android:textColor="@android:color/black"
+                android:background="@drawable/nav_item_background_dark"
+                android:padding="16dp"/>
+
+            <!-- Question 13 -->
+            <TextView
+                android:id="@+id/question_13"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="13. How do I update my profile settings?"
+                android:textSize="16sp"
+                android:textColor="@android:color/black"
+                android:background="@drawable/nav_item_background_light"
+                android:padding="16dp"/>
+
+            <!-- Answer 13 -->
+            <TextView
+                android:id="@+id/answer_13"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Answer: To update your profile settings, click on the user icon in the top right corner, select 'Profile Settings,' and make the necessary changes to your personal information and preferences."
+                android:textSize="16sp"
+                android:textColor="@android:color/black"
+                android:background="@drawable/nav_item_background_dark"
+                android:padding="16dp"/>
+
+            <!-- Question 14 -->
+            <TextView
+                android:id="@+id/question_14"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="14. Can I set notifications for specific transactions?"
+                android:textSize="16sp"
+                android:textColor="@android:color/black"
+                android:background="@drawable/nav_item_background_light"
+                android:padding="16dp"/>
+
+            <!-- Answer 14 -->
+            <TextView
+                android:id="@+id/answer_14"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Answer: Yes, you can set notifications for specific transactions by setting reminders for due dates and payment dates. The app will send you alerts based on these settings to keep you informed. Note that the application is not responsible for any costs incurred due to missed deadlines. Make sure that you have your own reminders and payment schedule in place."
+                android:textSize="16sp"
+                android:textColor="@android:color/black"
+                android:background="@drawable/nav_item_background_dark"
+                android:padding="16dp"/>
+
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+

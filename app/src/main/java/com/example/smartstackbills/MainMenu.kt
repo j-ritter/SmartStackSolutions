@@ -72,6 +72,11 @@ class MainMenu : AppCompatActivity() {
                     startActivity(intent)
                     true
                 }
+                R.id.nav_item_faq -> {
+                    val intent = Intent(this, FAQs::class.java)
+                    startActivity(intent)
+                    true
+                }
                 R.id.nav_item_logout -> {
                     logoutUser()
                     true
