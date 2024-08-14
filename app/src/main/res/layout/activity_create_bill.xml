@@ -180,7 +180,7 @@
         android:layout_marginTop="8dp"
         android:background="@drawable/rounded_frame_background_yellow"
         android:hint="@string/purchase_date"
-        android:inputType="text"
+
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:textColorHint="#A5A5A5"
