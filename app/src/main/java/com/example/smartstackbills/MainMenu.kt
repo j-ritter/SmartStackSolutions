@@ -77,6 +77,11 @@ class MainMenu : AppCompatActivity() {
                     startActivity(intent)
                     true
                 }
+                R.id.nav_item_datasec -> {
+                    val intent = Intent(this, Datasecurity::class.java)
+                    startActivity(intent)
+                    true
+                }
                 R.id.nav_item_logout -> {
                     logoutUser()
                     true
