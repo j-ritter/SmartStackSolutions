@@ -17,10 +17,12 @@ import android.provider.MediaStore
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.FileProvider
 import android.os.Environment
+import android.text.InputType
 import com.google.firebase.firestore.FieldValue
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
@@ -155,8 +157,14 @@ class createBill : AppCompatActivity() {
         userUid = FirebaseAuth.getInstance().currentUser?.uid
 
         val edtDate = findViewById<EditText>(R.id.edtDateBill)
+        edtDate.inputType = InputType.TYPE_NULL  // Disable manual input
         edtDate.setOnClickListener {
             showDatePickerDialog()
+        }
+        edtDate.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                showDatePickerDialog()
+            }
         }
 
         val spinnerCategories = findViewById<Spinner>(R.id.spinnerCategoriesBill)
@@ -315,9 +323,30 @@ class createBill : AppCompatActivity() {
             checkBoxPaid.isEnabled = true
         }
     }
+    private fun validateDateField(): Boolean {
+        val edtDate = findViewById<EditText>(R.id.edtDateBill)
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        dateFormat.isLenient = false  // This ensures that the date format is strict
+
+        return try {
+            val billDate = dateFormat.parse(edtDate.text.toString())
+            val currentDate = Calendar.getInstance().time
+
+            if (billDate != null && !billDate.before(currentDate)) {
+                true
+            } else {
+                Toast.makeText(this, "Please select a valid future date", Toast.LENGTH_SHORT).show()
+                false
+            }
+        } catch (e: Exception) {
+            Toast.makeText(this, "Invalid date format. Please use dd/MM/yyyy", Toast.LENGTH_SHORT).show()
+            false
+        }
+    }
+
 
     private fun saveBill() {
-        if (validateMandatoryFields()) {
+        if (validateMandatoryFields() && validateDateField()) {
             if (userEmail != null && userUid != null) {
                 val billName = findViewById<EditText>(R.id.edtTitleBill).text.toString()
                 val billAmount = findViewById<EditText>(R.id.edtAmountBill).text.toString()
