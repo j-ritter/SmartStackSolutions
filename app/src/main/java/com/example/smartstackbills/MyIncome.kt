@@ -39,7 +39,7 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
         enableEdgeToEdge()
         setContentView(R.layout.activity_my_income)
 
-        recyclerView = findViewById(R.id.recyclerView)
+        recyclerView = findViewById(R.id.recyclerViewIncome)
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(this)
         userEmail = intent.getStringExtra("USER_EMAIL")

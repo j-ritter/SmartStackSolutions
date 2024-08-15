@@ -49,7 +49,7 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
 
         drawerLayout = findViewById(R.id.drawer_layout)
 
-        recyclerView = findViewById(R.id.recyclerView)
+        recyclerView = findViewById(R.id.recyclerViewBills)
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(this)
         userEmail = intent.getStringExtra("USER_EMAIL")
@@ -117,6 +117,11 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
                 }
                 R.id.nav_item_help -> {
                     val intent = Intent(this, Help::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.nav_item_terms -> {
+                    val intent = Intent(this, Terms::class.java)
                     startActivity(intent)
                     true
                 }
