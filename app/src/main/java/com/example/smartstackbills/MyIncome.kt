@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -193,6 +194,10 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
     override fun onIncomeClick(position: Int) {
         val income = incomeArrayList[position]
         showIncomeDetailsDialog(income)
+    }
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.top_nav, menu)
+        return true
     }
 
     private fun showIncomeDetailsDialog(income: Income) {

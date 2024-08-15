@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".MainMenu">
 
-    <!-- Contenido principal -->
+    <!-- Main Content -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/main"
         android:layout_width="match_parent"
@@ -35,6 +35,210 @@
             app:title="SmartStackBills"
             app:titleCentered="true" />
 
+        <!-- TextViews for Bills -->
+        <TextView
+            android:id="@+id/tvBills"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bills (not paid)"
+            android:textSize="18sp"
+            android:textColor="@android:color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar_main"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp" />
+
+        <TextView
+            android:id="@+id/tvIncoming"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Incoming"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvBills"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp" />
+
+        <TextView
+            android:id="@+id/tvOverdue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Overdue"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvIncoming"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp" />
+
+        <!-- Divider -->
+        <View
+            android:id="@+id/divider1"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvOverdue"
+            android:layout_marginTop="24dp" />
+
+        <!-- TextViews for Spendings -->
+        <TextView
+            android:id="@+id/tvSpendings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Spendings"
+            android:textSize="18sp"
+            android:textColor="@android:color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider1"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp" />
+        <!-- TextViews for Spendings -->
+        <TextView
+            android:id="@+id/tvSpendings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Spendings"
+            android:textSize="18sp"
+            android:textColor="@android:color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider1"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp" />
+
+        <TextView
+            android:id="@+id/tvEssential"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Essential"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvSpendings"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp" />
+
+        <TextView
+            android:id="@+id/tvNonEssential"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Non-essential"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvEssential"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp" />
+
+        <!-- Divider -->
+        <View
+            android:id="@+id/divider2"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvNonEssential"
+            android:layout_marginTop="24dp" />
+
+        <!-- TextViews for Income -->
+        <TextView
+            android:id="@+id/tvIncome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Income"
+            android:textSize="18sp"
+            android:textColor="@android:color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider2"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp" />
+
+        <TextView
+            android:id="@+id/tvRecurring"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Recurring"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvIncome"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp" />
+
+        <TextView
+            android:id="@+id/tvOneTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="One-time"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvRecurring"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp" />
+
+        <!-- Divider -->
+        <View
+            android:id="@+id/divider3"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvOneTime"
+            android:layout_marginTop="24dp" />
+
+        <!-- TextView for "Total" -->
+        <TextView
+            android:id="@+id/tvTotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Total"
+            android:textSize="18sp"
+            android:textColor="@android:color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider3"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"/>
+
+        <!-- Double Grey Line -->
+        <View
+            android:id="@+id/doubleDivider1"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintTop_toBottomOf="@id/tvTotal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="24dp"/>
+
+        <View
+            android:id="@+id/doubleDivider2"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintTop_toBottomOf="@id/doubleDivider1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="4dp"/>
+
+        <!-- FloatingActionButton -->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabMainMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_add"
+            app:backgroundTint="#1E97F4"
+            app:fabSize="normal"
+            app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:contentDescription="@string/create_new_bill"/>
+
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomNavigationView"
             android:layout_width="0dp"
@@ -42,13 +246,13 @@
             android:background="#FFFFFF"
             app:itemIconTint="@color/black"
             app:itemTextColor="#000000"
+            app:menu="@menu/bottom_nav"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:menu="@menu/bottom_nav" />
+            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- Menú de navegación lateral -->
+    <!-- Navigation Drawer -->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
@@ -59,3 +263,6 @@
         app:menu="@menu/activity_main_drawer" />
 
 </androidx.drawerlayout.widget.DrawerLayout>
+
+
+

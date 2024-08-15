@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -95,6 +96,7 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
         toolbar.setNavigationOnClickListener {
             drawerLayout.openDrawer(GravityCompat.START)
         }
+
 
         // Setup NavigationView
         val navView: NavigationView = findViewById(R.id.nav_viewBills)
@@ -209,6 +211,10 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
         val bill = billsArrayList[position]
         selectedBill = bill // Set selectedBill here
         showBillDetailsDialog(bill)
+    }
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.top_nav, menu)
+        return true
     }
 
     private fun showBillDetailsDialog(bill: Bills) {
