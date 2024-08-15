@@ -11,10 +11,14 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
@@ -33,11 +37,14 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
     private lateinit var fab: FloatingActionButton
     private var userEmail: String? = null
     private lateinit var dialog: Dialog
+    private lateinit var drawerLayout: DrawerLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_my_income)
+
+        drawerLayout = findViewById(R.id.drawer_layout_income)
 
         recyclerView = findViewById(R.id.recyclerViewIncome)
         recyclerView.setHasFixedSize(true)
@@ -56,7 +63,7 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
             startActivity(intent)
         }
 
-        val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationView)
+        val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationViewIncome)
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.Bills -> {
@@ -75,6 +82,49 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
                     val intent = Intent(this, MyIncome::class.java)
                     intent.putExtra("USER_EMAIL", userEmail)
                     startActivity(intent)
+                    true
+                }
+                else -> false
+            }
+        }
+        // Initialize the toolbar and set it as the action bar
+        val toolbar: Toolbar = findViewById(R.id.materialToolbarIncome)
+        setSupportActionBar(toolbar)
+        toolbar.setNavigationOnClickListener {
+            drawerLayout.openDrawer(GravityCompat.START)
+        }
+
+        // Setup NavigationView
+        val navView: NavigationView = findViewById(R.id.nav_viewIncome)
+        navView.setNavigationItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.nav_item_aboutus -> {
+                    val intent = Intent(this, AboutUs::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.nav_item_faq -> {
+                    val intent = Intent(this, FAQs::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.nav_item_datasec -> {
+                    val intent = Intent(this, Datasecurity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.nav_item_help -> {
+                    val intent = Intent(this, Help::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.nav_item_terms -> {
+                    val intent = Intent(this, Terms::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.nav_item_logout -> {
+                    logoutUser()
                     true
                 }
                 else -> false
@@ -187,5 +237,12 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
 
         myAdapterIncome.updateIncome(filteredIncome)
         Log.d("Filter", "Filtered income count for $filter: ${filteredIncome.size}")
+    }
+    private fun logoutUser() {
+        FirebaseAuth.getInstance().signOut()
+        val intent = Intent(this, LogIn::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        finish()
     }
 }
