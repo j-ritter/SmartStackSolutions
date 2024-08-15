@@ -48,6 +48,16 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="24dp" />
 
+        <EditText
+            android:id="@+id/etBillsAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:hint="0.00"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvBills"
+            android:layout_marginEnd="16dp"/>
+
         <TextView
             android:id="@+id/tvIncoming"
             android:layout_width="wrap_content"
@@ -60,6 +70,16 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp" />
 
+        <EditText
+            android:id="@+id/etIncomingAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:hint="0.00"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvIncoming"
+            android:layout_marginEnd="16dp"/>
+
         <TextView
             android:id="@+id/tvOverdue"
             android:layout_width="wrap_content"
@@ -71,6 +91,16 @@
             app:layout_constraintTop_toBottomOf="@id/tvIncoming"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp" />
+
+        <EditText
+            android:id="@+id/etOverdueAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:hint="0.00"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvOverdue"
+            android:layout_marginEnd="16dp"/>
 
         <!-- Divider -->
         <View
@@ -95,18 +125,16 @@
             app:layout_constraintTop_toBottomOf="@id/divider1"
             android:layout_marginStart="16dp"
             android:layout_marginTop="24dp" />
-        <!-- TextViews for Spendings -->
-        <TextView
-            android:id="@+id/tvSpendings"
+
+        <EditText
+            android:id="@+id/etSpendingsAmount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Spendings"
-            android:textSize="18sp"
-            android:textColor="@android:color/black"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/divider1"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp" />
+            android:inputType="numberDecimal"
+            android:hint="0.00"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvSpendings"
+            android:layout_marginEnd="16dp"/>
 
         <TextView
             android:id="@+id/tvEssential"
@@ -120,6 +148,16 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="24dp" />
 
+        <EditText
+            android:id="@+id/etEssential"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:hint="0.00"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvEssential"
+            android:layout_marginEnd="16dp"/>
+
         <TextView
             android:id="@+id/tvNonEssential"
             android:layout_width="wrap_content"
@@ -131,6 +169,16 @@
             app:layout_constraintTop_toBottomOf="@id/tvEssential"
             android:layout_marginStart="16dp"
             android:layout_marginTop="24dp" />
+
+        <EditText
+            android:id="@+id/etNonEssential"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:hint="0.00"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvNonEssential"
+            android:layout_marginEnd="16dp"/>
 
         <!-- Divider -->
         <View
@@ -155,6 +203,15 @@
             app:layout_constraintTop_toBottomOf="@id/divider2"
             android:layout_marginStart="16dp"
             android:layout_marginTop="24dp" />
+        <EditText
+            android:id="@+id/etIncome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:hint="0.00"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvIncome"
+            android:layout_marginEnd="16dp"/>
 
         <TextView
             android:id="@+id/tvRecurring"
@@ -168,6 +225,16 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="24dp" />
 
+        <EditText
+            android:id="@+id/etRecurring"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:hint="0.00"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvRecurring"
+            android:layout_marginEnd="16dp"/>
+
         <TextView
             android:id="@+id/tvOneTime"
             android:layout_width="wrap_content"
@@ -179,6 +246,16 @@
             app:layout_constraintTop_toBottomOf="@id/tvRecurring"
             android:layout_marginStart="16dp"
             android:layout_marginTop="24dp" />
+
+        <EditText
+            android:id="@+id/etOneTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:hint="0.00"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvOneTime"
+            android:layout_marginEnd="16dp"/>
 
         <!-- Divider -->
         <View
@@ -203,6 +280,16 @@
             app:layout_constraintTop_toBottomOf="@id/divider3"
             android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"/>
+
+        <EditText
+            android:id="@+id/etTotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:hint="0.00"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvTotal"
+            android:layout_marginEnd="16dp"/>
 
         <!-- Double Grey Line -->
         <View
