@@ -79,16 +79,18 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationViewSpendings)
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
+                R.id.Main -> {
+                    val intent = Intent(this, MainMenu::class.java)
+                    startActivity(intent)
+                    true
+                }
                 R.id.Bills -> {
                     val intent = Intent(this, MyBills::class.java)
-                    intent.putExtra("USER_EMAIL", userEmail) // Pasar el correo electrónico
                     startActivity(intent)
                     true
                 }
                 R.id.Spendings -> {
-                    val intent = Intent(this, MySpendings::class.java)
-                    intent.putExtra("USER_EMAIL", userEmail) // Pasar el correo electrónico
-                    startActivity(intent)
+                    // Do nothing since we're already on this screen
                     true
                 }
                 R.id.Income -> {  // New navigation option for Income

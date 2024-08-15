@@ -67,27 +67,34 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationViewIncome)
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
+                R.id.Main -> {
+                    val intent = Intent(this, MainMenu::class.java)
+                    startActivity(intent)
+                    true
+                }
+
                 R.id.Bills -> {
                     val intent = Intent(this, MyBills::class.java)
                     intent.putExtra("USER_EMAIL", userEmail)
                     startActivity(intent)
                     true
                 }
+
                 R.id.Spendings -> {
                     val intent = Intent(this, MySpendings::class.java)
                     intent.putExtra("USER_EMAIL", userEmail)
                     startActivity(intent)
                     true
                 }
+
                 R.id.Income -> {
-                    val intent = Intent(this, MyIncome::class.java)
-                    intent.putExtra("USER_EMAIL", userEmail)
-                    startActivity(intent)
+                    // Do nothing since we're already on this screen
                     true
                 }
                 else -> false
             }
         }
+
         // Initialize the toolbar and set it as the action bar
         val toolbar: Toolbar = findViewById(R.id.materialToolbarIncome)
         setSupportActionBar(toolbar)

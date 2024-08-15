@@ -41,6 +41,10 @@ class MainMenu : AppCompatActivity() {
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationView)
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
+                R.id.Main -> {
+                    // Stay on the same activity
+                    true
+                }
                 R.id.Bills -> {
                     val intent = Intent(this, MyBills::class.java)
                     intent.putExtra("USER_EMAIL", userEmail)

@@ -69,10 +69,13 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationViewBills)
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.Bills -> {
-                    val intent = Intent(this, MyBills::class.java)
-                    intent.putExtra("USER_EMAIL", userEmail) // Pasar el correo electrónico
+                R.id.Main -> {
+                    val intent = Intent(this, MainMenu::class.java)
                     startActivity(intent)
+                    true
+                }
+                R.id.Bills -> {
+                    // Do nothing since we're already on this screen
                     true
                 }
                 R.id.Spendings -> {
