@@ -217,8 +217,8 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
                                 Log.d("Firestore Data", "Spending added: ${spending.name}, ${spending.date}")
                             }
                         }
-                        saveSpendings() // Save updated list to SharedPreferences
                         // Show essential spendings by default
+                        saveSpendings()
                         filterSpendings("essential")
                     } else {
                         Log.d("Firestore Data", "No spendings found")

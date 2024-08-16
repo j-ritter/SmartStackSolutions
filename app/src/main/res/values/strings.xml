@@ -62,4 +62,6 @@
     <string name="non_essential">Non-Essential</string>
     <string name="one_time">One-time</string>
     <string name="delete_income">delete income</string>
+    <string name="previous_month">previous month</string>
+    <string name="next_month">next month</string>
 </resources>
