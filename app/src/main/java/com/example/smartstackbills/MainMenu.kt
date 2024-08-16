@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -17,10 +19,14 @@ import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 class MainMenu : AppCompatActivity() {
     private var userEmail: String? = null
     private lateinit var drawerLayout: DrawerLayout
+    private lateinit var currentMonth: Calendar
 
     // Define hardcoded spending values
     private val spendings = listOf(100.0, 200.0, 150.0) // Example values
@@ -34,6 +40,10 @@ class MainMenu : AppCompatActivity() {
         userEmail = intent.getStringExtra("USER_EMAIL")
 
         drawerLayout = findViewById(R.id.drawer_layout)
+
+        currentMonth = Calendar.getInstance()
+
+        setupMonthNavigation()
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -119,6 +129,7 @@ class MainMenu : AppCompatActivity() {
             }
         }
 
+
         // Apply alternating background colors
         val menu = navView.menu
         for (i in 0 until menu.size()) {
@@ -147,6 +158,31 @@ class MainMenu : AppCompatActivity() {
         val type = object : TypeToken<ArrayList<Spendings>>() {}.type
         val spendingsList: ArrayList<Spendings> = gson.fromJson(json, type) ?: ArrayList()
         return spendingsList.sumOf { it.amount.toDouble() }.toFloat()
+    }
+
+    private fun setupMonthNavigation() {
+        val tvMonth = findViewById<TextView>(R.id.tvMonth)
+        val btnPreviousMonth = findViewById<ImageButton>(R.id.btnPreviousMonth)
+        val btnNextMonth = findViewById<ImageButton>(R.id.btnNextMonth)
+
+        updateMonthDisplay(tvMonth)
+
+        btnPreviousMonth.setOnClickListener {
+            currentMonth.add(Calendar.MONTH, -1)
+            updateMonthDisplay(tvMonth)
+
+        }
+
+        btnNextMonth.setOnClickListener {
+            currentMonth.add(Calendar.MONTH, 1)
+            updateMonthDisplay(tvMonth)
+
+        }
+    }
+
+    private fun updateMonthDisplay(tvMonth: TextView) {
+        val dateFormat = SimpleDateFormat("MMMM yyyy", Locale.getDefault())
+        tvMonth.text = dateFormat.format(currentMonth.time)
     }
 
 
