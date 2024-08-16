@@ -5,7 +5,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -19,6 +18,7 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import calendarView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
@@ -69,13 +69,10 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationViewBills)
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.Main -> {
-                    val intent = Intent(this, MainMenu::class.java)
-                    startActivity(intent)
-                    true
-                }
                 R.id.Bills -> {
-                    // Do nothing since we're already on this screen
+                    val intent = Intent(this, MyBills::class.java)
+                    intent.putExtra("USER_EMAIL", userEmail) // Pasar el correo electrónico
+                    startActivity(intent)
                     true
                 }
                 R.id.Spendings -> {
@@ -90,6 +87,12 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
                     startActivity(intent)
                     true
                 }
+                R.id.Calendar -> {
+                    val intent = Intent(this, calendarView::class.java)
+                    intent.putExtra("USER_EMAIL", userEmail)
+                    startActivity(intent)
+                    true
+                }
                 else -> false
             }
         }
@@ -99,7 +102,6 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
         toolbar.setNavigationOnClickListener {
             drawerLayout.openDrawer(GravityCompat.START)
         }
-
 
         // Setup NavigationView
         val navView: NavigationView = findViewById(R.id.nav_viewBills)
@@ -149,8 +151,6 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
         findViewById<Button>(R.id.btnPaid).setOnClickListener { filterBills("paid") }
     }
 
-
-
     private fun setupDialog() {
         dialog = Dialog(this)
         dialog.setContentView(R.layout.dialog_box_bill)
@@ -168,7 +168,6 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
         imgDeleteBill.setOnClickListener {
             deleteBill()
         }
-
     }
 
     private fun setupEventChangeListener() {
@@ -215,10 +214,6 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
         selectedBill = bill // Set selectedBill here
         showBillDetailsDialog(bill)
     }
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.top_nav, menu)
-        return true
-    }
 
     private fun showBillDetailsDialog(bill: Bills) {
         val edtTitleDialog = dialog.findViewById<EditText>(R.id.edtTitleDialog)
@@ -231,6 +226,10 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
         val edtCommentDialog = dialog.findViewById<EditText>(R.id.edtCommentDialog)
         val edtAttachmentDialog = dialog.findViewById<ImageView>(R.id.edtAttachmentDialog)
         val attachmentUri = bill.attachment
+
+        // Convertir el Timestamp a String
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val billDateString = if (bill.date != null) dateFormat.format(bill.date.toDate()) else ""
 
         if (attachmentUri != null) {
             edtAttachmentDialog.setImageURI(Uri.parse(attachmentUri))
@@ -246,27 +245,27 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
         edtRepeatDialog.setText(bill.repeat)
         edtSubcategoryDialog.setText(bill.subcategory)
         edtVendorDialog.setText(bill.vendor)
-        edtDateDialog.setText(bill.date)
+        edtDateDialog.setText(billDateString) // Usar la cadena de fecha
         edtCommentDialog.setText(bill.comment)
-
-        dialog.show()
     }
+
+
     private fun deleteBill() {
         selectedBill?.let { bill ->
             val userUid = FirebaseAuth.getInstance().currentUser?.uid
             if (userUid != null) {
-                db.collection("users").document(userUid).collection("bills").document(bill.billId)
+                db.collection("users").document(userUid).collection("bills")
+                    .document(bill.billId)
                     .delete()
                     .addOnSuccessListener {
                         Toast.makeText(this, "Bill deleted successfully", Toast.LENGTH_SHORT).show()
                         dialog.dismiss()
-                        // Refresh the list after deletion
-                        setupEventChangeListener()
                     }
-                    .addOnFailureListener { e ->
-                        Toast.makeText(this, "Error deleting bill: ${e.message}", Toast.LENGTH_SHORT).show()
-                        Log.e("Delete Error", e.message.toString())
+                    .addOnFailureListener {
+                        Toast.makeText(this, "Failed to delete bill", Toast.LENGTH_SHORT).show()
                     }
+            } else {
+                Toast.makeText(this, "Error: User not authenticated", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -278,7 +277,7 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
 
         for (bill in allBillsArrayList) { // Usamos allBillsArrayList para filtrar
             try {
-                val billDate = sdf.parse(bill.date)
+                val billDate = if (bill.date != null) bill.date.toDate() else null
 
                 when (filter) {
                     "paid" -> {
@@ -326,6 +325,28 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
         myAdapter.updateBills(filteredBills)
         Log.d("Filter", "Filtered bills count for $filter: ${filteredBills.size}")
     }
+
+    private fun groupBillsByMonth(billsArrayList: ArrayList<Bills>): ArrayList<Any> {
+        val groupedBills = LinkedHashMap<String, MutableList<Bills>>()
+        val sdf = SimpleDateFormat("MMMM yyyy", Locale.getDefault())
+
+        for (bill in billsArrayList) {
+            val monthYear = sdf.format(bill.date.toDate())
+            if (!groupedBills.containsKey(monthYear)) {
+                groupedBills[monthYear] = ArrayList()
+            }
+            groupedBills[monthYear]?.add(bill)
+        }
+
+        val items = ArrayList<Any>()
+        for ((monthYear, bills) in groupedBills) {
+            items.add(monthYear)
+            items.addAll(bills)
+        }
+
+        return items
+    }
+
     private fun logoutUser() {
         FirebaseAuth.getInstance().signOut()
         val intent = Intent(this, LogIn::class.java)
@@ -333,8 +354,4 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
         startActivity(intent)
         finish()
     }
-
 }
-
-
-

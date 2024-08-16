@@ -332,7 +332,7 @@ class createBill : AppCompatActivity() {
             val billDate = dateFormat.parse(edtDate.text.toString())
             val currentDate = Calendar.getInstance().time
 
-            if (billDate != null && !billDate.before(currentDate)) {
+            if (billDate != null ) {
                 true
             } else {
                 Toast.makeText(this, "Please select a valid future date", Toast.LENGTH_SHORT).show()
@@ -350,7 +350,7 @@ class createBill : AppCompatActivity() {
             if (userEmail != null && userUid != null) {
                 val billName = findViewById<EditText>(R.id.edtTitleBill).text.toString()
                 val billAmount = findViewById<EditText>(R.id.edtAmountBill).text.toString()
-                val billDate = findViewById<EditText>(R.id.edtDateBill).text.toString()
+                val billDateString = findViewById<EditText>(R.id.edtDateBill).text.toString()
                 val billCategory = findViewById<Spinner>(R.id.spinnerCategoriesBill).selectedItem.toString()
                 val billSubcategory = findViewById<Spinner>(R.id.spinnerSubcategoriesBill).selectedItem.toString()
                 val spinnerVendors = findViewById<Spinner>(R.id.spinnerVendorsBill)
@@ -368,10 +368,19 @@ class createBill : AppCompatActivity() {
                 val billPaid = findViewById<CheckBox>(R.id.checkBoxPaid).isChecked
                 val billAttachment = imageUri?.toString()
 
+                // Conversión de String a Date
+                val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                val billDate: Date? = try {
+                    sdf.parse(billDateString)
+                } catch (e: Exception) {
+                    null
+                }
+                val timestamp = billDate?.let { com.google.firebase.Timestamp(it) }
+
                 val bill = hashMapOf(
                     "name" to billName,
                     "amount" to billAmount,
-                    "date" to billDate,
+                    "date" to timestamp,  // Guarda el Timestamp aquí
                     "category" to billCategory,
                     "subcategory" to billSubcategory,
                     "vendor" to billVendor,
@@ -400,6 +409,7 @@ class createBill : AppCompatActivity() {
             }
         }
     }
+
 
     private fun validateMandatoryFields(): Boolean {
         val billName = findViewById<EditText>(R.id.edtTitleBill).text.toString()

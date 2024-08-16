@@ -1,6 +1,7 @@
 package com.example.smartstackbills
 
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -19,12 +20,15 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import calendarView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -65,7 +69,7 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
         recyclerView.layoutManager = LinearLayoutManager(this)
         userEmail = intent.getStringExtra("USER_EMAIL")
 
-        spendingsArrayList = ArrayList()
+        spendingsArrayList = loadSpendings()
         allSpendingsArrayList = ArrayList()
         myAdapter = MyAdapterSpendings(this, spendingsArrayList, this)
         recyclerView.adapter = myAdapter
@@ -76,6 +80,7 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
             intent.putExtra("USER_EMAIL", userEmail)
             startActivity(intent)
         }
+
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationViewSpendings)
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
@@ -96,6 +101,12 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
                 R.id.Income -> {  // New navigation option for Income
                     val intent = Intent(this, MyIncome::class.java)
                     intent.putExtra("USER_EMAIL", userEmail)
+                    startActivity(intent)
+                    true
+                }
+                R.id.Calendar -> {
+                    // Intent for Calendar (assumed to be implemented)
+                    val intent = Intent(this, calendarView::class.java)
                     startActivity(intent)
                     true
                 }
@@ -154,6 +165,22 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
         findViewById<Button>(R.id.btnEssential).setOnClickListener { filterSpendings("essential") }
         findViewById<Button>(R.id.btnNonEssential).setOnClickListener { filterSpendings("non-essential") }
     }
+    private fun loadSpendings(): ArrayList<Spendings> {
+        val sharedPref = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
+        val gson = Gson()
+        val json = sharedPref.getString("spendingsList", null)
+        val type = object : TypeToken<ArrayList<Spendings>>() {}.type
+        return gson.fromJson(json, type) ?: ArrayList()
+    }
+
+    private fun saveSpendings() {
+        val sharedPref = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
+        val editor = sharedPref.edit()
+        val gson = Gson()
+        val json = gson.toJson(spendingsArrayList)
+        editor.putString("spendingsList", json)
+        editor.apply()
+    }
 
     private fun setupDialog() {
         dialog = Dialog(this)
@@ -190,6 +217,7 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
                                 Log.d("Firestore Data", "Spending added: ${spending.name}, ${spending.date}")
                             }
                         }
+                        saveSpendings() // Save updated list to SharedPreferences
                         // Show essential spendings by default
                         filterSpendings("essential")
                     } else {
@@ -276,4 +304,5 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
         startActivity(intent)
         finish()
     }
+
 }

@@ -17,6 +17,7 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import calendarView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
@@ -89,6 +90,12 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
 
                 R.id.Income -> {
                     // Do nothing since we're already on this screen
+                    true
+                }
+                R.id.Calendar -> {
+                    // Intent for Calendar (assumed to be implemented)
+                    val intent = Intent(this, calendarView::class.java)
+                    startActivity(intent)
                     true
                 }
                 else -> false

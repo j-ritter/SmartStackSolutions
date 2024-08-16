@@ -1,17 +1,19 @@
 package com.example.smartstackbills;
 
+import com.google.firebase.Timestamp;
+
 public class Bills {
 
     String billId;
-    String name, date, comment, category, amount, vendor, repeat, subcategory, attachment;
+    String name, comment, category, amount, vendor, repeat, subcategory, attachment;
+    Timestamp date;
     boolean paid;
 
     public Bills() {
         // Default constructor required for Firestore
-
     }
 
-    public Bills(String billId, String name, String date, String comment, String category, String amount, String vendor, boolean paid, String repeat, String subcategory, String attachment) {
+    public Bills(String billId, String name, Timestamp date, String comment, String category, String amount, String vendor, boolean paid, String repeat, String subcategory, String attachment) {
         this.billId = billId;
         this.name = name;
         this.date = date;
@@ -25,6 +27,7 @@ public class Bills {
         this.attachment = attachment;
     }
 
+    // Getters and Setters
 
     public String getBillId() {
         return billId;
@@ -34,7 +37,9 @@ public class Bills {
         this.billId = billId;
     }
 
-    public String getAttachment(){return attachment;}
+    public String getAttachment() {
+        return attachment;
+    }
 
     public void setAttachment(String attachment) {
         this.attachment = attachment;
@@ -44,7 +49,7 @@ public class Bills {
         return repeat;
     }
 
-    public void setRepeat(String repeat){
+    public void setRepeat(String repeat) {
         this.repeat = repeat;
     }
 
@@ -64,11 +69,11 @@ public class Bills {
         this.name = name;
     }
 
-    public String getDate() {
+    public Timestamp getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Timestamp date) {
         this.date = date;
     }
 

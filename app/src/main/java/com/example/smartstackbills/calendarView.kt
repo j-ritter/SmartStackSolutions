@@ -1,57 +1,61 @@
-package com.example.smartstackbills
-
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.widget.EditText
-import androidx.activity.enableEdgeToEdge
+import android.widget.CalendarView
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import calendarView
+import com.example.smartstackbills.AboutUs
+import com.example.smartstackbills.Datasecurity
+import com.example.smartstackbills.FAQs
+import com.example.smartstackbills.Help
+import com.example.smartstackbills.LogIn
+import com.example.smartstackbills.MainMenu
+import com.example.smartstackbills.MyBills
+import com.example.smartstackbills.MyIncome
+import com.example.smartstackbills.MySpendings
+import com.example.smartstackbills.R
+import com.example.smartstackbills.Terms
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
-class MainMenu : AppCompatActivity() {
+class calendarView : AppCompatActivity() {
     private var userEmail: String? = null
     private lateinit var drawerLayout: DrawerLayout
+    private lateinit var calendarView: CalendarView
+    private lateinit var selectedDateTextView: TextView
 
-    // Define hardcoded spending values
-    private val spendings = listOf(100.0, 200.0, 150.0) // Example values
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_main_menu)
-        setSpendingsAmount()
+        setContentView(R.layout.activity_calendar_view)
 
         userEmail = intent.getStringExtra("USER_EMAIL")
+        val calendarView: CalendarView = findViewById(R.id.calendarView)
+        val selectedDateTextView: TextView = findViewById(R.id.selectedDateTextView)
 
-        drawerLayout = findViewById(R.id.drawer_layout)
-
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+        // Configurar el listener para manejar la selección de la fecha
+        calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->
+            val selectedDate = Calendar.getInstance().apply {
+                set(Calendar.YEAR, year)
+                set(Calendar.MONTH, month)
+                set(Calendar.DAY_OF_MONTH, dayOfMonth)
+            }
+            val dateString = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(selectedDate.time)
+            selectedDateTextView.text = "Fecha seleccionada: $dateString"
         }
 
-        val toolbar: Toolbar = findViewById(R.id.toolbar_main)
-        setSupportActionBar(toolbar)
-        toolbar.setNavigationOnClickListener {
-            drawerLayout.openDrawer(GravityCompat.START)
-        }
-
-        val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationView)
+        val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationViewCalendar)
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.Main -> {
-                    // Stay on the same activity
+                    val intent = Intent(this, MainMenu::class.java)
+                    startActivity(intent)
                     true
                 }
                 R.id.Bills -> {
@@ -73,17 +77,24 @@ class MainMenu : AppCompatActivity() {
                     true
                 }
                 R.id.Calendar -> {
-                    // Intent for Calendar (assumed to be implemented)
-                    val intent = Intent(this, calendarView::class.java)
+                    val intent = Intent(this,calendarView::class.java)
+                    intent.putExtra("USER_EMAIL", userEmail)
                     startActivity(intent)
                     true
                 }
-
                 else -> false
             }
         }
+        // Initialize the toolbar and set it as the action bar
+        val toolbar: Toolbar = findViewById(R.id.toolbar_main_Calendar)
+        setSupportActionBar(toolbar)
+        toolbar.setNavigationOnClickListener {
+            drawerLayout.openDrawer(GravityCompat.START)
+        }
 
-        val navView: NavigationView = findViewById(R.id.nav_view)
+
+        // Setup NavigationView
+        val navView: NavigationView = findViewById(R.id.nav_view_Calendar)
         navView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.nav_item_aboutus -> {
@@ -119,38 +130,7 @@ class MainMenu : AppCompatActivity() {
             }
         }
 
-        // Apply alternating background colors
-        val menu = navView.menu
-        for (i in 0 until menu.size()) {
-            val menuItem = menu.getItem(i)
-            if (i % 2 == 0) {
-                menuItem.actionView?.setBackgroundResource(R.drawable.nav_item_background_light)
-            } else {
-                menuItem.actionView?.setBackgroundResource(R.drawable.nav_item_background_dark)
-            }
-        }
-
-        // Set the spendings amount in the EditText
-        setSpendingsAmount()
     }
-
-    private fun setSpendingsAmount() {
-        val totalSpendings = getTotalSpendings()
-        val etSpendingsAmount: EditText = findViewById(R.id.etSpendingsAmount)
-        etSpendingsAmount.setText(totalSpendings.toString())
-    }
-
-    private fun getTotalSpendings(): Float {
-        val sharedPref = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
-        val gson = Gson()
-        val json = sharedPref.getString("spendingsList", null)
-        val type = object : TypeToken<ArrayList<Spendings>>() {}.type
-        val spendingsList: ArrayList<Spendings> = gson.fromJson(json, type) ?: ArrayList()
-        return spendingsList.sumOf { it.amount.toDouble() }.toFloat()
-    }
-
-
-
     private fun logoutUser() {
         FirebaseAuth.getInstance().signOut()
         val intent = Intent(this, LogIn::class.java)
