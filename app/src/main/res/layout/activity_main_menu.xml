@@ -44,7 +44,8 @@
             android:gravity="center"
             app:layout_constraintTop_toBottomOf="@+id/toolbar_main"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintEnd_toEndOf="parent"
+            >
 
             <!-- Left Arrow for Previous Month -->
             <ImageButton
@@ -87,14 +88,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/toolbar_main"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp" />
+            android:layout_marginTop="32dp"
+            />
 
         <EditText
             android:id="@+id/etBillsAmount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="numberDecimal"
-            android:hint="0.00"
+            android:inputType="none"
+            android:hint="-0.00"
+            android:focusable="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tvBills"
             android:layout_marginEnd="16dp"/>
@@ -115,8 +118,9 @@
             android:id="@+id/etIncomingAmount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="numberDecimal"
-            android:hint="0.00"
+            android:inputType="none"
+            android:hint="-0.00"
+            android:focusable="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tvIncoming"
             android:layout_marginEnd="16dp"/>
@@ -137,8 +141,9 @@
             android:id="@+id/etOverdueAmount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="numberDecimal"
-            android:hint="0.00"
+            android:inputType="none"
+            android:focusable="false"
+            android:hint="-0.00"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tvOverdue"
             android:layout_marginEnd="16dp"/>
@@ -171,8 +176,9 @@
             android:id="@+id/etSpendingsAmount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="numberDecimal"
-            android:hint="0.00"
+            android:inputType="none"
+            android:hint="-0.00"
+            android:focusable="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tvSpendings"
             android:layout_marginEnd="16dp"/>
@@ -193,8 +199,9 @@
             android:id="@+id/etEssential"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="numberDecimal"
-            android:hint="0.00"
+            android:inputType="none"
+            android:hint="-0.00"
+            android:focusable="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tvEssential"
             android:layout_marginEnd="16dp"/>
@@ -215,8 +222,9 @@
             android:id="@+id/etNonEssential"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="numberDecimal"
-            android:hint="0.00"
+            android:inputType="none"
+            android:hint="-0.00"
+            android:focusable="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tvNonEssential"
             android:layout_marginEnd="16dp"/>
@@ -248,8 +256,9 @@
             android:id="@+id/etIncome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="numberDecimal"
-            android:hint="0.00"
+            android:inputType="none"
+            android:focusable="false"
+            android:hint="+0.00"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tvIncome"
             android:layout_marginEnd="16dp"/>
@@ -270,8 +279,9 @@
             android:id="@+id/etRecurring"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="numberDecimal"
-            android:hint="0.00"
+            android:inputType="none"
+            android:focusable="false"
+            android:hint="+0.00"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tvRecurring"
             android:layout_marginEnd="16dp"/>
@@ -292,8 +302,9 @@
             android:id="@+id/etOneTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="numberDecimal"
-            android:hint="0.00"
+            android:inputType="none"
+            android:focusable="false"
+            android:hint="+0.00"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tvOneTime"
             android:layout_marginEnd="16dp"/>
@@ -328,6 +339,7 @@
             android:layout_height="wrap_content"
             android:inputType="numberDecimal"
             android:hint="0.00"
+            android:focusable="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tvTotal"
             android:layout_marginEnd="16dp"/>

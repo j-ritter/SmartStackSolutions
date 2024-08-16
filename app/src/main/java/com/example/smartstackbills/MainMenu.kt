@@ -28,8 +28,6 @@ class MainMenu : AppCompatActivity() {
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var currentMonth: Calendar
 
-    // Define hardcoded spending values
-    private val spendings = listOf(100.0, 200.0, 150.0) // Example values
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -159,6 +157,7 @@ class MainMenu : AppCompatActivity() {
         val spendingsList: ArrayList<Spendings> = gson.fromJson(json, type) ?: ArrayList()
         return spendingsList.sumOf { it.amount.toDouble() }.toFloat()
     }
+
 
     private fun setupMonthNavigation() {
         val tvMonth = findViewById<TextView>(R.id.tvMonth)
