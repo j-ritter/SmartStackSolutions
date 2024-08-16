@@ -20,4 +20,41 @@
     <item name="txtImageAddedSpending" type="id" />
     <item name="btnCancelSpending" type="id" />
     <item name="btnSaveSpending" type="id" />
+    <item name="edtTitleBill" type="id" />
+    <item name="txtCategoryBill" type="id" />
+    <item name="spinnerCategoriesBill" type="id" />
+    <item name="txtSubcategoryBill" type="id" />
+    <item name="spinnerSubcategoriesBill" type="id" />
+    <item name="txtVendorBill" type="id" />
+    <item name="spinnerVendorsBill" type="id" />
+    <item name="edtCustomVendorBill" type="id" />
+    <item name="txtAmountBill" type="id" />
+    <item name="edtAmountBill" type="id" />
+    <item name="txtDateBill" type="id" />
+    <item name="edtDateBill" type="id" />
+    <item name="edtAmount" type="id" />
+    <item name="btnGuardar" type="id" />
+    <item name="textView7" type="id" />
+    <item name="spinnerCategories" type="id" />
+    <item name="edtTitle" type="id" />
+    <item name="txtCategory" type="id" />
+    <item name="btnCancel" type="id" />
+    <item name="btnImage" type="id" />
+    <item name="txtImageAdded" type="id" />
+    <item name="spinnerVendors" type="id" />
+    <item name="edtCustomVendor" type="id" />
+    <item name="txtVendor" type="id" />
+    <item name="edtComments" type="id" />
+    <item name="spinnerRepeat" type="id" />
+    <item name="edtDate" type="id" />
+    <item name="textView6" type="id" />
+    <item name="textView5" type="id" />
+    <item name="spinnerSubcategories" type="id" />
+    <item name="btnSaveBill" type="id" />
+    <item name="btnCancelBill" type="id" />
+    <item name="txtImageAddedBill" type="id" />
+    <item name="btnUploadImageBill" type="id" />
+    <item name="txtAttachmentBill" type="id" />
+    <item name="edtCommentBill" type="id" />
+    <item name="txtCommentBill" type="id" />
 </resources>

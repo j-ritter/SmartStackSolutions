@@ -1,49 +1,31 @@
 package com.example.smartstackbills
 
 import android.content.Intent
-import android.content.res.Configuration
 import android.os.Bundle
-import android.view.MenuItem
-import android.widget.Toast
-import android.widget.Toolbar
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import calendarView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.auth.FirebaseAuth
 
-class MainMenu : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
-
-
-    private lateinit var drawer: DrawerLayout
-    private lateinit var toggle: ActionBarDrawerToggle
+class MainMenu : AppCompatActivity() {
     private var userEmail: String? = null
+    private lateinit var drawerLayout: DrawerLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main_menu)
 
-        val toolbar: androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbar_main)
-        setSupportActionBar(toolbar)
-
-        drawer = findViewById(R.id.drawer_layout)
-
-        toggle = ActionBarDrawerToggle(this,drawer,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close)
-        drawer.addDrawerListener(toggle)
-
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setHomeButtonEnabled(true)
-
-        val navigationView: NavigationView = findViewById(R.id.nav_view)
-        navigationView.setNavigationItemSelectedListener(this)
-
-
         userEmail = intent.getStringExtra("USER_EMAIL")
+
+        drawerLayout = findViewById(R.id.drawer_layout)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -51,51 +33,97 @@ class MainMenu : AppCompatActivity(), NavigationView.OnNavigationItemSelectedLis
             insets
         }
 
+        val toolbar: Toolbar = findViewById(R.id.toolbar_main)
+        setSupportActionBar(toolbar)
+        toolbar.setNavigationOnClickListener {
+            drawerLayout.openDrawer(GravityCompat.START)
+        }
+
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationView)
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.Bills -> {
                     val intent = Intent(this, MyBills::class.java)
-                    intent.putExtra("USER_EMAIL", userEmail) // Pasar el correo electrónico
+                    intent.putExtra("USER_EMAIL", userEmail)
                     startActivity(intent)
                     true
                 }
                 R.id.Spendings -> {
                     val intent = Intent(this, MySpendings::class.java)
-                    intent.putExtra("USER_EMAIL", userEmail) // Pasar el correo electrónico
+                    intent.putExtra("USER_EMAIL", userEmail)
+                    startActivity(intent)
+                    true
+                }
+                R.id.Income -> {  // New navigation option for Income
+                    val intent = Intent(this, MyIncome::class.java)
+                    intent.putExtra("USER_EMAIL", userEmail)
+                    startActivity(intent)
+                    true
+                }
+                R.id.Calendar -> {
+                    val intent = Intent(this,calendarView::class.java)
+                    intent.putExtra("USER_EMAIL", userEmail)
                     startActivity(intent)
                     true
                 }
                 else -> false
             }
         }
-    }
 
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
-            R.id.nav_item_one -> Toast.makeText(this,"Item 1", Toast.LENGTH_SHORT).show()
-            R.id.nav_item_two -> Toast.makeText(this,"Item 2", Toast.LENGTH_SHORT).show()
-            R.id.nav_item_three -> Toast.makeText(this,"Item 3", Toast.LENGTH_SHORT).show()
+        val navView: NavigationView = findViewById(R.id.nav_view)
+        navView.setNavigationItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.nav_item_aboutus -> {
+                    val intent = Intent(this, AboutUs::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.nav_item_faq -> {
+                    val intent = Intent(this, FAQs::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.nav_item_datasec -> {
+                    val intent = Intent(this, Datasecurity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.nav_item_help -> {
+                    val intent = Intent(this, Help::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.nav_item_terms -> {
+                    val intent = Intent(this, Terms::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.nav_item_logout -> {
+                    logoutUser()
+                    true
+                }
+                else -> false
+            }
         }
-        drawer.closeDrawer(GravityCompat.START)
-        return true
-    }
 
-    override fun onPostCreate(savedInstanceState: Bundle?) {
-        super.onPostCreate(savedInstanceState)
-        toggle.syncState()
-    }
 
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-        toggle.onConfigurationChanged(newConfig)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (toggle.onOptionsItemSelected(item)){
-            return true
+        // Apply alternating background colors
+        val menu = navView.menu
+        for (i in 0 until menu.size()) {
+            val menuItem = menu.getItem(i)
+            if (i % 2 == 0) {
+                menuItem.actionView?.setBackgroundResource(R.drawable.nav_item_background_light)
+            } else {
+                menuItem.actionView?.setBackgroundResource(R.drawable.nav_item_background_dark)
+            }
         }
+    }
 
-        return super.onOptionsItemSelected(item)
+    private fun logoutUser() {
+        FirebaseAuth.getInstance().signOut()
+        val intent = Intent(this, LogIn::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        finish()
     }
 }

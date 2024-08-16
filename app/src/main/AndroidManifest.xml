@@ -20,6 +20,21 @@
         android:theme="@style/Theme.SmartStackBills"
         tools:targetApi="31">
         <activity
+            android:name=".calendarView"
+            android:exported="false" />
+        <activity
+            android:name=".AboutUs"
+            android:exported="false" />
+        <activity
+            android:name=".Terms"
+            android:exported="false" />
+        <activity
+            android:name=".Help"
+            android:exported="false" />
+        <activity
+            android:name=".Datasecurity"
+            android:exported="false" />
+        <activity
             android:name=".createSpending"
             android:exported="false" />
         <activity
