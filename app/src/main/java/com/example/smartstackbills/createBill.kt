@@ -332,7 +332,7 @@ class createBill : AppCompatActivity() {
             val billDate = dateFormat.parse(edtDate.text.toString())
             val currentDate = Calendar.getInstance().time
 
-            if (billDate != null && !billDate.before(currentDate)) {
+            if (billDate != null) {
                 true
             } else {
                 Toast.makeText(this, "Please select a valid future date", Toast.LENGTH_SHORT).show()
@@ -463,6 +463,7 @@ class createBill : AppCompatActivity() {
                 Toast.makeText(this, "Error adding vendor: ${e.message}", Toast.LENGTH_SHORT).show()
             }
     }
+
     private fun loadVendors(category: String) {
         val categoryVendorsRef = db.collection("categories").document(category)
         categoryVendorsRef.get()
