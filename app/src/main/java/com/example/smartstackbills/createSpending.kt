@@ -18,6 +18,7 @@ import android.provider.MediaStore
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.FileProvider
 import android.os.Environment
+import android.text.InputType
 import androidx.core.app.ActivityCompat.startActivityForResult
 import com.google.firebase.firestore.FieldValue
 import java.io.File
@@ -190,8 +191,14 @@ class createSpending : AppCompatActivity() {
         userUid = FirebaseAuth.getInstance().currentUser?.uid
 
         val edtDate = findViewById<EditText>(R.id.edtDateSpending)
+        edtDate.inputType = InputType.TYPE_NULL  // Disable manual input
         edtDate.setOnClickListener {
             showDatePickerDialog()
+        }
+        edtDate.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                showDatePickerDialog()
+            }
         }
 
         val spinnerCategories = findViewById<Spinner>(R.id.spinnerCategoriesSpending)

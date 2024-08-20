@@ -1,6 +1,7 @@
 package com.example.smartstackbills
 
 import android.os.Bundle
+import android.text.InputType
 import android.view.View
 import android.widget.*
 import androidx.activity.enableEdgeToEdge
@@ -48,8 +49,14 @@ class createIncome : AppCompatActivity() {
         userUid = FirebaseAuth.getInstance().currentUser?.uid
 
         val edtDate = findViewById<EditText>(R.id.edtDateIncome)
+        edtDate.inputType = InputType.TYPE_NULL  // Disable manual input
         edtDate.setOnClickListener {
             showDatePickerDialog()
+        }
+        edtDate.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                showDatePickerDialog()
+            }
         }
 
         val spinnerCategories = findViewById<Spinner>(R.id.spinnerCategoriesIncome)
