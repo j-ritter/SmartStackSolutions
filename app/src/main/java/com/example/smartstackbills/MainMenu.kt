@@ -142,7 +142,7 @@ class MainMenu : AppCompatActivity() {
         setBillsAmount()
     }
 
-        // Apply alternating background colors
+    // Apply alternating background colors
     private fun setupUI(){
         val navView: NavigationView = findViewById(R.id.nav_view)
         val menu = navView.menu

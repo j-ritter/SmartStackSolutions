@@ -1,15 +1,21 @@
 package com.example.smartstackbills;
 
+import com.google.firebase.Timestamp;
+
+
 public class Spendings {
 
-    String name, date, comment, category, amount, vendor, subcategory, attachment;
+    String spendingId;
+    String name, comment, category, amount, vendor, subcategory, attachment;
+    Timestamp date;
     boolean isEssential;
 
     public Spendings() {
         // Default constructor needed for Firestore
     }
 
-    public Spendings(String name, String date, String comment, String category, String amount, String vendor, String subcategory, String attachment, boolean isEssential) {
+    public Spendings(String spendingId, String name, Timestamp date, String comment, String category, String amount, String vendor, String subcategory, String attachment, boolean isEssential) {
+        this.spendingId = spendingId;
         this.name = name;
         this.date = date;
         this.comment = comment;
@@ -21,6 +27,13 @@ public class Spendings {
         this.isEssential = isEssential;
     }
 
+    public String getSpendingId() {
+        return spendingId;
+    }
+
+    public void setSpendingId(String spendingId) {
+        this.spendingId = spendingId;
+    }
     public String getAttachment() {
         return attachment;
     }
@@ -45,11 +58,11 @@ public class Spendings {
         this.name = name;
     }
 
-    public String getDate() {
+    public Timestamp getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Timestamp date) {
         this.date = date;
     }
 

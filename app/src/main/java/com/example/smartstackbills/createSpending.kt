@@ -23,6 +23,7 @@ import com.google.firebase.firestore.FieldValue
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
+import java.util.*
 import java.util.Date
 import java.util.Locale
 
@@ -315,6 +316,26 @@ class createSpending : AppCompatActivity() {
         val edtDate = findViewById<EditText>(R.id.edtDateSpending)
         edtDate.setText("$day/${month + 1}/$year")
     }
+    private fun validateDateField(): Boolean {
+        val edtDate = findViewById<EditText>(R.id.edtDateSpending)
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        dateFormat.isLenient = false  // This ensures that the date format is strict
+
+        return try {
+            val spendingDate = dateFormat.parse(edtDate.text.toString())
+            val currentDate = Calendar.getInstance().time
+
+            if (spendingDate != null) {
+                true
+            } else {
+                Toast.makeText(this, "Please select a valid future date", Toast.LENGTH_SHORT).show()
+                false
+            }
+        } catch (e: Exception) {
+            Toast.makeText(this, "Invalid date format. Please use dd/MM/yyyy", Toast.LENGTH_SHORT).show()
+            false
+        }
+    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -344,11 +365,11 @@ class createSpending : AppCompatActivity() {
 
 
     private fun saveSpending() {
-        if (validateMandatoryFields()) {
+        if (validateMandatoryFields() && validateDateField()) {
             if (userEmail != null && userUid != null) {
                 val spendingName = findViewById<EditText>(R.id.edtTitleSpending).text.toString()
                 val spendingAmount = findViewById<EditText>(R.id.edtAmountSpending).text.toString()
-                val spendingDate = findViewById<EditText>(R.id.edtDateSpending).text.toString()
+                val spendingDateString = findViewById<EditText>(R.id.edtDateSpending).text.toString()
                 val spendingCategory = findViewById<Spinner>(R.id.spinnerCategoriesSpending).selectedItem.toString()
                 val spendingSubcategory = findViewById<Spinner>(R.id.spinnerSubcategoriesSpending).selectedItem.toString()
                 val spinnerVendors = findViewById<Spinner>(R.id.spinnerVendorsSpending)
@@ -363,10 +384,19 @@ class createSpending : AppCompatActivity() {
                 val spendingComment = findViewById<EditText>(R.id.edtCommentSpending).text.toString()
                 val spendingAttachment = imageUri?.toString()
 
+                // Conversión de String a Date
+                val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                val spendingDate: Date? = try {
+                    sdf.parse(spendingDateString)
+                } catch (e: Exception) {
+                    null
+                }
+                val timestamp = spendingDate?.let { com.google.firebase.Timestamp(it) }
+
                 val spending = hashMapOf(
                     "name" to spendingName,
                     "amount" to spendingAmount,
-                    "date" to spendingDate,
+                    "date" to timestamp,
                     "category" to spendingCategory,
                     "subcategory" to spendingSubcategory,
                     "vendor" to spendingVendor,
@@ -381,10 +411,8 @@ class createSpending : AppCompatActivity() {
 
                 docRef.set(spending)
                     .addOnSuccessListener {
-                        Toast.makeText(this, "Gasto guardado exitosamente", Toast.LENGTH_SHORT).show()
-                        val intent = Intent(this, MySpendings::class.java)
-                        intent.putExtra("USER_EMAIL", userEmail)
-                        startActivity(intent)
+                        Toast.makeText(this, "Spending saved successfully", Toast.LENGTH_SHORT).show()
+                        finish()
                     }
                     .addOnFailureListener { e ->
                         Toast.makeText(this, "Error al guardar el gasto: ${e.message}", Toast.LENGTH_SHORT).show()

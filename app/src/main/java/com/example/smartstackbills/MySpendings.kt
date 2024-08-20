@@ -29,21 +29,24 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import java.text.SimpleDateFormat
-import java.util.*
 import kotlin.collections.ArrayList
+import com.google.firebase.Timestamp
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListener {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var spendingsArrayList: ArrayList<Spendings>
     private lateinit var allSpendingsArrayList: ArrayList<Spendings>
-    private lateinit var myAdapter: MyAdapterSpendings
+    private lateinit var myAdapterSpendings: MyAdapterSpendings
     private lateinit var db: FirebaseFirestore
     private var listenerRegistration: ListenerRegistration? = null
     private lateinit var fab: FloatingActionButton
     private var userEmail: String? = null
     private lateinit var dialog: Dialog
+    private var selectedSpending: Spendings? = null
     private lateinit var drawerLayout: DrawerLayout
 
     private val essentialSubcategories = setOf(
@@ -69,10 +72,10 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
         recyclerView.layoutManager = LinearLayoutManager(this)
         userEmail = intent.getStringExtra("USER_EMAIL")
 
-        spendingsArrayList = loadSpendings()
+        spendingsArrayList = ArrayList()
         allSpendingsArrayList = ArrayList()
-        myAdapter = MyAdapterSpendings(this, spendingsArrayList, this)
-        recyclerView.adapter = myAdapter
+        myAdapterSpendings = MyAdapterSpendings(this, spendingsArrayList, this)
+        recyclerView.adapter = myAdapterSpendings
 
         fab = findViewById(R.id.fabSpendings)
         fab.setOnClickListener {
@@ -237,6 +240,7 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
 
     override fun onSpendingClick(position: Int) {
         val spending = spendingsArrayList[position]
+        selectedSpending = spending
         showSpendingDetailsDialog(spending)
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -255,6 +259,10 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
         val edtAttachmentDialog = dialog.findViewById<ImageView>(R.id.edtAttachmentDialogSpendings)
         val attachmentUri = spending.attachment
 
+        // Convertir el Timestamp a String
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val spendingDateString = if (spending.date != null) dateFormat.format(spending.date.toDate()) else ""
+
         if (attachmentUri != null) {
             edtAttachmentDialog.setImageURI(Uri.parse(attachmentUri))
             edtAttachmentDialog.visibility = View.VISIBLE
@@ -268,7 +276,7 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
         edtCategoryDialog.setText(spending.category)
         edtSubcategoryDialog.setText(spending.subcategory)
         edtVendorDialog.setText(spending.vendor)
-        edtDateDialog.setText(spending.date)
+        edtDateDialog.setText(spendingDateString)
         edtCommentDialog.setText(spending.comment)
 
         dialog.show()
@@ -294,9 +302,30 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
             }
         }
 
-        myAdapter.updateSpendings(filteredSpendings)
+        myAdapterSpendings.updateSpendings(filteredSpendings)
         Log.d("Filter", "Filtered spendings count for $filter: ${filteredSpendings.size}")
     }
+    private fun groupSpendingsByMonth(spendingsArrayList: ArrayList<Spendings>): ArrayList<Any> {
+        val groupedSpendings = LinkedHashMap<String, MutableList<Spendings>>()
+        val sdf = SimpleDateFormat("MMMM yyyy", Locale.getDefault())
+
+        for (spending in spendingsArrayList) {
+            val monthYear = sdf.format(spending.date.toDate())
+            if (!groupedSpendings.containsKey(monthYear)) {
+                groupedSpendings[monthYear] = ArrayList()
+            }
+            groupedSpendings[monthYear]?.add(spending)
+        }
+
+        val items = ArrayList<Any>()
+        for ((monthYear, bills) in groupedSpendings) {
+            items.add(monthYear)
+            items.addAll(bills)
+        }
+
+        return items
+    }
+
     private fun logoutUser() {
         FirebaseAuth.getInstance().signOut()
         val intent = Intent(this, LogIn::class.java)
