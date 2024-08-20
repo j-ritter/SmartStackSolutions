@@ -17,6 +17,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import MyCalendarView
+import android.widget.ImageView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
@@ -164,8 +165,14 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
         dialog.setCancelable(false)
 
         val btnCloseDialog = dialog.findViewById<Button>(R.id.btnCloseDialogIncome)
+        val imgDeleteIncome = dialog.findViewById<ImageView>(R.id.imgDeleteIncome)
+
         btnCloseDialog.setOnClickListener {
             dialog.dismiss()
+        }
+
+        imgDeleteIncome.setOnClickListener {
+            deleteIncome()
         }
     }
 
@@ -239,6 +246,25 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
         edtCommentDialog.setText(income.comment)
 
         dialog.show()
+    }
+    private fun deleteIncome() {
+        selectedIncome?.let { income ->
+            val userUid = FirebaseAuth.getInstance().currentUser?.uid
+            if (userUid != null) {
+                db.collection("users").document(userUid).collection("income")
+                    .document(income.incomeId)
+                    .delete()
+                    .addOnSuccessListener {
+                        Toast.makeText(this, "Income deleted successfully", Toast.LENGTH_SHORT).show()
+                        dialog.dismiss()
+                    }
+                    .addOnFailureListener {
+                        Toast.makeText(this, "Failed to delete income", Toast.LENGTH_SHORT).show()
+                    }
+            } else {
+                Toast.makeText(this, "Error: User not authenticated", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun filterIncome(filter: String) {

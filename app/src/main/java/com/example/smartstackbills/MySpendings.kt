@@ -193,8 +193,14 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
         dialog.setCancelable(false)
 
         val btnCloseDialog = dialog.findViewById<Button>(R.id.btnCloseDialogSpendings)
+        val imgDeleteSpending = dialog.findViewById<ImageView>(R.id.imgDeleteSpendings)
+
         btnCloseDialog.setOnClickListener {
             dialog.dismiss()
+        }
+
+        imgDeleteSpending.setOnClickListener {
+            deleteSpending()
         }
     }
 
@@ -280,6 +286,26 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
         edtCommentDialog.setText(spending.comment)
 
         dialog.show()
+    }
+
+    private fun deleteSpending() {
+        selectedSpending?.let { spending ->
+            val userUid = FirebaseAuth.getInstance().currentUser?.uid
+            if (userUid != null) {
+                db.collection("users").document(userUid).collection("spendings")
+                    .document(spending.spendingId)
+                    .delete()
+                    .addOnSuccessListener {
+                        Toast.makeText(this, "Spending deleted successfully", Toast.LENGTH_SHORT).show()
+                        dialog.dismiss()
+                    }
+                    .addOnFailureListener {
+                        Toast.makeText(this, "Failed to delete bill", Toast.LENGTH_SHORT).show()
+                    }
+            } else {
+                Toast.makeText(this, "Error: User not authenticated", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun filterSpendings(filter: String) {
