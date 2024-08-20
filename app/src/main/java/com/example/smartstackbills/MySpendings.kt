@@ -20,7 +20,7 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import calendarView
+import MyCalendarView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
@@ -106,7 +106,7 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
                 }
                 R.id.Calendar -> {
                     // Intent for Calendar (assumed to be implemented)
-                    val intent = Intent(this, calendarView::class.java)
+                    val intent = Intent(this, MyCalendarView::class.java)
                     startActivity(intent)
                     true
                 }

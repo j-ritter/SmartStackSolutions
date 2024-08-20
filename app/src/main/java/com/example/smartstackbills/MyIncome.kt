@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
-import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
@@ -17,7 +16,7 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import calendarView
+import MyCalendarView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
@@ -25,8 +24,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Locale
 import kotlin.collections.ArrayList
+import com.google.firebase.Timestamp
+import java.util.Calendar
 
 class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
 
@@ -40,6 +41,7 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
     private var userEmail: String? = null
     private lateinit var dialog: Dialog
     private lateinit var drawerLayout: DrawerLayout
+    private var selectedIncome: Income? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -94,7 +96,7 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
                 }
                 R.id.Calendar -> {
                     // Intent for Calendar (assumed to be implemented)
-                    val intent = Intent(this, calendarView::class.java)
+                    val intent = Intent(this, MyCalendarView::class.java)
                     startActivity(intent)
                     true
                 }
@@ -207,6 +209,7 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
 
     override fun onIncomeClick(position: Int) {
         val income = incomeArrayList[position]
+        selectedIncome = income
         showIncomeDetailsDialog(income)
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -223,11 +226,15 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
         val edtRepeatDialog = dialog.findViewById<EditText>(R.id.edtRepeatDialogIncome)
         val edtCommentDialog = dialog.findViewById<EditText>(R.id.edtCommentDialogIncome)
 
+        // Convertir el Timestamp a String
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val incomeDateString = if (income.date != null) dateFormat.format(income.date.toDate()) else ""
+
         edtTitleDialog.setText(income.name)
         edtAmountDialog.setText(income.amount)
         edtCategoryDialog.setText(income.category)
         edtSubcategoryDialog.setText(income.subcategory)
-        edtDateDialog.setText(income.date)
+        edtDateDialog.setText(incomeDateString)
         edtRepeatDialog.setText(income.repeat)
         edtCommentDialog.setText(income.comment)
 
@@ -236,6 +243,7 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
 
     private fun filterIncome(filter: String) {
         val filteredIncome = ArrayList<Income>()
+
 
         for (income in allIncomeArrayList) {
             when (filter) {
@@ -256,6 +264,26 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
 
         myAdapterIncome.updateIncome(filteredIncome)
         Log.d("Filter", "Filtered income count for $filter: ${filteredIncome.size}")
+    }
+    private fun groupIncomeByMonth(incomeArrayList: ArrayList<Income>): ArrayList<Any> {
+        val groupedIncome = LinkedHashMap<String, MutableList<Income>>()
+        val sdf = SimpleDateFormat("MMMM yyyy", Locale.getDefault())
+
+        for (income in incomeArrayList) {
+            val monthYear = sdf.format(income.date.toDate())
+            if (!groupedIncome.containsKey(monthYear)) {
+                groupedIncome[monthYear] = ArrayList()
+            }
+            groupedIncome[monthYear]?.add(income)
+        }
+
+        val items = ArrayList<Any>()
+        for ((monthYear, income) in groupedIncome) {
+            items.add(monthYear)
+            items.addAll(income)
+        }
+
+        return items
     }
     private fun logoutUser() {
         FirebaseAuth.getInstance().signOut()

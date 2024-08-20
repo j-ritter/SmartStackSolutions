@@ -1,5 +1,6 @@
 package com.example.smartstackbills
 
+
 import android.app.Dialog
 import android.content.Intent
 import android.net.Uri
@@ -18,13 +19,16 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import calendarView
+import MyCalendarView
+import android.content.Context
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -69,6 +73,11 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationViewBills)
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
+                R.id.Main -> {
+                    val intent = Intent(this, MainMenu::class.java)
+                    startActivity(intent)
+                    true
+                }
                 R.id.Bills -> {
                     val intent = Intent(this, MyBills::class.java)
                     intent.putExtra("USER_EMAIL", userEmail) // Pasar el correo electrónico
@@ -88,7 +97,7 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
                     true
                 }
                 R.id.Calendar -> {
-                    val intent = Intent(this, calendarView::class.java)
+                    val intent = Intent(this, MyCalendarView::class.java)
                     intent.putExtra("USER_EMAIL", userEmail)
                     startActivity(intent)
                     true
@@ -149,6 +158,22 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
         findViewById<Button>(R.id.btnDue).setOnClickListener { filterBills("due") }
         findViewById<Button>(R.id.btnRecurring).setOnClickListener { filterBills("recurring") }
         findViewById<Button>(R.id.btnPaid).setOnClickListener { filterBills("paid") }
+    }
+    private fun loadBills(): ArrayList<Bills> {
+        val sharedPref = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
+        val gson = Gson()
+        val json = sharedPref.getString("billsList", null)
+        val type = object : TypeToken<ArrayList<Bills>>() {}.type
+        return gson.fromJson(json, type) ?: ArrayList()
+    }
+
+    private fun saveBills() {
+        val sharedPref = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
+        val editor = sharedPref.edit()
+        val gson = Gson()
+        val json = gson.toJson(billsArrayList)
+        editor.putString("billsList", json)
+        editor.apply()
     }
 
     private fun setupDialog() {

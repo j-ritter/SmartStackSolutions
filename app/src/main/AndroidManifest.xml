@@ -20,7 +20,7 @@
         android:theme="@style/Theme.SmartStackBills"
         tools:targetApi="31">
         <activity
-            android:name=".calendarView"
+            android:name=".MyCalendarView"
             android:exported="false" />
         <activity
             android:name=".Terms"

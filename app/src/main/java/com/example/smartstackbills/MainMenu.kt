@@ -13,7 +13,7 @@ import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import calendarView
+import MyCalendarView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
@@ -33,7 +33,7 @@ class MainMenu : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main_menu)
-        setSpendingsAmount()
+
 
         userEmail = intent.getStringExtra("USER_EMAIL")
 
@@ -42,6 +42,7 @@ class MainMenu : AppCompatActivity() {
         currentMonth = Calendar.getInstance()
 
         setupMonthNavigation()
+        setupUI()
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -62,27 +63,31 @@ class MainMenu : AppCompatActivity() {
                     // Stay on the same activity
                     true
                 }
+
                 R.id.Bills -> {
                     val intent = Intent(this, MyBills::class.java)
                     intent.putExtra("USER_EMAIL", userEmail)
                     startActivity(intent)
                     true
                 }
+
                 R.id.Spendings -> {
                     val intent = Intent(this, MySpendings::class.java)
                     intent.putExtra("USER_EMAIL", userEmail)
                     startActivity(intent)
                     true
                 }
+
                 R.id.Income -> {  // New navigation option for Income
                     val intent = Intent(this, MyIncome::class.java)
                     intent.putExtra("USER_EMAIL", userEmail)
                     startActivity(intent)
                     true
                 }
+
                 R.id.Calendar -> {
                     // Intent for Calendar (assumed to be implemented)
-                    val intent = Intent(this, calendarView::class.java)
+                    val intent = Intent(this, MyCalendarView::class.java)
                     startActivity(intent)
                     true
                 }
@@ -99,36 +104,47 @@ class MainMenu : AppCompatActivity() {
                     startActivity(intent)
                     true
                 }
+
                 R.id.nav_item_faq -> {
                     val intent = Intent(this, FAQs::class.java)
                     startActivity(intent)
                     true
                 }
+
                 R.id.nav_item_datasec -> {
                     val intent = Intent(this, Datasecurity::class.java)
                     startActivity(intent)
                     true
                 }
+
                 R.id.nav_item_help -> {
                     val intent = Intent(this, Help::class.java)
                     startActivity(intent)
                     true
                 }
+
                 R.id.nav_item_terms -> {
                     val intent = Intent(this, Terms::class.java)
                     startActivity(intent)
                     true
                 }
+
                 R.id.nav_item_logout -> {
                     logoutUser()
                     true
                 }
+
                 else -> false
             }
         }
-
+        setSpendingsAmount()
+        setIncomingAmount()
+        setBillsAmount()
+    }
 
         // Apply alternating background colors
+    private fun setupUI(){
+        val navView: NavigationView = findViewById(R.id.nav_view)
         val menu = navView.menu
         for (i in 0 until menu.size()) {
             val menuItem = menu.getItem(i)
@@ -139,14 +155,23 @@ class MainMenu : AppCompatActivity() {
             }
         }
 
-        // Set the spendings amount in the EditText
-        setSpendingsAmount()
+
     }
 
     private fun setSpendingsAmount() {
         val totalSpendings = getTotalSpendings()
         val etSpendingsAmount: EditText = findViewById(R.id.etSpendingsAmount)
         etSpendingsAmount.setText(totalSpendings.toString())
+    }
+    private fun setBillsAmount() {
+        val totalBills = getTotalBills()
+        val etBillsAmount: EditText = findViewById(R.id.etBillsAmount)
+        etBillsAmount.setText(totalBills.toString())
+    }
+    private fun setIncomingAmount() {
+        val totalIncoming = getTotalIncoming()
+        val etIncomingAmount: EditText = findViewById(R.id.etIncomingAmount)
+        etIncomingAmount.setText(totalIncoming.toString())
     }
 
     private fun getTotalSpendings(): Float {
@@ -156,6 +181,28 @@ class MainMenu : AppCompatActivity() {
         val type = object : TypeToken<ArrayList<Spendings>>() {}.type
         val spendingsList: ArrayList<Spendings> = gson.fromJson(json, type) ?: ArrayList()
         return spendingsList.sumOf { it.amount.toDouble() }.toFloat()
+    }
+    private fun getTotalBills(): Float {
+        val sharedPref = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
+        val gson = Gson()
+        val json = sharedPref.getString("billsList", null)
+        val type = object : TypeToken<ArrayList<Bills>>() {}.type
+        val billsList: ArrayList<Bills> = gson.fromJson(json, type) ?: ArrayList()
+        return billsList.sumOf { it.amount.toDouble() }.toFloat()
+    }
+    private fun getTotalIncoming(): Float {
+        val sharedPref = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
+        val gson = Gson()
+        val json = sharedPref.getString("billsList", null)
+        val type = object : TypeToken<ArrayList<Bills>>() {}.type
+        val billsList: ArrayList<Bills> = gson.fromJson(json, type) ?: ArrayList()
+
+        val currentDate = Calendar.getInstance().time
+
+        return billsList.filter { bill ->
+            val billDate = bill.date?.toDate()
+            billDate != null && billDate.after(currentDate) && !bill.paid && bill.repeat == "No"
+        }.sumOf { it.amount.toDouble() }.toFloat()
     }
 
 

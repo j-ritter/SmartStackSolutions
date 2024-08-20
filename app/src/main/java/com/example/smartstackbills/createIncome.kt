@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import java.text.SimpleDateFormat
 import java.util.*
 
 class createIncome : AppCompatActivity() {
@@ -98,19 +99,61 @@ class createIncome : AppCompatActivity() {
         val edtDate = findViewById<EditText>(R.id.edtDateIncome)
         edtDate.setText("$day/${month + 1}/$year")
     }
+    private fun validateDateField(): Boolean {
+        val edtDate = findViewById<EditText>(R.id.edtDateIncome)
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        dateFormat.isLenient = false  // This ensures that the date format is strict
+
+        return try {
+            val incomeDate = dateFormat.parse(edtDate.text.toString())
+            val currentDate = Calendar.getInstance().time
+
+            if (incomeDate != null) {
+                true
+            } else {
+                Toast.makeText(this, "Please select a valid future date", Toast.LENGTH_SHORT).show()
+                false
+            }
+        } catch (e: Exception) {
+            Toast.makeText(this, "Invalid date format. Please use dd/MM/yyyy", Toast.LENGTH_SHORT).show()
+            false
+        }
+    }
 
     private fun saveIncome() {
-        if (validateMandatoryFields()) {
+        if (validateMandatoryFields() && validateDateField()) {
             if (userEmail != null && userUid != null) {
                 val incomeTitle = findViewById<EditText>(R.id.edtTitleIncome).text.toString()
                 val incomeAmount = findViewById<EditText>(R.id.edtAmountIncome).text.toString()
-                val incomeDate = findViewById<EditText>(R.id.edtDateIncome).text.toString()
+                val incomeDateString = findViewById<EditText>(R.id.edtDateIncome).text.toString()
                 val incomeCategory = findViewById<Spinner>(R.id.spinnerCategoriesIncome).selectedItem.toString()
                 val incomeSubcategory = findViewById<Spinner>(R.id.spinnerSubcategoriesIncome).selectedItem.toString()
                 val incomeRepeat = findViewById<Spinner>(R.id.spinnerRepeatIncome).selectedItem.toString()
                 val incomeComment = findViewById<EditText>(R.id.edtCommentIncome).text.toString()
 
-                val income = Income(incomeTitle, incomeDate, incomeComment, incomeCategory, incomeAmount, incomeRepeat, incomeSubcategory)
+                // Conversión de String a Date
+                val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                val incomeDate: Date? = try {
+                    sdf.parse(incomeDateString)
+                } catch (e: Exception) {
+                    null
+                }
+                val timestamp = incomeDate?.let { com.google.firebase.Timestamp(it) }
+
+                val income = hashMapOf(
+                    "name" to incomeTitle,
+                    "amount" to incomeAmount,
+                    "date" to timestamp,  // Guarda el Timestamp aquí
+                    "category" to incomeCategory,
+                    "subcategory" to incomeSubcategory,
+
+                    "repeat" to incomeRepeat,
+                    "comment" to incomeComment,
+
+
+                )
+
+
 
                 val docRef = db.collection("users").document(userUid!!).collection("income").document()
                 val incomeId = docRef.id

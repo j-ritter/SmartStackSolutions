@@ -24,7 +24,7 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
-class calendarView : AppCompatActivity() {
+class MyCalendarView : AppCompatActivity() {
     private var userEmail: String? = null
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var calendarView: CalendarView
@@ -36,8 +36,9 @@ class calendarView : AppCompatActivity() {
         setContentView(R.layout.activity_calendar_view)
 
         userEmail = intent.getStringExtra("USER_EMAIL")
-        val calendarView: CalendarView = findViewById(R.id.calendarView)
-        val selectedDateTextView: TextView = findViewById(R.id.selectedDateTextView)
+        drawerLayout = findViewById(R.id.drawer_layout)  // Initialize drawerLayout
+        calendarView = findViewById(R.id.calendarView)
+        selectedDateTextView = findViewById(R.id.selectedDateTextView)
 
         // Configurar el listener para manejar la selección de la fecha
         calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->

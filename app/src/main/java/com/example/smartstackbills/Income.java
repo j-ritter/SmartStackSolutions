@@ -1,20 +1,20 @@
 package com.example.smartstackbills;
 
+import com.google.firebase.Timestamp;
+
 public class Income {
 
-    private String name;
-    private String date;
-    private String comment;
-    private String category;
-    private String amount;
-    private String repeat;
-    private String subcategory;
+    String incomeId;
+    String name, comment, category, amount, repeat, subcategory;
+    Timestamp date;
+
 
     public Income() {
         // Default constructor needed for Firestore
     }
 
-    public Income(String name, String date, String comment, String category, String amount, String repeat, String subcategory) {
+    public Income(String incomeId, String name, Timestamp date, String comment, String category, String amount, String repeat, String subcategory) {
+        this.incomeId = incomeId;
         this.name = name;
         this.date = date;
         this.comment = comment;
@@ -22,6 +22,10 @@ public class Income {
         this.amount = amount;
         this.repeat = repeat;
         this.subcategory = subcategory;
+    }
+
+    public String getIncomeId() {
+        return incomeId;
     }
 
     public String getName() {
@@ -32,11 +36,11 @@ public class Income {
         this.name = name;
     }
 
-    public String getDate() {
+    public Timestamp getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Timestamp date) {
         this.date = date;
     }
 
