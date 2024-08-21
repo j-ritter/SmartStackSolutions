@@ -82,13 +82,14 @@
             android:id="@+id/tvBills"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Bills (not paid)"
+            android:text="Open Bills"
             android:textSize="18sp"
+            android:textStyle="bold"
             android:textColor="@android:color/black"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/toolbar_main"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="48dp"
             />
 
         <EditText
@@ -98,6 +99,7 @@
             android:inputType="none"
             android:hint="-0.00"
             android:focusable="false"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tvBills"
             android:layout_marginEnd="16dp"/>
@@ -111,7 +113,7 @@
             android:textColor="@android:color/black"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvBills"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="32dp"
             android:layout_marginTop="16dp" />
 
         <EditText
@@ -134,7 +136,7 @@
             android:textColor="@android:color/black"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvIncoming"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="32dp"
             android:layout_marginTop="16dp" />
 
         <EditText
@@ -166,6 +168,7 @@
             android:layout_height="wrap_content"
             android:text="Spendings"
             android:textSize="18sp"
+            android:textStyle="bold"
             android:textColor="@android:color/black"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/divider1"
@@ -179,6 +182,7 @@
             android:inputType="none"
             android:hint="-0.00"
             android:focusable="false"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tvSpendings"
             android:layout_marginEnd="16dp"/>
@@ -192,7 +196,7 @@
             android:textColor="@android:color/black"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvSpendings"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="32dp"
             android:layout_marginTop="24dp" />
 
         <EditText
@@ -215,7 +219,7 @@
             android:textColor="@android:color/black"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvEssential"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="32dp"
             android:layout_marginTop="24dp" />
 
         <EditText
@@ -248,6 +252,7 @@
             android:text="Income"
             android:textSize="18sp"
             android:textColor="@android:color/black"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/divider2"
             android:layout_marginStart="16dp"
@@ -259,6 +264,7 @@
             android:inputType="none"
             android:focusable="false"
             android:hint="+0.00"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tvIncome"
             android:layout_marginEnd="16dp"/>
@@ -272,7 +278,7 @@
             android:textColor="@android:color/black"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvIncome"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="32dp"
             android:layout_marginTop="24dp" />
 
         <EditText
@@ -295,7 +301,7 @@
             android:textColor="@android:color/black"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvRecurring"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="32dp"
             android:layout_marginTop="24dp" />
 
         <EditText
@@ -328,6 +334,7 @@
             android:text="Total"
             android:textSize="18sp"
             android:textColor="@android:color/black"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/divider3"
             android:layout_marginStart="16dp"
@@ -340,6 +347,7 @@
             android:inputType="numberDecimal"
             android:hint="0.00"
             android:focusable="false"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tvTotal"
             android:layout_marginEnd="16dp"/>
