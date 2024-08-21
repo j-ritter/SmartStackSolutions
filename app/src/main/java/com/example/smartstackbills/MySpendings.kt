@@ -245,9 +245,13 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
     }
 
     override fun onSpendingClick(position: Int) {
-        val spending = spendingsArrayList[position]
-        selectedSpending = spending
-        showSpendingDetailsDialog(spending)
+        if (position >= 0 && position < spendingsArrayList.size) {
+            val spending = spendingsArrayList[position]
+            selectedSpending = spending
+            showSpendingDetailsDialog(spending)
+        } else {
+            Toast.makeText(this, "Spending item not found", Toast.LENGTH_SHORT).show()
+        }
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.top_nav, menu)
