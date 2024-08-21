@@ -235,9 +235,13 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
     }
 
     override fun onBillClick(position: Int) {
-        val bill = billsArrayList[position]
-        selectedBill = bill // Set selectedBill here
-        showBillDetailsDialog(bill)
+        if (position >= 0 && position < billsArrayList.size) {
+            val bill = billsArrayList[position]
+            selectedBill = bill
+            showBillDetailsDialog(bill)
+        } else {
+            Toast.makeText(this, "Bill not found", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun showBillDetailsDialog(bill: Bills) {
@@ -284,6 +288,9 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
                     .delete()
                     .addOnSuccessListener {
                         Toast.makeText(this, "Bill deleted successfully", Toast.LENGTH_SHORT).show()
+                        billsArrayList.remove(bill)
+                        myAdapter.notifyDataSetChanged()
+
                         dialog.dismiss()
                     }
                     .addOnFailureListener {
@@ -349,6 +356,8 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
 
         myAdapter.updateBills(filteredBills)
         Log.d("Filter", "Filtered bills count for $filter: ${filteredBills.size}")
+
+        myAdapter.notifyDataSetChanged()
     }
 
     private fun groupBillsByMonth(billsArrayList: ArrayList<Bills>): ArrayList<Any> {
