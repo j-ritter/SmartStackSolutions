@@ -140,6 +140,7 @@ class MainMenu : AppCompatActivity() {
         setSpendingsAmount()
         setIncomingAmount()
         setBillsAmount()
+        setTotalIncomeAmount()
     }
 
     // Apply alternating background colors
@@ -173,6 +174,11 @@ class MainMenu : AppCompatActivity() {
         val etIncomingAmount: EditText = findViewById(R.id.etIncomingAmount)
         etIncomingAmount.setText(totalIncoming.toString())
     }
+    private fun setTotalIncomeAmount() {
+        val totalIncome = getTotalIncome()
+        val etIncomeAmount: EditText = findViewById(R.id.etIncome)
+        etIncomeAmount.setText(totalIncome.toString())
+    }
 
     private fun getTotalSpendings(): Float {
         val sharedPref = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
@@ -203,6 +209,14 @@ class MainMenu : AppCompatActivity() {
             val billDate = bill.date?.toDate()
             billDate != null && billDate.after(currentDate) && !bill.paid && bill.repeat == "No"
         }.sumOf { it.amount.toDouble() }.toFloat()
+    }
+    private fun getTotalIncome(): Float {
+        val sharedPref = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
+        val gson = Gson()
+        val json = sharedPref.getString("incomeList", null)
+        val type = object : TypeToken<ArrayList<Income>>() {}.type
+        val incomeList: ArrayList<Income> = gson.fromJson(json, type) ?: ArrayList()
+        return incomeList.sumOf { it.amount.toDouble() }.toFloat()
     }
 
 

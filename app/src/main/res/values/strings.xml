@@ -17,7 +17,7 @@
     <string name="calendar">Calendar</string>
     <string name="account">Account</string>
     <string name="incoming">Incoming</string>
-    <string name="due">Due</string>
+    <string name="overdue">Overdue</string>
     <string name="recurring">Recurring</string>
     <string name="paid">Paid</string>
     <string name="required" />

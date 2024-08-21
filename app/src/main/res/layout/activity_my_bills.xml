@@ -47,7 +47,7 @@
                 style="?attr/materialButtonOutlinedStyle"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:text="@string/due"
+                android:text="@string/overdue"
                 android:textSize="10sp"
                 app:layout_constraintTop_toBottomOf="@+id/materialToolbarBills"
                 app:layout_constraintStart_toEndOf="@+id/btnIncoming"

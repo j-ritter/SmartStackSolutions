@@ -29,15 +29,15 @@ class createIncome : AppCompatActivity() {
     )
 
     val subcategoriesMap = mapOf(
-        "Salary" to arrayOf("Regular salary", "Overtime pay", "Bonuses or incentives"),
-        "Self-Employment/Freelance Work" to arrayOf("Fees for service", "Project-based income"),
-        "Rental and Lease Income" to arrayOf("Real estate", "Vehicles", "Equipment"),
-        "Investment Income" to arrayOf("Dividends", "Interest earnings", "Capital gains"),
-        "Business Income" to arrayOf("Profit shares", "Executive salary"),
-        "Retirement and Pensions" to arrayOf("State pension", "Company pension plans", "Private pension insurance"),
-        "Social Benefits" to arrayOf("Unemployment benefits", "Sickness benefits", "Parental benefits"),
-        "Scholarships and Grants" to arrayOf("Educational scholarships", "Research grants"),
-        "Royalties and Copyrights" to arrayOf("Patents", "Software licenses", "Book publications"),
+        "Salary" to arrayOf("Regular salary", "Overtime pay", "Bonuses or incentives", "Others"),
+        "Self-Employment/Freelance Work" to arrayOf("Fees for service", "Project-based income", "Others"),
+        "Rental and Lease Income" to arrayOf("Real estate", "Vehicles", "Equipment", "Others"),
+        "Investment Income" to arrayOf("Dividends", "Interest earnings", "Capital gains", "Others"),
+        "Business Income" to arrayOf("Profit shares", "Executive salary", "Others"),
+        "Retirement and Pensions" to arrayOf("State pension", "Company pension plans", "Private pension insurance", "Other"),
+        "Social Benefits" to arrayOf("Unemployment benefits", "Sickness benefits", "Parental benefits", "Others"),
+        "Scholarships and Grants" to arrayOf("Educational scholarships", "Research grants", "Others"),
+        "Royalties and Copyrights" to arrayOf("Patents", "Software licenses", "Book publications", "Others"),
         "Other Income" to arrayOf("Benefits in kind", "Inheritances and gifts", "Crowdfunding/Crowdinvesting returns", "Others")
     )
 
