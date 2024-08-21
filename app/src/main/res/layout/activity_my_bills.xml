@@ -31,6 +31,18 @@
                 app:layout_constraintEnd_toEndOf="parent" />
 
             <Button
+                android:id="@+id/btnAllBills"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="@string/all"
+                android:textSize="10sp"
+                app:layout_constraintTop_toBottomOf="@+id/materialToolbarBills"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/btnIncoming"
+                app:layout_constraintHorizontal_chainStyle="packed" />
+
+            <Button
                 android:id="@+id/btnIncoming"
                 style="?attr/materialButtonOutlinedStyle"
                 android:layout_width="100dp"
@@ -38,7 +50,7 @@
                 android:text="@string/incoming"
                 android:textSize="10sp"
                 app:layout_constraintTop_toBottomOf="@+id/materialToolbarBills"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/btnAllBills"
                 app:layout_constraintEnd_toStartOf="@+id/btnDue"
                 app:layout_constraintHorizontal_chainStyle="packed" />
 
@@ -63,18 +75,6 @@
                 android:textSize="10sp"
                 app:layout_constraintTop_toBottomOf="@+id/materialToolbarBills"
                 app:layout_constraintStart_toEndOf="@+id/btnDue"
-                app:layout_constraintEnd_toStartOf="@+id/btnPaid"
-                app:layout_constraintHorizontal_chainStyle="packed" />
-
-            <Button
-                android:id="@+id/btnPaid"
-                style="?attr/materialButtonOutlinedStyle"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:text="@string/paid"
-                android:textSize="10sp"
-                app:layout_constraintTop_toBottomOf="@+id/materialToolbarBills"
-                app:layout_constraintStart_toEndOf="@+id/btnRecurring"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_chainStyle="packed" />
 

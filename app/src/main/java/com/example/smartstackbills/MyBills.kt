@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import MyCalendarView
 import android.content.Context
+import androidx.core.content.ContextCompat
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
@@ -157,7 +158,7 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
         findViewById<Button>(R.id.btnIncoming).setOnClickListener { filterBills("incoming") }
         findViewById<Button>(R.id.btnDue).setOnClickListener { filterBills("due") }
         findViewById<Button>(R.id.btnRecurring).setOnClickListener { filterBills("recurring") }
-        findViewById<Button>(R.id.btnPaid).setOnClickListener { filterBills("paid") }
+        findViewById<Button>(R.id.btnAllBills).setOnClickListener { filterBills("all") }
     }
     private fun loadBills(): ArrayList<Bills> {
         val sharedPref = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
@@ -218,7 +219,7 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
                             }
                         }
                         // Mostrar facturas "incoming" por defecto
-                        filterBills("incoming")
+                        filterBills("all")
                     } else {
                         Log.d("Firestore Data", "No bills found")
                     }
@@ -307,30 +308,40 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
         val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         val currentDate = Calendar.getInstance().time
 
+        findViewById<Button>(R.id.btnAllBills).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_inactive))
+        findViewById<Button>(R.id.btnIncoming).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_inactive))
+        findViewById<Button>(R.id.btnDue).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_inactive))
+        findViewById<Button>(R.id.btnRecurring).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_inactive))
+
         for (bill in allBillsArrayList) { // Usamos allBillsArrayList para filtrar
             try {
                 val billDate = if (bill.date != null) bill.date.toDate() else null
 
                 when (filter) {
-                    "paid" -> {
-                        if (bill.paid) {
+                    "all" -> {
+                        findViewById<Button>(R.id.btnAllBills).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_active))
+                        // Show all bills except the ones that are marked as paid
+                        if (!bill.paid) {
                             filteredBills.add(bill)
-                            Log.d("Filter", "Paid bill added: ${bill.name}")
+                            Log.d("Filter", "All (unpaid) bill added: ${bill.name}")
                         }
                     }
                     "due" -> {
+                        findViewById<Button>(R.id.btnDue).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_active))
                         if (billDate != null && billDate.before(currentDate)) {
                             filteredBills.add(bill)
                             Log.d("Filter", "Due bill added: ${bill.name}")
                         }
                     }
                     "recurring" -> {
+                        findViewById<Button>(R.id.btnRecurring).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_active))
                         if (bill.repeat != "No") {
                             filteredBills.add(bill)
                             Log.d("Filter", "Recurring bill added: ${bill.name}")
                         }
                     }
                     "incoming" -> {
+                        findViewById<Button>(R.id.btnIncoming).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_active))
                         if (billDate != null && billDate.after(currentDate) && !bill.paid && bill.repeat == "No") {
                             filteredBills.add(bill)
                             Log.d("Filter", "Incoming bill added: ${bill.name}")
