@@ -21,6 +21,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import MyCalendarView
+import androidx.core.content.ContextCompat
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
@@ -165,6 +166,7 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
         setupEventChangeListener()
 
         // Initialize filter buttons
+        findViewById<Button>(R.id.btnSpendingsAll).setOnClickListener { filterSpendings("all") }
         findViewById<Button>(R.id.btnEssential).setOnClickListener { filterSpendings("essential") }
         findViewById<Button>(R.id.btnNonEssential).setOnClickListener { filterSpendings("non-essential") }
     }
@@ -314,20 +316,35 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
 
     private fun filterSpendings(filter: String) {
         val filteredSpendings = ArrayList<Spendings>()
+        // Reset the button background to inactive color
+        findViewById<Button>(R.id.btnSpendingsAll).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_inactive))
+        findViewById<Button>(R.id.btnEssential).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_inactive))
+        findViewById<Button>(R.id.btnNonEssential).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_inactive))
 
         for (spending in allSpendingsArrayList) {
             when (filter) {
                 "essential" -> {
-                    if (spending.subcategory in essentialSubcategories) {
-                        filteredSpendings.add(spending)
-                        Log.d("Filter", "Essential spending added: ${spending.name}")
+                    findViewById<Button>(R.id.btnEssential).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_active))
+                    for (spending in allSpendingsArrayList) {
+                        if (spending.subcategory in essentialSubcategories) {
+                            filteredSpendings.add(spending)
+                            Log.d("Filter", "Essential spending added: ${spending.name}")
+                        }
                     }
                 }
                 "non-essential" -> {
-                    if (spending.subcategory !in essentialSubcategories) {
-                        filteredSpendings.add(spending)
-                        Log.d("Filter", "Non-essential spending added: ${spending.name}")
+                    findViewById<Button>(R.id.btnNonEssential).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_active))
+                    for (spending in allSpendingsArrayList) {
+                        if (spending.subcategory !in essentialSubcategories) {
+                            filteredSpendings.add(spending)
+                            Log.d("Filter", "Non-essential spending added: ${spending.name}")
+                        }
                     }
+                }
+                "all" -> {
+                    findViewById<Button>(R.id.btnSpendingsAll).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_active))
+                    filteredSpendings.addAll(allSpendingsArrayList)
+                    Log.d("Filter", "All spendings added")
                 }
             }
         }

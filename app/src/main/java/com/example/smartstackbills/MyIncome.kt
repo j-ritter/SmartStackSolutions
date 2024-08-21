@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import MyCalendarView
 import android.widget.ImageView
+import androidx.core.content.ContextCompat
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
@@ -153,6 +154,7 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
         setupDialog()
         setupEventChangeListener()
 
+        findViewById<Button>(R.id.btnAllIncome).setOnClickListener { filterIncome("all") }
         findViewById<Button>(R.id.btnRecurringIncome).setOnClickListener { filterIncome("recurring") }
         findViewById<Button>(R.id.btnOneTimeIncome).setOnClickListener { filterIncome("one-time") }
     }
@@ -269,21 +271,36 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
 
     private fun filterIncome(filter: String) {
         val filteredIncome = ArrayList<Income>()
+        // Reset the button background to inactive color
+        findViewById<Button>(R.id.btnAllIncome).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_inactive))
+        findViewById<Button>(R.id.btnRecurringIncome).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_inactive))
+        findViewById<Button>(R.id.btnOneTimeIncome).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_inactive))
 
 
         for (income in allIncomeArrayList) {
             when (filter) {
                 "recurring" -> {
-                    if (income.repeat != "No") {
-                        filteredIncome.add(income)
-                        Log.d("Filter", "Recurring income added: ${income.name}")
+                    findViewById<Button>(R.id.btnRecurringIncome).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_active))
+                    for (income in allIncomeArrayList) {
+                        if (income.repeat != "No") {
+                            filteredIncome.add(income)
+                            Log.d("Filter", "Recurring income added: ${income.name}")
+                        }
                     }
                 }
                 "one-time" -> {
-                    if (income.repeat == "No") {
-                        filteredIncome.add(income)
-                        Log.d("Filter", "One-time income added: ${income.name}")
+                    findViewById<Button>(R.id.btnOneTimeIncome).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_active))
+                    for (income in allIncomeArrayList) {
+                        if (income.repeat == "No") {
+                            filteredIncome.add(income)
+                            Log.d("Filter", "One-time income added: ${income.name}")
+                        }
                     }
+                }
+                "all" -> {
+                    findViewById<Button>(R.id.btnAllIncome).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_active))
+                    filteredIncome.addAll(allIncomeArrayList)
+                    Log.d("Filter", "All income added")
                 }
             }
         }
