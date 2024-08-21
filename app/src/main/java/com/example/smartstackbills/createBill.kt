@@ -276,6 +276,17 @@ class createBill : AppCompatActivity() {
             intent.putExtra("USER_EMAIL", userEmail)
             startActivity(intent)
         }
+        val checkBoxPaid: CheckBox = findViewById(R.id.checkBoxPaid)
+
+        checkBoxPaid.setOnClickListener {
+            if (checkBoxPaid.isChecked) {
+                Toast.makeText(
+                    this,
+                    "Please note that when clicking on 'paid' this payment will be shown in 'closed payments'.",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
     }
 
     private fun showDatePickerDialog() {

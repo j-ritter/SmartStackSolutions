@@ -165,6 +165,10 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
         setupDialog()
         setupEventChangeListener()
 
+        // Check if the activity was started with a specific filter
+        val filterType = intent.getStringExtra("FILTER_TYPE") ?: "all"  // Default to "all"
+        filterSpendings(filterType)
+
         // Initialize filter buttons
         findViewById<Button>(R.id.btnSpendingsAll).setOnClickListener { filterSpendings("all") }
         findViewById<Button>(R.id.btnEssential).setOnClickListener { filterSpendings("essential") }
@@ -230,7 +234,7 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
                         }
                         // Show essential spendings by default
                         saveSpendings()
-                        filterSpendings("essential")
+                        filterSpendings("all")
                     } else {
                         Log.d("Firestore Data", "No spendings found")
                     }

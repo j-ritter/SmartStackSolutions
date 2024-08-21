@@ -154,6 +154,10 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
         setupDialog()
         setupEventChangeListener()
 
+        // Check if the activity was started with a specific filter
+        val filterType = intent.getStringExtra("FILTER_TYPE") ?: "all"  // Default to "all"
+        filterIncome(filterType)
+
         findViewById<Button>(R.id.btnAllIncome).setOnClickListener { filterIncome("all") }
         findViewById<Button>(R.id.btnRecurringIncome).setOnClickListener { filterIncome("recurring") }
         findViewById<Button>(R.id.btnOneTimeIncome).setOnClickListener { filterIncome("one-time") }
@@ -200,7 +204,7 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
                                 Log.d("Firestore Data", "Income added: ${income.name}, ${income.date}, ${income.repeat}")
                             }
                         }
-                        filterIncome("recurring") // Default filter
+                        filterIncome("all") // Default filter
                     } else {
                         Log.d("Firestore Data", "No income found")
                     }

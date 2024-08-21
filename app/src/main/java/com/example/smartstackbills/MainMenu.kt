@@ -141,6 +141,21 @@ class MainMenu : AppCompatActivity() {
         setIncomingAmount()
         setBillsAmount()
         setTotalIncomeAmount()
+
+        //Connection to other folders
+        val etSpendings: EditText = findViewById(R.id.etSpendingsAmount)
+        etSpendings.setOnClickListener {
+            val intent = Intent(this, MySpendings::class.java)
+            intent.putExtra("FILTER_TYPE", "all")
+            startActivity(intent)
+        }
+        val etIncome: EditText = findViewById(R.id.etIncome)
+        etIncome.setOnClickListener {
+            val intent = Intent(this, MyIncome::class.java)
+            intent.putExtra("FILTER_TYPE", "all")
+            startActivity(intent)
+        }
+
     }
 
     // Apply alternating background colors
