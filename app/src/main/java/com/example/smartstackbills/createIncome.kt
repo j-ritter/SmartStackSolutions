@@ -1,5 +1,6 @@
 package com.example.smartstackbills
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
 import android.view.View
@@ -164,11 +165,14 @@ class createIncome : AppCompatActivity() {
 
                 val docRef = db.collection("users").document(userUid!!).collection("income").document()
                 val incomeId = docRef.id
+                income["incomeId"] = incomeId
 
                 docRef.set(income)
                     .addOnSuccessListener {
                         Toast.makeText(this, "Income saved successfully", Toast.LENGTH_SHORT).show()
-                        finish()
+                        val intent = Intent(this, MyIncome::class.java)
+                        intent.putExtra("USER_EMAIL", userEmail)
+                        startActivity(intent)
                     }
                     .addOnFailureListener { e ->
                         Toast.makeText(this, "Error saving income: ${e.message}", Toast.LENGTH_SHORT).show()

@@ -285,7 +285,7 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
         edtDateDialog.setText(spendingDateString)
         edtCommentDialog.setText(spending.comment)
 
-        dialog.show()
+
     }
 
     private fun deleteSpending() {
