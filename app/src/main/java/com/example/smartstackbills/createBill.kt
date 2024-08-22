@@ -212,6 +212,37 @@ class createBill : AppCompatActivity() {
                 // No action needed
             }
         }
+        
+        // Check if we are editing an existing bill
+        val billId = intent.getStringExtra("billId")
+        if (billId != null) {
+            // This means we are editing an existing bill
+            findViewById<EditText>(R.id.edtTitleBill).setText(intent.getStringExtra("billName"))
+            findViewById<EditText>(R.id.edtAmountBill).setText(intent.getStringExtra("billAmount"))
+            findViewById<EditText>(R.id.edtDateBill).setText(intent.getStringExtra("billDate"))
+            // You may need to set the spinner values as well
+            findViewById<Spinner>(R.id.spinnerCategoriesBill).setSelection(
+                (findViewById<Spinner>(R.id.spinnerCategoriesBill).adapter as ArrayAdapter<String>).getPosition(intent.getStringExtra("billCategory"))
+            )
+            findViewById<Spinner>(R.id.spinnerSubcategoriesBill).setSelection(
+                (findViewById<Spinner>(R.id.spinnerSubcategoriesBill).adapter as ArrayAdapter<String>).getPosition(intent.getStringExtra("billSubcategory"))
+            )
+            findViewById<Spinner>(R.id.spinnerVendorsBill).setSelection(
+                (findViewById<Spinner>(R.id.spinnerVendorsBill).adapter as ArrayAdapter<String>).getPosition(intent.getStringExtra("billVendor"))
+            )
+            findViewById<Spinner>(R.id.spinnerRepeatBill).setSelection(
+                (findViewById<Spinner>(R.id.spinnerRepeatBill).adapter as ArrayAdapter<String>).getPosition(intent.getStringExtra("billRepeat"))
+            )
+            findViewById<CheckBox>(R.id.checkBoxPaid).isChecked = intent.getBooleanExtra("billPaid", false)
+            val attachment = intent.getStringExtra("billAttachment")
+            if (attachment != null) {
+                findViewById<TextView>(R.id.txtImageAddedBill).apply {
+                    text = "Image added"
+                    visibility = View.VISIBLE
+                }
+                imageUri = Uri.parse(attachment)
+            }
+        }
 
         spinnerReminder.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -287,6 +318,7 @@ class createBill : AppCompatActivity() {
                 ).show()
             }
         }
+
     }
 
     private fun showDatePickerDialog() {
@@ -408,6 +440,7 @@ class createBill : AppCompatActivity() {
                 docRef.set(bill)
                     .addOnSuccessListener {
                         Toast.makeText(this, "Factura guardada exitosamente", Toast.LENGTH_SHORT).show()
+                        
                         val intent = Intent(this, MyBills::class.java)
                         intent.putExtra("USER_EMAIL", userEmail)
                         startActivity(intent)
@@ -419,6 +452,7 @@ class createBill : AppCompatActivity() {
                 Toast.makeText(this, "Error: No se pudo obtener el email o UID del usuario", Toast.LENGTH_SHORT).show()
             }
         }
+
     }
 
 

@@ -186,6 +186,7 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
 
         val btnCloseDialog = dialog.findViewById<Button>(R.id.btnCloseDialog)
         val imgDeleteBill = dialog.findViewById<ImageView>(R.id.imgDeleteBill)
+        val imgEditBill = dialog.findViewById<ImageView>(R.id.imgEditBill)
 
         btnCloseDialog.setOnClickListener {
             dialog.dismiss()
@@ -193,6 +194,9 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
 
         imgDeleteBill.setOnClickListener {
             deleteBill()
+        }
+        imgEditBill.setOnClickListener {
+            editBill()
         }
     }
 
@@ -300,6 +304,25 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
             } else {
                 Toast.makeText(this, "Error: User not authenticated", Toast.LENGTH_SHORT).show()
             }
+        }
+    }
+    private fun editBill() {
+        selectedBill?.let { bill ->
+            val intent = Intent(this, createBill::class.java)
+            intent.putExtra("billId", bill.billId)
+            intent.putExtra("billName", bill.name)
+            intent.putExtra("billAmount", bill.amount)
+            intent.putExtra("billDate", bill.date?.toDate()?.let { date -> SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(date) })
+            intent.putExtra("billCategory", bill.category)
+            intent.putExtra("billSubcategory", bill.subcategory)
+            intent.putExtra("billVendor", bill.vendor)
+            intent.putExtra("billRepeat", bill.repeat)
+            intent.putExtra("billComment", bill.comment)
+            intent.putExtra("billPaid", bill.paid)
+            intent.putExtra("billAttachment", bill.attachment)
+
+            startActivity(intent)
+            dialog.dismiss()
         }
     }
 

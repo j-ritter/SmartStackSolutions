@@ -15,6 +15,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import MyCalendarView
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
@@ -27,6 +28,7 @@ class MainMenu : AppCompatActivity() {
     private var userEmail: String? = null
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var currentMonth: Calendar
+    private lateinit var fabMainMenu: FloatingActionButton
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,6 +36,12 @@ class MainMenu : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_main_menu)
 
+        fabMainMenu = findViewById(R.id.fabMainMenu)
+        fabMainMenu.setOnClickListener {
+            val intent = Intent(this, createBill::class.java)
+            intent.putExtra("USER_EMAIL", userEmail)
+            startActivity(intent)
+        }
 
         userEmail = intent.getStringExtra("USER_EMAIL")
 
@@ -138,17 +146,11 @@ class MainMenu : AppCompatActivity() {
             }
         }
         setSpendingsAmount()
-        setIncomingAmount()
-        setBillsAmount()
+
         setTotalIncomeAmount()
 
         //Connection to other folders
-        val etBills: EditText = findViewById(R.id.etBillsAmount)
-        etBills.setOnClickListener {
-            val intent = Intent(this, MyBills::class.java)
-            intent.putExtra("FILTER_TYPE", "all")
-            startActivity(intent)
-        }
+
         val etSpendings: EditText = findViewById(R.id.etSpendingsAmount)
         etSpendings.setOnClickListener {
             val intent = Intent(this, MySpendings::class.java)
@@ -185,16 +187,7 @@ class MainMenu : AppCompatActivity() {
         val etSpendingsAmount: EditText = findViewById(R.id.etSpendingsAmount)
         etSpendingsAmount.setText(totalSpendings.toString())
     }
-    private fun setBillsAmount() {
-        val totalBills = getTotalBills()
-        val etBillsAmount: EditText = findViewById(R.id.etBillsAmount)
-        etBillsAmount.setText(totalBills.toString())
-    }
-    private fun setIncomingAmount() {
-        val totalIncoming = getTotalIncoming()
-        val etIncomingAmount: EditText = findViewById(R.id.etIncomingAmount)
-        etIncomingAmount.setText(totalIncoming.toString())
-    }
+
     private fun setTotalIncomeAmount() {
         val totalIncome = getTotalIncome()
         val etIncomeAmount: EditText = findViewById(R.id.etIncome)
@@ -209,28 +202,7 @@ class MainMenu : AppCompatActivity() {
         val spendingsList: ArrayList<Spendings> = gson.fromJson(json, type) ?: ArrayList()
         return spendingsList.sumOf { it.amount.toDouble() }.toFloat()
     }
-    private fun getTotalBills(): Float {
-        val sharedPref = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
-        val gson = Gson()
-        val json = sharedPref.getString("billsList", null)
-        val type = object : TypeToken<ArrayList<Bills>>() {}.type
-        val billsList: ArrayList<Bills> = gson.fromJson(json, type) ?: ArrayList()
-        return billsList.sumOf { it.amount.toDouble() }.toFloat()
-    }
-    private fun getTotalIncoming(): Float {
-        val sharedPref = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
-        val gson = Gson()
-        val json = sharedPref.getString("billsList", null)
-        val type = object : TypeToken<ArrayList<Bills>>() {}.type
-        val billsList: ArrayList<Bills> = gson.fromJson(json, type) ?: ArrayList()
 
-        val currentDate = Calendar.getInstance().time
-
-        return billsList.filter { bill ->
-            val billDate = bill.date?.toDate()
-            billDate != null && billDate.after(currentDate) && !bill.paid && bill.repeat == "No"
-        }.sumOf { it.amount.toDouble() }.toFloat()
-    }
     private fun getTotalIncome(): Float {
         val sharedPref = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
         val gson = Gson()
