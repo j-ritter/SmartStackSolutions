@@ -249,7 +249,7 @@
                     android:textSize="14sp"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:visibility="gone"/>
+                    />
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>

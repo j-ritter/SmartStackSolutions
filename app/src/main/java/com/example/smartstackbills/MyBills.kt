@@ -195,9 +195,8 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
         imgDeleteBill.setOnClickListener {
             deleteBill()
         }
-        imgEditBill.setOnClickListener {
-            editBill()
-        }
+
+
     }
 
     private fun setupEventChangeListener() {
@@ -260,6 +259,8 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
         val edtCommentDialog = dialog.findViewById<EditText>(R.id.edtCommentDialog)
         val edtAttachmentDialog = dialog.findViewById<ImageView>(R.id.edtAttachmentDialog)
         val attachmentUri = bill.attachment
+        val btnSaveChanges = dialog.findViewById<Button>(R.id.btnSaveChanges)
+        val btnEditChanges = dialog.findViewById<ImageView>(R.id.imgEditBill)
 
         // Convertir el Timestamp a String
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
@@ -281,7 +282,45 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
         edtVendorDialog.setText(bill.vendor)
         edtDateDialog.setText(billDateString) // Usar la cadena de fecha
         edtCommentDialog.setText(bill.comment)
-    }
+
+        btnEditChanges.setOnClickListener {
+            edtTitleDialog.isEnabled = true
+            edtAmountDialog.isEnabled = true
+            edtCommentDialog.isEnabled = true
+        }
+
+
+
+        btnSaveChanges.setOnClickListener {
+            val userUid = FirebaseAuth.getInstance().currentUser?.uid
+            if (userUid != null && selectedBill != null) {
+                // Update the bill object with new values
+                selectedBill?.name = edtTitleDialog.text.toString()
+                selectedBill?.amount = edtAmountDialog.text.toString()
+                selectedBill?.comment = edtCommentDialog.text.toString()
+
+
+                // Save the updated bill to Firebase
+                db.collection("users").document(userUid).collection("bills")
+                    .document(selectedBill!!.billId)
+                    .set(selectedBill!!)
+                    .addOnSuccessListener {
+                        // Update the local list
+                        val index = billsArrayList.indexOfFirst { it.billId == selectedBill?.billId }
+                        if (index != -1) {
+                            billsArrayList[index] = selectedBill!!
+                            myAdapter.notifyItemChanged(index)
+                        }
+                        Toast.makeText(this, "Bill updated successfully", Toast.LENGTH_SHORT).show()
+                        dialog.dismiss()
+                    }
+                    .addOnFailureListener { e ->
+                        Toast.makeText(this, "Failed to update bill: ${e.message}", Toast.LENGTH_SHORT).show()
+                    }
+            } else {
+                Toast.makeText(this, "Error: Unable to update bill", Toast.LENGTH_SHORT).show()
+            }
+        }}
 
 
     private fun deleteBill() {
@@ -304,25 +343,6 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
             } else {
                 Toast.makeText(this, "Error: User not authenticated", Toast.LENGTH_SHORT).show()
             }
-        }
-    }
-    private fun editBill() {
-        selectedBill?.let { bill ->
-            val intent = Intent(this, createBill::class.java)
-            intent.putExtra("billId", bill.billId)
-            intent.putExtra("billName", bill.name)
-            intent.putExtra("billAmount", bill.amount)
-            intent.putExtra("billDate", bill.date?.toDate()?.let { date -> SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(date) })
-            intent.putExtra("billCategory", bill.category)
-            intent.putExtra("billSubcategory", bill.subcategory)
-            intent.putExtra("billVendor", bill.vendor)
-            intent.putExtra("billRepeat", bill.repeat)
-            intent.putExtra("billComment", bill.comment)
-            intent.putExtra("billPaid", bill.paid)
-            intent.putExtra("billAttachment", bill.attachment)
-
-            startActivity(intent)
-            dialog.dismiss()
         }
     }
 

@@ -207,7 +207,7 @@ class MainMenu : AppCompatActivity() {
 
 
     }
-
+    //Calculate total amount by month
     private fun setSpendingsAmount() {
         val totalSpendings = getTotalSpendings()
         val etSpendingsAmount: EditText = findViewById(R.id.etSpendingsAmount)
