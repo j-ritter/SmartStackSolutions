@@ -379,7 +379,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_add"
-            app:backgroundTint="#1E97F4"
+            app:backgroundTint="#8ECAE6"
             app:fabSize="normal"
             app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
             app:layout_constraintEnd_toEndOf="parent"

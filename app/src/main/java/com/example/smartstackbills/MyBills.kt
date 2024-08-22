@@ -283,13 +283,22 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
         edtDateDialog.setText(billDateString) // Usar la cadena de fecha
         edtCommentDialog.setText(bill.comment)
 
+        // Initially disable fields
+        edtTitleDialog.isEnabled = false
+        edtAmountDialog.isEnabled = false
+        edtCommentDialog.isEnabled = false
+
+
+        // Hide save button initially
+        btnSaveChanges.visibility = View.GONE
+
         btnEditChanges.setOnClickListener {
             edtTitleDialog.isEnabled = true
             edtAmountDialog.isEnabled = true
             edtCommentDialog.isEnabled = true
+
+            btnSaveChanges.visibility = View.VISIBLE
         }
-
-
 
         btnSaveChanges.setOnClickListener {
             val userUid = FirebaseAuth.getInstance().currentUser?.uid
@@ -299,6 +308,7 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
                 selectedBill?.amount = edtAmountDialog.text.toString()
                 selectedBill?.comment = edtCommentDialog.text.toString()
 
+                btnSaveChanges.visibility = View.VISIBLE
 
                 // Save the updated bill to Firebase
                 db.collection("users").document(userUid).collection("bills")
@@ -321,7 +331,6 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
                 Toast.makeText(this, "Error: Unable to update bill", Toast.LENGTH_SHORT).show()
             }
         }}
-
 
     private fun deleteBill() {
         selectedBill?.let { bill ->

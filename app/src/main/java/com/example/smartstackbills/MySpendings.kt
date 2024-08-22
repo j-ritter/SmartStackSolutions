@@ -200,6 +200,8 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
 
         val btnCloseDialog = dialog.findViewById<Button>(R.id.btnCloseDialogSpendings)
         val imgDeleteSpending = dialog.findViewById<ImageView>(R.id.imgDeleteSpendings)
+        val imgEditSpending = dialog.findViewById<ImageView>(R.id.imgEditSpendings)
+
 
         btnCloseDialog.setOnClickListener {
             dialog.dismiss()
@@ -274,6 +276,8 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
         val edtCommentDialog = dialog.findViewById<EditText>(R.id.edtCommentDialogSpendings)
         val edtAttachmentDialog = dialog.findViewById<ImageView>(R.id.edtAttachmentDialogSpendings)
         val attachmentUri = spending.attachment
+        val btnSaveChanges = dialog.findViewById<Button>(R.id.btnSaveChangesSpendings)
+        val btnEditChanges = dialog.findViewById<ImageView>(R.id.imgEditSpendings)
 
         // Convertir el Timestamp a String
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
@@ -295,8 +299,52 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
         edtDateDialog.setText(spendingDateString)
         edtCommentDialog.setText(spending.comment)
 
+        // Initially disable fields
+        edtTitleDialog.isEnabled = false
+        edtAmountDialog.isEnabled = false
+        edtCommentDialog.isEnabled = false
 
-    }
+        // Hide save button initially
+        btnSaveChanges.visibility = View.GONE
+
+        btnEditChanges.setOnClickListener {
+            edtTitleDialog.isEnabled = true
+            edtAmountDialog.isEnabled = true
+            edtCommentDialog.isEnabled = true
+
+            btnSaveChanges.visibility = View.VISIBLE
+        }
+        btnSaveChanges.setOnClickListener {
+            val userUid = FirebaseAuth.getInstance().currentUser?.uid
+            if (userUid != null && selectedSpending != null) {
+                // Update the bill object with new values
+                selectedSpending?.name = edtTitleDialog.text.toString()
+                selectedSpending?.amount = edtAmountDialog.text.toString()
+                selectedSpending?.comment = edtCommentDialog.text.toString()
+
+                btnSaveChanges.visibility = View.VISIBLE
+
+                // Save the updated bill to Firebase
+                db.collection("users").document(userUid).collection("spendings")
+                    .document(selectedSpending!!.spendingId)
+                    .set(selectedSpending!!)
+                    .addOnSuccessListener {
+                        // Update the local list
+                        val index = spendingsArrayList.indexOfFirst { it.spendingId == selectedSpending?.spendingId }
+                        if (index != -1) {
+                            spendingsArrayList[index] = selectedSpending!!
+                            myAdapterSpendings.notifyItemChanged(index)
+                        }
+                        Toast.makeText(this, "'Closed Payment' updated successfully", Toast.LENGTH_SHORT).show()
+                        dialog.dismiss()
+                    }
+                    .addOnFailureListener { e ->
+                        Toast.makeText(this, "Failed to update 'Closed Payment': ${e.message}", Toast.LENGTH_SHORT).show()
+                    }
+            } else {
+                Toast.makeText(this, "Error: Unable to update 'Closed Payment'", Toast.LENGTH_SHORT).show()
+            }
+        }}
 
     private fun deleteSpending() {
         selectedSpending?.let { spending ->

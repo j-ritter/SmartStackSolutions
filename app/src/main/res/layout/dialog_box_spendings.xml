@@ -214,7 +214,19 @@
                     android:layout_height="wrap_content"
                     android:text="Close"
                     android:textSize="14sp"
+                    app:backgroundTint="#023047"
                     android:layout_centerInParent="true" />
+
+                <Button
+                    android:id="@+id/btnSaveChangesSpendings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Save"
+                    android:textSize="14sp"
+                    app:backgroundTint="#1E97F4"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:visibility="gone"/>
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>

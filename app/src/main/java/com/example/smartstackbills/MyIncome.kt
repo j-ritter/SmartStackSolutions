@@ -17,6 +17,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import MyCalendarView
+import android.view.View
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -172,6 +173,7 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
 
         val btnCloseDialog = dialog.findViewById<Button>(R.id.btnCloseDialogIncome)
         val imgDeleteIncome = dialog.findViewById<ImageView>(R.id.imgDeleteIncome)
+        val imgEditSpending = dialog.findViewById<ImageView>(R.id.imgEditIncome)
 
         btnCloseDialog.setOnClickListener {
             dialog.dismiss()
@@ -238,6 +240,8 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
         val edtDateDialog = dialog.findViewById<EditText>(R.id.edtDateDialogIncome)
         val edtRepeatDialog = dialog.findViewById<EditText>(R.id.edtRepeatDialogIncome)
         val edtCommentDialog = dialog.findViewById<EditText>(R.id.edtCommentDialogIncome)
+        val btnSaveChanges = dialog.findViewById<Button>(R.id.btnSaveChangesIncome)
+        val btnEditChanges = dialog.findViewById<ImageView>(R.id.imgEditIncome)
 
         // Convertir el Timestamp a String
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
@@ -252,7 +256,54 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
         edtCommentDialog.setText(income.comment)
 
         dialog.show()
-    }
+
+        // Initially disable fields
+        edtTitleDialog.isEnabled = false
+        edtAmountDialog.isEnabled = false
+        edtCommentDialog.isEnabled = false
+
+        // Hide save button initially
+        btnSaveChanges.visibility = View.GONE
+
+        btnEditChanges.setOnClickListener {
+            edtTitleDialog.isEnabled = true
+            edtAmountDialog.isEnabled = true
+            edtCommentDialog.isEnabled = true
+
+            btnSaveChanges.visibility = View.VISIBLE
+        }
+        btnSaveChanges.setOnClickListener {
+            val userUid = FirebaseAuth.getInstance().currentUser?.uid
+            if (userUid != null && selectedIncome != null) {
+                // Update the bill object with new values
+                selectedIncome?.name = edtTitleDialog.text.toString()
+                selectedIncome?.amount = edtAmountDialog.text.toString()
+                selectedIncome?.comment = edtCommentDialog.text.toString()
+
+                btnSaveChanges.visibility = View.VISIBLE
+
+                // Save the updated bill to Firebase
+                db.collection("users").document(userUid).collection("income")
+                    .document(selectedIncome!!.incomeId)
+                    .set(selectedIncome!!)
+                    .addOnSuccessListener {
+                        // Update the local list
+                        val index = incomeArrayList.indexOfFirst { it.incomeId == selectedIncome?.incomeId }
+                        if (index != -1) {
+                            incomeArrayList[index] = selectedIncome!!
+                            myAdapterIncome.notifyItemChanged(index)
+                        }
+                        Toast.makeText(this, "'Income' updated successfully", Toast.LENGTH_SHORT).show()
+                        dialog.dismiss()
+                    }
+                    .addOnFailureListener { e ->
+                        Toast.makeText(this, "Failed to update 'Income': ${e.message}", Toast.LENGTH_SHORT).show()
+                    }
+            } else {
+                Toast.makeText(this, "Error: Unable to update 'Income'", Toast.LENGTH_SHORT).show()
+            }
+        }}
+
     private fun deleteIncome() {
         selectedIncome?.let { income ->
             val userUid = FirebaseAuth.getInstance().currentUser?.uid
