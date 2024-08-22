@@ -150,6 +150,12 @@ class MainMenu : AppCompatActivity() {
 
         //Connection to other folders
 
+        val etBills: EditText = findViewById(R.id.etBillsAmount)
+        etBills.setOnClickListener {
+            val intent = Intent(this, MyBills::class.java)
+            intent.putExtra("FILTER_TYPE", "all")
+            startActivity(intent)
+        }
         val etSpendings: EditText = findViewById(R.id.etSpendingsAmount)
         etSpendings.setOnClickListener {
             val intent = Intent(this, MySpendings::class.java)
