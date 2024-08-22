@@ -82,13 +82,54 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             // Handle checkbox change
             billHolder.checkBoxPaid.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 bill.setPaid(isChecked);
-                saveBillToFirestore(bill);  // Save the change to Firestore
+                if (isChecked) {
+                    // Save the bill to the Spendings collection in Firestore
+                    saveBillToSpendings(bill);
+
+                    // Remove the bill from the current list and notify the adapter
+                    itemsArrayList.remove(position);
+                    notifyItemRemoved(position);
+                } else {
+                    // If unchecked, do not move to Spendings, just update Firestore
+                    saveBillToFirestore(bill);  // Save the change to Firestore
+                }
             });
 
         } else {
             MonthHeaderViewHolder headerHolder = (MonthHeaderViewHolder) holder;
             String monthHeader = (String) itemsArrayList.get(position);
             headerHolder.monthHeader.setText(monthHeader);
+        }
+    }
+    private void saveBillToSpendings(Bills bill) {
+        String userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        if (userUid != null) {
+            FirebaseFirestore.getInstance()
+                    .collection("users")
+                    .document(userUid)
+                    .collection("spendings")
+                    .document(bill.getBillId())
+                    .set(bill)
+                    .addOnSuccessListener(aVoid -> {
+                        Toast.makeText(context, "Bill moved to Spendings successfully", Toast.LENGTH_SHORT).show();
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(context, "Error moving bill to Spendings: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
+
+            // Remove the bill from the Bills collection
+            FirebaseFirestore.getInstance()
+                    .collection("users")
+                    .document(userUid)
+                    .collection("bills")
+                    .document(bill.getBillId())
+                    .delete()
+                    .addOnSuccessListener(aVoid -> {
+                        Toast.makeText(context, "Bill removed from Bills collection", Toast.LENGTH_SHORT).show();
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(context, "Error removing bill from Bills collection: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
         }
     }
 

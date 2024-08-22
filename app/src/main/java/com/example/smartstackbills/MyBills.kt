@@ -369,8 +369,8 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
                 when (filter) {
                     "all" -> {
                         findViewById<Button>(R.id.btnAllBills).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_active))
-                        // Show all bills except the ones that are marked as paid
-                        if (!bill.paid) {
+                        // "All" includes both due and incoming bills that are not paid
+                        if (!bill.paid && (billDate == null || billDate.before(currentDate) || billDate.after(currentDate))) {
                             filteredBills.add(bill)
                             Log.d("Filter", "All (unpaid) bill added: ${bill.name}")
                         }
