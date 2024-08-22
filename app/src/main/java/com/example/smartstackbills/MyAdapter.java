@@ -4,12 +4,16 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -72,6 +76,15 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             // Si necesitas mostrar mes y año, usa:
             String monthYear = formatMonthYear(bill.getDate());
             // Si estás mostrando el mes y el año en otro lugar, usa el formato adecuado
+            // Set the checkbox state
+            billHolder.checkBoxPaid.setChecked(bill.isPaid());
+
+            // Handle checkbox change
+            billHolder.checkBoxPaid.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                bill.setPaid(isChecked);
+                saveBillToFirestore(bill);  // Save the change to Firestore
+            });
+
         } else {
             MonthHeaderViewHolder headerHolder = (MonthHeaderViewHolder) holder;
             String monthHeader = (String) itemsArrayList.get(position);
@@ -100,6 +113,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         TextView title, category, amount, purchaseDate;
         OnBillClickListener onBillClickListener;
+        CheckBox checkBoxPaid;
 
         public BillViewHolder(@NonNull View itemView, OnBillClickListener onBillClickListener) {
             super(itemView);
@@ -107,6 +121,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             category = itemView.findViewById(R.id.textviewCategory);
             amount = itemView.findViewById(R.id.textviewAmount);
             purchaseDate = itemView.findViewById(R.id.textviewDate);
+            checkBoxPaid = itemView.findViewById(R.id.imgCheckBoxItems);
             this.onBillClickListener = onBillClickListener;
             itemView.setOnClickListener(this);
         }
@@ -159,5 +174,23 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         return items;
     }
+    private void saveBillToFirestore(Bills bill) {
+        String userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        if (userUid != null) {
+            FirebaseFirestore.getInstance()
+                    .collection("users")
+                    .document(userUid)
+                    .collection("bills")
+                    .document(bill.getBillId())
+                    .set(bill)
+                    .addOnSuccessListener(aVoid -> {
+                        Toast.makeText(context, "Bill updated successfully", Toast.LENGTH_SHORT).show();
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(context, "Error updating bill: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
+        }
+    }
+
 
 }

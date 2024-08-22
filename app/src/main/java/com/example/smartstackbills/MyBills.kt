@@ -195,10 +195,7 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
         imgDeleteBill.setOnClickListener {
             deleteBill()
         }
-
-
     }
-
     private fun setupEventChangeListener() {
         val userUid = FirebaseAuth.getInstance().currentUser?.uid
         if (userUid != null) {

@@ -65,4 +65,5 @@
     <string name="delete_income">delete income</string>
     <string name="previous_month">previous month</string>
     <string name="next_month">next month</string>
+    <string name="mark_as_paid">mark as paid</string>
 </resources>
