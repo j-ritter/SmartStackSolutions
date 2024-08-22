@@ -14,6 +14,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import MyCalendarView
+import androidx.appcompat.app.AlertDialog
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
@@ -38,9 +39,7 @@ class MainMenu : AppCompatActivity() {
 
         fabMainMenu = findViewById(R.id.fabMainMenu)
         fabMainMenu.setOnClickListener {
-            val intent = Intent(this, createBill::class.java)
-            intent.putExtra("USER_EMAIL", userEmail)
-            startActivity(intent)
+            showCreateOptionsDialog()
         }
 
         userEmail = intent.getStringExtra("USER_EMAIL")
@@ -164,6 +163,27 @@ class MainMenu : AppCompatActivity() {
             startActivity(intent)
         }
 
+    }
+    //Options for Floating Button
+    private fun showCreateOptionsDialog() {
+        val options = arrayOf("Create an 'Open Payment'", "Create a 'Closed Payment'", "Create an 'Income'")
+
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Select an option")
+        builder.setItems(options) { dialog, which ->
+            when (which) {
+                0 -> startActivity(Intent(this, createBill::class.java).apply {
+                    putExtra("USER_EMAIL", userEmail)
+                })
+                1 -> startActivity(Intent(this, createSpending::class.java).apply {
+                    putExtra("USER_EMAIL", userEmail)
+                })
+                2 -> startActivity(Intent(this, createIncome::class.java).apply {
+                    putExtra("USER_EMAIL", userEmail)
+                })
+            }
+        }
+        builder.show()
     }
 
     // Apply alternating background colors
