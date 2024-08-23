@@ -21,6 +21,8 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import MyCalendarView
+import android.content.BroadcastReceiver
+import android.content.IntentFilter
 import androidx.core.content.ContextCompat
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -60,6 +62,12 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
         "Income tax", "Property tax", "Sales tax", "Self-employment tax", "Capital gains tax",
         "Tuition fees", "Textbooks", "School supplies"
     )
+    private val spendingsReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            // This will be triggered when the broadcast is received
+            refreshSpendingsList()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,17 +92,20 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
             intent.putExtra("USER_EMAIL", userEmail)
             startActivity(intent)
         }
+        registerReceiver(spendingsReceiver, IntentFilter("com.example.smartstackbills.REFRESH_SPENDINGS"))
 
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationViewSpendings)
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.Main -> {
                     val intent = Intent(this, MainMenu::class.java)
+                    intent.putExtra("USER_EMAIL", userEmail) // Pasar el correo electrónico
                     startActivity(intent)
                     true
                 }
                 R.id.Bills -> {
                     val intent = Intent(this, MyBills::class.java)
+                    intent.putExtra("USER_EMAIL", userEmail) // Pasar el correo electrónico
                     startActivity(intent)
                     true
                 }
@@ -111,6 +122,7 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
                 R.id.Calendar -> {
                     // Intent for Calendar (assumed to be implemented)
                     val intent = Intent(this, MyCalendarView::class.java)
+                    intent.putExtra("USER_EMAIL", userEmail) // Pasar el correo electrónico
                     startActivity(intent)
                     true
                 }
@@ -161,6 +173,7 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
             }
         }
 
+
         db = FirebaseFirestore.getInstance()
         setupDialog()
         setupEventChangeListener()
@@ -173,6 +186,7 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
         findViewById<Button>(R.id.btnSpendingsAll).setOnClickListener { filterSpendings("all") }
         findViewById<Button>(R.id.btnEssential).setOnClickListener { filterSpendings("essential") }
         findViewById<Button>(R.id.btnNonEssential).setOnClickListener { filterSpendings("non-essential") }
+
     }
     private fun loadSpendings(): ArrayList<Spendings> {
         val sharedPref = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
@@ -246,10 +260,32 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
             Log.e("Authentication Error", "User not authenticated")
         }
     }
+    private fun refreshSpendingsList() {
+        val userUid = FirebaseAuth.getInstance().currentUser?.uid
+        if (userUid != null) {
+            db.collection("users").document(userUid).collection("spendings")
+                .get()
+                .addOnSuccessListener { documents ->
+                    spendingsArrayList.clear()
+                    allSpendingsArrayList.clear()
+                    for (document in documents) {
+                        val spending = document.toObject(Spendings::class.java)
+                        spendingsArrayList.add(spending)
+                        allSpendingsArrayList.add(spending)
+                    }
+                    // Notify the adapter of the updated data
+                    myAdapterSpendings.updateSpendings(spendingsArrayList)
+                }
+                .addOnFailureListener { e ->
+                    Toast.makeText(this, "Error loading spendings: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
+        }
+    }
 
     override fun onDestroy() {
         super.onDestroy()
         listenerRegistration?.remove()
+        unregisterReceiver(spendingsReceiver)
     }
 
     override fun onSpendingClick(position: Int) {

@@ -1,6 +1,7 @@
 package com.example.smartstackbills;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -89,6 +90,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     // Remove the bill from the current list and notify the adapter
                     itemsArrayList.remove(position);
                     notifyItemRemoved(position);
+                    notifyItemRangeChanged(position, itemsArrayList.size());
                 } else {
                     // If unchecked, do not move to Spendings, just update Firestore
                     saveBillToFirestore(bill);  // Save the change to Firestore
@@ -104,31 +106,50 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private void saveBillToSpendings(Bills bill) {
         String userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         if (userUid != null) {
-            FirebaseFirestore.getInstance()
-                    .collection("users")
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+            // Check if the bill already exists in the Spendings collection
+            db.collection("users")
                     .document(userUid)
                     .collection("spendings")
                     .document(bill.getBillId())
-                    .set(bill)
-                    .addOnSuccessListener(aVoid -> {
-                        Toast.makeText(context, "Bill moved to Spendings successfully", Toast.LENGTH_SHORT).show();
-                    })
-                    .addOnFailureListener(e -> {
-                        Toast.makeText(context, "Error moving bill to Spendings: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    });
+                    .get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        if (!documentSnapshot.exists()) {
+                            // Only add if it doesn't already exist
+                            db.collection("users")
+                                    .document(userUid)
+                                    .collection("spendings")
+                                    .document(bill.getBillId())
+                                    .set(bill)
+                                    .addOnSuccessListener(aVoid -> {
+                                        Toast.makeText(context, "'Open Payment' moved to 'Closed Payment' successfully", Toast.LENGTH_SHORT).show();
+                                        // Broadcast an intent to notify MySpendings to refresh
+                                        Intent intent = new Intent("com.example.smartstackbills.REFRESH_SPENDINGS");
+                                        context.sendBroadcast(intent);
 
-            // Remove the bill from the Bills collection
-            FirebaseFirestore.getInstance()
-                    .collection("users")
-                    .document(userUid)
-                    .collection("bills")
-                    .document(bill.getBillId())
-                    .delete()
-                    .addOnSuccessListener(aVoid -> {
-                        Toast.makeText(context, "Bill removed from Bills collection", Toast.LENGTH_SHORT).show();
+                                        // After successfully adding to Spendings, remove it from the Bills collection
+                                        db.collection("users")
+                                                .document(userUid)
+                                                .collection("bills")
+                                                .document(bill.getBillId())
+                                                .delete()
+                                                .addOnSuccessListener(aVoid1 -> {
+                                                    Toast.makeText(context, "'Open Payment' removed from 'Open Payments' collection", Toast.LENGTH_SHORT).show();
+                                                })
+                                                .addOnFailureListener(e -> {
+                                                    Toast.makeText(context, "Error removing 'Open Payment' from 'Open Payments' collection: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                                });
+                                    })
+                                    .addOnFailureListener(e -> {
+                                        Toast.makeText(context, "Error moving 'Open Payment' to 'Closed Payments': " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    });
+                        } else {
+                            Toast.makeText(context, "Bill already exists in Spendings.", Toast.LENGTH_SHORT).show();
+                        }
                     })
                     .addOnFailureListener(e -> {
-                        Toast.makeText(context, "Error removing bill from Bills collection: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Error checking Spendings: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     });
         }
     }

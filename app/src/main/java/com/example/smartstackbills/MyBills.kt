@@ -76,6 +76,7 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
             when (item.itemId) {
                 R.id.Main -> {
                     val intent = Intent(this, MainMenu::class.java)
+                    intent.putExtra("USER_EMAIL", userEmail) // Pasar el correo electrónico
                     startActivity(intent)
                     true
                 }

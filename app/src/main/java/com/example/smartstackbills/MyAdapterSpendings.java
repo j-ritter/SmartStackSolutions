@@ -130,7 +130,13 @@ public class MyAdapterSpendings extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     // Método para actualizar la lista de facturas
     public void updateSpendings(ArrayList<Spendings> newSpendings) {
-        itemsArrayList = groupSpendingsByMonth(newSpendings);
+
+        itemsArrayList.clear();
+
+        // Group the new spendings by month and update the items list
+        itemsArrayList.addAll(groupSpendingsByMonth(newSpendings));
+
+        // Notify the adapter that the data set has changed
         notifyDataSetChanged();
     }
 
