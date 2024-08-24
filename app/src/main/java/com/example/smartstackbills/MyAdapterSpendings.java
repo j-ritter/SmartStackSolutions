@@ -107,7 +107,6 @@ public class MyAdapterSpendings extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
 
         if (userUid != null) {
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
 
             // Convert the spending back to a bill
             Bills bill = new Bills();
@@ -122,6 +121,7 @@ public class MyAdapterSpendings extends RecyclerView.Adapter<RecyclerView.ViewHo
             bill.setAttachment(spending.getAttachment());
             bill.setPaid(false);
 
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
             db.collection("users")
                     .document(userUid)
                     .collection("bills")
@@ -144,24 +144,6 @@ public class MyAdapterSpendings extends RecyclerView.Adapter<RecyclerView.ViewHo
                     })
                     .addOnFailureListener(e -> {
                         Toast.makeText(context, "Error moving spending back to Bills: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    });
-        }
-    }
-
-    private void saveSpendingToFirestore(Spendings spending) {
-        String userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        if (userUid != null) {
-            FirebaseFirestore.getInstance()
-                    .collection("users")
-                    .document(userUid)
-                    .collection("spendings")
-                    .document(spending.getSpendingId())
-                    .set(spending)
-                    .addOnSuccessListener(aVoid -> {
-                        Toast.makeText(context, "Spending updated successfully.", Toast.LENGTH_SHORT).show();
-                    })
-                    .addOnFailureListener(e -> {
-                        Toast.makeText(context, "Error updating spending: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     });
         }
     }
@@ -244,5 +226,22 @@ public class MyAdapterSpendings extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
 
         return items;
+    }
+    private void saveSpendingToFirestore(Spendings spending) {
+        String userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        if (userUid != null) {
+            FirebaseFirestore.getInstance()
+                    .collection("users")
+                    .document(userUid)
+                    .collection("spendings")
+                    .document(spending.getSpendingId())
+                    .set(spending)
+                    .addOnSuccessListener(aVoid -> {
+                        Toast.makeText(context, "Spending updated successfully.", Toast.LENGTH_SHORT).show();
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(context, "Error updating spending: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
+        }
     }
 }
