@@ -8,6 +8,7 @@ public class Spendings {
     String spendingId;
     String name, comment, category, amount, vendor, subcategory, attachment;
     Timestamp date;
+    boolean paid;
     boolean isEssential;
 
     public Spendings() {
@@ -24,6 +25,7 @@ public class Spendings {
         this.vendor = vendor;
         this.subcategory = subcategory;
         this.attachment = attachment;
+        this.paid = paid;
         this.isEssential = isEssential;
     }
 
@@ -96,6 +98,14 @@ public class Spendings {
 
     public void setVendor(String vendor) {
         this.vendor = vendor;
+    }
+
+    public boolean isPaid() {
+        return paid;
+    }
+
+    public void setPaid(boolean paid) {
+        this.paid = paid;
     }
 
     public boolean isEssential() {

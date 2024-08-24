@@ -159,7 +159,8 @@
         android:textSize="15sp"
         app:layout_constraintTop_toBottomOf="@+id/txtAmountSpending"
         app:layout_constraintStart_toStartOf="@+id/guidelineStart"
-        app:layout_constraintEnd_toEndOf="@+id/guidelineEnd" />
+        app:layout_constraintEnd_toEndOf="@+id/guidelineEnd"
+        app:layout_constraintEnd_toStartOf="@+id/checkBoxPaidSpending"/>
 
     <!-- Date -->
     <TextView
@@ -189,7 +190,23 @@
         app:layout_constraintStart_toStartOf="@+id/guidelineStart"
         app:layout_constraintEnd_toEndOf="@+id/guidelineEnd" />
 
+    <!-- Paid CheckBox -->
+
     <!-- Comment -->
+    <CheckBox
+        android:id="@+id/checkBoxPaidSpending"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:checked="true"
+        android:enabled="false"
+        android:text="@string/paid"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/guidelineEnd"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/edtAmountSpending"
+        app:layout_constraintTop_toTopOf="@+id/edtAmountSpending" />
+
     <TextView
         android:id="@+id/txtCommentSpending"
         android:layout_width="wrap_content"

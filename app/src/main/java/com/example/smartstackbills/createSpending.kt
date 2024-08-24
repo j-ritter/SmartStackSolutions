@@ -200,7 +200,9 @@ class createSpending : AppCompatActivity() {
                 showDatePickerDialog()
             }
         }
-
+        val checkBoxPaid = findViewById<CheckBox>(R.id.checkBoxPaidSpending)
+        checkBoxPaid.isChecked = true
+        checkBoxPaid.isEnabled = false
         val spinnerCategories = findViewById<Spinner>(R.id.spinnerCategoriesSpending)
         val spinnerSubcategories = findViewById<Spinner>(R.id.spinnerSubcategoriesSpending)
         val spinnerVendors = findViewById<Spinner>(R.id.spinnerVendorsSpending)
@@ -408,7 +410,8 @@ class createSpending : AppCompatActivity() {
                     "subcategory" to spendingSubcategory,
                     "vendor" to spendingVendor,
                     "comment" to spendingComment,
-                    "attachment" to spendingAttachment
+                    "attachment" to spendingAttachment,
+                    "paid" to true
                 )
 
 

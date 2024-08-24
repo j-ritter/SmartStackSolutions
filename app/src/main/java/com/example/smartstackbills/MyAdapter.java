@@ -2,6 +2,7 @@ package com.example.smartstackbills;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -105,154 +106,170 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
     private void saveBillToSpendings(Bills bill) {
         String userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        if (userUid != null) {
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-            // Check if the bill already exists in the Spendings collection
-            db.collection("users")
-                    .document(userUid)
-                    .collection("spendings")
-                    .document(bill.getBillId())
-                    .get()
-                    .addOnSuccessListener(documentSnapshot -> {
-                        if (!documentSnapshot.exists()) {
-                            // Only add if it doesn't already exist
-                            db.collection("users")
-                                    .document(userUid)
-                                    .collection("spendings")
-                                    .document(bill.getBillId())
-                                    .set(bill)
-                                    .addOnSuccessListener(aVoid -> {
-                                        Toast.makeText(context, "'Open Payment' moved to 'Closed Payment' successfully", Toast.LENGTH_SHORT).show();
-                                        // Broadcast an intent to notify MySpendings to refresh
-                                        Intent intent = new Intent("com.example.smartstackbills.REFRESH_SPENDINGS");
-                                        context.sendBroadcast(intent);
-
-                                        // After successfully adding to Spendings, remove it from the Bills collection
-                                        db.collection("users")
-                                                .document(userUid)
-                                                .collection("bills")
-                                                .document(bill.getBillId())
-                                                .delete()
-                                                .addOnSuccessListener(aVoid1 -> {
-                                                    Toast.makeText(context, "'Open Payment' removed from 'Open Payments' collection", Toast.LENGTH_SHORT).show();
-                                                })
-                                                .addOnFailureListener(e -> {
-                                                    Toast.makeText(context, "Error removing 'Open Payment' from 'Open Payments' collection: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                                                });
-                                    })
-                                    .addOnFailureListener(e -> {
-                                        Toast.makeText(context, "Error moving 'Open Payment' to 'Closed Payments': " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                                    });
-                        } else {
-                            Toast.makeText(context, "Bill already exists in Spendings.", Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .addOnFailureListener(e -> {
-                        Toast.makeText(context, "Error checking Spendings: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    });
+        String billId = bill.getBillId();
+        if (billId == null || userUid == null) {
+            Log.e("SaveBillToSpendings", "Bill ID or User UID is null. Cannot save to spendings.");
+            return;  // Exit the method to avoid a crash
         }
+
+        Spendings spending = new Spendings();
+        spending.setSpendingId(billId);  // Using the bill ID as the spending ID
+        spending.setName(bill.getName());
+        spending.setAmount(bill.getAmount());
+        spending.setCategory(bill.getCategory());
+        spending.setSubcategory(bill.getSubcategory());
+        spending.setVendor(bill.getVendor());
+        spending.setDate(bill.getDate());
+        spending.setComment(bill.getComment());
+        spending.setAttachment(bill.getAttachment());
+        spending.setPaid(true);  // Set it as paid since it's moving to spendings
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        // Check if the bill already exists in the Spendings collection
+        db.collection("users")
+                .document(userUid)
+                .collection("spendings")
+                .document(bill.getBillId())
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (!documentSnapshot.exists()) {
+                        // Only add if it doesn't already exist
+                        db.collection("users")
+                                .document(userUid)
+                                .collection("spendings")
+                                .document(bill.getBillId())
+                                .set(bill)
+                                .addOnSuccessListener(aVoid -> {
+                                    Toast.makeText(context, "'Open Payment' moved to 'Closed Payment' successfully", Toast.LENGTH_SHORT).show();
+                                    // Broadcast an intent to notify MySpendings to refresh
+                                    Intent intent = new Intent("com.example.smartstackbills.REFRESH_SPENDINGS");
+                                    context.sendBroadcast(intent);
+
+                                    // After successfully adding to Spendings, remove it from the Bills collection
+                                    db.collection("users")
+                                            .document(userUid)
+                                            .collection("bills")
+                                            .document(bill.getBillId())
+                                            .delete()
+                                            .addOnSuccessListener(aVoid1 -> {
+                                                Toast.makeText(context, "'Open Payment' removed from 'Open Payments' collection", Toast.LENGTH_SHORT).show();
+                                            })
+                                            .addOnFailureListener(e -> {
+                                                Toast.makeText(context, "Error removing 'Open Payment' from 'Open Payments' collection: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                            });
+                                })
+                                .addOnFailureListener(e -> {
+                                    Toast.makeText(context, "Error moving 'Open Payment' to 'Closed Payments': " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                });
+                    } else {
+                        Toast.makeText(context, "Bill already exists in Spendings.", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(context, "Error checking Spendings: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
     }
 
-    // Método para formatear el Timestamp a String
-    private String formatTimestamp(Timestamp timestamp) {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-        return sdf.format(timestamp.toDate());
-    }
 
-    // Método para formatear el Timestamp a mes y año
-    private String formatMonthYear(Timestamp timestamp) {
-        SimpleDateFormat sdf = new SimpleDateFormat("MMM yyyy", Locale.getDefault());
-        return sdf.format(timestamp.toDate());
+// Método para formatear el Timestamp a String
+private String formatTimestamp(Timestamp timestamp) {
+    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+    return sdf.format(timestamp.toDate());
+}
+
+// Método para formatear el Timestamp a mes y año
+private String formatMonthYear(Timestamp timestamp) {
+    SimpleDateFormat sdf = new SimpleDateFormat("MMM yyyy", Locale.getDefault());
+    return sdf.format(timestamp.toDate());
+}
+
+@Override
+public int getItemCount() {
+    return itemsArrayList.size();
+}
+
+public static class BillViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+    TextView title, category, amount, purchaseDate;
+    OnBillClickListener onBillClickListener;
+    CheckBox checkBoxPaid;
+
+    public BillViewHolder(@NonNull View itemView, OnBillClickListener onBillClickListener) {
+        super(itemView);
+        title = itemView.findViewById(R.id.textviewTitle);
+        category = itemView.findViewById(R.id.textviewCategory);
+        amount = itemView.findViewById(R.id.textviewAmount);
+        purchaseDate = itemView.findViewById(R.id.textviewDate);
+        checkBoxPaid = itemView.findViewById(R.id.imgCheckBoxItems);
+        this.onBillClickListener = onBillClickListener;
+        itemView.setOnClickListener(this);
     }
 
     @Override
-    public int getItemCount() {
-        return itemsArrayList.size();
+    public void onClick(View v) {
+        onBillClickListener.onBillClick(getAdapterPosition());
     }
+}
 
-    public static class BillViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+public static class MonthHeaderViewHolder extends RecyclerView.ViewHolder {
 
-        TextView title, category, amount, purchaseDate;
-        OnBillClickListener onBillClickListener;
-        CheckBox checkBoxPaid;
+    TextView monthHeader;
 
-        public BillViewHolder(@NonNull View itemView, OnBillClickListener onBillClickListener) {
-            super(itemView);
-            title = itemView.findViewById(R.id.textviewTitle);
-            category = itemView.findViewById(R.id.textviewCategory);
-            amount = itemView.findViewById(R.id.textviewAmount);
-            purchaseDate = itemView.findViewById(R.id.textviewDate);
-            checkBoxPaid = itemView.findViewById(R.id.imgCheckBoxItems);
-            this.onBillClickListener = onBillClickListener;
-            itemView.setOnClickListener(this);
+    public MonthHeaderViewHolder(@NonNull View itemView) {
+        super(itemView);
+        monthHeader = itemView.findViewById(R.id.textviewMonthHeader);
+    }
+}
+
+public interface OnBillClickListener {
+    void onBillClick(int position);
+}
+
+// Método para actualizar la lista de facturas
+public void updateBills(ArrayList<Bills> newBills) {
+    itemsArrayList = groupBillsByMonth(newBills);
+    notifyDataSetChanged();
+}
+
+// Método para agrupar las facturas por mes
+private ArrayList<Object> groupBillsByMonth(ArrayList<Bills> billsArrayList) {
+    Map<String, List<Bills>> groupedBills = new HashMap<>();
+    SimpleDateFormat sdf = new SimpleDateFormat("MMMM yyyy", Locale.getDefault());
+
+    for (Bills bill : billsArrayList) {
+        // Convertir Timestamp a Date y formatear
+        String monthYear = sdf.format(bill.getDate().toDate()); // Asegúrate de que getDate() devuelva un Timestamp
+        if (!groupedBills.containsKey(monthYear)) {
+            groupedBills.put(monthYear, new ArrayList<>());
         }
-
-        @Override
-        public void onClick(View v) {
-            onBillClickListener.onBillClick(getAdapterPosition());
-        }
+        groupedBills.get(monthYear).add(bill);
     }
 
-    public static class MonthHeaderViewHolder extends RecyclerView.ViewHolder {
-
-        TextView monthHeader;
-
-        public MonthHeaderViewHolder(@NonNull View itemView) {
-            super(itemView);
-            monthHeader = itemView.findViewById(R.id.textviewMonthHeader);
-        }
+    ArrayList<Object> items = new ArrayList<>();
+    for (Map.Entry<String, List<Bills>> entry : groupedBills.entrySet()) {
+        items.add(entry.getKey()); // Añade el mes y año como encabezado
+        items.addAll(entry.getValue()); // Añade las facturas del mes correspondiente
     }
 
-    public interface OnBillClickListener {
-        void onBillClick(int position);
+    return items;
+}
+private void saveBillToFirestore(Bills bill) {
+    String userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+    if (userUid != null) {
+        FirebaseFirestore.getInstance()
+                .collection("users")
+                .document(userUid)
+                .collection("bills")
+                .document(bill.getBillId())
+                .set(bill)
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(context, "Bill updated successfully", Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(context, "Error updating bill: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
     }
-
-    // Método para actualizar la lista de facturas
-    public void updateBills(ArrayList<Bills> newBills) {
-        itemsArrayList = groupBillsByMonth(newBills);
-        notifyDataSetChanged();
-    }
-
-    // Método para agrupar las facturas por mes
-    private ArrayList<Object> groupBillsByMonth(ArrayList<Bills> billsArrayList) {
-        Map<String, List<Bills>> groupedBills = new HashMap<>();
-        SimpleDateFormat sdf = new SimpleDateFormat("MMMM yyyy", Locale.getDefault());
-
-        for (Bills bill : billsArrayList) {
-            // Convertir Timestamp a Date y formatear
-            String monthYear = sdf.format(bill.getDate().toDate()); // Asegúrate de que getDate() devuelva un Timestamp
-            if (!groupedBills.containsKey(monthYear)) {
-                groupedBills.put(monthYear, new ArrayList<>());
-            }
-            groupedBills.get(monthYear).add(bill);
-        }
-
-        ArrayList<Object> items = new ArrayList<>();
-        for (Map.Entry<String, List<Bills>> entry : groupedBills.entrySet()) {
-            items.add(entry.getKey()); // Añade el mes y año como encabezado
-            items.addAll(entry.getValue()); // Añade las facturas del mes correspondiente
-        }
-
-        return items;
-    }
-    private void saveBillToFirestore(Bills bill) {
-        String userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        if (userUid != null) {
-            FirebaseFirestore.getInstance()
-                    .collection("users")
-                    .document(userUid)
-                    .collection("bills")
-                    .document(bill.getBillId())
-                    .set(bill)
-                    .addOnSuccessListener(aVoid -> {
-                        Toast.makeText(context, "Bill updated successfully", Toast.LENGTH_SHORT).show();
-                    })
-                    .addOnFailureListener(e -> {
-                        Toast.makeText(context, "Error updating bill: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    });
-        }
-    }
+}
 
 
 }
