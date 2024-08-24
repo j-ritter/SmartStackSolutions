@@ -220,6 +220,7 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
                             }
                         }
                         // Mostrar facturas "incoming" por defecto
+                        saveBills()
                         filterBills("all")
                     } else {
                         Log.d("Firestore Data", "No bills found")

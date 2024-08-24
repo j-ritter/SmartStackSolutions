@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -26,6 +27,7 @@ public class MyAdapterSpendings extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     private Context context;
     private ArrayList<Object> itemsArrayList;
+
     private OnSpendingClickListener onSpendingClickListener;
 
     private static final int ITEM_SPENDING = 0;
@@ -33,11 +35,10 @@ public class MyAdapterSpendings extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     public MyAdapterSpendings(Context context, ArrayList<Spendings> spendingsArrayList, OnSpendingClickListener onSpendingClickListener) {
         this.context = context;
-
         this.itemsArrayList = groupSpendingsByMonth(spendingsArrayList);
         this.onSpendingClickListener = onSpendingClickListener;
-
     }
+
     @Override
     public int getItemViewType(int position) {
         if (itemsArrayList.get(position) instanceof String) {
@@ -69,60 +70,70 @@ public class MyAdapterSpendings extends RecyclerView.Adapter<RecyclerView.ViewHo
             spendingHolder.amount.setText(spending.getAmount());
             spendingHolder.category.setText(spending.getCategory());
 
-            // Convierte Timestamp a String
+            // Convert Timestamp to String
             String formattedDate = formatTimestamp(spending.getDate());
             spendingHolder.purchaseDate.setText(formattedDate);
 
-            // Si necesitas mostrar mes y año, usa:
             String monthYear = formatMonthYear(spending.getDate());
-            // Si estás mostrando el mes y el año en otro lugar, usa el formato adecuado
 
-            // Set the checkbox state
             spendingHolder.checkBoxPaid.setOnCheckedChangeListener(null); // Clear any previous listener
             spendingHolder.checkBoxPaid.setChecked(spending.isPaid());
 
             spendingHolder.checkBoxPaid.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 spending.setPaid(isChecked);
                 if (!isChecked) {
-                    moveSpendingToBills(spending, position);
+                    saveSpendingToBills(spending);
+                    itemsArrayList.remove(position);
+                    notifyItemRemoved(position);
+                    notifyItemRangeChanged(position, itemsArrayList.size());
+                } else {
+                    saveSpendingToFirestore(spending);
                 }
             });
-
         } else {
             MonthHeaderViewHolder headerHolder = (MonthHeaderViewHolder) holder;
             String monthHeader = (String) itemsArrayList.get(position);
             headerHolder.monthHeader.setText(monthHeader);
         }
     }
-    private void moveSpendingToBills(Spendings spending, int position) {
-        itemsArrayList.remove(position);
-        notifyItemRemoved(position);
-        notifyItemRangeChanged(position, itemsArrayList.size());
-
-        saveSpendingToBills(spending);
-    }
 
     private void saveSpendingToBills(Spendings spending) {
         String userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         String spendingId = spending.getSpendingId();
+
         if (spendingId == null) {
             Log.e("SaveSpendingToBills", "Spending ID is null. Cannot save to bills.");
             return;  // Exit the method to avoid a crash
-        }if (userUid != null) {
-            FirebaseFirestore.getInstance()
-                    .collection("users")
+        }
+
+        if (userUid != null) {
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+            // Convert the spending back to a bill
+            Bills bill = new Bills();
+            bill.setBillId(spendingId);
+            bill.setName(spending.getName());
+            bill.setAmount(spending.getAmount());
+            bill.setCategory(spending.getCategory());
+            bill.setSubcategory(spending.getSubcategory());
+            bill.setVendor(spending.getVendor());
+            bill.setDate(spending.getDate());
+            bill.setComment(spending.getComment());
+            bill.setAttachment(spending.getAttachment());
+            bill.setPaid(false);
+
+            db.collection("users")
                     .document(userUid)
                     .collection("bills")
-                    .document(spending.getSpendingId())
-                    .set(spending)
+                    .document(spendingId)
+                    .set(bill)
                     .addOnSuccessListener(aVoid -> {
                         Toast.makeText(context, "Spending moved back to Bills.", Toast.LENGTH_SHORT).show();
-                        // After successfully adding back to Bills, remove it from the Spendings collection
-                        FirebaseFirestore.getInstance()
-                                .collection("users")
+
+                        db.collection("users")
                                 .document(userUid)
                                 .collection("spendings")
-                                .document(spending.getSpendingId())
+                                .document(spendingId)
                                 .delete()
                                 .addOnSuccessListener(aVoid1 -> {
                                     Toast.makeText(context, "Spending removed from Spendings collection.", Toast.LENGTH_SHORT).show();
@@ -137,14 +148,31 @@ public class MyAdapterSpendings extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
     }
 
+    private void saveSpendingToFirestore(Spendings spending) {
+        String userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        if (userUid != null) {
+            FirebaseFirestore.getInstance()
+                    .collection("users")
+                    .document(userUid)
+                    .collection("spendings")
+                    .document(spending.getSpendingId())
+                    .set(spending)
+                    .addOnSuccessListener(aVoid -> {
+                        Toast.makeText(context, "Spending updated successfully.", Toast.LENGTH_SHORT).show();
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(context, "Error updating spending: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
+        }
+    }
 
-    // Método para formatear el Timestamp a String
+    // Format Timestamp to String
     private String formatTimestamp(Timestamp timestamp) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         return sdf.format(timestamp.toDate());
     }
 
-    // Método para formatear el Timestamp a mes y año
+    // Format Timestamp to month and year
     private String formatMonthYear(Timestamp timestamp) {
         SimpleDateFormat sdf = new SimpleDateFormat("MMM yyyy", Locale.getDefault());
         return sdf.format(timestamp.toDate());
@@ -177,8 +205,8 @@ public class MyAdapterSpendings extends RecyclerView.Adapter<RecyclerView.ViewHo
             onSpendingClickListener.onSpendingClick(getAdapterPosition());
         }
     }
-    public static class MonthHeaderViewHolder extends RecyclerView.ViewHolder {
 
+    public static class MonthHeaderViewHolder extends RecyclerView.ViewHolder {
         TextView monthHeader;
 
         public MonthHeaderViewHolder(@NonNull View itemView) {
@@ -191,26 +219,18 @@ public class MyAdapterSpendings extends RecyclerView.Adapter<RecyclerView.ViewHo
         void onSpendingClick(int position);
     }
 
-    // Método para actualizar la lista de facturas
     public void updateSpendings(ArrayList<Spendings> newSpendings) {
-
         itemsArrayList.clear();
-
-        // Group the new spendings by month and update the items list
         itemsArrayList.addAll(groupSpendingsByMonth(newSpendings));
-
-        // Notify the adapter that the data set has changed
         notifyDataSetChanged();
     }
 
-    // Método para agrupar las facturas por mes
     private ArrayList<Object> groupSpendingsByMonth(ArrayList<Spendings> spendingsArrayList) {
         Map<String, List<Spendings>> groupedSpendings = new HashMap<>();
         SimpleDateFormat sdf = new SimpleDateFormat("MMMM yyyy", Locale.getDefault());
 
         for (Spendings spending : spendingsArrayList) {
-            // Convertir Timestamp a Date y formatear
-            String monthYear = sdf.format(spending.getDate().toDate()); // Asegúrate de que getDate() devuelva un Timestamp
+            String monthYear = sdf.format(spending.getDate().toDate());
             if (!groupedSpendings.containsKey(monthYear)) {
                 groupedSpendings.put(monthYear, new ArrayList<>());
             }
@@ -219,8 +239,8 @@ public class MyAdapterSpendings extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         ArrayList<Object> items = new ArrayList<>();
         for (Map.Entry<String, List<Spendings>> entry : groupedSpendings.entrySet()) {
-            items.add(entry.getKey()); // Añade el mes y año como encabezado
-            items.addAll(entry.getValue()); // Añade las facturas del mes correspondiente
+            items.add(entry.getKey());
+            items.addAll(entry.getValue());
         }
 
         return items;

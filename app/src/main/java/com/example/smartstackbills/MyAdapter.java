@@ -29,6 +29,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context context;
     private ArrayList<Object> itemsArrayList;
+
     private OnBillClickListener onBillClickListener;
 
     private static final int ITEM_BILL = 0;
@@ -37,6 +38,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public MyAdapter(Context context, ArrayList<Bills> billsArrayList, OnBillClickListener onBillClickListener) {
         this.context = context;
         this.itemsArrayList = groupBillsByMonth(billsArrayList);
+
         this.onBillClickListener = onBillClickListener;
     }
 
@@ -79,6 +81,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             String monthYear = formatMonthYear(bill.getDate());
             // Si estás mostrando el mes y el año en otro lugar, usa el formato adecuado
             // Set the checkbox state
+            billHolder.checkBoxPaid.setOnCheckedChangeListener(null);
             billHolder.checkBoxPaid.setChecked(bill.isPaid());
 
             // Handle checkbox change
@@ -107,71 +110,52 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private void saveBillToSpendings(Bills bill) {
         String userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         String billId = bill.getBillId();
-        if (billId == null || userUid == null) {
-            Log.e("SaveBillToSpendings", "Bill ID or User UID is null. Cannot save to spendings.");
+        if (billId == null) {
+            Log.e("SaveBillToSpendings", "Bill ID is null. Cannot save to spendings.");
             return;  // Exit the method to avoid a crash
         }
+        if (userUid != null) {
+            // Convert the Bills object to a Spendings object
+            Spendings spending = new Spendings();
+            spending.setSpendingId(billId);  // Using the bill ID as the spending ID
+            spending.setName(bill.getName());
+            spending.setAmount(bill.getAmount());
+            spending.setCategory(bill.getCategory());
+            spending.setSubcategory(bill.getSubcategory());
+            spending.setVendor(bill.getVendor());
+            spending.setDate(bill.getDate());
+            spending.setComment(bill.getComment());
+            spending.setAttachment(bill.getAttachment());
+            spending.setPaid(true);  // Set it as paid since it's moving to spendings
 
-        Spendings spending = new Spendings();
-        spending.setSpendingId(billId);  // Using the bill ID as the spending ID
-        spending.setName(bill.getName());
-        spending.setAmount(bill.getAmount());
-        spending.setCategory(bill.getCategory());
-        spending.setSubcategory(bill.getSubcategory());
-        spending.setVendor(bill.getVendor());
-        spending.setDate(bill.getDate());
-        spending.setComment(bill.getComment());
-        spending.setAttachment(bill.getAttachment());
-        spending.setPaid(true);  // Set it as paid since it's moving to spendings
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        // Check if the bill already exists in the Spendings collection
-        db.collection("users")
-                .document(userUid)
-                .collection("spendings")
-                .document(bill.getBillId())
-                .get()
-                .addOnSuccessListener(documentSnapshot -> {
-                    if (!documentSnapshot.exists()) {
-                        // Only add if it doesn't already exist
-                        db.collection("users")
+            FirebaseFirestore.getInstance()
+                    .collection("users")
+                    .document(userUid)
+                    .collection("spendings")
+                    .document(bill.getBillId())
+                    .set(bill)
+                    .addOnSuccessListener(aVoid -> {
+                        Toast.makeText(context, "Bill moved to Spendings.", Toast.LENGTH_SHORT).show();
+                        // After successfully adding to Spendings, remove it from the Bills collection
+                        FirebaseFirestore.getInstance()
+                                .collection("users")
                                 .document(userUid)
-                                .collection("spendings")
+                                .collection("bills")
                                 .document(bill.getBillId())
-                                .set(bill)
-                                .addOnSuccessListener(aVoid -> {
-                                    Toast.makeText(context, "'Open Payment' moved to 'Closed Payment' successfully", Toast.LENGTH_SHORT).show();
-                                    // Broadcast an intent to notify MySpendings to refresh
-                                    Intent intent = new Intent("com.example.smartstackbills.REFRESH_SPENDINGS");
-                                    context.sendBroadcast(intent);
-
-                                    // After successfully adding to Spendings, remove it from the Bills collection
-                                    db.collection("users")
-                                            .document(userUid)
-                                            .collection("bills")
-                                            .document(bill.getBillId())
-                                            .delete()
-                                            .addOnSuccessListener(aVoid1 -> {
-                                                Toast.makeText(context, "'Open Payment' removed from 'Open Payments' collection", Toast.LENGTH_SHORT).show();
-                                            })
-                                            .addOnFailureListener(e -> {
-                                                Toast.makeText(context, "Error removing 'Open Payment' from 'Open Payments' collection: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                                            });
+                                .delete()
+                                .addOnSuccessListener(aVoid1 -> {
+                                    Toast.makeText(context, "Bill removed from Bills collection.", Toast.LENGTH_SHORT).show();
                                 })
                                 .addOnFailureListener(e -> {
-                                    Toast.makeText(context, "Error moving 'Open Payment' to 'Closed Payments': " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context, "Error removing bill from Bills: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                                 });
-                    } else {
-                        Toast.makeText(context, "Bill already exists in Spendings.", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(context, "Error checking Spendings: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                });
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(context, "Error moving bill to Spendings: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
+        }
     }
-
-
-// Método para formatear el Timestamp a String
+    // Método para formatear el Timestamp a String
 private String formatTimestamp(Timestamp timestamp) {
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
     return sdf.format(timestamp.toDate());

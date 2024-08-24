@@ -71,20 +71,19 @@
         <!-- Purchase Date Label -->
         <TextView
             android:id="@+id/textviewAmountItemsSpendings"
-            android:layout_width="120dp"
+            android:layout_width="150dp"
             android:layout_height="18dp"
             android:text="$1200"
             android:textColor="@color/black"
             android:textSize="15sp"
             android:textStyle="bold"
-
             app:layout_constraintStart_toEndOf="@id/labelAmountItemsSpendings"
             app:layout_constraintStart_toStartOf="@+id/textviewDateItemsSpendings"
             app:layout_constraintTop_toTopOf="@id/labelAmountItemsSpendings" />
 
         <TextView
             android:id="@+id/textviewTitleItemsSpendings"
-            android:layout_width="120dp"
+            android:layout_width="150dp"
             android:layout_height="18dp"
             android:layout_marginTop="8dp"
             android:text="Arya"
@@ -98,7 +97,7 @@
 
         <TextView
             android:id="@+id/textviewCategoryItemsSpendings"
-            android:layout_width="120dp"
+            android:layout_width="150dp"
             android:layout_height="18dp"
             android:text="Education"
             android:textColor="@color/black"
@@ -110,7 +109,7 @@
 
         <TextView
             android:id="@+id/textviewDateItemsSpendings"
-            android:layout_width="120dp"
+            android:layout_width="150dp"
             android:layout_height="18dp"
             android:layout_marginStart="12dp"
             android:text="1/6/2024"
