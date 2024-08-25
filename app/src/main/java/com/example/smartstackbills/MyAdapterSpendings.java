@@ -125,8 +125,8 @@ public class MyAdapterSpendings extends RecyclerView.Adapter<RecyclerView.ViewHo
             db.collection("users")
                     .document(userUid)
                     .collection("bills")
-                    .document(spendingId)
-                    .set(bill)
+                    .document(spending.getSpendingId())
+                    .set(spending)
                     .addOnSuccessListener(aVoid -> {
                         Toast.makeText(context, "Spending moved back to Bills.", Toast.LENGTH_SHORT).show();
 
