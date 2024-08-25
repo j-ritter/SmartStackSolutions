@@ -87,7 +87,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             // Handle checkbox change
             billHolder.checkBoxPaid.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 bill.setPaid(isChecked);
-                if (isChecked) {
+
                     // Save the bill to the Spendings collection in Firestore
                     saveBillToSpendings(bill);
 
@@ -95,10 +95,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     itemsArrayList.remove(position);
                     notifyItemRemoved(position);
                     notifyItemRangeChanged(position, itemsArrayList.size());
-                } else {
-                    // If unchecked, do not move to Spendings, just update Firestore
-                    saveBillToFirestore(bill);  // Save the change to Firestore
-                }
+
             });
 
         } else {

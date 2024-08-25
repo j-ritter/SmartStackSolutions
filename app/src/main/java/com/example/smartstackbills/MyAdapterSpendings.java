@@ -80,14 +80,13 @@ public class MyAdapterSpendings extends RecyclerView.Adapter<RecyclerView.ViewHo
             spendingHolder.checkBoxPaid.setChecked(spending.isPaid());
 
             spendingHolder.checkBoxPaid.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                spending.setPaid(isChecked);
-                if (!isChecked) {
+                if (!isChecked) {  // Se ejecutará solo cuando se quite el check
+                    spending.setPaid(false);
+
                     saveSpendingToBills(spending);
                     itemsArrayList.remove(position);
                     notifyItemRemoved(position);
                     notifyItemRangeChanged(position, itemsArrayList.size());
-                } else {
-                    saveSpendingToFirestore(spending);
                 }
             });
         } else {
@@ -121,19 +120,19 @@ public class MyAdapterSpendings extends RecyclerView.Adapter<RecyclerView.ViewHo
             bill.setAttachment(spending.getAttachment());
             bill.setPaid(false);
 
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
-            db.collection("users")
+            FirebaseFirestore.getInstance()
+                    .collection("users")
                     .document(userUid)
                     .collection("bills")
                     .document(spending.getSpendingId())
                     .set(bill)
                     .addOnSuccessListener(aVoid -> {
                         Toast.makeText(context, "Spending moved back to Bills.", Toast.LENGTH_SHORT).show();
-
-                        db.collection("users")
+                        FirebaseFirestore.getInstance()
+                                .collection("users")
                                 .document(userUid)
                                 .collection("spendings")
-                                .document(spendingId)
+                                .document(spending.getSpendingId())
                                 .delete()
                                 .addOnSuccessListener(aVoid1 -> {
                                     Toast.makeText(context, "Spending removed from Spendings collection.", Toast.LENGTH_SHORT).show();
@@ -202,8 +201,8 @@ public class MyAdapterSpendings extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     public void updateSpendings(ArrayList<Spendings> newSpendings) {
-        itemsArrayList.clear();
-        itemsArrayList.addAll(groupSpendingsByMonth(newSpendings));
+
+        itemsArrayList = groupSpendingsByMonth(newSpendings);
         notifyDataSetChanged();
     }
 
