@@ -18,7 +18,6 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import calendarView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
@@ -27,6 +26,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.Calendar
 import kotlin.collections.ArrayList
 
 class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
@@ -66,18 +66,26 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
             intent.putExtra("USER_EMAIL", userEmail)
             startActivity(intent)
         }
+
+
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationViewBills)
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
+                R.id.Main -> {
+                    val intent = Intent(this, MainMenu::class.java)
+                    intent.putExtra("USER_EMAIL", userEmail)
+                    startActivity(intent)
+                    true
+                }
                 R.id.Bills -> {
                     val intent = Intent(this, MyBills::class.java)
-                    intent.putExtra("USER_EMAIL", userEmail) // Pasar el correo electrónico
+                    intent.putExtra("USER_EMAIL", userEmail)
                     startActivity(intent)
                     true
                 }
                 R.id.Spendings -> {
                     val intent = Intent(this, MySpendings::class.java)
-                    intent.putExtra("USER_EMAIL", userEmail) // Pasar el correo electrónico
+                    intent.putExtra("USER_EMAIL", userEmail)
                     startActivity(intent)
                     true
                 }
@@ -88,14 +96,17 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
                     true
                 }
                 R.id.Calendar -> {
-                    val intent = Intent(this, calendarView::class.java)
-                    intent.putExtra("USER_EMAIL", userEmail)
+                    // Intent for Calendar (assumed to be implemented)
+                    //val intent = Intent(this, CalendarView::class.java)
                     startActivity(intent)
                     true
                 }
+
                 else -> false
             }
         }
+
+
         // Initialize the toolbar and set it as the action bar
         val toolbar: Toolbar = findViewById(R.id.materialToolbarBills)
         setSupportActionBar(toolbar)
@@ -210,9 +221,13 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
     }
 
     override fun onBillClick(position: Int) {
-        val bill = billsArrayList[position]
-        selectedBill = bill // Set selectedBill here
-        showBillDetailsDialog(bill)
+        if (position >= 0 && position < billsArrayList.size) {
+            val bill = billsArrayList[position]
+            selectedBill = bill
+            showBillDetailsDialog(bill)
+        } else {
+            Log.e("MyBills", "Índice fuera de rango en onBillClick: $position")
+        }
     }
 
     private fun showBillDetailsDialog(bill: Bills) {

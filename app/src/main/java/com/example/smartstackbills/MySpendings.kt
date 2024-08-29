@@ -1,10 +1,12 @@
 package com.example.smartstackbills
 
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -18,14 +20,14 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import calendarView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
-import java.text.SimpleDateFormat
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -65,7 +67,7 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
         recyclerView.layoutManager = LinearLayoutManager(this)
         userEmail = intent.getStringExtra("USER_EMAIL")
 
-        spendingsArrayList = ArrayList()
+        spendingsArrayList = loadSpendings()
         allSpendingsArrayList = ArrayList()
         myAdapter = MyAdapterSpendings(this, spendingsArrayList, this)
         recyclerView.adapter = myAdapter
@@ -76,19 +78,22 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
             intent.putExtra("USER_EMAIL", userEmail)
             startActivity(intent)
         }
+
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationViewSpendings)
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
+                R.id.Main -> {
+                    val intent = Intent(this, MainMenu::class.java)
+                    startActivity(intent)
+                    true
+                }
                 R.id.Bills -> {
                     val intent = Intent(this, MyBills::class.java)
-                    intent.putExtra("USER_EMAIL", userEmail) // Pasar el correo electrónico
                     startActivity(intent)
                     true
                 }
                 R.id.Spendings -> {
-                    val intent = Intent(this, MySpendings::class.java)
-                    intent.putExtra("USER_EMAIL", userEmail) // Pasar el correo electrónico
-                    startActivity(intent)
+                    // Do nothing since we're already on this screen
                     true
                 }
                 R.id.Income -> {  // New navigation option for Income
@@ -98,8 +103,8 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
                     true
                 }
                 R.id.Calendar -> {
-                    val intent = Intent(this,calendarView::class.java)
-                    intent.putExtra("USER_EMAIL", userEmail)
+                    // Intent for Calendar (assumed to be implemented)
+                   //val intent = Intent(this, CalendarView::class.java)
                     startActivity(intent)
                     true
                 }
@@ -158,6 +163,22 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
         findViewById<Button>(R.id.btnEssential).setOnClickListener { filterSpendings("essential") }
         findViewById<Button>(R.id.btnNonEssential).setOnClickListener { filterSpendings("non-essential") }
     }
+    private fun loadSpendings(): ArrayList<Spendings> {
+        val sharedPref = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
+        val gson = Gson()
+        val json = sharedPref.getString("spendingsList", null)
+        val type = object : TypeToken<ArrayList<Spendings>>() {}.type
+        return gson.fromJson(json, type) ?: ArrayList()
+    }
+
+    private fun saveSpendings() {
+        val sharedPref = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
+        val editor = sharedPref.edit()
+        val gson = Gson()
+        val json = gson.toJson(spendingsArrayList)
+        editor.putString("spendingsList", json)
+        editor.apply()
+    }
 
     private fun setupDialog() {
         dialog = Dialog(this)
@@ -195,6 +216,7 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
                             }
                         }
                         // Show essential spendings by default
+                        saveSpendings()
                         filterSpendings("essential")
                     } else {
                         Log.d("Firestore Data", "No spendings found")
@@ -214,6 +236,10 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
     override fun onSpendingClick(position: Int) {
         val spending = spendingsArrayList[position]
         showSpendingDetailsDialog(spending)
+    }
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.top_nav, menu)
+        return true
     }
 
     private fun showSpendingDetailsDialog(spending: Spendings) {
@@ -276,4 +302,5 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
         startActivity(intent)
         finish()
     }
+
 }

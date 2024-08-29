@@ -1,7 +1,11 @@
 package com.example.smartstackbills
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -9,23 +13,34 @@ import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import calendarView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 class MainMenu : AppCompatActivity() {
     private var userEmail: String? = null
     private lateinit var drawerLayout: DrawerLayout
+    private lateinit var currentMonth: Calendar
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main_menu)
+        setSpendingsAmount()
 
         userEmail = intent.getStringExtra("USER_EMAIL")
 
         drawerLayout = findViewById(R.id.drawer_layout)
+
+        currentMonth = Calendar.getInstance()
+
+        setupMonthNavigation()
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -42,6 +57,12 @@ class MainMenu : AppCompatActivity() {
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationView)
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
+                R.id.Main -> {
+                    val intent = Intent(this, MainMenu::class.java)
+                    intent.putExtra("USER_EMAIL", userEmail)
+                    startActivity(intent)
+                    true
+                }
                 R.id.Bills -> {
                     val intent = Intent(this, MyBills::class.java)
                     intent.putExtra("USER_EMAIL", userEmail)
@@ -61,11 +82,12 @@ class MainMenu : AppCompatActivity() {
                     true
                 }
                 R.id.Calendar -> {
-                    val intent = Intent(this,calendarView::class.java)
+                    val intent = Intent(this,CalendarActivity::class.java)
                     intent.putExtra("USER_EMAIL", userEmail)
                     startActivity(intent)
                     true
                 }
+
                 else -> false
             }
         }
@@ -117,7 +139,55 @@ class MainMenu : AppCompatActivity() {
                 menuItem.actionView?.setBackgroundResource(R.drawable.nav_item_background_dark)
             }
         }
+
+        // Set the spendings amount in the EditText
+        setSpendingsAmount()
     }
+
+    private fun setSpendingsAmount() {
+        val totalSpendings = getTotalSpendings()
+        val etSpendingsAmount: EditText = findViewById(R.id.etSpendingsAmount)
+        etSpendingsAmount.setText(totalSpendings.toString())
+    }
+
+    private fun getTotalSpendings(): Float {
+        val sharedPref = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
+        val gson = Gson()
+        val json = sharedPref.getString("spendingsList", null)
+        val type = object : TypeToken<ArrayList<Spendings>>() {}.type
+        val spendingsList: ArrayList<Spendings> = gson.fromJson(json, type) ?: ArrayList()
+        return spendingsList.sumOf { it.amount.toDouble() }.toFloat()
+    }
+
+
+
+
+    private fun setupMonthNavigation() {
+        val tvMonth = findViewById<TextView>(R.id.tvMonth)
+        val btnPreviousMonth = findViewById<ImageButton>(R.id.btnPreviousMonth)
+        val btnNextMonth = findViewById<ImageButton>(R.id.btnNextMonth)
+
+        updateMonthDisplay(tvMonth)
+
+        btnPreviousMonth.setOnClickListener {
+            currentMonth.add(Calendar.MONTH, -1)
+            updateMonthDisplay(tvMonth)
+
+        }
+
+        btnNextMonth.setOnClickListener {
+            currentMonth.add(Calendar.MONTH, 1)
+            updateMonthDisplay(tvMonth)
+
+        }
+    }
+
+    private fun updateMonthDisplay(tvMonth: TextView) {
+        val dateFormat = SimpleDateFormat("MMMM yyyy", Locale.getDefault())
+        tvMonth.text = dateFormat.format(currentMonth.time)
+    }
+
+
 
     private fun logoutUser() {
         FirebaseAuth.getInstance().signOut()

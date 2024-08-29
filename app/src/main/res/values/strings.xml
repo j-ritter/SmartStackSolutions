@@ -63,4 +63,8 @@
     <string name="one_time" />
     <string name="navigation_drawer_open">Open</string>
     <string name="navigation_drawer_close">Close</string>
+    <string name="previous_month" />
+    <string name="next_month" />
+    <string name="Essential" />
+    <string name="Non_essential" />
 </resources>

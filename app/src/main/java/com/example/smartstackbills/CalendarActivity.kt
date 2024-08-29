@@ -1,41 +1,50 @@
+package com.example.smartstackbills
+
 import android.content.Intent
 import android.os.Bundle
 import android.widget.CalendarView
-import android.widget.TextView
+import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import com.example.smartstackbills.MyBills
-import com.example.smartstackbills.MyIncome
-import com.example.smartstackbills.MySpendings
-import com.example.smartstackbills.R
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
 
-class calendarView : AppCompatActivity() {
+class CalendarActivity : AppCompatActivity() {
     private var userEmail: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_calendar_view)
+        enableEdgeToEdge()
+        setContentView(R.layout.activity_calendar)
+
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
 
         userEmail = intent.getStringExtra("USER_EMAIL")
-        val calendarView: CalendarView = findViewById(R.id.calendarView)
-        val selectedDateTextView: TextView = findViewById(R.id.selectedDateTextView)
 
-        // Configurar el listener para manejar la selección de la fecha
-        calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->
-            val selectedDate = Calendar.getInstance().apply {
-                set(Calendar.YEAR, year)
-                set(Calendar.MONTH, month)
-                set(Calendar.DAY_OF_MONTH, dayOfMonth)
-            }
-            val dateString = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(selectedDate.time)
-            selectedDateTextView.text = "Fecha seleccionada: $dateString"
+
+        val calendarView = findViewById<CalendarView>(R.id.calendarView)
+
+
+        calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
+            val selectedDate = "$dayOfMonth/${month + 1}/$year"
+            Toast.makeText(this, "Fecha seleccionada: $selectedDate", Toast.LENGTH_SHORT).show()
         }
 
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationView)
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
+                R.id.Main -> {
+                    val intent = Intent(this, MainMenu::class.java)
+                    intent.putExtra("USER_EMAIL", userEmail)
+                    startActivity(intent)
+                    true
+                }
                 R.id.Bills -> {
                     val intent = Intent(this, MyBills::class.java)
                     intent.putExtra("USER_EMAIL", userEmail)
@@ -55,15 +64,14 @@ class calendarView : AppCompatActivity() {
                     true
                 }
                 R.id.Calendar -> {
-                    val intent = Intent(this,calendarView::class.java)
+                    val intent = Intent(this,CalendarActivity::class.java)
                     intent.putExtra("USER_EMAIL", userEmail)
                     startActivity(intent)
                     true
                 }
+
                 else -> false
             }
         }
-
-
     }
 }
