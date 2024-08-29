@@ -20,7 +20,10 @@
             app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent" >
+
+
+        </FrameLayout>
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar_main"
@@ -32,8 +35,17 @@
             app:layout_constraintTop_toTopOf="parent"
             app:menu="@menu/top_nav"
             app:navigationIcon="@drawable/ic_menu"
-            app:title="SmartStackBills"
+            app:title="SmartStackSolutions"
             app:titleCentered="true" />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="0dp"
+            android:layout_height="26dp"
+            android:background="@color/light_gray"
+            app:layout_constraintTop_toBottomOf="@id/toolbar_main"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
         <!-- Month Navigation Layout -->
         <LinearLayout
@@ -42,6 +54,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center"
+
             app:layout_constraintTop_toBottomOf="@+id/toolbar_main"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -155,7 +168,7 @@
             android:id="@+id/divider1"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:background="@android:color/darker_gray"
+            android:background="@color/light_gray"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvOverdue"
@@ -238,7 +251,7 @@
             android:id="@+id/divider2"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:background="@android:color/darker_gray"
+            android:background="@color/light_gray"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvNonEssential"
@@ -320,7 +333,7 @@
             android:id="@+id/divider3"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:background="@android:color/darker_gray"
+            android:background="@color/light_gray"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvOneTime"
@@ -385,7 +398,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
-            android:contentDescription="@string/create_new_bill"/>
+            android:contentDescription="@string/create_new_Open_Payment"/>
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomNavigationView"
@@ -408,6 +421,10 @@
         android:layout_gravity="start"
         app:headerLayout="@layout/nav_header_main"
         app:itemBackground="@drawable/nav_item_background"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_main"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingVertical="8dp"
         app:menu="@menu/activity_main_drawer" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

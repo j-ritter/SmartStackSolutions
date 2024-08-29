@@ -1,6 +1,5 @@
 package com.example.smartstackbills
 
-
 import android.app.Dialog
 import android.content.Intent
 import android.net.Uri
@@ -21,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import MyCalendarView
 import android.content.Context
+import android.view.Menu
 import androidx.core.content.ContextCompat
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -197,6 +197,7 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
             deleteBill()
         }
     }
+
     private fun setupEventChangeListener() {
         val userUid = FirebaseAuth.getInstance().currentUser?.uid
         if (userUid != null) {
@@ -216,14 +217,13 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
                             if (bill != null) {
                                 billsArrayList.add(bill)
                                 allBillsArrayList.add(bill) // Añadimos a la lista de todas las facturas
-                                Log.d("Firestore Data", "Bill added: ${bill.name}, ${bill.date}, ${bill.paid}")
+                                Log.d("Firestore Data", "'Open Payment' added: ${bill.name}, ${bill.date}, ${bill.paid}")
                             }
                         }
-                        // Mostrar facturas "incoming" por defecto
                         saveBills()
                         filterBills("all")
                     } else {
-                        Log.d("Firestore Data", "No bills found")
+                        Log.d("Firestore Data", "No 'Open Payments' found")
                     }
                 }
         } else {
@@ -238,13 +238,13 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
     }
 
     override fun onBillClick(position: Int) {
-        if (position >= 0 && position < billsArrayList.size) {
-            val bill = billsArrayList[position]
-            selectedBill = bill
-            showBillDetailsDialog(bill)
-        } else {
-            Toast.makeText(this, "Bill not found", Toast.LENGTH_SHORT).show()
-        }
+        val bill = billsArrayList[position]
+        selectedBill = bill // Set selectedBill here
+        showBillDetailsDialog(bill)
+    }
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.top_nav, menu)
+        return true
     }
 
     private fun showBillDetailsDialog(bill: Bills) {
@@ -331,6 +331,7 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
             }
         }}
 
+
     private fun deleteBill() {
         selectedBill?.let { bill ->
             val userUid = FirebaseAuth.getInstance().currentUser?.uid
@@ -339,14 +340,11 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
                     .document(bill.billId)
                     .delete()
                     .addOnSuccessListener {
-                        Toast.makeText(this, "Bill deleted successfully", Toast.LENGTH_SHORT).show()
-                        billsArrayList.remove(bill)
-                        myAdapter.notifyDataSetChanged()
-
+                        Toast.makeText(this, "'Open Payment' deleted successfully", Toast.LENGTH_SHORT).show()
                         dialog.dismiss()
                     }
                     .addOnFailureListener {
-                        Toast.makeText(this, "Failed to delete bill", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Failed to delete 'Open Payment'", Toast.LENGTH_SHORT).show()
                     }
             } else {
                 Toast.makeText(this, "Error: User not authenticated", Toast.LENGTH_SHORT).show()
@@ -374,52 +372,39 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
                         // "All" includes both due and incoming bills that are not paid
                         if (!bill.paid && (billDate == null || billDate.before(currentDate) || billDate.after(currentDate))) {
                             filteredBills.add(bill)
-                            Log.d("Filter", "All (unpaid) bill added: ${bill.name}")
+                            Log.d("Filter", "All 'Open Payment' added: ${bill.name}")
                         }
                     }
                     "due" -> {
                         findViewById<Button>(R.id.btnDue).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_active))
-                        if (billDate != null && billDate.before(currentDate)) {
+                        if (billDate != null && billDate.before(currentDate) && !bill.paid && bill.repeat == "No") {
                             filteredBills.add(bill)
-                            Log.d("Filter", "Due bill added: ${bill.name}")
+                            Log.d("Filter", "Due 'Open Payment' added: ${bill.name}")
                         }
                     }
                     "recurring" -> {
                         findViewById<Button>(R.id.btnRecurring).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_active))
                         if (bill.repeat != "No") {
                             filteredBills.add(bill)
-                            Log.d("Filter", "Recurring bill added: ${bill.name}")
+                            Log.d("Filter", "Recurring 'Open Payment' added: ${bill.name}")
                         }
                     }
                     "incoming" -> {
                         findViewById<Button>(R.id.btnIncoming).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_active))
                         if (billDate != null && billDate.after(currentDate) && !bill.paid && bill.repeat == "No") {
                             filteredBills.add(bill)
-                            Log.d("Filter", "Incoming bill added: ${bill.name}")
+                            Log.d("Filter", "Incoming 'Open Payment' added: ${bill.name}")
                         }
                     }
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                Log.e("Filter Error", "Error parsing date for bill: ${bill.name}")
-            }
-        }
-
-        if (filter == "incoming") {
-            // Mostrar todas las facturas menos las pagadas
-            filteredBills.clear()
-            for (bill in allBillsArrayList) {
-                if (!bill.paid) {
-                    filteredBills.add(bill)
-                    Log.d("Filter", "Incoming bill added: ${bill.name}")
-                }
+                Log.e("Filter Error", "Error parsing date for 'Open Payment': ${bill.name}")
             }
         }
 
         myAdapter.updateBills(filteredBills)
-        Log.d("Filter", "Filtered bills count for $filter: ${filteredBills.size}")
-
-        myAdapter.notifyDataSetChanged()
+        Log.d("Filter", "Filtered 'Open Payments' count for $filter: ${filteredBills.size}")
     }
 
     private fun groupBillsByMonth(billsArrayList: ArrayList<Bills>): ArrayList<Any> {

@@ -1,12 +1,10 @@
 package com.example.smartstackbills
 
 import android.app.Dialog
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -22,7 +20,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import MyCalendarView
 import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.IntentFilter
+import android.view.Menu
 import androidx.core.content.ContextCompat
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -32,18 +32,16 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import kotlin.collections.ArrayList
-import com.google.firebase.Timestamp
 import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
+import java.util.*
+import kotlin.collections.ArrayList
 
 class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListener {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var spendingsArrayList: ArrayList<Spendings>
     private lateinit var allSpendingsArrayList: ArrayList<Spendings>
-    private lateinit var myAdapterSpendings: MyAdapterSpendings
+    private lateinit var myAdapter: MyAdapterSpendings
     private lateinit var db: FirebaseFirestore
     private var listenerRegistration: ListenerRegistration? = null
     private lateinit var fab: FloatingActionButton
@@ -83,8 +81,8 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
 
         spendingsArrayList = ArrayList()
         allSpendingsArrayList = ArrayList()
-        myAdapterSpendings = MyAdapterSpendings(this, spendingsArrayList, this)
-        recyclerView.adapter = myAdapterSpendings
+        myAdapter = MyAdapterSpendings(this, spendingsArrayList, this)
+        recyclerView.adapter = myAdapter
 
         fab = findViewById(R.id.fabSpendings)
         fab.setOnClickListener {
@@ -92,6 +90,7 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
             intent.putExtra("USER_EMAIL", userEmail)
             startActivity(intent)
         }
+
         registerReceiver(spendingsReceiver, IntentFilter("com.example.smartstackbills.REFRESH_SPENDINGS"))
 
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationViewSpendings)
@@ -110,7 +109,9 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
                     true
                 }
                 R.id.Spendings -> {
-                    // Do nothing since we're already on this screen
+                    val intent = Intent(this, MySpendings::class.java)
+                    intent.putExtra("USER_EMAIL", userEmail) // Pasar el correo electrónico
+                    startActivity(intent)
                     true
                 }
                 R.id.Income -> {  // New navigation option for Income
@@ -120,9 +121,8 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
                     true
                 }
                 R.id.Calendar -> {
-                    // Intent for Calendar (assumed to be implemented)
-                    val intent = Intent(this, MyCalendarView::class.java)
-                    intent.putExtra("USER_EMAIL", userEmail) // Pasar el correo electrónico
+                    val intent = Intent(this,MyCalendarView::class.java)
+                    intent.putExtra("USER_EMAIL", userEmail)
                     startActivity(intent)
                     true
                 }
@@ -173,7 +173,6 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
             }
         }
 
-
         db = FirebaseFirestore.getInstance()
         setupDialog()
         setupEventChangeListener()
@@ -183,10 +182,9 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
         filterSpendings(filterType)
 
         // Initialize filter buttons
-        findViewById<Button>(R.id.btnSpendingsAll).setOnClickListener { filterSpendings("all") }
         findViewById<Button>(R.id.btnEssential).setOnClickListener { filterSpendings("essential") }
         findViewById<Button>(R.id.btnNonEssential).setOnClickListener { filterSpendings("non-essential") }
-
+        findViewById<Button>(R.id.btnSpendingsAll).setOnClickListener { filterSpendings("all") }
     }
     private fun loadSpendings(): ArrayList<Spendings> {
         val sharedPref = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
@@ -216,11 +214,9 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
         val imgDeleteSpending = dialog.findViewById<ImageView>(R.id.imgDeleteSpendings)
         val imgEditSpending = dialog.findViewById<ImageView>(R.id.imgEditSpendings)
 
-
         btnCloseDialog.setOnClickListener {
             dialog.dismiss()
         }
-
         imgDeleteSpending.setOnClickListener {
             deleteSpending()
         }
@@ -236,7 +232,6 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
                         Log.e("Firestore Error", e.message.toString())
                         return@addSnapshotListener
                     }
-
                     if (snapshots != null) {
                         spendingsArrayList.clear()
                         allSpendingsArrayList.clear()
@@ -248,7 +243,7 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
                                 Log.d("Firestore Data", "Spending added: ${spending.name}, ${spending.date}")
                             }
                         }
-                        // Show essential spendings by default
+                        // Show all spendings by default
                         saveSpendings()
                         filterSpendings("all")
                     } else {
@@ -274,7 +269,7 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
                         allSpendingsArrayList.add(spending)
                     }
                     // Notify the adapter of the updated data
-                    myAdapterSpendings.updateSpendings(spendingsArrayList)
+                    myAdapter.updateSpendings(spendingsArrayList)
                 }
                 .addOnFailureListener { e ->
                     Toast.makeText(this, "Error loading spendings: ${e.message}", Toast.LENGTH_SHORT).show()
@@ -285,17 +280,12 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
     override fun onDestroy() {
         super.onDestroy()
         listenerRegistration?.remove()
-        unregisterReceiver(spendingsReceiver)
     }
 
     override fun onSpendingClick(position: Int) {
-        if (position >= 0 && position < spendingsArrayList.size) {
-            val spending = spendingsArrayList[position]
-            selectedSpending = spending
-            showSpendingDetailsDialog(spending)
-        } else {
-            Toast.makeText(this, "Spending item not found", Toast.LENGTH_SHORT).show()
-        }
+        val spending = spendingsArrayList[position]
+        selectedSpending = spending
+        showSpendingDetailsDialog(spending)
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.top_nav, menu)
@@ -369,7 +359,7 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
                         val index = spendingsArrayList.indexOfFirst { it.spendingId == selectedSpending?.spendingId }
                         if (index != -1) {
                             spendingsArrayList[index] = selectedSpending!!
-                            myAdapterSpendings.notifyItemChanged(index)
+                            myAdapter.notifyItemChanged(index)
                         }
                         Toast.makeText(this, "'Closed Payment' updated successfully", Toast.LENGTH_SHORT).show()
                         dialog.dismiss()
@@ -404,7 +394,8 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
 
     private fun filterSpendings(filter: String) {
         val filteredSpendings = ArrayList<Spendings>()
-        // Reset the button background to inactive color
+
+// Reset the button background to inactive color
         findViewById<Button>(R.id.btnSpendingsAll).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_inactive))
         findViewById<Button>(R.id.btnEssential).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_inactive))
         findViewById<Button>(R.id.btnNonEssential).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_inactive))
@@ -413,33 +404,31 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
             when (filter) {
                 "essential" -> {
                     findViewById<Button>(R.id.btnEssential).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_active))
-                    for (spending in allSpendingsArrayList) {
-                        if (spending.subcategory in essentialSubcategories) {
-                            filteredSpendings.add(spending)
-                            Log.d("Filter", "Essential spending added: ${spending.name}")
-                        }
+                    if (spending.subcategory in essentialSubcategories) {
+                        filteredSpendings.add(spending)
+                        Log.d("Filter", "Essential spending added: ${spending.name}")
                     }
                 }
                 "non-essential" -> {
                     findViewById<Button>(R.id.btnNonEssential).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_active))
-                    for (spending in allSpendingsArrayList) {
-                        if (spending.subcategory !in essentialSubcategories) {
-                            filteredSpendings.add(spending)
-                            Log.d("Filter", "Non-essential spending added: ${spending.name}")
-                        }
+                    if (spending.subcategory !in essentialSubcategories) {
+                        filteredSpendings.add(spending)
+                        Log.d("Filter", "Non-essential spending added: ${spending.name}")
                     }
                 }
                 "all" -> {
                     findViewById<Button>(R.id.btnSpendingsAll).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_active))
-                    filteredSpendings.addAll(allSpendingsArrayList)
-                    Log.d("Filter", "All spendings added")
+                    // Add all spendings regardless of subcategory
+                    filteredSpendings.add(spending)
+                    Log.d("Filter", "All spending added: ${spending.name}")
                 }
             }
         }
 
-        myAdapterSpendings.updateSpendings(filteredSpendings)
+        myAdapter.updateSpendings(filteredSpendings)
         Log.d("Filter", "Filtered spendings count for $filter: ${filteredSpendings.size}")
     }
+
     private fun groupSpendingsByMonth(spendingsArrayList: ArrayList<Spendings>): ArrayList<Any> {
         val groupedSpendings = LinkedHashMap<String, MutableList<Spendings>>()
         val sdf = SimpleDateFormat("MMMM yyyy", Locale.getDefault())
@@ -468,5 +457,4 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
         startActivity(intent)
         finish()
     }
-
 }

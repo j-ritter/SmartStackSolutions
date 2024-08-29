@@ -1,137 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardElevation="8dp"
-    app:cardCornerRadius="8dp"
-    android:layout_margin="16dp"
+    app:cardElevation="6dp"
+    app:cardCornerRadius="6dp"
+    android:layout_margin="12dp"
     android:id="@+id/cardView">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp">
+        android:padding="12dp">
 
         <!-- Title Label -->
         <TextView
-            android:id="@+id/labelTitle"
+            android:id="@+id/labelTitleItemsBills"
             android:layout_width="120dp"
             android:layout_height="18dp"
             android:text="@string/TiTle"
             android:textColor="@color/black"
-            android:textSize="15sp"
+            android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <!-- Title Value -->
+        <TextView
+            android:id="@+id/textviewTitleItemsBills"
+            android:layout_width="220dp"
+            android:layout_height="18dp"
+            android:layout_marginTop="8dp"
+            android:text="Bill Title"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/labelTitleItemsBills"
+            app:layout_constraintStart_toStartOf="@+id/textviewCategoryItemsBills"
+            app:layout_constraintWidth_default="wrap" />
 
         <!-- Checkbox for marking as paid -->
-
         <CheckBox
-            android:id="@+id/imgCheckBoxItems"
+            android:id="@+id/imgCheckBoxItemsBills"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
             android:text="@string/paid"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@id/textviewTitle"
+            app:layout_constraintBottom_toBottomOf="@id/textviewCategoryItemsBills"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/textviewTitle" />
+            app:layout_constraintTop_toTopOf="@id/textviewCategoryItemsBills"
+            app:layout_constraintVertical_bias="0.0" />
 
         <!-- Category Label -->
         <TextView
-            android:id="@+id/labelCategory"
+            android:id="@+id/labelCategoryItemsBills"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="@string/CaTegory"
             android:textColor="@color/black"
-            android:textSize="15sp"
+            android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/labelTitle" />
+            app:layout_constraintTop_toBottomOf="@id/labelTitleItemsBills" />
 
         <!-- Category Value -->
+        <TextView
+            android:id="@+id/textviewCategoryItemsBills"
+            android:layout_width="150dp"
+            android:layout_height="18dp"
+            android:text="Category Name"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/labelCategoryItemsBills"
+            app:layout_constraintStart_toStartOf="@+id/textviewAmountItemsBills"
+            app:layout_constraintTop_toTopOf="@id/labelCategoryItemsBills" />
 
         <!-- Amount Label -->
         <TextView
-            android:id="@+id/labelAmount"
+            android:id="@+id/labelAmountItemsBills"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="@string/aMount"
             android:textColor="@color/black"
-            android:textSize="15sp"
+            android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/labelCategory" />
+            app:layout_constraintTop_toBottomOf="@id/labelCategoryItemsBills" />
 
         <!-- Amount Value -->
-
-        <!-- Purchase Date Label -->
         <TextView
-            android:id="@+id/textviewAmount"
+            android:id="@+id/textviewAmountItemsBills"
             android:layout_width="150dp"
             android:layout_height="18dp"
             android:text="$1200"
             android:textColor="@color/black"
-            android:textSize="15sp"
+            android:textSize="12sp"
             android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/labelAmountItemsBills"
+            app:layout_constraintStart_toStartOf="@+id/textviewDateItemsBills"
+            app:layout_constraintTop_toTopOf="@id/labelAmountItemsBills" />
 
-            app:layout_constraintStart_toEndOf="@id/labelAmount"
-            app:layout_constraintStart_toStartOf="@+id/textviewDate"
-            app:layout_constraintTop_toTopOf="@id/labelAmount" />
-
+        <!-- Purchase Date Label -->
         <TextView
-            android:id="@+id/textviewTitle"
-            android:layout_width="150dp"
-            android:layout_height="18dp"
-            android:layout_marginTop="8dp"
-            android:text="Arya"
-            android:textColor="@color/black"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@id/labelTitle"
-            app:layout_constraintStart_toStartOf="@+id/textviewCategory"
-
-            app:layout_constraintWidth_default="wrap" />
-
-        <TextView
-            android:id="@+id/textviewCategory"
-            android:layout_width="150dp"
-            android:layout_height="18dp"
-            android:text="Education"
-            android:textColor="@color/black"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/labelCategory"
-            app:layout_constraintStart_toStartOf="@+id/textviewAmount"
-            app:layout_constraintTop_toTopOf="@id/labelCategory" />
-
-        <TextView
-            android:id="@+id/textviewDate"
-            android:layout_width="150dp"
-            android:layout_height="18dp"
-            android:layout_marginStart="12dp"
-            android:text="1/6/2024"
-            android:textColor="@color/black"
-            android:textSize="15sp"
-
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@id/labelDate"
-            app:layout_constraintTop_toTopOf="@id/labelDate" />
-
-        <TextView
-            android:id="@+id/labelDate"
+            android:id="@+id/labelDateItemsBills"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="@string/purchase_Date"
             android:textColor="@color/black"
-            android:textSize="15sp"
+            android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/labelAmount" />
+            app:layout_constraintTop_toBottomOf="@id/labelAmountItemsBills" />
 
         <!-- Purchase Date Value -->
+        <TextView
+            android:id="@+id/textviewDateItemsBills"
+            android:layout_width="150dp"
+            android:layout_height="18dp"
+            android:layout_marginStart="12dp"
+            android:text="1/6/2024"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/labelDateItemsBills"
+            app:layout_constraintTop_toTopOf="@id/labelDateItemsBills" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

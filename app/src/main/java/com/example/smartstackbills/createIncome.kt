@@ -157,11 +157,7 @@ class createIncome : AppCompatActivity() {
 
                     "repeat" to incomeRepeat,
                     "comment" to incomeComment,
-
-
                 )
-
-
 
                 val docRef = db.collection("users").document(userUid!!).collection("income").document()
                 val incomeId = docRef.id

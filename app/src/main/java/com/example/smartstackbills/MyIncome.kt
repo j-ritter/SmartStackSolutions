@@ -157,13 +157,11 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
         setupDialog()
         setupEventChangeListener()
 
-        // Check if the activity was started with a specific filter
-        val filterType = intent.getStringExtra("FILTER_TYPE") ?: "all"  // Default to "all"
-        filterIncome(filterType)
 
-        findViewById<Button>(R.id.btnAllIncome).setOnClickListener { filterIncome("all") }
+
         findViewById<Button>(R.id.btnRecurringIncome).setOnClickListener { filterIncome("recurring") }
         findViewById<Button>(R.id.btnOneTimeIncome).setOnClickListener { filterIncome("one-time") }
+        findViewById<Button>(R.id.btnAllIncome).setOnClickListener { filterIncome("all income") }
     }
 
     private fun setupDialog() {
@@ -175,7 +173,7 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
 
         val btnCloseDialog = dialog.findViewById<Button>(R.id.btnCloseDialogIncome)
         val imgDeleteIncome = dialog.findViewById<ImageView>(R.id.imgDeleteIncome)
-        val imgEditSpending = dialog.findViewById<ImageView>(R.id.imgEditIncome)
+
 
         btnCloseDialog.setOnClickListener {
             dialog.dismiss()
@@ -208,7 +206,7 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
                                 Log.d("Firestore Data", "Income added: ${income.name}, ${income.date}, ${income.repeat}")
                             }
                         }
-                        filterIncome("all") // Default filter
+                        filterIncome("all income") // Default filter
                     } else {
                         Log.d("Firestore Data", "No income found")
                     }
@@ -242,12 +240,12 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
         val edtDateDialog = dialog.findViewById<EditText>(R.id.edtDateDialogIncome)
         val edtRepeatDialog = dialog.findViewById<EditText>(R.id.edtRepeatDialogIncome)
         val edtCommentDialog = dialog.findViewById<EditText>(R.id.edtCommentDialogIncome)
-        val btnSaveChanges = dialog.findViewById<Button>(R.id.btnSaveChangesIncome)
-        val btnEditChanges = dialog.findViewById<ImageView>(R.id.imgEditIncome)
+
 
         // Convertir el Timestamp a String
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-        val incomeDateString = if (income.date != null) dateFormat.format(income.date.toDate()) else ""
+        val incomeDateString =
+            if (income.date != null) dateFormat.format(income.date.toDate()) else ""
 
         edtTitleDialog.setText(income.name)
         edtAmountDialog.setText(income.amount)
@@ -258,53 +256,8 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
         edtCommentDialog.setText(income.comment)
 
         dialog.show()
+    }
 
-        // Initially disable fields
-        edtTitleDialog.isEnabled = false
-        edtAmountDialog.isEnabled = false
-        edtCommentDialog.isEnabled = false
-
-        // Hide save button initially
-        btnSaveChanges.visibility = View.GONE
-
-        btnEditChanges.setOnClickListener {
-            edtTitleDialog.isEnabled = true
-            edtAmountDialog.isEnabled = true
-            edtCommentDialog.isEnabled = true
-
-            btnSaveChanges.visibility = View.VISIBLE
-        }
-        btnSaveChanges.setOnClickListener {
-            val userUid = FirebaseAuth.getInstance().currentUser?.uid
-            if (userUid != null && selectedIncome != null) {
-                // Update the bill object with new values
-                selectedIncome?.name = edtTitleDialog.text.toString()
-                selectedIncome?.amount = edtAmountDialog.text.toString()
-                selectedIncome?.comment = edtCommentDialog.text.toString()
-
-                btnSaveChanges.visibility = View.VISIBLE
-
-                // Save the updated bill to Firebase
-                db.collection("users").document(userUid).collection("income")
-                    .document(selectedIncome!!.incomeId)
-                    .set(selectedIncome!!)
-                    .addOnSuccessListener {
-                        // Update the local list
-                        val index = incomeArrayList.indexOfFirst { it.incomeId == selectedIncome?.incomeId }
-                        if (index != -1) {
-                            incomeArrayList[index] = selectedIncome!!
-                            myAdapterIncome.notifyItemChanged(index)
-                        }
-                        Toast.makeText(this, "'Income' updated successfully", Toast.LENGTH_SHORT).show()
-                        dialog.dismiss()
-                    }
-                    .addOnFailureListener { e ->
-                        Toast.makeText(this, "Failed to update 'Income': ${e.message}", Toast.LENGTH_SHORT).show()
-                    }
-            } else {
-                Toast.makeText(this, "Error: Unable to update 'Income'", Toast.LENGTH_SHORT).show()
-            }
-        }}
 
     private fun deleteIncome() {
         selectedIncome?.let { income ->
@@ -328,36 +281,39 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
 
     private fun filterIncome(filter: String) {
         val filteredIncome = ArrayList<Income>()
+
         // Reset the button background to inactive color
-        findViewById<Button>(R.id.btnAllIncome).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_inactive))
+
         findViewById<Button>(R.id.btnRecurringIncome).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_inactive))
         findViewById<Button>(R.id.btnOneTimeIncome).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_inactive))
+        findViewById<Button>(R.id.btnAllIncome).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_inactive))
 
 
         for (income in allIncomeArrayList) {
             when (filter) {
                 "recurring" -> {
                     findViewById<Button>(R.id.btnRecurringIncome).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_active))
-                    for (income in allIncomeArrayList) {
+
                         if (income.repeat != "No") {
                             filteredIncome.add(income)
                             Log.d("Filter", "Recurring income added: ${income.name}")
                         }
-                    }
+
                 }
                 "one-time" -> {
                     findViewById<Button>(R.id.btnOneTimeIncome).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_active))
-                    for (income in allIncomeArrayList) {
+
                         if (income.repeat == "No") {
                             filteredIncome.add(income)
                             Log.d("Filter", "One-time income added: ${income.name}")
                         }
-                    }
+
                 }
-                "all" -> {
+                "all income" -> {
                     findViewById<Button>(R.id.btnAllIncome).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_active))
-                    filteredIncome.addAll(allIncomeArrayList)
-                    Log.d("Filter", "All income added")
+                    // Add all spendings regardless of subcategory
+                    filteredIncome.add(income)
+                    Log.d("Filter", "All income added: ${income.name}")
                 }
             }
         }

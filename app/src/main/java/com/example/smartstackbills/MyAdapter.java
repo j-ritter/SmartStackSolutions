@@ -1,7 +1,6 @@
 package com.example.smartstackbills;
 
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,7 +28,6 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context context;
     private ArrayList<Object> itemsArrayList;
-
     private OnBillClickListener onBillClickListener;
 
     private static final int ITEM_BILL = 0;
@@ -38,7 +36,6 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public MyAdapter(Context context, ArrayList<Bills> billsArrayList, OnBillClickListener onBillClickListener) {
         this.context = context;
         this.itemsArrayList = groupBillsByMonth(billsArrayList);
-
         this.onBillClickListener = onBillClickListener;
     }
 
@@ -79,7 +76,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             // Si necesitas mostrar mes y año, usa:
             String monthYear = formatMonthYear(bill.getDate());
-            // Si estás mostrando el mes y el año en otro lugar, usa el formato adecuado
+
             // Set the checkbox state
             billHolder.checkBoxPaid.setOnCheckedChangeListener(null);
             billHolder.checkBoxPaid.setChecked(bill.isPaid());
@@ -88,15 +85,16 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             billHolder.checkBoxPaid.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 bill.setPaid(isChecked);
 
-                    // Save the bill to the Spendings collection in Firestore
-                    saveBillToSpendings(bill);
+                // Save the bill to the Spendings collection in Firestore
+                saveBillToSpendings(bill);
 
-                    // Remove the bill from the current list and notify the adapter
-                    itemsArrayList.remove(position);
-                    notifyItemRemoved(position);
-                    notifyItemRangeChanged(position, itemsArrayList.size());
+                // Remove the bill from the current list and notify the adapter
+                itemsArrayList.remove(position);
+                notifyItemRemoved(position);
+                notifyItemRangeChanged(position, itemsArrayList.size());
 
             });
+
 
         } else {
             MonthHeaderViewHolder headerHolder = (MonthHeaderViewHolder) holder;
@@ -152,105 +150,104 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     });
         }
     }
+
     // Método para formatear el Timestamp a String
-private String formatTimestamp(Timestamp timestamp) {
-    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-    return sdf.format(timestamp.toDate());
-}
+    private String formatTimestamp(Timestamp timestamp) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        return sdf.format(timestamp.toDate());
+    }
 
-// Método para formatear el Timestamp a mes y año
-private String formatMonthYear(Timestamp timestamp) {
-    SimpleDateFormat sdf = new SimpleDateFormat("MMM yyyy", Locale.getDefault());
-    return sdf.format(timestamp.toDate());
-}
-
-@Override
-public int getItemCount() {
-    return itemsArrayList.size();
-}
-
-public static class BillViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-    TextView title, category, amount, purchaseDate;
-    OnBillClickListener onBillClickListener;
-    CheckBox checkBoxPaid;
-
-    public BillViewHolder(@NonNull View itemView, OnBillClickListener onBillClickListener) {
-        super(itemView);
-        title = itemView.findViewById(R.id.textviewTitle);
-        category = itemView.findViewById(R.id.textviewCategory);
-        amount = itemView.findViewById(R.id.textviewAmount);
-        purchaseDate = itemView.findViewById(R.id.textviewDate);
-        checkBoxPaid = itemView.findViewById(R.id.imgCheckBoxItems);
-        this.onBillClickListener = onBillClickListener;
-        itemView.setOnClickListener(this);
+    // Método para formatear el Timestamp a mes y año
+    private String formatMonthYear(Timestamp timestamp) {
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM yyyy", Locale.getDefault());
+        return sdf.format(timestamp.toDate());
     }
 
     @Override
-    public void onClick(View v) {
-        onBillClickListener.onBillClick(getAdapterPosition());
+    public int getItemCount() {
+        return itemsArrayList.size();
     }
-}
 
-public static class MonthHeaderViewHolder extends RecyclerView.ViewHolder {
+    public static class BillViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-    TextView monthHeader;
+        TextView title, category, amount, purchaseDate;
+        OnBillClickListener onBillClickListener;
+        CheckBox checkBoxPaid;
 
-    public MonthHeaderViewHolder(@NonNull View itemView) {
-        super(itemView);
-        monthHeader = itemView.findViewById(R.id.textviewMonthHeader);
-    }
-}
 
-public interface OnBillClickListener {
-    void onBillClick(int position);
-}
-
-// Método para actualizar la lista de facturas
-public void updateBills(ArrayList<Bills> newBills) {
-    itemsArrayList = groupBillsByMonth(newBills);
-    notifyDataSetChanged();
-}
-
-// Método para agrupar las facturas por mes
-private ArrayList<Object> groupBillsByMonth(ArrayList<Bills> billsArrayList) {
-    Map<String, List<Bills>> groupedBills = new HashMap<>();
-    SimpleDateFormat sdf = new SimpleDateFormat("MMMM yyyy", Locale.getDefault());
-
-    for (Bills bill : billsArrayList) {
-        // Convertir Timestamp a Date y formatear
-        String monthYear = sdf.format(bill.getDate().toDate()); // Asegúrate de que getDate() devuelva un Timestamp
-        if (!groupedBills.containsKey(monthYear)) {
-            groupedBills.put(monthYear, new ArrayList<>());
+        public BillViewHolder(@NonNull View itemView, OnBillClickListener onBillClickListener) {
+            super(itemView);
+            title = itemView.findViewById(R.id.textviewTitleItemsBills);
+            category = itemView.findViewById(R.id.textviewCategoryItemsBills);
+            amount = itemView.findViewById(R.id.textviewAmountItemsBills);
+            checkBoxPaid = itemView.findViewById(R.id.imgCheckBoxItemsBills);
+            purchaseDate = itemView.findViewById(R.id.textviewDateItemsBills);
+            this.onBillClickListener = onBillClickListener;
+            itemView.setOnClickListener(this);
         }
-        groupedBills.get(monthYear).add(bill);
+
+        @Override
+        public void onClick(View v) {
+            onBillClickListener.onBillClick(getAdapterPosition());
+        }
     }
 
-    ArrayList<Object> items = new ArrayList<>();
-    for (Map.Entry<String, List<Bills>> entry : groupedBills.entrySet()) {
-        items.add(entry.getKey()); // Añade el mes y año como encabezado
-        items.addAll(entry.getValue()); // Añade las facturas del mes correspondiente
+    public static class MonthHeaderViewHolder extends RecyclerView.ViewHolder {
+
+        TextView monthHeader;
+
+        public MonthHeaderViewHolder(@NonNull View itemView) {
+            super(itemView);
+            monthHeader = itemView.findViewById(R.id.textviewMonthHeader);
+        }
     }
 
-    return items;
-}
-private void saveBillToFirestore(Bills bill) {
-    String userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-    if (userUid != null) {
-        FirebaseFirestore.getInstance()
-                .collection("users")
-                .document(userUid)
-                .collection("bills")
-                .document(bill.getBillId())
-                .set(bill)
-                .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(context, "Bill updated successfully", Toast.LENGTH_SHORT).show();
-                })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(context, "Error updating bill: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                });
+    public interface OnBillClickListener {
+        void onBillClick(int position);
     }
-}
 
+    // Método para actualizar la lista de facturas
+    public void updateBills(ArrayList<Bills> newBills) {
+        itemsArrayList = groupBillsByMonth(newBills);
+        notifyDataSetChanged();
+    }
 
+    // Método para agrupar las facturas por mes
+    private ArrayList<Object> groupBillsByMonth(ArrayList<Bills> billsArrayList) {
+        Map<String, List<Bills>> groupedBills = new HashMap<>();
+        SimpleDateFormat sdf = new SimpleDateFormat("MMMM yyyy", Locale.getDefault());
+
+        for (Bills bill : billsArrayList) {
+            // Convertir Timestamp a Date y formatear
+            String monthYear = sdf.format(bill.getDate().toDate()); // Asegúrate de que getDate() devuelva un Timestamp
+            if (!groupedBills.containsKey(monthYear)) {
+                groupedBills.put(monthYear, new ArrayList<>());
+            }
+            groupedBills.get(monthYear).add(bill);
+        }
+
+        ArrayList<Object> items = new ArrayList<>();
+        for (Map.Entry<String, List<Bills>> entry : groupedBills.entrySet()) {
+            items.add(entry.getKey()); // Añade el mes y año como encabezado
+            items.addAll(entry.getValue()); // Añade las facturas del mes correspondiente
+        }
+
+        return items;
+    }
+    private void saveBillToFirestore(Bills bill) {
+        String userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        if (userUid != null) {
+            FirebaseFirestore.getInstance()
+                    .collection("users")
+                    .document(userUid)
+                    .collection("bills")
+                    .document(bill.getBillId())
+                    .set(bill)
+                    .addOnSuccessListener(aVoid -> {
+                        Toast.makeText(context, "Bill updated successfully", Toast.LENGTH_SHORT).show();
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(context, "Error updating bill: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
+        }}
 }

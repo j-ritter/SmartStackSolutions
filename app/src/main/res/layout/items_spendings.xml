@@ -4,15 +4,15 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
 
-    app:cardElevation="8dp"
-    app:cardCornerRadius="8dp"
-    android:layout_margin="16dp"
+    app:cardElevation="6dp"
+    app:cardCornerRadius="6dp"
+    android:layout_margin="12dp"
     android:id="@+id/cardView">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp">
+        android:padding="12dp">
 
         <!-- Title Label -->
         <TextView
@@ -21,13 +21,15 @@
             android:layout_height="18dp"
             android:text="@string/TiTle"
             android:textColor="@color/black"
-            android:textSize="15sp"
+            android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <!-- Title Value -->
 
         <!-- Checkbox for marking as paid -->
+
+        <!-- Category Label -->
 
         <CheckBox
             android:id="@+id/imgCheckBoxItemsSpendings"
@@ -36,11 +38,11 @@
             android:layout_gravity="center_vertical"
             android:text="@string/paid"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@id/textviewTitleItemsSpendings"
+            app:layout_constraintBottom_toBottomOf="@id/textviewCategoryItemsSpendings"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/textviewTitleItemsSpendings" />
+            app:layout_constraintTop_toTopOf="@id/textviewCategoryItemsSpendings"
+            app:layout_constraintVertical_bias="0.0" />
 
-        <!-- Category Label -->
         <TextView
             android:id="@+id/labelCategoryItemsSpendings"
             android:layout_width="120dp"
@@ -48,7 +50,7 @@
             android:layout_marginTop="8dp"
             android:text="@string/CaTegory"
             android:textColor="@color/black"
-            android:textSize="15sp"
+            android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/labelTitleItemsSpendings" />
 
@@ -62,7 +64,7 @@
             android:layout_marginTop="8dp"
             android:text="@string/aMount"
             android:textColor="@color/black"
-            android:textSize="15sp"
+            android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/labelCategoryItemsSpendings" />
 
@@ -75,7 +77,7 @@
             android:layout_height="18dp"
             android:text="$1200"
             android:textColor="@color/black"
-            android:textSize="15sp"
+            android:textSize="12sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@id/labelAmountItemsSpendings"
             app:layout_constraintStart_toStartOf="@+id/textviewDateItemsSpendings"
@@ -83,12 +85,12 @@
 
         <TextView
             android:id="@+id/textviewTitleItemsSpendings"
-            android:layout_width="150dp"
+            android:layout_width="220dp"
             android:layout_height="18dp"
             android:layout_marginTop="8dp"
             android:text="Arya"
             android:textColor="@color/black"
-            android:textSize="15sp"
+            android:textSize="12sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@id/labelTitleItemsSpendings"
             app:layout_constraintStart_toStartOf="@+id/textviewCategoryItemsSpendings"
@@ -101,7 +103,7 @@
             android:layout_height="18dp"
             android:text="Education"
             android:textColor="@color/black"
-            android:textSize="15sp"
+            android:textSize="12sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/labelCategoryItemsSpendings"
             app:layout_constraintStart_toStartOf="@+id/textviewAmountItemsSpendings"
@@ -114,7 +116,7 @@
             android:layout_marginStart="12dp"
             android:text="1/6/2024"
             android:textColor="@color/black"
-            android:textSize="15sp"
+            android:textSize="12sp"
 
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@id/labelDateItemsSpendings"
@@ -127,7 +129,7 @@
             android:layout_marginTop="8dp"
             android:text="@string/purchase_Date"
             android:textColor="@color/black"
-            android:textSize="15sp"
+            android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/labelAmountItemsSpendings" />
 

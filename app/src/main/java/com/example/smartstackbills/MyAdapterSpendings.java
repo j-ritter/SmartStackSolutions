@@ -76,6 +76,7 @@ public class MyAdapterSpendings extends RecyclerView.Adapter<RecyclerView.ViewHo
 
             String monthYear = formatMonthYear(spending.getDate());
 
+            // Set the checkbox state
             spendingHolder.checkBoxPaid.setOnCheckedChangeListener(null); // Clear any previous listener
             spendingHolder.checkBoxPaid.setChecked(spending.isPaid());
 
@@ -89,13 +90,13 @@ public class MyAdapterSpendings extends RecyclerView.Adapter<RecyclerView.ViewHo
                     notifyItemRangeChanged(position, itemsArrayList.size());
                 }
             });
+
         } else {
             MonthHeaderViewHolder headerHolder = (MonthHeaderViewHolder) holder;
             String monthHeader = (String) itemsArrayList.get(position);
             headerHolder.monthHeader.setText(monthHeader);
         }
     }
-
     private void saveSpendingToBills(Spendings spending) {
         String userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         String spendingId = spending.getSpendingId();
@@ -147,7 +148,6 @@ public class MyAdapterSpendings extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
     }
 
-    // Format Timestamp to String
     private String formatTimestamp(Timestamp timestamp) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         return sdf.format(timestamp.toDate());
@@ -243,4 +243,5 @@ public class MyAdapterSpendings extends RecyclerView.Adapter<RecyclerView.ViewHo
                     });
         }
     }
+
 }

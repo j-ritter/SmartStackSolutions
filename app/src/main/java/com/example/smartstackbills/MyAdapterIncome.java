@@ -102,10 +102,10 @@ public static class IncomeViewHolder extends RecyclerView.ViewHolder implements 
 
     public IncomeViewHolder(@NonNull View itemView, OnIncomeClickListener onIncomeClickListener) {
         super(itemView);
-        title = itemView.findViewById(R.id.textviewTitleIncome);
-        category = itemView.findViewById(R.id.textviewCategoryIncome);
-        amount = itemView.findViewById(R.id.textviewAmountIncome);
-        dateOfIncome = itemView.findViewById(R.id.textviewDateIncome);
+        title = itemView.findViewById(R.id.textviewTitleItemsIncome);
+        category = itemView.findViewById(R.id.textviewCategoryItemsIncome);
+        amount = itemView.findViewById(R.id.textviewAmountItemsIncome);
+        dateOfIncome = itemView.findViewById(R.id.textviewDateItemsIncome);
         this.onIncomeClickListener = onIncomeClickListener;
         itemView.setOnClickListener(this);
     }
@@ -131,6 +131,7 @@ public interface OnIncomeClickListener {
 // Method to update the list of income items
 public void updateIncome(ArrayList<Income> newIncome) {
     itemsArrayList = groupIncomeByMonth(newIncome);
+
     notifyDataSetChanged();
 }
 
