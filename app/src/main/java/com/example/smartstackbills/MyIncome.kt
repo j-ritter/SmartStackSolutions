@@ -16,8 +16,6 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import MyCalendarView
-import android.view.View
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -29,8 +27,6 @@ import com.google.firebase.firestore.ListenerRegistration
 import java.text.SimpleDateFormat
 import java.util.Locale
 import kotlin.collections.ArrayList
-import com.google.firebase.Timestamp
-import java.util.Calendar
 
 class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
 
@@ -100,7 +96,7 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
                 }
                 R.id.Calendar -> {
                     // Intent for Calendar (assumed to be implemented)
-                    val intent = Intent(this, MyCalendarView::class.java)
+                    val intent = Intent(this, CalendarActivity::class.java)
                     intent.putExtra("USER_EMAIL", userEmail) // Pasar el correo electrónico
                     startActivity(intent)
                     true

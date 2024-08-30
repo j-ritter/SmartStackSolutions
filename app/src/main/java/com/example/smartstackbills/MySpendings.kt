@@ -18,7 +18,6 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import MyCalendarView
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.IntentFilter
@@ -121,7 +120,7 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
                     true
                 }
                 R.id.Calendar -> {
-                    val intent = Intent(this,MyCalendarView::class.java)
+                    val intent = Intent(this,CalendarActivity::class.java)
                     intent.putExtra("USER_EMAIL", userEmail)
                     startActivity(intent)
                     true

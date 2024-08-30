@@ -3,6 +3,7 @@ package com.example.smartstackbills
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
@@ -13,7 +14,6 @@ import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import MyCalendarView
 import androidx.appcompat.app.AlertDialog
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -94,7 +94,7 @@ class MainMenu : AppCompatActivity() {
 
                 R.id.Calendar -> {
                     // Intent for Calendar (assumed to be implemented)
-                    val intent = Intent(this, MyCalendarView::class.java)
+                    val intent = Intent(this, CalendarActivity::class.java)
                     startActivity(intent)
                     true
                 }
@@ -263,8 +263,10 @@ class MainMenu : AppCompatActivity() {
         val dateFormat = SimpleDateFormat("MMMM yyyy", Locale.getDefault())
         tvMonth.text = dateFormat.format(currentMonth.time)
     }
-
-
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.top_nav, menu)
+        return true
+    }
 
     private fun logoutUser() {
         FirebaseAuth.getInstance().signOut()

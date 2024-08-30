@@ -20,7 +20,10 @@
         android:theme="@style/Theme.SmartStackBills"
         tools:targetApi="31">
         <activity
-            android:name=".MyCalendarView"
+            android:name=".CalendarActivity"
+            android:exported="true" />
+        <activity
+            android:name=".AboutUs"
             android:exported="false" />
         <activity
             android:name=".Terms"
@@ -32,20 +35,22 @@
             android:name=".Datasecurity"
             android:exported="false" />
         <activity
-            android:name=".FAQs"
-            android:exported="false" />
-        <activity
-            android:name=".AboutUs"
+            android:name=".createSpending"
             android:exported="false" />
         <activity
             android:name=".createIncome"
             android:exported="false" />
-        <activity
-            android:name=".MyIncome"
-            android:exported="false" />
-        <activity
-            android:name=".createSpending"
-            android:exported="false" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
         <activity
             android:name=".MySpendings"
             android:exported="false" />
@@ -55,6 +60,10 @@
         <activity
             android:name=".MyBills"
             android:exported="false" />
+        <activity
+            android:name=".MyIncome"
+            android:exported="false" />
+
         <activity
             android:name=".MainMenu"
             android:exported="false" />
@@ -73,16 +82,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="${applicationId}.provider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths" />
-        </provider>
     </application>
 
 </manifest>
