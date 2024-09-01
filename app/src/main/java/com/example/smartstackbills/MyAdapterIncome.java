@@ -93,7 +93,9 @@ public class MyAdapterIncome extends RecyclerView.Adapter<RecyclerView.ViewHolde
         return itemsArrayList.size();
     }
 
-
+    public Object getItemAtPosition(int position) {
+        return itemsArrayList.get(position);
+    }
 
 public static class IncomeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 

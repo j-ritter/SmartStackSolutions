@@ -153,8 +153,6 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
         setupDialog()
         setupEventChangeListener()
 
-
-
         findViewById<Button>(R.id.btnRecurringIncome).setOnClickListener { filterIncome("recurring") }
         findViewById<Button>(R.id.btnOneTimeIncome).setOnClickListener { filterIncome("one-time") }
         findViewById<Button>(R.id.btnAllIncome).setOnClickListener { filterIncome("all income") }
@@ -219,9 +217,12 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
     }
 
     override fun onIncomeClick(position: Int) {
-        val income = incomeArrayList[position]
-        selectedIncome = income
-        showIncomeDetailsDialog(income)
+        val item = myAdapterIncome.getItemAtPosition(position)
+        // Check if the clicked item is an income item
+        if (item is Income) {
+            selectedIncome = item
+            showIncomeDetailsDialog(item)
+        }
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.top_nav, menu)

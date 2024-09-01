@@ -34,7 +34,8 @@ import java.util.*
 class CalendarActivity : AppCompatActivity(), MyAdapter.OnBillClickListener, MyAdapterIncome.OnIncomeClickListener {
 
     private var userEmail: String? = null
-    private lateinit var drawerLayout: DrawerLayout
+
+    private lateinit var drawerLayoutCalendar: DrawerLayout
     private lateinit var calendarView: CalendarView
     private lateinit var recyclerViewBills: RecyclerView
     private lateinit var recyclerViewIncome: RecyclerView
@@ -59,7 +60,8 @@ class CalendarActivity : AppCompatActivity(), MyAdapter.OnBillClickListener, MyA
         }
 
         userEmail = intent.getStringExtra("USER_EMAIL")
-        drawerLayout = findViewById(R.id.drawer_layout)
+
+        drawerLayoutCalendar = findViewById(R.id.drawer_layout_calendar)
         calendarView = findViewById(R.id.calendarView)
         recyclerViewBills = findViewById(R.id.recyclerViewCalendarBill)
         recyclerViewIncome = findViewById(R.id.recyclerViewCalendarIncome)
@@ -140,7 +142,7 @@ class CalendarActivity : AppCompatActivity(), MyAdapter.OnBillClickListener, MyA
         val toolbar: Toolbar = findViewById(R.id.toolbar_main_Calendar)
         setSupportActionBar(toolbar)
         toolbar.setNavigationOnClickListener {
-            drawerLayout.openDrawer(GravityCompat.START)
+            drawerLayoutCalendar.openDrawer(GravityCompat.START)
         }
 
         setupDialogBills() // Initialize the dialog

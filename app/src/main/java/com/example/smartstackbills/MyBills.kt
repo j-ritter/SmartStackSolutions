@@ -52,7 +52,7 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
         enableEdgeToEdge()
         setContentView(R.layout.activity_my_bills)
 
-        drawerLayout = findViewById(R.id.drawer_layout)
+        drawerLayout = findViewById(R.id.drawer_layout_bills)
 
         recyclerView = findViewById(R.id.recyclerViewBills)
         recyclerView.setHasFixedSize(true)
