@@ -282,9 +282,12 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
     }
 
     override fun onSpendingClick(position: Int) {
-        val spending = spendingsArrayList[position]
-        selectedSpending = spending
-        showSpendingDetailsDialog(spending)
+        val item = myAdapter.getItemAtPosition(position)
+        // Check if the clicked item is a spending
+        if (item is Spendings) {
+            selectedSpending = item
+            showSpendingDetailsDialog(item)
+        }
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.top_nav, menu)

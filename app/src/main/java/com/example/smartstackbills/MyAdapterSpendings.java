@@ -164,6 +164,10 @@ public class MyAdapterSpendings extends RecyclerView.Adapter<RecyclerView.ViewHo
         return itemsArrayList.size();
     }
 
+    public Object getItemAtPosition(int position) {
+        return itemsArrayList.get(position);
+    }
+
     public static class SpendingViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView title, category, amount, purchaseDate;

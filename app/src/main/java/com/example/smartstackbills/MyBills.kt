@@ -237,9 +237,12 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
     }
 
     override fun onBillClick(position: Int) {
-        val bill = billsArrayList[position]
-        selectedBill = bill // Set selectedBill here
-        showBillDetailsDialog(bill)
+        val item = myAdapter.getItemAtPosition(position)
+        // Check if the clicked item is a bill
+        if (item is Bills) {
+            selectedBill = item
+            showBillDetailsDialog(item)
+        }
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.top_nav, menu)

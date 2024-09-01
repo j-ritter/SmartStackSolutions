@@ -95,7 +95,6 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             });
 
-
         } else {
             MonthHeaderViewHolder headerHolder = (MonthHeaderViewHolder) holder;
             String monthHeader = (String) itemsArrayList.get(position);
@@ -166,6 +165,10 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public int getItemCount() {
         return itemsArrayList.size();
+    }
+
+    public Object getItemAtPosition(int position) {
+        return itemsArrayList.get(position);
     }
 
     public static class BillViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
