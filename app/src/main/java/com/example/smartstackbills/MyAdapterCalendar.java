@@ -19,6 +19,7 @@ public class MyAdapterCalendar extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     private static final int ITEM_BILL = 0;
     private static final int ITEM_INCOME = 1;
+    private static final int ITEM_DATE_HEADER = 2;
 
     private Context context;
     private ArrayList<Object> calendarEntries;
@@ -39,54 +40,56 @@ public class MyAdapterCalendar extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public int getItemViewType(int position) {
-        if (calendarEntries.get(position) instanceof Bills) {
+        Object entry = calendarEntries.get(position);
+        if (entry instanceof String) {
+            return ITEM_DATE_HEADER;
+        } else if (entry instanceof Bills) {
             return ITEM_BILL;
-        } else {
+        } else if (entry instanceof Income) {
             return ITEM_INCOME;
         }
+        return -1; // Invalid type, handle this scenario if needed
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if (viewType == ITEM_BILL) {
+        if (viewType == ITEM_DATE_HEADER) {
+            View view = LayoutInflater.from(context).inflate(R.layout.item_date_header, parent, false);
+            return new DateHeaderViewHolder(view);
+        } else if (viewType == ITEM_BILL) {
             View view = LayoutInflater.from(context).inflate(R.layout.items, parent, false);
-            return new BillViewHolder(view, listener);  // Pass listener here
-        } else {
+            return new BillViewHolder(view, listener);
+        } else if (viewType == ITEM_INCOME) {
             View view = LayoutInflater.from(context).inflate(R.layout.items_income, parent, false);
-            return new IncomeViewHolder(view, listener);  // Pass listener here
+            return new IncomeViewHolder(view, listener);
         }
+        return null;
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if (holder.getItemViewType() == ITEM_BILL) {
+        if (holder.getItemViewType() == ITEM_DATE_HEADER) {
+            String dateHeader = (String) calendarEntries.get(position);
+            DateHeaderViewHolder dateHeaderViewHolder = (DateHeaderViewHolder) holder;
+            dateHeaderViewHolder.dateHeaderText.setText(dateHeader);
+        } else if (holder.getItemViewType() == ITEM_BILL) {
             Bills bill = (Bills) calendarEntries.get(position);
             BillViewHolder billViewHolder = (BillViewHolder) holder;
             billViewHolder.title.setText(bill.getName());
             billViewHolder.amount.setText(bill.getAmount());
-
-            // Convierte Timestamp a String
             String formattedDate = formatTimestamp(bill.getDate());
             billViewHolder.purchaseDate.setText(formattedDate);
-
-            // Si necesitas mostrar mes y año, usa:
-            String monthYear = formatMonthYear(bill.getDate());
-
-        } else {
+        } else if (holder.getItemViewType() == ITEM_INCOME) {
             Income income = (Income) calendarEntries.get(position);
             IncomeViewHolder incomeViewHolder = (IncomeViewHolder) holder;
             incomeViewHolder.title.setText(income.getName());
             incomeViewHolder.amount.setText(income.getAmount());
-
-            // Convierte Timestamp a String
             String formattedDate = formatTimestamp(income.getDate());
             incomeViewHolder.dateOfIncome.setText(formattedDate);
-
-            // Si necesitas mostrar mes y año, usa:
-            String monthYear = formatMonthYear(income.getDate());
         }
     }
+
     // Método para formatear el Timestamp a String
     private String formatTimestamp(Timestamp timestamp) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
@@ -122,6 +125,7 @@ public class MyAdapterCalendar extends RecyclerView.Adapter<RecyclerView.ViewHol
             super(itemView);
             title = itemView.findViewById(R.id.textviewTitleItemsBills);
             amount = itemView.findViewById(R.id.textviewAmountItemsBills);
+            purchaseDate = itemView.findViewById(R.id.textviewDateItemsBills);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -145,6 +149,7 @@ public class MyAdapterCalendar extends RecyclerView.Adapter<RecyclerView.ViewHol
             super(itemView);
             title = itemView.findViewById(R.id.textviewTitleItemsIncome);
             amount = itemView.findViewById(R.id.textviewAmountItemsIncome);
+            dateOfIncome = itemView.findViewById(R.id.textviewDateItemsIncome);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -159,4 +164,15 @@ public class MyAdapterCalendar extends RecyclerView.Adapter<RecyclerView.ViewHol
             });
         }
     }
-}
+    // ViewHolder for Date Headers
+    static class DateHeaderViewHolder extends RecyclerView.ViewHolder {
+        TextView dateHeaderText;
+
+        public DateHeaderViewHolder(@NonNull View itemView) {
+            super(itemView);
+            dateHeaderText = itemView.findViewById(R.id.textviewDateHeader);
+            if (dateHeaderText == null) {
+                throw new IllegalStateException("TextView with ID 'textviewDateHeader' not found in item_date_header.xml");
+        }
+    }
+}}
