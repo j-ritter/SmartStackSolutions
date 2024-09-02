@@ -78,6 +78,7 @@ public class MyAdapterCalendar extends RecyclerView.Adapter<RecyclerView.ViewHol
             BillViewHolder billViewHolder = (BillViewHolder) holder;
             billViewHolder.title.setText(bill.getName());
             billViewHolder.amount.setText(bill.getAmount());
+            billViewHolder.category.setText(bill.getCategory());
             String formattedDate = formatTimestamp(bill.getDate());
             billViewHolder.purchaseDate.setText(formattedDate);
         } else if (holder.getItemViewType() == ITEM_INCOME) {
@@ -85,6 +86,7 @@ public class MyAdapterCalendar extends RecyclerView.Adapter<RecyclerView.ViewHol
             IncomeViewHolder incomeViewHolder = (IncomeViewHolder) holder;
             incomeViewHolder.title.setText(income.getName());
             incomeViewHolder.amount.setText(income.getAmount());
+            incomeViewHolder.category.setText(income.getCategory());
             String formattedDate = formatTimestamp(income.getDate());
             incomeViewHolder.dateOfIncome.setText(formattedDate);
         }
@@ -119,12 +121,13 @@ public class MyAdapterCalendar extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     // ViewHolder for Bills
     static class BillViewHolder extends RecyclerView.ViewHolder {
-        TextView title, amount, purchaseDate;
+        TextView title, amount, category, purchaseDate;
 
         public BillViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
             title = itemView.findViewById(R.id.textviewTitleItemsBills);
             amount = itemView.findViewById(R.id.textviewAmountItemsBills);
+            category = itemView.findViewById(R.id.textviewCategoryItemsBills);
             purchaseDate = itemView.findViewById(R.id.textviewDateItemsBills);
 
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -143,12 +146,13 @@ public class MyAdapterCalendar extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     // ViewHolder for Income
     static class IncomeViewHolder extends RecyclerView.ViewHolder {
-        TextView title, amount, dateOfIncome;
+        TextView title, amount, category, dateOfIncome;
 
         public IncomeViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
             title = itemView.findViewById(R.id.textviewTitleItemsIncome);
             amount = itemView.findViewById(R.id.textviewAmountItemsIncome);
+            category = itemView.findViewById(R.id.textviewCategoryItemsIncome);
             dateOfIncome = itemView.findViewById(R.id.textviewDateItemsIncome);
 
             itemView.setOnClickListener(new View.OnClickListener() {
