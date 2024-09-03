@@ -80,17 +80,22 @@ class CalendarActivity : AppCompatActivity(), MyAdapterCalendar.OnItemClickListe
             val selectedDate = "$dayOfMonth/${month + 1}/$year"
             Toast.makeText(this, "Date selected: $selectedDate", Toast.LENGTH_SHORT).show()
 
-            // Filter bills and income based on the selected date
+            // Combine all entries into a single list
+            val allEntries = ArrayList<Any>()
+            allEntries.addAll(billsList)
+            allEntries.addAll(spendingList)
+            allEntries.addAll(incomeList)
+
+            // Filter combined entries based on the selected date
             val sdf = SimpleDateFormat("d/M/yyyy", Locale.getDefault())
             calendarEntries.clear()
-            calendarEntries.addAll(billsList.filter { bill ->
-                bill.date != null && sdf.format(bill.date.toDate()) == selectedDate
-            })
-            calendarEntries.addAll(spendingList.filter { spending ->
-                spending.date != null && sdf.format(spending.date.toDate()) == selectedDate
-            })
-            calendarEntries.addAll(incomeList.filter { income ->
-                income.date != null && sdf.format(income.date.toDate()) == selectedDate
+            calendarEntries.addAll(allEntries.filter { entry ->
+                when (entry) {
+                    is Bills -> entry.date != null && sdf.format(entry.date.toDate()) == selectedDate
+                    is Spendings -> entry.date != null && sdf.format(entry.date.toDate()) == selectedDate
+                    is Income -> entry.date != null && sdf.format(entry.date.toDate()) == selectedDate
+                    else -> false
+                }
             })
             // Group entries by date
             val groupedEntries = groupEntriesByDate(calendarEntries)
@@ -360,9 +365,9 @@ class CalendarActivity : AppCompatActivity(), MyAdapterCalendar.OnItemClickListe
         }
 
         val items = ArrayList<Any>()
-        for ((date, entries) in groupedEntries) {
+        for ((date, groupedEntriesList) in groupedEntries) {
             items.add(date)
-            items.addAll(entries)
+            items.addAll(groupedEntriesList)
         }
 
         return items
