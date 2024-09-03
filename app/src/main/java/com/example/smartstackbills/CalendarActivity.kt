@@ -23,6 +23,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -140,6 +141,42 @@ class CalendarActivity : AppCompatActivity(), MyAdapterCalendar.OnItemClickListe
         setSupportActionBar(toolbar)
         toolbar.setNavigationOnClickListener {
             drawerLayoutCalendar.openDrawer(GravityCompat.START)
+        }
+        // Setup NavigationView
+        val navView: NavigationView = findViewById(R.id.nav_viewCalendar)
+        navView.setNavigationItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.nav_item_aboutus -> {
+                    val intent = Intent(this, AboutUs::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.nav_item_faq -> {
+                    val intent = Intent(this, FAQs::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.nav_item_datasec -> {
+                    val intent = Intent(this, Datasecurity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.nav_item_help -> {
+                    val intent = Intent(this, Help::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.nav_item_terms -> {
+                    val intent = Intent(this, Terms::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.nav_item_logout -> {
+                    logoutUser()
+                    true
+                }
+                else -> false
+            }
         }
 
         setupDialogBills()
