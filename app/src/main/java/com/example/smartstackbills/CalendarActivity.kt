@@ -38,10 +38,12 @@ class CalendarActivity : AppCompatActivity(), MyAdapterCalendar.OnItemClickListe
     private lateinit var calendarView: CalendarView
     private lateinit var recyclerViewCalendar: RecyclerView
     private lateinit var billsList: ArrayList<Bills>
+    private lateinit var spendingList: ArrayList<Spendings>
     private lateinit var incomeList: ArrayList<Income>
     private lateinit var calendarEntries: ArrayList<Any>
     private lateinit var myAdapterCalendar: MyAdapterCalendar
     private lateinit var dialogBills: Dialog
+    private lateinit var dialogSpendings: Dialog
     private lateinit var dialogIncome: Dialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,15 +63,16 @@ class CalendarActivity : AppCompatActivity(), MyAdapterCalendar.OnItemClickListe
         calendarView = findViewById(R.id.calendarView)
         recyclerViewCalendar = findViewById(R.id.recyclerViewCalendarEntries)
 
-        // Initialize RecyclerView for Calendar Entries (both Bills and Income)
+        // Initialize RecyclerView for Calendar Entries
         recyclerViewCalendar.layoutManager = LinearLayoutManager(this)
         calendarEntries = ArrayList()
         myAdapterCalendar = MyAdapterCalendar(this, calendarEntries)
-        myAdapterCalendar.setOnItemClickListener(this)  // Set the click listener
+        myAdapterCalendar.setOnItemClickListener(this)
         recyclerViewCalendar.adapter = myAdapterCalendar
 
-        // Load bills and income data
+        // Load bills, spendings  and income data
         billsList = loadBills()
+        spendingList = loadSpendings()
         incomeList = loadIncome()
 
         calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
@@ -81,6 +84,9 @@ class CalendarActivity : AppCompatActivity(), MyAdapterCalendar.OnItemClickListe
             calendarEntries.clear()
             calendarEntries.addAll(billsList.filter { bill ->
                 bill.date != null && sdf.format(bill.date.toDate()) == selectedDate
+            })
+            calendarEntries.addAll(spendingList.filter { spending ->
+                spending.date != null && sdf.format(spending.date.toDate()) == selectedDate
             })
             calendarEntries.addAll(incomeList.filter { income ->
                 income.date != null && sdf.format(income.date.toDate()) == selectedDate
@@ -137,6 +143,7 @@ class CalendarActivity : AppCompatActivity(), MyAdapterCalendar.OnItemClickListe
         }
 
         setupDialogBills()
+        setupDialogSpendings()
         setupDialogIncome()
     }
 
@@ -152,7 +159,13 @@ class CalendarActivity : AppCompatActivity(), MyAdapterCalendar.OnItemClickListe
         val type = object : TypeToken<ArrayList<Bills>>() {}.type
         return gson.fromJson(json, type) ?: ArrayList()
     }
-
+    private fun loadSpendings(): ArrayList<Spendings> {
+        val sharedPref = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
+        val gson = Gson()
+        val json = sharedPref.getString("spendingList", null)
+        val type = object : TypeToken<ArrayList<Spendings>>() {}.type
+        return gson.fromJson(json, type) ?: ArrayList()
+    }
     private fun loadIncome(): ArrayList<Income> {
         val sharedPref = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
         val gson = Gson()
@@ -174,6 +187,18 @@ class CalendarActivity : AppCompatActivity(), MyAdapterCalendar.OnItemClickListe
         val btnCloseDialog = dialogBills.findViewById<Button>(R.id.btnCloseDialogBillCalendar)
         btnCloseDialog.setOnClickListener {
             dialogBills.dismiss()
+        }
+    }
+    private fun setupDialogSpendings() {
+        dialogSpendings = Dialog(this)
+        dialogSpendings.setContentView(R.layout.dialog_box_spendings_calendar)
+        dialogSpendings.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        dialogSpendings.window?.setBackgroundDrawable(getDrawable(R.drawable.dialog_box_spendings_bg))
+        dialogSpendings.setCancelable(true)
+
+        val btnCloseDialog = dialogSpendings.findViewById<Button>(R.id.btnCloseDialogSpendingsCalendar)
+        btnCloseDialog.setOnClickListener {
+            dialogSpendings.dismiss()
         }
     }
 
@@ -222,6 +247,30 @@ class CalendarActivity : AppCompatActivity(), MyAdapterCalendar.OnItemClickListe
 
         dialogBills.show()
     }
+    private fun showSpendingsDetailsDialog(spending: Spendings) {
+        val edtTitleDialog = dialogSpendings.findViewById<EditText>(R.id.edtTitleDialogSpendingsCalendar)
+        val edtAmountDialog = dialogSpendings.findViewById<EditText>(R.id.edtAmountDialogSpendingsCalendar)
+        val edtCategoryDialog = dialogSpendings.findViewById<EditText>(R.id.edtCategoryDialogSpendingsCalendar)
+        val edtSubcategoryDialog = dialogSpendings.findViewById<EditText>(R.id.edtSubcategoryDialogSpendingsCalendar)
+        val edtVendorDialog = dialogSpendings.findViewById<EditText>(R.id.edtVendorDialogSpendingsCalendar)
+        val edtDateDialog = dialogSpendings.findViewById<EditText>(R.id.edtDateDialogSpendingsCalendar)
+
+        val edtCommentDialog = dialogSpendings.findViewById<EditText>(R.id.edtCommentDialogSpendingsCalendar)
+
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val spendingDateString = spending.date?.let { dateFormat.format(it.toDate()) } ?: ""
+
+        edtTitleDialog?.setText(spending.name)
+        edtAmountDialog?.setText(spending.amount)
+        edtCategoryDialog?.setText(spending.category)
+        edtSubcategoryDialog?.setText(spending.subcategory)
+        edtVendorDialog?.setText(spending.vendor)
+        edtDateDialog?.setText(spendingDateString)
+
+        edtCommentDialog?.setText(spending.comment)
+
+        dialogSpendings.show()
+    }
 
     private fun showIncomeDetailsDialog(income: Income) {
         val edtTitleDialog = dialogIncome.findViewById<EditText>(R.id.edtTitleDialogIncomeCalendar)
@@ -250,6 +299,7 @@ class CalendarActivity : AppCompatActivity(), MyAdapterCalendar.OnItemClickListe
         val item = myAdapterCalendar.getItemAtPosition(position)
         when (item) {
             is Bills -> showBillDetailsDialog(item)
+            is Spendings -> showSpendingsDetailsDialog(item)
             is Income -> showIncomeDetailsDialog(item)
             else -> Toast.makeText(this, "Unknown item clicked", Toast.LENGTH_SHORT).show()
         }
@@ -262,6 +312,7 @@ class CalendarActivity : AppCompatActivity(), MyAdapterCalendar.OnItemClickListe
         for (entry in entries) {
             val date = when (entry) {
                 is Bills -> sdf.format(entry.date.toDate())
+                is Spendings -> sdf.format(entry.date.toDate())
                 is Income -> sdf.format(entry.date.toDate())
                 else -> continue
             }

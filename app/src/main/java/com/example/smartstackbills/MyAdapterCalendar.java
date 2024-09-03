@@ -19,7 +19,8 @@ public class MyAdapterCalendar extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     private static final int ITEM_BILL = 0;
     private static final int ITEM_INCOME = 1;
-    private static final int ITEM_DATE_HEADER = 2;
+    private static final int ITEM_SPENDING = 2;
+    private static final int ITEM_DATE_HEADER = 3;
 
     private Context context;
     private ArrayList<Object> calendarEntries;
@@ -45,6 +46,8 @@ public class MyAdapterCalendar extends RecyclerView.Adapter<RecyclerView.ViewHol
             return ITEM_DATE_HEADER;
         } else if (entry instanceof Bills) {
             return ITEM_BILL;
+        } else if (entry instanceof Spendings) {
+            return ITEM_SPENDING;
         } else if (entry instanceof Income) {
             return ITEM_INCOME;
         }
@@ -60,6 +63,9 @@ public class MyAdapterCalendar extends RecyclerView.Adapter<RecyclerView.ViewHol
         } else if (viewType == ITEM_BILL) {
             View view = LayoutInflater.from(context).inflate(R.layout.items, parent, false);
             return new BillViewHolder(view, listener);
+        } else if (viewType == ITEM_SPENDING) {
+            View view = LayoutInflater.from(context).inflate(R.layout.items_spendings, parent, false);
+            return new SpendingViewHolder(view, listener);
         } else if (viewType == ITEM_INCOME) {
             View view = LayoutInflater.from(context).inflate(R.layout.items_income, parent, false);
             return new IncomeViewHolder(view, listener);
@@ -81,6 +87,14 @@ public class MyAdapterCalendar extends RecyclerView.Adapter<RecyclerView.ViewHol
             billViewHolder.category.setText(bill.getCategory());
             String formattedDate = formatTimestamp(bill.getDate());
             billViewHolder.purchaseDate.setText(formattedDate);
+        } else if (holder.getItemViewType() == ITEM_SPENDING) {
+            Spendings spending = (Spendings) calendarEntries.get(position);
+            SpendingViewHolder spendingViewHolder = (SpendingViewHolder) holder;
+            spendingViewHolder.title.setText(spending.getName());
+            spendingViewHolder.amount.setText(spending.getAmount());
+            spendingViewHolder.category.setText(spending.getCategory());
+            String formattedDate = formatTimestamp(spending.getDate());
+            spendingViewHolder.dateOfSpending.setText(formattedDate);
         } else if (holder.getItemViewType() == ITEM_INCOME) {
             Income income = (Income) calendarEntries.get(position);
             IncomeViewHolder incomeViewHolder = (IncomeViewHolder) holder;
@@ -143,7 +157,27 @@ public class MyAdapterCalendar extends RecyclerView.Adapter<RecyclerView.ViewHol
             });
         }
     }
+    // ViewHolder for Spendings
+    static class SpendingViewHolder extends RecyclerView.ViewHolder {
+        TextView title, amount, category, dateOfSpending;
 
+        public SpendingViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
+            super(itemView);
+            title = itemView.findViewById(R.id.textviewTitleItemsSpendings);
+            amount = itemView.findViewById(R.id.textviewAmountItemsSpendings);
+            category = itemView.findViewById(R.id.textviewCategoryItemsSpendings);
+            dateOfSpending = itemView.findViewById(R.id.textviewDateItemsSpendings);
+
+            itemView.setOnClickListener(v -> {
+                if (listener != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        listener.onItemClick(position);
+                    }
+                }
+            });
+        }
+    }
     // ViewHolder for Income
     static class IncomeViewHolder extends RecyclerView.ViewHolder {
         TextView title, amount, category, dateOfIncome;
