@@ -168,11 +168,14 @@ public class MyAdapterCalendar extends RecyclerView.Adapter<RecyclerView.ViewHol
             category = itemView.findViewById(R.id.textviewCategoryItemsSpendings);
             dateOfSpending = itemView.findViewById(R.id.textviewDateItemsSpendings);
 
-            itemView.setOnClickListener(v -> {
-                if (listener != null) {
-                    int position = getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION) {
-                        listener.onItemClick(position);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onItemClick(position);
+                        }
                     }
                 }
             });

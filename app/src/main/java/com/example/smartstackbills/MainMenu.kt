@@ -30,7 +30,9 @@ class MainMenu : AppCompatActivity() {
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var currentMonth: Calendar
     private lateinit var fabMainMenu: FloatingActionButton
-
+    private lateinit var etBillsAmount: EditText
+    private lateinit var etSpendingsAmount: EditText
+    private lateinit var etIncomeAmount: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +49,10 @@ class MainMenu : AppCompatActivity() {
         drawerLayout = findViewById(R.id.drawer_layout)
 
         currentMonth = Calendar.getInstance()
+
+        etBillsAmount = findViewById(R.id.etBillsAmount)
+        etSpendingsAmount = findViewById(R.id.etSpendingsAmount)
+        etIncomeAmount = findViewById(R.id.etIncome)
 
         setupMonthNavigation()
         setupUI()
@@ -66,39 +72,30 @@ class MainMenu : AppCompatActivity() {
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationView)
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.Main -> {
-                    // Stay on the same activity
-                    true
-                }
-
+                R.id.Main -> true
                 R.id.Bills -> {
                     val intent = Intent(this, MyBills::class.java)
                     intent.putExtra("USER_EMAIL", userEmail)
                     startActivity(intent)
                     true
                 }
-
                 R.id.Spendings -> {
                     val intent = Intent(this, MySpendings::class.java)
                     intent.putExtra("USER_EMAIL", userEmail)
                     startActivity(intent)
                     true
                 }
-
-                R.id.Income -> {  // New navigation option for Income
+                R.id.Income -> {
                     val intent = Intent(this, MyIncome::class.java)
                     intent.putExtra("USER_EMAIL", userEmail)
                     startActivity(intent)
                     true
                 }
-
                 R.id.Calendar -> {
-                    // Intent for Calendar (assumed to be implemented)
                     val intent = Intent(this, CalendarActivity::class.java)
                     startActivity(intent)
                     true
                 }
-
                 else -> false
             }
         }
@@ -111,45 +108,38 @@ class MainMenu : AppCompatActivity() {
                     startActivity(intent)
                     true
                 }
-
                 R.id.nav_item_faq -> {
                     val intent = Intent(this, FAQs::class.java)
                     startActivity(intent)
                     true
                 }
-
                 R.id.nav_item_datasec -> {
                     val intent = Intent(this, Datasecurity::class.java)
                     startActivity(intent)
                     true
                 }
-
                 R.id.nav_item_help -> {
                     val intent = Intent(this, Help::class.java)
                     startActivity(intent)
                     true
                 }
-
                 R.id.nav_item_terms -> {
                     val intent = Intent(this, Terms::class.java)
                     startActivity(intent)
                     true
                 }
-
                 R.id.nav_item_logout -> {
                     logoutUser()
                     true
                 }
-
                 else -> false
             }
         }
-        setSpendingsAmount()
 
-        setTotalIncomeAmount()
+        // Set values
+        setAmountForMonth()
 
-        //Connection to other folders
-
+        // Connection to other folders
         val etBills: EditText = findViewById(R.id.etBillsAmount)
         etBills.setOnClickListener {
             val intent = Intent(this, MyBills::class.java)
@@ -168,15 +158,102 @@ class MainMenu : AppCompatActivity() {
             intent.putExtra("FILTER_TYPE", "all")
             startActivity(intent)
         }
-
     }
-    //Options for Floating Button
+
+    // Method to retrieve all bills and income from SharedPreferences
+    private fun getBills(): ArrayList<Bills> {
+        val sharedPref = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
+        val gson = Gson()
+        val json = sharedPref.getString("billsList", null)
+        val type = object : TypeToken<ArrayList<Bills>>() {}.type
+        return gson.fromJson(json, type) ?: ArrayList()
+    }
+    private fun getSpendings(): ArrayList<Spendings> {
+        val sharedPref = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
+        val gson = Gson()
+        val json = sharedPref.getString("spendingsList", null)
+        val type = object : TypeToken<ArrayList<Spendings>>() {}.type
+        return gson.fromJson(json, type) ?: ArrayList()
+    }
+    private fun getIncome(): ArrayList<Income> {
+        val sharedPref = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
+        val gson = Gson()
+        val json = sharedPref.getString("incomeList", null)
+        val type = object : TypeToken<ArrayList<Income>>() {}.type
+        return gson.fromJson(json, type) ?: ArrayList()
+    }
+
+    // Method to filter bills and income by the currently selected month
+    private fun getEntriesForCurrentMonth(): List<Any> {
+        val billsList = getBills()
+        val spendingsList = getSpendings()
+        val incomeList = getIncome()
+
+        val dateFormat = SimpleDateFormat("MM/yyyy", Locale.getDefault())
+        val selectedMonth = dateFormat.format(currentMonth.time)
+
+        val billsForMonth = billsList.filter { bill ->
+            val billDate = bill.date?.toDate()
+            billDate != null && dateFormat.format(billDate) == selectedMonth
+        }
+        val spendingsForMonth = spendingsList.filter { spending ->
+            val spendingDate = spending.date?.toDate()
+            spendingDate != null && dateFormat.format(spendingDate) == selectedMonth
+        }
+        val incomeForMonth = incomeList.filter { income ->
+            val incomeDate = income.date?.toDate()
+            incomeDate != null && dateFormat.format(incomeDate) == selectedMonth
+        }
+
+        // Combine lists
+        return billsForMonth + incomeForMonth + spendingsForMonth
+    }
+
+    // Method to calculate and set the total amount for the selected month
+    private fun setAmountForMonth() {
+        val entriesForMonth = getEntriesForCurrentMonth()
+
+        // Split the entries into bills and income for separate totals
+        val totalBills = entriesForMonth.filterIsInstance<Bills>().sumOf { it.amount.toDouble() }.toFloat()
+        val totalSpendings = entriesForMonth.filterIsInstance<Spendings>().sumOf { it.amount.toDouble() }.toFloat()
+        val totalIncome = entriesForMonth.filterIsInstance<Income>().sumOf { it.amount.toDouble() }.toFloat()
+
+        etBillsAmount.setText(String.format(Locale.getDefault(), "%.2f", totalBills))
+        etSpendingsAmount.setText(String.format(Locale.getDefault(), "%.2f", totalSpendings))
+        etIncomeAmount.setText(String.format(Locale.getDefault(), "%.2f", totalIncome))
+    }
+
+    private fun setupMonthNavigation() {
+        val tvMonth = findViewById<TextView>(R.id.tvMonth)
+        val btnPreviousMonth = findViewById<ImageButton>(R.id.btnPreviousMonth)
+        val btnNextMonth = findViewById<ImageButton>(R.id.btnNextMonth)
+
+        updateMonthDisplay(tvMonth)
+
+        btnPreviousMonth.setOnClickListener {
+            currentMonth.add(Calendar.MONTH, -1)
+            updateMonthDisplay(tvMonth)
+            setAmountForMonth()
+        }
+
+        btnNextMonth.setOnClickListener {
+            currentMonth.add(Calendar.MONTH, 1)
+            updateMonthDisplay(tvMonth)
+            setAmountForMonth()
+        }
+    }
+
+    private fun updateMonthDisplay(tvMonth: TextView) {
+        val dateFormat = SimpleDateFormat("MMMM yyyy", Locale.getDefault())
+        tvMonth.text = dateFormat.format(currentMonth.time)
+    }
+
     private fun showCreateOptionsDialog() {
         val options = arrayOf("Create an 'Open Payment'", "Create a 'Closed Payment'", "Create an 'Income'")
 
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Select an option")
-        builder.setItems(options) { dialog, which ->
+        builder.setItems(options) { _, which ->
             when (which) {
                 0 -> startActivity(Intent(this, createBill::class.java).apply {
                     putExtra("USER_EMAIL", userEmail)
@@ -191,7 +268,6 @@ class MainMenu : AppCompatActivity() {
         }
         builder.show()
     }
-
     // Apply alternating background colors
     private fun setupUI(){
         val navView: NavigationView = findViewById(R.id.nav_view)
@@ -204,20 +280,12 @@ class MainMenu : AppCompatActivity() {
                 menuItem.actionView?.setBackgroundResource(R.drawable.nav_item_background_dark)
             }
         }
-
-
     }
-    //Calculate total amount by month
+
     private fun setSpendingsAmount() {
         val totalSpendings = getTotalSpendings()
         val etSpendingsAmount: EditText = findViewById(R.id.etSpendingsAmount)
-        etSpendingsAmount.setText(totalSpendings.toString())
-    }
-
-    private fun setTotalIncomeAmount() {
-        val totalIncome = getTotalIncome()
-        val etIncomeAmount: EditText = findViewById(R.id.etIncome)
-        etIncomeAmount.setText(totalIncome.toString())
+        etSpendingsAmount.setText(String.format(Locale.getDefault(), "%.2f", totalSpendings))
     }
 
     private fun getTotalSpendings(): Float {
@@ -229,40 +297,6 @@ class MainMenu : AppCompatActivity() {
         return spendingsList.sumOf { it.amount.toDouble() }.toFloat()
     }
 
-    private fun getTotalIncome(): Float {
-        val sharedPref = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
-        val gson = Gson()
-        val json = sharedPref.getString("incomeList", null)
-        val type = object : TypeToken<ArrayList<Income>>() {}.type
-        val incomeList: ArrayList<Income> = gson.fromJson(json, type) ?: ArrayList()
-        return incomeList.sumOf { it.amount.toDouble() }.toFloat()
-    }
-
-
-    private fun setupMonthNavigation() {
-        val tvMonth = findViewById<TextView>(R.id.tvMonth)
-        val btnPreviousMonth = findViewById<ImageButton>(R.id.btnPreviousMonth)
-        val btnNextMonth = findViewById<ImageButton>(R.id.btnNextMonth)
-
-        updateMonthDisplay(tvMonth)
-
-        btnPreviousMonth.setOnClickListener {
-            currentMonth.add(Calendar.MONTH, -1)
-            updateMonthDisplay(tvMonth)
-
-        }
-
-        btnNextMonth.setOnClickListener {
-            currentMonth.add(Calendar.MONTH, 1)
-            updateMonthDisplay(tvMonth)
-
-        }
-    }
-
-    private fun updateMonthDisplay(tvMonth: TextView) {
-        val dateFormat = SimpleDateFormat("MMMM yyyy", Locale.getDefault())
-        tvMonth.text = dateFormat.format(currentMonth.time)
-    }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.top_nav, menu)
         return true

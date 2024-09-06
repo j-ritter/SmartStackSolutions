@@ -14,4 +14,7 @@
     <color name="filter_inactive">#FFFFFF</color>
     <color name="header_background">#ECEFF1</color>
     <color name="header_text">#37474F</color>
+    <color name="colorAccent">#023047</color>
+    <color name="colorPrimary">#Fb8500</color>
+
 </resources>

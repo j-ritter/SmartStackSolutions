@@ -113,7 +113,7 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
                     startActivity(intent)
                     true
                 }
-                R.id.Income -> {  // New navigation option for Income
+                R.id.Income -> {
                     val intent = Intent(this, MyIncome::class.java)
                     intent.putExtra("USER_EMAIL", userEmail)
                     startActivity(intent)
