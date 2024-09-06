@@ -23,6 +23,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Date
 import java.util.Locale
 
 class MainMenu : AppCompatActivity() {
@@ -31,6 +32,7 @@ class MainMenu : AppCompatActivity() {
     private lateinit var currentMonth: Calendar
     private lateinit var fabMainMenu: FloatingActionButton
     private lateinit var etBillsAmount: EditText
+    private lateinit var etIncomingAmount: EditText
     private lateinit var etSpendingsAmount: EditText
     private lateinit var etIncomeAmount: EditText
 
@@ -53,6 +55,7 @@ class MainMenu : AppCompatActivity() {
         etBillsAmount = findViewById(R.id.etBillsAmount)
         etSpendingsAmount = findViewById(R.id.etSpendingsAmount)
         etIncomeAmount = findViewById(R.id.etIncome)
+        etIncomingAmount = findViewById(R.id.etIncomingAmount)
 
         setupMonthNavigation()
         setupUI()
@@ -218,9 +221,21 @@ class MainMenu : AppCompatActivity() {
         val totalSpendings = entriesForMonth.filterIsInstance<Spendings>().sumOf { it.amount.toDouble() }.toFloat()
         val totalIncome = entriesForMonth.filterIsInstance<Income>().sumOf { it.amount.toDouble() }.toFloat()
 
+        // Calculate the incoming bills based on the provided conditions
+        val selectedMonthFormat = SimpleDateFormat("MM/yyyy", Locale.getDefault())
+        val selectedMonth = selectedMonthFormat.format(currentMonth.time)
+        val currentDate = Date()
+        val totalIncoming = getBills().filter { bill ->
+            val billDate = bill.date?.toDate()
+            // Check if the bill date is after the current date, in the selected month, unpaid, and non-recurring
+            billDate != null && billDate.after(currentDate) && !bill.paid && bill.repeat == "No" &&
+                    selectedMonthFormat.format(billDate) == selectedMonth
+        }.sumOf { it.amount.toDouble() }.toFloat()
+
         etBillsAmount.setText(String.format(Locale.getDefault(), "%.2f", totalBills))
         etSpendingsAmount.setText(String.format(Locale.getDefault(), "%.2f", totalSpendings))
         etIncomeAmount.setText(String.format(Locale.getDefault(), "%.2f", totalIncome))
+        etIncomingAmount.setText(String.format(Locale.getDefault(), "%.2f", totalIncoming))
     }
 
     private fun setupMonthNavigation() {
