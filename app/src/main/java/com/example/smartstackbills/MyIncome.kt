@@ -1,6 +1,7 @@
 package com.example.smartstackbills
 
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -24,6 +25,7 @@ import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
+import com.google.gson.Gson
 import java.text.SimpleDateFormat
 import java.util.Locale
 import kotlin.collections.ArrayList
@@ -157,6 +159,14 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
         findViewById<Button>(R.id.btnOneTimeIncome).setOnClickListener { filterIncome("one-time") }
         findViewById<Button>(R.id.btnAllIncome).setOnClickListener { filterIncome("all income") }
     }
+    private fun saveIncome() {
+        val sharedPref = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
+        val editor = sharedPref.edit()
+        val gson = Gson()
+        val json = gson.toJson(incomeArrayList)
+        editor.putString("incomeList", json)
+        editor.apply()
+    }
 
     private fun setupDialog() {
         dialog = Dialog(this)
@@ -200,6 +210,7 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
                                 Log.d("Firestore Data", "Income added: ${income.name}, ${income.date}, ${income.repeat}")
                             }
                         }
+                        saveIncome()
                         filterIncome("all income") // Default filter
                     } else {
                         Log.d("Firestore Data", "No income found")

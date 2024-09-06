@@ -282,21 +282,6 @@ class MainMenu : AppCompatActivity() {
         }
     }
 
-    private fun setSpendingsAmount() {
-        val totalSpendings = getTotalSpendings()
-        val etSpendingsAmount: EditText = findViewById(R.id.etSpendingsAmount)
-        etSpendingsAmount.setText(String.format(Locale.getDefault(), "%.2f", totalSpendings))
-    }
-
-    private fun getTotalSpendings(): Float {
-        val sharedPref = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
-        val gson = Gson()
-        val json = sharedPref.getString("spendingsList", null)
-        val type = object : TypeToken<ArrayList<Spendings>>() {}.type
-        val spendingsList: ArrayList<Spendings> = gson.fromJson(json, type) ?: ArrayList()
-        return spendingsList.sumOf { it.amount.toDouble() }.toFloat()
-    }
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.top_nav, menu)
         return true
