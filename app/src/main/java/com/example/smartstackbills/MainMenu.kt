@@ -282,18 +282,29 @@ class MainMenu : AppCompatActivity() {
             income.repeat == "No" && selectedMonthFormat.format(income.date?.toDate()) == selectedMonth
         }.sumOf { it.amount.toDouble() }.toFloat()
 
-        // Calculate the total
-        val total = totalIncome - totalBills - totalSpendings
+        // Ensure that the items are displayed as negative
+        val displayBillsAmount = -totalBills
+        val displayIncomingAmount = -totalIncoming
+        val displayOverdueAmount = -totalOverdue
+        val displaySpendingsAmount = -totalSpendings
+        val displayEssentialAmount = -totalEssential
+        val displayNonEssentialAmount = -totalNonEssential
+        val displayIncomeAmount = +totalIncome
+        val displayRecurringAmount = +totalRecurringIncome
+        val displayOneTimeAmount = +totalOneTimeIncome
 
-        etBillsAmount.setText(String.format(Locale.getDefault(), "%.2f", totalBills))
-        etSpendingsAmount.setText(String.format(Locale.getDefault(), "%.2f", totalSpendings))
-        etIncomeAmount.setText(String.format(Locale.getDefault(), "%.2f", totalIncome))
-        etIncomingAmount.setText(String.format(Locale.getDefault(), "%.2f", totalIncoming))
-        etOverdueAmount.setText(String.format(Locale.getDefault(), "%.2f", totalOverdue))
-        etEssentialAmount.setText(String.format(Locale.getDefault(), "%.2f", totalEssential))
-        etNonEssentialAmount.setText(String.format(Locale.getDefault(), "%.2f", totalNonEssential))
-        etRecurringAmount.setText(String.format(Locale.getDefault(), "%.2f", totalRecurringIncome))
-        etOneTimeAmount.setText(String.format(Locale.getDefault(), "%.2f", totalOneTimeIncome))
+        // Calculate the total
+        val total = totalIncome + displayBillsAmount + displaySpendingsAmount
+
+        etBillsAmount.setText(String.format(Locale.getDefault(), "%.2f", displayBillsAmount))
+        etSpendingsAmount.setText(String.format(Locale.getDefault(), "%.2f", displaySpendingsAmount))
+        etIncomeAmount.setText(String.format(Locale.getDefault(), "%.2f", displayIncomeAmount))
+        etIncomingAmount.setText(String.format(Locale.getDefault(), "%.2f", displayIncomingAmount))
+        etOverdueAmount.setText(String.format(Locale.getDefault(), "%.2f", displayOverdueAmount))
+        etEssentialAmount.setText(String.format(Locale.getDefault(), "%.2f", displayEssentialAmount))
+        etNonEssentialAmount.setText(String.format(Locale.getDefault(), "%.2f", displayNonEssentialAmount))
+        etRecurringAmount.setText(String.format(Locale.getDefault(), "%.2f", displayRecurringAmount))
+        etOneTimeAmount.setText(String.format(Locale.getDefault(), "%.2f", displayOneTimeAmount))
         etTotalAmount.setText(String.format(Locale.getDefault(), "%.2f", total))
     }
 
