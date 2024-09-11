@@ -40,6 +40,7 @@ class MainMenu : AppCompatActivity() {
     private lateinit var etIncomeAmount: EditText
     private lateinit var etRecurringAmount: EditText
     private lateinit var etOneTimeAmount: EditText
+    private lateinit var etTotalAmount: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,6 +67,7 @@ class MainMenu : AppCompatActivity() {
         etNonEssentialAmount = findViewById(R.id.etNonEssential)
         etRecurringAmount = findViewById(R.id.etRecurring)
         etOneTimeAmount = findViewById(R.id.etOneTime)
+        etTotalAmount = findViewById(R.id.etTotal)
 
         setupMonthNavigation()
         setupUI()
@@ -280,6 +282,9 @@ class MainMenu : AppCompatActivity() {
             income.repeat == "No" && selectedMonthFormat.format(income.date?.toDate()) == selectedMonth
         }.sumOf { it.amount.toDouble() }.toFloat()
 
+        // Calculate the total
+        val total = totalIncome - totalBills - totalSpendings
+
         etBillsAmount.setText(String.format(Locale.getDefault(), "%.2f", totalBills))
         etSpendingsAmount.setText(String.format(Locale.getDefault(), "%.2f", totalSpendings))
         etIncomeAmount.setText(String.format(Locale.getDefault(), "%.2f", totalIncome))
@@ -289,6 +294,7 @@ class MainMenu : AppCompatActivity() {
         etNonEssentialAmount.setText(String.format(Locale.getDefault(), "%.2f", totalNonEssential))
         etRecurringAmount.setText(String.format(Locale.getDefault(), "%.2f", totalRecurringIncome))
         etOneTimeAmount.setText(String.format(Locale.getDefault(), "%.2f", totalOneTimeIncome))
+        etTotalAmount.setText(String.format(Locale.getDefault(), "%.2f", total))
     }
 
     private fun setupMonthNavigation() {
