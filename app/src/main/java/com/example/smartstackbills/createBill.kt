@@ -58,7 +58,7 @@ class createBill : AppCompatActivity() {
         "Taxes" to arrayOf("Income tax", "Property tax", "Sales tax", "Self-employment tax", "Capital gains tax"),
         "Health" to arrayOf("Doctor visits", "Dental care", "Prescription medications", "Health supplements", "Medical equipment"),
         "Education" to arrayOf("Tuition fees", "Textbooks", "Online courses", "School supplies", "Extracurricular activities"),
-        "Shopping & Consumption" to arrayOf("Groceries", "Clothing", "Electronics", "Household goods", "Personal care products"),
+        "Shopping & Consumption" to arrayOf("Groceries - Basic Food", "Groceries - Household Necessities", "Groceries - Beverages", "Groceries - Alcoholic Beverages", "Groceries - Snacks and Sweets", "Groceries - Luxury Foods", "Clothing", "Electronics", "Household goods", "Personal care products"),
         "Others" to arrayOf("Others")
     )
 
@@ -277,18 +277,9 @@ class createBill : AppCompatActivity() {
             startActivity(intent)
         }
         val checkBoxPaid: CheckBox = findViewById(R.id.checkBoxPaid)
-
-        checkBoxPaid.setOnClickListener {
-            if (checkBoxPaid.isChecked) {
-                Toast.makeText(
-                    this,
-                    "Please note that when clicking on 'paid' this payment will be shown in 'closed payments'.",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
+        checkBoxPaid.isChecked = false
+        checkBoxPaid.isEnabled = false
         }
-
-    }
 
     private fun showDatePickerDialog() {
         val datePicker = DatePickerFragment { day, month, year -> onDateSelected(day, month, year) }

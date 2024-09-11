@@ -87,11 +87,21 @@ class createSpending : AppCompatActivity() {
         "Online courses" to "Non-essential",
         "School supplies" to "Essential",
         "Extracurricular activities" to "Non-essential",
-        "Groceries" to "Essential",
+
         "Clothing" to "Essential",
         "Electronics" to "Non-essential",
         "Household goods" to "Essential",
         "Personal care products" to "Essential",
+        // Essential groceries
+        "Groceries - Basic Food" to "Essential",
+        "Groceries - Household Necessities" to "Essential",
+
+        // Non-essential groceries
+        "Groceries - Beverages" to "Non-essential",
+        "Groceries - Alcoholic Beverages" to "Non-essential",
+        "Groceries - Snacks and Sweets" to "Non-essential",
+        "Groceries - Luxury Foods" to "Non-essential",
+
         "Others" to "Non-essential"
     )
 

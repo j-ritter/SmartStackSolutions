@@ -217,6 +217,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/paid"
+        android:enabled="false"
+        android:clickable="false"
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="@+id/spinnerRepeatBill"
         app:layout_constraintStart_toEndOf="@+id/spinnerRepeatBill"

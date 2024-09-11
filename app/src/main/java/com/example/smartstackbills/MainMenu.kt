@@ -254,21 +254,21 @@ class MainMenu : AppCompatActivity() {
         }.sumOf { it.amount.toDouble() }.toFloat()
 
         // Calculate essential and nonessential spendings
-        val essentialSubcategories = listOf("rent", "utilities", "groceries", "Mobile phone", "Landline phone", "Internet",
-            "Health insurance", "Life insurance", "Car insurance", "Home insurance",
-            "Fuel", "Vehicle maintenance", "Public transportation",
-            "Doctor visits", "Dental care", "Prescription medications", "Medical equipment",
-            "Groceries", "Clothing", "Household goods", "Personal care products",
+        val essentialSubcategories = listOf( "Rent", "Utilities", "Groceries - Basic Food", "Groceries - Household Necessities",
+            "Mobile phone", "Landline phone", "Internet", "Health insurance", "Life insurance",
+            "Car insurance", "Home insurance", "Fuel", "Vehicle maintenance",
+            "Public transportation", "Doctor visits", "Dental care", "Prescription medications",
+            "Medical equipment", "Clothing", "Household goods", "Personal care products",
             "Income tax", "Property tax", "Sales tax", "Self-employment tax", "Capital gains tax",
             "Tuition fees", "Textbooks", "School supplies")
         val totalEssential = getSpendings().filter { spending ->
             spending.subcategory in essentialSubcategories && selectedMonthFormat.format(spending.date?.toDate()) == selectedMonth
         }.sumOf { it.amount.toDouble() }.toFloat()
 
-        val nonEssentialSubcategories = listOf("Entertainment", "Dining out", "Hobbies", "Streaming services",
-            "Movies", "Music concerts", "Video games", "Sports", "Vacation",
-            "Gadgets", "Luxury items", "Alcohol", "Tobacco", "Gym memberships",
-            "Clothing", "Decorations", "Jewelry")
+        val nonEssentialSubcategories = listOf("Entertainment", "Dining out", "Hobbies", "Streaming services", "Movies",
+            "Music concerts", "Video games", "Sports", "Vacation", "Gadgets",
+            "Luxury items", "Alcohol", "Tobacco", "Gym memberships",
+            "Groceries - Beverages", "Groceries - Luxury Foods", "Decorations", "Jewelry")
         val totalNonEssential = getSpendings().filter { spending ->
             spending.subcategory in nonEssentialSubcategories && selectedMonthFormat.format(spending.date?.toDate()) == selectedMonth
         }.sumOf { it.amount.toDouble() }.toFloat()
@@ -334,7 +334,7 @@ class MainMenu : AppCompatActivity() {
     }
 
     private fun showCreateOptionsDialog() {
-        val options = arrayOf("Create an 'Open Payment'", "Create a 'Closed Payment'", "Create an 'Income'")
+        val options = arrayOf("Create an Open Payment", "Create a Closed Payment", "Create an Income")
 
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Select an option")
