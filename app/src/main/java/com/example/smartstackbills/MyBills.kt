@@ -381,7 +381,7 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
                         findViewById<Button>(R.id.btnDue).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_active))
                         if (billDate != null && billDate.before(currentDate) && !bill.paid && bill.repeat == "No") {
                             filteredBills.add(bill)
-                            Log.d("Filter", "Due 'Open Payment' added: ${bill.name}")
+                            Log.d("Filter", "Overdue 'Open Payment' added: ${bill.name}")
                         }
                     }
                     "recurring" -> {

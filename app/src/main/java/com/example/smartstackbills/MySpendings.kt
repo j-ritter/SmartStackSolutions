@@ -55,7 +55,7 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
         "Health insurance", "Life insurance", "Car insurance", "Home insurance",
         "Fuel", "Vehicle maintenance", "Public transportation",
         "Doctor visits", "Dental care", "Prescription medications", "Medical equipment",
-        "Groceries", "Clothing", "Household goods", "Personal care products",
+        "Groceries", "Household goods", "Personal care products",
         "Income tax", "Property tax", "Sales tax", "Self-employment tax", "Capital gains tax",
         "Tuition fees", "Textbooks", "School supplies"
     )
