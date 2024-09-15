@@ -111,7 +111,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    <!-- Navigation Drawer -->
+    <!-- Main Navigation Drawer -->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_viewIncome"
         android:layout_width="wrap_content"
@@ -119,5 +119,20 @@
         android:layout_gravity="start"
         app:headerLayout="@layout/nav_header_main"
         app:menu="@menu/activity_main_drawer" />
+
+    <!-- Notifications Drawer (on the right side) -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/notificationsDrawer"
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="end">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewNotifications"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/items_notifications" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.drawerlayout.widget.DrawerLayout>

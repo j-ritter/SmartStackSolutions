@@ -1,11 +1,13 @@
 package com.example.smartstackbills
 
 import android.app.Dialog
+import android.app.Notification
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
+import android.view.MenuItem
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
@@ -42,7 +44,9 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
     private var userEmail: String? = null
     private lateinit var dialog: Dialog
     private lateinit var drawerLayout: DrawerLayout
+    private lateinit var notificationRecyclerView: RecyclerView
     private var selectedIncome: Income? = null
+    private lateinit var notificationsList: ArrayList<NotificationItem>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -151,6 +155,12 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
             }
         }
 
+        // Setup notifications drawer
+        notificationRecyclerView = findViewById(R.id.recyclerViewNotifications)
+        notificationRecyclerView.layoutManager = LinearLayoutManager(this)
+        notificationsList = ArrayList()  // Assuming you have data for notifications
+        notificationRecyclerView.adapter = NotificationsAdapter(this, notificationsList)
+
         db = FirebaseFirestore.getInstance()
         setupDialog()
         setupEventChangeListener()
@@ -238,6 +248,17 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.top_nav, menu)
         return true
+    }
+    // Handle menu item clicks (including the alarm icon)
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.alarm -> {
+                val intent = Intent(this, NotificationsActivity::class.java)
+                startActivity(intent)  // Start the NotificationsActivity when the alarm icon is clicked
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     private fun showIncomeDetailsDialog(income: Income) {

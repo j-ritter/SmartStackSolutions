@@ -38,6 +38,7 @@
             android:layout_gravity="center_vertical"
             android:text="@string/paid"
             android:textStyle="bold"
+            android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="@id/textviewCategoryItemsSpendings"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/textviewCategoryItemsSpendings"

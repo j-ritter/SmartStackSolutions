@@ -322,14 +322,14 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
                             billsArrayList[index] = selectedBill!!
                             myAdapter.notifyItemChanged(index)
                         }
-                        Toast.makeText(this, "Bill updated successfully", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "'Open Payment' updated successfully", Toast.LENGTH_SHORT).show()
                         dialog.dismiss()
                     }
                     .addOnFailureListener { e ->
-                        Toast.makeText(this, "Failed to update bill: ${e.message}", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Failed to update 'Open Payment': ${e.message}", Toast.LENGTH_SHORT).show()
                     }
             } else {
-                Toast.makeText(this, "Error: Unable to update bill", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Error: Unable to update 'Open Payment'", Toast.LENGTH_SHORT).show()
             }
         }}
 

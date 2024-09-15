@@ -40,6 +40,9 @@
         <activity
             android:name=".createIncome"
             android:exported="false" />
+        <activity
+            android:name=".NotificationsActivity"
+            android:exported="false" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
