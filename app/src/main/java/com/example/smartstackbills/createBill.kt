@@ -40,7 +40,7 @@ class createBill : AppCompatActivity() {
 
 
     val repeat = arrayOf(
-        "No","Daily","Weekly","Every 2 Weeks","Monthly","Every 2 Months", "Every 6 months", "Yearly"
+        "No","Daily","Weekly","Every 2 Weeks","Monthly","Every 2 Months", "Quarterly", "Every 6 months", "Yearly"
     )
 
     val categories = arrayOf(
@@ -420,7 +420,7 @@ class createBill : AppCompatActivity() {
         val billName = findViewById<EditText>(R.id.edtTitleBill).text.toString()
         val billAmount = findViewById<EditText>(R.id.edtAmountBill).text.toString()
         val billDate = findViewById<EditText>(R.id.edtDateBill).text.toString()
-        val billCategory = findViewById<Spinner>(R.id.spinnerCategoriesBill).selectedItem.toString()
+
 
         if (billName.isEmpty()) {
             Toast.makeText(this, "Title is required", Toast.LENGTH_SHORT).show()
@@ -434,11 +434,6 @@ class createBill : AppCompatActivity() {
 
         if (billDate.isEmpty()) {
             Toast.makeText(this, "Date is required", Toast.LENGTH_SHORT).show()
-            return false
-        }
-
-        if (billCategory.isEmpty() || billCategory == "Select Category") {
-            Toast.makeText(this, "Category is required", Toast.LENGTH_SHORT).show()
             return false
         }
 

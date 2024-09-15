@@ -60,6 +60,34 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
         "Income tax", "Property tax", "Sales tax", "Self-employment tax", "Capital gains tax",
         "Tuition fees", "Textbooks", "School supplies"
     )
+    val essentialCategories = setOf(
+        "Accommodation", "Communication", "Insurance", "Transportation", "Finances/Fees", "Taxes", "Health", "Education", "Shopping & Consumption")
+
+    // Non-Essential Subcategories
+    val nonEssentialSubcategories = setOf(
+        // Accommodation
+        "Furniture", "Repairs and renovations",
+        // Communication
+        "Cable/satellite TV", "Messaging services",
+        // Insurance
+        "Travel insurance", "Pet insurance",
+        // Transportation
+        "Parking", "Vehicle rental",
+        // Finances/Fees
+        "Investment fees", "Brokerage fees",
+        // Health
+        "Health supplements",
+        // Education
+        "Online courses", "Extracurricular activities",
+        // Shopping & Consumption
+        "Groceries - Beverages", "Groceries - Alcoholic Beverages", "Groceries - Snacks and Sweets", "Groceries - Luxury Foods", "Electronics", "Personal care products", "Clothing", "Others"
+    )
+
+    // Non-Essential Categories (used when subcategory is not provided)
+    val nonEssentialCategories = setOf(
+        "Subscription and Memberships", "Others"
+    )
+
     private val spendingsReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             // This will be triggered when the broadcast is received
@@ -407,14 +435,20 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
             when (filter) {
                 "essential" -> {
                     findViewById<Button>(R.id.btnEssential).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_active))
-                    if (spending.subcategory in essentialSubcategories) {
+                    // Check if spending is essential by subcategory or fallback to category
+                    val isEssential = spending.subcategory in essentialSubcategories ||
+                            (spending.subcategory == null && spending.category in essentialCategories)
+                    if (isEssential) {
                         filteredSpendings.add(spending)
                         Log.d("Filter", "Essential spending added: ${spending.name}")
                     }
                 }
                 "non-essential" -> {
                     findViewById<Button>(R.id.btnNonEssential).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_active))
-                    if (spending.subcategory !in essentialSubcategories) {
+                    // Check if spending is non-essential by subcategory or fallback to category
+                    val isNonEssential = spending.subcategory in nonEssentialSubcategories ||
+                            (spending.subcategory == null && spending.category in nonEssentialCategories)
+                    if (isNonEssential) {
                         filteredSpendings.add(spending)
                         Log.d("Filter", "Non-essential spending added: ${spending.name}")
                     }

@@ -18,7 +18,7 @@ class createIncome : AppCompatActivity() {
     private var userUid: String? = null
 
     val repeatOptions = arrayOf(
-        "No","Daily","Weekly","Every 2 Weeks","Monthly","Every 2 Months", "Every 6 months", "Yearly"
+        "No","Daily","Weekly","Every 2 Weeks","Monthly","Every 2 Months", "Quarterly", "Every 6 months", "Yearly"
     )
 
     val categories = arrayOf(

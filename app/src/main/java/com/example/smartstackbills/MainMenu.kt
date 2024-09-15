@@ -254,6 +254,8 @@ class MainMenu : AppCompatActivity() {
         }.sumOf { it.amount.toDouble() }.toFloat()
 
         // Calculate essential and nonessential spendings
+        val essentialCategories = listOf(
+            "Accommodation", "Communication", "Insurance", "Transportation", "Finances/Fees", "Taxes", "Health", "Education", "Shopping & Consumption")
         val essentialSubcategories = listOf( "Rent", "Utilities", "Groceries - Basic Food", "Groceries - Household Necessities",
             "Mobile phone", "Landline phone", "Internet", "Health insurance", "Life insurance",
             "Car insurance", "Home insurance", "Fuel", "Vehicle maintenance",
@@ -262,16 +264,47 @@ class MainMenu : AppCompatActivity() {
             "Income tax", "Property tax", "Sales tax", "Self-employment tax", "Capital gains tax",
             "Tuition fees", "Textbooks", "School supplies")
         val totalEssential = getSpendings().filter { spending ->
-            spending.subcategory in essentialSubcategories && selectedMonthFormat.format(spending.date?.toDate()) == selectedMonth
+            val category = spending.category
+            val subcategory = spending.subcategory
+
+            // Only consider spendings for the selected month
+            val spendingDate = spending.date?.toDate()
+            val isInSelectedMonth = spendingDate != null && selectedMonthFormat.format(spendingDate) == selectedMonth
+
+            // Essential if:
+            // 1. No category or subcategory (default to essential)
+            // 2. The subcategory is in essentialSubcategories
+            // 3. If no subcategory, the category is in essentialCategories
+            isInSelectedMonth && (
+                    category == null && subcategory == null ||
+                            subcategory in essentialSubcategories ||
+                            (subcategory == null && category in essentialCategories)
+                    )
         }.sumOf { it.amount.toDouble() }.toFloat()
 
+        val nonEssentialCategories = listOf(
+            "Subscription and Memberships", "Others")
         val nonEssentialSubcategories = listOf("Entertainment", "Dining out", "Hobbies", "Streaming services", "Movies",
             "Music concerts", "Video games", "Sports", "Vacation", "Gadgets",
             "Luxury items", "Alcohol", "Tobacco", "Gym memberships",
             "Groceries - Beverages", "Groceries - Luxury Foods", "Decorations", "Jewelry")
         val totalNonEssential = getSpendings().filter { spending ->
-            spending.subcategory in nonEssentialSubcategories && selectedMonthFormat.format(spending.date?.toDate()) == selectedMonth
+            val category = spending.category
+            val subcategory = spending.subcategory
+
+            // Only consider spendings for the selected month
+            val spendingDate = spending.date?.toDate()
+            val isInSelectedMonth = spendingDate != null && selectedMonthFormat.format(spendingDate) == selectedMonth
+
+            // Non-essential if:
+            // 1. The subcategory is in nonEssentialSubcategories
+            // 2. If no subcategory, the category is in nonEssentialCategories
+            isInSelectedMonth && (
+                    subcategory in nonEssentialSubcategories ||
+                            (subcategory == null && category in nonEssentialCategories)
+                    )
         }.sumOf { it.amount.toDouble() }.toFloat()
+
 
         // Calculate income
         val totalRecurringIncome = getIncome().filter { income ->
