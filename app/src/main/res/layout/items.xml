@@ -43,6 +43,7 @@
             android:id="@+id/imgCheckBoxItemsBills"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:buttonTint="@color/checkbox_color_selector"
             android:text="@string/paid"
             android:textStyle="bold"
             android:textSize="12sp"
