@@ -1,6 +1,7 @@
 package com.example.smartstackbills
 
 import android.app.Dialog
+import android.content.BroadcastReceiver
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -19,6 +20,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import android.content.Context
+import android.content.IntentFilter
 import android.view.Menu
 import androidx.core.content.ContextCompat
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -47,6 +49,13 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
     private var selectedBill: Bills? = null
     private lateinit var drawerLayout: DrawerLayout
 
+    private val billsReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            // This will be triggered when the broadcast is received
+            refreshBillsList()
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -70,6 +79,8 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
             intent.putExtra("USER_EMAIL", userEmail)
             startActivity(intent)
         }
+        registerReceiver(billsReceiver, IntentFilter("com.example.smartstackbills.REFRESH_BILLS"))
+
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationViewBills)
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
@@ -230,6 +241,27 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
             Log.e("Authentication Error", "User not authenticated")
         }
     }
+    private fun refreshBillsList() {
+        val userUid = FirebaseAuth.getInstance().currentUser?.uid
+        if (userUid != null) {
+            db.collection("users").document(userUid).collection("bills")
+                .get()
+                .addOnSuccessListener { documents ->
+                    billsArrayList.clear()
+                    allBillsArrayList.clear()
+                    for (document in documents) {
+                        val bill = document.toObject(Bills::class.java)
+                        billsArrayList.add(bill)
+                        allBillsArrayList.add(bill)
+                    }
+                    // Notify the adapter of the updated data
+                    myAdapter.updateBills(billsArrayList)
+                }
+                .addOnFailureListener { e ->
+                    Toast.makeText(this, "Error loading spendings: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
+        }
+    }
 
     override fun onDestroy() {
         super.onDestroy()
@@ -277,11 +309,11 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
 
         edtTitleDialog.setText(bill.name)
         edtAmountDialog.setText(bill.amount)
-        edtCategoryDialog.setText(bill.category)
+        edtCategoryDialog.setText(if (bill.category != "-") bill.category else "")
+        edtSubcategoryDialog.setText(if (bill.subcategory != "-") bill.subcategory else "")
+        edtVendorDialog.setText(if (bill.vendor != "-") bill.vendor else "")
         edtRepeatDialog.setText(bill.repeat)
-        edtSubcategoryDialog.setText(bill.subcategory)
-        edtVendorDialog.setText(bill.vendor)
-        edtDateDialog.setText(billDateString) // Usar la cadena de fecha
+        edtDateDialog.setText(billDateString)
         edtCommentDialog.setText(bill.comment)
 
         // Initially disable fields
@@ -332,7 +364,6 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
                 Toast.makeText(this, "Error: Unable to update 'Open Payment'", Toast.LENGTH_SHORT).show()
             }
         }}
-
 
     private fun deleteBill() {
         selectedBill?.let { bill ->

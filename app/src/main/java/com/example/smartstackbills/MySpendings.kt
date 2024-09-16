@@ -350,9 +350,9 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
 
         edtTitleDialog.setText(spending.name)
         edtAmountDialog.setText(spending.amount)
-        edtCategoryDialog.setText(spending.category)
-        edtSubcategoryDialog.setText(spending.subcategory)
-        edtVendorDialog.setText(spending.vendor)
+        edtCategoryDialog.setText(spending.category ?: "-")
+        edtSubcategoryDialog.setText(spending.subcategory ?: "-")
+        edtVendorDialog.setText(spending.vendor ?: "-")
         edtDateDialog.setText(spendingDateString)
         edtCommentDialog.setText(spending.comment)
 

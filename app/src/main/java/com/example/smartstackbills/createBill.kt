@@ -153,64 +153,54 @@ class createBill : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_create_bill)
 
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
+
         userEmail = intent.getStringExtra("USER_EMAIL")
         userUid = FirebaseAuth.getInstance().currentUser?.uid
 
         val edtDate = findViewById<EditText>(R.id.edtDateBill)
         edtDate.inputType = InputType.TYPE_NULL  // Disable manual input
-        edtDate.setOnClickListener {
-            showDatePickerDialog()
-        }
-        edtDate.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) {
-                showDatePickerDialog()
-            }
-        }
+        edtDate.setOnClickListener { showDatePickerDialog() }
+        edtDate.setOnFocusChangeListener { _, hasFocus -> if (hasFocus) showDatePickerDialog() }
 
         val spinnerCategories = findViewById<Spinner>(R.id.spinnerCategoriesBill)
         val spinnerSubcategories = findViewById<Spinner>(R.id.spinnerSubcategoriesBill)
         val spinnerVendors = findViewById<Spinner>(R.id.spinnerVendorsBill)
         val edtCustomVendor = findViewById<EditText>(R.id.edtCustomVendorBill)
         val spinnerReminder = findViewById<Spinner>(R.id.spinnerRepeatBill)
-        val saveButton = findViewById<Button>(R.id.btnSaveBill)
-
-        val arrayAdapterCategories = ArrayAdapter(this, R.layout.spinner_item, categories)
-        arrayAdapterCategories.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinnerCategories.adapter = arrayAdapterCategories
 
         val arrayAdapterRepeat = ArrayAdapter(this, R.layout.spinner_item, repeat)
         arrayAdapterRepeat.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerReminder.adapter = arrayAdapterRepeat
 
+        // Initialize spinners with empty arrays
+        val emptyAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, arrayOf<String>())
+        spinnerCategories.adapter = emptyAdapter
+        spinnerSubcategories.adapter = emptyAdapter
+        spinnerVendors.adapter = emptyAdapter
 
-        spinnerCategories.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val selectedCategory = parent?.getItemAtPosition(position).toString()
-                loadVendors(selectedCategory)
-
-                val subcategories = subcategoriesMap[selectedCategory] ?: emptyArray()
-                val arrayAdapterSubcategories = ArrayAdapter(this@createBill, android.R.layout.simple_spinner_dropdown_item, subcategories)
-                spinnerSubcategories.adapter = arrayAdapterSubcategories
-
-                val vendors = vendorsMap[selectedCategory] ?: emptyArray()
-                val arrayAdapterVendors = ArrayAdapter(this@createBill, android.R.layout.simple_spinner_dropdown_item, vendors + "Create Own Vendor")
-                spinnerVendors.adapter = arrayAdapterVendors
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                // No action needed
-            }
+        // Load categories dynamically on touch
+        spinnerCategories.setOnTouchListener { _, _ -> loadCategories(spinnerCategories); false }
+        spinnerSubcategories.setOnTouchListener { _, _ ->
+            spinnerCategories.selectedItem?.let { loadSubcategories(it.toString(), spinnerSubcategories) }
+            false
+        }
+        spinnerVendors.setOnTouchListener { _, _ ->
+            spinnerCategories.selectedItem?.let { loadVendors(it.toString(), spinnerVendors) }
+            false
         }
 
+        // Vendor selection with custom vendor handling
         spinnerVendors.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val selectedVendor = parent?.getItemAtPosition(position).toString()
                 edtCustomVendor.visibility = if (selectedVendor == "Create Own Vendor") View.VISIBLE else View.GONE
             }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                // No action needed
-            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
 
         spinnerReminder.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -222,53 +212,13 @@ class createBill : AppCompatActivity() {
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
         }
+        val saveButton = findViewById<Button>(R.id.btnSaveBill)
+        saveButton.setOnClickListener { saveBill() }
 
-        val btnUpload = findViewById<Button>(R.id.btnUploadImageBill)
-        btnUpload.setOnClickListener {
-            val options = arrayOf("Take Photo", "Choose from Gallery", "Cancel")
-            val builder = AlertDialog.Builder(this)
-            builder.setTitle("Upload Bill Image")
-            builder.setItems(options) { dialog, which ->
-                when (options[which]) {
-                    "Take Photo" -> {
-                        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                        if (takePictureIntent.resolveActivity(packageManager) != null) {
-                            val photoFile: File? = try {
-                                createImageFile()
-                            } catch (ex: IOException) {
-                                null
-                            }
-                            photoFile?.also {
-                                val photoURI: Uri = FileProvider.getUriForFile(
-                                    this,
-                                    "${applicationContext.packageName}.provider",
-                                    it
-                                )
-                                currentPhotoPath = it.absolutePath
-                                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-                                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
-                            }
-                        }
-                    }
-                    "Choose from Gallery" -> {
-                        val pickPhoto = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-                        startActivityForResult(pickPhoto, REQUEST_IMAGE_GALLERY)
-                    }
-                    "Cancel" -> dialog.dismiss()
-                }
-            }
-            builder.show()
-        }
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
+        // Image upload handling
+        findViewById<Button>(R.id.btnUploadImageBill).setOnClickListener { handleImageUpload() }
 
-        saveButton.setOnClickListener {
-            saveBill()
-        }
 
         val btnCancel = findViewById<Button>(R.id.btnCancelBill)
         btnCancel.setOnClickListener {
@@ -291,30 +241,23 @@ class createBill : AppCompatActivity() {
         edtDate.setText("$day/${month + 1}/$year")
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        val txtImageAdded = findViewById<TextView>(R.id.txtImageAddedBill)
-        if (resultCode == Activity.RESULT_OK) {
-            when (requestCode) {
-                REQUEST_IMAGE_CAPTURE -> {
-                    val file = File(currentPhotoPath)
-                    imageUri = Uri.fromFile(file)
-                    txtImageAdded.text = "Image added"
-                    txtImageAdded.visibility = View.VISIBLE
-                }
-                REQUEST_IMAGE_GALLERY -> {
-                    imageUri = data?.data
-                    txtImageAdded.text = "Image added"
-                    txtImageAdded.visibility = View.VISIBLE
-                }
-            }
-        }
-    }
-
     private fun saveImageToGallery(bitmap: Bitmap): Uri? {
         val path = MediaStore.Images.Media.insertImage(contentResolver, bitmap, "Title", null)
         return Uri.parse(path)
 
+    }
+    private fun handleImageUpload() {
+        val options = arrayOf("Take Photo", "Choose from Gallery", "Cancel")
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Upload Spending Image")
+        builder.setItems(options) { dialog, which ->
+            when (options[which]) {
+                "Take Photo" -> dispatchTakePictureIntent()
+                "Choose from Gallery" -> dispatchChooseFromGalleryIntent()
+                "Cancel" -> dialog.dismiss()
+            }
+        }
+        builder.show()
     }
 
     private fun managePaidCheckboxState(selectedRepeat: String) {
@@ -346,7 +289,40 @@ class createBill : AppCompatActivity() {
             false
         }
     }
+    private fun loadCategories(spinnerCategories: Spinner) {
+        val categories = arrayOf(
+            "Accommodation", "Communication", "Insurance", "Subscription and Memberships",
+            "Transportation", "Finances/Fees", "Taxes", "Health", "Education", "Shopping & Consumption", "Others"
+        )
+        val arrayAdapterCategories = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, categories)
+        spinnerCategories.adapter = arrayAdapterCategories
+    }
 
+    private fun loadSubcategories(category: String, spinnerSubcategories: Spinner) {
+        val subcategories = when (category) {
+            "Accommodation" -> arrayOf("Rent", "Mortgage", "Home maintenance", "Utilities", "Furniture", "Repairs and renovations")
+            "Communication" -> arrayOf("Mobile phone", "Landline phone", "Internet", "Cable/satellite TV", "Messaging services")
+            "Insurance" -> arrayOf("Health insurance", "Life insurance", "Car insurance", "Home insurance", "Travel insurance", "Pet insurance")
+            "Subscription and Memberships" -> arrayOf("Streaming services", "Gym memberships", "Software subscriptions", "Magazine/newspaper subscriptions", "Clubs and associations")
+            "Transportation" -> arrayOf("Fuel", "Vehicle maintenance", "Public transportation", "Parking", "Vehicle rental")
+            "Finances/Fees" -> arrayOf("Bank fees", "Investment fees", "Loan interest", "Credit card fees", "Brokerage fees")
+            "Taxes" -> arrayOf("Income tax", "Property tax", "Sales tax", "Self-employment tax", "Capital gains tax")
+            "Health" -> arrayOf("Doctor visits", "Dental care", "Prescription medications", "Health supplements", "Medical equipment")
+            "Education" -> arrayOf("Tuition fees", "Textbooks", "Online courses", "School supplies", "Extracurricular activities")
+            "Shopping & Consumption" -> arrayOf("Clothing", "Electronics", "Household goods", "Personal care products")
+            "Groceries" -> arrayOf("Basic food", "Household necessities", "Beverages", "Alcoholic beverages", "Snacks and sweets", "Luxury foods")
+            "Others" -> arrayOf("Miscellaneous")
+            else -> emptyArray()
+        }
+        val arrayAdapterSubcategories = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, subcategories)
+        spinnerSubcategories.adapter = arrayAdapterSubcategories
+    }
+
+    private fun loadVendors(category: String, spinnerVendors: Spinner) {
+        val vendors = vendorsMap[category] ?: emptyArray()
+        val arrayAdapterVendors = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, vendors + "Create Own Vendor")
+        spinnerVendors.adapter = arrayAdapterVendors
+    }
 
     private fun saveBill() {
         if (validateMandatoryFields() && validateDateField()) {
@@ -354,19 +330,21 @@ class createBill : AppCompatActivity() {
                 val billName = findViewById<EditText>(R.id.edtTitleBill).text.toString()
                 val billAmount = findViewById<EditText>(R.id.edtAmountBill).text.toString()
                 val billDateString = findViewById<EditText>(R.id.edtDateBill).text.toString()
-                val billCategory = findViewById<Spinner>(R.id.spinnerCategoriesBill).selectedItem.toString()
-                val billSubcategory = findViewById<Spinner>(R.id.spinnerSubcategoriesBill).selectedItem.toString()
+                val billCategory = findViewById<Spinner>(R.id.spinnerCategoriesBill).selectedItem?.toString() ?: "-"
+                val billSubcategory = findViewById<Spinner>(R.id.spinnerSubcategoriesBill).selectedItem?.toString() ?: "-"
                 val spinnerVendors = findViewById<Spinner>(R.id.spinnerVendorsBill)
                 val edtCustomVendor = findViewById<EditText>(R.id.edtCustomVendorBill)
-                val billVendor = if (spinnerVendors.selectedItem.toString() == "Create Own Vendor") {
+                val billVendor = if (spinnerVendors.selectedItem?.toString() == "Create Own Vendor") {
                     val newVendor = edtCustomVendor.text.toString()
-                    loadVendors(billCategory)  // Call loadVendors to update the list after adding new vendor
-                    updateVendorsList(billCategory, newVendor)
-                    newVendor
+                    if (newVendor.isNotEmpty()) {
+                        updateVendorsList(billCategory, newVendor)
+                        newVendor
+                    } else {
+                        "-"
+                    }
                 } else {
-                    spinnerVendors.selectedItem.toString()
-                }
-                val billRepeat = findViewById<Spinner>(R.id.spinnerRepeatBill).selectedItem.toString()
+                    spinnerVendors.selectedItem?.toString() ?: "-" }
+                val billRepeat = findViewById<Spinner>(R.id.spinnerRepeatBill).selectedItem?.toString() ?: "-"
                 val billComment = findViewById<EditText>(R.id.edtCommentBill).text.toString()
                 val billPaid = findViewById<CheckBox>(R.id.checkBoxPaid).isChecked
                 val billAttachment = imageUri?.toString()
@@ -400,7 +378,7 @@ class createBill : AppCompatActivity() {
                 docRef.set(bill)
                     .addOnSuccessListener {
                         Toast.makeText(this, "Factura guardada exitosamente", Toast.LENGTH_SHORT).show()
-                        
+
                         val intent = Intent(this, MyBills::class.java)
                         intent.putExtra("USER_EMAIL", userEmail)
                         startActivity(intent)
@@ -412,15 +390,12 @@ class createBill : AppCompatActivity() {
                 Toast.makeText(this, "Error: No se pudo obtener el email o UID del usuario", Toast.LENGTH_SHORT).show()
             }
         }
-
     }
-
 
     private fun validateMandatoryFields(): Boolean {
         val billName = findViewById<EditText>(R.id.edtTitleBill).text.toString()
         val billAmount = findViewById<EditText>(R.id.edtAmountBill).text.toString()
         val billDate = findViewById<EditText>(R.id.edtDateBill).text.toString()
-
 
         if (billName.isEmpty()) {
             Toast.makeText(this, "Title is required", Toast.LENGTH_SHORT).show()
@@ -440,18 +415,57 @@ class createBill : AppCompatActivity() {
         return true
     }
 
+    // Methods for handling image capture and gallery selection
+    private fun dispatchTakePictureIntent() {
+        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        takePictureIntent.resolveActivity(packageManager)?.let {
+            val photoFile: File? = try {
+                createImageFile()
+            } catch (ex: IOException) {
+                null
+            }
+            photoFile?.also {
+                val photoURI: Uri = FileProvider.getUriForFile(this, "${applicationContext.packageName}.provider", it)
+                currentPhotoPath = it.absolutePath
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+            }
+        }
+    }
+
+    private fun dispatchChooseFromGalleryIntent() {
+        val pickPhoto = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        startActivityForResult(pickPhoto, REQUEST_IMAGE_GALLERY)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        val txtImageAdded = findViewById<TextView>(R.id.txtImageAddedBill)
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                REQUEST_IMAGE_CAPTURE -> {
+                    val file = File(currentPhotoPath)
+                    imageUri = Uri.fromFile(file)
+                    txtImageAdded.text = "Image added"
+                }
+                REQUEST_IMAGE_GALLERY -> {
+                    imageUri = data?.data
+                    txtImageAdded.text = "Image added"
+                }
+            }
+            txtImageAdded.visibility = View.VISIBLE
+        }
+    }
+
     @Throws(IOException::class)
     private fun createImageFile(): File {
         val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())
         val storageDir: File = getExternalFilesDir(Environment.DIRECTORY_PICTURES)!!
-        return File.createTempFile(
-            "JPEG_${timeStamp}_", /* prefix */
-            ".jpg", /* suffix */
-            storageDir /* directory */
-        ).apply {
+        return File.createTempFile("JPEG_${timeStamp}_", ".jpg", storageDir).apply {
             currentPhotoPath = absolutePath
         }
     }
+
     private fun updateVendorsList(category: String, newVendor: String) {
         val categoryVendorsRef = db.collection("categories").document(category)
         categoryVendorsRef.update("vendors", FieldValue.arrayUnion(newVendor))
@@ -463,20 +477,5 @@ class createBill : AppCompatActivity() {
                 Toast.makeText(this, "Error adding vendor: ${e.message}", Toast.LENGTH_SHORT).show()
             }
     }
-    private fun loadVendors(category: String) {
-        val categoryVendorsRef = db.collection("categories").document(category)
-        categoryVendorsRef.get()
-            .addOnSuccessListener { document ->
-                if (document != null && document.exists()) {
-                    val vendors = document.get("vendors") as? List<String> ?: emptyList()
-                    val arrayAdapterVendors = ArrayAdapter(this@createBill, android.R.layout.simple_spinner_dropdown_item, vendors + "Create Own Vendor")
-                    val spinnerVendors = findViewById<Spinner>(R.id.spinnerVendorsBill)
-                    spinnerVendors.adapter = arrayAdapterVendors
-                }
-            }
-            .addOnFailureListener { e ->
-                // Handle any errors
-                Toast.makeText(this, "Error loading vendors: ${e.message}", Toast.LENGTH_SHORT).show()
-            }
-    }
+
 }
