@@ -105,6 +105,7 @@ class CalendarActivity : AppCompatActivity(), MyAdapterCalendar.OnItemClickListe
         }
 
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationViewCalendar)
+        bottomNavigationView.selectedItemId = R.id.Calendar
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.Main -> {

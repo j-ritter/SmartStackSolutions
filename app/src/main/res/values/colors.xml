@@ -17,4 +17,8 @@
     <color name="colorAccent">#023047</color>
     <color name="colorPrimary">#Fb8500</color>
 
+    <color name="active_color"> #FF000000</color>
+    <color name="inactive_color"> #D3D3D3</color>
+
+
 </resources>

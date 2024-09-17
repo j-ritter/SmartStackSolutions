@@ -82,6 +82,7 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
         registerReceiver(billsReceiver, IntentFilter("com.example.smartstackbills.REFRESH_BILLS"))
 
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationViewBills)
+        bottomNavigationView.selectedItemId = R.id.Bills
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.Main -> {

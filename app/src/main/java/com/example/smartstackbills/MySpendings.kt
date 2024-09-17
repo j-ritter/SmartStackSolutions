@@ -166,6 +166,7 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
 
         // Setup NavigationView
         val navView: NavigationView = findViewById(R.id.nav_viewSpendings)
+        bottomNavigationView.selectedItemId = R.id.Spendings
         navView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.nav_item_aboutus -> {

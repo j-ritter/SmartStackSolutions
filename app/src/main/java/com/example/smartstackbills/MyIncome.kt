@@ -73,6 +73,7 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
         }
 
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationViewIncome)
+        bottomNavigationView.selectedItemId = R.id.Income
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.Main -> {
