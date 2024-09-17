@@ -4,16 +4,16 @@
     <item android:title="Main"
         android:id="@+id/Main"
         android:icon="@drawable/baseline_home_24"/>
-    <item android:title="My Open Payments"
+    <item android:title="Open Payments"
         android:id="@+id/Bills"
-        android:icon="@drawable/baseline_data_thresholding_24"/>
-    <item android:title="My Closed Payments"
+        android:icon="@drawable/icon_bill1"/>
+    <item android:title="Closed Payments"
         android:id="@+id/Spendings"
-        android:icon="@drawable/baseline_spendings_24"/>
-    <item android:title="My Income"
+        android:icon="@drawable/ic_closedpayment"/>
+    <item android:title="Income"
         android:id="@+id/Income"
         android:icon="@drawable/baseline_attach_money_24"/>
-    <item android:title="My Calendar"
+    <item android:title="Calendar"
         android:id="@+id/Calendar"
         android:icon="@drawable/baseline_calendar_month_24"/>
 </menu>

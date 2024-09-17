@@ -85,6 +85,8 @@
                 android:background="#FFFFFF"
                 app:itemIconTint="@color/black"
                 app:itemTextColor="#000000"
+                app:itemTextAppearanceActive="@style/BottomNavTextStyle"
+                app:itemTextAppearanceInactive="@style/BottomNavTextStyle"
                 app:menu="@menu/bottom_nav"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

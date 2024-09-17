@@ -1,7 +1,9 @@
 <resources>
-
     <!-- Custom style for Spinner items -->
     <style name="SpinnerTextAppearance" parent="TextAppearance.AppCompat">
         <item name="android:textSize">18sp</item>
+    </style>
+    <style name="BottomNavTextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">9sp</item>
     </style>
 </resources>
