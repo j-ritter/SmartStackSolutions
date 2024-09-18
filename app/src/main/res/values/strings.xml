@@ -44,8 +44,8 @@
     <string name="comments">Comments</string>
     <string name="comment">Comment</string>
     <string name="commentts">Comments:</string>
-    <string name="purchase_Date">Date of Purchase:</string>
-    <string name="income_date">Date of Income:</string>
+    <string name="purchase_Date">Date of Purchase</string>
+    <string name="income_date">Date of Income</string>
     <string name="pAid">Paid:</string>
     <string name="aMount">Amount:</string>
     <string name="vEndor">Vendor:</string>

@@ -3,7 +3,6 @@ package com.example.smartstackbills
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
-import android.view.View
 import android.widget.*
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -18,7 +17,7 @@ class createIncome : AppCompatActivity() {
     private var userUid: String? = null
 
     val repeatOptions = arrayOf(
-        "No","Daily","Weekly","Every 2 Weeks","Monthly","Every 2 Months", "Quarterly", "Every 6 months", "Yearly"
+        "No", "Daily", "Weekly", "Every 2 Weeks", "Monthly", "Every 2 Months", "Quarterly", "Every 6 months", "Yearly"
     )
 
     val categories = arrayOf(
@@ -51,13 +50,9 @@ class createIncome : AppCompatActivity() {
 
         val edtDate = findViewById<EditText>(R.id.edtDateIncome)
         edtDate.inputType = InputType.TYPE_NULL  // Disable manual input
-        edtDate.setOnClickListener {
-            showDatePickerDialog()
-        }
+        edtDate.setOnClickListener { showDatePickerDialog() }
         edtDate.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) {
-                showDatePickerDialog()
-            }
+            if (hasFocus) { showDatePickerDialog() }
         }
 
         val spinnerCategories = findViewById<Spinner>(R.id.spinnerCategoriesIncome)
@@ -65,27 +60,24 @@ class createIncome : AppCompatActivity() {
         val spinnerRepeat = findViewById<Spinner>(R.id.spinnerRepeatIncome)
         val saveButton = findViewById<Button>(R.id.btnSaveIncome)
 
-        // Set up ArrayAdapter for Spinners to match TextView textSize and style
-        val arrayAdapterCategories = ArrayAdapter(this, R.layout.spinner_item, categories)
-        arrayAdapterCategories.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinnerCategories.adapter = arrayAdapterCategories
-
         val arrayAdapterRepeat = ArrayAdapter(this, R.layout.spinner_item, repeatOptions)
         arrayAdapterRepeat.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerRepeat.adapter = arrayAdapterRepeat
 
-        spinnerCategories.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val selectedCategory = parent?.getItemAtPosition(position).toString()
+        // Initialize spinners with empty arrays (populated later)
+        val emptyAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, arrayOf<String>())
+        spinnerCategories.adapter = emptyAdapter
+        spinnerSubcategories.adapter = emptyAdapter
 
-                val subcategories = subcategoriesMap[selectedCategory] ?: emptyArray()
-                val arrayAdapterSubcategories = ArrayAdapter(this@createIncome, android.R.layout.simple_spinner_dropdown_item, subcategories)
-                spinnerSubcategories.adapter = arrayAdapterSubcategories
-            }
+        // Load categories dynamically when spinner is touched
+        spinnerCategories.setOnTouchListener { _, _ ->
+            loadCategories(spinnerCategories)
+            false
+        }
 
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                // No action needed
-            }
+        spinnerSubcategories.setOnTouchListener { _, _ ->
+            spinnerCategories.selectedItem?.let { loadSubcategories(it.toString(), spinnerSubcategories) }
+            false
         }
 
         saveButton.setOnClickListener {
@@ -94,7 +86,9 @@ class createIncome : AppCompatActivity() {
 
         val btnCancel = findViewById<Button>(R.id.btnCancelIncome)
         btnCancel.setOnClickListener {
-            finish()
+            val intent = Intent(this, MyIncome::class.java)
+            intent.putExtra("USER_EMAIL", userEmail)
+            startActivity(intent)
         }
     }
 
@@ -107,6 +101,7 @@ class createIncome : AppCompatActivity() {
         val edtDate = findViewById<EditText>(R.id.edtDateIncome)
         edtDate.setText("$day/${month + 1}/$year")
     }
+
     private fun validateDateField(): Boolean {
         val edtDate = findViewById<EditText>(R.id.edtDateIncome)
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
@@ -114,8 +109,6 @@ class createIncome : AppCompatActivity() {
 
         return try {
             val incomeDate = dateFormat.parse(edtDate.text.toString())
-            val currentDate = Calendar.getInstance().time
-
             if (incomeDate != null) {
                 true
             } else {
@@ -134,12 +127,12 @@ class createIncome : AppCompatActivity() {
                 val incomeTitle = findViewById<EditText>(R.id.edtTitleIncome).text.toString()
                 val incomeAmount = findViewById<EditText>(R.id.edtAmountIncome).text.toString()
                 val incomeDateString = findViewById<EditText>(R.id.edtDateIncome).text.toString()
-                val incomeCategory = findViewById<Spinner>(R.id.spinnerCategoriesIncome).selectedItem.toString()
-                val incomeSubcategory = findViewById<Spinner>(R.id.spinnerSubcategoriesIncome).selectedItem.toString()
+                val incomeCategory = findViewById<Spinner>(R.id.spinnerCategoriesIncome).selectedItem?.toString() ?: "-"
+                val incomeSubcategory = findViewById<Spinner>(R.id.spinnerSubcategoriesIncome).selectedItem?.toString() ?: "-"
                 val incomeRepeat = findViewById<Spinner>(R.id.spinnerRepeatIncome).selectedItem.toString()
                 val incomeComment = findViewById<EditText>(R.id.edtCommentIncome).text.toString()
 
-                // Conversión de String a Date
+                // Convert String to Date
                 val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
                 val incomeDate: Date? = try {
                     sdf.parse(incomeDateString)
@@ -151,10 +144,9 @@ class createIncome : AppCompatActivity() {
                 val income = hashMapOf(
                     "name" to incomeTitle,
                     "amount" to incomeAmount,
-                    "date" to timestamp,  // Guarda el Timestamp aquí
+                    "date" to timestamp,  // Save the Timestamp
                     "category" to incomeCategory,
                     "subcategory" to incomeSubcategory,
-
                     "repeat" to incomeRepeat,
                     "comment" to incomeComment,
                 )
@@ -200,5 +192,16 @@ class createIncome : AppCompatActivity() {
         }
 
         return true
+    }
+
+    private fun loadCategories(spinnerCategories: Spinner) {
+        val arrayAdapterCategories = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, categories)
+        spinnerCategories.adapter = arrayAdapterCategories
+    }
+
+    private fun loadSubcategories(category: String, spinnerSubcategories: Spinner) {
+        val subcategories = subcategoriesMap[category] ?: emptyArray()
+        val arrayAdapterSubcategories = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, subcategories)
+        spinnerSubcategories.adapter = arrayAdapterSubcategories
     }
 }
