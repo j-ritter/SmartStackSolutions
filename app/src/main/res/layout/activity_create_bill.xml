@@ -23,7 +23,7 @@
         android:orientation="vertical"
         app:layout_constraintGuide_end="32dp" />
 
-    <!-- Title -->
+    <!-- Header Title -->
     <TextView
         android:id="@+id/textViewTitle"
         android:layout_width="wrap_content"
@@ -36,12 +36,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <!-- Section Label: Title -->
+    <TextView
+        android:id="@+id/txtTitleLabelBill"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Title"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTitle"
+        app:layout_constraintStart_toStartOf="@+id/guidelineStart" />
+
     <!-- Bill Title -->
     <EditText
         android:id="@+id/edtTitleBill"
         android:layout_width="0dp"
         android:layout_height="48dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/rounded_frame_background_yellow"
         android:hint="@string/write_your_title"
         android:inputType="text"
@@ -52,7 +64,77 @@
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="@+id/guidelineEnd"
         app:layout_constraintStart_toStartOf="@+id/guidelineStart"
-        app:layout_constraintTop_toBottomOf="@+id/textViewTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/txtTitleLabelBill" />
+
+    <!-- Amount and Paid Checkbox -->
+    <TextView
+        android:id="@+id/txtAmountLabelBill"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/amount"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@+id/edtTitleBill"
+        app:layout_constraintStart_toStartOf="@+id/guidelineStart" />
+
+    <EditText
+        android:id="@+id/edtAmountBill"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/rounded_frame_background_yellow"
+        android:hint="@string/amount"
+        android:inputType="numberDecimal"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:textColorHint="#A5A5A5"
+        android:textSize="15sp"
+        app:layout_constraintTop_toBottomOf="@+id/txtAmountLabelBill"
+        app:layout_constraintStart_toStartOf="@+id/guidelineStart"
+        app:layout_constraintEnd_toStartOf="@+id/checkBoxPaidBill" />
+
+    <!-- Paid Checkbox -->
+    <CheckBox
+        android:id="@+id/checkBoxPaidBill"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:enabled="false"
+        android:text="@string/paid"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/guidelineEnd"
+        app:layout_constraintTop_toTopOf="@+id/edtAmountBill"
+        app:layout_constraintStart_toEndOf="@+id/edtAmountBill" />
+
+    <!-- Date -->
+    <TextView
+        android:id="@+id/txtDateLabelBill"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/Date"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@+id/edtAmountBill"
+        app:layout_constraintStart_toStartOf="@+id/guidelineStart" />
+
+    <EditText
+        android:id="@+id/edtDateBill"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/rounded_frame_background_yellow"
+        android:hint="@string/purchase_date"
+        android:inputType="text"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:textColorHint="#A5A5A5"
+        android:textSize="15sp"
+        app:layout_constraintTop_toBottomOf="@+id/txtDateLabelBill"
+        app:layout_constraintStart_toStartOf="@+id/guidelineStart"
+        app:layout_constraintEnd_toEndOf="@+id/guidelineEnd" />
 
     <!-- Category -->
     <TextView
@@ -63,7 +145,7 @@
         android:text="@string/category"
         android:textStyle="bold"
         android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@+id/edtTitleBill"
+        app:layout_constraintTop_toBottomOf="@+id/edtDateBill"
         app:layout_constraintStart_toStartOf="@+id/guidelineStart" />
 
     <Spinner
@@ -128,100 +210,9 @@
         android:layout_marginTop="8dp"
         android:hint="Enter custom vendor"
         android:visibility="gone"
-        android:background="@drawable/rounded_frame_background"
+        android:background="@drawable/rounded_frame_background_yellow"
         app:layout_constraintTop_toBottomOf="@+id/spinnerVendorsBill"
         app:layout_constraintStart_toStartOf="@+id/guidelineStart"
-        app:layout_constraintEnd_toEndOf="@+id/guidelineEnd" />
-
-    <!-- Amount -->
-    <TextView
-        android:id="@+id/txtAmountBill"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/amount"
-        android:textStyle="bold"
-        android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@+id/edtCustomVendorBill"
-        app:layout_constraintStart_toStartOf="@+id/guidelineStart" />
-
-    <EditText
-        android:id="@+id/edtAmountBill"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/rounded_frame_background_yellow"
-        android:hint="@string/amount"
-        android:inputType="numberDecimal"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:textColorHint="#A5A5A5"
-        android:textSize="15sp"
-        app:layout_constraintTop_toBottomOf="@+id/txtAmountBill"
-        app:layout_constraintStart_toStartOf="@+id/guidelineStart"
-        app:layout_constraintEnd_toEndOf="@+id/guidelineEnd" />
-
-    <!-- Date -->
-    <TextView
-        android:id="@+id/txtDateBill"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/Date"
-        android:textStyle="bold"
-        android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@+id/edtAmountBill"
-        app:layout_constraintStart_toStartOf="@+id/guidelineStart" />
-
-    <EditText
-        android:id="@+id/edtDateBill"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/rounded_frame_background_yellow"
-        android:hint="@string/purchase_date"
-
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:textColorHint="#A5A5A5"
-        android:textSize="15sp"
-        app:layout_constraintTop_toBottomOf="@+id/txtDateBill"
-        app:layout_constraintStart_toStartOf="@+id/guidelineStart"
-        app:layout_constraintEnd_toEndOf="@+id/guidelineEnd" />
-
-    <!-- Repeat and Paid -->
-    <TextView
-        android:id="@+id/txtRepeatBill"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/repeat"
-        android:textStyle="bold"
-        android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@+id/edtDateBill"
-        app:layout_constraintStart_toStartOf="@+id/guidelineStart" />
-
-    <Spinner
-        android:id="@+id/spinnerRepeatBill"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/rounded_frame_background_yellow"
-        app:layout_constraintTop_toBottomOf="@+id/txtRepeatBill"
-        app:layout_constraintStart_toStartOf="@+id/guidelineStart"
-        app:layout_constraintEnd_toStartOf="@+id/checkBoxPaid" />
-
-    <CheckBox
-        android:id="@+id/checkBoxPaid"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/paid"
-        android:enabled="false"
-        android:clickable="false"
-        android:textStyle="bold"
-        app:layout_constraintTop_toTopOf="@+id/spinnerRepeatBill"
-        app:layout_constraintStart_toEndOf="@+id/spinnerRepeatBill"
         app:layout_constraintEnd_toEndOf="@+id/guidelineEnd" />
 
     <!-- Comment -->
@@ -233,7 +224,7 @@
         android:text="@string/comment"
         android:textStyle="bold"
         android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerRepeatBill"
+        app:layout_constraintTop_toBottomOf="@+id/edtCustomVendorBill"
         app:layout_constraintStart_toStartOf="@+id/guidelineStart" />
 
     <EditText
@@ -272,7 +263,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="0dp"
         android:text="@string/Upload"
-        android:background="@drawable/rounded_frame_background"
+        android:background="@drawable/rounded_frame_background_yellow"
         app:layout_constraintStart_toEndOf="@+id/txtAttachmentBill"
         app:layout_constraintTop_toTopOf="@+id/txtAttachmentBill" />
 
