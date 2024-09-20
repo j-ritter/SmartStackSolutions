@@ -46,7 +46,7 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var notificationRecyclerView: RecyclerView
     private var selectedIncome: Income? = null
-    private lateinit var notificationsList: ArrayList<NotificationItem>
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -159,8 +159,7 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
         // Setup notifications drawer
         notificationRecyclerView = findViewById(R.id.recyclerViewNotifications)
         notificationRecyclerView.layoutManager = LinearLayoutManager(this)
-        notificationsList = ArrayList()  // Assuming you have data for notifications
-        notificationRecyclerView.adapter = NotificationsAdapter(this, notificationsList)
+
 
         db = FirebaseFirestore.getInstance()
         setupDialog()
@@ -371,6 +370,7 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
 
         return items
     }
+
     private fun logoutUser() {
         FirebaseAuth.getInstance().signOut()
         val intent = Intent(this, LogIn::class.java)

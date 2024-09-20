@@ -226,7 +226,7 @@ class createBill : AppCompatActivity() {
             intent.putExtra("USER_EMAIL", userEmail)
             startActivity(intent)
         }
-        val checkBoxPaid: CheckBox = findViewById(R.id.checkBoxPaid)
+        val checkBoxPaid: CheckBox = findViewById(R.id.checkBoxPaidBill)
         checkBoxPaid.isChecked = false
         checkBoxPaid.isEnabled = false
         }
@@ -261,12 +261,12 @@ class createBill : AppCompatActivity() {
     }
 
     private fun managePaidCheckboxState(selectedRepeat: String) {
-        val checkBoxPaid = findViewById<CheckBox>(R.id.checkBoxPaid)
+        val checkBoxPaid = findViewById<CheckBox>(R.id.checkBoxPaidBill)
         if (selectedRepeat != "No") {
             checkBoxPaid.isChecked = false
             checkBoxPaid.isEnabled = false
         } else {
-            checkBoxPaid.isEnabled = true
+
         }
     }
     private fun validateDateField(): Boolean {
@@ -346,7 +346,7 @@ class createBill : AppCompatActivity() {
                     spinnerVendors.selectedItem?.toString() ?: "-" }
                 val billRepeat = findViewById<Spinner>(R.id.spinnerRepeatBill).selectedItem?.toString() ?: "-"
                 val billComment = findViewById<EditText>(R.id.edtCommentBill).text.toString()
-                val billPaid = findViewById<CheckBox>(R.id.checkBoxPaid).isChecked
+                val billPaid = findViewById<CheckBox>(R.id.checkBoxPaidBill).isChecked
                 val billAttachment = imageUri?.toString()
 
                 // Conversión de String a Date
@@ -377,7 +377,14 @@ class createBill : AppCompatActivity() {
 
                 docRef.set(bill)
                     .addOnSuccessListener {
-                        Toast.makeText(this, "Factura guardada exitosamente", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Open Payment saved successfully", Toast.LENGTH_SHORT).show()
+
+                        // Trigger immediate notification if the bill is not paid
+                        if (!billPaid) {
+                            val notificationItem = NotificationItem(billName, billDateString, billAmount)
+                            NotificationsActivity.saveNotification(this, notificationItem)  // Save to notifications list
+                            NotificationWorker.scheduleNotification(this, notificationItem)  // Show notification immediately
+                        }
 
                         val intent = Intent(this, MyBills::class.java)
                         intent.putExtra("USER_EMAIL", userEmail)
@@ -477,5 +484,29 @@ class createBill : AppCompatActivity() {
                 Toast.makeText(this, "Error adding vendor: ${e.message}", Toast.LENGTH_SHORT).show()
             }
     }
+    private fun scheduleNotification(billId: String, title: String, amount: String, dueDate: Date?) {
+        val calendar = Calendar.getInstance()
+        dueDate?.let {
+            calendar.time = it
+            calendar.add(Calendar.HOUR_OF_DAY, -24) // 24 hours before due date
+        }
+
+        val delay = calendar.timeInMillis - System.currentTimeMillis()
+
+        val workManager = androidx.work.WorkManager.getInstance(this)
+        val data = androidx.work.Data.Builder()
+            .putString("title", title)
+            .putString("amount", amount)
+            .putString("billId", billId)
+            .build()
+
+        val notificationWork = androidx.work.OneTimeWorkRequest.Builder(NotificationWorker::class.java)
+            .setInitialDelay(delay, java.util.concurrent.TimeUnit.MILLISECONDS)
+            .setInputData(data)
+            .build()
+
+        workManager.enqueue(notificationWork)
+    }
+
 
 }

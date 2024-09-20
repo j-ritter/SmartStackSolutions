@@ -7,14 +7,17 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdapter.NotificationViewHolder> {
 
     private Context context;
-    private List<NotificationItem> notificationsList;
+    private List<Notifications> notificationsList;
 
-    public NotificationsAdapter(Context context, List<NotificationItem> notificationsList) {
+    public NotificationsAdapter(Context context, List<Notifications> notificationsList) {
         this.context = context;
         this.notificationsList = notificationsList;
     }
@@ -28,9 +31,10 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
 
     @Override
     public void onBindViewHolder(@NonNull NotificationViewHolder holder, int position) {
-        NotificationItem currentNotification = notificationsList.get(position);
+        Notifications currentNotification = notificationsList.get(position);
         holder.title.setText(currentNotification.getTitle());
-        holder.date.setText(currentNotification.getDate());
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        holder.date.setText(sdf.format(currentNotification.getDate().toDate()));
         holder.amount.setText(currentNotification.getAmount());
     }
 

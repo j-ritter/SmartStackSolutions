@@ -136,6 +136,28 @@
         app:layout_constraintStart_toStartOf="@+id/guidelineStart"
         app:layout_constraintEnd_toEndOf="@+id/guidelineEnd" />
 
+    <!-- Repeat and Paid -->
+    <TextView
+        android:id="@+id/txtRepeatBill"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/repeat"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@+id/edtDateBill"
+        app:layout_constraintStart_toStartOf="@+id/guidelineStart" />
+
+    <Spinner
+        android:id="@+id/spinnerRepeatBill"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/rounded_frame_background_yellow"
+        app:layout_constraintTop_toBottomOf="@+id/txtRepeatBill"
+        app:layout_constraintStart_toStartOf="@+id/guidelineStart"
+        app:layout_constraintEnd_toEndOf="@+id/guidelineEnd" />
+
     <!-- Category -->
     <TextView
         android:id="@+id/txtCategoryBill"
@@ -145,7 +167,7 @@
         android:text="@string/category"
         android:textStyle="bold"
         android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@+id/edtDateBill"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerRepeatBill"
         app:layout_constraintStart_toStartOf="@+id/guidelineStart" />
 
     <Spinner
