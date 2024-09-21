@@ -1,22 +1,15 @@
 package com.example.smartstackbills;
 
-import com.google.firebase.Timestamp;
-
-
 public class Spendings {
 
-    String spendingId;
-    String name, comment, category, amount, vendor, subcategory, attachment;
-    Timestamp date;
-    boolean paid;
+    String name, date, comment, category, amount, vendor, subcategory, attachment;
     boolean isEssential;
 
     public Spendings() {
         // Default constructor needed for Firestore
     }
 
-    public Spendings(String spendingId, String name, Timestamp date, String comment, String category, String amount, String vendor, String subcategory, String attachment, boolean isEssential) {
-        this.spendingId = spendingId;
+    public Spendings(String name, String date, String comment, String category, String amount, String vendor, String subcategory, String attachment, boolean isEssential) {
         this.name = name;
         this.date = date;
         this.comment = comment;
@@ -25,17 +18,9 @@ public class Spendings {
         this.vendor = vendor;
         this.subcategory = subcategory;
         this.attachment = attachment;
-        this.paid = paid;
         this.isEssential = isEssential;
     }
 
-    public String getSpendingId() {
-        return spendingId;
-    }
-
-    public void setSpendingId(String spendingId) {
-        this.spendingId = spendingId;
-    }
     public String getAttachment() {
         return attachment;
     }
@@ -60,11 +45,11 @@ public class Spendings {
         this.name = name;
     }
 
-    public Timestamp getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Timestamp date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
@@ -100,16 +85,7 @@ public class Spendings {
         this.vendor = vendor;
     }
 
-    public boolean isPaid() {
-        return paid;
-    }
-
-    public void setPaid(boolean paid) {
-        this.paid = paid;
-    }
-
     public boolean isEssential() {
         return isEssential;
     }
 }
-

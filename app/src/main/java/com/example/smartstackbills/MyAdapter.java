@@ -1,20 +1,15 @@
 package com.example.smartstackbills;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.Timestamp;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -76,77 +71,11 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             // Si necesitas mostrar mes y año, usa:
             String monthYear = formatMonthYear(bill.getDate());
-
-            // Set the checkbox state
-            billHolder.checkBoxPaid.setOnCheckedChangeListener(null);
-            billHolder.checkBoxPaid.setChecked(bill.isPaid());
-
-            // Handle checkbox change
-            billHolder.checkBoxPaid.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                bill.setPaid(isChecked);
-
-                // Save the bill to the Spendings collection in Firestore
-                saveBillToSpendings(bill);
-
-                // Remove the bill from the current list and notify the adapter
-                itemsArrayList.remove(position);
-                notifyItemRemoved(position);
-                notifyItemRangeChanged(position, itemsArrayList.size());
-
-            });
-
+            // Si estás mostrando el mes y el año en otro lugar, usa el formato adecuado
         } else {
             MonthHeaderViewHolder headerHolder = (MonthHeaderViewHolder) holder;
             String monthHeader = (String) itemsArrayList.get(position);
             headerHolder.monthHeader.setText(monthHeader);
-        }
-    }
-    private void saveBillToSpendings(Bills bill) {
-        String userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        String billId = bill.getBillId();
-        if (billId == null) {
-            Log.e("SaveBillToSpendings", "Bill ID is null. Cannot save to spendings.");
-            return;  // Exit the method to avoid a crash
-        }
-        if (userUid != null) {
-            // Convert the Bills object to a Spendings object
-            Spendings spending = new Spendings();
-            spending.setSpendingId(billId);  // Using the bill ID as the spending ID
-            spending.setName(bill.getName());
-            spending.setAmount(bill.getAmount());
-            spending.setCategory(bill.getCategory());
-            spending.setSubcategory(bill.getSubcategory());
-            spending.setVendor(bill.getVendor());
-            spending.setDate(bill.getDate());
-            spending.setComment(bill.getComment());
-            spending.setAttachment(bill.getAttachment());
-            spending.setPaid(true);  // Set it as paid since it's moving to spendings
-
-            FirebaseFirestore.getInstance()
-                    .collection("users")
-                    .document(userUid)
-                    .collection("spendings")
-                    .document(bill.getBillId())
-                    .set(bill)
-                    .addOnSuccessListener(aVoid -> {
-                        Toast.makeText(context, "Bill moved to Spendings.", Toast.LENGTH_SHORT).show();
-                        // After successfully adding to Spendings, remove it from the Bills collection
-                        FirebaseFirestore.getInstance()
-                                .collection("users")
-                                .document(userUid)
-                                .collection("bills")
-                                .document(bill.getBillId())
-                                .delete()
-                                .addOnSuccessListener(aVoid1 -> {
-                                    Toast.makeText(context, "Bill removed from Bills collection.", Toast.LENGTH_SHORT).show();
-                                })
-                                .addOnFailureListener(e -> {
-                                    Toast.makeText(context, "Error removing bill from Bills: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                                });
-                    })
-                    .addOnFailureListener(e -> {
-                        Toast.makeText(context, "Error moving bill to Spendings: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    });
         }
     }
 
@@ -167,24 +96,17 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return itemsArrayList.size();
     }
 
-    public Object getItemAtPosition(int position) {
-        return itemsArrayList.get(position);
-    }
-
     public static class BillViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView title, category, amount, purchaseDate;
         OnBillClickListener onBillClickListener;
-        CheckBox checkBoxPaid;
-
 
         public BillViewHolder(@NonNull View itemView, OnBillClickListener onBillClickListener) {
             super(itemView);
-            title = itemView.findViewById(R.id.textviewTitleItemsBills);
-            category = itemView.findViewById(R.id.textviewCategoryItemsBills);
-            amount = itemView.findViewById(R.id.textviewAmountItemsBills);
-            checkBoxPaid = itemView.findViewById(R.id.imgCheckBoxItemsBills);
-            purchaseDate = itemView.findViewById(R.id.textviewDateItemsBills);
+            title = itemView.findViewById(R.id.textviewTitle);
+            category = itemView.findViewById(R.id.textviewCategory);
+            amount = itemView.findViewById(R.id.textviewAmount);
+            purchaseDate = itemView.findViewById(R.id.textviewDate);
             this.onBillClickListener = onBillClickListener;
             itemView.setOnClickListener(this);
         }
@@ -237,20 +159,4 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         return items;
     }
-    private void saveBillToFirestore(Bills bill) {
-        String userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        if (userUid != null) {
-            FirebaseFirestore.getInstance()
-                    .collection("users")
-                    .document(userUid)
-                    .collection("bills")
-                    .document(bill.getBillId())
-                    .set(bill)
-                    .addOnSuccessListener(aVoid -> {
-                        Toast.makeText(context, "Bill updated successfully", Toast.LENGTH_SHORT).show();
-                    })
-                    .addOnFailureListener(e -> {
-                        Toast.makeText(context, "Error updating bill: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    });
-        }}
 }

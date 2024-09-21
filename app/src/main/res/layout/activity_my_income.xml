@@ -30,20 +30,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
 
-            <!-- All Button -->
-            <Button
-                android:id="@+id/btnAllIncome"
-                style="?attr/materialButtonOutlinedStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="All"
-                android:textSize="10sp"
-                android:textColor="@color/bluedark"
-                app:layout_constraintTop_toBottomOf="@+id/materialToolbarIncome"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/btnRecurringIncome"
-                app:layout_constraintHorizontal_chainStyle="packed" />
-
             <!-- Recurring Button -->
             <Button
                 android:id="@+id/btnRecurringIncome"
@@ -52,9 +38,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/recurring"
                 android:textSize="10sp"
-                android:textColor="@color/bluedark"
                 app:layout_constraintTop_toBottomOf="@+id/materialToolbarIncome"
-                app:layout_constraintStart_toEndOf="@+id/btnAllIncome"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/btnOneTimeIncome"
                 app:layout_constraintHorizontal_chainStyle="packed" />
 
@@ -66,7 +51,6 @@
                 android:layout_height="wrap_content"
                 android:text="@string/one_time"
                 android:textSize="10sp"
-                android:textColor="@color/bluedark"
                 app:layout_constraintTop_toBottomOf="@+id/materialToolbarIncome"
                 app:layout_constraintStart_toEndOf="@+id/btnRecurringIncome"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -80,8 +64,6 @@
                 android:background="#FFFFFF"
                 app:itemIconTint="@color/black"
                 app:itemTextColor="#000000"
-                app:itemTextAppearanceActive="@style/BottomNavTextStyle"
-                app:itemTextAppearanceInactive="@style/BottomNavTextStyle"
                 app:menu="@menu/bottom_nav"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -92,7 +74,7 @@
                 android:id="@+id/recyclerViewIncome"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                app:layout_constraintTop_toBottomOf="@+id/btnAllIncome"
+                app:layout_constraintTop_toBottomOf="@+id/btnRecurringIncome"
                 app:layout_constraintBottom_toTopOf="@+id/bottomNavigationViewIncome"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
@@ -103,7 +85,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_add"
-                app:backgroundTint="#8ECAE6"
+                app:backgroundTint="#1E97F4"
                 app:fabSize="normal"
                 app:layout_constraintBottom_toTopOf="@+id/bottomNavigationViewIncome"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -113,7 +95,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    <!-- Main Navigation Drawer -->
+    <!-- Navigation Drawer -->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_viewIncome"
         android:layout_width="wrap_content"
@@ -121,20 +103,5 @@
         android:layout_gravity="start"
         app:headerLayout="@layout/nav_header_main"
         app:menu="@menu/activity_main_drawer" />
-
-    <!-- Notifications Drawer (on the right side) -->
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/notificationsDrawer"
-        android:layout_width="300dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="end">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewNotifications"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:listitem="@layout/items_notifications" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.drawerlayout.widget.DrawerLayout>

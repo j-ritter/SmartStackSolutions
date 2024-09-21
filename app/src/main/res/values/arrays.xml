@@ -89,19 +89,8 @@
         <item>Extracurricular activities</item>
     </string-array>
 
-    <!-- Updated Groceries subcategories with essential and non-essential differentiation -->
     <string-array name="shopping_consumption_subcategories">
-        <!-- Essential Groceries -->
-        <item>Groceries - Basic Food</item>
-        <item>Groceries - Household Necessities</item>
-
-        <!-- Non-Essential Groceries -->
-        <item>Groceries - Beverages</item>
-        <item>Groceries - Alcoholic Beverages</item>
-        <item>Groceries - Snacks and Sweets</item>
-        <item>Groceries - Luxury Foods</item>
-
-        <!-- Other Shopping & Consumption items -->
+        <item>Groceries</item>
         <item>Clothing</item>
         <item>Electronics</item>
         <item>Household goods</item>

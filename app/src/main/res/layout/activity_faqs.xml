@@ -247,55 +247,55 @@
                     android:padding="16dp"/>
             </LinearLayout>
 
-                <!-- Question 5 -->
-                <LinearLayout
-                    android:id="@+id/question_5_layout"
+            <!-- Question 5 -->
+            <LinearLayout
+                android:id="@+id/question_5_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/nav_item_background_light"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/question_5"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="5. Is it possible to scan bills and automatically fill in the details?"
+                    android:textSize="16sp"
+                    android:textColor="@android:color/black" />
+
+                <ImageView
+                    android:id="@+id/arrow_5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_arrow_down"
+                    android:contentDescription="Expandable Arrow"
+                    android:clickable="true"
+                    android:focusable="true"/>
+            </LinearLayout>
+
+            <!-- Expandable Answer 5 -->
+            <LinearLayout
+                android:id="@+id/answer_section_5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
+
+                <!-- Answer 5 -->
+                <TextView
+                    android:id="@+id/answer_5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:background="@drawable/nav_item_background_light"
-                    android:padding="16dp">
-
-                    <TextView
-                        android:id="@+id/question_5"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="5. Is it possible to scan bills and automatically fill in the details?"
-                        android:textSize="16sp"
-                        android:textColor="@android:color/black" />
-
-                    <ImageView
-                        android:id="@+id/arrow_5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_arrow_down"
-                        android:contentDescription="Expandable Arrow"
-                        android:clickable="true"
-                        android:focusable="true"/>
-                </LinearLayout>
-
-                <!-- Expandable Answer 5 -->
-                <LinearLayout
-                    android:id="@+id/answer_section_5"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:visibility="gone"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp">
-
-                    <!-- Answer 5 -->
-                    <TextView
-                        android:id="@+id/answer_5"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Answer: No, SmartStackBills does not support bill scanning."
-                        android:textSize="16sp"
-                        android:textColor="@android:color/black"
-                        android:background="@drawable/background_blue1"
-                        android:padding="16dp"/>
-                </LinearLayout>
+                    android:text="Answer: No, SmartStackBills does not support bill scanning."
+                    android:textSize="16sp"
+                    android:textColor="@android:color/black"
+                    android:background="@drawable/background_blue1"
+                    android:padding="16dp"/>
+            </LinearLayout>
             <!-- Question 6 -->
             <LinearLayout
                 android:id="@+id/question_6_layout"
@@ -642,7 +642,3 @@
     </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-
