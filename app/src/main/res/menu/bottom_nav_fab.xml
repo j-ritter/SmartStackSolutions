@@ -2,11 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:title="@string/my_bills"
-        android:id="@+id/Bills"
+        android:id="@+id/Bills1"
         android:icon="@drawable/baseline_data_thresholding_24"/>
 
     <item android:title="@string/my_spendings"
-        android:id="@+id/Spendings"
+        android:id="@+id/Spendings1"
         android:icon="@drawable/baseline_spendings_24"/>
 
     <item android:id="@id/placeholder"
@@ -14,9 +14,9 @@
 
 
     <item android:title="@string/income"
-        android:id="@+id/Income"
+        android:id="@+id/Income1"
         android:icon="@drawable/baseline_attach_money_24"/>
     <item android:title="@string/calendar"
-        android:id="@+id/Calendar"
+        android:id="@+id/Calendar1"
         android:icon="@drawable/baseline_calendar_month_24"/>
 </menu>
