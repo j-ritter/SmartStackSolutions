@@ -28,7 +28,9 @@
                 app:titleCentered="true"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                android:paddingEnd="12dp"
+                android:paddingStart="12dp"/>
 
             <Button
                 android:id="@+id/btnAllBills"

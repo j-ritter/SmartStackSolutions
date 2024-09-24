@@ -36,7 +36,9 @@
             app:menu="@menu/top_nav"
             app:navigationIcon="@drawable/ic_menu"
             app:title="SmartStackSolutions"
-            app:titleCentered="true" />
+            app:titleCentered="true"
+            android:paddingEnd="12dp"
+            android:paddingStart="12dp"/>
 
         <View
             android:id="@+id/view"

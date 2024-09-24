@@ -27,7 +27,9 @@
                 app:menu="@menu/top_nav"
                 app:navigationIcon="@drawable/ic_menu"
                 app:title="Calendar"
-                app:titleCentered="true" />
+                app:titleCentered="true"
+                android:paddingEnd="12dp"
+                android:paddingStart="12dp"/>
 
             <!-- CalendarView -->
             <CalendarView

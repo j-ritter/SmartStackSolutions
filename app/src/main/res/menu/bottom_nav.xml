@@ -6,7 +6,7 @@
         android:icon="@drawable/baseline_home_24"/>
     <item android:title="Open Payments"
         android:id="@+id/Bills"
-        android:icon="@drawable/icon_bill1"/>
+        android:icon="@drawable/baseline_spendings_24"/>
     <item android:title="Closed Payments"
         android:id="@+id/Spendings"
         android:icon="@drawable/ic_closedpayment"/>
