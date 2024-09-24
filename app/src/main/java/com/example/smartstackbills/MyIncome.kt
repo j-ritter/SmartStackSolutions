@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
@@ -20,7 +21,9 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.core.content.ContextCompat
+import com.example.smartstackbills.NotificationsActivity.Companion.resetUnreadNotificationCount
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
@@ -247,18 +250,23 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.top_nav, menu)
-        return true
-    }
-    // Handle menu item clicks (including the alarm icon)
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.alarm -> {
-                val intent = Intent(this, NotificationsActivity::class.java)
-                startActivity(intent)  // Start the NotificationsActivity when the alarm icon is clicked
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
+        // Find and update the unread notification count TextView on the alarm icon badge
+        val menuItem = menu?.findItem(R.id.alarm)
+        val actionView = menuItem?.actionView
+        // Find the badge TextView
+        val badgeCountTextView = actionView?.findViewById<TextView>(R.id.badge_count)
+
+        // Update badge count with the current unread notification count
+        updateUnreadCountBadge(badgeCountTextView)
+
+        // Set click listener on the alarm icon
+        actionView?.setOnClickListener {
+            resetUnreadNotificationCount(badgeCountTextView)
+            val intent = Intent(this, NotificationsActivity::class.java)
+            startActivity(intent)  // Open the notifications activity
         }
+
+        return true
     }
 
     private fun showIncomeDetailsDialog(income: Income) {
@@ -286,7 +294,6 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
 
         dialog.show()
     }
-
 
     private fun deleteIncome() {
         selectedIncome?.let { income ->
@@ -369,6 +376,22 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
         }
 
         return items
+    }
+    // Update the unread count badge from SharedPreferences
+    private fun updateUnreadCountBadge(badgeCountTextView: TextView?) {
+        val unreadCount = NotificationsActivity.getUnreadNotificationCount(this)
+        if (unreadCount > 0) {
+            badgeCountTextView?.text = unreadCount.toString()
+            badgeCountTextView?.visibility = View.VISIBLE // Show the badge
+        } else {
+            badgeCountTextView?.visibility = View.GONE // Hide the badge if no unread notifications
+        }
+    }
+
+    // Reset unread notification count when notifications are viewed
+    private fun resetUnreadNotificationCount(badgeCountTextView: TextView?) {
+        NotificationsActivity.resetUnreadNotificationCount(this)
+        updateUnreadCountBadge(badgeCountTextView) // Update the badge display immediately
     }
 
     private fun logoutUser() {

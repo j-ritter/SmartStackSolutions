@@ -33,6 +33,9 @@ class NotificationsActivity : AppCompatActivity() {
         // Set up the adapter with the notifications list
         adapter = NotificationAdapter(notificationsList)
         recyclerView.adapter = adapter
+
+        // Reset unread notification count when the notifications are viewed
+        resetUnreadNotificationCount(this)
     }
 
     // Updated: Load Notifications using Gson for better serialization and deserialization
@@ -64,6 +67,9 @@ class NotificationsActivity : AppCompatActivity() {
             val json = gson.toJson(currentList)
             editor.putString("notificationsList", json)
             editor.apply()
+
+            // Increment unread notification count
+            incrementUnreadNotificationCount(context)
         }
 
         // Utility function to load current notifications as a list
@@ -77,6 +83,24 @@ class NotificationsActivity : AppCompatActivity() {
             } else {
                 ArrayList()
             }
+        }
+        // Increment unread notification count
+        private fun incrementUnreadNotificationCount(context: Context) {
+            val sharedPref = context.getSharedPreferences("notifications", Context.MODE_PRIVATE)
+            val unreadCount = sharedPref.getInt("unreadCount", 0) + 1
+            sharedPref.edit().putInt("unreadCount", unreadCount).apply()
+        }
+
+        // Reset unread notification count
+        fun resetUnreadNotificationCount(context: Context) {
+            val sharedPref = context.getSharedPreferences("notifications", Context.MODE_PRIVATE)
+            sharedPref.edit().putInt("unreadCount", 0).apply()
+        }
+
+        // Get unread notification count
+        fun getUnreadNotificationCount(context: Context): Int {
+            val sharedPref = context.getSharedPreferences("notifications", Context.MODE_PRIVATE)
+            return sharedPref.getInt("unreadCount", 0)
         }
     }
 }

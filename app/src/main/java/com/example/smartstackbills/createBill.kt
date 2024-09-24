@@ -1,6 +1,7 @@
 package com.example.smartstackbills
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -384,6 +385,9 @@ class createBill : AppCompatActivity() {
                             val notificationItem = NotificationItem(billName, billDateString, billAmount)
                             NotificationsActivity.saveNotification(this, notificationItem)  // Save to notifications list
                             NotificationWorker.scheduleNotification(this, notificationItem)  // Show notification immediately
+
+                            // Increment the unread notification count
+                            incrementUnreadNotificationCount()
                         }
 
                         val intent = Intent(this, MyBills::class.java)
@@ -507,6 +511,12 @@ class createBill : AppCompatActivity() {
 
         workManager.enqueue(notificationWork)
     }
-
+    private fun incrementUnreadNotificationCount() {
+        val sharedPref = getSharedPreferences("notifications", Context.MODE_PRIVATE)
+        val currentUnreadCount = sharedPref.getInt("unreadNotificationCount", 0)
+        val editor = sharedPref.edit()
+        editor.putInt("unreadNotificationCount", currentUnreadCount + 1)
+        editor.apply()
+    }
 
 }
