@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.appbar.MaterialToolbar
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
@@ -36,6 +37,13 @@ class NotificationsActivity : AppCompatActivity() {
 
         // Reset unread notification count when the notifications are viewed
         resetUnreadNotificationCount(this)
+        val toolbar: MaterialToolbar = findViewById(R.id.toolbar_notifications)
+        setSupportActionBar(toolbar)
+
+        // Back button functionality
+        toolbar.setNavigationOnClickListener {
+            onBackPressed() // Handle back navigation
+        }
     }
 
     // Updated: Load Notifications using Gson for better serialization and deserialization
