@@ -81,15 +81,15 @@ class NotificationWorker(context: Context, params: WorkerParameters) : Worker(co
         }
 
         // Function to schedule the notification using WorkManager
-        fun scheduleNotification(context: Context, notificationItem: NotificationItem) {
-            val delay = calculateDelay(notificationItem.date)
+        fun scheduleNotification(context: Context, notification: NotificationItem) {
+            val delay = calculateDelay(notification.date)
 
             val notificationWork = androidx.work.OneTimeWorkRequestBuilder<NotificationWorker>()
                 .setInputData(
                     androidx.work.workDataOf(
-                        "title" to notificationItem.title,
-                        "amount" to notificationItem.amount,
-                        "billId" to notificationItem.title  // Assuming title is unique
+                        "title" to notification.title,
+                        "amount" to notification.amount,
+                        "billId" to notification.title  // Assuming title is unique
                     )
                 )
                 .setInitialDelay(delay, TimeUnit.MILLISECONDS)  // Immediate if delay is 0

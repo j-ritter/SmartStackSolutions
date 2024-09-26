@@ -159,8 +159,5 @@ private ArrayList<Object> groupIncomeByMonth(ArrayList<Income> incomeArrayList) 
 
     return items;
 }
-// Método para formatear el Timestamp a String
-
-
 
 }

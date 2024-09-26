@@ -230,7 +230,7 @@ class createBill : AppCompatActivity() {
         val checkBoxPaid: CheckBox = findViewById(R.id.checkBoxPaidBill)
         checkBoxPaid.isChecked = false
         checkBoxPaid.isEnabled = false
-        }
+    }
 
     private fun showDatePickerDialog() {
         val datePicker = DatePickerFragment { day, month, year -> onDateSelected(day, month, year) }
@@ -382,7 +382,14 @@ class createBill : AppCompatActivity() {
 
                         // Trigger immediate notification if the bill is not paid
                         if (!billPaid) {
-                            val notificationItem = NotificationItem(billName, billDateString, billAmount)
+                            val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                            val formattedDate = timestamp?.let { sdf.format(it.toDate()) } ?: "Unknown date"
+
+                            val notificationItem = NotificationItem(
+                                title = billName,
+                                date = formattedDate,
+                                amount = billAmount
+                            )
                             NotificationsActivity.saveNotification(this, notificationItem)  // Save to notifications list
                             NotificationWorker.scheduleNotification(this, notificationItem)  // Show notification immediately
 
