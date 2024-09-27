@@ -12,38 +12,32 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import java.text.SimpleDateFormat
-import java.util.Locale
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 class NotificationWorker(context: Context, params: WorkerParameters) : Worker(context, params) {
 
     override fun doWork(): Result {
-        // Retrieve the data sent when the work was scheduled
         val title = inputData.getString("title")
         val amount = inputData.getString("amount")
         val billId = inputData.getString("billId")
 
-        // Send the notification to the user
         sendNotification(title, amount, billId)
         return Result.success()
     }
 
     private fun sendNotification(title: String?, amount: String?, billId: String?) {
-        // Get Notification Manager
         val notificationManager = NotificationManagerCompat.from(applicationContext)
 
-        // Check if POST_NOTIFICATIONS permission is granted
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
             ActivityCompat.checkSelfPermission(
                 applicationContext,
                 Manifest.permission.POST_NOTIFICATIONS
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            // Log the error or handle it accordingly
             return
         }
 
-        // Create Notification Channel (only for Android Oreo and above)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
                 "bill_notifications",
@@ -53,7 +47,6 @@ class NotificationWorker(context: Context, params: WorkerParameters) : Worker(co
             notificationManager.createNotificationChannel(channel)
         }
 
-        // Build the notification
         val notification = NotificationCompat.Builder(applicationContext, "bill_notifications")
             .setContentTitle(title ?: "Upcoming Payment Reminder")
             .setContentText("Your bill '$title' of $amount is due soon.")
@@ -61,27 +54,35 @@ class NotificationWorker(context: Context, params: WorkerParameters) : Worker(co
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .build()
 
-        // Show the notification
         notificationManager.notify(billId?.hashCode() ?: 0, notification)
     }
 
     companion object {
-        // Utility function to calculate the delay (24 hours before the due date)
-        fun calculateDelay(notificationDate: String): Long {
+        // Calculate delay based on String date
+        fun calculateDelay(notificationDateString: String): Long {
             val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-            val notificationDateMillis = sdf.parse(notificationDate)?.time ?: 0
-            val currentTimeMillis = System.currentTimeMillis()
+            val notificationDate: Date? = try {
+                sdf.parse(notificationDateString)
+            } catch (e: Exception) {
+                null
+            }
 
-            // Set the notification to trigger immediately (no delay)
-            return if (notificationDateMillis > currentTimeMillis) {
-                notificationDateMillis - currentTimeMillis - TimeUnit.DAYS.toMillis(1)
-            } else {
-                0 // No delay, trigger immediately
+            notificationDate?.let {
+                val notificationDateMillis = it.time
+                val currentTimeMillis = System.currentTimeMillis()
+
+                return if (notificationDateMillis > currentTimeMillis) {
+                    notificationDateMillis - currentTimeMillis - TimeUnit.DAYS.toMillis(1)
+                } else {
+                    0
+                }
+            } ?: run {
+                return 0
             }
         }
 
-        // Function to schedule the notification using WorkManager
-        fun scheduleNotification(context: Context, notification: NotificationItem) {
+        // Schedule the notification
+        fun scheduleNotification(context: Context, notification: NotificationsActivity.NotificationItem) {
             val delay = calculateDelay(notification.date)
 
             val notificationWork = androidx.work.OneTimeWorkRequestBuilder<NotificationWorker>()
@@ -89,10 +90,10 @@ class NotificationWorker(context: Context, params: WorkerParameters) : Worker(co
                     androidx.work.workDataOf(
                         "title" to notification.title,
                         "amount" to notification.amount,
-                        "billId" to notification.title  // Assuming title is unique
+                        "billId" to notification.title
                     )
                 )
-                .setInitialDelay(delay, TimeUnit.MILLISECONDS)  // Immediate if delay is 0
+                .setInitialDelay(delay, TimeUnit.MILLISECONDS)
                 .build()
 
             androidx.work.WorkManager.getInstance(context).enqueue(notificationWork)

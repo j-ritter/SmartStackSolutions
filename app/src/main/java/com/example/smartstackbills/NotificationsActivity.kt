@@ -1,12 +1,7 @@
 package com.example.smartstackbills
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -14,11 +9,13 @@ import com.google.android.material.appbar.MaterialToolbar
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
+import java.text.SimpleDateFormat
+import java.util.*
 
 class NotificationsActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
-    private lateinit var adapter: NotificationAdapter
+    private lateinit var adapter: NotificationsAdapter
     private val notificationsList = ArrayList<NotificationItem>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,8 +28,16 @@ class NotificationsActivity : AppCompatActivity() {
         // Load notifications from local storage (SharedPreferences)
         loadNotifications()
 
-        // Set up the adapter with the notifications list
-        adapter = NotificationAdapter(notificationsList)
+        // Pass the list and listener to the adapter
+        adapter = NotificationsAdapter(
+            this,
+            notificationsList,
+            object : NotificationsAdapter.OnNotificationClickListener {
+                override fun onNotificationClick(position: Int) {
+                    // Handle notification click
+                }
+            }
+        )
         recyclerView.adapter = adapter
 
         // Reset unread notification count when the notifications are viewed
@@ -42,11 +47,11 @@ class NotificationsActivity : AppCompatActivity() {
 
         // Back button functionality
         toolbar.setNavigationOnClickListener {
-            onBackPressed() // Handle back navigation
+            onBackPressed()
         }
     }
 
-    // Updated: Load Notifications using Gson for better serialization and deserialization
+    // Load Notifications using Gson
     private fun loadNotifications() {
         val sharedPref = getSharedPreferences("notifications", Context.MODE_PRIVATE)
         val gson = Gson()
@@ -59,7 +64,6 @@ class NotificationsActivity : AppCompatActivity() {
     }
 
     companion object {
-
         fun saveNotification(context: Context, notification: NotificationItem) {
             val sharedPref = context.getSharedPreferences("notifications", Context.MODE_PRIVATE)
             val editor = sharedPref.edit()
@@ -68,19 +72,17 @@ class NotificationsActivity : AppCompatActivity() {
             // Load existing notifications
             val currentList = loadCurrentNotifications(context)
 
-            // Add the new notification to the list
+            // Add the new notification
             currentList.add(notification)
 
-            // Save the updated list back to SharedPreferences
+            // Save the updated list back
             val json = gson.toJson(currentList)
             editor.putString("notificationsList", json)
             editor.apply()
 
-            // Increment unread notification count
             incrementUnreadNotificationCount(context)
         }
 
-        // Utility function to load current notifications as a list
         private fun loadCurrentNotifications(context: Context): ArrayList<NotificationItem> {
             val sharedPref = context.getSharedPreferences("notifications", Context.MODE_PRIVATE)
             val gson = Gson()
@@ -92,50 +94,50 @@ class NotificationsActivity : AppCompatActivity() {
                 ArrayList()
             }
         }
-        // Increment unread notification count
+
         private fun incrementUnreadNotificationCount(context: Context) {
             val sharedPref = context.getSharedPreferences("notifications", Context.MODE_PRIVATE)
             val unreadCount = sharedPref.getInt("unreadCount", 0) + 1
             sharedPref.edit().putInt("unreadCount", unreadCount).apply()
         }
 
-        // Reset unread notification count
         fun resetUnreadNotificationCount(context: Context) {
             val sharedPref = context.getSharedPreferences("notifications", Context.MODE_PRIVATE)
             sharedPref.edit().putInt("unreadCount", 0).apply()
         }
 
-        // Get unread notification count
         fun getUnreadNotificationCount(context: Context): Int {
             val sharedPref = context.getSharedPreferences("notifications", Context.MODE_PRIVATE)
             return sharedPref.getInt("unreadCount", 0)
         }
+
+        fun updateNotificationAsRead(context: Context, notification: NotificationItem) {
+            val sharedPref = context.getSharedPreferences("notifications", Context.MODE_PRIVATE)
+            val gson = Gson()
+
+            // Load existing notifications
+            val currentList = loadCurrentNotifications(context)
+
+            // Mark the notification as read
+            val updatedList = currentList.map {
+                if (it.title == notification.title && it.date == notification.date && it.amount == notification.amount) {
+                    it.copy(isUnread = false)
+                } else {
+                    it
+                }
+            }
+
+            // Save the updated list back
+            val json = gson.toJson(updatedList)
+            sharedPref.edit().putString("notificationsList", json).apply()
+        }
     }
-}
 
-data class NotificationItem(val title: String, val date: String, val amount: String)
-
-class NotificationAdapter(private val notifications: List<NotificationItem>) :
-    RecyclerView.Adapter<NotificationAdapter.NotificationViewHolder>() {
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotificationViewHolder {
-        val itemView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.items_notifications, parent, false)
-        return NotificationViewHolder(itemView)
-    }
-
-    override fun onBindViewHolder(holder: NotificationViewHolder, position: Int) {
-        val currentNotification = notifications[position]
-        holder.title.text = currentNotification.title
-        holder.date.text = currentNotification.date
-        holder.amount.text = currentNotification.amount
-    }
-
-    override fun getItemCount() = notifications.size
-
-    class NotificationViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val title: TextView = itemView.findViewById(R.id.tvTitleNotification)
-        val amount: TextView = itemView.findViewById(R.id.tvAmountNotification)
-        val date: TextView = itemView.findViewById(R.id.tvDateNotification)
-    }
+    // Data class for NotificationItem with date as String
+    data class NotificationItem(
+        val title: String,
+        val date: String,  // String instead of Timestamp
+        val amount: String,
+        var isUnread: Boolean = true
+    )
 }
