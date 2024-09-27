@@ -34,7 +34,20 @@
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@id/labelTitleNotification"
             app:layout_constraintTop_toTopOf="@id/labelTitleNotification"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toStartOf="@id/imgDeleteNotification" />
+
+        <!-- Delete Icon -->
+        <ImageView
+            android:id="@+id/imgDeleteNotification"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="8dp"
+            android:contentDescription="Delete notification"
+            android:src="@drawable/ic_delete"
+            app:layout_constraintEnd_toStartOf="@id/unreadDot"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.5" /> <!-- Centered vertically -->
 
         <!-- Orange Dot for Unread Notifications (center right) -->
         <ImageView
@@ -47,7 +60,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintVertical_bias="0.5" /> <!-- Centered vertically -->
+            app:layout_constraintVertical_bias="0.5" />
 
         <!-- Amount Label -->
         <TextView

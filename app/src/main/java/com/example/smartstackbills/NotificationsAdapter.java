@@ -2,14 +2,21 @@ package com.example.smartstackbills;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -53,6 +60,10 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
         } else {
             holder.unreadDot.setVisibility(View.GONE);  // Corrected this line
         }
+        // Set click listener for deleting the notification
+        holder.imgDeleteNotification.setOnClickListener(view -> {
+            deleteNotification(currentNotification, position);
+        });
         holder.itemView.setOnClickListener(view -> {
             Intent intent = new Intent(context, MyBills.class);
             intent.putExtra("BILL_ID", currentNotification.getBillId());  // Pass the billId
@@ -68,6 +79,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
     public static class NotificationViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView title, date, amount;
         View unreadDot;
+        ImageView imgDeleteNotification;
         OnNotificationClickListener onNotificationClickListener;
 
         public NotificationViewHolder(@NonNull View itemView, OnNotificationClickListener onNotificationClickListener) {
@@ -76,6 +88,17 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
             date = itemView.findViewById(R.id.tvDateNotification);
             amount = itemView.findViewById(R.id.tvAmountNotification);
             unreadDot = itemView.findViewById(R.id.unreadDot);
+            imgDeleteNotification = itemView.findViewById(R.id.imgDeleteNotification);  // Initialize delete icon
+
+            // Set click listener for the delete icon
+            imgDeleteNotification.setOnClickListener(view -> {
+                if (onNotificationClickListener != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        onNotificationClickListener.onDeleteClick(position);
+                    }
+                }
+            });
             this.onNotificationClickListener = onNotificationClickListener;
             itemView.setOnClickListener(this);
         }
@@ -101,8 +124,32 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
             return "Invalid Date";
         }
     }
+    // Method to delete the notification
+    private void deleteNotification(NotificationsActivity.NotificationItem notification, int position) {
+        notificationsList.remove(position);
+        notifyItemRemoved(position);
+        removeNotificationFromSharedPreferences(notification);
+    }
+
+    // Method to remove notification from SharedPreferences
+    private void removeNotificationFromSharedPreferences(NotificationsActivity.NotificationItem notification) {
+        SharedPreferences sharedPref = context.getSharedPreferences("notifications", Context.MODE_PRIVATE);
+        String json = sharedPref.getString("notificationsList", null);
+        if (json != null) {
+            Gson gson = new Gson();
+            Type type = new TypeToken<ArrayList<NotificationsActivity.NotificationItem>>() {}.getType();
+            ArrayList<NotificationsActivity.NotificationItem> currentList = gson.fromJson(json, type);
+            currentList.removeIf(item -> item.getTitle().equals(notification.getTitle()) && item.getDate().equals(notification.getDate()));
+            SharedPreferences.Editor editor = sharedPref.edit();
+            String updatedJson = gson.toJson(currentList);
+            editor.putString("notificationsList", updatedJson);
+            editor.apply();
+        }
+    }
+
 
     public interface OnNotificationClickListener {
         void onNotificationClick(int position);
+        void onDeleteClick(int position);
     }
 }
