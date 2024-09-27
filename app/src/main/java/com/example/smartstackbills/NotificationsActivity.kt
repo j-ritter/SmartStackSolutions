@@ -1,6 +1,7 @@
 package com.example.smartstackbills
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -34,7 +35,17 @@ class NotificationsActivity : AppCompatActivity() {
             notificationsList,
             object : NotificationsAdapter.OnNotificationClickListener {
                 override fun onNotificationClick(position: Int) {
-                    // Handle notification click
+                    // Retrieve the clicked notification
+                    val selectedNotification = notificationsList[position]
+
+                    // Create an Intent to open MyBills activity
+                    val intent = Intent(this@NotificationsActivity, MyBills::class.java)
+
+                    // Pass the billId from the notification to MyBills
+                    intent.putExtra("BILL_ID", selectedNotification.billId)
+
+                    // Start the MyBills activity
+                    startActivity(intent)
                 }
             }
         )
@@ -138,6 +149,7 @@ class NotificationsActivity : AppCompatActivity() {
         val title: String,
         val date: String,  // String instead of Timestamp
         val amount: String,
+        val billId: String,
         var isUnread: Boolean = true
     )
 }

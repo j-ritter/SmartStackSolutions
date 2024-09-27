@@ -1,6 +1,7 @@
 package com.example.smartstackbills;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,6 +53,11 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
         } else {
             holder.unreadDot.setVisibility(View.GONE);  // Corrected this line
         }
+        holder.itemView.setOnClickListener(view -> {
+            Intent intent = new Intent(context, MyBills.class);
+            intent.putExtra("BILL_ID", currentNotification.getBillId());  // Pass the billId
+            context.startActivity(intent);
+        });
     }
 
     @Override

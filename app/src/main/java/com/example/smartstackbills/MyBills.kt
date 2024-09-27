@@ -82,6 +82,14 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
         }
         registerReceiver(billsReceiver, IntentFilter("com.example.smartstackbills.REFRESH_BILLS"))
 
+        // Extract the billId passed from NotificationsActivity
+        val billIdFromNotification = intent.getStringExtra("BILL_ID")
+
+        // If billId is not null, find the bill and show its details
+        if (billIdFromNotification != null) {
+            findAndShowBillById(billIdFromNotification)
+        }
+
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationViewBills)
         bottomNavigationView.selectedItemId = R.id.Bills
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
@@ -490,6 +498,17 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
     private fun resetUnreadNotificationCount(badgeCountTextView: TextView?) {
         NotificationsActivity.resetUnreadNotificationCount(this)
         updateUnreadCountBadge(badgeCountTextView) // Update the badge display immediately
+    }
+    private fun findAndShowBillById(billId: String) {
+        // Search for the bill in the allBillsArrayList
+        val bill = allBillsArrayList.find { it.billId == billId }
+
+        // If a matching bill is found, show its details
+        if (bill != null) {
+            showBillDetailsDialog(bill)
+        } else {
+            Toast.makeText(this, "Bill not found", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun logoutUser() {

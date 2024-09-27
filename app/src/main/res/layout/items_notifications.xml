@@ -36,7 +36,7 @@
             app:layout_constraintTop_toTopOf="@id/labelTitleNotification"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <!-- Orange Dot for Unread Notifications -->
+        <!-- Orange Dot for Unread Notifications (center right) -->
         <ImageView
             android:id="@+id/unreadDot"
             android:layout_width="10dp"
@@ -45,7 +45,9 @@
             android:background="@drawable/circle_orange"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tvTitleNotification" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.5" /> <!-- Centered vertically -->
 
         <!-- Amount Label -->
         <TextView

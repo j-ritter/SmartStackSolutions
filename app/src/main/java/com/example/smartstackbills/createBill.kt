@@ -389,7 +389,8 @@ class createBill : AppCompatActivity() {
                             val notificationItem = NotificationItem(
                                 title = billName,
                                 date = formattedDate,
-                                amount = billAmount
+                                amount = billAmount,
+                                billId = billId
                             )
                             NotificationsActivity.saveNotification(this, notificationItem)  // Save to notifications list
                             NotificationWorker.scheduleNotification(this, notificationItem)  // Show notification immediately
