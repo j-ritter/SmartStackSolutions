@@ -126,6 +126,11 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
         val navView: NavigationView = findViewById(R.id.nav_viewIncome)
         navView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
+                R.id.nav_item_premium -> {
+                    val intent = Intent(this, Premium::class.java)
+                    startActivity(intent)
+                    true
+                }
                 R.id.nav_item_aboutus -> {
                     val intent = Intent(this, AboutUs::class.java)
                     startActivity(intent)

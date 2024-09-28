@@ -170,6 +170,11 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
         bottomNavigationView.selectedItemId = R.id.Spendings
         navView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
+                R.id.nav_item_premium -> {
+                    val intent = Intent(this, Premium::class.java)
+                    startActivity(intent)
+                    true
+                }
                 R.id.nav_item_aboutus -> {
                     val intent = Intent(this, AboutUs::class.java)
                     startActivity(intent)
