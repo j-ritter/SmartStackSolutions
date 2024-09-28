@@ -121,6 +121,11 @@ class MainMenu : AppCompatActivity() {
         val navView: NavigationView = findViewById(R.id.nav_view)
         navView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
+                R.id.nav_item_premium -> {
+                    val intent = Intent(this, Premium::class.java)
+                    startActivity(intent)
+                    true
+                }
                 R.id.nav_item_aboutus -> {
                     val intent = Intent(this, AboutUs::class.java)
                     startActivity(intent)
@@ -407,9 +412,11 @@ class MainMenu : AppCompatActivity() {
         menuInflater.inflate(R.menu.top_nav, menu)
         // Find and update the unread notification count TextView on the alarm icon badge
         val menuItem = menu?.findItem(R.id.alarm)
+
         val actionView = menuItem?.actionView
         // Find the badge TextView
         val badgeCountTextView = actionView?.findViewById<TextView>(R.id.badge_count)
+
 
         // Update badge count with the current unread notification count
         updateUnreadCountBadge(badgeCountTextView)

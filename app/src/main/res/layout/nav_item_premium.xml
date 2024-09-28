@@ -1,0 +1,33 @@
+<!-- res/layout/nav_item_premium.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:padding="10dp">
+
+    <!-- Left icon -->
+    <ImageView
+        android:id="@+id/icon_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/abc_vector_test"
+        android:paddingEnd="10dp" />
+
+    <!-- Title of the menu item -->
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Unlock Premium Features"
+        android:textAppearance="?attr/textAppearanceListItem" />
+
+    <!-- Right icon (new icon you want to add) -->
+    <ImageView
+        android:id="@+id/icon_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_star_orange"
+        android:paddingStart="10dp" />
+</LinearLayout>

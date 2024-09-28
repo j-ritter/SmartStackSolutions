@@ -24,6 +24,9 @@
             android:name=".CalendarActivity"
             android:exported="true" />
         <activity
+            android:name=".Premium"
+            android:exported="false" />
+        <activity
             android:name=".AboutUs"
             android:exported="false" />
         <activity
