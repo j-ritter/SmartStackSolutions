@@ -23,7 +23,7 @@
         android:id="@+id/premium_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Premium Features "
+        android:text="Unlock Premium Features"
         android:textSize="24sp"
         android:textStyle="bold"
         android:textColor="@android:color/black"
@@ -32,21 +32,429 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp" />
 
-    <!-- Help and Support Content -->
-    <TextView
-        android:id="@+id/help_content"
+    <!-- Scrollable Content -->
+    <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:text="Welcome to SmartStackSolutions Premium. First of all, thank you very much for choosing SmartStackSolutions."
-        android:textSize="16sp"
-        android:textColor="@android:color/black"
         app:layout_constraintTop_toBottomOf="@id/premium_title"
+        app:layout_constraintBottom_toTopOf="@id/button_premium"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Improved Introduction Text Section -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/premium_contentintro_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="4dp"
+                app:cardCornerRadius="12dp"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:id="@+id/premium_contentintro"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Thank you for choosing SmartStackSolutions!\n\nWith the basic version, you can manage your Open Payments and stay on top of upcoming bills.\n\nUpgrade to Premium to unlock:\n\n• Closed Payments: Track paid bills.\n• Income Management: Manage your income streams.\n\nUnlock Premium to enjoy a comprehensive financial overview."
+                    android:textSize="12sp"
+                    android:textColor="@android:color/black"
+                    android:padding="6dp"
+                    android:gravity="center" />
+            </androidx.cardview.widget.CardView>
+
+            <!-- Features Section Title -->
+            <TextView
+                android:id="@+id/features"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Features"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:layout_marginBottom="16dp"/>
+
+            <!-- Feature 1: Open Payments (Basic) -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_frame_background_blue"
+                android:padding="16dp"
+                android:layout_marginBottom="16dp">
+
+                <ImageView
+                    android:id="@+id/icon_open_payments"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/baseline_spendings_24"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                <!-- Title and Description Texts -->
+                <LinearLayout
+                    android:id="@+id/feature1_text_container"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintStart_toEndOf="@id/icon_open_payments"
+                    app:layout_constraintEnd_toStartOf="@+id/btn_more_info1"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp">
+
+                    <!-- Title: Open Payments -->
+                    <TextView
+                        android:id="@+id/feature1_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Open Payments"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:textColor="@android:color/black" />
+
+                    <!-- Description: Manage open payments and stay on top of upcoming bills -->
+                    <TextView
+                        android:id="@+id/feature1_description"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Manage open payments and stay on top of upcoming bills."
+                        android:textSize="12sp"
+                        android:textColor="@android:color/black" />
+                </LinearLayout>
+
+                <!-- More Information Button -->
+                <Button
+                    android:id="@+id/btn_more_info1"
+                    android:layout_width="70dp"
+                    android:layout_height="50dp"
+                    android:text="More information"
+                    android:textSize="7sp"
+                    android:background="@color/yellow"
+                    android:padding="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- Feature 2: Closed Payments (Premium) -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp">
+
+                <!-- Premium Label Positioned Outside the ConstraintLayout -->
+                <TextView
+                    android:id="@+id/premium_label2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Premium"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    android:background="@color/orange"
+                    android:padding="4dp"
+                    android:rotation="-45"
+                    android:elevation="5dp"
+                    android:layout_gravity="top|start"
+                    android:layout_marginStart="-10dp"
+                    android:layout_marginTop="-10dp"/>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_frame_background_blue"
+                    android:padding="16dp">
+
+                    <ImageView
+                        android:id="@+id/icon_closed_payments"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_closedpayment"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+
+                    <!-- Title and Description Texts -->
+                    <LinearLayout
+                        android:id="@+id/feature2_text_container"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintStart_toEndOf="@id/icon_closed_payments"
+                        app:layout_constraintEnd_toStartOf="@+id/btn_more_info2"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp">
+
+                        <!-- Title: Closed Payments -->
+                        <TextView
+                            android:id="@+id/feature2_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Closed Payments"
+                            android:textSize="12sp"
+                            android:textStyle="bold"
+                            android:textColor="@android:color/black" />
+
+                        <!-- Description: Track paid bills and manage transaction history -->
+                        <TextView
+                            android:id="@+id/feature2_description"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Track bills you've paid and manage your transaction history."
+                            android:textSize="12sp"
+                            android:textColor="@android:color/black" />
+                    </LinearLayout>
+
+                    <!-- More Information Button -->
+                    <Button
+                        android:id="@+id/btn_more_info2"
+                        android:layout_width="70dp"
+                        android:layout_height="50dp"
+                        android:text="More information"
+                        android:textSize="7sp"
+                        android:background="@color/yellow"
+                        android:padding="8dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </FrameLayout>
+
+            <!-- Feature 3: Income Management (Premium) -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp">
+
+                <!-- Premium Label Positioned Outside the ConstraintLayout -->
+                <TextView
+                    android:id="@+id/premium_label3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Premium"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    android:background="@color/orange"
+                    android:padding="4dp"
+                    android:rotation="-45"
+                    android:elevation="5dp"
+                    android:layout_gravity="top|start"
+                    android:layout_marginStart="-10dp"
+                    android:layout_marginTop="-10dp"/>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_frame_background_blue"
+                    android:padding="16dp">
+
+                    <ImageView
+                        android:id="@+id/icon_income"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/baseline_attach_money_24"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
+
+                    <!-- Title and Description Texts -->
+                    <LinearLayout
+                        android:id="@+id/feature3_text_container"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintStart_toEndOf="@id/icon_income"
+                        app:layout_constraintEnd_toStartOf="@+id/btn_more_info3"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp">
+
+                        <!-- Title: Income Management -->
+                        <TextView
+                            android:id="@+id/feature3_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Income Management"
+                            android:textSize="12sp"
+                            android:textStyle="bold"
+                            android:textColor="@android:color/black" />
+
+                        <!-- Description: Track and categorize your income streams -->
+                        <TextView
+                            android:id="@+id/feature3_description"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Track and categorize your income sources."
+                            android:textSize="12sp"
+                            android:textColor="@android:color/black" />
+                    </LinearLayout>
+
+                    <!-- More Information Button -->
+                    <Button
+                        android:id="@+id/btn_more_info3"
+                        android:layout_width="70dp"
+                        android:layout_height="50dp"
+                        android:text="More information"
+                        android:textSize="7sp"
+                        android:background="@color/yellow"
+                        android:padding="8dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </FrameLayout>
+
+            <!-- Feature 4: Notifications (Basic) -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_frame_background_blue"
+                android:padding="16dp"
+                android:layout_marginBottom="16dp">
+
+                <ImageView
+                    android:id="@+id/icon_notifications"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_alarm"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                <!-- Title and Description Texts -->
+                <LinearLayout
+                    android:id="@+id/feature4_text_container"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintStart_toEndOf="@id/icon_notifications"
+                    app:layout_constraintEnd_toStartOf="@+id/btn_more_info4"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp">
+
+                    <!-- Title: Notifications -->
+                    <TextView
+                        android:id="@+id/feature4_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Notifications"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:textColor="@android:color/black" />
+
+                    <!-- Description: Receive timely reminders -->
+                    <TextView
+                        android:id="@+id/feature4_description"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Receive timely reminders for your open payments."
+                        android:textSize="12sp"
+                        android:textColor="@android:color/black" />
+                </LinearLayout>
+
+                <!-- More Information Button -->
+                <Button
+                    android:id="@+id/btn_more_info4"
+                    android:layout_width="70dp"
+                    android:layout_height="50dp"
+                    android:text="More information"
+                    android:textSize="7sp"
+                    android:background="@color/yellow"
+                    android:padding="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- Feature 5: Calendar (Basic) -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_frame_background_blue"
+                android:padding="16dp"
+                android:layout_marginBottom="16dp">
+
+                <ImageView
+                    android:id="@+id/icon_calendar"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/baseline_calendar_month_24"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                <!-- Title and Description Texts -->
+                <LinearLayout
+                    android:id="@+id/feature5_text_container"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintStart_toEndOf="@id/icon_calendar"
+                    app:layout_constraintEnd_toStartOf="@+id/btn_more_info5"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp">
+
+                    <!-- Title: Calendar -->
+                    <TextView
+                        android:id="@+id/feature5_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Calendar"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:textColor="@android:color/black" />
+
+                    <!-- Description: Get an overview of transactions in a calendar view -->
+                    <TextView
+                        android:id="@+id/feature5_description"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Get an overview of all your transactions in a calendar view."
+                        android:textSize="12sp"
+                        android:textColor="@android:color/black" />
+                </LinearLayout>
+
+                <!-- More Information Button -->
+                <Button
+                    android:id="@+id/btn_more_info5"
+                    android:layout_width="70dp"
+                    android:layout_height="50dp"
+                    android:text="More information"
+                    android:textSize="7sp"
+                    android:background="@color/yellow"
+                    android:padding="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Unlock Button -->
+    <Button
+        android:id="@+id/button_premium"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Unlock SmartStackSolutions Premium"
+        android:textSize="14sp"
+        android:textColor="@android:color/white"
+        android:background="@color/yellow"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:paddingStart="32dp"
-        android:paddingEnd="32dp"
-        android:paddingTop="16dp"
-        android:paddingBottom="16dp" />
+        android:layout_margin="16dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

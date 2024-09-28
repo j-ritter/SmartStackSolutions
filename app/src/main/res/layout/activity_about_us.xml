@@ -54,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:text="At SmartStackSolutions, our mission is to provide users with tools that bring order to their daily lives and finances. We aim to empower users to efficiently collect, organize, and retrieve relevant information, documents, and photos. By doing so, we help you stay organized and manage your finances effectively.\n\nOur team is dedicated to creating user-friendly applications that cater to the needs of individuals seeking better financial management and organization. We believe that with the right tools, everyone can take control of their finances and improve their financial well-being.\n\nIf you have any questions or need further information about our mission and services, feel free to reach out to us. Email: smartstack-solutions.com. We're here to help you make the most out of SmartStackSolutions!"
                 android:textColor="@android:color/black"
-                android:textSize="16sp"/>
+                android:textSize="12sp"/>
 
             <!-- Hero Image -->
             <ImageView
