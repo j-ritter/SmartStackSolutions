@@ -62,7 +62,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="1. What is SmartStackBills?"
+                    android:text="1. What is SmartStackSolutions?"
                     android:textSize="16sp"
                     android:textColor="@android:color/black" />
 
@@ -91,7 +91,7 @@
                     android:id="@+id/answer_1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Answer: SmartStackBills is a comprehensive financial management app designed to help users keep track of their bills, expenses, incomes, and payments. It allows users to categorize transactions, set reminders, and view financial data in various formats to help with budgeting and financial planning."
+                    android:text="Answer: SmartStackSolutions is a comprehensive financial management app designed to help users keep track of their payments and incomes. It allows users to categorize transactions, set reminders, and view financial data in various formats to help with budgeting and financial planning."
                     android:textSize="16sp"
                     android:textColor="@android:color/black"
                     android:background="@drawable/background_blue1"
@@ -111,7 +111,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="2. How do I add a new bill?"
+                    android:text="2. How do I add a new 'open payment'?"
                     android:textSize="16sp"
                     android:textColor="@android:color/black" />
 
@@ -140,7 +140,7 @@
                     android:id="@+id/answer_2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Answer: To add a new bill, go to the 'Bills' section of the app, click on the 'Create Bill' button, and fill in the necessary details such as title, category, amount, and date. You can also mark if the bill has been paid and add any relevant comments."
+                    android:text="Answer: To add a new 'open payment', go to the 'Open Payments' section of the app, click on the 'Plus' button, and fill in the necessary details such as title amount, and date. You can also add a document or other relevant information for you."
                     android:textSize="16sp"
                     android:textColor="@android:color/black"
                     android:background="@drawable/background_blue1"
@@ -161,7 +161,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="3. Can I categorize my expenses?"
+                    android:text="3. Can I categorize my payments/expenses?"
                     android:textSize="16sp"
                     android:textColor="@android:color/black" />
 
@@ -190,7 +190,7 @@
                     android:id="@+id/answer_3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Answer: Yes, SmartStackBills allows you to categorize your expenses into predefined categories and subcategories. You can also add custom categories for more personalized tracking."
+                    android:text="Answer: Yes, SmartStackSolutions allows you to categorize your payments/expenses into predefined categories and subcategories."
                     android:textSize="16sp"
                     android:textColor="@android:color/black"
                     android:background="@drawable/background_blue1"
@@ -210,7 +210,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="4. How can I view my expenses by status (paid, due, incoming)?"
+                    android:text="4. How can I view my payments/expenses by status (incoming, overdue, recurring)?"
                     android:textSize="16sp"
                     android:textColor="@android:color/black" />
 
@@ -240,7 +240,7 @@
                     android:id="@+id/answer_4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Answer: In the 'Bills' section, you can filter your bills based on their status. Bills marked as paid will be under 'Paid,' those with due dates that have passed will be under 'Due,' and upcoming payments will be under 'Incoming.'"
+                    android:text="Answer: In the 'Open Payments' section, you can filter your open payments based on their status. Open payments that you mark as paid will move to 'closed payments' and not under 'open payments' as they are paid now. Open payments that are overdue based on the date provided by you will be under 'OverdDue', and upcoming payments will be under 'Incoming.' Openn payments that were marked as recurring will be shown in 'Recurring"
                     android:textSize="16sp"
                     android:textColor="@android:color/black"
                     android:background="@drawable/background_blue1"
@@ -261,7 +261,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="5. Is it possible to scan bills and automatically fill in the details?"
+                        android:text="5. Is it possible to scan payments?"
                         android:textSize="16sp"
                         android:textColor="@android:color/black" />
 
@@ -290,7 +290,7 @@
                         android:id="@+id/answer_5"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Answer: No, SmartStackBills does not support bill scanning."
+                        android:text="Answer: You can upload your document in SmartStackSolutions but an automatic scanning of the document is not possible yet."
                         android:textSize="16sp"
                         android:textColor="@android:color/black"
                         android:background="@drawable/background_blue1"
@@ -310,7 +310,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="6. How do I set reminders for upcoming payments?"
+                    android:text="6. How do the reminders for upcoming payments work?"
                     android:textSize="16sp"
                     android:textColor="@android:color/black" />
 
@@ -339,7 +339,7 @@
                     android:id="@+id/answer_6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Answer: When creating or editing a bill, you can set a reminder date. The app will notify you on the set date to ensure you don't miss any payments."
+                    android:text="Answer: When creating or editing an open payment, you set a payment date. The app will notify you on the set date 1 day prior to ensure you don't miss any payments. There will also be a notification within the app 1 day prior. You will be notified via unread messages at the alarm icon."
                     android:textSize="16sp"
                     android:textColor="@android:color/black"
                     android:background="@drawable/background_blue1"
@@ -360,7 +360,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="7. Can I track my income with SmartStackBills?"
+                    android:text="7. Can I track my income with SmartStackSolutions?"
                     android:textSize="16sp"
                     android:textColor="@android:color/black" />
 
@@ -389,7 +389,7 @@
                     android:id="@+id/answer_7"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Answer: Yes, you can track your income by adding income entries in the 'Income' section of the app. Fill in details such as title, category, amount, and date received to keep an accurate record of your earnings."
+                    android:text="Answer: Yes, you can track your income by adding income entries in the 'Income' section of the app. Fill in details such as title, amount, and date received to keep an accurate record of your earnings."
                     android:textSize="16sp"
                     android:textColor="@android:color/black"
                     android:background="@drawable/background_blue1"
@@ -409,7 +409,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="8. What security measures does SmartStackBills have to protect my data?"
+                    android:text="8. What security measures does SmartStackSolutions have to protect my data?"
                     android:textSize="16sp"
                     android:textColor="@android:color/black" />
 
@@ -437,7 +437,7 @@
                     android:id="@+id/answer_8"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Answer: SmartStackBills employs robust security measures such as data encryption, secure login protocols, and regular backups to ensure your financial data is protected. Additionally, the app does not store sensitive payment information."
+                    android:text="Answer: SmartStackSolutions employs robust security measures such as data encryption, secure login protocols, and regular backups to ensure your financial data is protected. Additionally, the app does not store sensitive payment information."
                     android:textSize="16sp"
                     android:textColor="@android:color/black"
                     android:background="@drawable/background_blue1"
@@ -486,7 +486,7 @@
                     android:id="@+id/answer_9"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Answer: The Premium Account unlocks all the functionalities of SmartStackBills. It allows you to create more than three entries, access advanced features, and receive priority customer support. The Premium Account is ideal for users who need extensive tracking and management capabilities."
+                    android:text="Answer: The Premium Account unlocks all the functionalities of SmartStackSolutions. It allows you to use all features besides the basic ones. See details in 'Unlock Premium Features'.  The Premium Account is ideal for users who like to benefit from extensive tracking and management capabilities."
                     android:textSize="16sp"
                     android:textColor="@android:color/black"
                     android:background="@drawable/background_blue1"
@@ -534,7 +534,7 @@
                     android:id="@+id/answer_10"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Answer: To upgrade to the Premium Account, go to the 'Settings' section and select 'Upgrade to Premium.' Follow the instructions to complete your purchase and unlock all features."
+                    android:text="Answer: To upgrade to the Premium Account, go to the 'Menu' section and select 'Unlock Premium Features.' Follow the instructions to complete your purchase and unlock all features."
                     android:textSize="16sp"
                     android:textColor="@android:color/black"
                     android:background="@drawable/background_blue1"
@@ -555,7 +555,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="11. What is the difference between bills and spendings?"
+                    android:text="11. What is the difference between open payments and closed payments?"
                     android:textSize="16sp"
                     android:textColor="@android:color/black" />
 
@@ -583,7 +583,7 @@
                     android:id="@+id/answer_11"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Answer: Bills are records of transactions where you have received a service or product and may need to make a payment. Spendings, on the other hand, are records of your expenses. The app allows you to track both bills (incoming payments or due payments) and general spendings to help you manage your finances better."
+                    android:text="Answer: Open payments are records of transactions where you have received a service or product and still need to make a payment. Closed payments, on the other hand, are records of your past expenses. The app allows you to track both to help you manage your finances better."
                     android:textSize="16sp"
                     android:textColor="@android:color/black"
                     android:background="@drawable/background_blue1"

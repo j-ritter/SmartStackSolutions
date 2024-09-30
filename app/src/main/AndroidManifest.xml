@@ -30,6 +30,9 @@
             android:name=".AboutUs"
             android:exported="false" />
         <activity
+            android:name=".FAQs"
+            android:exported="false" />
+        <activity
             android:name=".Terms"
             android:exported="false" />
         <activity
