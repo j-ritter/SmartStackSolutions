@@ -27,10 +27,12 @@
         android:textSize="24sp"
         android:textStyle="bold"
         android:textColor="@android:color/black"
-        app:layout_constraintTop_toBottomOf="@id/btnBackFAQs"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"/>
+        app:layout_constraintStart_toEndOf="@id/btnBackFAQs"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/btnBackFAQs"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <!-- Scroll View for Questions and Answers -->
     <ScrollView
@@ -63,7 +65,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="1. What is SmartStackSolutions?"
-                    android:textSize="16sp"
+                    android:textSize="12sp"
                     android:textColor="@android:color/black" />
 
                 <ImageView
@@ -92,11 +94,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Answer: SmartStackSolutions is a comprehensive financial management app designed to help users keep track of their payments and incomes. It allows users to categorize transactions, set reminders, and view financial data in various formats to help with budgeting and financial planning."
-                    android:textSize="16sp"
+                    android:textSize="12sp"
                     android:textColor="@android:color/black"
                     android:background="@drawable/background_blue1"
                     android:padding="16dp"/>
             </LinearLayout>
+
             <!-- Question 2 -->
             <LinearLayout
                 android:id="@+id/question_2_layout"
@@ -112,7 +115,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="2. How do I add a new 'open payment'?"
-                    android:textSize="16sp"
+                    android:textSize="12sp"
                     android:textColor="@android:color/black" />
 
                 <ImageView
@@ -140,8 +143,8 @@
                     android:id="@+id/answer_2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Answer: To add a new 'open payment', go to the 'Open Payments' section of the app, click on the 'Plus' button, and fill in the necessary details such as title amount, and date. You can also add a document or other relevant information for you."
-                    android:textSize="16sp"
+                    android:text="Answer: To add a new 'open payment', go to the 'Open Payments' section of the app, click on the 'Plus' button, and fill in the necessary details such as title, amount, and date. You can also add a document or other relevant information."
+                    android:textSize="12sp"
                     android:textColor="@android:color/black"
                     android:background="@drawable/background_blue1"
                     android:padding="16dp"/>
@@ -162,7 +165,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="3. Can I categorize my payments/expenses?"
-                    android:textSize="16sp"
+                    android:textSize="12sp"
                     android:textColor="@android:color/black" />
 
                 <ImageView
@@ -191,11 +194,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Answer: Yes, SmartStackSolutions allows you to categorize your payments/expenses into predefined categories and subcategories."
-                    android:textSize="16sp"
+                    android:textSize="12sp"
                     android:textColor="@android:color/black"
                     android:background="@drawable/background_blue1"
                     android:padding="16dp"/>
             </LinearLayout>
+
             <!-- Question 4 -->
             <LinearLayout
                 android:id="@+id/question_4_layout"
@@ -211,7 +215,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="4. How can I view my payments/expenses by status (incoming, overdue, recurring)?"
-                    android:textSize="16sp"
+                    android:textSize="12sp"
                     android:textColor="@android:color/black" />
 
                 <ImageView
@@ -226,7 +230,6 @@
 
             <!-- Expandable Answer 4 -->
             <LinearLayout
-
                 android:id="@+id/answer_section_4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -240,62 +243,63 @@
                     android:id="@+id/answer_4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Answer: In the 'Open Payments' section, you can filter your open payments based on their status. Open payments that you mark as paid will move to 'closed payments' and not under 'open payments' as they are paid now. Open payments that are overdue based on the date provided by you will be under 'OverdDue', and upcoming payments will be under 'Incoming.' Openn payments that were marked as recurring will be shown in 'Recurring"
-                    android:textSize="16sp"
+                    android:text="Answer: In the 'Open Payments' section, you can filter your open payments based on their status. Paid payments move to 'Closed Payments'. Overdue payments appear under 'Overdue', and upcoming payments are listed under 'Incoming'. Recurring payments will be shown in 'Recurring'."
+                    android:textSize="12sp"
                     android:textColor="@android:color/black"
                     android:background="@drawable/background_blue1"
                     android:padding="16dp"/>
             </LinearLayout>
 
-                <!-- Question 5 -->
-                <LinearLayout
-                    android:id="@+id/question_5_layout"
+            <!-- New Question 5 -->
+            <LinearLayout
+                android:id="@+id/question_5_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/nav_item_background_light"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/question_5"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="5. What are 'essential' and 'non-essential' payments, and what are the differences?"
+                    android:textSize="12sp"
+                    android:textColor="@android:color/black" />
+
+                <ImageView
+                    android:id="@+id/arrow_5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_arrow_down"
+                    android:contentDescription="Expandable Arrow"
+                    android:clickable="true"
+                    android:focusable="true"/>
+            </LinearLayout>
+
+            <!-- Expandable Answer 5 -->
+            <LinearLayout
+                android:id="@+id/answer_section_5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
+
+                <!-- Answer 5 -->
+                <TextView
+                    android:id="@+id/answer_5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:background="@drawable/nav_item_background_light"
-                    android:padding="16dp">
+                    android:text="Answer: 'Essential' spendings are necessary expenses like rent or groceries. 'Non-essential' spendings include optional items, like streaming services. In SmartStackSolutions, categories and subcategories are predefined as either 'essential' or 'non-essential,' and changes are not possible. If a payment lacks a category, it won’t appear in the Main Menu as either type."
+                    android:textSize="12sp"
+                    android:textColor="@android:color/black"
+                    android:background="@drawable/background_blue1"
+                    android:padding="16dp"/>
+            </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/question_5"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="5. Is it possible to scan payments?"
-                        android:textSize="16sp"
-                        android:textColor="@android:color/black" />
-
-                    <ImageView
-                        android:id="@+id/arrow_5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_arrow_down"
-                        android:contentDescription="Expandable Arrow"
-                        android:clickable="true"
-                        android:focusable="true"/>
-                </LinearLayout>
-
-                <!-- Expandable Answer 5 -->
-                <LinearLayout
-                    android:id="@+id/answer_section_5"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:visibility="gone"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp">
-
-                    <!-- Answer 5 -->
-                    <TextView
-                        android:id="@+id/answer_5"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Answer: You can upload your document in SmartStackSolutions but an automatic scanning of the document is not possible yet."
-                        android:textSize="16sp"
-                        android:textColor="@android:color/black"
-                        android:background="@drawable/background_blue1"
-                        android:padding="16dp"/>
-                </LinearLayout>
             <!-- Question 6 -->
             <LinearLayout
                 android:id="@+id/question_6_layout"
@@ -310,8 +314,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="6. How do the reminders for upcoming payments work?"
-                    android:textSize="16sp"
+                    android:text="6. Is it possible to scan payments?"
+                    android:textSize="12sp"
                     android:textColor="@android:color/black" />
 
                 <ImageView
@@ -339,8 +343,8 @@
                     android:id="@+id/answer_6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Answer: When creating or editing an open payment, you set a payment date. The app will notify you on the set date 1 day prior to ensure you don't miss any payments. There will also be a notification within the app 1 day prior. You will be notified via unread messages at the alarm icon."
-                    android:textSize="16sp"
+                    android:text="Answer: You can upload your document in SmartStackSolutions but an automatic scanning of the document is not possible yet."
+                    android:textSize="12sp"
                     android:textColor="@android:color/black"
                     android:background="@drawable/background_blue1"
                     android:padding="16dp"/>
@@ -361,7 +365,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="7. Can I track my income with SmartStackSolutions?"
-                    android:textSize="16sp"
+                    android:textSize="12sp"
                     android:textColor="@android:color/black" />
 
                 <ImageView
@@ -390,11 +394,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Answer: Yes, you can track your income by adding income entries in the 'Income' section of the app. Fill in details such as title, amount, and date received to keep an accurate record of your earnings."
-                    android:textSize="16sp"
+                    android:textSize="12sp"
                     android:textColor="@android:color/black"
                     android:background="@drawable/background_blue1"
                     android:padding="16dp"/>
             </LinearLayout>
+
             <!-- Question 8 -->
             <LinearLayout
                 android:id="@+id/question_8_layout"
@@ -410,7 +415,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="8. What security measures does SmartStackSolutions have to protect my data?"
-                    android:textSize="16sp"
+                    android:textSize="12sp"
                     android:textColor="@android:color/black" />
 
                 <ImageView
@@ -438,7 +443,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Answer: SmartStackSolutions employs robust security measures such as data encryption, secure login protocols, and regular backups to ensure your financial data is protected. Additionally, the app does not store sensitive payment information."
-                    android:textSize="16sp"
+                    android:textSize="12sp"
                     android:textColor="@android:color/black"
                     android:background="@drawable/background_blue1"
                     android:padding="16dp"/>
@@ -459,7 +464,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="9. What is the Premium Account, and what are its benefits?"
-                    android:textSize="16sp"
+                    android:textSize="12sp"
                     android:textColor="@android:color/black" />
 
                 <ImageView
@@ -486,12 +491,13 @@
                     android:id="@+id/answer_9"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Answer: The Premium Account unlocks all the functionalities of SmartStackSolutions. It allows you to use all features besides the basic ones. See details in 'Unlock Premium Features'.  The Premium Account is ideal for users who like to benefit from extensive tracking and management capabilities."
-                    android:textSize="16sp"
+                    android:text="Answer: The Premium Account unlocks all the functionalities of SmartStackSolutions. It allows you to use all features besides the basic ones. See details in 'Unlock Premium Features'. The Premium Account is ideal for users who like to benefit from extensive tracking and management capabilities."
+                    android:textSize="12sp"
                     android:textColor="@android:color/black"
                     android:background="@drawable/background_blue1"
                     android:padding="16dp"/>
             </LinearLayout>
+
             <!-- Question 10 -->
             <LinearLayout
                 android:id="@+id/question_10_layout"
@@ -507,7 +513,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="10. How can I upgrade to the Premium Account?"
-                    android:textSize="16sp"
+                    android:textSize="12sp"
                     android:textColor="@android:color/black" />
 
                 <ImageView
@@ -535,7 +541,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Answer: To upgrade to the Premium Account, go to the 'Menu' section and select 'Unlock Premium Features.' Follow the instructions to complete your purchase and unlock all features."
-                    android:textSize="16sp"
+                    android:textSize="12sp"
                     android:textColor="@android:color/black"
                     android:background="@drawable/background_blue1"
                     android:padding="16dp"/>
@@ -556,7 +562,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="11. What is the difference between open payments and closed payments?"
-                    android:textSize="16sp"
+                    android:textSize="12sp"
                     android:textColor="@android:color/black" />
 
                 <ImageView
@@ -584,7 +590,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Answer: Open payments are records of transactions where you have received a service or product and still need to make a payment. Closed payments, on the other hand, are records of your past expenses. The app allows you to track both to help you manage your finances better."
-                    android:textSize="16sp"
+                    android:textSize="12sp"
                     android:textColor="@android:color/black"
                     android:background="@drawable/background_blue1"
                     android:padding="16dp"/>
@@ -605,7 +611,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="12. What do I do if I encounter a problem with the app?"
-                    android:textSize="16sp"
+                    android:textSize="12sp"
                     android:textColor="@android:color/black" />
 
                 <ImageView
@@ -633,16 +639,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Answer: If you encounter any issues with the app, you can contact our support team via the 'Help &amp; Support' section in the navigation menu. Provide a detailed description of the problem, and our team will assist you promptly."
-                    android:textSize="16sp"
+                    android:textSize="12sp"
                     android:textColor="@android:color/black"
                     android:background="@drawable/background_blue1"
-                    android:padding="16dp"/>
+                    android:padding="16dp"
+                    tools:ignore="HardcodedText" />
             </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-

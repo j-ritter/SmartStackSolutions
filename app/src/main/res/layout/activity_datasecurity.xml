@@ -27,10 +27,12 @@
         android:textSize="24sp"
         android:textStyle="bold"
         android:textColor="@android:color/black"
-        app:layout_constraintTop_toBottomOf="@id/btnBackDataSecurity"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"/>
+        app:layout_constraintStart_toEndOf="@id/btnBackDataSecurity"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/btnBackDataSecurity"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <ScrollView
         android:id="@+id/scrollViewDataSecurity"
@@ -52,7 +54,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="1. How does SmartStackBills protect my data?"
-                android:textSize="16sp"
+                android:textSize="12sp"
                 android:textColor="@android:color/black"
                 android:background="@drawable/nav_item_background_light"
                 android:padding="16dp"/>
@@ -63,7 +65,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Answer: SmartStackBills implements essential security measures to protect your data. This includes encrypting data in transit, secure login protocols, and basic access controls. We rely on trusted cloud services to store and manage data securely."
-                android:textSize="16sp"
+                android:textSize="12sp"
                 android:textColor="@android:color/black"
                 android:background="@drawable/nav_item_background_dark"
                 android:padding="16dp"/>
@@ -74,7 +76,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="2. Is my payment information stored securely?"
-                android:textSize="16sp"
+                android:textSize="12sp"
                 android:textColor="@android:color/black"
                 android:background="@drawable/nav_item_background_light"
                 android:padding="16dp"/>
@@ -85,7 +87,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Answer: SmartStackBills does not store any payment information. The app is designed for users to manually input financial data without the need for payment transactions."
-                android:textSize="16sp"
+                android:textSize="12sp"
                 android:textColor="@android:color/black"
                 android:background="@drawable/nav_item_background_dark"
                 android:padding="16dp"/>
@@ -96,7 +98,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="3. How is my personal information handled?"
-                android:textSize="16sp"
+                android:textSize="12sp"
                 android:textColor="@android:color/black"
                 android:background="@drawable/nav_item_background_light"
                 android:padding="16dp"/>
@@ -107,7 +109,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Answer: Personal information is collected minimally and used solely for providing our services. It is encrypted and stored securely in the cloud, accessible only to authorized personnel within the scope of their duties."
-                android:textSize="16sp"
+                android:textSize="12sp"
                 android:textColor="@android:color/black"
                 android:background="@drawable/nav_item_background_dark"
                 android:padding="16dp"/>
@@ -118,7 +120,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="4. What measures are in place to prevent unauthorized access?"
-                android:textSize="16sp"
+                android:textSize="12sp"
                 android:textColor="@android:color/black"
                 android:background="@drawable/nav_item_background_light"
                 android:padding="16dp"/>
@@ -129,7 +131,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Answer: To prevent unauthorized access, SmartStackBills uses strong password requirements and session management protocols. We also recommend users to regularly update their passwords and to avoid sharing their login credentials."
-                android:textSize="16sp"
+                android:textSize="12sp"
                 android:textColor="@android:color/black"
                 android:background="@drawable/nav_item_background_dark"
                 android:padding="16dp"/>
@@ -140,7 +142,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="5. How does SmartStackBills ensure the integrity of my data?"
-                android:textSize="16sp"
+                android:textSize="12sp"
                 android:textColor="@android:color/black"
                 android:background="@drawable/nav_item_background_light"
                 android:padding="16dp"/>
@@ -151,7 +153,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Answer: Data integrity is maintained through regular data backups and real-time data synchronization. We also perform regular checks to ensure data accuracy and consistency."
-                android:textSize="16sp"
+                android:textSize="12sp"
                 android:textColor="@android:color/black"
                 android:background="@drawable/nav_item_background_dark"
                 android:padding="16dp"/>
@@ -162,7 +164,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="6. What should I do if I suspect a security breach?"
-                android:textSize="16sp"
+                android:textSize="12sp"
                 android:textColor="@android:color/black"
                 android:background="@drawable/nav_item_background_light"
                 android:padding="16dp"/>
@@ -173,7 +175,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Answer: If you suspect a security breach, please contact our support team immediately via the 'Help &amp; Support' section of the app. We will investigate the issue promptly and take necessary actions to secure your account."
-                android:textSize="16sp"
+                android:textSize="12sp"
                 android:textColor="@android:color/black"
                 android:background="@drawable/nav_item_background_dark"
                 android:padding="16dp"/>
@@ -184,7 +186,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="7. How can I enhance my own security while using SmartStackBills?"
-                android:textSize="16sp"
+                android:textSize="12sp"
                 android:textColor="@android:color/black"
                 android:background="@drawable/nav_item_background_light"
                 android:padding="16dp"/>
@@ -195,7 +197,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Answer: Enhance your security by using a strong, unique password for your SmartStackBills account. Ensure your device is protected with a password or biometric lock, and avoid using public Wi-Fi when accessing the app."
-                android:textSize="16sp"
+                android:textSize="12sp"
                 android:textColor="@android:color/black"
                 android:background="@drawable/nav_item_background_dark"
                 android:padding="16dp"/>
@@ -206,23 +208,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="8. Does SmartStackBills comply with data protection regulations?"
-                android:textSize="16sp"
+                android:textSize="12sp"
                 android:textColor="@android:color/black"
                 android:background="@drawable/nav_item_background_light"
                 android:padding="16dp"/>
 
-            <!-- AnswerHere's the continuation of the layout code for the "Data Security" activity.
-
-### Part 2: Data Security Layout (Second Half)
-
-```xml
-            <!- Answer 8 -->
             <TextView
                 android:id="@+id/answer_8"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Answer: Yes, SmartStackBills complies with relevant data protection regulations. We are committed to protecting your privacy and ensuring compliance with applicable laws."
-                android:textSize="16sp"
+                android:textSize="12sp"
                 android:textColor="@android:color/black"
                 android:background="@drawable/nav_item_background_dark"
                 android:padding="16dp"/>
@@ -233,7 +229,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="9. What kind of encryption does SmartStackBills use?"
-                android:textSize="16sp"
+                android:textSize="12sp"
                 android:textColor="@android:color/black"
                 android:background="@drawable/nav_item_background_light"
                 android:padding="16dp"/>
@@ -243,8 +239,8 @@
                 android:id="@+id/answer_9"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Answer: SmartStackBills uses industry-standard encryption methods for data in transit to protect your information from unauthorized access during transmission."
-                android:textSize="16sp"
+                android:text="Answer: SmartStackSolutions uses industry-standard encryption methods for data in transit to protect your information from unauthorized access during transmission."
+                android:textSize="12sp"
                 android:textColor="@android:color/black"
                 android:background="@drawable/nav_item_background_dark"
                 android:padding="16dp"/>
@@ -255,7 +251,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="10. How often are security audits conducted?"
-                android:textSize="16sp"
+                android:textSize="12sp"
                 android:textColor="@android:color/black"
                 android:background="@drawable/nav_item_background_light"
                 android:padding="16dp"/>
@@ -266,7 +262,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Answer: Security audits are conducted periodically to identify and address potential vulnerabilities, helping us maintain high security standards and protect your data effectively."
-                android:textSize="16sp"
+                android:textSize="12sp"
                 android:textColor="@android:color/black"
                 android:background="@drawable/nav_item_background_dark"
                 android:padding="16dp"/>
@@ -277,7 +273,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="11. What happens to my data if I delete my account?"
-                android:textSize="16sp"
+                android:textSize="12sp"
                 android:textColor="@android:color/black"
                 android:background="@drawable/nav_item_background_light"
                 android:padding="16dp"/>
@@ -288,7 +284,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Answer: If you delete your account, all associated data is permanently removed from our servers. We retain no personal information beyond the period necessary to fulfill our legal obligations."
-                android:textSize="16sp"
+                android:textSize="12sp"
                 android:textColor="@android:color/black"
                 android:background="@drawable/nav_item_background_dark"
                 android:padding="16dp"/>
@@ -298,11 +294,11 @@
                 android:id="@+id/question_12"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="12. How can I contact SmartStackBills regarding data security concerns?"
-                android:textSize="16sp"
+                android:text="12. How can I contact SmartStackSolutions regarding data security concerns?"
+                android:textSize="12sp"
                 android:textColor="@android:color/black"
                 android:background="@drawable/nav_item_background_light"
-                android:padding="16dp"/>
+                android:padding="12dp"/>
 
             <!-- Answer 12 -->
             <TextView
@@ -321,7 +317,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="13. What measures are in place to protect against data loss?"
-                android:textSize="16sp"
+                android:textSize="12sp"
                 android:textColor="@android:color/black"
                 android:background="@drawable/nav_item_background_light"
                 android:padding="16dp"/>
@@ -331,8 +327,8 @@
                 android:id="@+id/answer_13"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Answer: To protect against data loss, SmartStackBills performs regular backups and maintains data redundancy. Our systems are designed to ensure data availability and integrity."
-                android:textSize="16sp"
+                android:text="Answer: To protect against data loss, SmartStackSolutions performs regular backups and maintains data redundancy. Our systems are designed to ensure data availability and integrity."
+                android:textSize="12sp"
                 android:textColor="@android:color/black"
                 android:background="@drawable/nav_item_background_dark"
                 android:padding="16dp"/>

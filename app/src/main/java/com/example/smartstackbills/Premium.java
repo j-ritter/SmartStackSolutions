@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.ImageView;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 public class Premium extends AppCompatActivity {
@@ -12,6 +14,15 @@ public class Premium extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_premium);
+
+        // Handle the back button click
+        ImageView backButton = findViewById(R.id.btnBackPremium);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();  // Go back to the previous activity
+            }
+        });
 
         // Feature 1: Open Payments
         Button btnMoreInfo1 = findViewById(R.id.btn_more_info1);
