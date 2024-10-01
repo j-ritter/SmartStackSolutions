@@ -33,8 +33,20 @@
             android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@id/labelTitleNotification"
-            app:layout_constraintTop_toTopOf="@id/labelTitleNotification"
+            app:layout_constraintTop_toTopOf="30dp"
             app:layout_constraintEnd_toStartOf="@id/imgDeleteNotification" />
+
+        <!-- Notification Created Time and Date -->
+        <TextView
+            android:id="@+id/tvNotificationTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="12:30 PM, 1/6/2024"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <!-- Delete Icon -->
         <ImageView
@@ -47,7 +59,8 @@
             app:layout_constraintEnd_toStartOf="@id/unreadDot"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintVertical_bias="0.5" /> <!-- Centered vertically -->
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintVertical_bias="1" /> <!-- Centered vertically -->
 
         <!-- Orange Dot for Unread Notifications (center right) -->
         <ImageView
@@ -60,6 +73,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintVertical_bias="0.5" />
 
         <!-- Amount Label -->

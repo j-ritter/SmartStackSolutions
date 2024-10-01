@@ -390,8 +390,9 @@ class createBill : AppCompatActivity() {
                                 title = billName,
                                 date = formattedDate,
                                 amount = billAmount,
-                                billId = billId
-                            )
+                                billId = billId,
+                                createdAt = Date(),
+                                )
                             NotificationsActivity.saveNotification(this, notificationItem)  // Save to notifications list
                             NotificationWorker.scheduleNotification(this, notificationItem)  // Show notification immediately
 

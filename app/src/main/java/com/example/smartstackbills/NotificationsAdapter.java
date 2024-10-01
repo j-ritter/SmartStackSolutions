@@ -54,12 +54,22 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
             holder.date.setText("No Date Available");
         }
 
+        // Format and bind the createdAt timestamp (null check added)
+        Date createdAt = currentNotification.getCreatedAt();
+        if (createdAt != null) {
+            String createdAtString = formatTimestamp(createdAt);
+            holder.notificationTime.setText(createdAtString); // Bind the time to the TextView
+        } else {
+            holder.notificationTime.setText("No Time Available");
+        }
+
         // Show or hide the orange dot based on the unread status
         if (currentNotification.isUnread()) {
-            holder.unreadDot.setVisibility(View.VISIBLE);  // Corrected this line
+            holder.unreadDot.setVisibility(View.VISIBLE);
         } else {
-            holder.unreadDot.setVisibility(View.GONE);  // Corrected this line
+            holder.unreadDot.setVisibility(View.GONE);
         }
+
         // Set click listener for deleting the notification
         holder.imgDeleteNotification.setOnClickListener(view -> {
             deleteNotification(currentNotification, position);
@@ -76,8 +86,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
         return notificationsList.size();
     }
 
-    public static class NotificationViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        TextView title, date, amount;
+    public static class NotificationViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        TextView title, date, amount, notificationTime; // Added notificationTime TextView
         View unreadDot;
         ImageView imgDeleteNotification;
         OnNotificationClickListener onNotificationClickListener;
@@ -87,18 +97,10 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
             title = itemView.findViewById(R.id.tvTitleNotification);
             date = itemView.findViewById(R.id.tvDateNotification);
             amount = itemView.findViewById(R.id.tvAmountNotification);
+            notificationTime = itemView.findViewById(R.id.tvNotificationTime); // Initialize notificationTime TextView
             unreadDot = itemView.findViewById(R.id.unreadDot);
             imgDeleteNotification = itemView.findViewById(R.id.imgDeleteNotification);  // Initialize delete icon
 
-            // Set click listener for the delete icon
-            imgDeleteNotification.setOnClickListener(view -> {
-                if (onNotificationClickListener != null) {
-                    int position = getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION) {
-                        onNotificationClickListener.onDeleteClick(position);
-                    }
-                }
-            });
             this.onNotificationClickListener = onNotificationClickListener;
             itemView.setOnClickListener(this);
         }
@@ -124,6 +126,13 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
             return "Invalid Date";
         }
     }
+
+    // Helper method to format the timestamp into a readable format
+    private String formatTimestamp(Date timestamp) {
+        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a, dd/MM/yyyy", Locale.getDefault());
+        return sdf.format(timestamp);
+    }
+
     // Method to delete the notification
     private void deleteNotification(NotificationsActivity.NotificationItem notification, int position) {
         notificationsList.remove(position);
@@ -146,7 +155,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
             editor.apply();
         }
     }
-
 
     public interface OnNotificationClickListener {
         void onNotificationClick(int position);

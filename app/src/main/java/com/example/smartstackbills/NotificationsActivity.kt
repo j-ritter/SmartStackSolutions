@@ -47,6 +47,15 @@ class NotificationsActivity : AppCompatActivity() {
                     // Start the MyBills activity
                     startActivity(intent)
                 }
+                override fun onDeleteClick(position: Int) {
+                    // Remove the notification from the list
+                    val notificationToRemove = notificationsList[position]
+                    notificationsList.removeAt(position)
+                    adapter.notifyItemRemoved(position)
+
+                    // Also remove it from the shared preferences
+                    removeNotificationFromSharedPreferences(notificationToRemove)
+                }
             }
         )
         recyclerView.adapter = adapter
@@ -59,6 +68,24 @@ class NotificationsActivity : AppCompatActivity() {
         // Back button functionality
         toolbar.setNavigationOnClickListener {
             onBackPressed()
+        }
+    }
+    private fun removeNotificationFromSharedPreferences(notification: NotificationItem) {
+        val sharedPref = getSharedPreferences("notifications", Context.MODE_PRIVATE)
+        val gson = Gson()
+        val json = sharedPref.getString("notificationsList", null)
+        if (json != null) {
+            val type: Type = object : TypeToken<ArrayList<NotificationItem>>() {}.type
+            val currentList: ArrayList<NotificationItem> = gson.fromJson(json, type)
+
+            // Remove the notification that matches
+            currentList.removeIf { it.title == notification.title && it.date == notification.date }
+
+            // Save the updated list
+            val editor = sharedPref.edit()
+            val updatedJson = gson.toJson(currentList)
+            editor.putString("notificationsList", updatedJson)
+            editor.apply()
         }
     }
 
@@ -84,7 +111,9 @@ class NotificationsActivity : AppCompatActivity() {
             val currentList = loadCurrentNotifications(context)
 
             // Add the new notification
-            currentList.add(notification)
+            val notificationWithTimestamp = notification.copy(createdAt = Date())
+
+            currentList.add(notificationWithTimestamp)
 
             // Save the updated list back
             val json = gson.toJson(currentList)
@@ -150,6 +179,7 @@ class NotificationsActivity : AppCompatActivity() {
         val date: String,  // String instead of Timestamp
         val amount: String,
         val billId: String,
-        var isUnread: Boolean = true
+        var isUnread: Boolean = true,
+        val createdAt: Date
     )
 }
