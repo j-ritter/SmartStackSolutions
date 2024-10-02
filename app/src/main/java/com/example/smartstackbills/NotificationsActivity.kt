@@ -85,8 +85,9 @@ class NotificationsActivity : AppCompatActivity() {
             val thirtyDaysInMillis = TimeUnit.DAYS.toMillis(30)
             val cutoffDate = Date(currentTime - thirtyDaysInMillis)
 
+            // Safely filter the notifications, checking for null values
             val filteredNotifications = savedNotifications.filter {
-                it.createdAt.after(cutoffDate)
+                it.createdAt != null && it.createdAt.after(cutoffDate)
             }
 
             // Remove the old notifications from SharedPreferences
