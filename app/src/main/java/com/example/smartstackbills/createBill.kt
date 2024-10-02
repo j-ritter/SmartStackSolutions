@@ -26,7 +26,6 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
-import com.example.smartstackbills.NotificationsActivity.NotificationItem
 
 
 class createBill : AppCompatActivity() {
@@ -381,23 +380,10 @@ class createBill : AppCompatActivity() {
                     .addOnSuccessListener {
                         Toast.makeText(this, "Open Payment saved successfully", Toast.LENGTH_SHORT).show()
 
-                        // Trigger immediate notification if the bill is not paid
-                        if (!billPaid) {
-                            val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-                            val formattedDate = timestamp?.let { sdf.format(it.toDate()) } ?: "Unknown date"
-
-                            val notificationItem = NotificationItem(
-                                title = billName,
-                                date = formattedDate,
-                                amount = billAmount,
-                                billId = billId,
-                                createdAt = Date(),
-                                )
-                            NotificationsActivity.saveNotification(this, notificationItem)  // Save to notifications list
-                            NotificationWorker.scheduleNotification(this, notificationItem)  // Show notification immediately
-
-                            // Increment the unread notification count
-                            incrementUnreadNotificationCount()
+                        // Schedule the notification 1 day before the due date if the bill is not paid
+                        if (!billPaid && billDate != null) {
+                            val createdAt = Date()  // Capture the creation time of the notification
+                            scheduleNotification(billId, billName, billAmount, billDate, createdAt)
                         }
 
                         val intent = Intent(this, MyBills::class.java)
@@ -498,7 +484,13 @@ class createBill : AppCompatActivity() {
                 Toast.makeText(this, "Error adding vendor: ${e.message}", Toast.LENGTH_SHORT).show()
             }
     }
-    private fun scheduleNotification(billId: String, title: String, amount: String, dueDate: Date?) {
+    private fun scheduleNotification(
+        billId: String,
+        title: String,
+        amount: String,
+        dueDate: Date?,
+        createdAt: Date
+    ) {
         val calendar = Calendar.getInstance()
         dueDate?.let {
             calendar.time = it
@@ -512,6 +504,7 @@ class createBill : AppCompatActivity() {
             .putString("title", title)
             .putString("amount", amount)
             .putString("billId", billId)
+            .putLong("createdAt", createdAt.time)
             .build()
 
         val notificationWork = androidx.work.OneTimeWorkRequest.Builder(NotificationWorker::class.java)

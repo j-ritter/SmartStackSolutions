@@ -9,7 +9,7 @@
         android:id="@+id/toolbar_notifications"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorSecondary"
+        android:background="@color/bluedark"
         app:title="Notifications"
         app:titleTextColor="@android:color/white"
         app:navigationIcon="@drawable/ic_arrow_back"

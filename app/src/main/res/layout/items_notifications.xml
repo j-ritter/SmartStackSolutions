@@ -33,7 +33,7 @@
             android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@id/labelTitleNotification"
-            app:layout_constraintTop_toTopOf="30dp"
+            app:layout_constraintTop_toTopOf="@id/labelTitleNotification"
             app:layout_constraintEnd_toStartOf="@id/imgDeleteNotification" />
 
         <!-- Notification Created Time and Date -->

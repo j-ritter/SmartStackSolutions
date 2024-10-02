@@ -14,16 +14,57 @@ import androidx.work.WorkerParameters
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 
 class NotificationWorker(context: Context, params: WorkerParameters) : Worker(context, params) {
+
+    private val db = FirebaseFirestore.getInstance()
 
     override fun doWork(): Result {
         val title = inputData.getString("title")
         val amount = inputData.getString("amount")
         val billId = inputData.getString("billId")
+        val createdAtLong = inputData.getLong("createdAt", System.currentTimeMillis())
+        val createdAt = Date(createdAtLong)
+
+        // Check if the notification is older than 30 days
+        if (isNotificationOlderThan30Days(createdAt)) {
+            // Delete the notification from the database or storage
+            deleteNotificationById(billId)
+            return Result.success() // Return success after deletion
+        }
 
         sendNotification(title, amount, billId)
+        // Increment unread notification count when the notification is triggered
+        NotificationsActivity.incrementUnreadNotificationCount(applicationContext)
+
         return Result.success()
+    }
+
+    // Method to check if a notification is older than 30 days
+    private fun isNotificationOlderThan30Days(createdAt: Date): Boolean {
+        val currentTime = System.currentTimeMillis()
+        val thirtyDaysInMillis = TimeUnit.DAYS.toMillis(30)
+        return (currentTime - createdAt.time) > thirtyDaysInMillis
+    }
+
+    // Method to delete a notification from Firebase by billId
+    private fun deleteNotificationById(billId: String?) {
+        if (billId != null) {
+            db.collection("notifications")
+                .whereEqualTo("billId", billId)
+                .get()
+                .addOnSuccessListener { querySnapshot ->
+                    for (document in querySnapshot) {
+                        // Delete the specific notification
+                        document.reference.delete()
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    // Log or handle failure if needed
+                }
+        }
     }
 
     private fun sendNotification(title: String?, amount: String?, billId: String?) {
@@ -90,7 +131,8 @@ class NotificationWorker(context: Context, params: WorkerParameters) : Worker(co
                     androidx.work.workDataOf(
                         "title" to notification.title,
                         "amount" to notification.amount,
-                        "billId" to notification.title
+                        "billId" to notification.title,
+                        "createdAt" to notification.createdAt.time
                     )
                 )
                 .setInitialDelay(delay, TimeUnit.MILLISECONDS)

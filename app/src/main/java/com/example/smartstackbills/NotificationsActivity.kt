@@ -12,6 +12,7 @@ import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 class NotificationsActivity : AppCompatActivity() {
 
@@ -26,8 +27,8 @@ class NotificationsActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.recyclerViewNotifications)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        // Load notifications from local storage (SharedPreferences)
-        loadNotifications()
+        // Load notifications from local storage (SharedPreferences) and remove old ones
+        loadAndCleanNotifications()
 
         // Pass the list and listener to the adapter
         adapter = NotificationsAdapter(
@@ -70,6 +71,42 @@ class NotificationsActivity : AppCompatActivity() {
             onBackPressed()
         }
     }
+    // Load notifications and remove those older than 30 days
+    private fun loadAndCleanNotifications() {
+        val sharedPref = getSharedPreferences("notifications", Context.MODE_PRIVATE)
+        val gson = Gson()
+        val json = sharedPref.getString("notificationsList", null)
+        if (json != null) {
+            val type: Type = object : TypeToken<ArrayList<NotificationItem>>() {}.type
+            val savedNotifications: ArrayList<NotificationItem> = gson.fromJson(json, type)
+
+            // Filter out notifications older than 30 days
+            val currentTime = System.currentTimeMillis()
+            val thirtyDaysInMillis = TimeUnit.DAYS.toMillis(30)
+            val cutoffDate = Date(currentTime - thirtyDaysInMillis)
+
+            val filteredNotifications = savedNotifications.filter {
+                it.createdAt.after(cutoffDate)
+            }
+
+            // Remove the old notifications from SharedPreferences
+            saveFilteredNotificationsToSharedPreferences(filteredNotifications)
+
+            notificationsList.addAll(filteredNotifications)
+        }
+    }
+
+    private fun saveFilteredNotificationsToSharedPreferences(filteredNotifications: List<NotificationItem>) {
+        val sharedPref = getSharedPreferences("notifications", Context.MODE_PRIVATE)
+        val gson = Gson()
+        val editor = sharedPref.edit()
+
+        // Save the filtered notifications
+        val json = gson.toJson(filteredNotifications)
+        editor.putString("notificationsList", json)
+        editor.apply()
+    }
+
     private fun removeNotificationFromSharedPreferences(notification: NotificationItem) {
         val sharedPref = getSharedPreferences("notifications", Context.MODE_PRIVATE)
         val gson = Gson()
@@ -86,18 +123,6 @@ class NotificationsActivity : AppCompatActivity() {
             val updatedJson = gson.toJson(currentList)
             editor.putString("notificationsList", updatedJson)
             editor.apply()
-        }
-    }
-
-    // Load Notifications using Gson
-    private fun loadNotifications() {
-        val sharedPref = getSharedPreferences("notifications", Context.MODE_PRIVATE)
-        val gson = Gson()
-        val json = sharedPref.getString("notificationsList", null)
-        if (json != null) {
-            val type: Type = object : TypeToken<ArrayList<NotificationItem>>() {}.type
-            val savedNotifications: ArrayList<NotificationItem> = gson.fromJson(json, type)
-            notificationsList.addAll(savedNotifications)
         }
     }
 
@@ -135,7 +160,7 @@ class NotificationsActivity : AppCompatActivity() {
             }
         }
 
-        private fun incrementUnreadNotificationCount(context: Context) {
+        fun incrementUnreadNotificationCount(context: Context) {
             val sharedPref = context.getSharedPreferences("notifications", Context.MODE_PRIVATE)
             val unreadCount = sharedPref.getInt("unreadCount", 0) + 1
             sharedPref.edit().putInt("unreadCount", unreadCount).apply()
