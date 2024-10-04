@@ -380,6 +380,14 @@ class createBill : AppCompatActivity() {
                     .addOnSuccessListener {
                         Toast.makeText(this, "Open Payment saved successfully", Toast.LENGTH_SHORT).show()
 
+                        // Generate future occurrences if this is a recurring bill
+                        if (billRepeat != "No" && billDate != null) {
+                            generateRecurringBills(
+                                billName, billAmount, billDate, billCategory, billSubcategory,
+                                billVendor, billRepeat, billComment, billAttachment, billId
+                            )
+                        }
+
                         // Schedule the notification 1 day before the due date if the bill is not paid
                         if (!billPaid && billDate != null) {
                             val createdAt = Date()  // Capture the creation time of the notification
@@ -396,6 +404,66 @@ class createBill : AppCompatActivity() {
             } else {
                 Toast.makeText(this, "Error: No se pudo obtener el email o UID del usuario", Toast.LENGTH_SHORT).show()
             }
+        }
+    }
+    // New method to generate future occurrences for recurring bills
+    private fun generateRecurringBills(
+        billName: String, billAmount: String, billDate: Date, billCategory: String, billSubcategory: String,
+        billVendor: String, billRepeat: String, billComment: String, billAttachment: String?, parentBillId: String
+    ) {
+        val calendar = Calendar.getInstance()
+        calendar.time = billDate
+
+        // Define the max end date (1 year in advance)
+        val endDate = Calendar.getInstance()
+        endDate.add(Calendar.YEAR, 1)
+
+        // Loop to generate future occurrences up to 1 year
+        while (calendar.before(endDate)) {
+            // Adjust the date based on the selected repeat value
+            when (billRepeat) {
+                "Monthly" -> calendar.add(Calendar.MONTH, 1)
+                "Weekly" -> calendar.add(Calendar.WEEK_OF_YEAR, 1)
+                "Every 2 Weeks" -> calendar.add(Calendar.WEEK_OF_YEAR, 2)
+                "Every 2 Months" -> calendar.add(Calendar.MONTH, 2)
+                "Quarterly" -> calendar.add(Calendar.MONTH, 3)
+                "Every 6 months" -> calendar.add(Calendar.MONTH, 6)
+                "Yearly" -> calendar.add(Calendar.YEAR, 1)
+            }
+
+            // Check if the new date is within 1 year, if not, stop the loop
+            if (calendar.after(endDate)) {
+                break
+            }
+
+            // Create a new billId for the next occurrence
+            val newBillId = db.collection("users").document(userUid!!).collection("bills").document().id
+
+            // Prepare the data for the recurring bill
+            val recurringBill = hashMapOf(
+                "name" to billName,
+                "amount" to billAmount,
+                "date" to com.google.firebase.Timestamp(calendar.time),
+                "category" to billCategory,
+                "subcategory" to billSubcategory,
+                "vendor" to billVendor,
+                "repeat" to billRepeat,
+                "comment" to billComment,
+                "paid" to false,
+                "attachment" to billAttachment,
+                "parentBillId" to parentBillId,  // Link to the original bill
+                "billId" to newBillId
+            )
+
+            // Save the next occurrence to Firebase
+            db.collection("users").document(userUid!!).collection("bills").document(newBillId)
+                .set(recurringBill)
+                .addOnSuccessListener {
+                    Toast.makeText(this, "Recurring bill saved successfully", Toast.LENGTH_SHORT).show()
+                }
+                .addOnFailureListener { e ->
+                    Toast.makeText(this, "Error saving recurring bill: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
         }
     }
 
