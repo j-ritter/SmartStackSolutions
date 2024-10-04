@@ -41,7 +41,7 @@ class createBill : AppCompatActivity() {
 
 
     val repeat = arrayOf(
-        "No","Daily","Weekly","Every 2 Weeks","Monthly","Every 2 Months", "Quarterly", "Every 6 months", "Yearly"
+        "No","Weekly","Every 2 Weeks","Monthly","Every 2 Months", "Quarterly", "Every 6 months", "Yearly"
     )
 
     val categories = arrayOf(
