@@ -27,7 +27,7 @@
         <!-- Title Value -->
         <TextView
             android:id="@+id/textviewTitleItemsBills"
-            android:layout_width="220dp"
+            android:layout_width="150dp"
             android:layout_height="18dp"
             android:layout_marginTop="8dp"
             android:text="Bill Title"
@@ -38,21 +38,38 @@
             app:layout_constraintStart_toStartOf="@+id/textviewCategoryItemsBills"
             app:layout_constraintWidth_default="wrap" />
 
+        <!-- Recurring Icon  -->
+
         <!-- Checkbox for marking as paid -->
+
+        <!-- Category Label -->
+
+        <ImageView
+            android:id="@+id/imgRecurringIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:contentDescription="@string/recurring"
+            android:visibility="gone"
+            android:src="@drawable/ic_recurring"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imgCheckBoxItemsBills" />
+
         <CheckBox
             android:id="@+id/imgCheckBoxItemsBills"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
             android:buttonTint="@color/checkbox_color_selector"
             android:text="@string/paid"
-            android:textStyle="bold"
             android:textSize="12sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@id/textviewCategoryItemsBills"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/textviewCategoryItemsBills"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintVertical_bias="0.866" />
 
-        <!-- Category Label -->
         <TextView
             android:id="@+id/labelCategoryItemsBills"
             android:layout_width="120dp"

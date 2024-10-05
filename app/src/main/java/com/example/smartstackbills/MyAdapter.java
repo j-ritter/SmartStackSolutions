@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -92,8 +93,14 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 itemsArrayList.remove(position);
                 notifyItemRemoved(position);
                 notifyItemRangeChanged(position, itemsArrayList.size());
-
             });
+
+            // Show or hide recurring icon based on the bill's repeat status
+            if (!"No".equals(bill.getRepeat())) { // Highlighted change
+                billHolder.recurringIcon.setVisibility(View.VISIBLE);  // Show icon for recurring bills
+            } else {
+                billHolder.recurringIcon.setVisibility(View.GONE);  // Hide icon for non-recurring bills
+            }
 
         } else {
             MonthHeaderViewHolder headerHolder = (MonthHeaderViewHolder) holder;
@@ -176,6 +183,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         TextView title, category, amount, purchaseDate;
         OnBillClickListener onBillClickListener;
         CheckBox checkBoxPaid;
+        ImageView recurringIcon;
 
 
         public BillViewHolder(@NonNull View itemView, OnBillClickListener onBillClickListener) {
@@ -185,6 +193,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             amount = itemView.findViewById(R.id.textviewAmountItemsBills);
             checkBoxPaid = itemView.findViewById(R.id.imgCheckBoxItemsBills);
             purchaseDate = itemView.findViewById(R.id.textviewDateItemsBills);
+            recurringIcon = itemView.findViewById(R.id.imgRecurringIcon);
             this.onBillClickListener = onBillClickListener;
             itemView.setOnClickListener(this);
         }
