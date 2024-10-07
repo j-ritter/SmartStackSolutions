@@ -10,12 +10,13 @@ public class Spendings {
     Timestamp date;
     boolean paid;
     boolean isEssential;
+    boolean isRecurring;
 
     public Spendings() {
         // Default constructor needed for Firestore
     }
 
-    public Spendings(String spendingId, String name, Timestamp date, String comment, String category, String amount, String vendor, String subcategory, String attachment, boolean isEssential) {
+    public Spendings(String spendingId, String name, Timestamp date, String comment, String category, String amount, String vendor, String subcategory, String attachment, boolean isEssential, boolean isRecurring) {
         this.spendingId = spendingId;
         this.name = name;
         this.date = date;
@@ -27,6 +28,7 @@ public class Spendings {
         this.attachment = attachment;
         this.paid = paid;
         this.isEssential = isEssential;
+        this.isRecurring = isRecurring;
     }
 
     public String getSpendingId() {
@@ -110,6 +112,14 @@ public class Spendings {
 
     public boolean isEssential() {
         return isEssential;
+    }
+
+    public boolean isRecurring() {  // New getter for recurring status
+        return isRecurring;
+    }
+
+    public void setRecurring(boolean isRecurring) {  // New setter for recurring status
+        this.isRecurring = isRecurring;
     }
 }
 

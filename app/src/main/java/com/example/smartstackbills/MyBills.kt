@@ -243,7 +243,7 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
                             }
                         }
                         saveBills()
-                        filterBills("all")
+                        myAdapter.updateBills(billsArrayList)
                     } else {
                         Log.d("Firestore Data", "No 'Open Payments' found")
                     }
@@ -468,26 +468,7 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
         Log.d("Filter", "Filtered 'Open Payments' count for $filter: ${filteredBills.size}")
     }
 
-    private fun groupBillsByMonth(billsArrayList: ArrayList<Bills>): ArrayList<Any> {
-        val groupedBills = LinkedHashMap<String, MutableList<Bills>>()
-        val sdf = SimpleDateFormat("MMMM yyyy", Locale.getDefault())
 
-        for (bill in billsArrayList) {
-            val monthYear = sdf.format(bill.date.toDate())
-            if (!groupedBills.containsKey(monthYear)) {
-                groupedBills[monthYear] = ArrayList()
-            }
-            groupedBills[monthYear]?.add(bill)
-        }
-
-        val items = ArrayList<Any>()
-        for ((monthYear, bills) in groupedBills) {
-            items.add(monthYear)
-            items.addAll(bills)
-        }
-
-        return items
-    }
     // Update the unread count badge from SharedPreferences
     private fun updateUnreadCountBadge(badgeCountTextView: TextView?) {
         val unreadCount = NotificationsActivity.getUnreadNotificationCount(this)

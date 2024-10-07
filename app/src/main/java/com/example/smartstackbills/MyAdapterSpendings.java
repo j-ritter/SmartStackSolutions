@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -80,6 +81,13 @@ public class MyAdapterSpendings extends RecyclerView.Adapter<RecyclerView.ViewHo
             spendingHolder.checkBoxPaid.setOnCheckedChangeListener(null); // Clear any previous listener
             spendingHolder.checkBoxPaid.setChecked(spending.isPaid());
 
+            // Show or hide recurring icon based on the spending's recurring status
+            if (spending.isRecurring()) {  // NEW: Show the recurring icon if the spending was recurring
+                spendingHolder.recurringIcon.setVisibility(View.VISIBLE);
+            } else {
+                spendingHolder.recurringIcon.setVisibility(View.GONE);
+            }
+
             spendingHolder.checkBoxPaid.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 if (!isChecked) {  // Se ejecutará solo cuando se quite el check
                     spending.setPaid(false);
@@ -120,6 +128,9 @@ public class MyAdapterSpendings extends RecyclerView.Adapter<RecyclerView.ViewHo
             bill.setComment(spending.getComment());
             bill.setAttachment(spending.getAttachment());
             bill.setPaid(false);
+
+            // Set default isRecurring to false if not provided
+            bill.setRepeat(spending.isRecurring() ? "Yes" : "No");
 
             FirebaseFirestore.getInstance()
                     .collection("users")
@@ -173,6 +184,7 @@ public class MyAdapterSpendings extends RecyclerView.Adapter<RecyclerView.ViewHo
         TextView title, category, amount, purchaseDate;
         OnSpendingClickListener onSpendingClickListener;
         CheckBox checkBoxPaid;
+        ImageView recurringIcon;
 
         public SpendingViewHolder(@NonNull View itemView, OnSpendingClickListener onSpendingClickListener) {
             super(itemView);
@@ -181,6 +193,7 @@ public class MyAdapterSpendings extends RecyclerView.Adapter<RecyclerView.ViewHo
             amount = itemView.findViewById(R.id.textviewAmountItemsSpendings);
             purchaseDate = itemView.findViewById(R.id.textviewDateItemsSpendings);
             checkBoxPaid = itemView.findViewById(R.id.imgCheckBoxItemsSpendings);
+            recurringIcon = itemView.findViewById(R.id.imgRecurringIconSpendings);
             this.onSpendingClickListener = onSpendingClickListener;
             itemView.setOnClickListener(this);
         }

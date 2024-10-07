@@ -19,11 +19,16 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -224,28 +229,87 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         notifyDataSetChanged();
     }
 
-    // Método para agrupar las facturas por mes
+    // Method to group bills by month with correct order (current -> future -> past)
     private ArrayList<Object> groupBillsByMonth(ArrayList<Bills> billsArrayList) {
-        Map<String, List<Bills>> groupedBills = new HashMap<>();
         SimpleDateFormat sdf = new SimpleDateFormat("MMMM yyyy", Locale.getDefault());
+        Calendar currentDate = Calendar.getInstance();
 
+        int currentMonth = currentDate.get(Calendar.MONTH);
+        int currentYear = currentDate.get(Calendar.YEAR);
+
+        // Separate bills into past, current, and future groups
+        Map<Integer, Map<Integer, List<Bills>>> currentMonthBills = new HashMap<>();
+        Map<Integer, Map<Integer, List<Bills>>> futureMonthBills = new HashMap<>();
+        Map<Integer, Map<Integer, List<Bills>>> pastMonthBills = new HashMap<>();
+
+        // Group bills by year and month, categorize them
         for (Bills bill : billsArrayList) {
-            // Convertir Timestamp a Date y formatear
-            String monthYear = sdf.format(bill.getDate().toDate()); // Asegúrate de que getDate() devuelva un Timestamp
-            if (!groupedBills.containsKey(monthYear)) {
-                groupedBills.put(monthYear, new ArrayList<>());
+            Date billDate = bill.getDate().toDate();
+            Calendar billCalendar = Calendar.getInstance();
+            billCalendar.setTime(billDate);
+
+            int billMonth = billCalendar.get(Calendar.MONTH);
+            int billYear = billCalendar.get(Calendar.YEAR);
+
+            // Categorize bills based on their relation to the current date
+            if (billYear == currentYear && billMonth == currentMonth) {
+                currentMonthBills.computeIfAbsent(billYear, k -> new HashMap<>())
+                        .computeIfAbsent(billMonth, k -> new ArrayList<>())
+                        .add(bill);
+            } else if (billYear > currentYear || (billYear == currentYear && billMonth > currentMonth)) {
+                futureMonthBills.computeIfAbsent(billYear, k -> new HashMap<>())
+                        .computeIfAbsent(billMonth, k -> new ArrayList<>())
+                        .add(bill);
+            } else {
+                pastMonthBills.computeIfAbsent(billYear, k -> new HashMap<>())
+                        .computeIfAbsent(billMonth, k -> new ArrayList<>())
+                        .add(bill);
             }
-            groupedBills.get(monthYear).add(bill);
         }
 
+        // Sort future months by year, then by month in ascending order
+        TreeMap<Integer, Map<Integer, List<Bills>>> sortedFutureMonths = new TreeMap<>(futureMonthBills);
+
+        // Sort past months by year, then by month in descending order
+        TreeMap<Integer, Map<Integer, List<Bills>>> sortedPastMonths = new TreeMap<>(Comparator.reverseOrder());
+        sortedPastMonths.putAll(pastMonthBills);
+
+        // Prepare final sorted items
         ArrayList<Object> items = new ArrayList<>();
-        for (Map.Entry<String, List<Bills>> entry : groupedBills.entrySet()) {
-            items.add(entry.getKey()); // Añade el mes y año como encabezado
-            items.addAll(entry.getValue()); // Añade las facturas del mes correspondiente
+
+        // 1. Add current month bills (if any)
+        if (!currentMonthBills.isEmpty()) {
+            for (Map.Entry<Integer, Map<Integer, List<Bills>>> entry : currentMonthBills.entrySet()) {
+                for (Map.Entry<Integer, List<Bills>> monthEntry : entry.getValue().entrySet()) {
+                    String monthYear = sdf.format(new GregorianCalendar(entry.getKey(), monthEntry.getKey(), 1).getTime());
+                    items.add(monthYear);
+                    items.addAll(monthEntry.getValue());
+                }
+            }
+        }
+
+        // 2. Add future months in ascending order
+        for (Map.Entry<Integer, Map<Integer, List<Bills>>> entry : sortedFutureMonths.entrySet()) {
+            for (Map.Entry<Integer, List<Bills>> monthEntry : entry.getValue().entrySet()) {
+                String monthYear = sdf.format(new GregorianCalendar(entry.getKey(), monthEntry.getKey(), 1).getTime());
+                items.add(monthYear);
+                items.addAll(monthEntry.getValue());
+            }
+        }
+
+        // 3. Add past months in descending order
+        for (Map.Entry<Integer, Map<Integer, List<Bills>>> entry : sortedPastMonths.entrySet()) {
+            for (Map.Entry<Integer, List<Bills>> monthEntry : entry.getValue().entrySet()) {
+                String monthYear = sdf.format(new GregorianCalendar(entry.getKey(), monthEntry.getKey(), 1).getTime());
+                items.add(monthYear);
+                items.addAll(monthEntry.getValue());
+            }
         }
 
         return items;
     }
+
+
     private void saveBillToFirestore(Bills bill) {
         String userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         if (userUid != null) {

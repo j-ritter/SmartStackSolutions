@@ -638,7 +638,7 @@
                     android:id="@+id/answer_12"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Answer: If you encounter any issues with the app, you can contact our support team via the 'Help &amp; Support' section in the navigation menu. Provide a detailed description of the problem, and our team will assist you promptly."
+                    android:text="Answer: If you encounter any issues with the app, you can contact our support team via service@smartstack-solutions.com. Provide a detailed description of the problem, and our team will assist you promptly."
                     android:textSize="12sp"
                     android:textColor="@android:color/black"
                     android:background="@drawable/background_blue1"
