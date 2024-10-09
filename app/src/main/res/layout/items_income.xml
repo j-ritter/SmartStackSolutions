@@ -39,6 +39,19 @@
             app:layout_constraintWidth_default="wrap" />
 
         <!-- Category Label -->
+
+        <ImageView
+            android:id="@+id/imgRecurringIconIncome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="24dp"
+            android:contentDescription="@string/recurring"
+            android:visibility="gone"
+            android:src="@drawable/ic_recurring1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textviewTitleItemsIncome" />
+
         <TextView
             android:id="@+id/labelCategoryItemsIncome"
             android:layout_width="120dp"

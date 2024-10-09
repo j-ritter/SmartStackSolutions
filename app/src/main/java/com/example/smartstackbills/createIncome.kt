@@ -17,7 +17,7 @@ class createIncome : AppCompatActivity() {
     private var userUid: String? = null
 
     val repeatOptions = arrayOf(
-        "No", "Daily", "Weekly", "Every 2 Weeks", "Monthly", "Every 2 Months", "Quarterly", "Every 6 months", "Yearly"
+        "No", "Weekly", "Every 2 Weeks", "Monthly", "Every 2 Months", "Quarterly", "Every 6 months", "Yearly"
     )
 
     val categories = arrayOf(
@@ -158,6 +158,13 @@ class createIncome : AppCompatActivity() {
                 docRef.set(income)
                     .addOnSuccessListener {
                         Toast.makeText(this, "Income saved successfully", Toast.LENGTH_SHORT).show()
+                        // Generate recurring income if necessary
+                        if (incomeRepeat != "No" && incomeDate != null) {
+                            generateRecurringIncome(
+                                incomeTitle, incomeAmount, incomeDate, incomeCategory, incomeSubcategory,
+                                incomeRepeat, incomeComment, incomeId
+                            )
+                        }
                         val intent = Intent(this, MyIncome::class.java)
                         intent.putExtra("USER_EMAIL", userEmail)
                         startActivity(intent)
@@ -168,6 +175,58 @@ class createIncome : AppCompatActivity() {
             } else {
                 Toast.makeText(this, "Error: Unable to retrieve user email or UID", Toast.LENGTH_SHORT).show()
             }
+        }
+    }
+    private fun generateRecurringIncome(
+        incomeTitle: String, incomeAmount: String, incomeDate: Date, incomeCategory: String, incomeSubcategory: String,
+        incomeRepeat: String, incomeComment: String, parentIncomeId: String
+    ) {
+        val calendar = Calendar.getInstance()
+        calendar.time = incomeDate
+
+        // Define the max end date (1 year in advance)
+        val endDate = Calendar.getInstance()
+        endDate.add(Calendar.YEAR, 1)
+
+        // Loop to generate future occurrences up to 1 year
+        while (calendar.before(endDate)) {
+            // Adjust the date based on the selected repeat value
+            when (incomeRepeat) {
+                "Monthly" -> calendar.add(Calendar.MONTH, 1)
+                "Weekly" -> calendar.add(Calendar.WEEK_OF_YEAR, 1)
+                "Every 2 Weeks" -> calendar.add(Calendar.WEEK_OF_YEAR, 2)
+                "Every 2 Months" -> calendar.add(Calendar.MONTH, 2)
+                "Quarterly" -> calendar.add(Calendar.MONTH, 3)
+                "Every 6 months" -> calendar.add(Calendar.MONTH, 6)
+                "Yearly" -> calendar.add(Calendar.YEAR, 1)
+            }
+            // Check if the new date is within 1 year, if not, stop the loop
+            if (calendar.after(endDate)) {
+                break
+            }
+            // Create a new incomeId for the next occurrence
+            val newIncomeId = db.collection("users").document(userUid!!).collection("income").document().id
+            // Prepare the data for the recurring income
+            val recurringIncome = hashMapOf(
+                "name" to incomeTitle,
+                "amount" to incomeAmount,
+                "date" to com.google.firebase.Timestamp(calendar.time),
+                "category" to incomeCategory,
+                "subcategory" to incomeSubcategory,
+                "repeat" to incomeRepeat,
+                "comment" to incomeComment,
+                "parentIncomeId" to parentIncomeId,  // Link to the original income
+                "incomeId" to newIncomeId
+            )
+            // Save the next occurrence to Firebase
+            db.collection("users").document(userUid!!).collection("income").document(newIncomeId)
+                .set(recurringIncome)
+                .addOnSuccessListener {
+                    Toast.makeText(this, "Recurring income saved successfully", Toast.LENGTH_SHORT).show()
+                }
+                .addOnFailureListener { e ->
+                    Toast.makeText(this, "Error saving recurring income: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
         }
     }
 

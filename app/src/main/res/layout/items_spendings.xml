@@ -35,7 +35,7 @@
             android:layout_marginEnd="20dp"
             android:contentDescription="@string/recurring"
             android:visibility="gone"
-            android:src="@drawable/ic_recurring"
+            android:src="@drawable/ic_recurring1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/imgCheckBoxItemsSpendings" />
 

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -69,6 +70,13 @@ public class MyAdapterIncome extends RecyclerView.Adapter<RecyclerView.ViewHolde
             String formattedDate = formatTimestamp(income.getDate());
             incomeHolder.dateOfIncome.setText(formattedDate);
 
+            // Show or hide recurring icon based on the income's repeat field
+            if (!"No".equals(income.getRepeat())) {
+                incomeHolder.recurringIcon.setVisibility(View.VISIBLE);
+            } else {
+                incomeHolder.recurringIcon.setVisibility(View.GONE);
+            }
+
             // Si necesitas mostrar mes y año, usa:
             String monthYear = formatMonthYear(income.getDate());
             // Si estás mostrando el mes y el año en otro lugar, usa el formato adecuado
@@ -101,6 +109,7 @@ public static class IncomeViewHolder extends RecyclerView.ViewHolder implements 
 
     TextView title, category, amount, dateOfIncome;
     OnIncomeClickListener onIncomeClickListener;
+    ImageView recurringIcon;
 
     public IncomeViewHolder(@NonNull View itemView, OnIncomeClickListener onIncomeClickListener) {
         super(itemView);
@@ -108,6 +117,7 @@ public static class IncomeViewHolder extends RecyclerView.ViewHolder implements 
         category = itemView.findViewById(R.id.textviewCategoryItemsIncome);
         amount = itemView.findViewById(R.id.textviewAmountItemsIncome);
         dateOfIncome = itemView.findViewById(R.id.textviewDateItemsIncome);
+        recurringIcon = itemView.findViewById(R.id.imgRecurringIconIncome);
         this.onIncomeClickListener = onIncomeClickListener;
         itemView.setOnClickListener(this);
     }
