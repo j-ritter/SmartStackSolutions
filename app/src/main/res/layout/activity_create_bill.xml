@@ -202,7 +202,7 @@
         app:layout_constraintStart_toStartOf="@+id/guidelineStart"
         app:layout_constraintEnd_toEndOf="@+id/guidelineEnd" />
 
-    <!-- Vendor -->
+    <!-- Vendor with AutoCompleteTextView -->
     <TextView
         android:id="@+id/txtVendorBill"
         android:layout_width="wrap_content"
@@ -214,12 +214,18 @@
         app:layout_constraintTop_toBottomOf="@+id/spinnerSubcategoriesBill"
         app:layout_constraintStart_toStartOf="@+id/guidelineStart" />
 
-    <Spinner
-        android:id="@+id/spinnerVendorsBill"
+    <AutoCompleteTextView
+        android:id="@+id/autoCompleteVendorBill"
         android:layout_width="0dp"
         android:layout_height="48dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/rounded_frame_background_yellow"
+        android:hint="Search or Select Vendor"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:textColorHint="#A5A5A5"
+        android:textSize="15sp"
+        android:inputType="text"
         app:layout_constraintTop_toBottomOf="@+id/txtVendorBill"
         app:layout_constraintStart_toStartOf="@+id/guidelineStart"
         app:layout_constraintEnd_toEndOf="@+id/guidelineEnd" />
@@ -233,7 +239,7 @@
         android:hint="Enter custom vendor"
         android:visibility="gone"
         android:background="@drawable/rounded_frame_background_yellow"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerVendorsBill"
+        app:layout_constraintTop_toBottomOf="@+id/autoCompleteVendorBill"
         app:layout_constraintStart_toStartOf="@+id/guidelineStart"
         app:layout_constraintEnd_toEndOf="@+id/guidelineEnd" />
 
