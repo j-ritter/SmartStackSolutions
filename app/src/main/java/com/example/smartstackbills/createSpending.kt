@@ -100,6 +100,11 @@ class createSpending : AppCompatActivity() {
 
         "Others" to "Non-essential"
     )
+    val categories = arrayOf(
+        "Accommodation", "Communication", "Insurance", "Subscription and Memberships",
+        "Transportation", "Finances/Fees", "Taxes", "Health", "Education",
+        "Shopping & Consumption", "Others"
+    )
 
     val vendorsMap = mapOf(
         "Accommodation" to arrayOf(
@@ -217,43 +222,75 @@ class createSpending : AppCompatActivity() {
 
         val spinnerCategories = findViewById<Spinner>(R.id.spinnerCategoriesSpending)
         val spinnerSubcategories = findViewById<Spinner>(R.id.spinnerSubcategoriesSpending)
-        val spinnerVendors = findViewById<Spinner>(R.id.spinnerVendorsSpending)
+        val autoCompleteVendors = findViewById<AutoCompleteTextView>(R.id.autoCompleteVendorSpending)
         val edtCustomVendor = findViewById<EditText>(R.id.edtCustomVendorSpending)
 
-        // Initialize spinners with empty arrays
+        // Initialize spinners with empty adapters (populated later)
         val emptyAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, arrayOf<String>())
         spinnerCategories.adapter = emptyAdapter
         spinnerSubcategories.adapter = emptyAdapter
-        spinnerVendors.adapter = emptyAdapter
 
-        // Load categories dynamically on touch
-        spinnerCategories.setOnTouchListener { _, _ -> loadCategories(spinnerCategories); false }
+        // Load categories when the spinner is touched
+        spinnerCategories.setOnTouchListener { _, _ ->
+            loadCategories(spinnerCategories)
+            false
+        }
+
+        // Load subcategories based on selected category
         spinnerSubcategories.setOnTouchListener { _, _ ->
             spinnerCategories.selectedItem?.let { loadSubcategories(it.toString(), spinnerSubcategories) }
             false
         }
-        spinnerVendors.setOnTouchListener { _, _ ->
-            spinnerCategories.selectedItem?.let { loadVendors(it.toString(), spinnerVendors) }
-            false
-        }
 
-        // Vendor selection with custom vendor handling
-        spinnerVendors.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        // Load vendors based on selected category
+        spinnerCategories.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val selectedVendor = parent?.getItemAtPosition(position).toString()
-                edtCustomVendor.visibility = if (selectedVendor == "Create Own Vendor") View.VISIBLE else View.GONE
+                val selectedCategory = spinnerCategories.selectedItem.toString()
+                loadVendors(selectedCategory, autoCompleteVendors)
             }
 
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                // Handle case where no category is selected
+            }
+        }
+
+        // Handle vendor selection in AutoCompleteTextView
+        autoCompleteVendors.setOnItemClickListener { parent, _, position, _ ->
+            val selectedVendor = parent.getItemAtPosition(position).toString()
+            if (selectedVendor == "Create Own Vendor") {
+                edtCustomVendor.visibility = View.VISIBLE
+            } else {
+                edtCustomVendor.visibility = View.GONE
+            }
         }
 
         val saveButton = findViewById<Button>(R.id.btnSaveSpending)
         saveButton.setOnClickListener { saveSpending() }
 
-        findViewById<Button>(R.id.btnCancelSpending).setOnClickListener { finish() }
+        val btnCancel = findViewById<Button>(R.id.btnCancelSpending)
+        btnCancel.setOnClickListener {
+            finish()}
 
         // Image upload handling
         findViewById<Button>(R.id.btnUploadImageSpending).setOnClickListener { handleImageUpload() }
+    }
+    private fun loadVendors(category: String, autoCompleteVendors: AutoCompleteTextView) {
+        val vendors = vendorsMap[category] ?: emptyArray()
+
+        // Set the adapter for the AutoCompleteTextView
+        val arrayAdapterVendors = ArrayAdapter(
+            this,
+            android.R.layout.simple_dropdown_item_1line,
+            vendors + "Create Own Vendor"
+        )
+        autoCompleteVendors.setAdapter(arrayAdapterVendors)
+
+        autoCompleteVendors.threshold = 1 // Start showing suggestions from the first character
+        autoCompleteVendors.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                autoCompleteVendors.showDropDown()
+            }
+        }
     }
 
     // Handles showing the date picker
@@ -320,12 +357,6 @@ class createSpending : AppCompatActivity() {
         spinnerSubcategories.adapter = arrayAdapterSubcategories
     }
 
-    private fun loadVendors(category: String, spinnerVendors: Spinner) {
-        val vendors = vendorsMap[category] ?: emptyArray()
-        val arrayAdapterVendors = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, vendors + "Create Own Vendor")
-        spinnerVendors.adapter = arrayAdapterVendors
-    }
-
     private fun saveSpending() {
         if (validateMandatoryFields() && validateDateField()) {
             userUid?.let {
@@ -334,11 +365,8 @@ class createSpending : AppCompatActivity() {
                 val spendingDateString = findViewById<EditText>(R.id.edtDateSpending).text.toString()
                 val spendingCategory = findViewById<Spinner>(R.id.spinnerCategoriesSpending).selectedItem?.toString() ?: ""
                 val spendingSubcategory = findViewById<Spinner>(R.id.spinnerSubcategoriesSpending).selectedItem?.toString() ?: ""
-                val spendingVendor = if (findViewById<Spinner>(R.id.spinnerVendorsSpending).selectedItem?.toString() == "Create Own Vendor") {
-                    findViewById<EditText>(R.id.edtCustomVendorSpending).text.toString()
-                } else {
-                    findViewById<Spinner>(R.id.spinnerVendorsSpending).selectedItem?.toString() ?: ""
-                }
+                val spendingVendor = findViewById<AutoCompleteTextView>(R.id.autoCompleteVendorSpending).text.toString()
+                val customVendor = findViewById<EditText>(R.id.edtCustomVendorSpending).text.toString()
                 val spendingComment = findViewById<EditText>(R.id.edtCommentSpending).text.toString()
                 val spendingAttachment = imageUri?.toString()
 
@@ -351,7 +379,7 @@ class createSpending : AppCompatActivity() {
                     "date" to timestamp,
                     "category" to spendingCategory,
                     "subcategory" to spendingSubcategory,
-                    "vendor" to spendingVendor,
+                    "vendor" to if (spendingVendor == "Create Own Vendor") customVendor else spendingVendor,
                     "comment" to spendingComment,
                     "attachment" to spendingAttachment,
                     "paid" to true

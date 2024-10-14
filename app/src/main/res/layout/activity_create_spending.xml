@@ -155,6 +155,7 @@
         android:layout_height="48dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/rounded_frame_background"
+        android:text="Select a Category"
         app:layout_constraintTop_toBottomOf="@+id/txtCategorySpending"
         app:layout_constraintStart_toStartOf="@+id/guidelineStart"
         app:layout_constraintEnd_toEndOf="@+id/guidelineEnd" />
@@ -181,7 +182,7 @@
         app:layout_constraintStart_toStartOf="@+id/guidelineStart"
         app:layout_constraintEnd_toEndOf="@+id/guidelineEnd" />
 
-    <!-- Vendor -->
+    <!-- Vendor with AutoCompleteTextView -->
     <TextView
         android:id="@+id/txtVendorSpending"
         android:layout_width="wrap_content"
@@ -193,12 +194,18 @@
         app:layout_constraintTop_toBottomOf="@+id/spinnerSubcategoriesSpending"
         app:layout_constraintStart_toStartOf="@+id/guidelineStart" />
 
-    <Spinner
-        android:id="@+id/spinnerVendorsSpending"
+    <AutoCompleteTextView
+        android:id="@+id/autoCompleteVendorSpending"
         android:layout_width="0dp"
         android:layout_height="48dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/rounded_frame_background"
+        android:hint="Search or Select Vendor"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:textColorHint="#A5A5A5"
+        android:textSize="15sp"
+        android:inputType="text"
         app:layout_constraintTop_toBottomOf="@+id/txtVendorSpending"
         app:layout_constraintStart_toStartOf="@+id/guidelineStart"
         app:layout_constraintEnd_toEndOf="@+id/guidelineEnd" />
@@ -212,7 +219,7 @@
         android:hint="Enter custom vendor"
         android:visibility="gone"
         android:background="@drawable/rounded_frame_background"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerVendorsSpending"
+        app:layout_constraintTop_toBottomOf="@+id/autoCompleteVendorSpending"
         app:layout_constraintStart_toStartOf="@+id/guidelineStart"
         app:layout_constraintEnd_toEndOf="@+id/guidelineEnd" />
 
