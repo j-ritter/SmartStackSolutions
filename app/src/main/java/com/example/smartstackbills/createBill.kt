@@ -29,6 +29,20 @@ class createBill : AppCompatActivity() {
         "Transportation", "Finances/Fees", "Taxes", "Health", "Education",
         "Shopping & Consumption", "Others"
     )
+    val subcategoriesMap = mapOf(
+        "Accommodation" to arrayOf("Rent", "Mortgage", "Home maintenance", "Utilities", "Furniture", "Repairs and renovations"),
+        "Communication" to arrayOf("Mobile phone", "Landline phone", "Internet", "Cable/satellite TV", "Messaging services"),
+        "Insurance" to arrayOf("Health insurance", "Life insurance", "Car insurance", "Home insurance", "Travel insurance", "Pet insurance"),
+        "Subscription and Memberships" to arrayOf("Streaming services", "Gym memberships", "Software subscriptions", "Magazine/newspaper subscriptions", "Clubs and associations"),
+        "Transportation" to arrayOf("Fuel", "Vehicle maintenance", "Public transportation", "Parking", "Vehicle rental"),
+        "Finances/Fees" to arrayOf("Bank fees", "Investment fees", "Loan interest", "Credit card fees", "Brokerage fees"),
+        "Taxes" to arrayOf("Income tax", "Property tax", "Sales tax", "Self-employment tax", "Capital gains tax"),
+        "Health" to arrayOf("Doctor visits", "Dental care", "Prescription medications", "Health supplements", "Medical equipment"),
+        "Education" to arrayOf("Tuition fees", "Textbooks", "Online courses", "School supplies", "Extracurricular activities"),
+        "Shopping & Consumption" to arrayOf("Clothing", "Electronics", "Household goods", "Personal care products"),
+        "Groceries" to arrayOf("Basic food", "Household necessities", "Beverages", "Alcoholic beverages", "Snacks and sweets", "Luxury foods"),
+        "Others" to arrayOf("Miscellaneous")
+    )
 
     val vendorsMap = mapOf(
         "Accommodation" to arrayOf(
@@ -153,15 +167,26 @@ class createBill : AppCompatActivity() {
         val arrayAdapterRepeat = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, repeat)
         spinnerRepeat.adapter = arrayAdapterRepeat
 
-        // Initialize spinner for categories
-        val arrayAdapterCategories = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, categories)
-        spinnerCategories.adapter = arrayAdapterCategories
+        // Initialize spinners with empty arrays (populated later)
+        val emptyAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, arrayOf<String>())
+        spinnerCategories.adapter = emptyAdapter
+        spinnerSubcategories.adapter = emptyAdapter
+
+        // Load categories dynamically when spinner is touched
+        spinnerCategories.setOnTouchListener { _, _ ->
+            loadCategories(spinnerCategories)
+            false
+        }
+
+        // Load subcategories based on selected category
+        spinnerSubcategories.setOnTouchListener { _, _ ->
+            spinnerCategories.selectedItem?.let { loadSubcategories(it.toString(), spinnerSubcategories) }
+            false
+        }
 
         // Load vendors based on selected category
         spinnerCategories.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?, view: View?, position: Int, id: Long
-            ) {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val selectedCategory = spinnerCategories.selectedItem.toString()
                 loadVendors(selectedCategory, autoCompleteVendors)
             }
@@ -171,11 +196,10 @@ class createBill : AppCompatActivity() {
             }
         }
 
-        // Handle vendor selection from AutoCompleteTextView
+        // Handle vendor selection and custom vendor input
         autoCompleteVendors.setOnItemClickListener { parent, _, position, _ ->
             val selectedVendor = parent.getItemAtPosition(position).toString()
             if (selectedVendor == "Create Own Vendor") {
-                // Show the custom vendor EditText if "Create Own Vendor" is selected
                 edtCustomVendor.visibility = View.VISIBLE
             } else {
                 edtCustomVendor.visibility = View.GONE
@@ -189,6 +213,18 @@ class createBill : AppCompatActivity() {
         btnCancel.setOnClickListener {
             finish()
         }
+    }
+    // Load categories dynamically (not pre-selected)
+    private fun loadCategories(spinnerCategories: Spinner) {
+        val arrayAdapterCategories = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, categories)
+        spinnerCategories.adapter = arrayAdapterCategories
+    }
+
+    // Load subcategories based on selected category
+    private fun loadSubcategories(category: String, spinnerSubcategories: Spinner) {
+        val subcategories = subcategoriesMap[category] ?: emptyArray()
+        val arrayAdapterSubcategories = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, subcategories)
+        spinnerSubcategories.adapter = arrayAdapterSubcategories
     }
 
     // Load vendors for the selected category
