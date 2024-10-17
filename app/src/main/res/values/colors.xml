@@ -8,6 +8,7 @@
     <color name="orange">#Fb8500</color>
     <color name="yellow">#Ffb703</color>
     <color name="bluedark">#023047</color>
+    <color name="dark_gray">#A9A9A9</color>
     <color name="light_background">#FFFFFF</color>
     <color name="dark_background">#F0F0F0</color>
     <color name="filter_active">#8ECAE6</color>

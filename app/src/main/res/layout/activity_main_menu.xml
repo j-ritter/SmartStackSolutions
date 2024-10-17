@@ -5,13 +5,16 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context=".MainMenu">
 
     <!-- Main Content -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/main"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingBottom="0dp"
+        android:layout_marginBottom="0dp" >
 
         <FrameLayout
             android:id="@+id/frame_layout"
@@ -20,10 +23,7 @@
             app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" >
-
-
-        </FrameLayout>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar_main"
@@ -42,10 +42,12 @@
 
         <View
             android:id="@+id/view"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="26dp"
             android:background="@color/light_gray"
             app:layout_constraintTop_toBottomOf="@id/toolbar_main"
+            android:layout_marginTop="24dp"
+            app:layout_constraintHeight_default="wrap"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
@@ -56,11 +58,10 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center"
-
-            app:layout_constraintTop_toBottomOf="@+id/toolbar_main"
+            app:layout_constraintTop_toBottomOf="@id/view"
+            android:layout_marginTop="-26dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            >
+            app:layout_constraintEnd_toEndOf="parent">
 
             <!-- Left Arrow for Previous Month -->
             <ImageButton
@@ -76,7 +77,7 @@
                 android:id="@+id/tvMonth"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textColor="@android:color/black"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp" />
@@ -91,21 +92,19 @@
                 android:contentDescription="@string/next_month" />
         </LinearLayout>
 
-
-        <!-- TextViews for Bills -->
+        <!-- TextViews and EditTexts for Open Payments with Thin Line Divider -->
         <TextView
             android:id="@+id/tvBills"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Open Payments"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="@android:color/black"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolbar_main"
+            app:layout_constraintTop_toBottomOf="@id/view"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="48dp"
-            />
+            android:layout_marginTop="48dp" />
 
         <EditText
             android:id="@+id/etBillsAmount"
@@ -115,8 +114,9 @@
             android:hint="-0.00"
             android:focusable="false"
             android:textStyle="bold"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tvBills"
+            app:layout_constraintBaseline_toBaselineOf="@id/tvBills"
             android:layout_marginEnd="16dp"/>
 
         <TextView
@@ -138,8 +138,9 @@
             android:inputType="none"
             android:hint="-0.00"
             android:focusable="false"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tvIncoming"
+            app:layout_constraintBaseline_toBaselineOf="@id/tvIncoming"
             android:layout_marginEnd="16dp"/>
 
         <TextView
@@ -161,28 +162,29 @@
             android:inputType="none"
             android:focusable="false"
             android:hint="-0.00"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tvOverdue"
-            android:layout_marginEnd="16dp"/>
+            app:layout_constraintBaseline_toBaselineOf="@id/tvOverdue"
+            android:layout_marginEnd="16dp" />
 
-        <!-- Divider -->
+        <!-- Thin Line Divider -->
         <View
             android:id="@+id/divider1"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:background="@color/light_gray"
+            android:background="@color/dark_gray"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvOverdue"
             android:layout_marginTop="24dp" />
 
-        <!-- TextViews for Spendings -->
+        <!-- TextViews and EditTexts for Closed Payments with Thin Line Divider -->
         <TextView
             android:id="@+id/tvSpendings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Closed Payments"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="@android:color/black"
             app:layout_constraintStart_toStartOf="parent"
@@ -198,8 +200,9 @@
             android:hint="-0.00"
             android:focusable="false"
             android:textStyle="bold"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tvSpendings"
+            app:layout_constraintBaseline_toBaselineOf="@id/tvSpendings"
             android:layout_marginEnd="16dp"/>
 
         <TextView
@@ -221,8 +224,9 @@
             android:inputType="none"
             android:hint="-0.00"
             android:focusable="false"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tvEssential"
+            app:layout_constraintBaseline_toBaselineOf="@id/tvEssential"
             android:layout_marginEnd="16dp"/>
 
         <TextView
@@ -244,34 +248,36 @@
             android:inputType="none"
             android:hint="-0.00"
             android:focusable="false"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tvNonEssential"
+            app:layout_constraintBaseline_toBaselineOf="@id/tvNonEssential"
             android:layout_marginEnd="16dp"/>
 
-        <!-- Divider -->
+        <!-- Thin Line Divider -->
         <View
             android:id="@+id/divider2"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:background="@color/light_gray"
+            android:background="@color/dark_gray"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvNonEssential"
             android:layout_marginTop="24dp" />
 
-        <!-- TextViews for Income -->
+        <!-- TextViews and EditTexts for Income with Thin Line Divider -->
         <TextView
             android:id="@+id/tvIncome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Income"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textColor="@android:color/black"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/divider2"
             android:layout_marginStart="16dp"
             android:layout_marginTop="24dp" />
+
         <EditText
             android:id="@+id/etIncome"
             android:layout_width="wrap_content"
@@ -280,8 +286,9 @@
             android:focusable="false"
             android:hint="+0.00"
             android:textStyle="bold"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tvIncome"
+            app:layout_constraintBaseline_toBaselineOf="@id/tvIncome"
             android:layout_marginEnd="16dp"/>
 
         <TextView
@@ -303,8 +310,9 @@
             android:inputType="none"
             android:focusable="false"
             android:hint="+0.00"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tvRecurring"
+            app:layout_constraintBaseline_toBaselineOf="@id/tvRecurring"
             android:layout_marginEnd="16dp"/>
 
         <TextView
@@ -326,16 +334,17 @@
             android:inputType="none"
             android:focusable="false"
             android:hint="+0.00"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tvOneTime"
+            app:layout_constraintBaseline_toBaselineOf="@id/tvOneTime"
             android:layout_marginEnd="16dp"/>
 
-        <!-- Divider -->
+        <!-- Thin Line Divider -->
         <View
             android:id="@+id/divider3"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:background="@color/light_gray"
+            android:background="@color/dark_gray"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvOneTime"
@@ -346,8 +355,8 @@
             android:id="@+id/tvTotal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Total"
-            android:textSize="18sp"
+            android:text="Total net savings"
+            android:textSize="16sp"
             android:textColor="@android:color/black"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -363,30 +372,10 @@
             android:hint="0.00"
             android:focusable="false"
             android:textStyle="bold"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tvTotal"
+            app:layout_constraintBaseline_toBaselineOf="@id/tvTotal"
             android:layout_marginEnd="16dp"/>
-
-        <!-- Double Grey Line -->
-        <View
-            android:id="@+id/doubleDivider1"
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray"
-            app:layout_constraintTop_toBottomOf="@id/tvTotal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="24dp"/>
-
-        <View
-            android:id="@+id/doubleDivider2"
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray"
-            app:layout_constraintTop_toBottomOf="@id/doubleDivider1"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="4dp"/>
 
         <!-- FloatingActionButton -->
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -402,6 +391,7 @@
             android:layout_marginBottom="16dp"
             android:contentDescription="@string/create_new_Open_Payment"/>
 
+        <!-- Bottom Navigation View -->
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomNavigationView"
             android:layout_width="0dp"
@@ -425,13 +415,7 @@
         android:layout_gravity="start"
         app:headerLayout="@layout/nav_header_main"
         app:itemBackground="@drawable/nav_item_background"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar_main"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:paddingVertical="8dp"
         app:menu="@menu/activity_main_drawer" />
 
 </androidx.drawerlayout.widget.DrawerLayout>
-
-
 
