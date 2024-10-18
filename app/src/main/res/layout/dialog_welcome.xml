@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="24dp"
+    android:padding="24dp"
+    android:backgroundTint="@color/white"
+    app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.MediumComponent">
+
+<LinearLayout
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:orientation="vertical"
+android:gravity="center"
+android:padding="16dp">
+
+<!-- Icon/Image at the top -->
+<ImageView
+    android:id="@+id/iconWelcome"
+    android:layout_width="48dp"
+    android:layout_height="48dp"
+    android:layout_gravity="center"
+    android:src="@drawable/ic_welcome"
+    android:contentDescription="Welcome Icon"
+    android:layout_marginBottom="16dp"/>
+
+<!-- Title -->
+<TextView
+    android:id="@+id/welcomeTitle"
+    style="@style/TextAppearance.Material3.DisplaySmall"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Organize Your Finances, Simplify Your Life!"
+    android:textColor="@color/colorAccent"
+    android:gravity="center"
+    android:layout_marginBottom="8dp"/>
+
+<!-- Body Text -->
+<TextView
+    android:id="@+id/welcomeMessage"
+    style="@style/TextAppearance.Material3.BodyMedium"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="SmartStack Solutions helps you manage, track, and remind you of your payments, gives you an overview of your spendings and income, and helps you stay on top of your finances."
+    android:textColor="@color/textPrimary"
+    android:textSize="16sp"
+    android:gravity="center"
+    android:padding="16dp"
+    android:layout_marginBottom="16dp"/>
+
+<!-- Get Started Button -->
+<com.google.android.material.button.MaterialButton
+    android:id="@+id/btnGetStarted"
+    style="@style/Widget.Material3.Button"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Get Started"
+    android:textSize="16sp"
+    android:textStyle="bold"
+    android:backgroundTint="@color/colorPrimary"
+    android:textColor="@android:color/white"
+    android:gravity="center"/>
+
+</LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
