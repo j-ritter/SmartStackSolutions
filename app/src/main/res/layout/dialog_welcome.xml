@@ -9,59 +9,66 @@
     android:backgroundTint="@color/white"
     app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.MediumComponent">
 
-<LinearLayout
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-android:orientation="vertical"
-android:gravity="center"
-android:padding="16dp">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="12dp">
 
-<!-- Icon/Image at the top -->
-<ImageView
-    android:id="@+id/iconWelcome"
-    android:layout_width="48dp"
-    android:layout_height="48dp"
-    android:layout_gravity="center"
-    android:src="@drawable/ic_welcome"
-    android:contentDescription="Welcome Icon"
-    android:layout_marginBottom="16dp"/>
+        <!-- Title -->
+        <TextView
+            android:id="@+id/welcomeTitle"
+            style="@style/TextAppearance.Material3.DisplaySmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:gravity="center"
+            android:text="Welcome to SmartStack Solutions"
+            android:textColor="@color/colorAccent"
+            android:textSize="20sp" />
 
-<!-- Title -->
-<TextView
-    android:id="@+id/welcomeTitle"
-    style="@style/TextAppearance.Material3.DisplaySmall"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Organize Your Finances, Simplify Your Life!"
-    android:textColor="@color/colorAccent"
-    android:gravity="center"
-    android:layout_marginBottom="8dp"/>
+        <!-- Icon with background -->
+        <FrameLayout
+            android:layout_width="179dp"
+            android:layout_height="184dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="24dp"
+            android:background="#FFFFFF"
+            android:padding="12dp">
 
-<!-- Body Text -->
-<TextView
-    android:id="@+id/welcomeMessage"
-    style="@style/TextAppearance.Material3.BodyMedium"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="SmartStack Solutions helps you manage, track, and remind you of your payments, gives you an overview of your spendings and income, and helps you stay on top of your finances."
-    android:textColor="@color/textPrimary"
-    android:textSize="16sp"
-    android:gravity="center"
-    android:padding="16dp"
-    android:layout_marginBottom="16dp"/>
+            <ImageView
+                android:id="@+id/iconWelcome"
+                android:layout_width="148dp"
+                android:layout_height="148dp"
+                android:contentDescription="Welcome Icon"
+                android:src="@drawable/icon_toolbox2" />
+        </FrameLayout>
 
-<!-- Get Started Button -->
-<com.google.android.material.button.MaterialButton
-    android:id="@+id/btnGetStarted"
-    style="@style/Widget.Material3.Button"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="Get Started"
-    android:textSize="16sp"
-    android:textStyle="bold"
-    android:backgroundTint="@color/colorPrimary"
-    android:textColor="@android:color/white"
-    android:gravity="center"/>
+    <!-- Body Text -->
+    <TextView
+        android:id="@+id/welcomeMessage"
+        style="@style/TextAppearance.Material3.BodyMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Your tool to organize your Finances and simplify Your Life!"
+        android:textColor="@color/textPrimary"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:padding="12dp"
+        android:layout_marginBottom="12dp"/>
 
+    <!-- Get Started Button -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnGetStarted"
+        style="@style/Widget.Material3.Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Get Started"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:backgroundTint="@color/colorPrimary"
+        android:textColor="@android:color/white"
+        android:gravity="center"/>
 </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
