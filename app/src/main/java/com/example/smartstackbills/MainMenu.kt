@@ -1,13 +1,23 @@
 package com.example.smartstackbills
 
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.Menu
 import android.view.View
+import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.ProgressBar
+import android.widget.Spinner
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -19,6 +29,7 @@ import androidx.appcompat.app.AlertDialog
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
+import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -42,6 +53,9 @@ class MainMenu : AppCompatActivity() {
     private lateinit var etRecurringAmount: EditText
     private lateinit var etOneTimeAmount: EditText
     private lateinit var etTotalAmount: EditText
+    private lateinit var dialog: Dialog
+    private lateinit var etMonthlySavingsMain: EditText
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,14 +83,22 @@ class MainMenu : AppCompatActivity() {
         etRecurringAmount = findViewById(R.id.etRecurring)
         etOneTimeAmount = findViewById(R.id.etOneTime)
         etTotalAmount = findViewById(R.id.etTotal)
+        etMonthlySavingsMain = findViewById(R.id.etMonthlySavings)
 
         setupMonthNavigation()
         setupUI()
+        setupSavingsVisibility()
+        // Call this to load the saved target when the activity starts
+        loadSavingsTarget()
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+        val tvTotal: TextView = findViewById(R.id.tvTotal)
+        tvTotal.setOnClickListener {
+            showSavingsDialog()
         }
 
         val toolbar: Toolbar = findViewById(R.id.toolbar_main)
@@ -407,6 +429,58 @@ class MainMenu : AppCompatActivity() {
             }
         }
     }
+    private fun setupSavingsVisibility() {
+        val etMonthlySavings: EditText = findViewById(R.id.etMonthlySavings)
+        val tvTargetAchieved: TextView = findViewById(R.id.tvTargetAchieved)
+        val tvProgressPercentage: TextView = findViewById(R.id.tvProgressPercentage)
+        val progressBarSavings: LinearProgressIndicator = findViewById(R.id.progressBarSavings)
+
+        // Initially hide all three views
+        tvTargetAchieved.visibility = View.GONE
+        tvProgressPercentage.visibility = View.GONE
+        progressBarSavings.visibility = View.GONE
+
+        // Add a TextWatcher to listen for changes in etMonthlySavings
+        etMonthlySavings.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // Get the value from etMonthlySavings
+                val savingsAmount = s.toString().toFloatOrNull() ?: 0f
+
+                // Show the views only if the amount is greater than 0
+                if (savingsAmount > 0) {
+                    tvTargetAchieved.visibility = View.VISIBLE
+                    tvProgressPercentage.visibility = View.VISIBLE
+                    progressBarSavings.visibility = View.VISIBLE
+                } else {
+                    tvTargetAchieved.visibility = View.GONE
+                    tvProgressPercentage.visibility = View.GONE
+                    progressBarSavings.visibility = View.GONE
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
+    }
+
+    private fun updateProgressBar(targetAmount: Float) {
+        val savedAmountSoFar = etTotalAmount.text.toString().toFloatOrNull() ?: 0f
+        val progressBarSavings = findViewById<com.google.android.material.progressindicator.LinearProgressIndicator>(R.id.progressBarSavings)
+        val tvProgressPercentage = findViewById<TextView>(R.id.tvProgressPercentage)
+
+        if (targetAmount > 0) {
+            val progress = (savedAmountSoFar / targetAmount) * 100
+            progressBarSavings?.let {
+                it.setProgressCompat(progress.toInt().coerceAtMost(100), true)
+            }
+            // Update the percentage text
+            tvProgressPercentage.text = String.format("%.0f%%", progress.coerceAtMost(100f))
+        } else {
+            progressBarSavings?.setProgressCompat(0, true)
+            tvProgressPercentage.text = "0%"
+        }
+    }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.top_nav, menu)
@@ -446,6 +520,181 @@ class MainMenu : AppCompatActivity() {
         NotificationsActivity.resetUnreadNotificationCount(this)
         updateUnreadCountBadge(badgeCountTextView) // Update the badge display immediately
     }
+    // Method to display the savings dialog
+    fun openSavingsDialog(view: View) {
+        showSavingsDialog()
+    }
+    private fun showSavingsDialog() {
+        // Inflate the custom layout for the savings dialog
+        val dialogView = layoutInflater.inflate(R.layout.dialog_box_savings, null)
+
+        // Initialize the dialog box with the inflated view
+        val dialogBuilder = AlertDialog.Builder(this)
+        dialogBuilder.setView(dialogView)
+            .setCancelable(true)
+
+        // Show the dialog
+        val dialog = dialogBuilder.create()
+        dialog.show()
+
+        // Find views
+        val targetAmountEditText = dialogView.findViewById<EditText>(R.id.edtTargetAmount)
+        val targetPeriodSpinner = dialogView.findViewById<Spinner>(R.id.spinnerTargetPeriod)
+        val monthlySavingsEditText = dialogView.findViewById<EditText>(R.id.edtMonthlySavings)
+        val targetNameSpinner = dialogView.findViewById<Spinner>(R.id.spinnerTargetName)
+        val btnSaveTarget = dialogView.findViewById<Button>(R.id.btnSaveTargetSavings)
+        val btnCloseDialog = dialogView.findViewById<Button>(R.id.btnCloseDialogSavings)
+        val progressBarSavings = dialogView.findViewById<com.google.android.material.progressindicator.LinearProgressIndicator>(R.id.progressBarSavings)
+
+
+        // Find the etTotal, which represents the savedAmountSoFar
+        val etTotal = findViewById<EditText>(R.id.etTotal)
+        val savedAmountSoFar = etTotal.text.toString().toFloatOrNull() ?: 0f
+
+        // Load saved values from SharedPreferences
+        val sharedPref = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
+        val savedTargetName = sharedPref.getString("savingsTargetName", "")
+        val savedTargetAmount = sharedPref.getFloat("savingsTargetAmount", 0f)
+        val savedTargetPeriod = sharedPref.getString("savingsTargetPeriod", "")
+
+        // Set the saved values in the dialog's input fields
+        targetAmountEditText.setText(String.format("%.2f", savedTargetAmount))
+
+        // Set saved target name in the spinner (if spinner contains the saved target name)
+        if (!savedTargetName.isNullOrEmpty()) {
+            val namePosition = (targetNameSpinner.adapter as ArrayAdapter<String>).getPosition(savedTargetName)
+            targetNameSpinner.setSelection(namePosition)
+        }
+
+        // Set the saved target period in the spinner
+        if (!savedTargetPeriod.isNullOrEmpty()) {
+            val periodPosition = (targetPeriodSpinner.adapter as ArrayAdapter<String>).getPosition(savedTargetPeriod)
+            targetPeriodSpinner.setSelection(periodPosition)
+        }
+
+        // Initial progress update
+        updateProgressBar(savedTargetAmount)
+
+        // Function to calculate and set the monthly savings
+        fun calculateMonthlySavings() {
+            val targetAmount = targetAmountEditText.text.toString().toFloatOrNull()
+            val selectedPeriod = targetPeriodSpinner.selectedItem.toString()
+
+            val months = when (selectedPeriod) {
+                "1 Month" -> 1
+                "2 Months" -> 2
+                "3 Months" -> 3
+                "6 Months" -> 6
+                "12 Months" -> 12
+                else -> 1 // Default to 1 month if not selected
+            }
+
+            // Calculate and set the monthly savings if target amount is valid
+            if (targetAmount != null && months > 0) {
+                val monthlySavings = targetAmount / months
+                monthlySavingsEditText.setText(String.format("%.2f", monthlySavings))
+                // Set the monthly savings in MainMenu's etMonthlySavings field
+                etMonthlySavingsMain.setText(String.format("%.2f", monthlySavings))
+                // Update the progress bar when the target amount is changed
+                progressBarSavings?.let {
+                    val progress = (savedAmountSoFar / targetAmount) * 100
+                    it.setProgressCompat(progress.toInt().coerceAtMost(100), true)
+                }
+                // Update progress bar and progress percentage
+                updateProgressBar(targetAmount)
+            }
+        }
+
+        // Add TextWatcher to update monthly savings on text change
+        targetAmountEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                calculateMonthlySavings()
+                updateProgressBar(targetAmountEditText.text.toString().toFloatOrNull() ?: 0f)
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
+
+        targetPeriodSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                calculateMonthlySavings()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {}
+        }
+
+        // Save button logic
+        btnSaveTarget.setOnClickListener {
+            val targetAmount = targetAmountEditText.text.toString().toFloatOrNull()
+            val targetPeriod = targetPeriodSpinner.selectedItem.toString()
+
+            // Validation for required fields
+            if (targetAmount == null || targetAmount <= 0f) {
+                Toast.makeText(this, "Please enter a valid target amount", Toast.LENGTH_SHORT).show()
+            } else if (targetPeriod.isEmpty() || targetPeriod == "Select Target Period") {
+                Toast.makeText(this, "Please select a target period", Toast.LENGTH_SHORT).show()
+            } else {
+                // Save target data if all fields are valid
+                saveSavingsTarget(targetPeriod, targetAmount, targetPeriod)
+
+                // Update progress after saving the new target
+                progressBarSavings?.let {
+                    val progress = (savedAmountSoFar / targetAmount) * 100
+                    it.setProgressCompat(progress.toInt().coerceAtMost(100), true)
+                }
+
+                dialog.dismiss() // Close the dialog
+            }
+        }
+
+        // Close button logic
+        btnCloseDialog.setOnClickListener {
+            dialog.dismiss() // Simply close the dialog
+        }
+    }
+
+    // saving logic
+    private fun saveSavingsTarget(targetName: String, targetAmount: Float, targetPeriod: String) {
+        // Get the SharedPreferences editor
+        val sharedPref = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
+        val editor = sharedPref.edit()
+
+        // Save the target data
+        editor.putString("savingsTargetName", targetName)
+        editor.putFloat("savingsTargetAmount", targetAmount)
+        editor.putString("savingsTargetPeriod", targetPeriod)
+
+        // Commit the changes
+        editor.apply()
+
+        // Notify the user that the target was saved successfully
+        Toast.makeText(this, "Savings target saved successfully!", Toast.LENGTH_SHORT).show()
+    }
+    private fun loadSavingsTarget() {
+        val sharedPref = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
+        val targetAmount = sharedPref.getFloat("savingsTargetAmount", 0f)
+        val savedTargetPeriod = sharedPref.getString("savingsTargetPeriod", "")
+
+        // Calculate monthly savings
+        val months = when (savedTargetPeriod) {
+            "1 Month" -> 1
+            "2 Months" -> 2
+            "3 Months" -> 3
+            "6 Months" -> 6
+            "12 Months" -> 12
+            else -> 1
+        }
+
+        val monthlySavings = if (months > 0) targetAmount / months else 0f
+        etMonthlySavingsMain.setText(String.format("%.2f", monthlySavings))
+
+        // Update the progress bar with the saved target amount
+        updateProgressBar(targetAmount)
+
+    }
+
 
     private fun logoutUser() {
         FirebaseAuth.getInstance().signOut()
