@@ -68,7 +68,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:textSize="14sp"
-                android:entries="@array/savings_target_names"
                 android:background="@drawable/rounded_frame_background_yellow"
                 android:layout_marginTop="8dp" />
 
@@ -94,23 +93,53 @@
                 android:paddingRight="15dp"
                 android:textColor="@android:color/black" />
 
-            <!-- Target Period -->
+            <!-- Start Date -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Target Period"
+                android:text="Start Date"
                 android:layout_marginTop="16dp"
                 android:textStyle="bold"
                 android:textSize="14sp"
                 android:textColor="@android:color/black" />
 
-            <Spinner
-                android:id="@+id/spinnerTargetPeriod"
+            <EditText
+                android:id="@+id/edtStartDateSavings"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:entries="@array/target_period_options"
+                android:inputType="none"
+                android:focusable="false"
                 android:background="@drawable/rounded_frame_background_yellow"
-                android:layout_marginTop="8dp" />
+                android:layout_marginTop="8dp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:textSize="14sp" />
+
+            <!-- End Date -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="End Date"
+                android:layout_marginTop="16dp"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:textColor="@android:color/black" />
+
+            <EditText
+                android:id="@+id/edtEndDateSavings"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:inputType="none"
+                android:focusable="false"
+                android:background="@drawable/rounded_frame_background_yellow"
+                android:layout_marginTop="8dp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:textSize="14sp" />
 
             <!-- Monthly Savings (Auto-calculated) -->
             <TextView

@@ -1,20 +1,19 @@
 package com.example.smartstackbills
 
+import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.Menu
 import android.view.View
-import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
-import android.widget.ProgressBar
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
@@ -31,6 +30,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.text.SimpleDateFormat
@@ -39,7 +39,7 @@ import java.util.Date
 import java.util.Locale
 
 class MainMenu : AppCompatActivity() {
-    private var userEmail: String? = null
+
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var currentMonth: Calendar
     private lateinit var fabMainMenu: FloatingActionButton
@@ -53,14 +53,18 @@ class MainMenu : AppCompatActivity() {
     private lateinit var etRecurringAmount: EditText
     private lateinit var etOneTimeAmount: EditText
     private lateinit var etTotalAmount: EditText
-    private lateinit var dialog: Dialog
     private lateinit var etMonthlySavingsMain: EditText
 
+    private var userEmail: String? = null
+    private var userUid: String? = null
+    private lateinit var db: FirebaseFirestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main_menu)
+
+        db = FirebaseFirestore.getInstance()
 
         fabMainMenu = findViewById(R.id.fabMainMenu)
         fabMainMenu.setOnClickListener {
@@ -68,6 +72,8 @@ class MainMenu : AppCompatActivity() {
         }
 
         userEmail = intent.getStringExtra("USER_EMAIL")
+
+        userUid = FirebaseAuth.getInstance().currentUser?.uid
 
         drawerLayout = findViewById(R.id.drawer_layout)
 
@@ -119,23 +125,27 @@ class MainMenu : AppCompatActivity() {
                     startActivity(intent)
                     true
                 }
+
                 R.id.Spendings -> {
                     val intent = Intent(this, MySpendings::class.java)
                     intent.putExtra("USER_EMAIL", userEmail)
                     startActivity(intent)
                     true
                 }
+
                 R.id.Income -> {
                     val intent = Intent(this, MyIncome::class.java)
                     intent.putExtra("USER_EMAIL", userEmail)
                     startActivity(intent)
                     true
                 }
+
                 R.id.Calendar -> {
                     val intent = Intent(this, CalendarActivity::class.java)
                     startActivity(intent)
                     true
                 }
+
                 else -> false
             }
         }
@@ -148,35 +158,42 @@ class MainMenu : AppCompatActivity() {
                     startActivity(intent)
                     true
                 }
+
                 R.id.nav_item_aboutus -> {
                     val intent = Intent(this, AboutUs::class.java)
                     startActivity(intent)
                     true
                 }
+
                 R.id.nav_item_faq -> {
                     val intent = Intent(this, FAQs::class.java)
                     startActivity(intent)
                     true
                 }
+
                 R.id.nav_item_datasec -> {
                     val intent = Intent(this, Datasecurity::class.java)
                     startActivity(intent)
                     true
                 }
+
                 R.id.nav_item_help -> {
                     val intent = Intent(this, Help::class.java)
                     startActivity(intent)
                     true
                 }
+
                 R.id.nav_item_terms -> {
                     val intent = Intent(this, Terms::class.java)
                     startActivity(intent)
                     true
                 }
+
                 R.id.nav_item_logout -> {
                     logoutUser()
                     true
                 }
+
                 else -> false
             }
         }
@@ -213,6 +230,7 @@ class MainMenu : AppCompatActivity() {
         val type = object : TypeToken<ArrayList<Bills>>() {}.type
         return gson.fromJson(json, type) ?: ArrayList()
     }
+
     private fun getSpendings(): ArrayList<Spendings> {
         val sharedPref = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
         val gson = Gson()
@@ -220,6 +238,7 @@ class MainMenu : AppCompatActivity() {
         val type = object : TypeToken<ArrayList<Spendings>>() {}.type
         return gson.fromJson(json, type) ?: ArrayList()
     }
+
     private fun getIncome(): ArrayList<Income> {
         val sharedPref = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
         val gson = Gson()
@@ -256,96 +275,107 @@ class MainMenu : AppCompatActivity() {
 
     // Method to calculate and set the total amount for the selected month
     private fun setAmountForMonth() {
-        val entriesForMonth = getEntriesForCurrentMonth()
+        // Retrieve the savings for the current month
+        val savingsForCurrentMonth = getSavingsForCurrentMonth()
+        etMonthlySavingsMain.setText(String.format(Locale.getDefault(), "%.2f", savingsForCurrentMonth))
 
-        // Split the entries into bills and income for separate totals
-        val totalBills = entriesForMonth.filterIsInstance<Bills>().sumOf { it.amount.toDouble() }.toFloat()
-        val totalSpendings = entriesForMonth.filterIsInstance<Spendings>().sumOf { it.amount.toDouble() }.toFloat()
-        val totalIncome = entriesForMonth.filterIsInstance<Income>().sumOf { it.amount.toDouble() }.toFloat()
+        // Get the savings target for the current month from SharedPreferences
+        val sharedPref = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
+        val gson = Gson()
+        val json = sharedPref.getString("monthlySavingsMap", null)
+        val monthlySavingsMap: Map<String, Float> = if (json != null) {
+            gson.fromJson(json, object : TypeToken<Map<String, Float>>() {}.type)
+        } else {
+            emptyMap()
+        }
 
-        // Calculate the incoming bills based on the provided conditions
-        val selectedMonthFormat = SimpleDateFormat("MM/yyyy", Locale.getDefault())
-        val selectedMonth = selectedMonthFormat.format(currentMonth.time)
+        val dateFormat = SimpleDateFormat("MM/yyyy", Locale.getDefault())
+        val currentMonthString = dateFormat.format(currentMonth.time)
+        val savingsForCurrentMonthTarget = monthlySavingsMap[currentMonthString] ?: 0f
+
+        // Display the savings target
+        etMonthlySavingsMain.setText(String.format(Locale.getDefault(), "%.2f", savingsForCurrentMonthTarget))
+
+        // Fetch bills, spendings, and income for the current month
+        val billsList = getBills()
+        val spendingsList = getSpendings()
+        val incomeList = getIncome()
+
+        // Filter entries for the current month
+        val billsForMonth = billsList.filter { bill ->
+            val billDate = bill.date?.toDate()
+            billDate != null && dateFormat.format(billDate) == currentMonthString
+        }
+
+        val spendingsForMonth = spendingsList.filter { spending ->
+            val spendingDate = spending.date?.toDate()
+            spendingDate != null && dateFormat.format(spendingDate) == currentMonthString
+        }
+
+        val incomeForMonth = incomeList.filter { income ->
+            val incomeDate = income.date?.toDate()
+            incomeDate != null && dateFormat.format(incomeDate) == currentMonthString
+        }
+
+        // Calculate totals for bills, spendings, and income
+        val totalBills = billsForMonth.sumOf { it.amount.toDouble() }.toFloat()
+        val totalSpendings = spendingsForMonth.sumOf { it.amount.toDouble() }.toFloat()
+        val totalIncome = incomeForMonth.sumOf { it.amount.toDouble() }.toFloat()
+
+        // Calculate incoming bills (unpaid, non-recurring, in the future)
         val currentDate = Date()
-        val totalIncoming = getBills().filter { bill ->
+        val totalIncoming = billsList.filter { bill ->
             val billDate = bill.date?.toDate()
-            // Check if the bill date is after the current date, in the selected month, unpaid, and non-recurring
             billDate != null && billDate.after(currentDate) && !bill.paid && bill.repeat == "No" &&
-                    selectedMonthFormat.format(billDate) == selectedMonth
+                    dateFormat.format(billDate) == currentMonthString
         }.sumOf { it.amount.toDouble() }.toFloat()
 
-        // Calculate the overdue bills based on the provided conditions
-
-        val totalOverdue = getBills().filter { bill ->
+        // Calculate overdue bills (unpaid, non-recurring, in the past)
+        val totalOverdue = billsList.filter { bill ->
             val billDate = bill.date?.toDate()
-            // Check if the bill date is before the current date, unpaid, non-recurring, and belongs to the selected month
             billDate != null && billDate.before(currentDate) && !bill.paid && bill.repeat == "No" &&
-                    selectedMonthFormat.format(billDate) == selectedMonth
+                    dateFormat.format(billDate) == currentMonthString
         }.sumOf { it.amount.toDouble() }.toFloat()
 
-        // Calculate essential and nonessential spendings
-        val essentialCategories = listOf(
-            "Accommodation", "Communication", "Insurance", "Transportation", "Finances/Fees", "Taxes", "Health", "Education", "Shopping & Consumption")
-        val essentialSubcategories = listOf( "Rent", "Utilities", "Groceries - Basic Food", "Groceries - Household Necessities",
-            "Mobile phone", "Landline phone", "Internet", "Health insurance", "Life insurance",
-            "Car insurance", "Home insurance", "Fuel", "Vehicle maintenance",
-            "Public transportation", "Doctor visits", "Dental care", "Prescription medications",
-            "Medical equipment", "Clothing", "Household goods", "Personal care products",
-            "Income tax", "Property tax", "Sales tax", "Self-employment tax", "Capital gains tax",
-            "Tuition fees", "Textbooks", "School supplies")
-        val totalEssential = getSpendings().filter { spending ->
+        // Calculate essential and non-essential spendings based on predefined categories
+        val essentialCategories = listOf("Accommodation", "Communication", "Insurance", "Transportation", "Finances/Fees", "Taxes", "Health", "Education", "Shopping & Consumption")
+        val essentialSubcategories = listOf("Rent", "Utilities", "Groceries - Basic Food", "Groceries - Household Necessities", "Mobile phone", "Internet", "Health insurance", "Car insurance", "Fuel", "Public transportation")
+
+        val totalEssential = spendingsForMonth.filter { spending ->
             val category = spending.category
             val subcategory = spending.subcategory
-
-            // Only consider spendings for the selected month
             val spendingDate = spending.date?.toDate()
-            val isInSelectedMonth = spendingDate != null && selectedMonthFormat.format(spendingDate) == selectedMonth
-
-            // Essential if:
-            // 1. No category or subcategory (default to essential)
-            // 2. The subcategory is in essentialSubcategories
-            // 3. If no subcategory, the category is in essentialCategories
+            val isInSelectedMonth = spendingDate != null && dateFormat.format(spendingDate) == currentMonthString
             isInSelectedMonth && (
-                    category == null && subcategory == null ||
-                            subcategory in essentialSubcategories ||
+                    subcategory in essentialSubcategories ||
                             (subcategory == null && category in essentialCategories)
                     )
         }.sumOf { it.amount.toDouble() }.toFloat()
 
-        val nonEssentialCategories = listOf(
-            "Subscription and Memberships", "Others")
-        val nonEssentialSubcategories = listOf("Entertainment", "Dining out", "Hobbies", "Streaming services", "Movies",
-            "Music concerts", "Video games", "Sports", "Vacation", "Gadgets",
-            "Luxury items", "Alcohol", "Tobacco", "Gym memberships",
-            "Groceries - Beverages", "Groceries - Luxury Foods", "Decorations", "Jewelry")
-        val totalNonEssential = getSpendings().filter { spending ->
+        val nonEssentialCategories = listOf("Subscription and Memberships", "Others")
+        val nonEssentialSubcategories = listOf("Entertainment", "Dining out", "Hobbies", "Streaming services", "Movies", "Vacation", "Gadgets")
+
+        val totalNonEssential = spendingsForMonth.filter { spending ->
             val category = spending.category
             val subcategory = spending.subcategory
-
-            // Only consider spendings for the selected month
             val spendingDate = spending.date?.toDate()
-            val isInSelectedMonth = spendingDate != null && selectedMonthFormat.format(spendingDate) == selectedMonth
-
-            // Non-essential if:
-            // 1. The subcategory is in nonEssentialSubcategories
-            // 2. If no subcategory, the category is in nonEssentialCategories
+            val isInSelectedMonth = spendingDate != null && dateFormat.format(spendingDate) == currentMonthString
             isInSelectedMonth && (
                     subcategory in nonEssentialSubcategories ||
                             (subcategory == null && category in nonEssentialCategories)
                     )
         }.sumOf { it.amount.toDouble() }.toFloat()
 
-
-        // Calculate income
-        val totalRecurringIncome = getIncome().filter { income ->
-            income.repeat != "No" && selectedMonthFormat.format(income.date?.toDate()) == selectedMonth
+        // Calculate recurring and one-time income
+        val totalRecurringIncome = incomeForMonth.filter { income ->
+            income.repeat != "No"
         }.sumOf { it.amount.toDouble() }.toFloat()
 
-        val totalOneTimeIncome = getIncome().filter { income ->
-            income.repeat == "No" && selectedMonthFormat.format(income.date?.toDate()) == selectedMonth
+        val totalOneTimeIncome = incomeForMonth.filter { income ->
+            income.repeat == "No"
         }.sumOf { it.amount.toDouble() }.toFloat()
 
-        // Ensure that the items are displayed as negative
+        // Ensure that the items are displayed as negative for bills and spendings
         val displayBillsAmount = -totalBills
         val displayIncomingAmount = -totalIncoming
         val displayOverdueAmount = -totalOverdue
@@ -356,9 +386,10 @@ class MainMenu : AppCompatActivity() {
         val displayRecurringAmount = +totalRecurringIncome
         val displayOneTimeAmount = +totalOneTimeIncome
 
-        // Calculate the total
-        val total = totalIncome + displayBillsAmount + displaySpendingsAmount
+        // Calculate the total amount for the month
+        val total = totalIncome - totalBills - totalSpendings
 
+        // Display the calculated values in the appropriate fields
         etBillsAmount.setText(String.format(Locale.getDefault(), "%.2f", displayBillsAmount))
         etSpendingsAmount.setText(String.format(Locale.getDefault(), "%.2f", displaySpendingsAmount))
         etIncomeAmount.setText(String.format(Locale.getDefault(), "%.2f", displayIncomeAmount))
@@ -369,6 +400,20 @@ class MainMenu : AppCompatActivity() {
         etRecurringAmount.setText(String.format(Locale.getDefault(), "%.2f", displayRecurringAmount))
         etOneTimeAmount.setText(String.format(Locale.getDefault(), "%.2f", displayOneTimeAmount))
         etTotalAmount.setText(String.format(Locale.getDefault(), "%.2f", total))
+    }
+
+    private fun getSavingsForCurrentMonth(): Float {
+        val sharedPref = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
+        val gson = Gson()
+        val json = sharedPref.getString("monthlySavingsMap", null)
+        val monthlySavingsMap: Map<String, Float> = if (json != null) {
+            gson.fromJson(json, object : TypeToken<Map<String, Float>>() {}.type)
+        } else {
+            emptyMap()
+        }
+
+        val currentMonthString = SimpleDateFormat("MM/yyyy", Locale.getDefault()).format(currentMonth.time)
+        return monthlySavingsMap[currentMonthString] ?: 0f
     }
 
     private fun setupMonthNavigation() {
@@ -382,12 +427,15 @@ class MainMenu : AppCompatActivity() {
             currentMonth.add(Calendar.MONTH, -1)
             updateMonthDisplay(tvMonth)
             setAmountForMonth()
+            loadSavingsTarget()
+
         }
 
         btnNextMonth.setOnClickListener {
             currentMonth.add(Calendar.MONTH, 1)
             updateMonthDisplay(tvMonth)
             setAmountForMonth()
+            loadSavingsTarget()
         }
     }
 
@@ -397,7 +445,8 @@ class MainMenu : AppCompatActivity() {
     }
 
     private fun showCreateOptionsDialog() {
-        val options = arrayOf("Create an Open Payment", "Create a Closed Payment", "Create an Income")
+        val options =
+            arrayOf("Create an Open Payment", "Create a Closed Payment", "Create an Income")
 
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Select an option")
@@ -406,9 +455,11 @@ class MainMenu : AppCompatActivity() {
                 0 -> startActivity(Intent(this, createBill::class.java).apply {
                     putExtra("USER_EMAIL", userEmail)
                 })
+
                 1 -> startActivity(Intent(this, createSpending::class.java).apply {
                     putExtra("USER_EMAIL", userEmail)
                 })
+
                 2 -> startActivity(Intent(this, createIncome::class.java).apply {
                     putExtra("USER_EMAIL", userEmail)
                 })
@@ -416,8 +467,9 @@ class MainMenu : AppCompatActivity() {
         }
         builder.show()
     }
+
     // Apply alternating background colors
-    private fun setupUI(){
+    private fun setupUI() {
         val navView: NavigationView = findViewById(R.id.nav_view)
         val menu = navView.menu
         for (i in 0 until menu.size()) {
@@ -429,6 +481,7 @@ class MainMenu : AppCompatActivity() {
             }
         }
     }
+
     private fun setupSavingsVisibility() {
         val etMonthlySavings: EditText = findViewById(R.id.etMonthlySavings)
         val tvTargetAchieved: TextView = findViewById(R.id.tvTargetAchieved)
@@ -463,10 +516,66 @@ class MainMenu : AppCompatActivity() {
             override fun afterTextChanged(s: Editable?) {}
         })
     }
+    private fun validateMandatoryFields(): Boolean {
+        val targetAmountEditText = findViewById<EditText>(R.id.edtTargetAmount)
+        val startDateEditText = findViewById<EditText>(R.id.edtStartDateSavings)
+        val endDateEditText = findViewById<EditText>(R.id.edtEndDateSavings)
+
+        val targetAmount = targetAmountEditText.text.toString().toFloatOrNull()
+        val startDate = getDateFromEditText(startDateEditText)
+        val endDate = getDateFromEditText(endDateEditText)
+
+        // Check if all mandatory fields are filled
+        return when {
+            targetAmount == null || targetAmount <= 0f -> {
+                Toast.makeText(this, "Please enter a valid target amount", Toast.LENGTH_SHORT).show()
+                false
+            }
+            startDate == null -> {
+                Toast.makeText(this, "Please select a valid start date", Toast.LENGTH_SHORT).show()
+                false
+            }
+            endDate == null -> {
+                Toast.makeText(this, "Please select a valid end date", Toast.LENGTH_SHORT).show()
+                false
+            }
+            !startDate.before(endDate) -> {
+                Toast.makeText(this, "Start date must be before the end date", Toast.LENGTH_SHORT).show()
+                false
+            }
+            else -> true
+        }
+    }
+    private fun validateDateFields(): Boolean {
+        val startDateEditText = findViewById<EditText>(R.id.edtStartDateSavings)
+        val endDateEditText = findViewById<EditText>(R.id.edtEndDateSavings)
+
+        val startDate = getDateFromEditText(startDateEditText)
+        val endDate = getDateFromEditText(endDateEditText)
+
+        // Check if start and end dates are valid
+        return when {
+            startDate == null -> {
+                Toast.makeText(this, "Please select a valid start date", Toast.LENGTH_SHORT).show()
+                false
+            }
+            endDate == null -> {
+                Toast.makeText(this, "Please select a valid end date", Toast.LENGTH_SHORT).show()
+                false
+            }
+            !startDate.before(endDate) -> {
+                Toast.makeText(this, "Start date must be before the end date", Toast.LENGTH_SHORT).show()
+                false
+            }
+            else -> true
+        }
+    }
+
 
     private fun updateProgressBar(targetAmount: Float) {
         val savedAmountSoFar = etTotalAmount.text.toString().toFloatOrNull() ?: 0f
-        val progressBarSavings = findViewById<com.google.android.material.progressindicator.LinearProgressIndicator>(R.id.progressBarSavings)
+        val progressBarSavings =
+            findViewById<com.google.android.material.progressindicator.LinearProgressIndicator>(R.id.progressBarSavings)
         val tvProgressPercentage = findViewById<TextView>(R.id.tvProgressPercentage)
 
         if (targetAmount > 0) {
@@ -504,6 +613,7 @@ class MainMenu : AppCompatActivity() {
 
         return true
     }
+
     // Update the unread count badge from SharedPreferences
     private fun updateUnreadCountBadge(badgeCountTextView: TextView?) {
         val unreadCount = NotificationsActivity.getUnreadNotificationCount(this)
@@ -520,10 +630,10 @@ class MainMenu : AppCompatActivity() {
         NotificationsActivity.resetUnreadNotificationCount(this)
         updateUnreadCountBadge(badgeCountTextView) // Update the badge display immediately
     }
-    // Method to display the savings dialog
     fun openSavingsDialog(view: View) {
-        showSavingsDialog()
+        showSavingsDialog() // This method should already be defined in your class
     }
+
     private fun showSavingsDialog() {
         // Inflate the custom layout for the savings dialog
         val dialogView = layoutInflater.inflate(R.layout.dialog_box_savings, null)
@@ -539,160 +649,398 @@ class MainMenu : AppCompatActivity() {
 
         // Find views
         val targetAmountEditText = dialogView.findViewById<EditText>(R.id.edtTargetAmount)
-        val targetPeriodSpinner = dialogView.findViewById<Spinner>(R.id.spinnerTargetPeriod)
+        val startDateEditText = dialogView.findViewById<EditText>(R.id.edtStartDateSavings)
+        val endDateEditText = dialogView.findViewById<EditText>(R.id.edtEndDateSavings)
         val monthlySavingsEditText = dialogView.findViewById<EditText>(R.id.edtMonthlySavings)
         val targetNameSpinner = dialogView.findViewById<Spinner>(R.id.spinnerTargetName)
-        val btnSaveTarget = dialogView.findViewById<Button>(R.id.btnSaveTargetSavings)
+
         val btnCloseDialog = dialogView.findViewById<Button>(R.id.btnCloseDialogSavings)
-        val progressBarSavings = dialogView.findViewById<com.google.android.material.progressindicator.LinearProgressIndicator>(R.id.progressBarSavings)
 
+        saveNewTarget(dialogView, targetAmountEditText, startDateEditText, endDateEditText, dialog, monthlySavingsEditText)
 
-        // Find the etTotal, which represents the savedAmountSoFar
-        val etTotal = findViewById<EditText>(R.id.etTotal)
-        val savedAmountSoFar = etTotal.text.toString().toFloatOrNull() ?: 0f
+        // Set DatePickers for start and end dates
+        startDateEditText.setOnClickListener {
+            showDatePickerDialog(startDateEditText)
+            updateMonthlySavingsFromFields(targetAmountEditText, startDateEditText, endDateEditText, monthlySavingsEditText)
+        }
+        endDateEditText.setOnClickListener {
+            showDatePickerDialog(endDateEditText)
+            updateMonthlySavingsFromFields(targetAmountEditText, startDateEditText, endDateEditText, monthlySavingsEditText)
+        }
+
+        // Initialize Spinner Adapter
+        val targetNames = listOf("Vacation", "New Car", "Emergency Fund", "Home Down Payment", "Car Purchase", "Education Fund", "Retirement", "Wedding", "Investment", "No specific reason")
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, targetNames)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        targetNameSpinner.adapter = adapter
 
         // Load saved values from SharedPreferences
         val sharedPref = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
         val savedTargetName = sharedPref.getString("savingsTargetName", "")
         val savedTargetAmount = sharedPref.getFloat("savingsTargetAmount", 0f)
-        val savedTargetPeriod = sharedPref.getString("savingsTargetPeriod", "")
+        val savedTargetStartMonth = sharedPref.getString("savingsTargetStartMonth", "")
+        val savedTargetEndMonth = sharedPref.getString("savingsTargetEndMonth", "")
 
         // Set the saved values in the dialog's input fields
         targetAmountEditText.setText(String.format("%.2f", savedTargetAmount))
 
-        // Set saved target name in the spinner (if spinner contains the saved target name)
+        // Set saved target name in the spinner
         if (!savedTargetName.isNullOrEmpty()) {
             val namePosition = (targetNameSpinner.adapter as ArrayAdapter<String>).getPosition(savedTargetName)
             targetNameSpinner.setSelection(namePosition)
         }
 
-        // Set the saved target period in the spinner
-        if (!savedTargetPeriod.isNullOrEmpty()) {
-            val periodPosition = (targetPeriodSpinner.adapter as ArrayAdapter<String>).getPosition(savedTargetPeriod)
-            targetPeriodSpinner.setSelection(periodPosition)
+        // Set the saved start and end dates if they exist
+        startDateEditText.setText(savedTargetStartMonth ?: "")
+        endDateEditText.setText(savedTargetEndMonth ?: "")
+
+        btnCloseDialog.setOnClickListener {
+            dialog.dismiss() // Simply close the dialog
         }
 
-        // Initial progress update
-        updateProgressBar(savedTargetAmount)
 
-        // Function to calculate and set the monthly savings
-        fun calculateMonthlySavings() {
-            val targetAmount = targetAmountEditText.text.toString().toFloatOrNull()
-            val selectedPeriod = targetPeriodSpinner.selectedItem.toString()
-
-            val months = when (selectedPeriod) {
-                "1 Month" -> 1
-                "2 Months" -> 2
-                "3 Months" -> 3
-                "6 Months" -> 6
-                "12 Months" -> 12
-                else -> 1 // Default to 1 month if not selected
-            }
-
-            // Calculate and set the monthly savings if target amount is valid
-            if (targetAmount != null && months > 0) {
-                val monthlySavings = targetAmount / months
-                monthlySavingsEditText.setText(String.format("%.2f", monthlySavings))
-                // Set the monthly savings in MainMenu's etMonthlySavings field
-                etMonthlySavingsMain.setText(String.format("%.2f", monthlySavings))
-                // Update the progress bar when the target amount is changed
-                progressBarSavings?.let {
-                    val progress = (savedAmountSoFar / targetAmount) * 100
-                    it.setProgressCompat(progress.toInt().coerceAtMost(100), true)
-                }
-                // Update progress bar and progress percentage
-                updateProgressBar(targetAmount)
-            }
-        }
-
-        // Add TextWatcher to update monthly savings on text change
+    // Add TextWatcher for targetAmountEditText
         targetAmountEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                calculateMonthlySavings()
+                // Ensure that the update methods use the right scope for monthlySavingsEditText
                 updateProgressBar(targetAmountEditText.text.toString().toFloatOrNull() ?: 0f)
+                updateMonthlySavings(
+                    targetAmountEditText.text.toString().toFloatOrNull(),
+                    getDateFromEditText(startDateEditText),
+                    getDateFromEditText(endDateEditText),
+                    monthlySavingsEditText  // Use monthlySavingsEditText here
+                )
             }
 
             override fun afterTextChanged(s: Editable?) {}
         })
+    }
 
-        targetPeriodSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                calculateMonthlySavings()
-            }
+    // Method to calculate the number of months between two dates
+    private fun getMonthsBetweenDates(startDate: Calendar, endDate: Calendar): Int {
+        val yearsDifference = endDate.get(Calendar.YEAR) - startDate.get(Calendar.YEAR)
+        val monthsDifference = endDate.get(Calendar.MONTH) - startDate.get(Calendar.MONTH)
+        return (yearsDifference * 12) + monthsDifference + 1 // +1 to include the current month
+    }
 
-            override fun onNothingSelected(parent: AdapterView<*>) {}
+    // Helper method to parse the date from the EditText
+    private fun getDateFromEditText(editText: EditText): Calendar? {
+        val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        return try {
+            val date = sdf.parse(editText.text.toString())
+            Calendar.getInstance().apply { time = date }
+        } catch (e: Exception) {
+            null
         }
+    }
+    private fun updateMonthlySavingsFromFields(
+        targetAmountEditText: EditText,
+        startDateEditText: EditText,
+        endDateEditText: EditText,
+        monthlySavingsEditText: EditText
+    ) {
+        val targetAmount = targetAmountEditText.text.toString().toFloatOrNull()
+        val startDate = getDateFromEditText(startDateEditText)
+        val endDate = getDateFromEditText(endDateEditText)
+
+        if (targetAmount != null && startDate != null && endDate != null && startDate.before(endDate)) {
+            val monthsDifference = getMonthsBetweenDates(startDate, endDate)
+            if (monthsDifference > 0) {
+                val monthlySavings = targetAmount / monthsDifference
+                monthlySavingsEditText.setText(String.format("%.2f", monthlySavings))
+            }
+        } else {
+            // Clear the monthly savings if inputs are invalid
+            monthlySavingsEditText.setText("")
+        }
+    }
+
+    // Helper method to show the DatePicker dialog
+    private fun showDatePickerDialog(editText: EditText) {
+        val calendar = Calendar.getInstance()
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+        val datePickerDialog = DatePickerDialog(this, { _, selectedYear, selectedMonth, selectedDay ->
+            val selectedDate = "$selectedDay/${selectedMonth + 1}/$selectedYear"
+            editText.setText(selectedDate)
+        }, year, month, day)
+
+        datePickerDialog.show()
+    }
+
+    // Method to save the target with start and end dates
+    private fun saveSavings() {
+        if (validateMandatoryFields() && validateDateFields()) {
+            if (userEmail != null && userUid != null) {
+                val targetAmount = findViewById<EditText>(R.id.edtTargetAmount).text.toString()
+                val startDateString = findViewById<EditText>(R.id.edtStartDateSavings).text.toString()
+                val endDateString = findViewById<EditText>(R.id.edtEndDateSavings).text.toString()
+                val targetName = findViewById<Spinner>(R.id.spinnerTargetName).selectedItem?.toString() ?: "-"
+
+                // Convert String to Date
+                val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                val startDate: Date? = try {
+                    sdf.parse(startDateString)
+                } catch (e: Exception) {
+                    null
+                }
+                val endDate: Date? = try {
+                    sdf.parse(endDateString)
+                } catch (e: Exception) {
+                    null
+                }
+
+                val timestampStart = startDate?.let { com.google.firebase.Timestamp(it) }
+                val timestampEnd = endDate?.let { com.google.firebase.Timestamp(it) }
+
+                if (startDate != null && endDate != null) {
+                    // Create the main savings document
+                    val savings = hashMapOf(
+                        "targetAmount" to targetAmount,
+                        "startDate" to timestampStart,
+                        "endDate" to timestampEnd,
+                        "targetName" to targetName
+                    )
+
+                    val docRef = db.collection("users").document(userUid!!).collection("savings_targets").document()
+                    val savingsId = docRef.id
+                    savings["savingsId"] = savingsId
+
+                    // Save the savings target
+                    docRef.set(savings)
+                        .addOnSuccessListener {
+                            // Distribute the savings across the months and save in Firebase
+                            distributeSavingsAcrossMonths(startDate, endDate, targetAmount.toFloat(), savingsId)
+                        }
+                        .addOnFailureListener { e ->
+                            Toast.makeText(this, "Error saving savings target: ${e.message}", Toast.LENGTH_SHORT).show()
+                        }
+                }
+            } else {
+                Toast.makeText(this, "Error: Unable to retrieve user email or UID", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    // Method to distribute savings across months and save them in Firebase
+    private fun distributeSavingsAcrossMonths(startDate: Date, endDate: Date, targetAmount: Float, savingsId: String) {
+        val startCalendar = Calendar.getInstance()
+        startCalendar.time = startDate
+
+        val endCalendar = Calendar.getInstance()
+        endCalendar.time = endDate
+
+        val months = getMonthsBetweenDates(startCalendar, endCalendar)
+        val monthlyAmount = targetAmount / months
+        val dateFormat = SimpleDateFormat("MM/yyyy", Locale.getDefault())
+
+        for (i in 0 until months) {
+            val targetMonth = startCalendar.clone() as Calendar
+            targetMonth.add(Calendar.MONTH, i)
+            val monthString = dateFormat.format(targetMonth.time)
+
+            val monthSavings = hashMapOf(
+                "month" to monthString,
+                "monthlyAmount" to monthlyAmount,
+                "savingsId" to savingsId
+            )
+
+            // Save each month's savings into Firebase
+            db.collection("users").document(userUid!!).collection("savings_targets")
+                .document(savingsId).collection("monthly_savings").document(monthString)
+                .set(monthSavings)
+                .addOnSuccessListener {
+                    Toast.makeText(this, "Monthly savings saved for $monthString", Toast.LENGTH_SHORT).show()
+                }
+                .addOnFailureListener { e ->
+                    Toast.makeText(this, "Error saving monthly savings: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
+        }
+    }
+
+    private fun updateMonthlySavings(
+        targetAmount: Float?,
+        startDate: Calendar?,
+        endDate: Calendar?,
+        monthlySavingsEditText: EditText
+    ) {
+        if (targetAmount != null && targetAmount > 0f && startDate != null && endDate != null && startDate.before(endDate)) {
+            val monthsDifference = getMonthsBetweenDates(startDate, endDate)
+            if (monthsDifference > 0) {
+                val monthlySavings = targetAmount / monthsDifference
+                monthlySavingsEditText.setText(String.format("%.2f", monthlySavings))
+            }
+        }
+    }
+
+    private fun saveNewTarget(
+        dialogView: View,
+        targetAmountEditText: EditText,
+        startDateEditText: EditText,
+        endDateEditText: EditText,
+        dialog: AlertDialog,
+        monthlySavingsEditText: EditText
+    ) {
+        val btnSaveTarget = dialogView.findViewById<Button>(R.id.btnSaveTargetSavings)
 
         // Save button logic
         btnSaveTarget.setOnClickListener {
             val targetAmount = targetAmountEditText.text.toString().toFloatOrNull()
-            val targetPeriod = targetPeriodSpinner.selectedItem.toString()
+            val startDate = getDateFromEditText(startDateEditText)
+            val endDate = getDateFromEditText(endDateEditText)
 
-            // Validation for required fields
+            // Basic validation
             if (targetAmount == null || targetAmount <= 0f) {
                 Toast.makeText(this, "Please enter a valid target amount", Toast.LENGTH_SHORT).show()
-            } else if (targetPeriod.isEmpty() || targetPeriod == "Select Target Period") {
-                Toast.makeText(this, "Please select a target period", Toast.LENGTH_SHORT).show()
+            } else if (startDate == null || endDate == null || !startDate.before(endDate)) {
+                Toast.makeText(this, "Please select valid start and end dates", Toast.LENGTH_SHORT).show()
             } else {
-                // Save target data if all fields are valid
-                saveSavingsTarget(targetPeriod, targetAmount, targetPeriod)
+                // Saving the target
+                saveSavingsTarget(targetAmount, startDate, endDate)
 
-                // Update progress after saving the new target
-                progressBarSavings?.let {
-                    val progress = (savedAmountSoFar / targetAmount) * 100
-                    it.setProgressCompat(progress.toInt().coerceAtMost(100), true)
-                }
+                // Notify the user that the target has been updated
+                Toast.makeText(this, "Savings target has been updated.", Toast.LENGTH_SHORT).show()
 
                 dialog.dismiss() // Close the dialog
             }
         }
 
-        // Close button logic
-        btnCloseDialog.setOnClickListener {
-            dialog.dismiss() // Simply close the dialog
+        // DatePicker for start and end date selection
+        startDateEditText.setOnClickListener {
+            showDatePickerDialog(startDateEditText)
+            updateMonthlySavings(
+                targetAmountEditText.text.toString().toFloatOrNull(),
+                getDateFromEditText(startDateEditText),
+                getDateFromEditText(endDateEditText),
+                monthlySavingsEditText
+            )
+        }
+
+        endDateEditText.setOnClickListener {
+            showDatePickerDialog(endDateEditText)
+            updateMonthlySavings(
+                targetAmountEditText.text.toString().toFloatOrNull(),
+                getDateFromEditText(startDateEditText),
+                getDateFromEditText(endDateEditText),
+                monthlySavingsEditText
+            )
+        }
+
+        // TextWatcher to update monthly savings based on target amount
+        targetAmountEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                updateProgressBar(targetAmountEditText.text.toString().toFloatOrNull() ?: 0f)
+                updateMonthlySavings(
+                    targetAmountEditText.text.toString().toFloatOrNull(),
+                    getDateFromEditText(startDateEditText),
+                    getDateFromEditText(endDateEditText),
+                    monthlySavingsEditText
+                )
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
+    }
+    private fun saveSavingsTarget(targetAmount: Float, startDate: Calendar, endDate: Calendar) {
+        val userUid = FirebaseAuth.getInstance().currentUser?.uid
+
+        if (userUid != null) {
+            // Convert Calendar dates to Timestamp
+            val timestampStart = com.google.firebase.Timestamp(startDate.time)
+            val timestampEnd = com.google.firebase.Timestamp(endDate.time)
+
+            // Prepare data to save
+            val savingsData = hashMapOf(
+                "targetAmount" to targetAmount,
+                "startDate" to timestampStart,
+                "endDate" to timestampEnd,
+                "userUid" to userUid
+            )
+
+            // Save the target data to Firestore
+            db.collection("users")
+                .document(userUid)
+                .collection("savings_targets")
+                .document("mainTarget")
+                .set(savingsData)
+                .addOnSuccessListener {
+                    Toast.makeText(this, "Savings target saved successfully!", Toast.LENGTH_SHORT).show()
+                }
+                .addOnFailureListener { e ->
+                    Toast.makeText(this, "Error saving target: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
+        } else {
+            Toast.makeText(this, "User not logged in!", Toast.LENGTH_SHORT).show()
         }
     }
 
-    // saving logic
-    private fun saveSavingsTarget(targetName: String, targetAmount: Float, targetPeriod: String) {
-        // Get the SharedPreferences editor
-        val sharedPref = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
-        val editor = sharedPref.edit()
 
-        // Save the target data
-        editor.putString("savingsTargetName", targetName)
-        editor.putFloat("savingsTargetAmount", targetAmount)
-        editor.putString("savingsTargetPeriod", targetPeriod)
 
-        // Commit the changes
-        editor.apply()
-
-        // Notify the user that the target was saved successfully
-        Toast.makeText(this, "Savings target saved successfully!", Toast.LENGTH_SHORT).show()
-    }
     private fun loadSavingsTarget() {
-        val sharedPref = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
-        val targetAmount = sharedPref.getFloat("savingsTargetAmount", 0f)
-        val savedTargetPeriod = sharedPref.getString("savingsTargetPeriod", "")
+        // Get Firebase reference to the user's savings target
+        val userUid = FirebaseAuth.getInstance().currentUser?.uid
+        val savingsTargetRef = db.collection("users").document(userUid!!).collection("savingsTargets").document("mainTarget")
 
-        // Calculate monthly savings
-        val months = when (savedTargetPeriod) {
-            "1 Month" -> 1
-            "2 Months" -> 2
-            "3 Months" -> 3
-            "6 Months" -> 6
-            "12 Months" -> 12
-            else -> 1
-        }
+        savingsTargetRef.get()
+            .addOnSuccessListener { document ->
+                if (document.exists()) {
+                    // Retrieve the target amount, start month, and end month from Firebase
+                    val targetAmount = document.getDouble("targetAmount")?.toFloat() ?: 0f
+                    val savedStartMonth = document.getString("startMonth") ?: ""
+                    val savedEndMonth = document.getString("endMonth") ?: ""
 
-        val monthlySavings = if (months > 0) targetAmount / months else 0f
-        etMonthlySavingsMain.setText(String.format("%.2f", monthlySavings))
+                    // Ensure both start and end dates are available before proceeding
+                    if (savedStartMonth.isNotEmpty() && savedEndMonth.isNotEmpty() && targetAmount > 0f) {
+                        val dateFormat = SimpleDateFormat("MM/yyyy", Locale.getDefault())
 
-        // Update the progress bar with the saved target amount
-        updateProgressBar(targetAmount)
+                        // Parse the start and end months
+                        val startMonth: Calendar = Calendar.getInstance()
+                        val endMonth: Calendar = Calendar.getInstance()
 
+                        try {
+                            startMonth.time = dateFormat.parse(savedStartMonth) ?: return@addOnSuccessListener
+                            endMonth.time = dateFormat.parse(savedEndMonth) ?: return@addOnSuccessListener
+                        } catch (e: Exception) {
+                            Toast.makeText(this, "Error parsing saved date. Please set the target again.", Toast.LENGTH_SHORT).show()
+                            return@addOnSuccessListener
+                        }
+
+                        // Calculate the number of months between the start and end dates
+                        val monthsDifference = calculateMonthsDifference(startMonth, endMonth)
+
+                        // If there are months in the range, calculate the monthly savings
+                        if (monthsDifference > 0) {
+                            val monthlySavings = targetAmount / monthsDifference
+                            etMonthlySavingsMain.setText(String.format("%.2f", monthlySavings))
+
+                            // Update the progress bar with the saved target amount
+                            updateProgressBar(targetAmount)
+                        } else {
+                            etMonthlySavingsMain.setText("0.00")
+                        }
+                    } else {
+                        etMonthlySavingsMain.setText("0.00")
+                    }
+                } else {
+                    // No target saved, set default
+                    etMonthlySavingsMain.setText("0.00")
+                }
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(this, "Error loading savings target: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    private fun calculateMonthsDifference(startMonth: Calendar, endMonth: Calendar): Int {
+        val yearsDifference = endMonth.get(Calendar.YEAR) - startMonth.get(Calendar.YEAR)
+        val monthsDifference = yearsDifference * 12 + (endMonth.get(Calendar.MONTH) - startMonth.get(Calendar.MONTH))
+        return monthsDifference + 1
     }
 
 
@@ -704,3 +1052,4 @@ class MainMenu : AppCompatActivity() {
         finish()
     }
 }
+
