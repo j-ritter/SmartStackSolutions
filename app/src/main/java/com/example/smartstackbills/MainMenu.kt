@@ -53,7 +53,7 @@ class MainMenu : AppCompatActivity() {
     private lateinit var etRecurringAmount: EditText
     private lateinit var etOneTimeAmount: EditText
     private lateinit var etTotalAmount: EditText
-    private lateinit var etMonthlySavingsMain: EditText
+    private lateinit var etMonthlySavingsMain: TextView
 
     private var userEmail: String? = null
     private var userUid: String? = null
@@ -253,7 +253,7 @@ class MainMenu : AppCompatActivity() {
         val spendingsList = getSpendings()
         val incomeList = getIncome()
 
-        val dateFormat = SimpleDateFormat("MM/yyyy", Locale.getDefault())
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         val selectedMonth = dateFormat.format(currentMonth.time)
 
         val billsForMonth = billsList.filter { bill ->
@@ -289,7 +289,7 @@ class MainMenu : AppCompatActivity() {
             emptyMap()
         }
 
-        val dateFormat = SimpleDateFormat("MM/yyyy", Locale.getDefault())
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         val currentMonthString = dateFormat.format(currentMonth.time)
         val savingsForCurrentMonthTarget = monthlySavingsMap[currentMonthString] ?: 0f
 
@@ -412,7 +412,7 @@ class MainMenu : AppCompatActivity() {
             emptyMap()
         }
 
-        val currentMonthString = SimpleDateFormat("MM/yyyy", Locale.getDefault()).format(currentMonth.time)
+        val currentMonthString = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(currentMonth.time)
         return monthlySavingsMap[currentMonthString] ?: 0f
     }
 
@@ -446,7 +446,7 @@ class MainMenu : AppCompatActivity() {
 
     private fun showCreateOptionsDialog() {
         val options =
-            arrayOf("Create an Open Payment", "Create a Closed Payment", "Create an Income")
+            arrayOf("Create an Open Payment", "Create a Closed Payment", "Create an Income",  "Set a Saving Target")
 
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Select an option")
@@ -462,7 +462,10 @@ class MainMenu : AppCompatActivity() {
 
                 2 -> startActivity(Intent(this, createIncome::class.java).apply {
                     putExtra("USER_EMAIL", userEmail)
+
                 })
+
+                3 -> showSavingsDialog()
             }
         }
         builder.show()
@@ -483,7 +486,7 @@ class MainMenu : AppCompatActivity() {
     }
 
     private fun setupSavingsVisibility() {
-        val etMonthlySavings: EditText = findViewById(R.id.etMonthlySavings)
+        val etMonthlySavings: TextView = findViewById(R.id.etMonthlySavings)
         val tvTargetAchieved: TextView = findViewById(R.id.tvTargetAchieved)
         val tvProgressPercentage: TextView = findViewById(R.id.tvProgressPercentage)
         val progressBarSavings: LinearProgressIndicator = findViewById(R.id.progressBarSavings)
@@ -655,6 +658,16 @@ class MainMenu : AppCompatActivity() {
         val targetNameSpinner = dialogView.findViewById<Spinner>(R.id.spinnerTargetName)
 
         val btnCloseDialog = dialogView.findViewById<Button>(R.id.btnCloseDialogSavings)
+
+        val calendar = Calendar.getInstance()
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+
+        val currentDate = dateFormat.format(calendar.time)
+        startDateEditText.setText(currentDate)
+
+        calendar.add(Calendar.DAY_OF_MONTH, 1)
+        val nextDate = dateFormat.format(calendar.time)
+        endDateEditText.setText(nextDate)
 
         saveNewTarget(dialogView, targetAmountEditText, startDateEditText, endDateEditText, dialog, monthlySavingsEditText)
 
@@ -836,7 +849,7 @@ class MainMenu : AppCompatActivity() {
 
         val months = getMonthsBetweenDates(startCalendar, endCalendar)
         val monthlyAmount = targetAmount / months
-        val dateFormat = SimpleDateFormat("MM/yyyy", Locale.getDefault())
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
 
         for (i in 0 until months) {
             val targetMonth = startCalendar.clone() as Calendar
@@ -997,7 +1010,7 @@ class MainMenu : AppCompatActivity() {
 
                     // Ensure both start and end dates are available before proceeding
                     if (savedStartMonth.isNotEmpty() && savedEndMonth.isNotEmpty() && targetAmount > 0f) {
-                        val dateFormat = SimpleDateFormat("MM/yyyy", Locale.getDefault())
+                        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
 
                         // Parse the start and end months
                         val startMonth: Calendar = Calendar.getInstance()

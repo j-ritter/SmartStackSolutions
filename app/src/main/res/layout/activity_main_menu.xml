@@ -385,14 +385,16 @@
                 android:layout_marginEnd="16dp"/>
 
             <!-- Set Saving Target TextView and EditText -->
-            <TextView
+            <Button
                 android:id="@+id/tvSetSavingTarget"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Set saving target"
+                android:text="Set Saving Target"
                 android:textSize="16sp"
-                android:textColor="@android:color/black"
+                android:textColor="@android:color/white"
                 android:textStyle="bold"
+                android:backgroundTint="@color/orange"
+                app:cornerRadius="8dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvTotal"
                 android:layout_marginStart="16dp"
@@ -401,18 +403,24 @@
                 android:focusable="true"
                 android:onClick="openSavingsDialog" />
 
-            <EditText
+
+            <TextView
                 android:id="@+id/etMonthlySavings"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType="none"
-                android:focusable="false"
                 android:textSize="16sp"
                 android:textStyle="bold"
+                android:backgroundTint="@color/orange"
+                android:background="@drawable/rounded_button_background"
+                android:textColor="@android:color/white"
+                android:gravity="center"
+                app:cornerRadius="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBaseline_toBaselineOf="@id/tvSetSavingTarget"
                 android:layout_marginEnd="16dp"
-                android:hint="0.00"/>
+                android:padding="8dp"
+                android:text="0.00" />
+
 
             <!-- Target Achieved TextView and ProgressBar -->
             <TextView
