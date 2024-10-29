@@ -868,20 +868,12 @@ class MainMenu : AppCompatActivity() {
                         val savedStartMonth = document.getString("startMonth") ?: ""
                         val savedEndMonth = document.getString("endMonth") ?: ""
 
-                        if (savedStartMonth.isNotEmpty() && savedEndMonth.isNotEmpty() && targetAmount > 0f) {
-                            val startMonth = Calendar.getInstance()
-                            val endMonth = Calendar.getInstance()
-
-                            try {
-                                startMonth.time = dateFormat.parse(savedStartMonth) ?: return@addOnSuccessListener
-                                endMonth.time = dateFormat.parse(savedEndMonth) ?: return@addOnSuccessListener
-                            } catch (e: Exception) {
-                                Toast.makeText(this, "Error parsing saved dates. Please reset the target.", Toast.LENGTH_SHORT).show()
-                                return@addOnSuccessListener
-                            }
-
-                            val monthsDifference = calculateMonthsDifference(startMonth, endMonth)
-                            val calculatedMonthlySavings = targetAmount / monthsDifference
+                        // Check if the current month is within the range
+                        if (isWithinDateRange(savedStartMonth, savedEndMonth, currentMonthString)) {
+                            // Calculate monthly savings based on target amount and display it
+                            val calculatedMonthlySavings = targetAmount / calculateMonthsDifference(
+                                dateFormat.parse(savedStartMonth), dateFormat.parse(savedEndMonth)
+                            )
 
                             // Retrieve specific savings for the current month
                             monthlySavingsRef.get()
@@ -902,7 +894,7 @@ class MainMenu : AppCompatActivity() {
                                     etMonthlySavingsMain.text = "0.00"
                                 }
                         } else {
-                            // Reset to 0 if target data is incomplete
+                            // If the current month is outside the range, display 0.00
                             etMonthlySavingsMain.text = "0.00"
                         }
                     } else {
@@ -917,10 +909,27 @@ class MainMenu : AppCompatActivity() {
         }
     }
 
-    private fun calculateMonthsDifference(startMonth: Calendar, endMonth: Calendar): Int {
+    // Helper function to check if a month is within a start and end month range
+    private fun isWithinDateRange(startMonth: String, endMonth: String, currentMonth: String): Boolean {
+        val dateFormat = SimpleDateFormat("MM-yyyy", Locale.getDefault())
+        val start = dateFormat.parse(startMonth)
+        val end = dateFormat.parse(endMonth)
+        val current = dateFormat.parse(currentMonth)
+
+        return current in start..end
+    }
+
+    // Updated method to calculate months difference between two Date objects
+    private fun calculateMonthsDifference(startDate: Date?, endDate: Date?): Int {
+        if (startDate == null || endDate == null) return 0
+
+        val startMonth = Calendar.getInstance().apply { time = startDate }
+        val endMonth = Calendar.getInstance().apply { time = endDate }
+
         val yearsDifference = endMonth.get(Calendar.YEAR) - startMonth.get(Calendar.YEAR)
-        val monthsDifference = yearsDifference * 12 + (endMonth.get(Calendar.MONTH) - startMonth.get(Calendar.MONTH))
-        return monthsDifference + 1
+        val monthsDifference = endMonth.get(Calendar.MONTH) - startMonth.get(Calendar.MONTH)
+
+        return yearsDifference * 12 + monthsDifference + 1
     }
 
     private fun loadSavedTargetName() {
