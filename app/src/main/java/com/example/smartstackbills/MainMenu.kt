@@ -96,7 +96,7 @@ class MainMenu : AppCompatActivity() {
         setupSavingsVisibility()
         // Call this to load the saved target when the activity starts
         loadSavingsTarget()
-        loadSavedTargetName()
+        loadSavingsTargetNameForMonth(currentMonth.time)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -332,7 +332,7 @@ class MainMenu : AppCompatActivity() {
 
         etTotalAmount.setText(String.format(Locale.getDefault(), "%.2f", total))
 
-    // Calculate essential and non-essential spendings based on predefined categories
+        // Calculate essential and non-essential spendings based on predefined categories
         val essentialCategories = listOf("Accommodation", "Communication", "Insurance", "Transportation", "Finances/Fees", "Taxes", "Health", "Education", "Shopping & Consumption")
         val essentialSubcategories = listOf("Rent", "Utilities", "Groceries - Basic Food", "Groceries - Household Necessities", "Mobile phone", "Internet", "Health insurance", "Car insurance", "Fuel", "Public transportation")
 
@@ -400,12 +400,14 @@ class MainMenu : AppCompatActivity() {
         val btnNextMonth = findViewById<ImageButton>(R.id.btnNextMonth)
 
         updateMonthDisplay(tvMonth)
+        loadSavingsTargetNameForMonth(currentMonth.time)
 
         btnPreviousMonth.setOnClickListener {
             currentMonth.add(Calendar.MONTH, -1)
             updateMonthDisplay(tvMonth)
             setAmountForMonth()
             loadSavingsTarget()
+            loadSavingsTargetNameForMonth(currentMonth.time)
 
         }
 
@@ -414,6 +416,7 @@ class MainMenu : AppCompatActivity() {
             updateMonthDisplay(tvMonth)
             setAmountForMonth()
             loadSavingsTarget()
+            loadSavingsTargetNameForMonth(currentMonth.time)
         }
     }
 
@@ -770,48 +773,45 @@ class MainMenu : AppCompatActivity() {
 
     // Method to save the target with start and end dates
     private fun saveSavings(targetAmount: Float, startDate: Date, endDate: Date, targetName: String) {
-            val userUid = FirebaseAuth.getInstance().currentUser?.uid
+        val userUid = FirebaseAuth.getInstance().currentUser?.uid
 
-            if (userUid != null) {
-                // Convert dates to Timestamp for Firebase
-                val timestampStart = com.google.firebase.Timestamp(startDate)
-                val timestampEnd = com.google.firebase.Timestamp(endDate)
-                val dateFormat = SimpleDateFormat("MM-yyyy", Locale.getDefault())
-                val startMonth = dateFormat.format(startDate)
-                val endMonth = dateFormat.format(endDate)
+        if (userUid != null) {
+            val timestampStart = com.google.firebase.Timestamp(startDate)
+            val timestampEnd = com.google.firebase.Timestamp(endDate)
+            val dateFormat = SimpleDateFormat("MM-yyyy", Locale.getDefault())
+            val startMonth = dateFormat.format(startDate)
+            val endMonth = dateFormat.format(endDate)
 
-                // Prepare the data to save
-                val savingsData = hashMapOf(
-                    "targetAmount" to targetAmount,
-                    "startDate" to timestampStart,
-                    "endDate" to timestampEnd,
-                    "startMonth" to startMonth,
-                    "endMonth" to endMonth,
-                    "targetName" to targetName,
-                    "userUid" to userUid
-                )
+            // Create a unique identifier for each target
+            val documentId = "${targetName}_${startMonth}_to_${endMonth}"
 
-                // Save main target document in Firebase
-                db.collection("users")
-                    .document(userUid)
-                    .collection("savings_targets")
-                    .document("mainTarget")
-                    .set(savingsData)
-                    .addOnSuccessListener {
-                        Toast.makeText(this, "Savings target saved successfully!", Toast.LENGTH_SHORT).show()
-                        // Distribute savings across the target period
-                        distributeSavingsAcrossMonths(startDate, endDate, targetAmount, "mainTarget")
+            val savingsData = hashMapOf(
+                "targetAmount" to targetAmount,
+                "startDate" to timestampStart,
+                "endDate" to timestampEnd,
+                "startMonth" to startMonth,
+                "endMonth" to endMonth,
+                "targetName" to targetName,
+                "userUid" to userUid
+            )
 
-                        // Load updated savings target immediately to refresh the display
-                        loadSavingsTarget()
-                    }
-                    .addOnFailureListener { e ->
-                        Toast.makeText(this, "Error saving target: ${e.message}", Toast.LENGTH_SHORT).show()
-                    }
-            } else {
-                Toast.makeText(this, "User not logged in!", Toast.LENGTH_SHORT).show()
-            }
-                
+            // Save each target to its unique document within the 'savings_targets' collection
+            db.collection("users")
+                .document(userUid)
+                .collection("savings_targets")
+                .document(documentId)
+                .set(savingsData)
+                .addOnSuccessListener {
+                    Toast.makeText(this, "Savings target saved successfully!", Toast.LENGTH_SHORT).show()
+                    distributeSavingsAcrossMonths(startDate, endDate, targetAmount, documentId)
+                    loadSavingsTarget() // Refresh the target list
+                }
+                .addOnFailureListener { e ->
+                    Toast.makeText(this, "Error saving target: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
+        } else {
+            Toast.makeText(this, "User not logged in!", Toast.LENGTH_SHORT).show()
+        }
     }
 
     // Method to distribute savings across months and save them in Firebase
@@ -829,9 +829,8 @@ class MainMenu : AppCompatActivity() {
         for (i in 0 until months) {
             val targetMonth = startCalendar.clone() as Calendar
             targetMonth.add(Calendar.MONTH, i)
-            val monthString = dateFormat.format(targetMonth.time) // Result will be "MM-yyyy", like "10-2024"
+            val monthString = dateFormat.format(targetMonth.time)
 
-            // Save each month's savings into Firebase with corrected document path
             db.collection("users").document(userUid!!).collection("savings_targets")
                 .document(savingsId).collection("monthly_savings").document(monthString)
                 .set(hashMapOf(
@@ -848,66 +847,59 @@ class MainMenu : AppCompatActivity() {
         }
     }
 
-
     // Method to load and display the savings target for the current month
     private fun loadSavingsTarget() {
         val userUid = FirebaseAuth.getInstance().currentUser?.uid
         val dateFormat = SimpleDateFormat("MM-yyyy", Locale.getDefault())
         val currentMonthString = dateFormat.format(currentMonth.time)
+        val currentTimestamp = com.google.firebase.Timestamp(currentMonth.time)
 
         if (userUid != null) {
-            val savingsTargetRef = db.collection("users").document(userUid)
-                .collection("savings_targets").document("mainTarget")
-            val monthlySavingsRef = savingsTargetRef.collection("monthly_savings").document(currentMonthString)
-
-            // Retrieve the main savings target
-            savingsTargetRef.get()
-                .addOnSuccessListener { document ->
-                    if (document.exists()) {
-                        val targetAmount = document.getDouble("targetAmount")?.toFloat() ?: 0f
-                        val savedStartMonth = document.getString("startMonth") ?: ""
-                        val savedEndMonth = document.getString("endMonth") ?: ""
-
-                        // Check if the current month is within the range
-                        if (isWithinDateRange(savedStartMonth, savedEndMonth, currentMonthString)) {
-                            // Calculate monthly savings based on target amount and display it
-                            val calculatedMonthlySavings = targetAmount / calculateMonthsDifference(
-                                dateFormat.parse(savedStartMonth), dateFormat.parse(savedEndMonth)
-                            )
-
-                            // Retrieve specific savings for the current month
-                            monthlySavingsRef.get()
-                                .addOnSuccessListener { monthDocument ->
-                                    val monthlyAmount = if (monthDocument.exists()) {
-                                        monthDocument.getDouble("monthlyAmount")?.toFloat() ?: calculatedMonthlySavings
-                                    } else {
-                                        calculatedMonthlySavings
-                                    }
-
-                                    // Display monthly savings and update progress bar
-                                    etMonthlySavingsMain.text = String.format("%.2f", monthlyAmount)
-                                    updateProgressBar(targetAmount)
-                                    Toast.makeText(this, "Monthly savings loaded: $monthlyAmount", Toast.LENGTH_SHORT).show()
-                                }
-                                .addOnFailureListener { e ->
-                                    Toast.makeText(this, "Error loading monthly savings for $currentMonthString: ${e.message}", Toast.LENGTH_SHORT).show()
-                                    etMonthlySavingsMain.text = "0.00"
-                                }
-                        } else {
-                            // If the current month is outside the range, display 0.00
-                            etMonthlySavingsMain.text = "0.00"
-                        }
-                    } else {
+            db.collection("users").document(userUid)
+                .collection("savings_targets")
+                .whereGreaterThanOrEqualTo("endDate", currentTimestamp)
+                .get()
+                .addOnSuccessListener { documents ->
+                    if (documents.isEmpty) {
                         etMonthlySavingsMain.text = "0.00"
+                        findViewById<TextView>(R.id.tvSetSavingTarget).text = "Set Saving Target"
+                    } else {
+                        var totalMonthlySavings = 0f
+                        val targetNames = mutableListOf<String>()
+
+                        documents.forEach { document ->
+                            val startDate = document.getTimestamp("startDate") ?: return@forEach
+                            val endDate = document.getTimestamp("endDate") ?: return@forEach
+                            val targetAmount = document.getDouble("targetAmount")?.toFloat() ?: 0f
+                            val targetName = document.getString("targetName") ?: "Unnamed Target"
+
+                            // Check if the target is active for this month
+                            if (startDate <= currentTimestamp && endDate >= currentTimestamp) {
+                                val monthsDifference = calculateMonthsDifference(startDate.toDate(), endDate.toDate())
+                                val calculatedMonthlySavings = targetAmount / monthsDifference
+
+                                totalMonthlySavings += calculatedMonthlySavings
+                                targetNames.add(targetName)
+                            }
+                        }
+
+                        // Display total monthly savings and list of target names
+                        etMonthlySavingsMain.text = String.format("%.2f", totalMonthlySavings)
+                        findViewById<TextView>(R.id.tvSetSavingTarget).text = targetNames.joinToString(", ")
+                        updateProgressBar(totalMonthlySavings)
+                        Toast.makeText(this, "Total monthly savings loaded: $totalMonthlySavings", Toast.LENGTH_SHORT).show()
                     }
                 }
                 .addOnFailureListener { e ->
-                    Toast.makeText(this, "Error loading savings target: ${e.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Error loading savings targets for $currentMonthString: ${e.message}", Toast.LENGTH_SHORT).show()
+                    etMonthlySavingsMain.text = "0.00"
+                    findViewById<TextView>(R.id.tvSetSavingTarget).text = "Set Saving Target"
                 }
         } else {
             Toast.makeText(this, "User not logged in.", Toast.LENGTH_SHORT).show()
         }
     }
+
 
     // Helper function to check if a month is within a start and end month range
     private fun isWithinDateRange(startMonth: String, endMonth: String, currentMonth: String): Boolean {
@@ -932,10 +924,30 @@ class MainMenu : AppCompatActivity() {
         return yearsDifference * 12 + monthsDifference + 1
     }
 
-    private fun loadSavedTargetName() {
-        val sharedPref = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
-        val savedTargetName = sharedPref.getString("selectedTargetName", "Set Saving Target")
-        findViewById<TextView>(R.id.tvSetSavingTarget).text = savedTargetName
+    // Method to load and display the savings target name for the selected month
+    private fun loadSavingsTargetNameForMonth(selectedMonth: Date) {
+        val userUid = FirebaseAuth.getInstance().currentUser?.uid ?: return
+        val dateFormat = SimpleDateFormat("MM-yyyy", Locale.getDefault())
+        val selectedMonthString = dateFormat.format(selectedMonth)
+
+        val tvSetSavingTarget = findViewById<TextView>(R.id.tvSetSavingTarget)
+
+        db.collection("users").document(userUid)
+            .collection("savings_targets")
+            .whereLessThanOrEqualTo("startDate", com.google.firebase.Timestamp(selectedMonth))
+            .whereGreaterThanOrEqualTo("endDate", com.google.firebase.Timestamp(selectedMonth))
+            .get()
+            .addOnSuccessListener { documents ->
+                if (documents.isEmpty) {
+                    tvSetSavingTarget.text = "Set Saving Target"
+                } else {
+                    val targetNames = documents.mapNotNull { it.getString("targetName") }
+                    tvSetSavingTarget.text = targetNames.joinToString(", ")
+                }
+            }
+            .addOnFailureListener {
+                tvSetSavingTarget.text = "Set Saving Target"
+            }
     }
 
     private fun logoutUser() {
@@ -946,4 +958,3 @@ class MainMenu : AppCompatActivity() {
         finish()
     }
 }
-
