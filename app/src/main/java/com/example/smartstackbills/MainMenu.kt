@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
@@ -621,7 +622,7 @@ class MainMenu : AppCompatActivity() {
         showSavingsDialog() // This method should already be defined in your class
     }
 
-    private fun showSavingsDialog() {
+    private fun showSavingsDialog(documentId: String? = null) {
         // Inflate the custom layout for the savings dialog
         val dialogView = layoutInflater.inflate(R.layout.dialog_box_savings, null)
         val dialogBuilder = AlertDialog.Builder(this)
@@ -638,17 +639,50 @@ class MainMenu : AppCompatActivity() {
         val monthlySavingsEditText = dialogView.findViewById<EditText>(R.id.edtMonthlySavings)
         val targetNameSpinner = dialogView.findViewById<Spinner>(R.id.spinnerTargetName)
         val btnSaveTarget = dialogView.findViewById<Button>(R.id.btnSaveTargetSavings)
+        val imgEditTargetSavings = dialogView.findViewById<ImageView>(R.id.imgEditTargetSavings)
+        val imgDeleteTargetSavings = dialogView.findViewById<ImageView>(R.id.imgDeleteTargetSavings)
 
-        // Setup default start and end dates
-        val calendar = Calendar.getInstance()
+        // Initialize Spinner Adapter
+        val targetNames = listOf("Vacation", "New Car", "Emergency Fund", "Home Down Payment", "Car Purchase", "Education Fund", "Retirement", "Wedding", "Investment", "No specific reason")
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, targetNames)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        targetNameSpinner.adapter = adapter
+
+        // Date format for displaying in EditText
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-        startDateEditText.setText(dateFormat.format(calendar.time))
-        calendar.add(Calendar.DAY_OF_MONTH, 1)
-        endDateEditText.setText(dateFormat.format(calendar.time))
 
-        // DatePicker for start and end date selection
-        startDateEditText.setOnClickListener { showDatePickerDialog(startDateEditText) }
-        endDateEditText.setOnClickListener { showDatePickerDialog(endDateEditText) }
+        // Load target data if editing an existing target
+        if (documentId != null) {
+            db.collection("users").document(userUid!!)
+                .collection("savings_targets")
+                .document(documentId)
+                .get()
+                .addOnSuccessListener { document ->
+                    if (document.exists()) {
+                        // Set the dialog fields with the document data
+                        targetAmountEditText.setText(document.getDouble("targetAmount")?.toString())
+
+                        // Format and set start and end dates
+                        val startDate = document.getTimestamp("startDate")?.toDate()
+                        val endDate = document.getTimestamp("endDate")?.toDate()
+                        startDateEditText.setText(startDate?.let { dateFormat.format(it) } ?: "")
+                        endDateEditText.setText(endDate?.let { dateFormat.format(it) } ?: "")
+
+                        // Set spinner selection for target name
+                        val targetName = document.getString("targetName") ?: ""
+                        val position = adapter.getPosition(targetName)
+                        if (position >= 0) {
+                            targetNameSpinner.setSelection(position)
+                        }
+
+                        // Update monthly savings if applicable
+                        updateMonthlySavingsFromFields(targetAmountEditText, startDateEditText, endDateEditText, monthlySavingsEditText)
+                    }
+                }
+                .addOnFailureListener {
+                    Toast.makeText(this, "Failed to load savings target.", Toast.LENGTH_SHORT).show()
+                }
+        }
 
         // TextWatcher for calculating monthly savings and updating progress
         targetAmountEditText.addTextChangedListener(object : TextWatcher {
@@ -660,27 +694,26 @@ class MainMenu : AppCompatActivity() {
             override fun afterTextChanged(s: Editable?) {}
         })
 
-        // Initialize Spinner Adapter
-        val targetNames = listOf("Vacation", "New Car", "Emergency Fund", "Home Down Payment", "Car Purchase", "Education Fund", "Retirement", "Wedding", "Investment", "No specific reason")
-        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, targetNames)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        targetNameSpinner.adapter = adapter
+        // DatePicker for start and end date selection
+        startDateEditText.setOnClickListener { showDatePickerDialog(startDateEditText) }
+        endDateEditText.setOnClickListener { showDatePickerDialog(endDateEditText) }
 
-        // Load saved values from SharedPreferences
-        val sharedPref = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
-        val savedTargetName = sharedPref.getString("savingsTargetName", "")
-        val savedTargetAmount = sharedPref.getFloat("savingsTargetAmount", 0f)
-        val savedTargetStartMonth = sharedPref.getString("savingsTargetStartMonth", "")
-        val savedTargetEndMonth = sharedPref.getString("savingsTargetEndMonth", "")
-
-        // Set the saved values in the dialog's input fields
-        targetAmountEditText.setText(String.format("%.2f", savedTargetAmount))
-        if (!savedTargetName.isNullOrEmpty()) {
-            val namePosition = (targetNameSpinner.adapter as ArrayAdapter<String>).getPosition(savedTargetName)
-            targetNameSpinner.setSelection(namePosition)
+        // Set click listeners for edit and delete actions
+        imgEditTargetSavings.setOnClickListener {
+            if (documentId != null) {
+                editSavingsTarget(targetAmountEditText, targetNameSpinner, dialog, documentId)
+            } else {
+                Toast.makeText(this, "No target selected to edit.", Toast.LENGTH_SHORT).show()
+            }
         }
-        startDateEditText.setText(savedTargetStartMonth ?: "")
-        endDateEditText.setText(savedTargetEndMonth ?: "")
+
+        imgDeleteTargetSavings.setOnClickListener {
+            if (documentId != null) {
+                deleteSavingsTarget(dialog, documentId)
+            } else {
+                Toast.makeText(this, "No target selected to delete.", Toast.LENGTH_SHORT).show()
+            }
+        }
 
         // Save button logic using saveSavings with validation checks
         btnSaveTarget.setOnClickListener {
@@ -693,6 +726,7 @@ class MainMenu : AppCompatActivity() {
                 if (targetAmount != null && startDate != null && endDate != null) {
                     saveSavings(targetAmount, startDate, endDate, targetName)
                     dialog.dismiss()
+                    loadSavingsTarget() // Refresh to show the saved target
                 } else {
                     Toast.makeText(this, "Please fill out all required fields correctly.", Toast.LENGTH_SHORT).show()
                 }
@@ -782,9 +816,6 @@ class MainMenu : AppCompatActivity() {
             val startMonth = dateFormat.format(startDate)
             val endMonth = dateFormat.format(endDate)
 
-            // Create a unique identifier for each target
-            val documentId = "${targetName}_${startMonth}_to_${endMonth}"
-
             val savingsData = hashMapOf(
                 "targetAmount" to targetAmount,
                 "startDate" to timestampStart,
@@ -796,25 +827,32 @@ class MainMenu : AppCompatActivity() {
             )
 
             // Save each target to its unique document within the 'savings_targets' collection
-            db.collection("users")
-                .document(userUid)
+            val docRef = db.collection("users")
+                .document(userUid!!)
                 .collection("savings_targets")
-                .document(documentId)
-                .set(savingsData)
+                .document() // Automatically generate a unique document ID
+
+            // Add the generated document ID to the savings data for reference
+            savingsData["documentId"] = docRef.id
+
+            docRef.set(savingsData)
                 .addOnSuccessListener {
-                    Toast.makeText(this, "Savings target saved successfully!", Toast.LENGTH_SHORT).show()
-                    distributeSavingsAcrossMonths(startDate, endDate, targetAmount, documentId)
+                    Toast.makeText(this, "Savings target saved successfully!", Toast.LENGTH_SHORT)
+                        .show()
+                    // Pass the generated document ID to distributeSavingsAcrossMonths
+                    distributeSavingsAcrossMonths(startDate, endDate, targetAmount, docRef.id)
                     loadSavingsTarget() // Refresh the target list
                 }
                 .addOnFailureListener { e ->
-                    Toast.makeText(this, "Error saving target: ${e.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Error saving target: ${e.message}", Toast.LENGTH_SHORT)
+                        .show()
                 }
         } else {
             Toast.makeText(this, "User not logged in!", Toast.LENGTH_SHORT).show()
         }
     }
 
-    // Method to distribute savings across months and save them in Firebase
+        // Method to distribute savings across months and save them in Firebase
     private fun distributeSavingsAcrossMonths(startDate: Date, endDate: Date, targetAmount: Float, savingsId: String) {
         val startCalendar = Calendar.getInstance()
         startCalendar.time = startDate
@@ -844,6 +882,60 @@ class MainMenu : AppCompatActivity() {
                 .addOnFailureListener { e ->
                     Toast.makeText(this, "Error saving monthly savings: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
+        }
+    }
+    private fun editSavingsTarget(
+        targetAmountEditText: EditText,
+        targetNameSpinner: Spinner,
+        dialog: Dialog,
+        documentId: String
+    ) {
+        val userUid = FirebaseAuth.getInstance().currentUser?.uid
+        val targetAmount = targetAmountEditText.text.toString().toFloatOrNull()
+        val targetName = targetNameSpinner.selectedItem.toString()
+
+        if (userUid != null && targetAmount != null) {
+            // Assuming that we have a unique document ID for the target being edited
+            val updatedData = mapOf(
+                "targetAmount" to targetAmount,
+                "targetName" to targetName
+            )
+
+            db.collection("users").document(userUid)
+                .collection("savings_targets")
+                .document(documentId)
+                .update(updatedData)
+                .addOnSuccessListener {
+                    Toast.makeText(this, "Savings target updated!", Toast.LENGTH_SHORT).show()
+                    dialog.dismiss()
+                    loadSavingsTarget() // Refresh the target list
+                }
+                .addOnFailureListener { e ->
+                    Toast.makeText(this, "Error updating target: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
+        } else {
+            Toast.makeText(this, "Please enter a valid amount.", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun deleteSavingsTarget(dialog: Dialog, documentId: String) {
+        val userUid = FirebaseAuth.getInstance().currentUser?.uid
+
+        if (userUid != null) {
+            db.collection("users").document(userUid)
+                .collection("savings_targets")
+                .document(documentId)
+                .delete()
+                .addOnSuccessListener {
+                    Toast.makeText(this, "Savings target deleted successfully.", Toast.LENGTH_SHORT).show()
+                    dialog.dismiss()
+                    loadSavingsTarget() // Refresh the target list
+                }
+                .addOnFailureListener { e ->
+                    Toast.makeText(this, "Failed to delete savings target: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
+        } else {
+            Toast.makeText(this, "User not logged in!", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -899,7 +991,6 @@ class MainMenu : AppCompatActivity() {
             Toast.makeText(this, "User not logged in.", Toast.LENGTH_SHORT).show()
         }
     }
-
 
     // Helper function to check if a month is within a start and end month range
     private fun isWithinDateRange(startMonth: String, endMonth: String, currentMonth: String): Boolean {

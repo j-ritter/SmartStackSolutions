@@ -35,7 +35,7 @@
 
                 <!-- Delete Icon -->
                 <ImageView
-                    android:id="@+id/imgDeleteTarget"
+                    android:id="@+id/imgDeleteTargetSavings"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_alignParentEnd="true"
@@ -45,7 +45,7 @@
 
                 <!-- Edit Icon -->
                 <ImageView
-                    android:id="@+id/imgEditTarget"
+                    android:id="@+id/imgEditTargetSavings"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_alignParentStart="true"
