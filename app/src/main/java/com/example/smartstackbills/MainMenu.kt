@@ -508,7 +508,7 @@ class MainMenu : AppCompatActivity() {
     private fun loadSavingsTargetNameForMonth(selectedMonth: Date) {
         fetchSavingsTargetNamesForMonth(selectedMonth) { targetNames ->
             val tvSetSavingTarget = findViewById<TextView>(R.id.tvSetSavingTarget)
-            tvSetSavingTarget.text = if (targetNames.isEmpty()) "Set Saving Target" else targetNames.joinToString(", ")
+            tvSetSavingTarget.text = if (targetNames.isEmpty()) "Saving Target" else targetNames.joinToString(", ")
         }
     }
 
@@ -1016,7 +1016,7 @@ class MainMenu : AppCompatActivity() {
 
                     if (document == null) {
                         etMonthlySavingsMain.text = "0.00"
-                        findViewById<TextView>(R.id.tvSetSavingTarget).text = "Set Saving Target"
+                        findViewById<TextView>(R.id.tvSetSavingTarget).text = "Saving Target"
                     } else {
                         val startDate = document.getTimestamp("startDate") ?: return@addOnSuccessListener
                         val endDate = document.getTimestamp("endDate") ?: return@addOnSuccessListener
