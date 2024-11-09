@@ -108,5 +108,21 @@ public class Premium extends AppCompatActivity {
                 }
             }
         });
+        // Feature 6: Saving Target
+        Button btnMoreInfo6 = findViewById(R.id.btn_more_info6);
+        TextView expandableText6 = findViewById(R.id.feature6_expandable_text);
+
+        btnMoreInfo6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (expandableText6.getVisibility() == View.GONE) {
+                    expandableText6.setVisibility(View.VISIBLE);
+                    btnMoreInfo6.setText("Less information");
+                } else {
+                    expandableText6.setVisibility(View.GONE);
+                    btnMoreInfo6.setText("More information");
+                }
+            }
+        });
     }
 }

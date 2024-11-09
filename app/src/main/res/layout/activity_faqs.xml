@@ -610,7 +610,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="12. What do I do if I encounter a problem with the app?"
+                    android:text="12. How do I set a saving target?"
                     android:textSize="12sp"
                     android:textColor="@android:color/black" />
 
@@ -636,6 +636,104 @@
 
                 <TextView
                     android:id="@+id/answer_12"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Answer: To set a saving target, navigate to the button in the main menu. Click on it and select 'Set a Saving Target,' specify your target reason, target amount and period. You can track your monthly progress toward achieving your goal in the main menu."
+                    android:textSize="12sp"
+                    android:textColor="@android:color/black"
+                    android:background="@drawable/background_blue1"
+                    android:padding="16dp"/>
+            </LinearLayout>
+
+            <!-- Question 13 -->
+            <LinearLayout
+                android:id="@+id/question_13_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/nav_item_background_light"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/question_13"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="13. Can I set multiple saving targets?"
+                    android:textSize="12sp"
+                    android:textColor="@android:color/black" />
+
+                <ImageView
+                    android:id="@+id/arrow_13"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_arrow_down"
+                    android:contentDescription="Expandable Arrow"
+                    android:clickable="true"
+                    android:focusable="true"/>
+            </LinearLayout>
+
+            <!-- Expandable Answer 13 -->
+            <LinearLayout
+                android:id="@+id/answer_section_13"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
+
+                <TextView
+                    android:id="@+id/answer_13"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Answer: Yes, you can set multiple saving targets in different time periods. Each target is tracked individually in the main menu, where you can see your progress for each. Note that overlapping periods are not possible, so be sure to choose non-overlapping periods for different targets."
+                    android:textSize="12sp"
+                    android:textColor="@android:color/black"
+                    android:background="@drawable/background_blue1"
+                    android:padding="16dp"/>
+            </LinearLayout>
+
+            <!-- Question 14 -->
+            <LinearLayout
+                android:id="@+id/question_14_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/nav_item_background_light"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/question_14"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="14. What do I do if I encounter a problem with the app?"
+                    android:textSize="12sp"
+                    android:textColor="@android:color/black" />
+
+                <ImageView
+                    android:id="@+id/arrow_14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_arrow_down"
+                    android:contentDescription="Expandable Arrow"
+                    android:clickable="true"
+                    android:focusable="true"/>
+            </LinearLayout>
+
+            <!-- Expandable Answer 14 -->
+            <LinearLayout
+                android:id="@+id/answer_section_14"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
+
+                <TextView
+                    android:id="@+id/answer_14"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Answer: If you encounter any issues with the app, you can contact our support team via service@smartstack-solutions.com. Provide a detailed description of the problem, and our team will assist you promptly."

@@ -62,7 +62,7 @@
                     android:id="@+id/premium_contentintro"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Thank you for choosing SmartStackSolutions!\n\nWith the basic version, you can manage your Open Payments and stay on top of upcoming bills.\n\nUpgrade to Premium to unlock:\n\n• Closed Payments: Track paid bills.\n• Income Management: Manage your income streams.\n\nUnlock Premium to enjoy a comprehensive financial overview."
+                    android:text="Thank you for choosing SmartStackSolutions!\n\nWith the basic version, you can manage your Open Payments and stay on top of upcoming bills.\n\nUpgrade to Premium to unlock:\n\n• Closed Payments: Track paid bills.\n• Income Management: Manage your income streams.\n• Saving Target: Set yourself a saving target and track the progress.\n\nUnlock Premium to enjoy a comprehensive financial overview."
                     android:textSize="12sp"
                     android:textColor="@android:color/black"
                     android:padding="4dp"
@@ -109,7 +109,6 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp">
 
-                    <!-- Title: Open Payments -->
                     <TextView
                         android:id="@+id/feature1_title"
                         android:layout_width="wrap_content"
@@ -119,7 +118,6 @@
                         android:textStyle="bold"
                         android:textColor="@android:color/black" />
 
-                    <!-- Description: Manage open payments -->
                     <TextView
                         android:id="@+id/feature1_description"
                         android:layout_width="wrap_content"
@@ -141,7 +139,6 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent" />
 
-                <!-- Expandable TextView for Open Payments -->
                 <TextView
                     android:id="@+id/feature1_expandable_text"
                     android:layout_width="0dp"
@@ -200,7 +197,6 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp">
 
-                    <!-- Title: Closed Payments -->
                     <TextView
                         android:id="@+id/feature2_title"
                         android:layout_width="wrap_content"
@@ -210,7 +206,6 @@
                         android:textStyle="bold"
                         android:textColor="@android:color/black" />
 
-                    <!-- Description: Track paid bills -->
                     <TextView
                         android:id="@+id/feature2_description"
                         android:layout_width="wrap_content"
@@ -232,7 +227,6 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent" />
 
-                <!-- Expandable TextView for Closed Payments -->
                 <TextView
                     android:id="@+id/feature2_expandable_text"
                     android:layout_width="0dp"
@@ -291,7 +285,6 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp">
 
-                    <!-- Title: Income Management -->
                     <TextView
                         android:id="@+id/feature3_title"
                         android:layout_width="wrap_content"
@@ -301,7 +294,6 @@
                         android:textStyle="bold"
                         android:textColor="@android:color/black" />
 
-                    <!-- Description: Track income -->
                     <TextView
                         android:id="@+id/feature3_description"
                         android:layout_width="wrap_content"
@@ -323,7 +315,6 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent" />
 
-                <!-- Expandable TextView for Income Management -->
                 <TextView
                     android:id="@+id/feature3_expandable_text"
                     android:layout_width="0dp"
@@ -334,6 +325,94 @@
                     android:visibility="gone"
                     android:layout_marginTop="8dp"
                     app:layout_constraintTop_toBottomOf="@id/btn_more_info3"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- Feature 6: Saving Target (Premium) with Expandable Text -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_frame_background_blue"
+                android:padding="16dp"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:id="@+id/premium_label6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Premium"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    android:background="@color/orange"
+                    android:padding="4dp"
+                    android:rotation="-45"
+                    android:layout_marginStart="-10dp"
+                    android:layout_marginTop="-10dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <ImageView
+                    android:id="@+id/icon_saving_target"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/baseline_savings_24"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+                <LinearLayout
+                    android:id="@+id/feature6_text_container"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintStart_toEndOf="@id/icon_saving_target"
+                    app:layout_constraintEnd_toStartOf="@+id/btn_more_info6"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp">
+
+                    <TextView
+                        android:id="@+id/feature6_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Saving Target"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:textColor="@android:color/black" />
+
+                    <TextView
+                        android:id="@+id/feature6_description"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Set yourself a saving target and track the progress."
+                        android:textSize="12sp"
+                        android:textColor="@android:color/black" />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btn_more_info6"
+                    android:layout_width="70dp"
+                    android:layout_height="50dp"
+                    android:text="More information"
+                    android:textSize="7sp"
+                    android:background="@color/yellow"
+                    android:padding="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+                <TextView
+                    android:id="@+id/feature6_expandable_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="The Saving Target feature allows you to set personalized financial goals. Define a target amount, set a period, and track your monthly progress towards achieving your financial dreams."
+                    android:textSize="12sp"
+                    android:textColor="@android:color/black"
+                    android:visibility="gone"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@id/btn_more_info6"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -367,7 +446,6 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp">
 
-                    <!-- Title: Notifications -->
                     <TextView
                         android:id="@+id/feature4_title"
                         android:layout_width="wrap_content"
@@ -377,7 +455,6 @@
                         android:textStyle="bold"
                         android:textColor="@android:color/black" />
 
-                    <!-- Description: Receive timely reminders -->
                     <TextView
                         android:id="@+id/feature4_description"
                         android:layout_width="wrap_content"
@@ -399,7 +476,6 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent" />
 
-                <!-- Expandable TextView for Notifications -->
                 <TextView
                     android:id="@+id/feature4_expandable_text"
                     android:layout_width="0dp"
@@ -443,7 +519,6 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp">
 
-                    <!-- Title: Calendar -->
                     <TextView
                         android:id="@+id/feature5_title"
                         android:layout_width="wrap_content"
@@ -453,7 +528,6 @@
                         android:textStyle="bold"
                         android:textColor="@android:color/black" />
 
-                    <!-- Description: Get an overview of transactions -->
                     <TextView
                         android:id="@+id/feature5_description"
                         android:layout_width="wrap_content"
@@ -475,7 +549,6 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent" />
 
-                <!-- Expandable TextView for Calendar -->
                 <TextView
                     android:id="@+id/feature5_expandable_text"
                     android:layout_width="0dp"
@@ -489,6 +562,8 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
         </LinearLayout>
     </ScrollView>
