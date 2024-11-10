@@ -113,7 +113,7 @@ class NotificationWorker(context: Context, params: WorkerParameters) : Worker(co
                 val currentTimeMillis = System.currentTimeMillis()
 
                 return if (notificationDateMillis > currentTimeMillis) {
-                    notificationDateMillis - currentTimeMillis - TimeUnit.DAYS.toMillis(1)
+                    notificationDateMillis - currentTimeMillis - TimeUnit.DAYS.toMillis(3)
                 } else {
                     0
                 }

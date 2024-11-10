@@ -744,6 +744,56 @@
                     tools:ignore="HardcodedText" />
             </LinearLayout>
 
+            <!-- Question 15 -->
+            <LinearLayout
+                android:id="@+id/question_15_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/nav_item_background_light"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/question_15"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="15. How does the notifications system work in SmartStackSolutions, and what features does it include?"
+                    android:textSize="12sp"
+                    android:textColor="@android:color/black" />
+
+                <ImageView
+                    android:id="@+id/arrow_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_arrow_down"
+                    android:contentDescription="Expandable Arrow"
+                    android:clickable="true"
+                    android:focusable="true"/>
+            </LinearLayout>
+
+            <!-- Expandable Answer 15 -->
+            <LinearLayout
+                android:id="@+id/answer_section_15"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
+
+                <TextView
+                    android:id="@+id/answer_15"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Answer: In SmartStackSolutions, notifications are created automatically three days before an open payment’s due date, ensuring timely reminders. Notifications appear both within the app, helping you stay informed. Users can view, mark as read, or delete notifications directly in the app. Notifications older than 30 days are automatically removed. This setup ensures you’re consistently reminded of upcoming payments without needing to adjust settings manually."
+                    android:textSize="12sp"
+                    android:textColor="@android:color/black"
+                    android:background="@drawable/background_blue1"
+                    android:padding="16dp"
+                    tools:ignore="HardcodedText" />
+            </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
 
