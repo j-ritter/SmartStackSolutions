@@ -292,11 +292,44 @@ class createBill : AppCompatActivity() {
         )
 
         // Save bill to Firebase
-        if (userEmail != null && userUid != null) {
+        if (userEmail != null && userUid != null && billDate != null) {
             db.collection("users").document(userUid!!).collection("bills")
                 .add(bill)
-                .addOnSuccessListener {
+                .addOnSuccessListener { documentReference ->
                     Toast.makeText(this, "Bill saved successfully", Toast.LENGTH_SHORT).show()
+
+                    // Get the newly generated document ID for billId
+                    val billId = documentReference.id
+
+                    // Update the bill in Firestore with billId
+                    documentReference.update("billId", billId)
+
+                    // Schedule the notification after saving bill data
+                    val notificationItem = NotificationsActivity.NotificationItem(
+                        title = billName,
+                        amount = billAmount,
+                        date = billDateString,
+                        createdAt = Date(),
+                        billId = billId
+                    )
+
+                    // Schedule notification with recurrence option
+                    NotificationWorker.scheduleNotification(
+                        this,
+                        notificationItem,
+                        initialDelay = NotificationWorker.calculateDelay(billDateString),
+                        repeatOption = billRepeat
+                    )
+
+                    // Generate recurring bills if necessary
+                    if (billRepeat != "No") {
+                        generateRecurringBills(
+                            billName, billAmount, billDate, billCategory,
+                            if (billVendor == "Create Own Vendor") customVendor else billVendor,
+                            billRepeat, billComment, billId
+                        )
+                    }
+
                     finish()
                 }
                 .addOnFailureListener { e ->
@@ -304,4 +337,49 @@ class createBill : AppCompatActivity() {
                 }
         }
     }
+
+    private fun generateRecurringBills(
+        billTitle: String, billAmount: String, startDate: Date, billCategory: String,
+        billVendor: String, billRepeat: String, billComment: String, parentBillId: String
+    ) {
+        val calendar = Calendar.getInstance()
+        calendar.time = startDate
+        val endDate = Calendar.getInstance().apply { add(Calendar.YEAR, 1) } // Generate bills up to 1 year ahead
+
+        while (calendar.before(endDate)) {
+            when (billRepeat) {
+                "Weekly" -> calendar.add(Calendar.WEEK_OF_YEAR, 1)
+                "Every 2 Weeks" -> calendar.add(Calendar.WEEK_OF_YEAR, 2)
+                "Monthly" -> calendar.add(Calendar.MONTH, 1)
+                "Every 2 Months" -> calendar.add(Calendar.MONTH, 2)
+                "Quarterly" -> calendar.add(Calendar.MONTH, 3)
+                "Every 6 months" -> calendar.add(Calendar.MONTH, 6)
+                "Yearly" -> calendar.add(Calendar.YEAR, 1)
+            }
+            if (calendar.after(endDate)) break
+
+            val newBillId = db.collection("users").document(userUid!!).collection("bills").document().id
+            val recurringBill = hashMapOf(
+                "name" to billTitle,
+                "amount" to billAmount,
+                "date" to com.google.firebase.Timestamp(calendar.time),
+                "category" to billCategory,
+                "vendor" to billVendor,
+                "repeat" to billRepeat,
+                "comment" to billComment,
+                "parentBillId" to parentBillId,
+                "billId" to newBillId
+            )
+
+            db.collection("users").document(userUid!!).collection("bills").document(newBillId)
+                .set(recurringBill)
+                .addOnSuccessListener {
+                    Toast.makeText(this, "Recurring bill saved successfully", Toast.LENGTH_SHORT).show()
+                }
+                .addOnFailureListener { e ->
+                    Toast.makeText(this, "Error saving recurring bill: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
+        }
+    }
+
 }

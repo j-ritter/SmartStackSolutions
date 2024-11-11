@@ -122,23 +122,61 @@ class NotificationWorker(context: Context, params: WorkerParameters) : Worker(co
             }
         }
 
+        // **Map repeat options to recurrence intervals**
+        private fun mapRepeatToInterval(repeatOption: String): Long? {
+            return when (repeatOption) {
+                "Weekly" -> TimeUnit.DAYS.toMillis(7)
+                "Every 2 Weeks" -> TimeUnit.DAYS.toMillis(14)
+                "Monthly" -> TimeUnit.DAYS.toMillis(30)
+                "Every 2 Months" -> TimeUnit.DAYS.toMillis(60)
+                "Quarterly" -> TimeUnit.DAYS.toMillis(90)
+                "Every 6 months" -> TimeUnit.DAYS.toMillis(180)
+                "Yearly" -> TimeUnit.DAYS.toMillis(365)
+                else -> null
+            }
+        }
+
         // Schedule the notification
-        fun scheduleNotification(context: Context, notification: NotificationsActivity.NotificationItem) {
-            val delay = calculateDelay(notification.date)
+        fun scheduleNotification(
+            context: Context,
+            notification: NotificationsActivity.NotificationItem,
+            initialDelay: Long = calculateDelay(notification.date),
+            repeatOption: String? = null
+        ) {
+            val recurrenceInterval = repeatOption?.let { mapRepeatToInterval(it) }
 
-            val notificationWork = androidx.work.OneTimeWorkRequestBuilder<NotificationWorker>()
-                .setInputData(
-                    androidx.work.workDataOf(
-                        "title" to notification.title,
-                        "amount" to notification.amount,
-                        "billId" to notification.title,
-                        "createdAt" to notification.createdAt.time
-                    )
+            if (recurrenceInterval != null) {
+                val periodicWorkRequest = androidx.work.PeriodicWorkRequestBuilder<NotificationWorker>(
+                    recurrenceInterval, TimeUnit.MILLISECONDS // **Creates a periodic work request for recurring notifications**
                 )
-                .setInitialDelay(delay, TimeUnit.MILLISECONDS)
-                .build()
+                    .setInputData(
+                        androidx.work.workDataOf(
+                            "title" to notification.title,
+                            "amount" to notification.amount,
+                            "billId" to notification.title,
+                            "createdAt" to notification.createdAt.time
+                        )
+                    )
+                    .setInitialDelay(initialDelay, TimeUnit.MILLISECONDS) // **Sets the initial delay for the first notification**
+                    .build()
 
-            androidx.work.WorkManager.getInstance(context).enqueue(notificationWork)
+                androidx.work.WorkManager.getInstance(context).enqueue(periodicWorkRequest)
+            } else {
+                // For one-time notifications, create and enqueue the OneTimeWorkRequest
+                val oneTimeWorkRequest = androidx.work.OneTimeWorkRequestBuilder<NotificationWorker>()
+                    .setInputData(
+                        androidx.work.workDataOf(
+                            "title" to notification.title,
+                            "amount" to notification.amount,
+                            "billId" to notification.title,
+                            "createdAt" to notification.createdAt.time
+                        )
+                    )
+                    .setInitialDelay(initialDelay, TimeUnit.MILLISECONDS)
+                    .build()
+
+                androidx.work.WorkManager.getInstance(context).enqueue(oneTimeWorkRequest)
+            }
         }
     }
 }
