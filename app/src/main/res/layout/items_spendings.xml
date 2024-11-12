@@ -109,7 +109,7 @@
             app:layout_constraintStart_toEndOf="@id/labelTitleItemsSpendings"
             app:layout_constraintStart_toStartOf="@+id/textviewCategoryItemsSpendings"
 
-            app:layout_constraintWidth_default="wrap" />
+            app:layout_constrainedWidth="true" />
 
         <TextView
             android:id="@+id/textviewCategoryItemsSpendings"
