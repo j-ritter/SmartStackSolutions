@@ -143,11 +143,11 @@ class NotificationWorker(context: Context, params: WorkerParameters) : Worker(co
             initialDelay: Long = calculateDelay(notification.date),
             repeatOption: String? = null
         ) {
-            val recurrenceInterval = repeatOption?.let { mapRepeatToInterval(it) }
+            val repeatInterval = repeatOption?.let { mapRepeatToInterval(it) }
 
-            if (recurrenceInterval != null) {
+            if (repeatInterval != null) {
                 val periodicWorkRequest = androidx.work.PeriodicWorkRequestBuilder<NotificationWorker>(
-                    recurrenceInterval, TimeUnit.MILLISECONDS // **Creates a periodic work request for recurring notifications**
+                    repeatInterval, TimeUnit.MILLISECONDS
                 )
                     .setInputData(
                         androidx.work.workDataOf(

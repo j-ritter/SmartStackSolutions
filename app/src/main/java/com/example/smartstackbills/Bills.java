@@ -8,7 +8,6 @@ public class Bills {
     String name, comment, category, amount, vendor, repeat, subcategory, attachment;
     Timestamp date;
     boolean paid;
-    String recurrenceInterval;
 
     public Bills() {
         // Default constructor required for Firestore
@@ -26,7 +25,7 @@ public class Bills {
         this.repeat = repeat;
         this.subcategory = subcategory;
         this.attachment = attachment;
-        this.recurrenceInterval = recurrenceInterval;
+
     }
 
     // Getters and Setters
@@ -119,12 +118,5 @@ public class Bills {
         this.paid = paid;
     }
 
-    // Getters and Setters for recurrenceInterval
-    public String getRecurrenceInterval() {
-        return recurrenceInterval;
-    }
 
-    public void setRecurrenceInterval(String recurrenceInterval) {
-        this.recurrenceInterval = recurrenceInterval;
-    }
 }
