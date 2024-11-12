@@ -307,20 +307,4 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return items;
     }
 
-    private void saveBillToFirestore(Bills bill) {
-        String userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        if (userUid != null) {
-            FirebaseFirestore.getInstance()
-                    .collection("users")
-                    .document(userUid)
-                    .collection("bills")
-                    .document(bill.getBillId())
-                    .set(bill)
-                    .addOnSuccessListener(aVoid -> {
-                        Toast.makeText(context, "Bill updated successfully", Toast.LENGTH_SHORT).show();
-                    })
-                    .addOnFailureListener(e -> {
-                        Toast.makeText(context, "Error updating bill: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    });
-        }}
 }

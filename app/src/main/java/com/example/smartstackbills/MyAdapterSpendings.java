@@ -305,34 +305,4 @@ public class MyAdapterSpendings extends RecyclerView.Adapter<RecyclerView.ViewHo
         return items;
     }
 
-    private void saveSpendingToFirestore(Spendings spending) {
-        String userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        if (userUid != null) {
-            Map<String, Object> spendingData = new HashMap<>();
-            spendingData.put("name", spending.getName());
-            spendingData.put("amount", spending.getAmount());
-            spendingData.put("date", spending.getDate());
-            spendingData.put("category", spending.getCategory());
-            spendingData.put("subcategory", spending.getSubcategory());
-            spendingData.put("vendor", spending.getVendor());
-            spendingData.put("comment", spending.getComment());
-            spendingData.put("attachment", spending.getAttachment());
-            spendingData.put("paid", spending.isPaid());
-
-            // Save spending without extra fields
-            FirebaseFirestore.getInstance()
-                    .collection("users")
-                    .document(userUid)
-                    .collection("spendings")
-                    .document(spending.getSpendingId())
-                    .set(spendingData)
-                    .addOnSuccessListener(aVoid -> {
-                        Toast.makeText(context, "Spending updated successfully.", Toast.LENGTH_SHORT).show();
-                    })
-                    .addOnFailureListener(e -> {
-                        Toast.makeText(context, "Error updating spending: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    });
-        }
-    }
-
 }

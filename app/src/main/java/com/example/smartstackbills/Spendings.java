@@ -2,7 +2,6 @@ package com.example.smartstackbills;
 
 import com.google.firebase.Timestamp;
 
-
 public class Spendings {
 
     String spendingId;
@@ -12,11 +11,16 @@ public class Spendings {
     boolean isEssential;
     boolean isRecurring;
 
+    // New fields to avoid Firestore mapping issues
+    private String repeat = "No";  // Default to "No"
+    private String billId;  // Optional, set to null if not used
+    private String recurrenceInterval;  // Optional, set to null if not used
+
     public Spendings() {
         // Default constructor needed for Firestore
     }
 
-    public Spendings(String spendingId, String name, Timestamp date, String comment, String category, String amount, String vendor, String subcategory, String attachment, boolean isEssential, boolean isRecurring) {
+    public Spendings(String spendingId, String name, Timestamp date, String comment, String category, String amount, String vendor, String subcategory, String attachment, boolean isEssential, boolean isRecurring, boolean paid) {
         this.spendingId = spendingId;
         this.name = name;
         this.date = date;
@@ -26,7 +30,7 @@ public class Spendings {
         this.vendor = vendor;
         this.subcategory = subcategory;
         this.attachment = attachment;
-        this.paid = paid;
+        this.paid = paid; // Added to constructor
         this.isEssential = isEssential;
         this.isRecurring = isRecurring;
     }
@@ -38,6 +42,7 @@ public class Spendings {
     public void setSpendingId(String spendingId) {
         this.spendingId = spendingId;
     }
+
     public String getAttachment() {
         return attachment;
     }
@@ -114,12 +119,36 @@ public class Spendings {
         return isEssential;
     }
 
-    public boolean isRecurring() {  // New getter for recurring status
+    public boolean isRecurring() {
         return isRecurring;
     }
 
-    public void setRecurring(boolean isRecurring) {  // New setter for recurring status
+    public void setRecurring(boolean isRecurring) {
         this.isRecurring = isRecurring;
     }
-}
 
+    // Getters and setters for new optional fields
+    public String getRepeat() {
+        return repeat;
+    }
+
+    public void setRepeat(String repeat) {
+        this.repeat = repeat;
+    }
+
+    public String getBillId() {
+        return billId;
+    }
+
+    public void setBillId(String billId) {
+        this.billId = billId;
+    }
+
+    public String getRecurrenceInterval() {
+        return recurrenceInterval;
+    }
+
+    public void setRecurrenceInterval(String recurrenceInterval) {
+        this.recurrenceInterval = recurrenceInterval;
+    }
+}
