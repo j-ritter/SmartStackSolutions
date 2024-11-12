@@ -19,10 +19,15 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class MyAdapterSpendings extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -129,8 +134,9 @@ public class MyAdapterSpendings extends RecyclerView.Adapter<RecyclerView.ViewHo
             bill.setAttachment(spending.getAttachment());
             bill.setPaid(false);
 
-            // Set default isRecurring to false if not provided
-            bill.setRepeat(spending.isRecurring() ? "Yes" : "No");
+            // Check if repeat info is available and set it, defaulting to "No" if not available
+            String repeatValue = spending.isRecurring() ? "Yes" : "No";
+            bill.setRepeat(repeatValue);
 
             FirebaseFirestore.getInstance()
                     .collection("users")
@@ -224,34 +230,102 @@ public class MyAdapterSpendings extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     private ArrayList<Object> groupSpendingsByMonth(ArrayList<Spendings> spendingsArrayList) {
-        Map<String, List<Spendings>> groupedSpendings = new HashMap<>();
         SimpleDateFormat sdf = new SimpleDateFormat("MMMM yyyy", Locale.getDefault());
+        Calendar currentDate = Calendar.getInstance();
+
+        int currentMonth = currentDate.get(Calendar.MONTH);
+        int currentYear = currentDate.get(Calendar.YEAR);
+
+        // Separate spendings into past, current, and future groups
+        Map<Integer, Map<Integer, List<Spendings>>> currentMonthSpendings = new TreeMap<>();
+        Map<Integer, Map<Integer, List<Spendings>>> futureMonthSpendings = new TreeMap<>();
+        Map<Integer, Map<Integer, List<Spendings>>> pastMonthSpendings = new TreeMap<>(Comparator.reverseOrder());
 
         for (Spendings spending : spendingsArrayList) {
-            String monthYear = sdf.format(spending.getDate().toDate());
-            if (!groupedSpendings.containsKey(monthYear)) {
-                groupedSpendings.put(monthYear, new ArrayList<>());
+            Date spendingDate = spending.getDate().toDate();
+            Calendar spendingCalendar = Calendar.getInstance();
+            spendingCalendar.setTime(spendingDate);
+
+            int spendingMonth = spendingCalendar.get(Calendar.MONTH);
+            int spendingYear = spendingCalendar.get(Calendar.YEAR);
+
+            // Categorize spendings based on their relation to the current date
+            if (spendingYear == currentYear && spendingMonth == currentMonth) {
+                currentMonthSpendings.computeIfAbsent(spendingYear, k -> new TreeMap<>())
+                        .computeIfAbsent(spendingMonth, k -> new ArrayList<>())
+                        .add(spending);
+            } else if (spendingYear > currentYear || (spendingYear == currentYear && spendingMonth > currentMonth)) {
+                futureMonthSpendings.computeIfAbsent(spendingYear, k -> new TreeMap<>())
+                        .computeIfAbsent(spendingMonth, k -> new ArrayList<>())
+                        .add(spending);
+            } else {
+                pastMonthSpendings.computeIfAbsent(spendingYear, k -> new TreeMap<>(Comparator.reverseOrder()))
+                        .computeIfAbsent(spendingMonth, k -> new ArrayList<>())
+                        .add(spending);
             }
-            groupedSpendings.get(monthYear).add(spending);
         }
 
+        // Sort spendings within each month group by date in ascending order
+        Comparator<Spendings> dateComparator = Comparator.comparing(s -> s.getDate().toDate());
+        currentMonthSpendings.values().forEach(monthMap -> monthMap.values().forEach(spendings -> spendings.sort(dateComparator)));
+        futureMonthSpendings.values().forEach(monthMap -> monthMap.values().forEach(spendings -> spendings.sort(dateComparator)));
+        pastMonthSpendings.values().forEach(monthMap -> monthMap.values().forEach(spendings -> spendings.sort(dateComparator.reversed())));
+
         ArrayList<Object> items = new ArrayList<>();
-        for (Map.Entry<String, List<Spendings>> entry : groupedSpendings.entrySet()) {
-            items.add(entry.getKey());
-            items.addAll(entry.getValue());
+
+        // Add current month spendings (if any)
+        if (!currentMonthSpendings.isEmpty()) {
+            for (Map.Entry<Integer, Map<Integer, List<Spendings>>> entry : currentMonthSpendings.entrySet()) {
+                for (Map.Entry<Integer, List<Spendings>> monthEntry : entry.getValue().entrySet()) {
+                    String monthYear = sdf.format(new GregorianCalendar(entry.getKey(), monthEntry.getKey(), 1).getTime());
+                    items.add(monthYear);
+                    items.addAll(monthEntry.getValue());
+                }
+            }
+        }
+
+        // Add future months in ascending order by year and month
+        for (Map.Entry<Integer, Map<Integer, List<Spendings>>> entry : futureMonthSpendings.entrySet()) {
+            for (Map.Entry<Integer, List<Spendings>> monthEntry : entry.getValue().entrySet()) {
+                String monthYear = sdf.format(new GregorianCalendar(entry.getKey(), monthEntry.getKey(), 1).getTime());
+                items.add(monthYear);
+                items.addAll(monthEntry.getValue());
+            }
+        }
+
+        // Add past months in descending order by year and month
+        for (Map.Entry<Integer, Map<Integer, List<Spendings>>> entry : pastMonthSpendings.entrySet()) {
+            for (Map.Entry<Integer, List<Spendings>> monthEntry : entry.getValue().entrySet()) {
+                String monthYear = sdf.format(new GregorianCalendar(entry.getKey(), monthEntry.getKey(), 1).getTime());
+                items.add(monthYear);
+                items.addAll(monthEntry.getValue());
+            }
         }
 
         return items;
     }
+
     private void saveSpendingToFirestore(Spendings spending) {
         String userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         if (userUid != null) {
+            Map<String, Object> spendingData = new HashMap<>();
+            spendingData.put("name", spending.getName());
+            spendingData.put("amount", spending.getAmount());
+            spendingData.put("date", spending.getDate());
+            spendingData.put("category", spending.getCategory());
+            spendingData.put("subcategory", spending.getSubcategory());
+            spendingData.put("vendor", spending.getVendor());
+            spendingData.put("comment", spending.getComment());
+            spendingData.put("attachment", spending.getAttachment());
+            spendingData.put("paid", spending.isPaid());
+
+            // Save spending without extra fields
             FirebaseFirestore.getInstance()
                     .collection("users")
                     .document(userUid)
                     .collection("spendings")
                     .document(spending.getSpendingId())
-                    .set(spending)
+                    .set(spendingData)
                     .addOnSuccessListener(aVoid -> {
                         Toast.makeText(context, "Spending updated successfully.", Toast.LENGTH_SHORT).show();
                     })

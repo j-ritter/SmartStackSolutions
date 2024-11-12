@@ -20,6 +20,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -229,7 +230,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         notifyDataSetChanged();
     }
 
-    // Method to group bills by month with correct order (current -> future -> past)
+    // Method to group bills by month with correct order (current -> past -> future)
     private ArrayList<Object> groupBillsByMonth(ArrayList<Bills> billsArrayList) {
         SimpleDateFormat sdf = new SimpleDateFormat("MMMM yyyy", Locale.getDefault());
         Calendar currentDate = Calendar.getInstance();
@@ -238,11 +239,10 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         int currentYear = currentDate.get(Calendar.YEAR);
 
         // Separate bills into past, current, and future groups
-        Map<Integer, Map<Integer, List<Bills>>> currentMonthBills = new HashMap<>();
-        Map<Integer, Map<Integer, List<Bills>>> futureMonthBills = new HashMap<>();
-        Map<Integer, Map<Integer, List<Bills>>> pastMonthBills = new HashMap<>();
+        Map<Integer, Map<Integer, List<Bills>>> currentMonthBills = new TreeMap<>();
+        Map<Integer, Map<Integer, List<Bills>>> futureMonthBills = new TreeMap<>();
+        Map<Integer, Map<Integer, List<Bills>>> pastMonthBills = new TreeMap<>(Comparator.reverseOrder());
 
-        // Group bills by year and month, categorize them
         for (Bills bill : billsArrayList) {
             Date billDate = bill.getDate().toDate();
             Calendar billCalendar = Calendar.getInstance();
@@ -253,31 +253,29 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             // Categorize bills based on their relation to the current date
             if (billYear == currentYear && billMonth == currentMonth) {
-                currentMonthBills.computeIfAbsent(billYear, k -> new HashMap<>())
+                currentMonthBills.computeIfAbsent(billYear, k -> new TreeMap<>())
                         .computeIfAbsent(billMonth, k -> new ArrayList<>())
                         .add(bill);
             } else if (billYear > currentYear || (billYear == currentYear && billMonth > currentMonth)) {
-                futureMonthBills.computeIfAbsent(billYear, k -> new HashMap<>())
+                futureMonthBills.computeIfAbsent(billYear, k -> new TreeMap<>())
                         .computeIfAbsent(billMonth, k -> new ArrayList<>())
                         .add(bill);
             } else {
-                pastMonthBills.computeIfAbsent(billYear, k -> new HashMap<>())
+                pastMonthBills.computeIfAbsent(billYear, k -> new TreeMap<>(Comparator.reverseOrder()))
                         .computeIfAbsent(billMonth, k -> new ArrayList<>())
                         .add(bill);
             }
         }
 
-        // Sort future months by year, then by month in ascending order
-        TreeMap<Integer, Map<Integer, List<Bills>>> sortedFutureMonths = new TreeMap<>(futureMonthBills);
+        // Sort bills within each month group by date in ascending order
+        Comparator<Bills> dateComparator = Comparator.comparing(b -> b.getDate().toDate());
+        currentMonthBills.values().forEach(monthMap -> monthMap.values().forEach(bills -> bills.sort(dateComparator)));
+        futureMonthBills.values().forEach(monthMap -> monthMap.values().forEach(bills -> bills.sort(dateComparator)));
+        pastMonthBills.values().forEach(monthMap -> monthMap.values().forEach(bills -> bills.sort(dateComparator.reversed())));
 
-        // Sort past months by year, then by month in descending order
-        TreeMap<Integer, Map<Integer, List<Bills>>> sortedPastMonths = new TreeMap<>(Comparator.reverseOrder());
-        sortedPastMonths.putAll(pastMonthBills);
-
-        // Prepare final sorted items
         ArrayList<Object> items = new ArrayList<>();
 
-        // 1. Add current month bills (if any)
+        // Add current month bills (if any)
         if (!currentMonthBills.isEmpty()) {
             for (Map.Entry<Integer, Map<Integer, List<Bills>>> entry : currentMonthBills.entrySet()) {
                 for (Map.Entry<Integer, List<Bills>> monthEntry : entry.getValue().entrySet()) {
@@ -288,8 +286,8 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             }
         }
 
-        // 2. Add future months in ascending order
-        for (Map.Entry<Integer, Map<Integer, List<Bills>>> entry : sortedFutureMonths.entrySet()) {
+        // Add future months in ascending order by year and month
+        for (Map.Entry<Integer, Map<Integer, List<Bills>>> entry : futureMonthBills.entrySet()) {
             for (Map.Entry<Integer, List<Bills>> monthEntry : entry.getValue().entrySet()) {
                 String monthYear = sdf.format(new GregorianCalendar(entry.getKey(), monthEntry.getKey(), 1).getTime());
                 items.add(monthYear);
@@ -297,8 +295,8 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             }
         }
 
-        // 3. Add past months in descending order
-        for (Map.Entry<Integer, Map<Integer, List<Bills>>> entry : sortedPastMonths.entrySet()) {
+        // Add past months in descending order by year and month
+        for (Map.Entry<Integer, Map<Integer, List<Bills>>> entry : pastMonthBills.entrySet()) {
             for (Map.Entry<Integer, List<Bills>> monthEntry : entry.getValue().entrySet()) {
                 String monthYear = sdf.format(new GregorianCalendar(entry.getKey(), monthEntry.getKey(), 1).getTime());
                 items.add(monthYear);
@@ -308,7 +306,6 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         return items;
     }
-
 
     private void saveBillToFirestore(Bills bill) {
         String userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();

@@ -206,6 +206,8 @@ class createSpending : AppCompatActivity() {
         userEmail = intent.getStringExtra("USER_EMAIL")
         userUid = FirebaseAuth.getInstance().currentUser?.uid
 
+        val repeatValue = intent.getStringExtra("repeat") ?: "No"
+
         val edtDate = findViewById<EditText>(R.id.edtDateSpending)
         edtDate.inputType = InputType.TYPE_NULL  // Disable manual input
         edtDate.setOnClickListener {
@@ -373,6 +375,8 @@ class createSpending : AppCompatActivity() {
                 val spendingDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(spendingDateString)
                 val timestamp = spendingDate?.let { com.google.firebase.Timestamp(it) }
 
+                val repeatValue = intent.getStringExtra("repeat") ?: "No"
+
                 val spending = hashMapOf(
                     "name" to spendingName,
                     "amount" to spendingAmount,
@@ -380,6 +384,7 @@ class createSpending : AppCompatActivity() {
                     "category" to spendingCategory,
                     "subcategory" to spendingSubcategory,
                     "vendor" to if (spendingVendor == "Create Own Vendor") customVendor else spendingVendor,
+                    "repeat" to repeatValue,
                     "comment" to spendingComment,
                     "attachment" to spendingAttachment,
                     "paid" to true

@@ -489,26 +489,6 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
         Log.d("Filter", "Filtered spendings count for $filter: ${filteredSpendings.size}")
     }
 
-    private fun groupSpendingsByMonth(spendingsArrayList: ArrayList<Spendings>): ArrayList<Any> {
-        val groupedSpendings = LinkedHashMap<String, MutableList<Spendings>>()
-        val sdf = SimpleDateFormat("MMMM yyyy", Locale.getDefault())
-
-        for (spending in spendingsArrayList) {
-            val monthYear = sdf.format(spending.date.toDate())
-            if (!groupedSpendings.containsKey(monthYear)) {
-                groupedSpendings[monthYear] = ArrayList()
-            }
-            groupedSpendings[monthYear]?.add(spending)
-        }
-
-        val items = ArrayList<Any>()
-        for ((monthYear, bills) in groupedSpendings) {
-            items.add(monthYear)
-            items.addAll(bills)
-        }
-
-        return items
-    }
     // Update the unread count badge from SharedPreferences
     private fun updateUnreadCountBadge(badgeCountTextView: TextView?) {
         val unreadCount = NotificationsActivity.getUnreadNotificationCount(this)
