@@ -377,6 +377,9 @@ class createSpending : AppCompatActivity() {
 
                 val repeatValue = intent.getStringExtra("repeat") ?: "No"
 
+                // Generate a unique ID for the spending
+                val spendingId = db.collection("users").document(it).collection("spendings").document().id
+
                 val spending = hashMapOf(
                     "name" to spendingName,
                     "amount" to spendingAmount,
@@ -390,7 +393,9 @@ class createSpending : AppCompatActivity() {
                     "paid" to true
                 )
 
-                db.collection("users").document(it).collection("spendings").add(spending)
+                // Save spending to Firestore with specified document ID
+                db.collection("users").document(it).collection("spendings").document(spendingId)
+                    .set(spending)
                     .addOnSuccessListener {
                         Toast.makeText(this, "Spending saved successfully", Toast.LENGTH_SHORT).show()
                         finish()

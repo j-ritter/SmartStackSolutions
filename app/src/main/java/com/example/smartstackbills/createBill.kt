@@ -12,6 +12,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import android.text.InputType
 import java.text.SimpleDateFormat
 import java.util.*
+import com.google.firebase.Timestamp
 
 class createBill : AppCompatActivity() {
 
@@ -277,7 +278,7 @@ class createBill : AppCompatActivity() {
         } catch (e: Exception) {
             null
         }
-        val timestamp = billDate?.let { com.google.firebase.Timestamp(it) }
+        val timestamp = billDate?.let { Timestamp(it) }
 
         // Prepare the bill data
         val bill = hashMapOf(
@@ -300,26 +301,21 @@ class createBill : AppCompatActivity() {
 
                     // Get the newly generated document ID for billId
                     val billId = documentReference.id
-
-                    // Update the bill in Firestore with billId
                     documentReference.update("billId", billId)
 
-                    // Schedule the notification after saving bill data
-                    val notificationItem = NotificationsActivity.NotificationItem(
-                        title = billName,
-                        amount = billAmount,
-                        date = billDateString,
-                        createdAt = Date(),
-                        billId = billId
-                    )
-
-                    // Schedule notification with recurrence option
-                    NotificationWorker.scheduleNotification(
-                        this,
-                        notificationItem,
-                        initialDelay = NotificationWorker.calculateDelay(billDateString),
-                        repeatOption = billRepeat
-                    )
+                    // Trigger immediate notification using WorkManager
+                    val workManager = androidx.work.WorkManager.getInstance(this)
+                    val workRequest = androidx.work.OneTimeWorkRequestBuilder<NotificationWorker>()
+                        .setInputData(
+                            androidx.work.workDataOf(
+                                "title" to billName,
+                                "amount" to billAmount,
+                                "billId" to billId,  // Add billId
+                                "createdAt" to (timestamp?.toDate()?.time ?: 0L)
+                            )
+                        )
+                        .build()
+                    workManager.enqueue(workRequest)
 
                     // Generate recurring bills if necessary
                     if (billRepeat != "No") {

@@ -1,16 +1,15 @@
 package com.example.smartstackbills
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.MaterialToolbar
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import java.lang.reflect.Type
-import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -18,7 +17,9 @@ class NotificationsActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: NotificationsAdapter
-    private val notificationsList = ArrayList<NotificationItem>()
+    private val notificationsList = ArrayList<Notifications>()
+    private val db = FirebaseFirestore.getInstance()
+    private val userUid = FirebaseAuth.getInstance().currentUser?.uid
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,42 +28,23 @@ class NotificationsActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.recyclerViewNotifications)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        // Load notifications from local storage (SharedPreferences) and remove old ones
+        // Load notifications from Firebase and remove old ones
         loadAndCleanNotifications()
 
-        // Pass the list and listener to the adapter
-        adapter = NotificationsAdapter(
-            this,
-            notificationsList,
-            object : NotificationsAdapter.OnNotificationClickListener {
-                override fun onNotificationClick(position: Int) {
-                    // Retrieve the clicked notification
-                    val selectedNotification = notificationsList[position]
-
-                    // Create an Intent to open MyBills activity
-                    val intent = Intent(this@NotificationsActivity, MyBills::class.java)
-
-                    // Pass the billId from the notification to MyBills
-                    intent.putExtra("BILL_ID", selectedNotification.billId)
-
-                    // Start the MyBills activity
-                    startActivity(intent)
-                }
-                override fun onDeleteClick(position: Int) {
-                    // Remove the notification from the list
-                    val notificationToRemove = notificationsList[position]
-                    notificationsList.removeAt(position)
-                    adapter.notifyItemRemoved(position)
-
-                    // Also remove it from the shared preferences
-                    removeNotificationFromSharedPreferences(notificationToRemove)
-                }
+        // Set up NotificationsAdapter with a click listener to mark notifications as read
+        adapter = NotificationsAdapter(this, notificationsList, object : NotificationsAdapter.OnNotificationClickListener {
+            override fun onNotificationClick(notificationId: String) {
+                // Mark the notification as read when clicked
+                updateNotificationAsRead(this@NotificationsActivity, notificationId)
+                adapter.notifyDataSetChanged()
             }
-        )
+        })
         recyclerView.adapter = adapter
 
         // Reset unread notification count when the notifications are viewed
         resetUnreadNotificationCount(this)
+
+        // Set up toolbar
         val toolbar: MaterialToolbar = findViewById(R.id.toolbar_notifications)
         setSupportActionBar(toolbar)
 
@@ -71,96 +53,35 @@ class NotificationsActivity : AppCompatActivity() {
             onBackPressed()
         }
     }
+
     // Load notifications and remove those older than 30 days
     private fun loadAndCleanNotifications() {
-        val sharedPref = getSharedPreferences("notifications", Context.MODE_PRIVATE)
-        val gson = Gson()
-        val json = sharedPref.getString("notificationsList", null)
-        if (json != null) {
-            val type: Type = object : TypeToken<ArrayList<NotificationItem>>() {}.type
-            val savedNotifications: ArrayList<NotificationItem> = gson.fromJson(json, type)
+        if (userUid != null) {
+            db.collection("users").document(userUid).collection("notifications")
+                .get()
+                .addOnSuccessListener { documents ->
+                    val currentTime = System.currentTimeMillis()
+                    val thirtyDaysInMillis = TimeUnit.DAYS.toMillis(30)
+                    val cutoffDate = Date(currentTime - thirtyDaysInMillis)
 
-            // Filter out notifications older than 30 days
-            val currentTime = System.currentTimeMillis()
-            val thirtyDaysInMillis = TimeUnit.DAYS.toMillis(30)
-            val cutoffDate = Date(currentTime - thirtyDaysInMillis)
-
-            // Safely filter the notifications, checking for null values
-            val filteredNotifications = savedNotifications.filter {
-                it.createdAt != null && it.createdAt.after(cutoffDate)
-            }
-
-            // Remove the old notifications from SharedPreferences
-            saveFilteredNotificationsToSharedPreferences(filteredNotifications)
-
-            notificationsList.addAll(filteredNotifications)
-        }
-    }
-
-    private fun saveFilteredNotificationsToSharedPreferences(filteredNotifications: List<NotificationItem>) {
-        val sharedPref = getSharedPreferences("notifications", Context.MODE_PRIVATE)
-        val gson = Gson()
-        val editor = sharedPref.edit()
-
-        // Save the filtered notifications
-        val json = gson.toJson(filteredNotifications)
-        editor.putString("notificationsList", json)
-        editor.apply()
-    }
-
-    private fun removeNotificationFromSharedPreferences(notification: NotificationItem) {
-        val sharedPref = getSharedPreferences("notifications", Context.MODE_PRIVATE)
-        val gson = Gson()
-        val json = sharedPref.getString("notificationsList", null)
-        if (json != null) {
-            val type: Type = object : TypeToken<ArrayList<NotificationItem>>() {}.type
-            val currentList: ArrayList<NotificationItem> = gson.fromJson(json, type)
-
-            // Remove the notification that matches
-            currentList.removeIf { it.title == notification.title && it.date == notification.date }
-
-            // Save the updated list
-            val editor = sharedPref.edit()
-            val updatedJson = gson.toJson(currentList)
-            editor.putString("notificationsList", updatedJson)
-            editor.apply()
+                    for (document in documents) {
+                        val notification = document.toObject(Notifications::class.java)
+                        if (notification.createdAt != null && notification.createdAt.toDate().after(cutoffDate)) {
+                            notificationsList.add(notification)
+                        } else {
+                            // Delete notifications older than 30 days from Firebase
+                            document.reference.delete()
+                        }
+                    }
+                    adapter.notifyDataSetChanged()
+                }
+                .addOnFailureListener { e ->
+                    // Handle errors if necessary
+                }
         }
     }
 
     companion object {
-        fun saveNotification(context: Context, notification: NotificationItem) {
-            val sharedPref = context.getSharedPreferences("notifications", Context.MODE_PRIVATE)
-            val editor = sharedPref.edit()
-            val gson = Gson()
-
-            // Load existing notifications
-            val currentList = loadCurrentNotifications(context)
-
-            // Add the new notification
-            val notificationWithTimestamp = notification.copy(createdAt = Date())
-
-            currentList.add(notificationWithTimestamp)
-
-            // Save the updated list back
-            val json = gson.toJson(currentList)
-            editor.putString("notificationsList", json)
-            editor.apply()
-
-            incrementUnreadNotificationCount(context)
-        }
-
-        private fun loadCurrentNotifications(context: Context): ArrayList<NotificationItem> {
-            val sharedPref = context.getSharedPreferences("notifications", Context.MODE_PRIVATE)
-            val gson = Gson()
-            val json = sharedPref.getString("notificationsList", null)
-            return if (json != null) {
-                val type: Type = object : TypeToken<ArrayList<NotificationItem>>() {}.type
-                gson.fromJson(json, type)
-            } else {
-                ArrayList()
-            }
-        }
-
         fun incrementUnreadNotificationCount(context: Context) {
             val sharedPref = context.getSharedPreferences("notifications", Context.MODE_PRIVATE)
             val unreadCount = sharedPref.getInt("unreadCount", 0) + 1
@@ -177,35 +98,23 @@ class NotificationsActivity : AppCompatActivity() {
             return sharedPref.getInt("unreadCount", 0)
         }
 
-        fun updateNotificationAsRead(context: Context, notification: NotificationItem) {
+        fun updateNotificationAsRead(context: Context, notificationId: String) {
             val sharedPref = context.getSharedPreferences("notifications", Context.MODE_PRIVATE)
             val gson = Gson()
+            val json = sharedPref.getString("notificationsList", null)
+            if (json != null) {
+                val type = object : TypeToken<ArrayList<Notifications>>() {}.type
+                val currentList: ArrayList<Notifications> = gson.fromJson(json, type)
 
-            // Load existing notifications
-            val currentList = loadCurrentNotifications(context)
-
-            // Mark the notification as read
-            val updatedList = currentList.map {
-                if (it.title == notification.title && it.date == notification.date && it.amount == notification.amount) {
-                    it.copy(isUnread = false)
-                } else {
-                    it
+                // Update the notification as read
+                currentList.find { it.notificationId == notificationId }?.apply {
+                    this.isUnread = false
                 }
-            }
 
-            // Save the updated list back
-            val json = gson.toJson(updatedList)
-            sharedPref.edit().putString("notificationsList", json).apply()
+                // Save the updated list back to SharedPreferences
+                val updatedJson = gson.toJson(currentList)
+                sharedPref.edit().putString("notificationsList", updatedJson).apply()
+            }
         }
     }
-
-    // Data class for NotificationItem with date as String
-    data class NotificationItem(
-        val title: String,
-        val date: String,  // String instead of Timestamp
-        val amount: String,
-        val billId: String,
-        var isUnread: Boolean = true,
-        val createdAt: Date
-    )
 }

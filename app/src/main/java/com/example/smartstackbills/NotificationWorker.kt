@@ -11,17 +11,18 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.work.Worker
 import androidx.work.WorkerParameters
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
 
 class NotificationWorker(context: Context, params: WorkerParameters) : Worker(context, params) {
 
     private val db = FirebaseFirestore.getInstance()
 
     override fun doWork(): Result {
+        // Retrieve data from input
         val title = inputData.getString("title")
         val amount = inputData.getString("amount")
         val billId = inputData.getString("billId")
@@ -30,46 +31,68 @@ class NotificationWorker(context: Context, params: WorkerParameters) : Worker(co
 
         // Check if the notification is older than 30 days
         if (isNotificationOlderThan30Days(createdAt)) {
-            // Delete the notification from the database or storage
             deleteNotificationById(billId)
-            return Result.success() // Return success after deletion
+            return Result.success()
         }
 
-        sendNotification(title, amount, billId)
-        // Increment unread notification count when the notification is triggered
-        NotificationsActivity.incrementUnreadNotificationCount(applicationContext)
+        // Save the notification to Firebase and then send it
+        val userUid = FirebaseAuth.getInstance().currentUser?.uid
+        if (userUid != null && billId != null) {
+            val notification = hashMapOf(
+                "notificationId" to billId,
+                "title" to title,
+                "amount" to amount,
+                "date" to com.google.firebase.Timestamp(Date()), // Current timestamp for date
+                "createdAt" to com.google.firebase.Timestamp(createdAt),
+                "isUnread" to true
+            )
+
+            db.collection("users").document(userUid).collection("notifications")
+                .document(billId)
+                .set(notification)
+                .addOnSuccessListener {
+                    // Send notification after saving to Firebase
+                    sendNotification(title, amount, billId)
+                    NotificationsActivity.incrementUnreadNotificationCount(applicationContext)
+                }
+                .addOnFailureListener {
+                    it.printStackTrace() // Log error if Firebase save fails
+                }
+        }
 
         return Result.success()
     }
 
-    // Method to check if a notification is older than 30 days
+    // Check if a notification is older than 30 days
     private fun isNotificationOlderThan30Days(createdAt: Date): Boolean {
         val currentTime = System.currentTimeMillis()
         val thirtyDaysInMillis = TimeUnit.DAYS.toMillis(30)
         return (currentTime - createdAt.time) > thirtyDaysInMillis
     }
 
-    // Method to delete a notification from Firebase by billId
+    // Delete a notification from Firebase by billId
     private fun deleteNotificationById(billId: String?) {
-        if (billId != null) {
-            db.collection("notifications")
-                .whereEqualTo("billId", billId)
+        val userUid = FirebaseAuth.getInstance().currentUser?.uid
+        if (userUid != null && billId != null) {
+            db.collection("users").document(userUid).collection("notifications")
+                .whereEqualTo("notificationId", billId)
                 .get()
                 .addOnSuccessListener { querySnapshot ->
                     for (document in querySnapshot) {
-                        // Delete the specific notification
                         document.reference.delete()
                     }
                 }
                 .addOnFailureListener { exception ->
-                    // Log or handle failure if needed
+                    exception.printStackTrace()
                 }
         }
     }
 
+    // Send notification
     private fun sendNotification(title: String?, amount: String?, billId: String?) {
         val notificationManager = NotificationManagerCompat.from(applicationContext)
 
+        // Check for notification permission if running on Android 13+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
             ActivityCompat.checkSelfPermission(
                 applicationContext,
@@ -79,6 +102,7 @@ class NotificationWorker(context: Context, params: WorkerParameters) : Worker(co
             return
         }
 
+        // Create notification channel for Android O and above
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
                 "bill_notifications",
@@ -99,84 +123,36 @@ class NotificationWorker(context: Context, params: WorkerParameters) : Worker(co
     }
 
     companion object {
-        // Calculate delay based on String date
-        fun calculateDelay(notificationDateString: String): Long {
+        // Calculate delay based on date
+        fun calculateDelay(notificationDate: String): Long {
             val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-            val notificationDate: Date? = try {
-                sdf.parse(notificationDateString)
-            } catch (e: Exception) {
-                null
-            }
+            val notificationDateMillis = sdf.parse(notificationDate)?.time ?: 0
+            val currentTimeMillis = System.currentTimeMillis()
 
-            notificationDate?.let {
-                val notificationDateMillis = it.time
-                val currentTimeMillis = System.currentTimeMillis()
-
-                return if (notificationDateMillis > currentTimeMillis) {
-                    notificationDateMillis - currentTimeMillis - TimeUnit.DAYS.toMillis(3)
-                } else {
-                    0
-                }
-            } ?: run {
-                return 0
-            }
-        }
-
-        // **Map repeat options to recurrence intervals**
-        private fun mapRepeatToInterval(repeatOption: String): Long? {
-            return when (repeatOption) {
-                "Weekly" -> TimeUnit.DAYS.toMillis(7)
-                "Every 2 Weeks" -> TimeUnit.DAYS.toMillis(14)
-                "Monthly" -> TimeUnit.DAYS.toMillis(30)
-                "Every 2 Months" -> TimeUnit.DAYS.toMillis(60)
-                "Quarterly" -> TimeUnit.DAYS.toMillis(90)
-                "Every 6 months" -> TimeUnit.DAYS.toMillis(180)
-                "Yearly" -> TimeUnit.DAYS.toMillis(365)
-                else -> null
-            }
-        }
-
-        // Schedule the notification
-        fun scheduleNotification(
-            context: Context,
-            notification: NotificationsActivity.NotificationItem,
-            initialDelay: Long = calculateDelay(notification.date),
-            repeatOption: String? = null
-        ) {
-            val repeatInterval = repeatOption?.let { mapRepeatToInterval(it) }
-
-            if (repeatInterval != null) {
-                val periodicWorkRequest = androidx.work.PeriodicWorkRequestBuilder<NotificationWorker>(
-                    repeatInterval, TimeUnit.MILLISECONDS
-                )
-                    .setInputData(
-                        androidx.work.workDataOf(
-                            "title" to notification.title,
-                            "amount" to notification.amount,
-                            "billId" to notification.title,
-                            "createdAt" to notification.createdAt.time
-                        )
-                    )
-                    .setInitialDelay(initialDelay, TimeUnit.MILLISECONDS) // **Sets the initial delay for the first notification**
-                    .build()
-
-                androidx.work.WorkManager.getInstance(context).enqueue(periodicWorkRequest)
+            return if (notificationDateMillis > currentTimeMillis) {
+                notificationDateMillis - currentTimeMillis - TimeUnit.DAYS.toMillis(1)
             } else {
-                // For one-time notifications, create and enqueue the OneTimeWorkRequest
-                val oneTimeWorkRequest = androidx.work.OneTimeWorkRequestBuilder<NotificationWorker>()
-                    .setInputData(
-                        androidx.work.workDataOf(
-                            "title" to notification.title,
-                            "amount" to notification.amount,
-                            "billId" to notification.title,
-                            "createdAt" to notification.createdAt.time
-                        )
-                    )
-                    .setInitialDelay(initialDelay, TimeUnit.MILLISECONDS)
-                    .build()
-
-                androidx.work.WorkManager.getInstance(context).enqueue(oneTimeWorkRequest)
+                0
             }
+        }
+
+        // Schedule the notification using WorkManager
+        fun scheduleNotification(context: Context, notificationItem: Notifications) {
+            val delay = calculateDelay(notificationItem.date.toDate().toString())
+
+            val notificationWork = androidx.work.OneTimeWorkRequestBuilder<NotificationWorker>()
+                .setInputData(
+                    androidx.work.workDataOf(
+                        "title" to notificationItem.title,
+                        "amount" to notificationItem.amount,
+                        "billId" to notificationItem.notificationId,
+                        "createdAt" to notificationItem.date.toDate().time
+                    )
+                )
+                .setInitialDelay(delay, TimeUnit.MILLISECONDS)
+                .build()
+
+            androidx.work.WorkManager.getInstance(context).enqueue(notificationWork)
         }
     }
 }

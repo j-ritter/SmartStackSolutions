@@ -267,19 +267,25 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
                         Log.e("Firestore Error", e.message.toString())
                         return@addSnapshotListener
                     }
+
                     if (snapshots != null) {
+                        // Clear and update both primary and backup lists with the latest data
                         spendingsArrayList.clear()
                         allSpendingsArrayList.clear()
+
                         for (document in snapshots.documents) {
                             val spending = document.toObject(Spendings::class.java)
                             if (spending != null) {
                                 spendingsArrayList.add(spending)
-                                allSpendingsArrayList.add(spending)
+                                allSpendingsArrayList.add(spending) // Maintain a copy of all spendings
                                 Log.d("Firestore Data", "Spending added: ${spending.name}, ${spending.date}")
                             }
                         }
-                        // Show all spendings by default
+
+                        // Save the updated list to SharedPreferences for caching
                         saveSpendings()
+
+                        // Show all spendings by default or apply filter if specified
                         filterSpendings("all")
                     } else {
                         Log.d("Firestore Data", "No spendings found")
@@ -290,6 +296,7 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
             Log.e("Authentication Error", "User not authenticated")
         }
     }
+
     private fun refreshSpendingsList() {
         val userUid = FirebaseAuth.getInstance().currentUser?.uid
         if (userUid != null) {

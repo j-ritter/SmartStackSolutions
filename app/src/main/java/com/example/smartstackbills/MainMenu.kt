@@ -307,20 +307,21 @@ class MainMenu : AppCompatActivity() {
         val totalSpendings = spendingsForMonth.sumOf { it.amount.toDouble() }.toFloat()
         val totalIncome = incomeForMonth.sumOf { it.amount.toDouble() }.toFloat()
 
-        // Calculate incoming bills (unpaid, non-recurring, in the future)
+        // Calculate incoming bills (unpaid, in the future)
         val currentDate = Date()
         val totalIncoming = billsList.filter { bill ->
             val billDate = bill.date?.toDate()
-            billDate != null && billDate.after(currentDate) && !bill.paid && bill.repeat == "No" &&
+            billDate != null && billDate.after(currentDate) && !bill.paid &&
                     dateFormat.format(billDate) == currentMonthString
         }.sumOf { it.amount.toDouble() }.toFloat()
 
-        // Calculate overdue bills (unpaid, non-recurring, in the past)
+        // Calculate overdue bills (unpaid, in the past)
         val totalOverdue = billsList.filter { bill ->
             val billDate = bill.date?.toDate()
-            billDate != null && billDate.before(currentDate) && !bill.paid && bill.repeat == "No" &&
+            billDate != null && billDate.before(currentDate) && !bill.paid &&
                     dateFormat.format(billDate) == currentMonthString
         }.sumOf { it.amount.toDouble() }.toFloat()
+
 
         // Calculate the total amount for the month
         val total = totalIncome - totalBills - totalSpendings
