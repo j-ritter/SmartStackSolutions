@@ -38,6 +38,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         holder.date.setText(sdf.format(currentNotification.getDate().toDate()));
         holder.amount.setText(currentNotification.getAmount());
+        holder.createdAt.setText(sdf.format(currentNotification.getCreatedAt().toDate()));
 
         // Set click listener to handle notification click
         holder.itemView.setOnClickListener(v -> {
@@ -53,13 +54,14 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
     }
 
     public static class NotificationViewHolder extends RecyclerView.ViewHolder {
-        TextView title, date, amount;
+        TextView title, date, amount, createdAt;
 
         public NotificationViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.tvTitleNotification);
             date = itemView.findViewById(R.id.tvDateNotification);
             amount = itemView.findViewById(R.id.tvAmountNotification);
+            createdAt = itemView.findViewById(R.id.tvNotificationTime);
         }
     }
 

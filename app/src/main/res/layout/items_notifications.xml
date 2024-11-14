@@ -1,5 +1,6 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardElevation="6dp"
@@ -30,21 +31,21 @@
             android:layout_height="wrap_content"
             android:text="Reminder Title"
             android:textColor="@color/black"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@id/labelTitleNotification"
-            app:layout_constraintTop_toTopOf="@id/labelTitleNotification"
-            app:layout_constraintEnd_toStartOf="@id/imgDeleteNotification" />
+            app:layout_constraintStart_toStartOf="@+id/tvAmountNotification"
+            app:layout_constraintTop_toTopOf="@id/labelTitleNotification" />
 
         <!-- Notification Created Time and Date -->
         <TextView
             android:id="@+id/tvNotificationTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="12:30 PM, 1/6/2024"
+            android:layout_marginEnd="8dp"
+            android:text="1/6/2024"
             android:textColor="@color/black"
             android:textSize="12sp"
-            android:layout_marginEnd="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -56,10 +57,10 @@
             android:layout_marginEnd="8dp"
             android:contentDescription="Delete notification"
             android:src="@drawable/ic_delete"
-            app:layout_constraintEnd_toStartOf="@id/unreadDot"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/unreadDot"
             app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1" /> <!-- Centered vertically -->
 
         <!-- Orange Dot for Unread Notifications (center right) -->
@@ -70,10 +71,10 @@
             android:layout_marginEnd="8dp"
             android:background="@drawable/circle_orange"
             android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.5" />
 
         <!-- Amount Label -->
@@ -81,12 +82,12 @@
             android:id="@+id/labelAmountNotification"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:text="Amount"
             android:textColor="@color/black"
             android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/labelTitleNotification"
-            android:layout_marginTop="8dp" />
+            app:layout_constraintTop_toBottomOf="@id/labelTitleNotification" />
 
         <!-- Amount Value -->
         <TextView
@@ -95,21 +96,21 @@
             android:layout_height="wrap_content"
             android:text="$1200"
             android:textColor="@color/black"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@id/labelAmountNotification"
-            app:layout_constraintTop_toTopOf="@id/labelAmountNotification"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintStart_toStartOf="@+id/tvDateNotification"
+            app:layout_constraintTop_toTopOf="@id/labelAmountNotification" />
 
         <!-- Due Date Label -->
         <TextView
             android:id="@+id/labelDateNotification"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:text="Due Date"
             android:textColor="@color/black"
             android:textSize="12sp"
-            android:layout_marginTop="8dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/labelAmountNotification" />
 
@@ -120,11 +121,11 @@
             android:layout_height="wrap_content"
             android:text="1/6/2024"
             android:textColor="@color/black"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/labelDateNotification"
-            app:layout_constraintTop_toTopOf="@id/labelDateNotification"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toTopOf="@id/labelDateNotification" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
