@@ -9,15 +9,13 @@ import android.os.Build
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.work.Worker
-import androidx.work.WorkerParameters
+import androidx.work.*
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.Timestamp
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
-
 
 class NotificationWorker(context: Context, params: WorkerParameters) : Worker(context, params) {
 
@@ -66,6 +64,24 @@ class NotificationWorker(context: Context, params: WorkerParameters) : Worker(co
         }
 
         return Result.success()
+    }
+
+    // Schedule a notification
+    fun scheduleNotification(context: Context, title: String, amount: String, billId: String, dueDate: Timestamp) {
+        val delay = calculateDelay(dueDate.toDate())
+        val workRequest = OneTimeWorkRequestBuilder<NotificationWorker>()
+            .setInputData(
+                workDataOf(
+                    "title" to title,
+                    "amount" to amount,
+                    "billId" to billId,
+                    "dueDateMillis" to dueDate.toDate().time
+                )
+            )
+            .setInitialDelay(delay, TimeUnit.MILLISECONDS)
+            .build()
+
+        WorkManager.getInstance(context).enqueue(workRequest)
     }
 
     // Check if a notification is older than 30 days
@@ -129,35 +145,9 @@ class NotificationWorker(context: Context, params: WorkerParameters) : Worker(co
 
     companion object {
         // Calculate delay based on date
-        fun calculateDelay(notificationDate: String): Long {
-            val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-            val notificationDateMillis = sdf.parse(notificationDate)?.time ?: 0
+        private fun calculateDelay(notificationDate: Date): Long {
             val currentTimeMillis = System.currentTimeMillis()
-
-            return if (notificationDateMillis > currentTimeMillis) {
-                notificationDateMillis - currentTimeMillis - TimeUnit.DAYS.toMillis(1)
-            } else {
-                0
-            }
-        }
-
-        // Schedule the notification using WorkManager
-        fun scheduleNotification(context: Context, notificationItem: Notifications) {
-            val delay = calculateDelay(notificationItem.date.toDate().toString())
-
-            val notificationWork = androidx.work.OneTimeWorkRequestBuilder<NotificationWorker>()
-                .setInputData(
-                    androidx.work.workDataOf(
-                        "title" to notificationItem.title,
-                        "amount" to notificationItem.amount,
-                        "billId" to notificationItem.notificationId,
-                        "createdAt" to notificationItem.date.toDate().time
-                    )
-                )
-                .setInitialDelay(delay, TimeUnit.MILLISECONDS)
-                .build()
-
-            androidx.work.WorkManager.getInstance(context).enqueue(notificationWork)
+            return notificationDate.time - currentTimeMillis
         }
     }
 }

@@ -52,6 +52,13 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
                 notifyItemChanged(position);
             }
         });
+
+        // Set click listener for the delete icon
+        holder.deleteIcon.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onDeleteNotificationClick(currentNotification.getNotificationId()); // Pass notificationId
+            }
+        });
     }
 
     @Override
@@ -61,7 +68,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
 
     public static class NotificationViewHolder extends RecyclerView.ViewHolder {
         TextView title, date, amount, createdAt;
-        ImageView unreadDot;
+        ImageView unreadDot, deleteIcon;
 
         public NotificationViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -70,11 +77,13 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
             amount = itemView.findViewById(R.id.tvAmountNotification);
             createdAt = itemView.findViewById(R.id.tvNotificationTime);
             unreadDot = itemView.findViewById(R.id.unreadDot);
+            deleteIcon = itemView.findViewById(R.id.imgDeleteNotification);
         }
     }
 
     // Interface for click handling
     public interface OnNotificationClickListener {
         void onNotificationClick(String notificationId); // Pass only the ID for marking as read
+        void onDeleteNotificationClick(String notificationId); // Pass only the ID for deletion
     }
 }

@@ -2,6 +2,7 @@ package com.example.smartstackbills
 
 import android.content.Context
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -31,14 +32,23 @@ class NotificationsActivity : AppCompatActivity() {
         // Load notifications from Firebase and remove old ones
         loadAndCleanNotifications()
 
-        // Set up NotificationsAdapter with a click listener to mark notifications as read
-        adapter = NotificationsAdapter(this, notificationsList, object : NotificationsAdapter.OnNotificationClickListener {
-            override fun onNotificationClick(notificationId: String) {
-                // Mark the notification as read when clicked
-                updateNotificationAsRead(this@NotificationsActivity, notificationId)
-                adapter.notifyDataSetChanged()
+        // Set up NotificationsAdapter with click listeners for marking as read and deleting
+        adapter = NotificationsAdapter(
+            this,
+            notificationsList,
+            object : NotificationsAdapter.OnNotificationClickListener {
+                override fun onNotificationClick(notificationId: String) {
+                    // Mark the notification as read when clicked
+                    updateNotificationAsRead(this@NotificationsActivity, notificationId)
+                    adapter.notifyDataSetChanged()
+                }
+
+                override fun onDeleteNotificationClick(notificationId: String) {
+                    // Delete the notification when the delete icon is clicked
+                    deleteNotification(notificationId)
+                }
             }
-        })
+        )
         recyclerView.adapter = adapter
 
         // Reset unread notification count when the notifications are viewed
@@ -77,6 +87,30 @@ class NotificationsActivity : AppCompatActivity() {
                 }
                 .addOnFailureListener { e ->
                     // Handle errors if necessary
+                }
+        }
+    }
+
+    private fun deleteNotification(notificationId: String) {
+        if (userUid != null) {
+            db.collection("users").document(userUid).collection("notifications")
+                .whereEqualTo("notificationId", notificationId)
+                .get()
+                .addOnSuccessListener { documents ->
+                    for (document in documents) {
+                        document.reference.delete()
+                            .addOnSuccessListener {
+                                Toast.makeText(this, "Notification deleted", Toast.LENGTH_SHORT).show()
+                                notificationsList.removeIf { it.notificationId == notificationId }
+                                adapter.notifyDataSetChanged()
+                            }
+                            .addOnFailureListener {
+                                Toast.makeText(this, "Failed to delete notification", Toast.LENGTH_SHORT).show()
+                            }
+                    }
+                }
+                .addOnFailureListener {
+                    Toast.makeText(this, "Failed to find notification to delete", Toast.LENGTH_SHORT).show()
                 }
         }
     }
