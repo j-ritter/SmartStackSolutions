@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -40,10 +41,15 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
         holder.amount.setText(currentNotification.getAmount());
         holder.createdAt.setText(sdf.format(currentNotification.getCreatedAt().toDate()));
 
+        // Show or hide the unread dot based on the isUnread field
+        holder.unreadDot.setVisibility(currentNotification.isUnread() ? View.VISIBLE : View.GONE);
+
         // Set click listener to handle notification click
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) {
                 listener.onNotificationClick(currentNotification.getNotificationId()); // Pass notificationId
+                currentNotification.setUnread(false);
+                notifyItemChanged(position);
             }
         });
     }
@@ -55,6 +61,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
 
     public static class NotificationViewHolder extends RecyclerView.ViewHolder {
         TextView title, date, amount, createdAt;
+        ImageView unreadDot;
 
         public NotificationViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -62,6 +69,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
             date = itemView.findViewById(R.id.tvDateNotification);
             amount = itemView.findViewById(R.id.tvAmountNotification);
             createdAt = itemView.findViewById(R.id.tvNotificationTime);
+            unreadDot = itemView.findViewById(R.id.unreadDot);
         }
     }
 

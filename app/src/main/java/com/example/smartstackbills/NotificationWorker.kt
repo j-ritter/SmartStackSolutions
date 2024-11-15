@@ -13,9 +13,11 @@ import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.Timestamp
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
+
 
 class NotificationWorker(context: Context, params: WorkerParameters) : Worker(context, params) {
 
@@ -26,11 +28,14 @@ class NotificationWorker(context: Context, params: WorkerParameters) : Worker(co
         val title = inputData.getString("title")
         val amount = inputData.getString("amount")
         val billId = inputData.getString("billId")
-        val createdAtLong = inputData.getLong("createdAt", System.currentTimeMillis())
-        val createdAt = Date(createdAtLong)
+        val dueDateMillis = inputData.getLong("dueDateMillis", System.currentTimeMillis())
+        val dueDate = Timestamp(Date(dueDateMillis))
+
+        // Current timestamp for createdAt
+        val createdAt = Timestamp.now()
 
         // Check if the notification is older than 30 days
-        if (isNotificationOlderThan30Days(createdAt)) {
+        if (isNotificationOlderThan30Days(createdAt.toDate())) {
             deleteNotificationById(billId)
             return Result.success()
         }
@@ -42,8 +47,8 @@ class NotificationWorker(context: Context, params: WorkerParameters) : Worker(co
                 "notificationId" to billId,
                 "title" to title,
                 "amount" to amount,
-                "date" to com.google.firebase.Timestamp(Date()), // Current timestamp for date
-                "createdAt" to com.google.firebase.Timestamp(createdAt),
+                "date" to dueDate, // Bill's due date
+                "createdAt" to createdAt, // Timestamp when notification was created
                 "isUnread" to true
             )
 
