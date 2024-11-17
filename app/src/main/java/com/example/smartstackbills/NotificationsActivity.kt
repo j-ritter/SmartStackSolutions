@@ -76,7 +76,7 @@ class NotificationsActivity : AppCompatActivity() {
 
                     for (document in documents) {
                         val notification = document.toObject(Notifications::class.java)
-                        if (notification.createdAt != null && notification.createdAt.toDate().after(cutoffDate)) {
+                        if (notification.date != null && notification.date.toDate().after(cutoffDate)) {
                             notificationsList.add(notification)
                         } else {
                             // Delete notifications older than 30 days from Firebase

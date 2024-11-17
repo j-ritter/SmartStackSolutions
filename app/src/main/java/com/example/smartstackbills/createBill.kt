@@ -311,6 +311,7 @@ class createBill : AppCompatActivity() {
                                 "title" to billName,
                                 "amount" to billAmount,
                                 "billId" to billId,  // Add billId
+                                "dueDateMillis" to (billDate?.time ?: 0L),
                                 "createdAt" to (timestamp?.toDate()?.time ?: 0L)
                             )
                         )
