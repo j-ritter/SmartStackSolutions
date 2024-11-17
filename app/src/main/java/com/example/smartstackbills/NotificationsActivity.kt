@@ -1,6 +1,7 @@
 package com.example.smartstackbills
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -39,8 +40,20 @@ class NotificationsActivity : AppCompatActivity() {
             object : NotificationsAdapter.OnNotificationClickListener {
                 override fun onNotificationClick(notificationId: String) {
                     // Mark the notification as read when clicked
-                    updateNotificationAsRead(this@NotificationsActivity, notificationId)
-                    adapter.notifyDataSetChanged()
+                    if (userUid != null) {
+                        db.collection("users").document(userUid).collection("notifications")
+                            .document(notificationId)
+                            .update("isUnread", false) // Update 'isUnread' to false in Firebase
+                            .addOnSuccessListener {
+                                // Redirect to MyBills after marking as read
+                                val intent = Intent(this@NotificationsActivity, MyBills::class.java)
+                                intent.putExtra("NOTIFICATION_ID", notificationId) // Pass data if needed
+                                startActivity(intent)
+                            }
+                            .addOnFailureListener {
+                                Toast.makeText(this@NotificationsActivity, "Failed to update notification", Toast.LENGTH_SHORT).show()
+                            }
+                    }
                 }
 
                 override fun onDeleteNotificationClick(notificationId: String) {

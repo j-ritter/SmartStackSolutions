@@ -83,7 +83,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
 
     // Interface for click handling
     public interface OnNotificationClickListener {
-        void onNotificationClick(String notificationId); // Pass only the ID for marking as read
+        void onNotificationClick(String notificationId);
         void onDeleteNotificationClick(String notificationId); // Pass only the ID for deletion
     }
 }
