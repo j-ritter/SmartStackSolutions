@@ -37,7 +37,20 @@
             app:layout_constraintStart_toStartOf="@+id/tvAmountNotification"
             app:layout_constraintTop_toTopOf="@id/labelTitleNotification" />
 
+        <!-- Orange Dot for Unread Notifications -->
+
         <!-- Notification Created Time and Date -->
+        <ImageView
+            android:id="@+id/unreadDot"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="12dp"
+            android:visibility="gone"
+            android:background="@drawable/circle_orange"
+            app:layout_constraintBottom_toTopOf="@id/tvNotificationTime"
+            app:layout_constraintEnd_toEndOf="parent" />
+
         <TextView
             android:id="@+id/tvNotificationTime"
             android:layout_width="wrap_content"
@@ -46,8 +59,9 @@
             android:text="1/6/2024"
             android:textColor="@color/black"
             android:textSize="12sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintBottom_toBottomOf="@id/tvAmountNotification" />
 
         <!-- Delete Icon -->
         <ImageView
@@ -57,25 +71,8 @@
             android:layout_marginEnd="8dp"
             android:contentDescription="Delete notification"
             android:src="@drawable/ic_delete"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/unreadDot"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1" /> <!-- Centered vertically -->
-
-        <!-- Orange Dot for Unread Notifications (center right) -->
-        <ImageView
-            android:id="@+id/unreadDot"
-            android:layout_width="10dp"
-            android:layout_height="10dp"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/circle_orange"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.5" />
+            app:layout_constraintBottom_toBottomOf="@id/tvDateNotification"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <!-- Amount Label -->
         <TextView

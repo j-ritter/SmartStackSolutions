@@ -42,7 +42,11 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
         holder.createdAt.setText(sdf.format(currentNotification.getCreatedAt().toDate()));
 
         // Show or hide the unread dot based on the isUnread field
-        holder.unreadDot.setVisibility(currentNotification.isUnread() ? View.VISIBLE : View.GONE);
+        if (currentNotification.isUnread()) {
+            holder.unreadDot.setVisibility(View.VISIBLE);
+        } else {
+            holder.unreadDot.setVisibility(View.GONE);
+        }
 
         // Set click listener to handle notification click
         holder.itemView.setOnClickListener(v -> {

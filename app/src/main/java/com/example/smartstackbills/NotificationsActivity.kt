@@ -45,6 +45,10 @@ class NotificationsActivity : AppCompatActivity() {
                             .document(notificationId)
                             .update("isUnread", false) // Update 'isUnread' to false in Firebase
                             .addOnSuccessListener {
+                                // Refresh the adapter after marking as read
+                                notificationsList.find { it.notificationId == notificationId }?.isUnread = false
+                                adapter.notifyDataSetChanged()
+
                                 // Redirect to MyBills after marking as read
                                 val intent = Intent(this@NotificationsActivity, MyBills::class.java)
                                 intent.putExtra("NOTIFICATION_ID", notificationId) // Pass data if needed
@@ -87,8 +91,11 @@ class NotificationsActivity : AppCompatActivity() {
                     val thirtyDaysInMillis = TimeUnit.DAYS.toMillis(30)
                     val cutoffDate = Date(currentTime - thirtyDaysInMillis)
 
+                    notificationsList.clear()
                     for (document in documents) {
                         val notification = document.toObject(Notifications::class.java)
+                        val isUnread = document.getBoolean("isUnread") ?: true
+                        notification.isUnread = isUnread
                         if (notification.date != null && notification.date.toDate().after(cutoffDate)) {
                             notificationsList.add(notification)
                         } else {
