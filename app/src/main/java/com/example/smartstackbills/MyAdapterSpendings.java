@@ -23,7 +23,6 @@ import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -33,7 +32,6 @@ public class MyAdapterSpendings extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     private Context context;
     private ArrayList<Object> itemsArrayList;
-
     private OnSpendingClickListener onSpendingClickListener;
 
     private static final int ITEM_SPENDING = 0;
@@ -47,11 +45,7 @@ public class MyAdapterSpendings extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public int getItemViewType(int position) {
-        if (itemsArrayList.get(position) instanceof String) {
-            return ITEM_MONTH_HEADER;
-        } else {
-            return ITEM_SPENDING;
-        }
+        return itemsArrayList.get(position) instanceof Spendings ? ITEM_SPENDING : ITEM_MONTH_HEADER;
     }
 
     @NonNull
@@ -62,7 +56,7 @@ public class MyAdapterSpendings extends RecyclerView.Adapter<RecyclerView.ViewHo
             return new SpendingViewHolder(v, onSpendingClickListener);
         } else {
             View v = LayoutInflater.from(context).inflate(R.layout.item_month_header, parent, false);
-            return new MyAdapterSpendings.MonthHeaderViewHolder(v);
+            return new MonthHeaderViewHolder(v);
         }
     }
 
@@ -87,7 +81,7 @@ public class MyAdapterSpendings extends RecyclerView.Adapter<RecyclerView.ViewHo
             spendingHolder.checkBoxPaid.setChecked(spending.isPaid());
 
             // Show or hide recurring icon based on the spending's recurring status
-            if (spending.isRecurring()) {  // NEW: Show the recurring icon if the spending was recurring
+            if (spending.isRecurring()) {  // Show the recurring icon if the spending was recurring
                 spendingHolder.recurringIcon.setVisibility(View.VISIBLE);
             } else {
                 spendingHolder.recurringIcon.setVisibility(View.GONE);
@@ -165,17 +159,6 @@ public class MyAdapterSpendings extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
     }
 
-    private String formatTimestamp(Timestamp timestamp) {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-        return sdf.format(timestamp.toDate());
-    }
-
-    // Format Timestamp to month and year
-    private String formatMonthYear(Timestamp timestamp) {
-        SimpleDateFormat sdf = new SimpleDateFormat("MMM yyyy", Locale.getDefault());
-        return sdf.format(timestamp.toDate());
-    }
-
     @Override
     public int getItemCount() {
         return itemsArrayList.size();
@@ -188,9 +171,9 @@ public class MyAdapterSpendings extends RecyclerView.Adapter<RecyclerView.ViewHo
     public static class SpendingViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView title, category, amount, purchaseDate;
-        OnSpendingClickListener onSpendingClickListener;
         CheckBox checkBoxPaid;
         ImageView recurringIcon;
+        OnSpendingClickListener onSpendingClickListener;
 
         public SpendingViewHolder(@NonNull View itemView, OnSpendingClickListener onSpendingClickListener) {
             super(itemView);
@@ -224,7 +207,6 @@ public class MyAdapterSpendings extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     public void updateSpendings(ArrayList<Spendings> newSpendings) {
-
         itemsArrayList = groupSpendingsByMonth(newSpendings);
         notifyDataSetChanged();
     }
@@ -303,6 +285,19 @@ public class MyAdapterSpendings extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
 
         return items;
+    }
+
+    private String formatTimestamp(Timestamp timestamp) {
+        if (timestamp != null) {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+            return sdf.format(timestamp.toDate());
+        }
+        return "-"; // Default value if timestamp is null
+    }
+    // Format Timestamp to month and year
+    private String formatMonthYear(Timestamp timestamp) {
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM yyyy", Locale.getDefault());
+        return sdf.format(timestamp.toDate());
     }
 
 }

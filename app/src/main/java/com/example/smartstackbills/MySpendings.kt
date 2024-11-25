@@ -1,29 +1,30 @@
 package com.example.smartstackbills
 
 import android.app.Dialog
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.IntentFilter
-import android.view.Menu
-import android.widget.TextView
-import androidx.core.content.ContextCompat
+
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
@@ -88,7 +89,6 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
     val nonEssentialCategories = setOf(
         "Subscription and Memberships", "Others"
     )
-
     private val spendingsReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             // This will be triggered when the broadcast is received
@@ -101,8 +101,8 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
         enableEdgeToEdge()
         setContentView(R.layout.activity_my_spendings)
 
+        recyclerView = findViewById(R.id.recyclerViewSpendings)
         drawerLayout = findViewById(R.id.drawer_layout_spendings)
-
         recyclerView = findViewById(R.id.recyclerViewSpendings)
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -119,7 +119,6 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
             intent.putExtra("USER_EMAIL", userEmail)
             startActivity(intent)
         }
-
         registerReceiver(spendingsReceiver, IntentFilter("com.example.smartstackbills.REFRESH_SPENDINGS"))
 
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationViewSpendings)
@@ -164,10 +163,8 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
         toolbar.setNavigationOnClickListener {
             drawerLayout.openDrawer(GravityCompat.START)
         }
-
         // Setup NavigationView
         val navView: NavigationView = findViewById(R.id.nav_viewSpendings)
-        bottomNavigationView.selectedItemId = R.id.Spendings
         navView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.nav_item_premium -> {
@@ -269,22 +266,21 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
                     }
 
                     if (snapshots != null) {
-                        // Clear and update both primary and backup lists with the latest data
                         spendingsArrayList.clear()
                         allSpendingsArrayList.clear()
-
                         for (document in snapshots.documents) {
                             val spending = document.toObject(Spendings::class.java)
                             if (spending != null) {
                                 spendingsArrayList.add(spending)
-                                allSpendingsArrayList.add(spending) // Maintain a copy of all spendings
+                                allSpendingsArrayList.add(spending)
                                 Log.d("Firestore Data", "Spending added: ${spending.name}, ${spending.date}")
                             }
                         }
+                        // Notify the adapter of the updated data
+                        myAdapter.updateSpendings(spendingsArrayList)
 
-                        // Save the updated list to SharedPreferences for caching
+                        // Save the updated list 
                         saveSpendings()
-
                         // Show all spendings by default or apply filter if specified
                         filterSpendings("all")
                     } else {
@@ -296,7 +292,6 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
             Log.e("Authentication Error", "User not authenticated")
         }
     }
-
     private fun refreshSpendingsList() {
         val userUid = FirebaseAuth.getInstance().currentUser?.uid
         if (userUid != null) {
@@ -325,12 +320,8 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
     }
 
     override fun onSpendingClick(position: Int) {
-        val item = myAdapter.getItemAtPosition(position)
-        // Check if the clicked item is a spending
-        if (item is Spendings) {
-            selectedSpending = item
-            showSpendingDetailsDialog(item)
-        }
+        val spending = spendingsArrayList[position]
+        showSpendingDetailsDialog(spending)
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.top_nav, menu)
@@ -456,7 +447,7 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
     private fun filterSpendings(filter: String) {
         val filteredSpendings = ArrayList<Spendings>()
 
-// Reset the button background to inactive color
+        // Reset the button background to inactive color
         findViewById<Button>(R.id.btnSpendingsAll).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_inactive))
         findViewById<Button>(R.id.btnEssential).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_inactive))
         findViewById<Button>(R.id.btnNonEssential).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_inactive))
@@ -495,7 +486,6 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
         myAdapter.updateSpendings(filteredSpendings)
         Log.d("Filter", "Filtered spendings count for $filter: ${filteredSpendings.size}")
     }
-
     // Update the unread count badge from SharedPreferences
     private fun updateUnreadCountBadge(badgeCountTextView: TextView?) {
         val unreadCount = NotificationsActivity.getUnreadNotificationCount(this)
