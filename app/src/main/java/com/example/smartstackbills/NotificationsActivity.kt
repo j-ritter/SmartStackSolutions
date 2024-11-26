@@ -1,5 +1,6 @@
 package com.example.smartstackbills
 
+import NotificationsAdapter
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -91,25 +92,56 @@ class NotificationsActivity : AppCompatActivity() {
                     val thirtyDaysInMillis = TimeUnit.DAYS.toMillis(30)
                     val cutoffDate = Date(currentTime - thirtyDaysInMillis)
 
-                    notificationsList.clear()
+                    val fetchedNotifications = ArrayList<Notifications>()
                     for (document in documents) {
                         val notification = document.toObject(Notifications::class.java)
-                        val isUnread = document.getBoolean("isUnread") ?: true
-                        notification.isUnread = isUnread
                         if (notification.date != null && notification.date.toDate().after(cutoffDate)) {
-                            notificationsList.add(notification)
+                            notification.isUnread = document.getBoolean("isUnread") ?: true
+                            fetchedNotifications.add(notification)
                         } else {
-                            // Delete notifications older than 30 days from Firebase
                             document.reference.delete()
                         }
                     }
-                    adapter.notifyDataSetChanged()
+
+                    adapter = NotificationsAdapter(
+                        this@NotificationsActivity,
+                        fetchedNotifications,
+                        object : NotificationsAdapter.OnNotificationClickListener {
+                            override fun onNotificationClick(notificationId: String) {
+                                markNotificationAsRead(notificationId)
+                            }
+
+                            override fun onDeleteNotificationClick(notificationId: String) {
+                                deleteNotification(notificationId)
+                            }
+                        }
+                    )
+                    recyclerView.adapter = adapter
                 }
-                .addOnFailureListener { e ->
-                    // Handle errors if necessary
+                .addOnFailureListener {
+                    Toast.makeText(this, "Error fetching notifications.", Toast.LENGTH_SHORT).show()
                 }
         }
     }
+    private fun markNotificationAsRead(notificationId: String) {
+        if (userUid != null) {
+            db.collection("users").document(userUid).collection("notifications")
+                .document(notificationId)
+                .update("isUnread", false)
+                .addOnSuccessListener {
+                    // Find the notification in the list and mark it as read
+                    notificationsList.find { it.notificationId == notificationId }?.isUnread = false
+                    adapter.notifyDataSetChanged()
+                    Toast.makeText(this, "Notification marked as read.", Toast.LENGTH_SHORT).show()
+                }
+                .addOnFailureListener {
+                    Toast.makeText(this, "Failed to mark notification as read.", Toast.LENGTH_SHORT).show()
+                }
+        } else {
+            Toast.makeText(this, "User not logged in.", Toast.LENGTH_SHORT).show()
+        }
+    }
+
 
     private fun deleteNotification(notificationId: String) {
         if (userUid != null) {

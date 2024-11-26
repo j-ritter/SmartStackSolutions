@@ -615,11 +615,12 @@ class MainMenu : AppCompatActivity() {
 
         if (targetAmount > 0) {
             val progress = (savedAmountSoFar / targetAmount) * 100
+            val adjustedProgress = progress.coerceIn(0f, 100f) // Ensure progress is between 0% and 100%
             progressBarSavings?.let {
-                it.setProgressCompat(progress.toInt().coerceAtMost(100), true)
+                it.setProgressCompat(adjustedProgress.toInt(), true)
             }
             // Update the percentage text
-            tvProgressPercentage.text = String.format("%.0f%%", progress.coerceAtMost(100f))
+            tvProgressPercentage.text = String.format("%.0f%%", adjustedProgress)
         } else {
             progressBarSavings?.setProgressCompat(0, true)
             tvProgressPercentage.text = "0%"

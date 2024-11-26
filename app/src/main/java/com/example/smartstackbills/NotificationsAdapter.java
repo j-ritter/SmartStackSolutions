@@ -1,73 +1,92 @@
-package com.example.smartstackbills;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.smartstackbills.Notifications;
+import com.example.smartstackbills.R;
+
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.TreeMap;
 
-public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdapter.NotificationViewHolder> {
+public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+    private static final int ITEM_NOTIFICATION = 0;
+    private static final int ITEM_MONTH_HEADER = 1;
 
     private Context context;
-    private List<Notifications> notificationsList;
-    private OnNotificationClickListener listener; // Listener for handling clicks
+    private List<Object> groupedNotificationsList;
+    private OnNotificationClickListener listener;
 
-    // Constructor with listener parameter
     public NotificationsAdapter(Context context, List<Notifications> notificationsList, OnNotificationClickListener listener) {
         this.context = context;
-        this.notificationsList = notificationsList;
+        this.groupedNotificationsList = groupNotificationsByMonth(notificationsList);
         this.listener = listener;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return groupedNotificationsList.get(position) instanceof Notifications ? ITEM_NOTIFICATION : ITEM_MONTH_HEADER;
     }
 
     @NonNull
     @Override
-    public NotificationViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(context).inflate(R.layout.items_notifications, parent, false);
-        return new NotificationViewHolder(itemView);
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        if (viewType == ITEM_NOTIFICATION) {
+            View itemView = LayoutInflater.from(context).inflate(R.layout.items_notifications, parent, false);
+            return new NotificationViewHolder(itemView);
+        } else {
+            View headerView = LayoutInflater.from(context).inflate(R.layout.item_month_header, parent, false);
+            return new MonthHeaderViewHolder(headerView);
+        }
     }
 
     @Override
-    public void onBindViewHolder(@NonNull NotificationViewHolder holder, int position) {
-        Notifications currentNotification = notificationsList.get(position);
-        holder.title.setText(currentNotification.getTitle());
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-        holder.date.setText(sdf.format(currentNotification.getDate().toDate()));
-        holder.amount.setText(currentNotification.getAmount());
-        holder.createdAt.setText(sdf.format(currentNotification.getCreatedAt().toDate()));
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        if (holder.getItemViewType() == ITEM_NOTIFICATION) {
+            NotificationViewHolder notificationHolder = (NotificationViewHolder) holder;
+            Notifications currentNotification = (Notifications) groupedNotificationsList.get(position);
 
-        // Show or hide the unread dot based on the isUnread field
-        if (currentNotification.isUnread()) {
-            holder.unreadDot.setVisibility(View.VISIBLE);
+            notificationHolder.title.setText(currentNotification.getTitle());
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+            notificationHolder.date.setText(sdf.format(currentNotification.getDate().toDate()));
+            notificationHolder.amount.setText(currentNotification.getAmount());
+            notificationHolder.createdAt.setText(sdf.format(currentNotification.getCreatedAt().toDate()));
+
+            notificationHolder.unreadDot.setVisibility(currentNotification.isUnread() ? View.VISIBLE : View.GONE);
+
+            notificationHolder.itemView.setOnClickListener(v -> {
+                if (listener != null) {
+                    listener.onNotificationClick(currentNotification.getNotificationId());
+                    currentNotification.setUnread(false);
+                    notifyItemChanged(position);
+                }
+            });
+
+            notificationHolder.deleteIcon.setOnClickListener(v -> {
+                if (listener != null) {
+                    listener.onDeleteNotificationClick(currentNotification.getNotificationId());
+                }
+            });
         } else {
-            holder.unreadDot.setVisibility(View.GONE);
+            MonthHeaderViewHolder headerHolder = (MonthHeaderViewHolder) holder;
+            String monthHeader = (String) groupedNotificationsList.get(position);
+            headerHolder.monthHeader.setText(monthHeader);
         }
-
-        // Set click listener to handle notification click
-        holder.itemView.setOnClickListener(v -> {
-            if (listener != null) {
-                listener.onNotificationClick(currentNotification.getNotificationId()); // Pass notificationId
-                currentNotification.setUnread(false);
-                notifyItemChanged(position);
-            }
-        });
-
-        // Set click listener for the delete icon
-        holder.deleteIcon.setOnClickListener(v -> {
-            if (listener != null) {
-                listener.onDeleteNotificationClick(currentNotification.getNotificationId()); // Pass notificationId
-            }
-        });
     }
 
     @Override
     public int getItemCount() {
-        return notificationsList.size();
+        return groupedNotificationsList.size();
     }
 
     public static class NotificationViewHolder extends RecyclerView.ViewHolder {
@@ -85,9 +104,36 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
         }
     }
 
-    // Interface for click handling
+    public static class MonthHeaderViewHolder extends RecyclerView.ViewHolder {
+        TextView monthHeader;
+
+        public MonthHeaderViewHolder(@NonNull View itemView) {
+            super(itemView);
+            monthHeader = itemView.findViewById(R.id.textviewMonthHeader);
+        }
+    }
+
     public interface OnNotificationClickListener {
         void onNotificationClick(String notificationId);
-        void onDeleteNotificationClick(String notificationId); // Pass only the ID for deletion
+        void onDeleteNotificationClick(String notificationId);
+    }
+
+    private List<Object> groupNotificationsByMonth(List<Notifications> notificationsList) {
+        SimpleDateFormat monthYearFormat = new SimpleDateFormat("MMMM yyyy", Locale.getDefault());
+        TreeMap<String, List<Notifications>> groupedMap = new TreeMap<>();
+
+        for (Notifications notification : notificationsList) {
+            if (notification.getDate() == null) continue;
+            String monthYear = monthYearFormat.format(notification.getDate().toDate());
+            groupedMap.computeIfAbsent(monthYear, k -> new ArrayList<>()).add(notification);
+        }
+
+        List<Object> groupedNotifications = new ArrayList<>();
+        for (Map.Entry<String, List<Notifications>> entry : groupedMap.entrySet()) {
+            groupedNotifications.add(entry.getKey()); // Add month header
+            groupedNotifications.addAll(entry.getValue()); // Add notifications for that month
+        }
+
+        return groupedNotifications;
     }
 }
