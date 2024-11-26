@@ -105,10 +105,6 @@ class MainMenu : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        val tvTotal: TextView = findViewById(R.id.tvTotal)
-        tvTotal.setOnClickListener {
-            showSavingsDialog()
-        }
 
         val toolbar: Toolbar = findViewById(R.id.toolbar_main)
         setSupportActionBar(toolbar)

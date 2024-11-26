@@ -164,15 +164,24 @@
                 android:paddingRight="15dp"
                 android:textSize="14sp" />
 
-            <!-- Image Placeholder -->
-            <ImageView
-                android:id="@+id/imgSavingsGoal"
-                android:layout_width="240dp"
-                android:layout_height="240dp"
-                android:scaleType="centerCrop"
-                android:layout_marginTop="16dp"
-                android:src="@drawable/image_piggybank"
-                android:contentDescription="Savings Goal Image" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp">
+
+                <ImageView
+                    android:id="@+id/imgSavingsGoal"
+                    android:layout_width="240dp"
+                    android:layout_height="240dp"
+                    android:layout_marginTop="16dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/piggybank_1"
+                    android:contentDescription="Savings Goal Image"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <!-- Buttons for Save and Close -->
             <RelativeLayout
