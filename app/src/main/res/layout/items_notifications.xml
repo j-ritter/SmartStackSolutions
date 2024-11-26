@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardElevation="6dp"
+    app:cardCornerRadius="6dp"
+    android:layout_margin="12dp"
+    android:id="@+id/cardViewNotification">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp">
+
+        <!-- Title Label -->
+        <TextView
+            android:id="@+id/labelTitleNotification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Title"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Title Value -->
+        <TextView
+            android:id="@+id/tvTitleNotification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Reminder Title"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/labelTitleNotification"
+            app:layout_constraintTop_toTopOf="@id/labelTitleNotification"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Amount Label -->
+        <TextView
+            android:id="@+id/labelAmountNotification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Amount"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/labelTitleNotification"
+            android:layout_marginTop="8dp" />
+
+        <!-- Amount Value -->
+        <TextView
+            android:id="@+id/tvAmountNotification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="$1200"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/labelAmountNotification"
+            app:layout_constraintTop_toTopOf="@id/labelAmountNotification"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Due Date Label -->
+        <TextView
+            android:id="@+id/labelDateNotification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Due Date"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/labelAmountNotification" />
+
+        <!-- Due Date Value -->
+        <TextView
+            android:id="@+id/tvDateNotification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1/6/2024"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/labelDateNotification"
+            app:layout_constraintTop_toTopOf="@id/labelDateNotification"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

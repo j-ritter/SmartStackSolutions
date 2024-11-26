@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:icon="@drawable/ic_account"
+        android:id="@+id/alarm"
+        android:icon="@drawable/ic_alarm"
         app:showAsAction="always"
-        android:title="@string/account"/>
+        android:title="@string/alarm"/>
 </menu>
