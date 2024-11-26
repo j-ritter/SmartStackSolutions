@@ -1,6 +1,7 @@
 package com.example.smartstackbills
 
 import android.os.Bundle
+import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -11,7 +12,14 @@ class AboutUs : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_about_us)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+
+        // Handle the back button click
+        val backButton = findViewById<ImageView>(R.id.btnBackAboutus)
+        backButton.setOnClickListener {
+            onBackPressed()
+        }
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.about_us_content)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets

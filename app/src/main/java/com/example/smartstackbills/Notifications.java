@@ -4,26 +4,28 @@ import com.google.firebase.Timestamp;
 
 public class Notifications {
 
-    String notificationId;
-    String title;
-    String amount;
-    Timestamp date;
+    private String notificationId;
+    private String title;
+    private String amount;
+    private Timestamp date;
+    private Timestamp createdAt;
+    private boolean isUnread;
 
-
+    // Default constructor required for Firestore
     public Notifications() {
-        // Default constructor required for Firestore
+        this.createdAt = Timestamp.now();  // Initialize to the current time by default
     }
 
-    public Notifications(String notificationId, String title, Timestamp date, String amount) {
+    public Notifications(String notificationId, String title, Timestamp date, String amount, boolean isUnread) {
         this.notificationId = notificationId;
         this.title = title;
         this.date = date;
         this.amount = amount;
-
+        this.createdAt = Timestamp.now();  // Set createdAt to the current time
+        this.isUnread = isUnread;
     }
 
     // Getters and Setters
-
     public String getNotificationId() {
         return notificationId;
     }
@@ -56,5 +58,19 @@ public class Notifications {
         this.amount = amount;
     }
 
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
 
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public boolean isUnread() {
+        return isUnread;
+    }
+
+    public void setUnread(boolean unread) {
+        isUnread = unread;
+    }
 }

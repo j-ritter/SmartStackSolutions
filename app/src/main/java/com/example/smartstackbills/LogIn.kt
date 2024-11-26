@@ -10,23 +10,18 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.auth
 
 class LogIn : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_log_in)
-    
-        auth = Firebase.auth
-        val user = auth.currentUser;
 
+        auth = FirebaseAuth.getInstance()
+        val user = auth.currentUser
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -34,31 +29,26 @@ class LogIn : AppCompatActivity() {
             insets
         }
 
-
         val registertext: TextView = findViewById(R.id.txtSign)
 
-        registertext.setOnClickListener{
-            val intent = Intent(this,SignUp::class.java)
+        registertext.setOnClickListener {
+            val intent = Intent(this, SignUp::class.java)
             startActivity(intent)
         }
 
-
         val loginButton: Button = findViewById(R.id.btnlog)
 
-        loginButton.setOnClickListener{
+        loginButton.setOnClickListener {
             performLogin()
         }
-
-
-
     }
 
-    private fun performLogin(){
+    private fun performLogin() {
         val email: EditText = findViewById(R.id.edtEmail)
         val password: EditText = findViewById(R.id.edtPassword)
 
-        if (email.text.isEmpty() || password.text.isEmpty()){
-            Toast.makeText(this,"Please fill all fields",Toast.LENGTH_SHORT).show()
+        if (email.text.isEmpty() || password.text.isEmpty()) {
+            Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -67,29 +57,19 @@ class LogIn : AppCompatActivity() {
         auth.signInWithEmailAndPassword(emailInput, passwordInput)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    // Sign in success, navigate to the mainmenu
-                    val intent = Intent(this,MainMenu::class.java)
-                    intent.putExtra("USER_EMAIL", emailInput)
-                    startActivity(intent)
-
-                    Toast.makeText(
-                        baseContext,
-                        "Success.",
-                        Toast.LENGTH_SHORT,
-                    ).show()
+                    // Show welcome dialog after login is successful
+                    showWelcomeDialog(emailInput)  // Pass email to the welcome dialog
 
                 } else {
                     // If sign in fails, display a message to the user.
-
                     Toast.makeText(
                         baseContext,
                         "Authentication failed.",
                         Toast.LENGTH_SHORT,
                     ).show()
-
                 }
             }
-            .addOnFailureListener{
+            .addOnFailureListener {
                 Toast.makeText(
                     baseContext,
                     "Authentication failed.${it.localizedMessage}",
@@ -98,7 +78,24 @@ class LogIn : AppCompatActivity() {
             }
     }
 
+    private fun showWelcomeDialog(emailInput: String) {
+        // Create the welcome dialog
+        val builder = androidx.appcompat.app.AlertDialog.Builder(this)
+        val inflater = this.layoutInflater
+        val dialogView = inflater.inflate(R.layout.dialog_welcome, null)
+        builder.setView(dialogView)
 
+        val btnGetStarted: Button = dialogView.findViewById(R.id.btnGetStarted)
+        val dialog = builder.create()
 
+        btnGetStarted.setOnClickListener {
+            dialog.dismiss()
+            // Navigate to the main menu after clicking "Get Started"
+            val intent = Intent(this, MainMenu::class.java)
+            intent.putExtra("USER_EMAIL", emailInput)
+            startActivity(intent)
+        }
 
+        dialog.show()
+    }
 }

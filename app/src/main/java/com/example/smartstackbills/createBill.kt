@@ -1,7 +1,5 @@
 package com.example.smartstackbills
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.*
@@ -11,55 +9,40 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import android.graphics.Bitmap
-import android.net.Uri
-import android.provider.MediaStore
-import androidx.appcompat.app.AlertDialog
-import androidx.core.content.FileProvider
-import android.os.Environment
 import android.text.InputType
-import com.google.firebase.firestore.FieldValue
-import java.io.File
-import java.io.IOException
 import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Date
-import java.util.Locale
-
+import java.util.*
+import com.google.firebase.Timestamp
 
 class createBill : AppCompatActivity() {
 
     private val db = FirebaseFirestore.getInstance()
     private var userEmail: String? = null
     private var userUid: String? = null
-    private val REQUEST_IMAGE_CAPTURE = 1
-    private val REQUEST_IMAGE_GALLERY = 2
-    private var imageUri: Uri? = null
-    private var currentPhotoPath: String? = null
-
-
 
     val repeat = arrayOf(
-        "No","Daily","Weekly","Every 2 Weeks","Monthly","Every 2 Months", "Every 6 months", "Yearly"
+        "No", "Weekly", "Every 2 Weeks", "Monthly", "Every 2 Months",
+        "Quarterly", "Every 6 months", "Yearly"
     )
 
     val categories = arrayOf(
         "Accommodation", "Communication", "Insurance", "Subscription and Memberships",
-        "Transportation", "Finances/Fees", "Taxes", "Health", "Education", "Shopping & Consumption", "Others"
+        "Transportation", "Finances/Fees", "Taxes", "Health", "Education",
+        "Shopping & Consumption", "Others"
     )
-
     val subcategoriesMap = mapOf(
         "Accommodation" to arrayOf("Rent", "Mortgage", "Home maintenance", "Utilities", "Furniture", "Repairs and renovations"),
         "Communication" to arrayOf("Mobile phone", "Landline phone", "Internet", "Cable/satellite TV", "Messaging services"),
         "Insurance" to arrayOf("Health insurance", "Life insurance", "Car insurance", "Home insurance", "Travel insurance", "Pet insurance"),
-        "Subscription and Memberships" to arrayOf("Magazine/newspaper subscriptions", "Streaming services", "Gym memberships", "Software subscriptions", "Clubs and associations"),
+        "Subscription and Memberships" to arrayOf("Streaming services", "Gym memberships", "Software subscriptions", "Magazine/newspaper subscriptions", "Clubs and associations"),
         "Transportation" to arrayOf("Fuel", "Vehicle maintenance", "Public transportation", "Parking", "Vehicle rental"),
         "Finances/Fees" to arrayOf("Bank fees", "Investment fees", "Loan interest", "Credit card fees", "Brokerage fees"),
         "Taxes" to arrayOf("Income tax", "Property tax", "Sales tax", "Self-employment tax", "Capital gains tax"),
         "Health" to arrayOf("Doctor visits", "Dental care", "Prescription medications", "Health supplements", "Medical equipment"),
         "Education" to arrayOf("Tuition fees", "Textbooks", "Online courses", "School supplies", "Extracurricular activities"),
-        "Shopping & Consumption" to arrayOf("Groceries", "Clothing", "Electronics", "Household goods", "Personal care products"),
-        "Others" to arrayOf("Others")
+        "Shopping & Consumption" to arrayOf("Clothing", "Electronics", "Household goods", "Personal care products"),
+        "Groceries" to arrayOf("Basic food", "Household necessities", "Beverages", "Alcoholic beverages", "Snacks and sweets", "Luxury foods"),
+        "Others" to arrayOf("Miscellaneous")
     )
 
     val vendorsMap = mapOf(
@@ -70,7 +53,8 @@ class createBill : AppCompatActivity() {
             "Brico Depot", "Bauhaus", "Hornbach", "Mr. Bricolage",
             "Leroy Merlin", "Kingfisher", "Travis Perkins", "Wickes", "Ace Hardware",
             "Rona", "Canadian Tire", "Menards", "Crate & Barrel", "West Elm",
-            "Pottery Barn", "Bed Bath & Beyond", "Ashley Furniture", "Rooms To Go", "Value City Furniture"
+            "Pottery Barn", "Bed Bath & Beyond", "Ashley Furniture", "Rooms To Go",
+            "Value City Furniture"
         ),
         "Communication" to arrayOf(
             "Comcast", "Verizon", "AT&T", "T-Mobile",
@@ -134,7 +118,7 @@ class createBill : AppCompatActivity() {
             "LinkedIn Learning", "Skillshare", "Treehouse", "Pluralsight", "Codecademy",
             "Simplilearn", "Udacity", "Alison", "MasterClass", "Teachable",
             "CreativeLive", "Edureka", "DataCamp", "General Assembly", "Springboard",
-            "Coursera for Business", "EdX for Business", "Skillsoft", "Mindvalley", "Tynker"
+            "Coursera for Business", "edX for Business", "Skillsoft", "Mindvalley", "Tynker"
         ),
         "Shopping & Consumption" to arrayOf(
             "Amazon", "Walmart", "Target", "Best Buy", "Costco",
@@ -145,6 +129,9 @@ class createBill : AppCompatActivity() {
             "Woolworths", "Coles", "REWE", "Edeka", "Auchan",
             "Kroger", "Publix", "Albertsons", "H-E-B", "Meijer",
             "Whole Foods Market", "Sprouts Farmers Market", "Trader Joe's", "Safeway", "ShopRite"
+        ),
+        "Others" to arrayOf(
+            "Other Vendor 1", "Other Vendor 2", "Other Vendor 3", "Other Vendor 4", "Other Vendor 5"
         )
     )
 
@@ -153,128 +140,112 @@ class createBill : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_create_bill)
 
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(
+                systemBars.left,
+                systemBars.top,
+                systemBars.right,
+                systemBars.bottom
+            )
+            insets
+        }
+
         userEmail = intent.getStringExtra("USER_EMAIL")
         userUid = FirebaseAuth.getInstance().currentUser?.uid
 
         val edtDate = findViewById<EditText>(R.id.edtDateBill)
-        edtDate.inputType = InputType.TYPE_NULL  // Disable manual input
-        edtDate.setOnClickListener {
-            showDatePickerDialog()
-        }
-        edtDate.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) {
-                showDatePickerDialog()
-            }
-        }
+        edtDate.inputType = InputType.TYPE_NULL
+        edtDate.setOnClickListener { showDatePickerDialog() }
+        edtDate.setOnFocusChangeListener { _, hasFocus -> if (hasFocus) showDatePickerDialog() }
 
         val spinnerCategories = findViewById<Spinner>(R.id.spinnerCategoriesBill)
         val spinnerSubcategories = findViewById<Spinner>(R.id.spinnerSubcategoriesBill)
-        val spinnerVendors = findViewById<Spinner>(R.id.spinnerVendorsBill)
+        val autoCompleteVendors = findViewById<AutoCompleteTextView>(R.id.autoCompleteVendorBill)
         val edtCustomVendor = findViewById<EditText>(R.id.edtCustomVendorBill)
-        val spinnerReminder = findViewById<Spinner>(R.id.spinnerRepeatBill)
-        val saveButton = findViewById<Button>(R.id.btnSaveBill)
+        val spinnerRepeat = findViewById<Spinner>(R.id.spinnerRepeatBill)
 
-        val arrayAdapterCategories = ArrayAdapter(this, R.layout.spinner_item, categories)
-        arrayAdapterCategories.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinnerCategories.adapter = arrayAdapterCategories
+        val arrayAdapterRepeat = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, repeat)
+        spinnerRepeat.adapter = arrayAdapterRepeat
 
-        val arrayAdapterRepeat = ArrayAdapter(this, R.layout.spinner_item, repeat)
-        arrayAdapterRepeat.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinnerReminder.adapter = arrayAdapterRepeat
+        // Initialize spinners with empty arrays (populated later)
+        val emptyAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, arrayOf<String>())
+        spinnerCategories.adapter = emptyAdapter
+        spinnerSubcategories.adapter = emptyAdapter
 
+        // Load categories dynamically when spinner is touched
+        spinnerCategories.setOnTouchListener { _, _ ->
+            loadCategories(spinnerCategories)
+            false
+        }
 
+        // Load subcategories based on selected category
+        spinnerSubcategories.setOnTouchListener { _, _ ->
+            spinnerCategories.selectedItem?.let { loadSubcategories(it.toString(), spinnerSubcategories) }
+            false
+        }
+
+        // Load vendors based on selected category
         spinnerCategories.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val selectedCategory = parent?.getItemAtPosition(position).toString()
-                loadVendors(selectedCategory)
-
-                val subcategories = subcategoriesMap[selectedCategory] ?: emptyArray()
-                val arrayAdapterSubcategories = ArrayAdapter(this@createBill, android.R.layout.simple_spinner_dropdown_item, subcategories)
-                spinnerSubcategories.adapter = arrayAdapterSubcategories
-
-                val vendors = vendorsMap[selectedCategory] ?: emptyArray()
-                val arrayAdapterVendors = ArrayAdapter(this@createBill, android.R.layout.simple_spinner_dropdown_item, vendors + "Create Own Vendor")
-                spinnerVendors.adapter = arrayAdapterVendors
+                val selectedCategory = spinnerCategories.selectedItem.toString()
+                loadVendors(selectedCategory, autoCompleteVendors)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                // No action needed
+                // Handle case where no category is selected
             }
         }
 
-        spinnerVendors.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val selectedVendor = parent?.getItemAtPosition(position).toString()
-                edtCustomVendor.visibility = if (selectedVendor == "Create Own Vendor") View.VISIBLE else View.GONE
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                // No action needed
-            }
-        }
-
-        spinnerReminder.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val selectedItemReminder = parent?.getItemAtPosition(position).toString()
-                managePaidCheckboxState(selectedItemReminder)
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
+        // Handle vendor selection and custom vendor input
+        autoCompleteVendors.setOnItemClickListener { parent, _, position, _ ->
+            val selectedVendor = parent.getItemAtPosition(position).toString()
+            if (selectedVendor == "Create Own Vendor") {
+                edtCustomVendor.visibility = View.VISIBLE
+            } else {
+                edtCustomVendor.visibility = View.GONE
             }
         }
 
-        val btnUpload = findViewById<Button>(R.id.btnUploadImageBill)
-        btnUpload.setOnClickListener {
-            val options = arrayOf("Take Photo", "Choose from Gallery", "Cancel")
-            val builder = AlertDialog.Builder(this)
-            builder.setTitle("Upload Bill Image")
-            builder.setItems(options) { dialog, which ->
-                when (options[which]) {
-                    "Take Photo" -> {
-                        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                        if (takePictureIntent.resolveActivity(packageManager) != null) {
-                            val photoFile: File? = try {
-                                createImageFile()
-                            } catch (ex: IOException) {
-                                null
-                            }
-                            photoFile?.also {
-                                val photoURI: Uri = FileProvider.getUriForFile(
-                                    this,
-                                    "${applicationContext.packageName}.provider",
-                                    it
-                                )
-                                currentPhotoPath = it.absolutePath
-                                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-                                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
-                            }
-                        }
-                    }
-                    "Choose from Gallery" -> {
-                        val pickPhoto = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-                        startActivityForResult(pickPhoto, REQUEST_IMAGE_GALLERY)
-                    }
-                    "Cancel" -> dialog.dismiss()
-                }
-            }
-            builder.show()
-        }
-
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
-
-        saveButton.setOnClickListener {
-            saveBill()
-        }
+        val saveButton = findViewById<Button>(R.id.btnSaveBill)
+        saveButton.setOnClickListener { saveBill() }
 
         val btnCancel = findViewById<Button>(R.id.btnCancelBill)
         btnCancel.setOnClickListener {
-            val intent = Intent(this, MyBills::class.java)
-            intent.putExtra("USER_EMAIL", userEmail)
-            startActivity(intent)
+            finish()
+        }
+    }
+    // Load categories dynamically (not pre-selected)
+    private fun loadCategories(spinnerCategories: Spinner) {
+        val arrayAdapterCategories = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, categories)
+        spinnerCategories.adapter = arrayAdapterCategories
+    }
+
+    // Load subcategories based on selected category
+    private fun loadSubcategories(category: String, spinnerSubcategories: Spinner) {
+        val subcategories = subcategoriesMap[category] ?: emptyArray()
+        val arrayAdapterSubcategories = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, subcategories)
+        spinnerSubcategories.adapter = arrayAdapterSubcategories
+    }
+
+    // Load vendors for the selected category
+    private fun loadVendors(category: String, autoCompleteVendors: AutoCompleteTextView) {
+        val vendors = vendorsMap[category] ?: emptyArray()
+
+        // Set the adapter for the AutoCompleteTextView
+        val arrayAdapterVendors = ArrayAdapter(
+            this,
+            android.R.layout.simple_dropdown_item_1line,
+            vendors + "Create Own Vendor"
+        )
+        autoCompleteVendors.setAdapter(arrayAdapterVendors)
+
+        // Show the dropdown immediately when the field is clicked
+        autoCompleteVendors.threshold = 1 // Start showing suggestions from the first character
+        autoCompleteVendors.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                autoCompleteVendors.showDropDown()
+            }
         }
     }
 
@@ -283,201 +254,129 @@ class createBill : AppCompatActivity() {
         datePicker.show(supportFragmentManager, "datePicker")
     }
 
-    fun onDateSelected(day: Int, month: Int, year: Int) {
+    private fun onDateSelected(day: Int, month: Int, year: Int) {
         val edtDate = findViewById<EditText>(R.id.edtDateBill)
         edtDate.setText("$day/${month + 1}/$year")
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        val txtImageAdded = findViewById<TextView>(R.id.txtImageAddedBill)
-        if (resultCode == Activity.RESULT_OK) {
-            when (requestCode) {
-                REQUEST_IMAGE_CAPTURE -> {
-                    val file = File(currentPhotoPath)
-                    imageUri = Uri.fromFile(file)
-                    txtImageAdded.text = "Image added"
-                    txtImageAdded.visibility = View.VISIBLE
-                }
-                REQUEST_IMAGE_GALLERY -> {
-                    imageUri = data?.data
-                    txtImageAdded.text = "Image added"
-                    txtImageAdded.visibility = View.VISIBLE
-                }
-            }
-        }
-    }
-
-    private fun saveImageToGallery(bitmap: Bitmap): Uri? {
-        val path = MediaStore.Images.Media.insertImage(contentResolver, bitmap, "Title", null)
-        return Uri.parse(path)
-
-    }
-
-    private fun managePaidCheckboxState(selectedRepeat: String) {
-        val checkBoxPaid = findViewById<CheckBox>(R.id.checkBoxPaid)
-        if (selectedRepeat != "No") {
-            checkBoxPaid.isChecked = false
-            checkBoxPaid.isEnabled = false
-        } else {
-            checkBoxPaid.isEnabled = true
-        }
-    }
-    private fun validateDateField(): Boolean {
-        val edtDate = findViewById<EditText>(R.id.edtDateBill)
-        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-        dateFormat.isLenient = false  // This ensures that the date format is strict
-
-        return try {
-            val billDate = dateFormat.parse(edtDate.text.toString())
-            val currentDate = Calendar.getInstance().time
-
-            if (billDate != null) {
-                true
-            } else {
-                Toast.makeText(this, "Please select a valid future date", Toast.LENGTH_SHORT).show()
-                false
-            }
-        } catch (e: Exception) {
-            Toast.makeText(this, "Invalid date format. Please use dd/MM/yyyy", Toast.LENGTH_SHORT).show()
-            false
-        }
-    }
-
-
     private fun saveBill() {
-        if (validateMandatoryFields() && validateDateField()) {
-            if (userEmail != null && userUid != null) {
-                val billName = findViewById<EditText>(R.id.edtTitleBill).text.toString()
-                val billAmount = findViewById<EditText>(R.id.edtAmountBill).text.toString()
-                val billDateString = findViewById<EditText>(R.id.edtDateBill).text.toString()
-                val billCategory = findViewById<Spinner>(R.id.spinnerCategoriesBill).selectedItem.toString()
-                val billSubcategory = findViewById<Spinner>(R.id.spinnerSubcategoriesBill).selectedItem.toString()
-                val spinnerVendors = findViewById<Spinner>(R.id.spinnerVendorsBill)
-                val edtCustomVendor = findViewById<EditText>(R.id.edtCustomVendorBill)
-                val billVendor = if (spinnerVendors.selectedItem.toString() == "Create Own Vendor") {
-                    val newVendor = edtCustomVendor.text.toString()
-                    loadVendors(billCategory)  // Call loadVendors to update the list after adding new vendor
-                    updateVendorsList(billCategory, newVendor)
-                    newVendor
-                } else {
-                    spinnerVendors.selectedItem.toString()
-                }
-                val billRepeat = findViewById<Spinner>(R.id.spinnerRepeatBill).selectedItem.toString()
-                val billComment = findViewById<EditText>(R.id.edtCommentBill).text.toString()
-                val billPaid = findViewById<CheckBox>(R.id.checkBoxPaid).isChecked
-                val billAttachment = imageUri?.toString()
-
-                // Conversión de String a Date
-                val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-                val billDate: Date? = try {
-                    sdf.parse(billDateString)
-                } catch (e: Exception) {
-                    null
-                }
-                val timestamp = billDate?.let { com.google.firebase.Timestamp(it) }
-
-                val bill = hashMapOf(
-                    "name" to billName,
-                    "amount" to billAmount,
-                    "date" to timestamp,  // Guarda el Timestamp aquí
-                    "category" to billCategory,
-                    "subcategory" to billSubcategory,
-                    "vendor" to billVendor,
-                    "repeat" to billRepeat,
-                    "comment" to billComment,
-                    "paid" to billPaid,
-                    "attachment" to billAttachment
-                )
-
-                val docRef = db.collection("users").document(userUid!!).collection("bills").document()
-                val billId = docRef.id
-                bill["billId"] = billId
-
-                docRef.set(bill)
-                    .addOnSuccessListener {
-                        Toast.makeText(this, "Factura guardada exitosamente", Toast.LENGTH_SHORT).show()
-                        val intent = Intent(this, MyBills::class.java)
-                        intent.putExtra("USER_EMAIL", userEmail)
-                        startActivity(intent)
-                    }
-                    .addOnFailureListener { e ->
-                        Toast.makeText(this, "Error al guardar la factura: ${e.message}", Toast.LENGTH_SHORT).show()
-                    }
-            } else {
-                Toast.makeText(this, "Error: No se pudo obtener el email o UID del usuario", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
-
-    private fun validateMandatoryFields(): Boolean {
+        // Retrieve values from input fields
         val billName = findViewById<EditText>(R.id.edtTitleBill).text.toString()
         val billAmount = findViewById<EditText>(R.id.edtAmountBill).text.toString()
-        val billDate = findViewById<EditText>(R.id.edtDateBill).text.toString()
-        val billCategory = findViewById<Spinner>(R.id.spinnerCategoriesBill).selectedItem.toString()
+        val billDateString = findViewById<EditText>(R.id.edtDateBill).text.toString()
+        val billCategory = findViewById<Spinner>(R.id.spinnerCategoriesBill).selectedItem?.toString() ?: "-"
+        val billVendor = findViewById<AutoCompleteTextView>(R.id.autoCompleteVendorBill).text.toString()
+        val customVendor = findViewById<EditText>(R.id.edtCustomVendorBill).text.toString()
+        val billRepeat = findViewById<Spinner>(R.id.spinnerRepeatBill).selectedItem?.toString() ?: "-"
+        val billComment = findViewById<EditText>(R.id.edtCommentBill).text.toString()
+        val billPaid = findViewById<CheckBox>(R.id.checkBoxPaidBill).isChecked
 
-        if (billName.isEmpty()) {
-            Toast.makeText(this, "Title is required", Toast.LENGTH_SHORT).show()
-            return false
+        // Convert date string to Timestamp
+        val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val billDate: Date? = try {
+            sdf.parse(billDateString)
+        } catch (e: Exception) {
+            null
         }
+        val timestamp = billDate?.let { Timestamp(it) }
 
-        if (billAmount.isEmpty()) {
-            Toast.makeText(this, "Amount is required", Toast.LENGTH_SHORT).show()
-            return false
-        }
+        // Prepare the bill data
+        val bill = hashMapOf(
+            "name" to billName,
+            "amount" to billAmount,
+            "date" to timestamp,
+            "category" to billCategory,
+            "vendor" to if (billVendor == "Create Own Vendor") customVendor else billVendor,
+            "repeat" to billRepeat,
+            "comment" to billComment,
+            "paid" to billPaid
+        )
 
-        if (billDate.isEmpty()) {
-            Toast.makeText(this, "Date is required", Toast.LENGTH_SHORT).show()
-            return false
-        }
+        // Save bill to Firebase
+        if (userEmail != null && userUid != null && billDate != null) {
+            db.collection("users").document(userUid!!).collection("bills")
+                .add(bill)
+                .addOnSuccessListener { documentReference ->
+                    Toast.makeText(this, "Bill saved successfully", Toast.LENGTH_SHORT).show()
 
-        if (billCategory.isEmpty() || billCategory == "Select Category") {
-            Toast.makeText(this, "Category is required", Toast.LENGTH_SHORT).show()
-            return false
-        }
+                    // Get the newly generated document ID for billId
+                    val billId = documentReference.id
+                    documentReference.update("billId", billId)
 
-        return true
-    }
+                    // Trigger immediate notification using WorkManager
+                    val workManager = androidx.work.WorkManager.getInstance(this)
+                    val workRequest = androidx.work.OneTimeWorkRequestBuilder<NotificationWorker>()
+                        .setInputData(
+                            androidx.work.workDataOf(
+                                "title" to billName,
+                                "amount" to billAmount,
+                                "billId" to billId,  // Add billId
+                                "dueDateMillis" to (billDate?.time ?: 0L),
+                                "createdAt" to (timestamp?.toDate()?.time ?: 0L)
+                            )
+                        )
+                        .build()
+                    workManager.enqueue(workRequest)
 
-    @Throws(IOException::class)
-    private fun createImageFile(): File {
-        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())
-        val storageDir: File = getExternalFilesDir(Environment.DIRECTORY_PICTURES)!!
-        return File.createTempFile(
-            "JPEG_${timeStamp}_", /* prefix */
-            ".jpg", /* suffix */
-            storageDir /* directory */
-        ).apply {
-            currentPhotoPath = absolutePath
-        }
-    }
-    private fun updateVendorsList(category: String, newVendor: String) {
-        val categoryVendorsRef = db.collection("categories").document(category)
-        categoryVendorsRef.update("vendors", FieldValue.arrayUnion(newVendor))
-            .addOnSuccessListener {
-                // Successfully added the new vendor to the list in Firebase
-            }
-            .addOnFailureListener { e ->
-                // Handle any errors
-                Toast.makeText(this, "Error adding vendor: ${e.message}", Toast.LENGTH_SHORT).show()
-            }
-    }
+                    // Generate recurring bills if necessary
+                    if (billRepeat != "No") {
+                        generateRecurringBills(
+                            billName, billAmount, billDate, billCategory,
+                            if (billVendor == "Create Own Vendor") customVendor else billVendor,
+                            billRepeat, billComment, billId
+                        )
+                    }
 
-    private fun loadVendors(category: String) {
-        val categoryVendorsRef = db.collection("categories").document(category)
-        categoryVendorsRef.get()
-            .addOnSuccessListener { document ->
-                if (document != null && document.exists()) {
-                    val vendors = document.get("vendors") as? List<String> ?: emptyList()
-                    val arrayAdapterVendors = ArrayAdapter(this@createBill, android.R.layout.simple_spinner_dropdown_item, vendors + "Create Own Vendor")
-                    val spinnerVendors = findViewById<Spinner>(R.id.spinnerVendorsBill)
-                    spinnerVendors.adapter = arrayAdapterVendors
+                    finish()
                 }
-            }
-            .addOnFailureListener { e ->
-                // Handle any errors
-                Toast.makeText(this, "Error loading vendors: ${e.message}", Toast.LENGTH_SHORT).show()
-            }
+                .addOnFailureListener { e ->
+                    Toast.makeText(this, "Error saving bill: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
+        }
     }
+
+    private fun generateRecurringBills(
+        billTitle: String, billAmount: String, startDate: Date, billCategory: String,
+        billVendor: String, billRepeat: String, billComment: String, parentBillId: String
+    ) {
+        val calendar = Calendar.getInstance()
+        calendar.time = startDate
+        val endDate = Calendar.getInstance().apply { add(Calendar.YEAR, 1) } // Generate bills up to 1 year ahead
+
+        while (calendar.before(endDate)) {
+            when (billRepeat) {
+                "Weekly" -> calendar.add(Calendar.WEEK_OF_YEAR, 1)
+                "Every 2 Weeks" -> calendar.add(Calendar.WEEK_OF_YEAR, 2)
+                "Monthly" -> calendar.add(Calendar.MONTH, 1)
+                "Every 2 Months" -> calendar.add(Calendar.MONTH, 2)
+                "Quarterly" -> calendar.add(Calendar.MONTH, 3)
+                "Every 6 months" -> calendar.add(Calendar.MONTH, 6)
+                "Yearly" -> calendar.add(Calendar.YEAR, 1)
+            }
+            if (calendar.after(endDate)) break
+
+            val newBillId = db.collection("users").document(userUid!!).collection("bills").document().id
+            val recurringBill = hashMapOf(
+                "name" to billTitle,
+                "amount" to billAmount,
+                "date" to com.google.firebase.Timestamp(calendar.time),
+                "category" to billCategory,
+                "vendor" to billVendor,
+                "repeat" to billRepeat,
+                "comment" to billComment,
+                "parentBillId" to parentBillId,
+                "billId" to newBillId
+            )
+
+            db.collection("users").document(userUid!!).collection("bills").document(newBillId)
+                .set(recurringBill)
+                .addOnSuccessListener {
+                    Toast.makeText(this, "Recurring bill saved successfully", Toast.LENGTH_SHORT).show()
+                }
+                .addOnFailureListener { e ->
+                    Toast.makeText(this, "Error saving recurring bill: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
+        }
+    }
+
 }

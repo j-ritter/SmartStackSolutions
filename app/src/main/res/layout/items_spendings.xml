@@ -4,141 +4,149 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
 
-    app:cardElevation="8dp"
-    app:cardCornerRadius="8dp"
-    android:layout_margin="16dp"
+    app:cardElevation="6dp"
+    app:cardCornerRadius="6dp"
+    android:layout_margin="12dp"
     android:id="@+id/cardView">
 
-    <LinearLayout
-        android:layout_width="356dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="6dp"
-        android:layout_marginStart="16dp"
-        android:orientation="vertical">
+        android:padding="12dp">
 
-        <LinearLayout
+        <!-- Title Label -->
+        <TextView
+            android:id="@+id/labelTitleItemsSpendings"
+            android:layout_width="120dp"
+            android:layout_height="18dp"
+            android:text="@string/TiTle"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Title Value -->
+
+        <ImageView
+            android:id="@+id/imgRecurringIconSpendings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:contentDescription="@string/recurring"
+            android:visibility="gone"
+            android:src="@drawable/ic_recurring1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imgCheckBoxItemsSpendings" />
+
+        <!-- Checkbox for marking as paid -->
+
+        <!-- Category Label -->
+
+        <CheckBox
+            android:id="@+id/imgCheckBoxItemsSpendings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:orientation="horizontal">
+            android:buttonTint="@color/checkbox_color_selector"
+            android:text="@string/paid"
+            android:textStyle="bold"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@id/textviewCategoryItemsSpendings"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/textviewCategoryItemsSpendings"
+            app:layout_constraintVertical_bias="0.0" />
 
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/TiTle"
-                android:textColor="@color/black"
-                android:textSize="15sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/textviewTitleSpendings"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="Arya"
-                android:textColor="@color/black"
-                android:textSize="12sp" />
-
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/labelCategoryItemsSpendings"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:orientation="horizontal">
+            android:layout_marginTop="8dp"
+            android:text="@string/CaTegory"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/labelTitleItemsSpendings" />
 
+        <!-- Category Value -->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/CaTegory"
-                android:textColor="@color/black"
-                android:textSize="15sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/textviewCategorySpendings"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="Education"
-                android:textColor="@color/black"
-                android:textSize="12sp" />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
+        <!-- Amount Label -->
+        <TextView
+            android:id="@+id/labelAmountItemsSpendings"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:orientation="horizontal" />
+            android:layout_marginTop="8dp"
+            android:text="@string/aMount"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/labelCategoryItemsSpendings" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
+        <!-- Amount Value -->
+
+        <!-- Purchase Date Label -->
+        <TextView
+            android:id="@+id/textviewAmountItemsSpendings"
+            android:layout_width="150dp"
+            android:layout_height="18dp"
+            android:text="$1200"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/labelAmountItemsSpendings"
+            app:layout_constraintStart_toStartOf="@+id/textviewDateItemsSpendings"
+            app:layout_constraintTop_toTopOf="@id/labelAmountItemsSpendings" />
+
+        <TextView
+            android:id="@+id/textviewTitleItemsSpendings"
+            android:layout_width="220dp"
+            android:layout_height="18dp"
+            android:layout_marginTop="8dp"
+            android:text="Arya"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/labelTitleItemsSpendings"
+            app:layout_constraintStart_toStartOf="@+id/textviewCategoryItemsSpendings"
+
+            app:layout_constrainedWidth="true" />
+
+        <TextView
+            android:id="@+id/textviewCategoryItemsSpendings"
+            android:layout_width="150dp"
+            android:layout_height="18dp"
+            android:text="Education"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/labelCategoryItemsSpendings"
+            app:layout_constraintStart_toStartOf="@+id/textviewAmountItemsSpendings"
+            app:layout_constraintTop_toTopOf="@id/labelCategoryItemsSpendings" />
+
+        <TextView
+            android:id="@+id/textviewDateItemsSpendings"
+            android:layout_width="150dp"
+            android:layout_height="18dp"
+            android:layout_marginStart="12dp"
+            android:text="1/6/2024"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/labelDateItemsSpendings"
+            app:layout_constraintTop_toTopOf="@id/labelDateItemsSpendings" />
+
+        <TextView
+            android:id="@+id/labelDateItemsSpendings"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:orientation="horizontal">
+            android:layout_marginTop="8dp"
+            android:text="@string/purchase_Date"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/labelAmountItemsSpendings" />
 
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/aMount"
-                android:textColor="@color/black"
-                android:textSize="15sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/textviewAmountSpendings"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="$1200"
-                android:textColor="@color/black"
-                android:textSize="12sp" />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:orientation="horizontal" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:orientation="horizontal">
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/purchase_Date"
-                android:textColor="@color/black"
-                android:textSize="15sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/textviewDateSpendings"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="1/6/2024"
-                android:textColor="@color/black"
-                android:textSize="12sp" />
-
-
-        </LinearLayout>
-
-
-    </LinearLayout>
-
-
+        <!-- Purchase Date Value -->
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

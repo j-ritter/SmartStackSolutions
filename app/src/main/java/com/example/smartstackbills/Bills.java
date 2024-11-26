@@ -25,6 +25,7 @@ public class Bills {
         this.repeat = repeat;
         this.subcategory = subcategory;
         this.attachment = attachment;
+
     }
 
     // Getters and Setters
@@ -116,4 +117,6 @@ public class Bills {
     public void setPaid(boolean paid) {
         this.paid = paid;
     }
+
+
 }

@@ -27,26 +27,49 @@
         android:textSize="24sp"
         android:textStyle="bold"
         android:textColor="@android:color/black"
-        app:layout_constraintTop_toBottomOf="@id/btnBackHelp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp" />
+        app:layout_constraintStart_toEndOf="@id/btnBackHelp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/btnBackHelp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Help and Support Content -->
-    <TextView
-        android:id="@+id/help_content"
+    <!-- Scrollable Help Content -->
+    <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:text="If you need assistance or support while using SmartStackBills, you can reach out to our service team for help.\n\nContact Us\n\nFor any issues, questions, or feedback, please contact our support team via email at service@smartstackbills.info. Our team will respond to your inquiries as soon as possible.\n\nFrequently Asked Questions (FAQs)\n\nBefore reaching out, you may want to check our FAQ section where we've compiled answers to common questions about using SmartStackBills. This section covers topics such as creating entries, managing your account, and using the app's features effectively.\n\nFor any other help or support needs, don't hesitate to contact us via email. We're here to help you make the most out of SmartStackBills!"
-        android:textSize="16sp"
-        android:textColor="@android:color/black"
         app:layout_constraintTop_toBottomOf="@id/help_title"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:paddingStart="32dp"
-        android:paddingEnd="32dp"
-        android:paddingTop="16dp"
-        android:paddingBottom="16dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Help and Support Section -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/help_content_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="4dp"
+                app:cardCornerRadius="12dp"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:id="@+id/help_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="If you need assistance or support while using SmartStackSolutions, you can reach out to our service team for help.\n\nContact Us\n\nFor any issues, questions, or feedback, please contact our support team via email at service@smartstack-solutions.com. Our team will respond to your inquiries as soon as possible.\n\nFrequently Asked Questions (FAQs)\n\nBefore reaching out, you may want to check our FAQ section where we've compiled answers to common questions about using SmartStackSolutions. This section covers topics such as creating entries, managing your account, and using the app's features effectively.\n\nFor any other help or support needs, don't hesitate to contact us via email. We're here to help you make the most out of SmartStackSolutions!"
+                    android:textSize="12sp"
+                    android:textColor="@android:color/black"
+                    android:padding="4dp"
+                    android:gravity="left" />
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,10 +4,10 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
@@ -16,10 +16,13 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
 
     private Context context;
     private List<Notifications> notificationsList;
+    private OnNotificationClickListener listener; // Listener for handling clicks
 
-    public NotificationsAdapter(Context context, List<Notifications> notificationsList) {
+    // Constructor with listener parameter
+    public NotificationsAdapter(Context context, List<Notifications> notificationsList, OnNotificationClickListener listener) {
         this.context = context;
         this.notificationsList = notificationsList;
+        this.listener = listener;
     }
 
     @NonNull
@@ -36,6 +39,30 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         holder.date.setText(sdf.format(currentNotification.getDate().toDate()));
         holder.amount.setText(currentNotification.getAmount());
+        holder.createdAt.setText(sdf.format(currentNotification.getCreatedAt().toDate()));
+
+        // Show or hide the unread dot based on the isUnread field
+        if (currentNotification.isUnread()) {
+            holder.unreadDot.setVisibility(View.VISIBLE);
+        } else {
+            holder.unreadDot.setVisibility(View.GONE);
+        }
+
+        // Set click listener to handle notification click
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onNotificationClick(currentNotification.getNotificationId()); // Pass notificationId
+                currentNotification.setUnread(false);
+                notifyItemChanged(position);
+            }
+        });
+
+        // Set click listener for the delete icon
+        holder.deleteIcon.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onDeleteNotificationClick(currentNotification.getNotificationId()); // Pass notificationId
+            }
+        });
     }
 
     @Override
@@ -44,13 +71,23 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
     }
 
     public static class NotificationViewHolder extends RecyclerView.ViewHolder {
-        TextView title, date, amount;
+        TextView title, date, amount, createdAt;
+        ImageView unreadDot, deleteIcon;
 
         public NotificationViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.tvTitleNotification);
             date = itemView.findViewById(R.id.tvDateNotification);
             amount = itemView.findViewById(R.id.tvAmountNotification);
+            createdAt = itemView.findViewById(R.id.tvNotificationTime);
+            unreadDot = itemView.findViewById(R.id.unreadDot);
+            deleteIcon = itemView.findViewById(R.id.imgDeleteNotification);
         }
+    }
+
+    // Interface for click handling
+    public interface OnNotificationClickListener {
+        void onNotificationClick(String notificationId);
+        void onDeleteNotificationClick(String notificationId); // Pass only the ID for deletion
     }
 }

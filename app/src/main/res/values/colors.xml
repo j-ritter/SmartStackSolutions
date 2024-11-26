@@ -1,12 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Primary and Secondary Colors -->
+    <color name="colorPrimary">#FB8500</color> <!-- Primary Brand Color (Orange) -->
+    <color name="colorOnPrimary">#FFFFFF</color> <!-- Text on Primary -->
+    <color name="colorSecondary">#023047</color> <!-- Secondary Brand Color (Dark Blue) -->
+    <color name="colorOnSecondary">#FFFFFF</color> <!-- Text on Secondary -->
+    <color name="colorAccent">#023047</color> <!-- Accent Color -->
+
+    <!-- Background Colors -->
+    <color name="light_background">#FFFFFF</color> <!-- Light mode background -->
+    <color name="dark_background">#F0F0F0</color> <!-- Light gray background for cards, surfaces -->
+    <color name="header_background">#ECEFF1</color> <!-- Light header background color -->
+    <color name="white">#FFFFFF</color>
+    <color name="backgroundColor">#FFFFFF</color> <!-- Light background color -->
+    <color name="surfaceColor">#F0F0F0</color> <!-- Surface color for cards, dialogs, etc. -->
+
+    <!-- Text Colors -->
+    <color name="textPrimary">#FF000000</color> <!-- Black for primary text -->
+    <color name="textSecondary">#A9A9A9</color> <!-- Dark gray for secondary text -->
+    <color name="header_text">#37474F</color> <!-- Slightly darker gray for header text -->
+
+    <!-- Custom Colors -->
+    <color name="blue">#8ECAE6</color> <!-- Light Blue for accents or highlights -->
+    <color name="bluedark">#023047</color> <!-- Dark Blue for highlights or important sections -->
+    <color name="orange">#FB8500</color> <!-- Orange for highlights or buttons -->
+    <color name="yellow">#FFB703</color> <!-- Yellow for notifications or warnings -->
+    <color name="red">#FF0000</color> <!-- Red for errors or alerts -->
     <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="blue">#8ECAE6</color>
-    <color name="red">#FF0000</color>
-    <color name="light_gray">#D3D3D3</color>
-    <color name="orange">#Fb8500</color>
-    <color name="bluedark">#023047</color>
-    <color name="light_background">#FFFFFF</color>
-    <color name="dark_background">#F0F0F0</color>
+    <color name="light_gray">#D3D3D3</color> <!-- Light gray for borders or dividers -->
+    <color name="dark_gray">#A9A9A9</color> <!-- Dark gray for less prominent text -->
+
+    <!-- Filters and States -->
+    <color name="filter_active">#8ECAE6</color> <!-- Active filter color -->
+    <color name="filter_inactive">#FFFFFF</color> <!-- Inactive filter color -->
+    <color name="active_color">#FF000000</color> <!-- Active color (black) -->
+    <color name="inactive_color">#D3D3D3</color> <!-- Inactive color (light gray) -->
+
 </resources>

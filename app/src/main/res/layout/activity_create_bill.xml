@@ -8,7 +8,7 @@
     android:background="@drawable/background_blue1"
     tools:context=".createBill">
 
-    <!-- Vertical Guideline -->
+    <!-- Vertical Guidelines -->
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineStart"
         android:layout_width="wrap_content"
@@ -23,270 +23,263 @@
         android:orientation="vertical"
         app:layout_constraintGuide_end="32dp" />
 
-    <!-- Title -->
-    <TextView
-        android:id="@+id/textViewTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/create_new_bill"
-        android:textStyle="bold"
-        android:textSize="24sp"
+    <!-- Scrollable Content -->
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btnCancelBill"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <!-- Bill Title -->
-    <EditText
-        android:id="@+id/edtTitleBill"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/rounded_frame_background_yellow"
-        android:hint="@string/write_your_title"
-        android:inputType="text"
-        android:maxLength="30"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:textColorHint="#A5A5A5"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="@+id/guidelineEnd"
-        app:layout_constraintStart_toStartOf="@+id/guidelineStart"
-        app:layout_constraintTop_toBottomOf="@+id/textViewTitle" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
 
-    <!-- Category -->
-    <TextView
-        android:id="@+id/txtCategoryBill"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/category"
-        android:textStyle="bold"
-        android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@+id/edtTitleBill"
-        app:layout_constraintStart_toStartOf="@+id/guidelineStart" />
+            <!-- Header Title -->
+            <TextView
+                android:id="@+id/textViewTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/create_new_Open_Payment"
+                android:textStyle="bold"
+                android:textSize="24sp"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="16dp" />
 
-    <Spinner
-        android:id="@+id/spinnerCategoriesBill"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/rounded_frame_background_yellow"
-        app:layout_constraintTop_toBottomOf="@+id/txtCategoryBill"
-        app:layout_constraintStart_toStartOf="@+id/guidelineStart"
-        app:layout_constraintEnd_toEndOf="@+id/guidelineEnd" />
+            <!-- Title Section -->
+            <TextView
+                android:id="@+id/txtTitleLabelBill"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Title"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_marginTop="16dp" />
 
-    <!-- Subcategory -->
-    <TextView
-        android:id="@+id/txtSubcategoryBill"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Subcategory"
-        android:textStyle="bold"
-        android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerCategoriesBill"
-        app:layout_constraintStart_toStartOf="@+id/guidelineStart" />
+            <EditText
+                android:id="@+id/edtTitleBill"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/rounded_frame_background_yellow"
+                android:hint="@string/write_your_title"
+                android:maxLength="30"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:textColorHint="#A5A5A5"
+                android:textSize="15sp" />
 
-    <Spinner
-        android:id="@+id/spinnerSubcategoriesBill"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/rounded_frame_background_yellow"
-        app:layout_constraintTop_toBottomOf="@+id/txtSubcategoryBill"
-        app:layout_constraintStart_toStartOf="@+id/guidelineStart"
-        app:layout_constraintEnd_toEndOf="@+id/guidelineEnd" />
+            <!-- Amount Section (spacing corrected) -->
+            <TextView
+                android:id="@+id/txtAmountLabelBill"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/amount"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_marginTop="16dp" />
 
-    <!-- Vendor -->
-    <TextView
-        android:id="@+id/txtVendorBill"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/vendor"
-        android:textStyle="bold"
-        android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerSubcategoriesBill"
-        app:layout_constraintStart_toStartOf="@+id/guidelineStart" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp">
 
-    <Spinner
-        android:id="@+id/spinnerVendorsBill"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/rounded_frame_background_yellow"
-        app:layout_constraintTop_toBottomOf="@+id/txtVendorBill"
-        app:layout_constraintStart_toStartOf="@+id/guidelineStart"
-        app:layout_constraintEnd_toEndOf="@+id/guidelineEnd" />
+                <EditText
+                    android:id="@+id/edtAmountBill"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="48dp"
+                    android:background="@drawable/rounded_frame_background_yellow"
+                    android:hint="@string/amount"
+                    android:inputType="numberDecimal"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:textColorHint="#A5A5A5"
+                    android:textSize="15sp" />
 
-    <!-- Custom Vendor -->
-    <EditText
-        android:id="@+id/edtCustomVendorBill"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:hint="Enter custom vendor"
-        android:visibility="gone"
-        android:background="@drawable/rounded_frame_background"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerVendorsBill"
-        app:layout_constraintStart_toStartOf="@+id/guidelineStart"
-        app:layout_constraintEnd_toEndOf="@+id/guidelineEnd" />
+                <CheckBox
+                    android:id="@+id/checkBoxPaidBill"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/paid"
+                    android:textStyle="bold"
+                    android:layout_gravity="center_vertical"
+                    android:enabled="false" />
+            </LinearLayout>
 
-    <!-- Amount -->
-    <TextView
-        android:id="@+id/txtAmountBill"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/amount"
-        android:textStyle="bold"
-        android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@+id/edtCustomVendorBill"
-        app:layout_constraintStart_toStartOf="@+id/guidelineStart" />
+            <!-- Date Section -->
+            <TextView
+                android:id="@+id/txtDateLabelBill"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Date"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_marginTop="16dp" />
 
-    <EditText
-        android:id="@+id/edtAmountBill"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/rounded_frame_background_yellow"
-        android:hint="@string/amount"
-        android:inputType="numberDecimal"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:textColorHint="#A5A5A5"
-        android:textSize="15sp"
-        app:layout_constraintTop_toBottomOf="@+id/txtAmountBill"
-        app:layout_constraintStart_toStartOf="@+id/guidelineStart"
-        app:layout_constraintEnd_toEndOf="@+id/guidelineEnd" />
+            <EditText
+                android:id="@+id/edtDateBill"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/rounded_frame_background_yellow"
+                android:hint="@string/purchase_date"
+                android:inputType="text"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:textColorHint="#A5A5A5"
+                android:textSize="15sp" />
 
-    <!-- Date -->
-    <TextView
-        android:id="@+id/txtDateBill"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/Date"
-        android:textStyle="bold"
-        android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@+id/edtAmountBill"
-        app:layout_constraintStart_toStartOf="@+id/guidelineStart" />
+            <!-- Repeat Section -->
+            <TextView
+                android:id="@+id/txtRepeatBill"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/repeat"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_marginTop="16dp" />
 
-    <EditText
-        android:id="@+id/edtDateBill"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/rounded_frame_background_yellow"
-        android:hint="@string/purchase_date"
+            <Spinner
+                android:id="@+id/spinnerRepeatBill"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/rounded_frame_background_yellow" />
 
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:textColorHint="#A5A5A5"
-        android:textSize="15sp"
-        app:layout_constraintTop_toBottomOf="@+id/txtDateBill"
-        app:layout_constraintStart_toStartOf="@+id/guidelineStart"
-        app:layout_constraintEnd_toEndOf="@+id/guidelineEnd" />
+            <!-- Category Section -->
+            <TextView
+                android:id="@+id/txtCategoryBill"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/category"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_marginTop="16dp" />
 
-    <!-- Repeat and Paid -->
-    <TextView
-        android:id="@+id/txtRepeatBill"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/repeat"
-        android:textStyle="bold"
-        android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@+id/edtDateBill"
-        app:layout_constraintStart_toStartOf="@+id/guidelineStart" />
+            <Spinner
+                android:id="@+id/spinnerCategoriesBill"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/rounded_frame_background_yellow" />
 
-    <Spinner
-        android:id="@+id/spinnerRepeatBill"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/rounded_frame_background_yellow"
-        app:layout_constraintTop_toBottomOf="@+id/txtRepeatBill"
-        app:layout_constraintStart_toStartOf="@+id/guidelineStart"
-        app:layout_constraintEnd_toStartOf="@+id/checkBoxPaid" />
+            <!-- Subcategory Section -->
+            <TextView
+                android:id="@+id/txtSubcategoryBill"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Subcategory"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_marginTop="16dp" />
 
-    <CheckBox
-        android:id="@+id/checkBoxPaid"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/paid"
-        android:textStyle="bold"
-        app:layout_constraintTop_toTopOf="@+id/spinnerRepeatBill"
-        app:layout_constraintStart_toEndOf="@+id/spinnerRepeatBill"
-        app:layout_constraintEnd_toEndOf="@+id/guidelineEnd" />
+            <Spinner
+                android:id="@+id/spinnerSubcategoriesBill"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/rounded_frame_background_yellow" />
 
-    <!-- Comment -->
-    <TextView
-        android:id="@+id/txtCommentBill"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/comment"
-        android:textStyle="bold"
-        android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerRepeatBill"
-        app:layout_constraintStart_toStartOf="@+id/guidelineStart" />
+            <!-- Vendor Section -->
+            <TextView
+                android:id="@+id/txtVendorBill"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/vendor"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_marginTop="16dp" />
 
-    <EditText
-        android:id="@+id/edtCommentBill"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/rounded_frame_background_yellow"
-        android:hint="@string/write_your_comments"
-        android:inputType="text"
-        android:maxLength="30"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:textColorHint="#A5A5A5"
-        android:textSize="15sp"
-        app:layout_constraintTop_toBottomOf="@+id/txtCommentBill"
-        app:layout_constraintStart_toStartOf="@+id/guidelineStart"
-        app:layout_constraintEnd_toEndOf="@+id/guidelineEnd" />
+            <AutoCompleteTextView
+                android:id="@+id/autoCompleteVendorBill"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/rounded_frame_background_yellow"
+                android:hint="Search or Select Vendor"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:textColorHint="#A5A5A5"
+                android:textSize="15sp" />
 
-    <!-- Attachment and Upload Button -->
-    <TextView
-        android:id="@+id/txtAttachmentBill"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/Attachment"
-        android:textStyle="bold"
-        android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@+id/edtCommentBill"
-        app:layout_constraintStart_toStartOf="@+id/guidelineStart" />
+            <EditText
+                android:id="@+id/edtCustomVendorBill"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="8dp"
+                android:hint="Enter custom vendor"
+                android:visibility="gone"
+                android:background="@drawable/rounded_frame_background_yellow" />
 
-    <Button
-        android:id="@+id/btnUploadImageBill"
-        android:layout_width="wrap_content"
-        android:layout_height="36dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="0dp"
-        android:text="@string/Upload"
-        android:background="@drawable/rounded_frame_background"
-        app:layout_constraintStart_toEndOf="@+id/txtAttachmentBill"
-        app:layout_constraintTop_toTopOf="@+id/txtAttachmentBill" />
+            <!-- Comment Section -->
+            <TextView
+                android:id="@+id/txtCommentBill"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/comment"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_marginTop="16dp" />
 
-    <TextView
-        android:id="@+id/txtImageAddedBill"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Image added"
-        android:textStyle="bold"
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@+id/btnUploadImageBill"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+            <EditText
+                android:id="@+id/edtCommentBill"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/rounded_frame_background_yellow"
+                android:hint="@string/write_your_comments"
+                android:maxLength="30"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:textColorHint="#A5A5A5"
+                android:textSize="15sp" />
 
-    <!-- Buttons -->
+            <!-- Attachment Section (corrected to match createSpending) -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="16dp">
+
+                <TextView
+                    android:id="@+id/txtAttachmentBill"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/Attachment"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:layout_gravity="center_vertical" />
+
+                <Button
+                    android:id="@+id/btnUploadImageBill"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:text="@string/Upload"
+                    android:background="@drawable/rounded_frame_background_yellow"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="16dp" />
+
+                <TextView
+                    android:id="@+id/txtImageAddedBill"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Image added"
+                    android:visibility="gone"
+                    android:layout_gravity="center_vertical"
+                    android:textStyle="bold"
+                    android:layout_marginStart="16dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Save and Cancel Buttons -->
     <Button
         android:id="@+id/btnCancelBill"
         android:layout_width="0dp"

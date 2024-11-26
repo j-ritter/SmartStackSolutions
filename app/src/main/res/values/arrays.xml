@@ -89,8 +89,19 @@
         <item>Extracurricular activities</item>
     </string-array>
 
+    <!-- Updated Groceries subcategories with essential and non-essential differentiation -->
     <string-array name="shopping_consumption_subcategories">
-        <item>Groceries</item>
+        <!-- Essential Groceries -->
+        <item>Groceries - Basic Food</item>
+        <item>Groceries - Household Necessities</item>
+
+        <!-- Non-Essential Groceries -->
+        <item>Groceries - Beverages</item>
+        <item>Groceries - Alcoholic Beverages</item>
+        <item>Groceries - Snacks and Sweets</item>
+        <item>Groceries - Luxury Foods</item>
+
+        <!-- Other Shopping & Consumption items -->
         <item>Clothing</item>
         <item>Electronics</item>
         <item>Household goods</item>
@@ -172,5 +183,27 @@
         <item>Benefits in kind</item>
         <item>Inheritances and gifts</item>
         <item>Crowdfunding/Crowdinvesting returns</item>
+    </string-array>
+
+    <!-- Savings Target Names -->
+    <string-array name="savings_target_names">
+        <item>Emergency Fund</item>
+        <item>Vacation</item>
+        <item>Home Down Payment</item>
+        <item>Car Purchase</item>
+        <item>Education Fund</item>
+        <item>Retirement</item>
+        <item>Wedding</item>
+        <item>Investment</item>
+        <item>No specific reason</item>
+    </string-array>
+
+    <!-- Target Period Options -->
+    <string-array name="target_period_options">
+        <item>1 Month</item>
+        <item>2 Months</item>
+        <item>3 Months</item>
+        <item>6 Months</item>
+        <item>12 Months</item>
     </string-array>
 </resources>

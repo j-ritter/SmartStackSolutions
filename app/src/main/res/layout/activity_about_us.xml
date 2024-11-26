@@ -27,19 +27,21 @@
         android:textSize="24sp"
         android:textStyle="bold"
         android:textColor="@android:color/black"
-        app:layout_constraintTop_toBottomOf="@id/btnBackAboutus"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"/>
+        app:layout_constraintStart_toEndOf="@id/btnBackAboutus"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/btnBackAboutus"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- ScrollView wrapping the content and image -->
+    <!-- Scrollable Content -->
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintTop_toBottomOf="@id/about_us_title"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintEnd_toEndOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -47,16 +49,27 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- Content -->
-            <TextView
-                android:id="@+id/about_us_content"
+            <!-- About Us Section -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/about_us_content_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="At SmartStackBills, our mission is to provide users with tools that bring order to their daily lives and finances. We aim to empower users to efficiently collect, organize, and retrieve relevant information, documents, and photos. By doing so, we help you stay organized and manage your finances effectively.\n\nOur team is dedicated to creating user-friendly applications that cater to the needs of individuals seeking better financial management and organization. We believe that with the right tools, everyone can take control of their finances and improve their financial well-being.\n\nIf you have any questions or need further information about our mission and services, feel free to reach out to us. Email: smartstack-solutions.com. We're here to help you make the most out of SmartStackBills!"
-                android:textColor="@android:color/black"
-                android:textSize="16sp"/>
+                android:elevation="4dp"
+                app:cardCornerRadius="12dp"
+                android:layout_marginBottom="16dp">
 
-            <!-- Hero Image -->
+                <TextView
+                    android:id="@+id/about_us_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="At SmartStackSolutions, our mission is to provide users with tools that bring order to their daily lives and finances. We aim to empower users to efficiently collect, organize, and retrieve relevant information, documents, and photos. By doing so, we help you stay organized and manage your finances effectively.\n\nOur team is dedicated to creating user-friendly applications that cater to the needs of individuals seeking better financial management and organization. We believe that with the right tools, everyone can take control of their finances and improve their financial well-being.\n\nIf you have any questions or need further information about our mission and services, feel free to reach out to us. Email: service@smartstack-solutions.com. We're here to help you make the most out of SmartStackSolutions!"
+                    android:textSize="12sp"
+                    android:textColor="@android:color/black"
+                    android:padding="4dp"
+                    android:gravity="left" />
+            </androidx.cardview.widget.CardView>
+
+            <!-- Hero Image (Optional) -->
             <ImageView
                 android:id="@+id/about_us_image"
                 android:layout_width="match_parent"

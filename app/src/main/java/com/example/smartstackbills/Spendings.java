@@ -1,15 +1,27 @@
 package com.example.smartstackbills;
 
+import com.google.firebase.Timestamp;
+
 public class Spendings {
 
-    String name, date, comment, category, amount, vendor, subcategory, attachment;
+    String spendingId;
+    String name, comment, category, amount, vendor, subcategory, attachment;
+    Timestamp date;
+    boolean paid;
     boolean isEssential;
+    boolean isRecurring;
+
+    // New fields to avoid Firestore mapping issues
+    private String repeat = "No";  // Default to "No"
+    private String billId;  // Optional, set to null if not used
+    private String recurrenceInterval;  // Optional, set to null if not used
 
     public Spendings() {
         // Default constructor needed for Firestore
     }
 
-    public Spendings(String name, String date, String comment, String category, String amount, String vendor, String subcategory, String attachment, boolean isEssential) {
+    public Spendings(String spendingId, String name, Timestamp date, String comment, String category, String amount, String vendor, String subcategory, String attachment, boolean isEssential, boolean isRecurring, boolean paid) {
+        this.spendingId = spendingId;
         this.name = name;
         this.date = date;
         this.comment = comment;
@@ -18,7 +30,17 @@ public class Spendings {
         this.vendor = vendor;
         this.subcategory = subcategory;
         this.attachment = attachment;
+        this.paid = paid; // Added to constructor
         this.isEssential = isEssential;
+        this.isRecurring = isRecurring;
+    }
+
+    public String getSpendingId() {
+        return spendingId;
+    }
+
+    public void setSpendingId(String spendingId) {
+        this.spendingId = spendingId;
     }
 
     public String getAttachment() {
@@ -45,11 +67,11 @@ public class Spendings {
         this.name = name;
     }
 
-    public String getDate() {
+    public Timestamp getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Timestamp date) {
         this.date = date;
     }
 
@@ -85,7 +107,48 @@ public class Spendings {
         this.vendor = vendor;
     }
 
+    public boolean isPaid() {
+        return paid;
+    }
+
+    public void setPaid(boolean paid) {
+        this.paid = paid;
+    }
+
     public boolean isEssential() {
         return isEssential;
+    }
+
+    public boolean isRecurring() {
+        return isRecurring;
+    }
+
+    public void setRecurring(boolean isRecurring) {
+        this.isRecurring = isRecurring;
+    }
+
+    // Getters and setters for new optional fields
+    public String getRepeat() {
+        return repeat;
+    }
+
+    public void setRepeat(String repeat) {
+        this.repeat = repeat;
+    }
+
+    public String getBillId() {
+        return billId;
+    }
+
+    public void setBillId(String billId) {
+        this.billId = billId;
+    }
+
+    public String getRecurrenceInterval() {
+        return recurrenceInterval;
+    }
+
+    public void setRecurrenceInterval(String recurrenceInterval) {
+        this.recurrenceInterval = recurrenceInterval;
     }
 }

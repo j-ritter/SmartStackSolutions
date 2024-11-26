@@ -37,7 +37,7 @@ dependencies {
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
-    implementation(libs.material)
+    implementation ("com.google.android.material:material:1.8.0")
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.firebase.auth)
@@ -52,5 +52,5 @@ dependencies {
     implementation("androidx.compose.material3:material3-window-size-class:1.2.1")
     implementation("androidx.compose.material3:material3-adaptive-navigation-suite:1.3.0-beta04")
     implementation ("com.google.code.gson:gson:2.8.9")
-
+    implementation ("androidx.work:work-runtime-ktx:2.7.1")
 }

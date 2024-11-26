@@ -1,9 +1,14 @@
 package com.example.smartstackbills
 
 import android.app.Dialog
+import android.app.Notification
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
@@ -15,13 +20,19 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.core.content.ContextCompat
+import com.example.smartstackbills.NotificationsActivity.Companion.resetUnreadNotificationCount
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
-import java.util.*
+import com.google.gson.Gson
+import java.text.SimpleDateFormat
+import java.util.Locale
 import kotlin.collections.ArrayList
 
 class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
@@ -36,7 +47,9 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
     private var userEmail: String? = null
     private lateinit var dialog: Dialog
     private lateinit var drawerLayout: DrawerLayout
+    private lateinit var notificationRecyclerView: RecyclerView
     private var selectedIncome: Income? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,41 +76,45 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
         }
 
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationViewIncome)
+        bottomNavigationView.selectedItemId = R.id.Income
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.Main -> {
                     val intent = Intent(this, MainMenu::class.java)
-                    intent.putExtra("USER_EMAIL", userEmail)
+                    intent.putExtra("USER_EMAIL", userEmail) // Pasar el correo electrónico
                     startActivity(intent)
                     true
                 }
+
                 R.id.Bills -> {
                     val intent = Intent(this, MyBills::class.java)
                     intent.putExtra("USER_EMAIL", userEmail)
                     startActivity(intent)
                     true
                 }
+
                 R.id.Spendings -> {
                     val intent = Intent(this, MySpendings::class.java)
                     intent.putExtra("USER_EMAIL", userEmail)
                     startActivity(intent)
                     true
                 }
+
                 R.id.Income -> {
-                    val intent = Intent(this, MyIncome::class.java)
-                    intent.putExtra("USER_EMAIL", userEmail)
-                    startActivity(intent)
+                    // Do nothing since we're already on this screen
                     true
                 }
                 R.id.Calendar -> {
-                    //val intent = Intent(this,CalendarView::class.java)
-                    intent.putExtra("USER_EMAIL", userEmail)
+                    // Intent for Calendar (assumed to be implemented)
+                    val intent = Intent(this, CalendarActivity::class.java)
+                    intent.putExtra("USER_EMAIL", userEmail) // Pasar el correo electrónico
                     startActivity(intent)
                     true
                 }
                 else -> false
             }
         }
+
         // Initialize the toolbar and set it as the action bar
         val toolbar: Toolbar = findViewById(R.id.materialToolbarIncome)
         setSupportActionBar(toolbar)
@@ -109,6 +126,11 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
         val navView: NavigationView = findViewById(R.id.nav_viewIncome)
         navView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
+                R.id.nav_item_premium -> {
+                    val intent = Intent(this, Premium::class.java)
+                    startActivity(intent)
+                    true
+                }
                 R.id.nav_item_aboutus -> {
                     val intent = Intent(this, AboutUs::class.java)
                     startActivity(intent)
@@ -142,12 +164,26 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
             }
         }
 
+        // Setup notifications drawer
+        notificationRecyclerView = findViewById(R.id.recyclerViewNotifications)
+        notificationRecyclerView.layoutManager = LinearLayoutManager(this)
+
+
         db = FirebaseFirestore.getInstance()
         setupDialog()
         setupEventChangeListener()
 
         findViewById<Button>(R.id.btnRecurringIncome).setOnClickListener { filterIncome("recurring") }
         findViewById<Button>(R.id.btnOneTimeIncome).setOnClickListener { filterIncome("one-time") }
+        findViewById<Button>(R.id.btnAllIncome).setOnClickListener { filterIncome("all income") }
+    }
+    private fun saveIncome() {
+        val sharedPref = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
+        val editor = sharedPref.edit()
+        val gson = Gson()
+        val json = gson.toJson(incomeArrayList)
+        editor.putString("incomeList", json)
+        editor.apply()
     }
 
     private fun setupDialog() {
@@ -158,8 +194,15 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
         dialog.setCancelable(false)
 
         val btnCloseDialog = dialog.findViewById<Button>(R.id.btnCloseDialogIncome)
+        val imgDeleteIncome = dialog.findViewById<ImageView>(R.id.imgDeleteIncome)
+
+
         btnCloseDialog.setOnClickListener {
             dialog.dismiss()
+        }
+
+        imgDeleteIncome.setOnClickListener {
+            deleteIncome()
         }
     }
 
@@ -185,7 +228,8 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
                                 Log.d("Firestore Data", "Income added: ${income.name}, ${income.date}, ${income.repeat}")
                             }
                         }
-                        filterIncome("recurring") // Default filter
+                        saveIncome()
+                        filterIncome("all income") // Default filter
                     } else {
                         Log.d("Firestore Data", "No income found")
                     }
@@ -202,8 +246,32 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
     }
 
     override fun onIncomeClick(position: Int) {
-        val income = incomeArrayList[position]
-        showIncomeDetailsDialog(income)
+        val item = myAdapterIncome.getItemAtPosition(position)
+        // Check if the clicked item is an income item
+        if (item is Income) {
+            selectedIncome = item
+            showIncomeDetailsDialog(item)
+        }
+    }
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.top_nav, menu)
+        // Find and update the unread notification count TextView on the alarm icon badge
+        val menuItem = menu?.findItem(R.id.alarm)
+        val actionView = menuItem?.actionView
+        // Find the badge TextView
+        val badgeCountTextView = actionView?.findViewById<TextView>(R.id.badge_count)
+
+        // Update badge count with the current unread notification count
+        updateUnreadCountBadge(badgeCountTextView)
+
+        // Set click listener on the alarm icon
+        actionView?.setOnClickListener {
+            resetUnreadNotificationCount(badgeCountTextView)
+            val intent = Intent(this, NotificationsActivity::class.java)
+            startActivity(intent)  // Open the notifications activity
+        }
+
+        return true
     }
 
     private fun showIncomeDetailsDialog(income: Income) {
@@ -215,33 +283,78 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
         val edtRepeatDialog = dialog.findViewById<EditText>(R.id.edtRepeatDialogIncome)
         val edtCommentDialog = dialog.findViewById<EditText>(R.id.edtCommentDialogIncome)
 
+
+        // Convertir el Timestamp a String
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val incomeDateString =
+            if (income.date != null) dateFormat.format(income.date.toDate()) else ""
+
         edtTitleDialog.setText(income.name)
         edtAmountDialog.setText(income.amount)
         edtCategoryDialog.setText(income.category)
         edtSubcategoryDialog.setText(income.subcategory)
-        edtDateDialog.setText(income.date)
+        edtDateDialog.setText(incomeDateString)
         edtRepeatDialog.setText(income.repeat)
         edtCommentDialog.setText(income.comment)
 
         dialog.show()
     }
 
+    private fun deleteIncome() {
+        selectedIncome?.let { income ->
+            val userUid = FirebaseAuth.getInstance().currentUser?.uid
+            if (userUid != null) {
+                db.collection("users").document(userUid).collection("income")
+                    .document(income.incomeId)
+                    .delete()
+                    .addOnSuccessListener {
+                        Toast.makeText(this, "Income deleted successfully", Toast.LENGTH_SHORT).show()
+                        dialog.dismiss()
+                    }
+                    .addOnFailureListener {
+                        Toast.makeText(this, "Failed to delete income", Toast.LENGTH_SHORT).show()
+                    }
+            } else {
+                Toast.makeText(this, "Error: User not authenticated", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
     private fun filterIncome(filter: String) {
         val filteredIncome = ArrayList<Income>()
+
+        // Reset the button background to inactive color
+
+        findViewById<Button>(R.id.btnRecurringIncome).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_inactive))
+        findViewById<Button>(R.id.btnOneTimeIncome).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_inactive))
+        findViewById<Button>(R.id.btnAllIncome).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_inactive))
+
 
         for (income in allIncomeArrayList) {
             when (filter) {
                 "recurring" -> {
-                    if (income.repeat != "No") {
-                        filteredIncome.add(income)
-                        Log.d("Filter", "Recurring income added: ${income.name}")
-                    }
+                    findViewById<Button>(R.id.btnRecurringIncome).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_active))
+
+                        if (income.repeat != "No") {
+                            filteredIncome.add(income)
+                            Log.d("Filter", "Recurring income added: ${income.name}")
+                        }
+
                 }
                 "one-time" -> {
-                    if (income.repeat == "No") {
-                        filteredIncome.add(income)
-                        Log.d("Filter", "One-time income added: ${income.name}")
-                    }
+                    findViewById<Button>(R.id.btnOneTimeIncome).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_active))
+
+                        if (income.repeat == "No") {
+                            filteredIncome.add(income)
+                            Log.d("Filter", "One-time income added: ${income.name}")
+                        }
+
+                }
+                "all income" -> {
+                    findViewById<Button>(R.id.btnAllIncome).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_active))
+                    // Add all spendings regardless of subcategory
+                    filteredIncome.add(income)
+                    Log.d("Filter", "All income added: ${income.name}")
                 }
             }
         }
@@ -249,6 +362,43 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
         myAdapterIncome.updateIncome(filteredIncome)
         Log.d("Filter", "Filtered income count for $filter: ${filteredIncome.size}")
     }
+    private fun groupIncomeByMonth(incomeArrayList: ArrayList<Income>): ArrayList<Any> {
+        val groupedIncome = LinkedHashMap<String, MutableList<Income>>()
+        val sdf = SimpleDateFormat("MMMM yyyy", Locale.getDefault())
+
+        for (income in incomeArrayList) {
+            val monthYear = sdf.format(income.date.toDate())
+            if (!groupedIncome.containsKey(monthYear)) {
+                groupedIncome[monthYear] = ArrayList()
+            }
+            groupedIncome[monthYear]?.add(income)
+        }
+
+        val items = ArrayList<Any>()
+        for ((monthYear, income) in groupedIncome) {
+            items.add(monthYear)
+            items.addAll(income)
+        }
+
+        return items
+    }
+    // Update the unread count badge from SharedPreferences
+    private fun updateUnreadCountBadge(badgeCountTextView: TextView?) {
+        val unreadCount = NotificationsActivity.getUnreadNotificationCount(this)
+        if (unreadCount > 0) {
+            badgeCountTextView?.text = unreadCount.toString()
+            badgeCountTextView?.visibility = View.VISIBLE // Show the badge
+        } else {
+            badgeCountTextView?.visibility = View.GONE // Hide the badge if no unread notifications
+        }
+    }
+
+    // Reset unread notification count when notifications are viewed
+    private fun resetUnreadNotificationCount(badgeCountTextView: TextView?) {
+        NotificationsActivity.resetUnreadNotificationCount(this)
+        updateUnreadCountBadge(badgeCountTextView) // Update the badge display immediately
+    }
+
     private fun logoutUser() {
         FirebaseAuth.getInstance().signOut()
         val intent = Intent(this, LogIn::class.java)
@@ -257,6 +407,3 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
         finish()
     }
 }
-
-
-

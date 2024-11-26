@@ -17,7 +17,7 @@
         android:background="@drawable/btnlog"
         android:text="Log in"
         android:textAllCaps="false"
-        android:textColor="#3276ed"
+        android:textColor="@color/white"
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
