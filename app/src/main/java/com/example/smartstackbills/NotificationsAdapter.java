@@ -13,6 +13,7 @@ import com.example.smartstackbills.R;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -21,7 +22,7 @@ import java.util.TreeMap;
 public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int ITEM_NOTIFICATION = 0;
-    private static final int ITEM_MONTH_HEADER = 1;
+    private static final int ITEM_WEEK_HEADER = 1;
 
     private Context context;
     private List<Object> groupedNotificationsList;
@@ -29,13 +30,13 @@ public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     public NotificationsAdapter(Context context, List<Notifications> notificationsList, OnNotificationClickListener listener) {
         this.context = context;
-        this.groupedNotificationsList = groupNotificationsByMonth(notificationsList);
+        this.groupedNotificationsList = groupNotificationsByWeek(notificationsList);
         this.listener = listener;
     }
 
     @Override
     public int getItemViewType(int position) {
-        return groupedNotificationsList.get(position) instanceof Notifications ? ITEM_NOTIFICATION : ITEM_MONTH_HEADER;
+        return groupedNotificationsList.get(position) instanceof Notifications ? ITEM_NOTIFICATION : ITEM_WEEK_HEADER;
     }
 
     @NonNull
@@ -45,8 +46,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.View
             View itemView = LayoutInflater.from(context).inflate(R.layout.items_notifications, parent, false);
             return new NotificationViewHolder(itemView);
         } else {
-            View headerView = LayoutInflater.from(context).inflate(R.layout.item_month_header, parent, false);
-            return new MonthHeaderViewHolder(headerView);
+            View headerView = LayoutInflater.from(context).inflate(R.layout.item_week_header, parent, false);
+            return new WeekHeaderViewHolder(headerView);
         }
     }
 
@@ -78,9 +79,9 @@ public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.View
                 }
             });
         } else {
-            MonthHeaderViewHolder headerHolder = (MonthHeaderViewHolder) holder;
-            String monthHeader = (String) groupedNotificationsList.get(position);
-            headerHolder.monthHeader.setText(monthHeader);
+            WeekHeaderViewHolder headerHolder = (WeekHeaderViewHolder) holder;
+            String weekHeader = (String) groupedNotificationsList.get(position);
+            headerHolder.weekHeader.setText(weekHeader);
         }
     }
 
@@ -104,12 +105,12 @@ public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
     }
 
-    public static class MonthHeaderViewHolder extends RecyclerView.ViewHolder {
-        TextView monthHeader;
+    public static class WeekHeaderViewHolder extends RecyclerView.ViewHolder {
+        TextView weekHeader;
 
-        public MonthHeaderViewHolder(@NonNull View itemView) {
+        public WeekHeaderViewHolder(@NonNull View itemView) {
             super(itemView);
-            monthHeader = itemView.findViewById(R.id.textviewMonthHeader);
+            weekHeader = itemView.findViewById(R.id.textviewWeekHeader);
         }
     }
 
@@ -118,20 +119,24 @@ public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.View
         void onDeleteNotificationClick(String notificationId);
     }
 
-    private List<Object> groupNotificationsByMonth(List<Notifications> notificationsList) {
-        SimpleDateFormat monthYearFormat = new SimpleDateFormat("MMMM yyyy", Locale.getDefault());
+    private List<Object> groupNotificationsByWeek(List<Notifications> notificationsList) {
         TreeMap<String, List<Notifications>> groupedMap = new TreeMap<>();
+        SimpleDateFormat sdf = new SimpleDateFormat("'CW' w, yyyy", Locale.getDefault());
+        Calendar calendar = Calendar.getInstance();
 
         for (Notifications notification : notificationsList) {
             if (notification.getDate() == null) continue;
-            String monthYear = monthYearFormat.format(notification.getDate().toDate());
-            groupedMap.computeIfAbsent(monthYear, k -> new ArrayList<>()).add(notification);
+
+            calendar.setTime(notification.getDate().toDate());
+            String weekKey = sdf.format(calendar.getTime());
+
+            groupedMap.computeIfAbsent(weekKey, k -> new ArrayList<>()).add(notification);
         }
 
         List<Object> groupedNotifications = new ArrayList<>();
         for (Map.Entry<String, List<Notifications>> entry : groupedMap.entrySet()) {
-            groupedNotifications.add(entry.getKey()); // Add month header
-            groupedNotifications.addAll(entry.getValue()); // Add notifications for that month
+            groupedNotifications.add(entry.getKey()); // Add week header
+            groupedNotifications.addAll(entry.getValue()); // Add notifications for that week
         }
 
         return groupedNotifications;
