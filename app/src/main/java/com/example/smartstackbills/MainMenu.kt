@@ -34,6 +34,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -104,6 +105,15 @@ class MainMenu : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+        val fields = listOf(
+            etBillsAmount, etSpendingsAmount, etIncomeAmount, etIncomingAmount,
+            etOverdueAmount, etEssentialAmount, etNonEssentialAmount,
+            etRecurringAmount, etOneTimeAmount, etTotalAmount
+        )
+
+        fields.forEach { field ->
+            field.addTextChangedListener(RealTimeFormattingTextWatcher(field))
         }
 
         val toolbar: Toolbar = findViewById(R.id.toolbar_main)
@@ -299,9 +309,18 @@ class MainMenu : AppCompatActivity() {
         }
 
         // Calculate totals for bills, spendings, and income
-        val totalBills = billsForMonth.sumOf { it.amount.toDouble() }.toFloat()
-        val totalSpendings = spendingsForMonth.sumOf { it.amount.toDouble() }.toFloat()
-        val totalIncome = incomeForMonth.sumOf { it.amount.toDouble() }.toFloat()
+        val totalBills = billsForMonth.sumOf {
+            parseFormattedNumber(it.amount)
+        }.toFloat()
+
+        val totalSpendings = spendingsForMonth.sumOf {
+            parseFormattedNumber(it.amount)
+        }.toFloat()
+
+        val totalIncome = incomeForMonth.sumOf {
+            parseFormattedNumber(it.amount)
+        }.toFloat()
+
 
         // Calculate incoming bills (unpaid, in the future)
         val currentDate = Date()
@@ -309,14 +328,14 @@ class MainMenu : AppCompatActivity() {
             val billDate = bill.date?.toDate()
             billDate != null && billDate.after(currentDate) && !bill.paid &&
                     dateFormat.format(billDate) == currentMonthString
-        }.sumOf { it.amount.toDouble() }.toFloat()
+        }.sumOf { parseFormattedNumber(it.amount) }.toFloat()
 
         // Calculate overdue bills (unpaid, in the past)
         val totalOverdue = billsList.filter { bill ->
             val billDate = bill.date?.toDate()
             billDate != null && billDate.before(currentDate) && !bill.paid &&
                     dateFormat.format(billDate) == currentMonthString
-        }.sumOf { it.amount.toDouble() }.toFloat()
+        }.sumOf { parseFormattedNumber(it.amount) }.toFloat()
 
 
         // Calculate the total amount for the month
@@ -344,7 +363,7 @@ class MainMenu : AppCompatActivity() {
                     subcategory in essentialSubcategories ||
                             (subcategory == null && category in essentialCategories)
                     )
-        }.sumOf { it.amount.toDouble() }.toFloat()
+        }.sumOf { parseFormattedNumber(it.amount) }.toFloat()
 
         val nonEssentialCategories = listOf("Subscription and Memberships", "Others")
         val nonEssentialSubcategories = listOf("Entertainment", "Dining out", "Hobbies", "Streaming services", "Movies", "Vacation", "Gadgets")
@@ -358,16 +377,16 @@ class MainMenu : AppCompatActivity() {
                     subcategory in nonEssentialSubcategories ||
                             (subcategory == null && category in nonEssentialCategories)
                     )
-        }.sumOf { it.amount.toDouble() }.toFloat()
+        }.sumOf { parseFormattedNumber(it.amount) }.toFloat()
 
         // Calculate recurring and one-time income
         val totalRecurringIncome = incomeForMonth.filter { income ->
             income.repeat != "No"
-        }.sumOf { it.amount.toDouble() }.toFloat()
+        }.sumOf { parseFormattedNumber(it.amount) }.toFloat()
 
         val totalOneTimeIncome = incomeForMonth.filter { income ->
             income.repeat == "No"
-        }.sumOf { it.amount.toDouble() }.toFloat()
+        }.sumOf { parseFormattedNumber(it.amount) }.toFloat()
 
         // Ensure that the items are displayed as negative for bills and spendings
         val displayBillsAmount = -totalBills
@@ -910,7 +929,7 @@ class MainMenu : AppCompatActivity() {
         }
     }
 
-        // Method to distribute savings across months and save them in Firebase
+    // Method to distribute savings across months and save them in Firebase
     private fun distributeSavingsAcrossMonths(startDate: Date, endDate: Date, targetAmount: Float, savingsId: String) {
         val startCalendar = Calendar.getInstance()
         startCalendar.time = startDate
@@ -1057,6 +1076,15 @@ class MainMenu : AppCompatActivity() {
 
         return current in start..end
     }
+    private fun parseFormattedNumber(numberString: String?): Double {
+        return try {
+            val format = NumberFormat.getInstance(Locale.US) // Use explicit locale (e.g., Locale.US)
+            format.parse(numberString)?.toDouble() ?: 0.0
+        } catch (e: Exception) {
+            e.printStackTrace()
+            0.0 // Return 0.0 on failure
+        }
+    }
 
     // Updated method to calculate months difference between two Date objects
     private fun calculateMonthsDifference(startDate: Date?, endDate: Date?): Int {
@@ -1070,7 +1098,6 @@ class MainMenu : AppCompatActivity() {
 
         return yearsDifference * 12 + monthsDifference + 1
     }
-
 
     private fun logoutUser() {
         FirebaseAuth.getInstance().signOut()

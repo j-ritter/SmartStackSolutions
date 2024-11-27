@@ -2,12 +2,15 @@ package com.example.smartstackbills
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
 import android.text.InputType
+import android.text.TextWatcher
 import android.widget.*
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -44,6 +47,45 @@ class createIncome : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_create_income)
+
+        val edtAmountIncome = findViewById<EditText>(R.id.edtAmountIncome)
+        edtAmountIncome.addTextChangedListener(object : TextWatcher {
+            private var isFormatting = false
+            private var currentText = ""
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+            override fun afterTextChanged(s: Editable?) {
+                if (isFormatting) return
+
+                val input = s.toString()
+                if (input != currentText) {
+                    isFormatting = true
+                    try {
+                        val cleanString = input.replace("[^\\d.]".toRegex(), "")
+                        if (cleanString.isNotEmpty()) {
+                            val decimalParts = cleanString.split(".")
+                            val integerPart = decimalParts[0].toLongOrNull() ?: 0
+                            val formattedIntegerPart = DecimalFormat("#,###").format(integerPart)
+                            val formatted = if (decimalParts.size > 1) {
+                                val decimalPart = decimalParts[1].take(2)
+                                "$formattedIntegerPart.$decimalPart"
+                            } else {
+                                formattedIntegerPart
+                            }
+                            currentText = formatted
+                            edtAmountIncome.setText(formatted)
+                            edtAmountIncome.setSelection(formatted.length)
+                        }
+                    } catch (e: Exception) {
+                        Toast.makeText(this@createIncome, "Invalid input: ${e.message}", Toast.LENGTH_SHORT).show()
+                    }
+                    isFormatting = false
+                }
+            }
+        })
 
         userEmail = intent.getStringExtra("USER_EMAIL")
         userUid = FirebaseAuth.getInstance().currentUser?.uid

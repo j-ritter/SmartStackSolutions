@@ -1,6 +1,7 @@
 package com.example.smartstackbills
 
 import android.os.Bundle
+import android.text.Editable
 import android.view.View
 import android.widget.*
 import androidx.activity.enableEdgeToEdge
@@ -10,15 +11,18 @@ import androidx.core.view.WindowInsetsCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import android.text.InputType
+import android.text.TextWatcher
 import java.text.SimpleDateFormat
 import java.util.*
 import com.google.firebase.Timestamp
+import java.text.DecimalFormat
 
 class createBill : AppCompatActivity() {
 
     private val db = FirebaseFirestore.getInstance()
     private var userEmail: String? = null
     private var userUid: String? = null
+    private lateinit var edtAmountBill: EditText
 
     val repeat = arrayOf(
         "No", "Weekly", "Every 2 Weeks", "Monthly", "Every 2 Months",
@@ -139,6 +143,55 @@ class createBill : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_create_bill)
+
+        // Initialize edtAmountBill before using it
+        edtAmountBill = findViewById(R.id.edtAmountBill)
+
+        // Apply TextWatcher for real-time formatting
+        edtAmountBill.addTextChangedListener(object : TextWatcher {
+            private var isFormatting: Boolean = false // Prevent recursive formatting
+            private var currentText: String = ""
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+            override fun afterTextChanged(s: Editable?) {
+                if (isFormatting) return
+
+                val input = s.toString()
+                if (input != currentText) {
+                    isFormatting = true
+                    try {
+                        // Remove formatting characters, keeping only digits and a single decimal point
+                        val cleanString = input.replace("[^\\d.]".toRegex(), "")
+
+                        // Preserve the decimal point and format correctly
+                        if (cleanString.isNotEmpty()) {
+                            val decimalParts = cleanString.split(".")
+                            val integerPart = decimalParts[0].toLongOrNull() ?: 0
+                            val formattedIntegerPart = DecimalFormat("#,###").format(integerPart)
+
+                            // Rebuild the formatted string
+                            val formatted = if (decimalParts.size > 1) {
+                                // Preserve up to two decimal places
+                                val decimalPart = decimalParts[1].take(2)
+                                "$formattedIntegerPart.$decimalPart"
+                            } else {
+                                formattedIntegerPart
+                            }
+
+                            currentText = formatted
+                            edtAmountBill.setText(formatted)
+                            edtAmountBill.setSelection(formatted.length) // Move cursor to the end
+                        }
+                    } catch (e: Exception) {
+                        Toast.makeText(this@createBill, "Invalid input: ${e.message}", Toast.LENGTH_SHORT).show()
+                    }
+                    isFormatting = false
+                }
+            }
+        })
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())

@@ -18,10 +18,13 @@ import android.provider.MediaStore
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.FileProvider
 import android.os.Environment
+import android.text.Editable
 import android.text.InputType
+import android.text.TextWatcher
 import com.google.firebase.firestore.FieldValue
 import java.io.File
 import java.io.IOException
+import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -196,6 +199,53 @@ class createSpending : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_create_spending)
+
+        // Initialize amount EditText and apply TextWatcher for formatting
+        val edtAmountSpending = findViewById<EditText>(R.id.edtAmountSpending)
+        edtAmountSpending.addTextChangedListener(object : TextWatcher {
+            private var isFormatting: Boolean = false // Prevent recursive formatting
+            private var currentText: String = ""
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+            override fun afterTextChanged(s: Editable?) {
+                if (isFormatting) return
+
+                val input = s.toString()
+                if (input != currentText) {
+                    isFormatting = true
+                    try {
+                        // Remove formatting characters, keeping only digits and a single decimal point
+                        val cleanString = input.replace("[^\\d.]".toRegex(), "")
+
+                        // Preserve the decimal point and format correctly
+                        if (cleanString.isNotEmpty()) {
+                            val decimalParts = cleanString.split(".")
+                            val integerPart = decimalParts[0].toLongOrNull() ?: 0
+                            val formattedIntegerPart = DecimalFormat("#,###").format(integerPart)
+
+                            // Rebuild the formatted string
+                            val formatted = if (decimalParts.size > 1) {
+                                // Preserve up to two decimal places
+                                val decimalPart = decimalParts[1].take(2)
+                                "$formattedIntegerPart.$decimalPart"
+                            } else {
+                                formattedIntegerPart
+                            }
+
+                            currentText = formatted
+                            edtAmountSpending.setText(formatted)
+                            edtAmountSpending.setSelection(formatted.length) // Move cursor to the end
+                        }
+                    } catch (e: Exception) {
+                        Toast.makeText(this@createSpending, "Invalid input: ${e.message}", Toast.LENGTH_SHORT).show()
+                    }
+                    isFormatting = false
+                }
+            }
+        })
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
