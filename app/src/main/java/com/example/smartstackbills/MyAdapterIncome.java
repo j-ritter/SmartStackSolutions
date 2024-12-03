@@ -68,7 +68,8 @@ public class MyAdapterIncome extends RecyclerView.Adapter<RecyclerView.ViewHolde
             Income income = (Income) itemsArrayList.get(position);
 
             incomeHolder.title.setText(income.getName());
-            incomeHolder.amount.setText(income.getAmount());
+            incomeHolder.amount.setText(String.format(Locale.getDefault(), "%.2f", income.getAmount()));
+
             incomeHolder.category.setText(income.getCategory());
 
             // Convierte Timestamp a String

@@ -74,7 +74,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             Bills bill = (Bills) itemsArrayList.get(position);
 
             billHolder.title.setText(bill.getName());
-            billHolder.amount.setText(bill.getAmount());
+            billHolder.amount.setText(String.format(Locale.getDefault(), "%.2f", bill.getAmount()));
             billHolder.category.setText(bill.getCategory());
 
             // Convierte Timestamp a String

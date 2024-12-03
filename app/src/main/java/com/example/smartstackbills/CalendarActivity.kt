@@ -297,7 +297,7 @@ class CalendarActivity : AppCompatActivity(), MyAdapterCalendar.OnItemClickListe
         val billDateString = bill.date?.let { dateFormat.format(it.toDate()) } ?: ""
 
         edtTitleDialog?.setText(bill.name)
-        edtAmountDialog?.setText(bill.amount)
+        edtAmountDialog.setText(String.format(Locale.getDefault(), "%.2f", bill.amount))
         edtCategoryDialog?.setText(bill.category)
         edtSubcategoryDialog?.setText(bill.subcategory)
         edtVendorDialog?.setText(bill.vendor)
@@ -328,7 +328,8 @@ class CalendarActivity : AppCompatActivity(), MyAdapterCalendar.OnItemClickListe
         val spendingDateString = spending.date?.let { dateFormat.format(it.toDate()) } ?: ""
 
         edtTitleDialog?.setText(spending.name)
-        edtAmountDialog?.setText(spending.amount)
+        edtAmountDialog.setText(String.format(Locale.getDefault(), "%.2f", spending.amount))
+
         edtCategoryDialog?.setText(spending.category)
         edtSubcategoryDialog?.setText(spending.subcategory)
         edtVendorDialog?.setText(spending.vendor)
@@ -352,7 +353,8 @@ class CalendarActivity : AppCompatActivity(), MyAdapterCalendar.OnItemClickListe
         val incomeDateString = income.date?.let { dateFormat.format(it.toDate()) } ?: ""
 
         edtTitleDialog?.setText(income.name)
-        edtAmountDialog?.setText(income.amount)
+        edtAmountDialog.setText(String.format(Locale.getDefault(), "%.2f", income.amount))
+
         edtCategoryDialog?.setText(income.category)
         edtSubcategoryDialog?.setText(income.subcategory)
         edtDateDialog?.setText(incomeDateString)

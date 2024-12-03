@@ -370,7 +370,8 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
         dialog.show()
 
         edtTitleDialog.setText(spending.name)
-        edtAmountDialog.setText(spending.amount)
+        edtAmountDialog.setText(String.format(Locale.getDefault(), "%.2f", spending.amount))
+
         edtCategoryDialog.setText(spending.category ?: "-")
         edtSubcategoryDialog.setText(spending.subcategory ?: "-")
         edtVendorDialog.setText(spending.vendor ?: "-")
@@ -397,7 +398,8 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
             if (userUid != null && selectedSpending != null) {
                 // Update the bill object with new values
                 selectedSpending?.name = edtTitleDialog.text.toString()
-                selectedSpending?.amount = edtAmountDialog.text.toString()
+                selectedSpending?.amount = edtAmountDialog.text.toString().toDoubleOrNull() ?: 0.0
+
                 selectedSpending?.comment = edtCommentDialog.text.toString()
 
                 btnSaveChanges.visibility = View.VISIBLE

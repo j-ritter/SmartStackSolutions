@@ -5,7 +5,8 @@ import com.google.firebase.Timestamp;
 public class Spendings {
 
     String spendingId;
-    String name, comment, category, amount, vendor, subcategory, attachment;
+    String name, comment, category, vendor, subcategory, attachment;
+    double amount;
     Timestamp date;
     boolean paid;
     boolean isEssential;
@@ -20,7 +21,7 @@ public class Spendings {
         // Default constructor needed for Firestore
     }
 
-    public Spendings(String spendingId, String name, Timestamp date, String comment, String category, String amount, String vendor, String subcategory, String attachment, boolean isEssential, boolean isRecurring, boolean paid) {
+    public Spendings(String spendingId, String name, Timestamp date, String comment, String category, double amount, String vendor, String subcategory, String attachment, boolean isEssential, boolean isRecurring, boolean paid) {
         this.spendingId = spendingId;
         this.name = name;
         this.date = date;
@@ -91,11 +92,11 @@ public class Spendings {
         this.category = category;
     }
 
-    public String getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(String amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 

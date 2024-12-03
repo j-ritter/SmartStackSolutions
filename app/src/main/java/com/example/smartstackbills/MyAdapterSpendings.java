@@ -67,7 +67,8 @@ public class MyAdapterSpendings extends RecyclerView.Adapter<RecyclerView.ViewHo
             Spendings spending = (Spendings) itemsArrayList.get(position);
 
             spendingHolder.title.setText(spending.getName());
-            spendingHolder.amount.setText(spending.getAmount());
+            spendingHolder.amount.setText(String.format(Locale.getDefault(), "%.2f", spending.getAmount()));
+
             spendingHolder.category.setText(spending.getCategory());
 
             // Convert Timestamp to String

@@ -24,7 +24,7 @@ class NotificationWorker(context: Context, params: WorkerParameters) : Worker(co
     override fun doWork(): Result {
         // Retrieve data from input
         val title = inputData.getString("title")
-        val amount = inputData.getString("amount")
+        val amount = inputData.getDouble("amount", 0.0)
         val billId = inputData.getString("billId")
         val dueDateMillis = inputData.getLong("dueDateMillis", System.currentTimeMillis())
         val dueDate = Timestamp(Date(dueDateMillis))
@@ -55,7 +55,9 @@ class NotificationWorker(context: Context, params: WorkerParameters) : Worker(co
                 .set(notification)
                 .addOnSuccessListener {
                     // Send notification after saving to Firebase
-                    sendNotification(title, amount, billId)
+                    val formattedAmount = String.format(Locale.getDefault(), "%.2f", amount)
+                    // Send notification after saving to Firebase
+                    sendNotification(title, formattedAmount, billId)
                     NotificationsActivity.incrementUnreadNotificationCount(applicationContext)
                 }
                 .addOnFailureListener {
@@ -67,7 +69,7 @@ class NotificationWorker(context: Context, params: WorkerParameters) : Worker(co
     }
 
     // Schedule a notification
-    fun scheduleNotification(context: Context, title: String, amount: String, billId: String, dueDate: Timestamp) {
+    fun scheduleNotification(context: Context, title: String, amount: Double, billId: String, dueDate: Timestamp) {
         val delay = calculateDelay(dueDate.toDate())
         val workRequest = OneTimeWorkRequestBuilder<NotificationWorker>()
             .setInputData(

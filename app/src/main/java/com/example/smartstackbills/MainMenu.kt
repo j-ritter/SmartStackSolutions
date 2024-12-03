@@ -1,5 +1,6 @@
 package com.example.smartstackbills
 
+import RealTimeFormattingTextWatcher
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.Context
@@ -61,6 +62,8 @@ class MainMenu : AppCompatActivity() {
     private var userUid: String? = null
     private lateinit var db: FirebaseFirestore
     private var currentSavingsTargetDocumentId: String? = null
+    private val numberFormat: NumberFormat = NumberFormat.getInstance(Locale.getDefault())
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,14 +87,14 @@ class MainMenu : AppCompatActivity() {
 
         etBillsAmount = findViewById(R.id.etBillsAmount)
         etSpendingsAmount = findViewById(R.id.etSpendingsAmount)
-        etIncomeAmount = findViewById(R.id.etIncome)
+        etIncomeAmount = findViewById(R.id.etIncomeAmount)
         etIncomingAmount = findViewById(R.id.etIncomingAmount)
         etOverdueAmount = findViewById(R.id.etOverdueAmount)
-        etEssentialAmount = findViewById(R.id.etEssential)
-        etNonEssentialAmount = findViewById(R.id.etNonEssential)
-        etRecurringAmount = findViewById(R.id.etRecurring)
-        etOneTimeAmount = findViewById(R.id.etOneTime)
-        etTotalAmount = findViewById(R.id.etTotal)
+        etEssentialAmount = findViewById(R.id.etEssentialAmount)
+        etNonEssentialAmount = findViewById(R.id.etNonEssentialAmount)
+        etRecurringAmount = findViewById(R.id.etRecurringAmount)
+        etOneTimeAmount = findViewById(R.id.etOneTimeAmount)
+        etTotalAmount = findViewById(R.id.etTotalAmount)
         etMonthlySavingsMain = findViewById(R.id.etMonthlySavings)
 
         setupMonthNavigation()
@@ -106,15 +109,7 @@ class MainMenu : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        val fields = listOf(
-            etBillsAmount, etSpendingsAmount, etIncomeAmount, etIncomingAmount,
-            etOverdueAmount, etEssentialAmount, etNonEssentialAmount,
-            etRecurringAmount, etOneTimeAmount, etTotalAmount
-        )
 
-        fields.forEach { field ->
-            field.addTextChangedListener(RealTimeFormattingTextWatcher(field))
-        }
 
         val toolbar: Toolbar = findViewById(R.id.toolbar_main)
         setSupportActionBar(toolbar)
@@ -223,11 +218,24 @@ class MainMenu : AppCompatActivity() {
             intent.putExtra("FILTER_TYPE", "all")
             startActivity(intent)
         }
-        val etIncome: EditText = findViewById(R.id.etIncome)
+        val etIncome: EditText = findViewById(R.id.etIncomeAmount)
         etIncome.setOnClickListener {
             val intent = Intent(this, MyIncome::class.java)
             intent.putExtra("FILTER_TYPE", "all")
             startActivity(intent)
+        }
+    }
+    private fun formatAmount(value: Double): String {
+        val numberFormat = NumberFormat.getCurrencyInstance(Locale.getDefault())
+        return if (value < 0) {
+            // Handle negative values appropriately
+            if (Locale.getDefault() == Locale.US) {
+                "(${numberFormat.format(-value)})" // Parentheses for US locale
+            } else {
+                "-${numberFormat.format(-value)}" // Explicit negative sign for other locales
+            }
+        } else {
+            numberFormat.format(value)
         }
     }
 
@@ -237,7 +245,13 @@ class MainMenu : AppCompatActivity() {
         val gson = Gson()
         val json = sharedPref.getString("billsList", null)
         val type = object : TypeToken<ArrayList<Bills>>() {}.type
-        return gson.fromJson(json, type) ?: ArrayList()
+        val billsList: ArrayList<Bills> = gson.fromJson(json, type) ?: ArrayList()
+
+        // Parse amounts correctly
+        billsList.forEach { bill ->
+            bill.amount = parseLocalizedDouble(bill.amount.toString())
+        }
+        return billsList
     }
 
     private fun getSpendings(): ArrayList<Spendings> {
@@ -245,7 +259,13 @@ class MainMenu : AppCompatActivity() {
         val gson = Gson()
         val json = sharedPref.getString("spendingsList", null)
         val type = object : TypeToken<ArrayList<Spendings>>() {}.type
-        return gson.fromJson(json, type) ?: ArrayList()
+        val spendingsList: ArrayList<Spendings> = gson.fromJson(json, type) ?: ArrayList()
+
+        // Parse amounts correctly
+        spendingsList.forEach { spending ->
+            spending.amount = parseLocalizedDouble(spending.amount.toString())
+        }
+        return spendingsList
     }
 
     private fun getIncome(): ArrayList<Income> {
@@ -253,7 +273,13 @@ class MainMenu : AppCompatActivity() {
         val gson = Gson()
         val json = sharedPref.getString("incomeList", null)
         val type = object : TypeToken<ArrayList<Income>>() {}.type
-        return gson.fromJson(json, type) ?: ArrayList()
+        val incomeList: ArrayList<Income> = gson.fromJson(json, type) ?: ArrayList()
+
+        // Parse amounts correctly
+        incomeList.forEach { income ->
+            income.amount = parseLocalizedDouble(income.amount.toString())
+        }
+        return incomeList
     }
 
     // Method to filter bills and income by the currently selected month
@@ -309,18 +335,9 @@ class MainMenu : AppCompatActivity() {
         }
 
         // Calculate totals for bills, spendings, and income
-        val totalBills = billsForMonth.sumOf {
-            parseFormattedNumber(it.amount)
-        }.toFloat()
-
-        val totalSpendings = spendingsForMonth.sumOf {
-            parseFormattedNumber(it.amount)
-        }.toFloat()
-
-        val totalIncome = incomeForMonth.sumOf {
-            parseFormattedNumber(it.amount)
-        }.toFloat()
-
+        val totalBills = billsForMonth.sumOf { it.amount }
+        val totalSpendings = spendingsForMonth.sumOf { it.amount }
+        val totalIncome = incomeForMonth.sumOf { it.amount }
 
         // Calculate incoming bills (unpaid, in the future)
         val currentDate = Date()
@@ -328,29 +345,19 @@ class MainMenu : AppCompatActivity() {
             val billDate = bill.date?.toDate()
             billDate != null && billDate.after(currentDate) && !bill.paid &&
                     dateFormat.format(billDate) == currentMonthString
-        }.sumOf { parseFormattedNumber(it.amount) }.toFloat()
+        }.sumOf { it.amount }
 
         // Calculate overdue bills (unpaid, in the past)
         val totalOverdue = billsList.filter { bill ->
             val billDate = bill.date?.toDate()
             billDate != null && billDate.before(currentDate) && !bill.paid &&
                     dateFormat.format(billDate) == currentMonthString
-        }.sumOf { parseFormattedNumber(it.amount) }.toFloat()
-
+        }.sumOf { it.amount }
 
         // Calculate the total amount for the month
         val total = totalIncome - totalBills - totalSpendings
 
-        // Display the calculated values in the appropriate fields
-        etBillsAmount.setText(String.format(Locale.getDefault(), "%.2f", -totalBills))
-        etSpendingsAmount.setText(String.format(Locale.getDefault(), "%.2f", -totalSpendings))
-        etIncomeAmount.setText(String.format(Locale.getDefault(), "%.2f", totalIncome))
-        etIncomingAmount.setText(String.format(Locale.getDefault(), "%.2f", -totalIncoming))
-        etOverdueAmount.setText(String.format(Locale.getDefault(), "%.2f", -totalOverdue))
-
-        etTotalAmount.setText(String.format(Locale.getDefault(), "%.2f", total))
-
-        // Calculate essential and non-essential spendings based on predefined categories
+    // Calculate essential and non-essential spendings based on predefined categories
         val essentialCategories = listOf("Accommodation", "Communication", "Insurance", "Transportation", "Finances/Fees", "Taxes", "Health", "Education", "Shopping & Consumption")
         val essentialSubcategories = listOf("Rent", "Utilities", "Groceries - Basic Food", "Groceries - Household Necessities", "Mobile phone", "Internet", "Health insurance", "Car insurance", "Fuel", "Public transportation")
 
@@ -363,7 +370,7 @@ class MainMenu : AppCompatActivity() {
                     subcategory in essentialSubcategories ||
                             (subcategory == null && category in essentialCategories)
                     )
-        }.sumOf { parseFormattedNumber(it.amount) }.toFloat()
+        }.sumOf { (it.amount) }
 
         val nonEssentialCategories = listOf("Subscription and Memberships", "Others")
         val nonEssentialSubcategories = listOf("Entertainment", "Dining out", "Hobbies", "Streaming services", "Movies", "Vacation", "Gadgets")
@@ -377,39 +384,31 @@ class MainMenu : AppCompatActivity() {
                     subcategory in nonEssentialSubcategories ||
                             (subcategory == null && category in nonEssentialCategories)
                     )
-        }.sumOf { parseFormattedNumber(it.amount) }.toFloat()
+        }.sumOf { (it.amount) }
 
         // Calculate recurring and one-time income
         val totalRecurringIncome = incomeForMonth.filter { income ->
             income.repeat != "No"
-        }.sumOf { parseFormattedNumber(it.amount) }.toFloat()
+        }.sumOf { (it.amount) }
 
         val totalOneTimeIncome = incomeForMonth.filter { income ->
             income.repeat == "No"
-        }.sumOf { parseFormattedNumber(it.amount) }.toFloat()
+        }.sumOf { (it.amount) }
 
-        // Ensure that the items are displayed as negative for bills and spendings
-        val displayBillsAmount = -totalBills
-        val displayIncomingAmount = -totalIncoming
-        val displayOverdueAmount = -totalOverdue
-        val displaySpendingsAmount = -totalSpendings
-        val displayEssentialAmount = -totalEssential
-        val displayNonEssentialAmount = -totalNonEssential
-        val displayIncomeAmount = +totalIncome
-        val displayRecurringAmount = +totalRecurringIncome
-        val displayOneTimeAmount = +totalOneTimeIncome
 
         // Display the calculated values in the appropriate fields
-        etBillsAmount.setText(String.format(Locale.getDefault(), "%.2f", displayBillsAmount))
-        etSpendingsAmount.setText(String.format(Locale.getDefault(), "%.2f", displaySpendingsAmount))
-        etIncomeAmount.setText(String.format(Locale.getDefault(), "%.2f", displayIncomeAmount))
-        etIncomingAmount.setText(String.format(Locale.getDefault(), "%.2f", displayIncomingAmount))
-        etOverdueAmount.setText(String.format(Locale.getDefault(), "%.2f", displayOverdueAmount))
-        etEssentialAmount.setText(String.format(Locale.getDefault(), "%.2f", displayEssentialAmount))
-        etNonEssentialAmount.setText(String.format(Locale.getDefault(), "%.2f", displayNonEssentialAmount))
-        etRecurringAmount.setText(String.format(Locale.getDefault(), "%.2f", displayRecurringAmount))
-        etOneTimeAmount.setText(String.format(Locale.getDefault(), "%.2f", displayOneTimeAmount))
-        etTotalAmount.setText(String.format(Locale.getDefault(), "%.2f", total))
+
+        etBillsAmount.setText(formatAmount(totalBills))
+        etSpendingsAmount.setText(formatAmount(totalSpendings))
+        etIncomeAmount.setText(formatAmount(totalIncome))
+        etIncomingAmount.setText(formatAmount(totalIncoming))
+        etOverdueAmount.setText(formatAmount(totalOverdue))
+        etEssentialAmount.setText(formatAmount(totalEssential))
+        etNonEssentialAmount.setText(formatAmount(totalNonEssential))
+        etRecurringAmount.setText(formatAmount(totalRecurringIncome))
+        etOneTimeAmount.setText(formatAmount(totalOneTimeIncome))
+        etTotalAmount.setText(formatAmount(total))
+
     }
 
     private fun setupMonthNavigation() {
@@ -570,7 +569,7 @@ class MainMenu : AppCompatActivity() {
         startDateEditText: EditText,
         endDateEditText: EditText
     ): Boolean {
-        val targetAmount = targetAmountEditText.text.toString().toFloatOrNull()
+        val targetAmount = targetAmountEditText.text.toString().toDoubleOrNull()
         val startDate = getDateFromEditText(startDateEditText)
         val endDate = getDateFromEditText(endDateEditText)
 
@@ -620,24 +619,29 @@ class MainMenu : AppCompatActivity() {
             else -> true
         }
     }
+    private fun parseLocalizedDouble(input: String): Double {
+        return try {
+            val numberFormat = NumberFormat.getInstance(Locale.getDefault())
+            numberFormat.parse(input)?.toDouble() ?: 0.0
+        } catch (e: Exception) {
+            0.0 // Return 0.0 if parsing fails
+        }
+    }
 
-
-    private fun updateProgressBar(targetAmount: Float) {
-        val savedAmountSoFar = etTotalAmount.text.toString().toFloatOrNull() ?: 0f
+    private fun updateProgressBar(targetAmount: Double) {
+        // Ensure both values are Double
+        val savedAmountSoFar = etTotalAmount.text.toString().toDoubleOrNull() ?: 0.0
         val progressBarSavings =
             findViewById<com.google.android.material.progressindicator.LinearProgressIndicator>(R.id.progressBarSavings)
         val tvProgressPercentage = findViewById<TextView>(R.id.tvProgressPercentage)
 
+        // Check for valid targetAmount to avoid division by zero
         if (targetAmount > 0) {
-            val progress = (savedAmountSoFar / targetAmount) * 100
-            val adjustedProgress = progress.coerceIn(0f, 100f) // Ensure progress is between 0% and 100%
-            progressBarSavings?.let {
-                it.setProgressCompat(adjustedProgress.toInt(), true)
-            }
-            // Update the percentage text
-            tvProgressPercentage.text = String.format("%.0f%%", adjustedProgress)
+            val progress = ((savedAmountSoFar / targetAmount) * 100).coerceIn(0.0, 100.0)
+            progressBarSavings.setProgressCompat(progress.toInt(), true)
+            tvProgressPercentage.text = String.format("%.0f%%", progress)
         } else {
-            progressBarSavings?.setProgressCompat(0, true)
+            progressBarSavings.setProgressCompat(0, true)
             tvProgressPercentage.text = "0%"
         }
     }
@@ -754,15 +758,6 @@ class MainMenu : AppCompatActivity() {
                 }
         }
 
-        // TextWatcher for calculating monthly savings and updating progress
-        targetAmountEditText.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                updateMonthlySavingsFromFields(targetAmountEditText, startDateEditText, endDateEditText, monthlySavingsEditText)
-                updateProgressBar(targetAmountEditText.text.toString().toFloatOrNull() ?: 0f)
-            }
-            override fun afterTextChanged(s: Editable?) {}
-        })
 
         // DatePicker for start and end date selection
         startDateEditText.setOnClickListener { showDatePickerDialog(startDateEditText) }
@@ -851,12 +846,12 @@ class MainMenu : AppCompatActivity() {
         endDateEditText: EditText,
         monthlySavingsEditText: EditText
     ) {
-        val targetAmount = targetAmountEditText.text.toString().toFloatOrNull()
+        val targetAmount = targetAmountEditText.text.toString().toDoubleOrNull()  ?: 0.0
         val startDate = getDateFromEditText(startDateEditText)
         val endDate = getDateFromEditText(endDateEditText)
 
         if (targetAmount != null && startDate != null && endDate != null && startDate.before(endDate)) {
-            val monthsDifference = getMonthsBetweenDates(startDate, endDate)
+            val monthsDifference = getMonthsBetweenDates(startDate, endDate).toDouble()
             if (monthsDifference > 0) {
                 val monthlySavings = targetAmount / monthsDifference
                 monthlySavingsEditText.setText(String.format("%.2f", monthlySavings))
@@ -864,6 +859,7 @@ class MainMenu : AppCompatActivity() {
         } else {
             // Clear the monthly savings if inputs are invalid
             monthlySavingsEditText.setText("")
+            Toast.makeText(this, "Invalid inputs for monthly savings calculation.", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -883,7 +879,7 @@ class MainMenu : AppCompatActivity() {
     }
 
     // Method to save the target with start and end dates
-    private fun saveSavings(targetAmount: Float, startDate: Date, endDate: Date, targetName: String) {
+    private fun saveSavings(targetAmount: Double, startDate: Date, endDate: Date, targetName: String) {
         val userUid = FirebaseAuth.getInstance().currentUser?.uid
 
         if (userUid != null) {
@@ -930,7 +926,7 @@ class MainMenu : AppCompatActivity() {
     }
 
     // Method to distribute savings across months and save them in Firebase
-    private fun distributeSavingsAcrossMonths(startDate: Date, endDate: Date, targetAmount: Float, savingsId: String) {
+    private fun distributeSavingsAcrossMonths(startDate: Date, endDate: Date, targetAmount: Double, savingsId: String) {
         val startCalendar = Calendar.getInstance()
         startCalendar.time = startDate
 
@@ -938,7 +934,7 @@ class MainMenu : AppCompatActivity() {
         endCalendar.time = endDate
 
         val months = getMonthsBetweenDates(startCalendar, endCalendar)
-        val monthlyAmount = targetAmount / months
+        val monthlyAmount = targetAmount / months.toDouble()
         val dateFormat = SimpleDateFormat("MM-yyyy", Locale.getDefault())
 
         for (i in 0 until months) {
@@ -968,7 +964,7 @@ class MainMenu : AppCompatActivity() {
         documentId: String
     ) {
         val userUid = FirebaseAuth.getInstance().currentUser?.uid
-        val targetAmount = targetAmountEditText.text.toString().toFloatOrNull()
+        val targetAmount = targetAmountEditText.text.toString().toDoubleOrNull()
         val targetName = targetNameSpinner.selectedItem.toString()
 
         if (userUid != null && targetAmount != null) {
@@ -1046,7 +1042,7 @@ class MainMenu : AppCompatActivity() {
                         // Check if the target is active for this month
                         if (startDate <= currentTimestamp && endDate >= currentTimestamp) {
                             val monthsDifference = calculateMonthsDifference(startDate.toDate(), endDate.toDate())
-                            val calculatedMonthlySavings = targetAmount / monthsDifference
+                            val calculatedMonthlySavings = targetAmount / monthsDifference.toDouble()
 
                             // Display total monthly savings and target name
                             etMonthlySavingsMain.text = String.format("%.2f", calculatedMonthlySavings)
@@ -1075,15 +1071,6 @@ class MainMenu : AppCompatActivity() {
         val current = dateFormat.parse(currentMonth)
 
         return current in start..end
-    }
-    private fun parseFormattedNumber(numberString: String?): Double {
-        return try {
-            val format = NumberFormat.getInstance(Locale.US) // Use explicit locale (e.g., Locale.US)
-            format.parse(numberString)?.toDouble() ?: 0.0
-        } catch (e: Exception) {
-            e.printStackTrace()
-            0.0 // Return 0.0 on failure
-        }
     }
 
     // Updated method to calculate months difference between two Date objects

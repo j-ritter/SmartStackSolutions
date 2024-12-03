@@ -144,55 +144,6 @@ class createBill : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_create_bill)
 
-        // Initialize edtAmountBill before using it
-        edtAmountBill = findViewById(R.id.edtAmountBill)
-
-        // Apply TextWatcher for real-time formatting
-        edtAmountBill.addTextChangedListener(object : TextWatcher {
-            private var isFormatting: Boolean = false // Prevent recursive formatting
-            private var currentText: String = ""
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-
-            override fun afterTextChanged(s: Editable?) {
-                if (isFormatting) return
-
-                val input = s.toString()
-                if (input != currentText) {
-                    isFormatting = true
-                    try {
-                        // Remove formatting characters, keeping only digits and a single decimal point
-                        val cleanString = input.replace("[^\\d.]".toRegex(), "")
-
-                        // Preserve the decimal point and format correctly
-                        if (cleanString.isNotEmpty()) {
-                            val decimalParts = cleanString.split(".")
-                            val integerPart = decimalParts[0].toLongOrNull() ?: 0
-                            val formattedIntegerPart = DecimalFormat("#,###").format(integerPart)
-
-                            // Rebuild the formatted string
-                            val formatted = if (decimalParts.size > 1) {
-                                // Preserve up to two decimal places
-                                val decimalPart = decimalParts[1].take(2)
-                                "$formattedIntegerPart.$decimalPart"
-                            } else {
-                                formattedIntegerPart
-                            }
-
-                            currentText = formatted
-                            edtAmountBill.setText(formatted)
-                            edtAmountBill.setSelection(formatted.length) // Move cursor to the end
-                        }
-                    } catch (e: Exception) {
-                        Toast.makeText(this@createBill, "Invalid input: ${e.message}", Toast.LENGTH_SHORT).show()
-                    }
-                    isFormatting = false
-                }
-            }
-        })
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(
@@ -315,7 +266,7 @@ class createBill : AppCompatActivity() {
     private fun saveBill() {
         // Retrieve values from input fields
         val billName = findViewById<EditText>(R.id.edtTitleBill).text.toString()
-        val billAmount = findViewById<EditText>(R.id.edtAmountBill).text.toString()
+        val billAmount = findViewById<EditText>(R.id.edtAmountBill).text.toString().toDoubleOrNull() ?: 0.0
         val billDateString = findViewById<EditText>(R.id.edtDateBill).text.toString()
         val billCategory = findViewById<Spinner>(R.id.spinnerCategoriesBill).selectedItem?.toString() ?: "-"
         val billVendor = findViewById<AutoCompleteTextView>(R.id.autoCompleteVendorBill).text.toString()
@@ -323,6 +274,16 @@ class createBill : AppCompatActivity() {
         val billRepeat = findViewById<Spinner>(R.id.spinnerRepeatBill).selectedItem?.toString() ?: "-"
         val billComment = findViewById<EditText>(R.id.edtCommentBill).text.toString()
         val billPaid = findViewById<CheckBox>(R.id.checkBoxPaidBill).isChecked
+
+        // Validate mandatory fields
+        if (billName.isBlank()) {
+            Toast.makeText(this, "Please enter a name for the bill", Toast.LENGTH_SHORT).show()
+            return
+        }
+        if (billAmount == null || billAmount <= 0) {
+            Toast.makeText(this, "Please enter a valid amount", Toast.LENGTH_SHORT).show()
+            return
+        }
 
         // Convert date string to Timestamp
         val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
@@ -389,7 +350,7 @@ class createBill : AppCompatActivity() {
     }
 
     private fun generateRecurringBills(
-        billTitle: String, billAmount: String, startDate: Date, billCategory: String,
+        billTitle: String, billAmount: Double, startDate: Date, billCategory: String,
         billVendor: String, billRepeat: String, billComment: String, parentBillId: String
     ) {
         val calendar = Calendar.getInstance()

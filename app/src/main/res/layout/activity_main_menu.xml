@@ -45,7 +45,7 @@
                 app:title="SmartStackSolutions"
                 app:titleCentered="true"
                 android:paddingEnd="12dp"
-                android:paddingStart="12dp"/>
+                android:paddingStart="12dp" />
 
             <View
                 android:id="@+id/view"
@@ -56,7 +56,7 @@
                 android:layout_marginTop="24dp"
                 app:layout_constraintHeight_default="wrap"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintEnd_toEndOf="parent" />
 
             <!-- Month Navigation Layout -->
             <LinearLayout
@@ -117,14 +117,14 @@
                 android:id="@+id/etBillsAmount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType="none"
+                android:inputType="number|numberDecimal"
                 android:hint="-0.00"
                 android:focusable="false"
                 android:textStyle="bold"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBaseline_toBaselineOf="@id/tvBills"
-                android:layout_marginEnd="16dp"/>
+                android:layout_marginEnd="16dp" />
 
             <TextView
                 android:id="@+id/tvIncoming"
@@ -142,13 +142,13 @@
                 android:id="@+id/etIncomingAmount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType="none"
+                android:inputType="number|numberDecimal"
                 android:hint="-0.00"
                 android:focusable="false"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBaseline_toBaselineOf="@id/tvIncoming"
-                android:layout_marginEnd="16dp"/>
+                android:layout_marginEnd="16dp" />
 
             <TextView
                 android:id="@+id/tvOverdue"
@@ -166,7 +166,7 @@
                 android:id="@+id/etOverdueAmount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType="none"
+                android:inputType="number|numberDecimal"
                 android:focusable="false"
                 android:hint="-0.00"
                 android:textSize="16sp"
@@ -184,7 +184,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvOverdue"
                 android:layout_marginTop="24dp" />
-
             <!-- TextViews and EditTexts for Closed Payments with Thin Line Divider -->
             <TextView
                 android:id="@+id/tvSpendings"
@@ -203,14 +202,14 @@
                 android:id="@+id/etSpendingsAmount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType="none"
+                android:inputType="number|numberDecimal"
                 android:hint="-0.00"
                 android:focusable="false"
                 android:textStyle="bold"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBaseline_toBaselineOf="@id/tvSpendings"
-                android:layout_marginEnd="16dp"/>
+                android:layout_marginEnd="16dp" />
 
             <TextView
                 android:id="@+id/tvEssential"
@@ -225,16 +224,16 @@
                 android:layout_marginTop="24dp" />
 
             <EditText
-                android:id="@+id/etEssential"
+                android:id="@+id/etEssentialAmount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType="none"
+                android:inputType="number|numberDecimal"
                 android:hint="-0.00"
                 android:focusable="false"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBaseline_toBaselineOf="@id/tvEssential"
-                android:layout_marginEnd="16dp"/>
+                android:layout_marginEnd="16dp" />
 
             <TextView
                 android:id="@+id/tvNonEssential"
@@ -249,16 +248,16 @@
                 android:layout_marginTop="24dp" />
 
             <EditText
-                android:id="@+id/etNonEssential"
+                android:id="@+id/etNonEssentialAmount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType="none"
+                android:inputType="number|numberDecimal"
                 android:hint="-0.00"
                 android:focusable="false"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBaseline_toBaselineOf="@id/tvNonEssential"
-                android:layout_marginEnd="16dp"/>
+                android:layout_marginEnd="16dp" />
 
             <!-- Thin Line Divider -->
             <View
@@ -271,32 +270,32 @@
                 app:layout_constraintTop_toBottomOf="@id/tvNonEssential"
                 android:layout_marginTop="24dp" />
 
-            <!-- TextViews and EditTexts for Income with Thin Line Divider -->
+            <!-- TextViews and EditTexts for Income -->
             <TextView
                 android:id="@+id/tvIncome"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Income"
                 android:textSize="16sp"
-                android:textColor="@android:color/black"
                 android:textStyle="bold"
+                android:textColor="@android:color/black"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/divider2"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="24dp" />
 
             <EditText
-                android:id="@+id/etIncome"
+                android:id="@+id/etIncomeAmount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType="none"
-                android:focusable="false"
+                android:inputType="number|numberDecimal"
                 android:hint="+0.00"
+                android:focusable="false"
                 android:textStyle="bold"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBaseline_toBaselineOf="@id/tvIncome"
-                android:layout_marginEnd="16dp"/>
+                android:layout_marginEnd="16dp" />
 
             <TextView
                 android:id="@+id/tvRecurring"
@@ -311,16 +310,16 @@
                 android:layout_marginTop="24dp" />
 
             <EditText
-                android:id="@+id/etRecurring"
+                android:id="@+id/etRecurringAmount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType="none"
-                android:focusable="false"
+                android:inputType="number|numberDecimal"
                 android:hint="+0.00"
+                android:focusable="false"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBaseline_toBaselineOf="@id/tvRecurring"
-                android:layout_marginEnd="16dp"/>
+                android:layout_marginEnd="16dp" />
 
             <TextView
                 android:id="@+id/tvOneTime"
@@ -335,16 +334,16 @@
                 android:layout_marginTop="24dp" />
 
             <EditText
-                android:id="@+id/etOneTime"
+                android:id="@+id/etOneTimeAmount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType="none"
-                android:focusable="false"
+                android:inputType="number|numberDecimal"
                 android:hint="+0.00"
+                android:focusable="false"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBaseline_toBaselineOf="@id/tvOneTime"
-                android:layout_marginEnd="16dp"/>
+                android:layout_marginEnd="16dp" />
 
             <!-- Thin Line Divider -->
             <View
@@ -357,43 +356,42 @@
                 app:layout_constraintTop_toBottomOf="@id/tvOneTime"
                 android:layout_marginTop="24dp" />
 
-            <!-- TextView for "Total" -->
+            <!-- TextView for Total -->
             <TextView
                 android:id="@+id/tvTotal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Total Net Savings"
                 android:textSize="16sp"
-                android:textColor="@android:color/black"
                 android:textStyle="bold"
+                android:textColor="@android:color/black"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/divider3"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"/>
+                android:layout_marginTop="16dp" />
 
             <EditText
-                android:id="@+id/etTotal"
+                android:id="@+id/etTotalAmount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:inputType="numberDecimal"
-                android:hint="0.00"
+                android:hint="+0.00"
                 android:focusable="false"
                 android:textStyle="bold"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBaseline_toBaselineOf="@id/tvTotal"
-                android:layout_marginEnd="16dp"/>
+                android:layout_marginEnd="16dp" />
 
-            <!-- Set Saving Target TextView and EditText -->
+            <!-- Set Saving Target -->
             <TextView
                 android:id="@+id/tvSetSavingTarget"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Saving Target"
                 android:textSize="16sp"
-                android:textColor="@android:color/black"
                 android:textStyle="bold"
-
+                android:textColor="@android:color/black"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvTotal"
                 android:layout_marginStart="16dp"
@@ -401,7 +399,6 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:onClick="openSavingsDialog" />
-
 
             <EditText
                 android:id="@+id/etMonthlySavings"
@@ -417,8 +414,7 @@
                 app:layout_constraintBaseline_toBaselineOf="@id/tvSetSavingTarget"
                 android:layout_marginEnd="16dp" />
 
-
-            <!-- Target Achieved TextView and ProgressBar -->
+            <!-- Target Achieved -->
             <TextView
                 android:id="@+id/tvTargetAchieved"
                 android:layout_width="wrap_content"
@@ -432,7 +428,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp" />
 
-            <!-- TextView to show percentage above ProgressBar -->
+            <!-- Progress Percentage -->
             <TextView
                 android:id="@+id/tvProgressPercentage"
                 android:layout_width="wrap_content"
@@ -444,9 +440,9 @@
                 app:layout_constraintStart_toEndOf="@id/progressBarSavings"
                 app:layout_constraintTop_toBottomOf="@id/etMonthlySavings"
                 android:layout_marginTop="-4dp"
-                android:layout_marginEnd="6dp"/>
+                android:layout_marginEnd="6dp" />
 
-
+            <!-- Progress Bar -->
             <com.google.android.material.progressindicator.LinearProgressIndicator
                 android:id="@+id/progressBarSavings"
                 android:layout_width="100dp"
@@ -461,7 +457,7 @@
                 android:progress="0"
                 app:trackThickness="12dp" />
 
-            <!-- Goal Summary TextView -->
+            <!-- Goal Summary -->
             <TextView
                 android:id="@+id/tvGoalSummary"
                 android:layout_width="wrap_content"
@@ -483,11 +479,12 @@
                 android:src="@drawable/ic_add"
                 app:backgroundTint="#8ECAE6"
                 app:fabSize="normal"
+
                 app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
-                android:contentDescription="@string/create_new_Open_Payment"/>
+                android:contentDescription="@string/create_new_Open_Payment" />
 
             <!-- Bottom Navigation View -->
             <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -517,3 +514,4 @@
         app:menu="@menu/activity_main_drawer" />
 
 </androidx.drawerlayout.widget.DrawerLayout>
+

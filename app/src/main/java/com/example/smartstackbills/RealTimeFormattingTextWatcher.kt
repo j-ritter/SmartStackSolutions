@@ -1,5 +1,3 @@
-package com.example.smartstackbills
-
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
@@ -8,7 +6,12 @@ import java.text.DecimalFormat
 class RealTimeFormattingTextWatcher(private val editText: EditText) : TextWatcher {
 
     private var isFormatting: Boolean = false // To prevent recursive calls
+    private var isEnabled: Boolean = true // Toggle for enabling/disabling formatting
     private var currentText: String = ""
+
+    fun setFormattingEnabled(enabled: Boolean) {
+        isEnabled = enabled
+    }
 
     override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
         // No action needed before text changes
@@ -19,7 +22,7 @@ class RealTimeFormattingTextWatcher(private val editText: EditText) : TextWatche
     }
 
     override fun afterTextChanged(s: Editable?) {
-        if (isFormatting) return
+        if (!isEnabled || isFormatting) return
 
         val input = s.toString()
         if (input != currentText) {

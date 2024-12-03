@@ -6,7 +6,7 @@ public class Notifications {
 
     private String notificationId;
     private String title;
-    private String amount;
+    private Double amount;
     private Timestamp date;
     private Timestamp createdAt;
     private boolean isUnread;
@@ -16,7 +16,7 @@ public class Notifications {
         this.createdAt = Timestamp.now();  // Initialize to the current time by default
     }
 
-    public Notifications(String notificationId, String title, Timestamp date, String amount, boolean isUnread) {
+    public Notifications(String notificationId, String title, Timestamp date, double amount, boolean isUnread) {
         this.notificationId = notificationId;
         this.title = title;
         this.date = date;
@@ -50,11 +50,11 @@ public class Notifications {
         this.date = date;
     }
 
-    public String getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(String amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 

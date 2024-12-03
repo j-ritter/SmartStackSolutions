@@ -5,15 +5,17 @@ import com.google.firebase.Timestamp;
 public class Bills {
 
     String billId;
-    String name, comment, category, amount, vendor, repeat, subcategory, attachment;
+    String name, comment, category, vendor, repeat, subcategory, attachment;
     Timestamp date;
+    double amount;
     boolean paid;
 
+    // Default constructor required for Firestore
     public Bills() {
-        // Default constructor required for Firestore
     }
 
-    public Bills(String billId, String name, Timestamp date, String comment, String category, String amount, String vendor, boolean paid, String repeat, String subcategory, String attachment) {
+    // Constructor
+    public Bills(String billId, String name, Timestamp date, String comment, String category, double amount, String vendor, boolean paid, String repeat, String subcategory, String attachment) {
         this.billId = billId;
         this.name = name;
         this.date = date;
@@ -25,7 +27,6 @@ public class Bills {
         this.repeat = repeat;
         this.subcategory = subcategory;
         this.attachment = attachment;
-
     }
 
     // Getters and Setters
@@ -94,11 +95,11 @@ public class Bills {
         this.category = category;
     }
 
-    public String getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(String amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 
@@ -117,6 +118,4 @@ public class Bills {
     public void setPaid(boolean paid) {
         this.paid = paid;
     }
-
-
 }

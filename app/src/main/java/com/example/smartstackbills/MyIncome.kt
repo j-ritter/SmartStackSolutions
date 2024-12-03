@@ -220,12 +220,26 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
                     if (snapshots != null) {
                         incomeArrayList.clear()
                         allIncomeArrayList.clear()
+
                         for (document in snapshots.documents) {
-                            val income = document.toObject(Income::class.java)
-                            if (income != null) {
-                                incomeArrayList.add(income)
-                                allIncomeArrayList.add(income)
-                                Log.d("Firestore Data", "Income added: ${income.name}, ${income.date}, ${income.repeat}")
+                            try {
+                                val income = document.toObject(Income::class.java)
+                                if (income != null) {
+                                    // Validate and handle the `amount` field
+                                    if (document.contains("amount")) {
+                                        val rawAmount = document["amount"]
+                                        income.amount = when (rawAmount) {
+                                            is Number -> rawAmount.toDouble()
+                                            is String -> rawAmount.toDoubleOrNull() ?: 0.0
+                                            else -> 0.0 // Default to 0 for invalid values
+                                        }
+                                    }
+                                    incomeArrayList.add(income)
+                                    allIncomeArrayList.add(income)
+                                    Log.d("Firestore Data", "Income added: ${income.name}, ${income.date}, ${income.repeat}")
+                                }
+                            } catch (ex: Exception) {
+                                Log.e("DataError", "Error processing document ${document.id}: ${ex.message}")
                             }
                         }
                         saveIncome()
@@ -290,7 +304,7 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
             if (income.date != null) dateFormat.format(income.date.toDate()) else ""
 
         edtTitleDialog.setText(income.name)
-        edtAmountDialog.setText(income.amount)
+        edtAmountDialog.setText(String.format(Locale.getDefault(), "%.2f", income.amount))
         edtCategoryDialog.setText(income.category)
         edtSubcategoryDialog.setText(income.subcategory)
         edtDateDialog.setText(incomeDateString)

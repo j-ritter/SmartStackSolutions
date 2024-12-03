@@ -336,7 +336,7 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
         dialog.show()
 
         edtTitleDialog.setText(bill.name)
-        edtAmountDialog.setText(bill.amount)
+        edtAmountDialog.setText(String.format(Locale.getDefault(), "%.2f", bill.amount))
         edtCategoryDialog.setText(if (bill.category != "-") bill.category else "")
         edtSubcategoryDialog.setText(if (bill.subcategory != "-") bill.subcategory else "")
         edtVendorDialog.setText(if (bill.vendor != "-") bill.vendor else "")
@@ -366,7 +366,7 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
             if (userUid != null && selectedBill != null) {
                 // Update the bill object with new values
                 selectedBill?.name = edtTitleDialog.text.toString()
-                selectedBill?.amount = edtAmountDialog.text.toString()
+                selectedBill?.amount = edtAmountDialog.text.toString().toDoubleOrNull() ?: 0.0
                 selectedBill?.comment = edtCommentDialog.text.toString()
 
                 btnSaveChanges.visibility = View.VISIBLE

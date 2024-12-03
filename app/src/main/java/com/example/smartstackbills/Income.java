@@ -5,7 +5,8 @@ import com.google.firebase.Timestamp;
 public class Income {
 
     String incomeId;
-    String name, comment, category, amount, repeat, subcategory;
+    String name, comment, category, repeat, subcategory;
+    double amount;
     Timestamp date;
 
 
@@ -13,7 +14,7 @@ public class Income {
         // Default constructor needed for Firestore
     }
 
-    public Income(String incomeId, String name, Timestamp date, String comment, String category, String amount, String repeat, String subcategory) {
+    public Income(String incomeId, String name, Timestamp date, String comment, String category, double amount, String repeat, String subcategory) {
         this.incomeId = incomeId;
         this.name = name;
         this.date = date;
@@ -60,11 +61,11 @@ public class Income {
         this.category = category;
     }
 
-    public String getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(String amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 

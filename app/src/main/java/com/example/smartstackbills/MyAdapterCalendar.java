@@ -83,7 +83,7 @@ public class MyAdapterCalendar extends RecyclerView.Adapter<RecyclerView.ViewHol
             Bills bill = (Bills) calendarEntries.get(position);
             BillViewHolder billViewHolder = (BillViewHolder) holder;
             billViewHolder.title.setText(bill.getName());
-            billViewHolder.amount.setText(bill.getAmount());
+            billViewHolder.amount.setText(String.format(Locale.getDefault(), "%.2f", bill.getAmount()));
             billViewHolder.category.setText(bill.getCategory());
             String formattedDate = formatTimestamp(bill.getDate());
             billViewHolder.purchaseDate.setText(formattedDate);
@@ -91,7 +91,7 @@ public class MyAdapterCalendar extends RecyclerView.Adapter<RecyclerView.ViewHol
             Spendings spending = (Spendings) calendarEntries.get(position);
             SpendingViewHolder spendingViewHolder = (SpendingViewHolder) holder;
             spendingViewHolder.title.setText(spending.getName());
-            spendingViewHolder.amount.setText(spending.getAmount());
+            spendingViewHolder.amount.setText(String.format(Locale.getDefault(), "%.2f", spending.getAmount()));
             spendingViewHolder.category.setText(spending.getCategory());
             String formattedDate = formatTimestamp(spending.getDate());
             spendingViewHolder.dateOfSpending.setText(formattedDate);
@@ -99,7 +99,7 @@ public class MyAdapterCalendar extends RecyclerView.Adapter<RecyclerView.ViewHol
             Income income = (Income) calendarEntries.get(position);
             IncomeViewHolder incomeViewHolder = (IncomeViewHolder) holder;
             incomeViewHolder.title.setText(income.getName());
-            incomeViewHolder.amount.setText(income.getAmount());
+            incomeViewHolder.amount.setText(String.format(Locale.getDefault(), "%.2f", income.getAmount()));
             incomeViewHolder.category.setText(income.getCategory());
             String formattedDate = formatTimestamp(income.getDate());
             incomeViewHolder.dateOfIncome.setText(formattedDate);

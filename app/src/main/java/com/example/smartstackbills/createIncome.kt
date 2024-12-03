@@ -48,45 +48,6 @@ class createIncome : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_create_income)
 
-        val edtAmountIncome = findViewById<EditText>(R.id.edtAmountIncome)
-        edtAmountIncome.addTextChangedListener(object : TextWatcher {
-            private var isFormatting = false
-            private var currentText = ""
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-
-            override fun afterTextChanged(s: Editable?) {
-                if (isFormatting) return
-
-                val input = s.toString()
-                if (input != currentText) {
-                    isFormatting = true
-                    try {
-                        val cleanString = input.replace("[^\\d.]".toRegex(), "")
-                        if (cleanString.isNotEmpty()) {
-                            val decimalParts = cleanString.split(".")
-                            val integerPart = decimalParts[0].toLongOrNull() ?: 0
-                            val formattedIntegerPart = DecimalFormat("#,###").format(integerPart)
-                            val formatted = if (decimalParts.size > 1) {
-                                val decimalPart = decimalParts[1].take(2)
-                                "$formattedIntegerPart.$decimalPart"
-                            } else {
-                                formattedIntegerPart
-                            }
-                            currentText = formatted
-                            edtAmountIncome.setText(formatted)
-                            edtAmountIncome.setSelection(formatted.length)
-                        }
-                    } catch (e: Exception) {
-                        Toast.makeText(this@createIncome, "Invalid input: ${e.message}", Toast.LENGTH_SHORT).show()
-                    }
-                    isFormatting = false
-                }
-            }
-        })
-
         userEmail = intent.getStringExtra("USER_EMAIL")
         userUid = FirebaseAuth.getInstance().currentUser?.uid
 
@@ -167,7 +128,7 @@ class createIncome : AppCompatActivity() {
         if (validateMandatoryFields() && validateDateField()) {
             if (userEmail != null && userUid != null) {
                 val incomeTitle = findViewById<EditText>(R.id.edtTitleIncome).text.toString()
-                val incomeAmount = findViewById<EditText>(R.id.edtAmountIncome).text.toString()
+                val incomeAmount = findViewById<EditText>(R.id.edtAmountIncome).text.toString().toDoubleOrNull() ?: 0.0
                 val incomeDateString = findViewById<EditText>(R.id.edtDateIncome).text.toString()
                 val incomeCategory = findViewById<Spinner>(R.id.spinnerCategoriesIncome).selectedItem?.toString() ?: "-"
                 val incomeSubcategory = findViewById<Spinner>(R.id.spinnerSubcategoriesIncome).selectedItem?.toString() ?: "-"
@@ -220,7 +181,7 @@ class createIncome : AppCompatActivity() {
         }
     }
     private fun generateRecurringIncome(
-        incomeTitle: String, incomeAmount: String, incomeDate: Date, incomeCategory: String, incomeSubcategory: String,
+        incomeTitle: String, incomeAmount: Double, incomeDate: Date, incomeCategory: String, incomeSubcategory: String,
         incomeRepeat: String, incomeComment: String, parentIncomeId: String
     ) {
         val calendar = Calendar.getInstance()

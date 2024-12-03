@@ -60,7 +60,9 @@ public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.View
             notificationHolder.title.setText(currentNotification.getTitle());
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
             notificationHolder.date.setText(sdf.format(currentNotification.getDate().toDate()));
-            notificationHolder.amount.setText(currentNotification.getAmount());
+
+            notificationHolder.amount.setText(String.format(Locale.getDefault(), "%.2f", currentNotification.getAmount()));
+
             notificationHolder.createdAt.setText(sdf.format(currentNotification.getCreatedAt().toDate()));
 
             notificationHolder.unreadDot.setVisibility(currentNotification.isUnread() ? View.VISIBLE : View.GONE);
