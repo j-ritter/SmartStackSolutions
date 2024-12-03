@@ -12,10 +12,12 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import android.text.InputType
 import android.text.TextWatcher
+import androidx.work.WorkManager
 import java.text.SimpleDateFormat
 import java.util.*
 import com.google.firebase.Timestamp
 import java.text.DecimalFormat
+import java.util.concurrent.TimeUnit
 
 class createBill : AppCompatActivity() {
 
@@ -284,6 +286,10 @@ class createBill : AppCompatActivity() {
             Toast.makeText(this, "Please enter a valid amount", Toast.LENGTH_SHORT).show()
             return
         }
+        if (billDateString == null) {
+            Toast.makeText(this, "Please select a valid due date for the bill", Toast.LENGTH_SHORT).show()
+            return
+        }
 
         // Convert date string to Timestamp
         val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
@@ -319,18 +325,26 @@ class createBill : AppCompatActivity() {
 
                     // Trigger immediate notification using WorkManager
                     val workManager = androidx.work.WorkManager.getInstance(this)
-                    val workRequest = androidx.work.OneTimeWorkRequestBuilder<NotificationWorker>()
-                        .setInputData(
-                            androidx.work.workDataOf(
-                                "title" to billName,
-                                "amount" to billAmount,
-                                "billId" to billId,  // Add billId
-                                "dueDateMillis" to (billDate?.time ?: 0L),
-                                "createdAt" to (timestamp?.toDate()?.time ?: 0L)
+                    // Calculate delay for 72 hours (3 days) before the due date
+                    val delayMillis = (billDate?.time ?: 0L) - System.currentTimeMillis() - TimeUnit.HOURS.toMillis(72)
+
+                    if (delayMillis > 0) {
+                        val workRequest = androidx.work.OneTimeWorkRequestBuilder<NotificationWorker>()
+                            .setInitialDelay(delayMillis, java.util.concurrent.TimeUnit.MILLISECONDS)
+                            .setInputData(
+                                androidx.work.workDataOf(
+                                    "title" to billName,
+                                    "amount" to billAmount,
+                                    "billId" to billId,
+                                    "dueDateMillis" to (billDate?.time ?: 0L),
+                                    "createdAt" to (timestamp?.toDate()?.time ?: 0L)
+                                )
                             )
-                        )
-                        .build()
-                    workManager.enqueue(workRequest)
+                            .build()
+                        WorkManager.getInstance(this).enqueue(workRequest)
+                    } else {
+                        Toast.makeText(this, "Bill is due or overdue; no notification scheduled.", Toast.LENGTH_SHORT).show()
+                    }
 
                     // Generate recurring bills if necessary
                     if (billRepeat != "No") {
@@ -386,11 +400,27 @@ class createBill : AppCompatActivity() {
                 .set(recurringBill)
                 .addOnSuccessListener {
                     Toast.makeText(this, "Recurring bill saved successfully", Toast.LENGTH_SHORT).show()
+
+                    // Schedule notification for the recurring bill
+                    val delayMillis = calendar.timeInMillis - System.currentTimeMillis() - TimeUnit.HOURS.toMillis(72)
+                    if (delayMillis > 0) {
+                        val workRequest = androidx.work.OneTimeWorkRequestBuilder<NotificationWorker>()
+                            .setInitialDelay(delayMillis, java.util.concurrent.TimeUnit.MILLISECONDS)
+                            .setInputData(
+                                androidx.work.workDataOf(
+                                    "title" to billTitle,
+                                    "amount" to billAmount,
+                                    "billId" to newBillId,
+                                    "dueDateMillis" to calendar.timeInMillis
+                                )
+                            )
+                            .build()
+                        WorkManager.getInstance(this).enqueue(workRequest)
+                    }
                 }
                 .addOnFailureListener { e ->
                     Toast.makeText(this, "Error saving recurring bill: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
         }
     }
-
 }
