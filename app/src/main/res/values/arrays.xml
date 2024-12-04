@@ -206,4 +206,15 @@
         <item>6 Months</item>
         <item>12 Months</item>
     </string-array>
+
+    <string-array name="custom_weekdays">
+        <item>Sun</item>
+        <item>Mon</item>
+        <item>Tue</item>
+        <item>Wed</item>
+        <item>Thu</item>
+        <item>Fri</item>
+        <item>Sat</item>
+    </string-array>
+
 </resources>

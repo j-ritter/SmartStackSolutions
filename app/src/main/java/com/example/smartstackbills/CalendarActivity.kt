@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CalendarView
+import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
@@ -251,6 +252,10 @@ class CalendarActivity : AppCompatActivity(), MyAdapterCalendar.OnItemClickListe
         dialogBills.window?.setBackgroundDrawable(getDrawable(R.drawable.dialog_box_bills_bg))
         dialogBills.setCancelable(true)
 
+        // Find and disable the paid checkbox
+        val chkPaid = dialogBills.findViewById<CheckBox>(R.id.imgCheckBoxItemsBills)
+        chkPaid?.isEnabled = false
+
         val btnCloseDialog = dialogBills.findViewById<Button>(R.id.btnCloseDialogBillCalendar)
         btnCloseDialog.setOnClickListener {
             dialogBills.dismiss()
@@ -262,6 +267,10 @@ class CalendarActivity : AppCompatActivity(), MyAdapterCalendar.OnItemClickListe
         dialogSpendings.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         dialogSpendings.window?.setBackgroundDrawable(getDrawable(R.drawable.dialog_box_spendings_bg))
         dialogSpendings.setCancelable(true)
+
+        // Find and disable the paid checkbox
+        val chkPaid = dialogSpendings.findViewById<CheckBox>(R.id.imgCheckBoxItemsSpendings)
+        chkPaid?.isEnabled = false
 
         val btnCloseDialog = dialogSpendings.findViewById<Button>(R.id.btnCloseDialogSpendingsCalendar)
         btnCloseDialog.setOnClickListener {

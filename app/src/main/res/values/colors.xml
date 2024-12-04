@@ -36,4 +36,11 @@
     <color name="active_color">#FF000000</color> <!-- Active color (black) -->
     <color name="inactive_color">#D3D3D3</color> <!-- Inactive color (light gray) -->
 
+    <color name="bill_color">#03DAC5</color>
+    <color name="spending_color">#FFB703</color>
+    <color name="income_color">#8ECAE6</color>
+    <color name="unknown_color">#A9A9A9</color>
+
+
+
 </resources>

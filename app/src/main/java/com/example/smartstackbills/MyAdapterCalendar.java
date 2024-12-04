@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -87,6 +88,14 @@ public class MyAdapterCalendar extends RecyclerView.Adapter<RecyclerView.ViewHol
             billViewHolder.category.setText(bill.getCategory());
             String formattedDate = formatTimestamp(bill.getDate());
             billViewHolder.purchaseDate.setText(formattedDate);
+
+            // Disable the checkbox for CalendarActivity
+            CheckBox checkbox = holder.itemView.findViewById(R.id.imgCheckBoxItemsBills);
+            if (checkbox != null) {
+                checkbox.setChecked(bill.isPaid());
+                checkbox.setEnabled(false); // Disable interaction in Calendar
+            }
+
         } else if (holder.getItemViewType() == ITEM_SPENDING) {
             Spendings spending = (Spendings) calendarEntries.get(position);
             SpendingViewHolder spendingViewHolder = (SpendingViewHolder) holder;
@@ -95,6 +104,13 @@ public class MyAdapterCalendar extends RecyclerView.Adapter<RecyclerView.ViewHol
             spendingViewHolder.category.setText(spending.getCategory());
             String formattedDate = formatTimestamp(spending.getDate());
             spendingViewHolder.dateOfSpending.setText(formattedDate);
+
+            // Disable the checkbox for CalendarActivity
+            CheckBox checkbox = holder.itemView.findViewById(R.id.imgCheckBoxItemsSpendings);
+            if (checkbox != null) {
+                checkbox.setChecked(spending.isPaid());
+                checkbox.setEnabled(false); // Disable interaction in Calendar
+            }
         } else if (holder.getItemViewType() == ITEM_INCOME) {
             Income income = (Income) calendarEntries.get(position);
             IncomeViewHolder incomeViewHolder = (IncomeViewHolder) holder;
