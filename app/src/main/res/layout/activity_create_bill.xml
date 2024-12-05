@@ -66,7 +66,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_marginTop="8dp"
-                android:background="@drawable/rounded_frame_background_yellow"
+                android:background="@drawable/rounded_frame_background_blue"
                 android:hint="@string/write_your_title"
                 android:maxLength="30"
                 android:paddingLeft="15dp"
@@ -95,7 +95,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="48dp"
-                    android:background="@drawable/rounded_frame_background_yellow"
+                    android:background="@drawable/rounded_frame_background_blue"
                     android:hint="@string/amount"
                     android:inputType="numberDecimal"
                     android:paddingLeft="15dp"
@@ -128,7 +128,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_marginTop="8dp"
-                android:background="@drawable/rounded_frame_background_yellow"
+                android:background="@drawable/rounded_frame_background_blue"
                 android:hint="@string/purchase_date"
                 android:inputType="text"
                 android:paddingLeft="15dp"
@@ -151,7 +151,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_marginTop="8dp"
-                android:background="@drawable/rounded_frame_background_yellow" />
+                android:background="@drawable/rounded_frame_background_blue" />
 
             <!-- Category Section -->
             <TextView
@@ -168,7 +168,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_marginTop="8dp"
-                android:background="@drawable/rounded_frame_background_yellow" />
+                android:background="@drawable/rounded_frame_background_blue" />
 
             <!-- Subcategory Section -->
             <TextView
@@ -185,7 +185,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_marginTop="8dp"
-                android:background="@drawable/rounded_frame_background_yellow" />
+                android:background="@drawable/rounded_frame_background_blue" />
 
             <!-- Vendor Section -->
             <TextView
@@ -202,7 +202,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_marginTop="8dp"
-                android:background="@drawable/rounded_frame_background_yellow"
+                android:background="@drawable/rounded_frame_background_blue"
                 android:hint="Search or Select Vendor"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
@@ -233,7 +233,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_marginTop="8dp"
-                android:background="@drawable/rounded_frame_background_yellow"
+                android:background="@drawable/rounded_frame_background_blue"
                 android:hint="@string/write_your_comments"
                 android:maxLength="30"
                 android:paddingLeft="15dp"

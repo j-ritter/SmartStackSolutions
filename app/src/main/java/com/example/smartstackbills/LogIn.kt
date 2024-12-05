@@ -1,6 +1,7 @@
 package com.example.smartstackbills
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -14,6 +15,7 @@ import com.google.firebase.auth.FirebaseAuth
 
 class LogIn : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,7 +23,7 @@ class LogIn : AppCompatActivity() {
         setContentView(R.layout.activity_log_in)
 
         auth = FirebaseAuth.getInstance()
-        val user = auth.currentUser
+        sharedPreferences = getSharedPreferences("SmartStackBillsPrefs", MODE_PRIVATE)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -57,9 +59,12 @@ class LogIn : AppCompatActivity() {
         auth.signInWithEmailAndPassword(emailInput, passwordInput)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    // Show welcome dialog after login is successful
-                    showWelcomeDialog(emailInput)  // Pass email to the welcome dialog
-
+                    // Check if the welcome dialog should be shown
+                    if (isFirstLogin()) {
+                        showWelcomeDialog(emailInput)
+                    } else {
+                        navigateToMainMenu(emailInput)
+                    }
                 } else {
                     // If sign in fails, display a message to the user.
                     Toast.makeText(
@@ -90,12 +95,26 @@ class LogIn : AppCompatActivity() {
 
         btnGetStarted.setOnClickListener {
             dialog.dismiss()
-            // Navigate to the main menu after clicking "Get Started"
-            val intent = Intent(this, MainMenu::class.java)
-            intent.putExtra("USER_EMAIL", emailInput)
-            startActivity(intent)
+            setFirstLoginFlag(false) // Mark as not first login anymore
+            navigateToMainMenu(emailInput)
         }
 
         dialog.show()
+    }
+
+    private fun navigateToMainMenu(emailInput: String) {
+        val intent = Intent(this, MainMenu::class.java)
+        intent.putExtra("USER_EMAIL", emailInput)
+        startActivity(intent)
+    }
+
+    private fun isFirstLogin(): Boolean {
+        return sharedPreferences.getBoolean("isFirstLogin", true)
+    }
+
+    private fun setFirstLoginFlag(isFirst: Boolean) {
+        val editor = sharedPreferences.edit()
+        editor.putBoolean("isFirstLogin", isFirst)
+        editor.apply()
     }
 }

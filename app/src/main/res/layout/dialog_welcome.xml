@@ -22,7 +22,7 @@
             style="@style/TextAppearance.Material3.DisplaySmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="12dp"
             android:gravity="center"
             android:text="Welcome to SmartStack Solutions"
             android:textColor="@color/black"
@@ -39,8 +39,8 @@
 
             <ImageView
                 android:id="@+id/iconWelcome"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
                 android:contentDescription="Welcome Icon"
                 android:scaleType="fitCenter"
                 android:src="@drawable/icon_toolbox2" />
@@ -52,11 +52,11 @@
             style="@style/TextAppearance.Material3.BodyMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Your tool to organize your Finances and simplify Your Life!"
+            android:text="Your tool to organize your Finances and simplify your Life!"
             android:textColor="@color/textPrimary"
             android:textSize="16sp"
             android:gravity="center"
-            android:padding="8dp"
+            android:padding="4dp"
             android:layout_marginBottom="12dp"/>
 
         <!-- Get Started Button -->
