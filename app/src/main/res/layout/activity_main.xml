@@ -24,19 +24,34 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/textView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_chainStyle="spread"
+        app:srcCompat="@mipmap/logotipo" />
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="101dp"
         android:fontFamily="@font/ssboldbody"
-        android:text="Bill it right, find it fast."
+        android:gravity="center"
+        android:text="Your tool to organize your Finances \n\nand simplify your Life!"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="#202737"
-        android:textSize="24sp"
+        android:textSize="20sp"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
         app:layout_constraintBottom_toTopOf="@+id/btnSignUp"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp" />
 
     <Button
         android:id="@+id/btnSignUp"
@@ -54,14 +69,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="37dp"
-        android:layout_marginBottom="60dp"
-        app:layout_constraintBottom_toTopOf="@+id/textView"
-        app:layout_constraintStart_toStartOf="@+id/textView"
-        app:srcCompat="@mipmap/logotipo" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
