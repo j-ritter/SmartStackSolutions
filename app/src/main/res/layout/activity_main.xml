@@ -42,7 +42,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/ssboldbody"
         android:gravity="center"
-        android:text="Your tool to organize your Finances \n\nand simplify your Life!"
+        android:text="Organize your Finances \n\nand simplify your Life!"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="#202737"
         android:textSize="20sp"

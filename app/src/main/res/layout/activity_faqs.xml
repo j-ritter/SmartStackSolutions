@@ -64,7 +64,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="1. What is SmartStackSolutions?"
+                    android:text="1. What is SmartStack Solutions?"
                     android:textSize="12sp"
                     android:textColor="@android:color/black" />
 
@@ -93,7 +93,7 @@
                     android:id="@+id/answer_1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Answer: SmartStackSolutions is a comprehensive financial management app designed to help users keep track of their payments and incomes. It allows users to categorize transactions, set reminders, and view financial data in various formats to help with budgeting and financial planning."
+                    android:text="Answer: SmartStack Solutions is a comprehensive financial management app designed to help users keep track of their payments and incomes. It allows users to categorize transactions, set reminders, and view financial data in various formats to help with budgeting and financial planning."
                     android:textSize="12sp"
                     android:textColor="@android:color/black"
                     android:background="@drawable/background_blue1"
@@ -193,7 +193,7 @@
                     android:id="@+id/answer_3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Answer: Yes, SmartStackSolutions allows you to categorize your payments/expenses into predefined categories and subcategories."
+                    android:text="Answer: Yes, SmartStack Solutions allows you to categorize your payments/expenses into predefined categories and subcategories."
                     android:textSize="12sp"
                     android:textColor="@android:color/black"
                     android:background="@drawable/background_blue1"
@@ -293,7 +293,7 @@
                     android:id="@+id/answer_5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Answer: 'Essential' spendings are necessary expenses like rent or groceries. 'Non-essential' spendings include optional items, like streaming services. In SmartStackSolutions, categories and subcategories are predefined as either 'essential' or 'non-essential,' and changes are not possible. If a payment lacks a category, it won’t appear in the Main Menu as either type."
+                    android:text="Answer: 'Essential' spendings are necessary expenses like rent or groceries. 'Non-essential' spendings include optional items, like streaming services. In SmartStack Solutions, categories and subcategories are predefined as either 'essential' or 'non-essential,' and changes are not possible. If a payment lacks a category, it won’t appear in the Main Menu as either type."
                     android:textSize="12sp"
                     android:textColor="@android:color/black"
                     android:background="@drawable/background_blue1"
@@ -343,7 +343,7 @@
                     android:id="@+id/answer_6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Answer: You can upload your document in SmartStackSolutions but an automatic scanning of the document is not possible yet."
+                    android:text="Answer: You can upload your document in SmartStack Solutions but an automatic scanning of the document is not possible yet."
                     android:textSize="12sp"
                     android:textColor="@android:color/black"
                     android:background="@drawable/background_blue1"
@@ -364,7 +364,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="7. Can I track my income with SmartStackSolutions?"
+                    android:text="7. Can I track my income with SmartStack Solutions?"
                     android:textSize="12sp"
                     android:textColor="@android:color/black" />
 
@@ -414,7 +414,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="8. What security measures does SmartStackSolutions have to protect my data?"
+                    android:text="8. What security measures does SmartStack Solutions have to protect my data?"
                     android:textSize="12sp"
                     android:textColor="@android:color/black" />
 
@@ -442,7 +442,7 @@
                     android:id="@+id/answer_8"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Answer: SmartStackSolutions employs robust security measures such as data encryption, secure login protocols, and regular backups to ensure your financial data is protected. Additionally, the app does not store sensitive payment information."
+                    android:text="Answer: SmartStack Solutions employs robust security measures such as data encryption, secure login protocols, and regular backups to ensure your financial data is protected. Additionally, the app does not store sensitive payment information."
                     android:textSize="12sp"
                     android:textColor="@android:color/black"
                     android:background="@drawable/background_blue1"
@@ -491,7 +491,7 @@
                     android:id="@+id/answer_9"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Answer: The Premium Account unlocks all the functionalities of SmartStackSolutions. It allows you to use all features besides the basic ones. See details in 'Unlock Premium Features'. The Premium Account is ideal for users who like to benefit from extensive tracking and management capabilities."
+                    android:text="Answer: The Premium Account unlocks all the functionalities of SmartStack Solutions. It allows you to use all features besides the basic ones. See details in 'Unlock Premium Features'. The Premium Account is ideal for users who like to benefit from extensive tracking and management capabilities."
                     android:textSize="12sp"
                     android:textColor="@android:color/black"
                     android:background="@drawable/background_blue1"
@@ -758,7 +758,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="15. How does the notifications system work in SmartStackSolutions, and what features does it include?"
+                    android:text="15. How does the notifications system work in SmartStack Solutions, and what features does it include?"
                     android:textSize="12sp"
                     android:textColor="@android:color/black" />
 
@@ -786,7 +786,7 @@
                     android:id="@+id/answer_15"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Answer: In SmartStackSolutions, notifications are created automatically three days before an open payment’s due date, ensuring timely reminders. Notifications appear both within the app, helping you stay informed. Users can view, mark as read, or delete notifications directly in the app. Notifications older than 30 days are automatically removed. This setup ensures you’re consistently reminded of upcoming payments without needing to adjust settings manually."
+                    android:text="Answer: In SmartStack Solutions, notifications are created automatically three days before an open payment’s due date, ensuring timely reminders. Notifications appear both within the app, helping you stay informed. Users can view, mark as read, or delete notifications directly in the app. Notifications older than 30 days are automatically removed. This setup ensures you’re consistently reminded of upcoming payments without needing to adjust settings manually."
                     android:textSize="12sp"
                     android:textColor="@android:color/black"
                     android:background="@drawable/background_blue1"

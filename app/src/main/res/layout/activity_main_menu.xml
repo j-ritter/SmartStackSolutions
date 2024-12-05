@@ -42,7 +42,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:menu="@menu/top_nav"
                 app:navigationIcon="@drawable/ic_menu"
-                app:title="SmartStackSolutions"
+                app:title="SmartStack Solutions"
                 app:titleCentered="true"
                 android:paddingEnd="12dp"
                 android:paddingStart="12dp" />
