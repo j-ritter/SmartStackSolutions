@@ -108,7 +108,7 @@
                 android:id="@+id/answer_3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Answer: Personal information is collected minimally and used solely for providing our services. It is encrypted and stored securely in the cloud, accessible only to authorized personnel within the scope of their duties."
+                android:text="Answer: Personal information is collected minimally and used solely for providing our services. It is stored securely in the cloud. For more details, read our Privacy Policy hosted by PrivacyPolicies"
                 android:textSize="12sp"
                 android:textColor="@android:color/black"
                 android:background="@drawable/nav_item_background_dark"
@@ -306,7 +306,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Answer: If you have any data security concerns, you can reach out to our support team via the 'Help &amp; Support' section of the app. Our team is available to address your queries and ensure your data is secure."
-                android:textSize="16sp"
+                android:textSize="12sp"
                 android:textColor="@android:color/black"
                 android:background="@drawable/nav_item_background_dark"
                 android:padding="16dp"/>
@@ -339,7 +339,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Two-Factor Authentication (2FA):"
-                android:textSize="16sp"
+                android:textSize="12sp"
                 android:textColor="@android:color/black"
                 android:background="@drawable/nav_item_background_light"
                 android:padding="16dp"/>
@@ -350,7 +350,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Answer: While we currently do not offer 2FA, we are considering its implementation to enhance account security. However, using a strong, unique password and keeping your device secure provides significant protection."
-                android:textSize="16sp"
+                android:textSize="12sp"
                 android:textColor="@android:color/black"
                 android:background="@drawable/nav_item_background_dark"
                 android:padding="16dp"/>

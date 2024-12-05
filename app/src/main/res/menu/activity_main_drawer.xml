@@ -4,7 +4,7 @@
             android:id="@+id/nav_item_premium"
             android:icon="@drawable/abc_vector_test"
             android:drawableEnd="@drawable/ic_star_orange"
-            android:title="Unlock Premium Features"
+            android:title="Unlock Premium Features ★"
             android:actionLayout="@layout/nav_item_premium"
             android:background="@drawable/nav_item_background_light"
              />
