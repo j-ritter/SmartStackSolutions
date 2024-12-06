@@ -6,14 +6,17 @@ import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.Menu
 import android.view.View
+import android.view.WindowMetrics
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
+import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.Spinner
@@ -27,6 +30,13 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AlertDialog
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdSize
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.RequestConfiguration
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
@@ -61,14 +71,44 @@ class MainMenu : AppCompatActivity() {
     private var userEmail: String? = null
     private var userUid: String? = null
     private lateinit var db: FirebaseFirestore
+    private lateinit var adView: AdView
     private var currentSavingsTargetDocumentId: String? = null
     private val numberFormat: NumberFormat = NumberFormat.getInstance(Locale.getDefault())
+
+    private val adSize: AdSize
+        get() {
+            val displayMetrics = resources.displayMetrics
+            val adWidthPixels = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                val windowMetrics: WindowMetrics = this.windowManager.currentWindowMetrics
+                windowMetrics.bounds.width()
+            } else {
+                displayMetrics.widthPixels
+            }
+            val density = displayMetrics.density
+            val adWidth = (adWidthPixels / density).toInt()
+            return AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(this, adWidth)
+        }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main_menu)
+
+        MobileAds.initialize(this) {}
+
+        // Configure test devices
+        val testDeviceIds = listOf(
+            AdRequest.DEVICE_ID_EMULATOR, // Emulator
+            "YOUR_DEVICE_HASH"            // Replace with your physical device's hash if testing
+        )
+        val requestConfiguration = RequestConfiguration.Builder()
+            .setTestDeviceIds(testDeviceIds)
+            .build()
+        MobileAds.setRequestConfiguration(requestConfiguration)
+
+        // Create and load the AdView
+        setupBannerAd()
 
         db = FirebaseFirestore.getInstance()
 
@@ -225,6 +265,33 @@ class MainMenu : AppCompatActivity() {
             startActivity(intent)
         }
     }
+
+    private fun setupBannerAd() {
+        // Find the AdView from the layout
+        val adView = findViewById<AdView>(R.id.adView)
+
+        // Create an AdRequest with the test device included
+        val adRequest = AdRequest.Builder()
+
+            .build()
+
+        // Load the ad into the AdView
+        adView.loadAd(adRequest)
+
+        // Optional: Set AdListener to handle ad events
+        adView.adListener = object : AdListener() {
+            override fun onAdLoaded() {
+                // Handle successful ad load
+                Toast.makeText(this@MainMenu, "Ad Loaded Successfully", Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onAdFailedToLoad(error: LoadAdError) {
+                // Handle ad load failure
+                Toast.makeText(this@MainMenu, "Ad Failed to Load: ${error.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
     private fun formatAmount(value: Double): String {
         val numberFormat = NumberFormat.getCurrencyInstance(Locale.getDefault())
         return if (value < 0) {
