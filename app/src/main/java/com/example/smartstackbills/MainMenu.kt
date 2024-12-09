@@ -996,11 +996,17 @@ class MainMenu : AppCompatActivity() {
         val targetAmount = targetAmountEditText.text.toString().toDoubleOrNull()
         val targetName = targetNameSpinner.selectedItem.toString()
 
-        if (userUid != null && targetAmount != null) {
+        // Ensure Firebase is updated with all relevant fields, including dates
+        val startDate = getDateFromEditText(dialog.findViewById<EditText>(R.id.edtStartDateSavings))?.time
+        val endDate = getDateFromEditText(dialog.findViewById<EditText>(R.id.edtEndDateSavings))?.time
+
+        if (userUid != null && targetAmount != null && startDate != null && endDate != null) {
             // Assuming that we have a unique document ID for the target being edited
             val updatedData = mapOf(
                 "targetAmount" to targetAmount,
-                "targetName" to targetName
+                "targetName" to targetName,
+                "startDate" to com.google.firebase.Timestamp(startDate),
+                "endDate" to com.google.firebase.Timestamp(endDate)
             )
 
             db.collection("users").document(userUid)
