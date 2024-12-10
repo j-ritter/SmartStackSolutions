@@ -918,41 +918,79 @@ class MainMenu : AppCompatActivity() {
             val startMonth = dateFormat.format(startDate)
             val endMonth = dateFormat.format(endDate)
 
-            val savingsData = hashMapOf(
-                "targetAmount" to targetAmount,
-                "startDate" to timestampStart,
-                "endDate" to timestampEnd,
-                "startMonth" to startMonth,
-                "endMonth" to endMonth,
-                "targetName" to targetName,
-                "userUid" to userUid
-            )
-
-            // Save each target to its unique document within the 'savings_targets' collection
-            val docRef = db.collection("users")
-                .document(userUid!!)
+            db.collection("users").document(userUid)
                 .collection("savings_targets")
-                .document() // Automatically generate a unique document ID
+                .get()
+                .addOnSuccessListener { documents ->
+                    // Check for overlapping savings targets
+                    val isOverlap = documents.any { document ->
+                        val existingStartMonth = document.getString("startMonth") ?: ""
+                        val existingEndMonth = document.getString("endMonth") ?: ""
 
-            // Add the generated document ID to the savings data for reference
-            savingsData["documentId"] = docRef.id
+                        isWithinDateRange(startMonth, endMonth, existingStartMonth) ||
+                                isWithinDateRange(startMonth, endMonth, existingEndMonth)
+                    }
 
-            docRef.set(savingsData)
-                .addOnSuccessListener {
-                    Toast.makeText(this, "Savings target saved successfully!", Toast.LENGTH_SHORT)
-                        .show()
-                    // Pass the generated document ID to distributeSavingsAcrossMonths
-                    distributeSavingsAcrossMonths(startDate, endDate, targetAmount, docRef.id)
-                    loadSavingsTarget() // Refresh the target list
+                    if (isOverlap) {
+                        // Show error message for overlapping dates
+                        Toast.makeText(
+                            this,
+                            "Cannot create savings target. Overlapping time periods detected.",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    } else {
+                        // Create the savings target
+                        val savingsData = hashMapOf(
+                            "targetAmount" to targetAmount,
+                            "startDate" to timestampStart,
+                            "endDate" to timestampEnd,
+                            "startMonth" to startMonth,
+                            "endMonth" to endMonth,
+                            "targetName" to targetName,
+                            "userUid" to userUid
+                        )
+
+                        // Save each target to its unique document within the 'savings_targets' collection
+                        val docRef = db.collection("users")
+                            .document(userUid)
+                            .collection("savings_targets")
+                            .document() // Automatically generate a unique document ID
+
+                        // Add the generated document ID to the savings data for reference
+                        savingsData["documentId"] = docRef.id
+
+                        docRef.set(savingsData)
+                            .addOnSuccessListener {
+                                Toast.makeText(
+                                    this,
+                                    "Savings target saved successfully!",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                // Pass the generated document ID to distributeSavingsAcrossMonths
+                                distributeSavingsAcrossMonths(startDate, endDate, targetAmount, docRef.id)
+                                loadSavingsTarget() // Refresh the target list
+                            }
+                            .addOnFailureListener { e ->
+                                Toast.makeText(
+                                    this,
+                                    "Error saving target: ${e.message}",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                    }
                 }
                 .addOnFailureListener { e ->
-                    Toast.makeText(this, "Error saving target: ${e.message}", Toast.LENGTH_SHORT)
-                        .show()
+                    Toast.makeText(
+                        this,
+                        "Error checking existing savings targets: ${e.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
         } else {
             Toast.makeText(this, "User not logged in!", Toast.LENGTH_SHORT).show()
         }
     }
+
 
     // Method to distribute savings across months and save them in Firebase
     private fun distributeSavingsAcrossMonths(startDate: Date, endDate: Date, targetAmount: Double, savingsId: String) {
@@ -1001,30 +1039,72 @@ class MainMenu : AppCompatActivity() {
         val endDate = getDateFromEditText(dialog.findViewById<EditText>(R.id.edtEndDateSavings))?.time
 
         if (userUid != null && targetAmount != null && startDate != null && endDate != null) {
-            // Assuming that we have a unique document ID for the target being edited
-            val updatedData = mapOf(
-                "targetAmount" to targetAmount,
-                "targetName" to targetName,
-                "startDate" to com.google.firebase.Timestamp(startDate),
-                "endDate" to com.google.firebase.Timestamp(endDate)
-            )
+            val timestampStart = com.google.firebase.Timestamp(startDate)
+            val timestampEnd = com.google.firebase.Timestamp(endDate)
+            val dateFormat = SimpleDateFormat("MM-yyyy", Locale.getDefault())
+            val startMonth = dateFormat.format(startDate)
+            val endMonth = dateFormat.format(endDate)
 
             db.collection("users").document(userUid)
                 .collection("savings_targets")
-                .document(documentId)
-                .update(updatedData)
-                .addOnSuccessListener {
-                    Toast.makeText(this, "Savings target updated!", Toast.LENGTH_SHORT).show()
-                    dialog.dismiss()
-                    loadSavingsTarget() // Refresh the target list
+                .get()
+                .addOnSuccessListener { documents ->
+                    // Check for overlapping savings targets, excluding the current one being edited
+                    val isOverlap = documents.any { document ->
+                        val existingStartMonth = document.getString("startMonth")
+                        val existingEndMonth = document.getString("endMonth")
+                        val existingDocumentId = document.id
+
+                        existingDocumentId != documentId && // Exclude the current savings target
+                                existingStartMonth != null && existingEndMonth != null &&
+                                (isWithinDateRange(startMonth, endMonth, existingStartMonth) ||
+                                        isWithinDateRange(startMonth, endMonth, existingEndMonth))
+                    }
+
+                    if (isOverlap) {
+                        // Show error message for overlapping dates
+                        Toast.makeText(
+                            this,
+                            "Cannot update savings target. Overlapping time periods detected.",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    } else {
+                        // Update the savings target
+                        val updatedData = mapOf(
+                            "targetAmount" to targetAmount,
+                            "targetName" to targetName,
+                            "startDate" to timestampStart,
+                            "endDate" to timestampEnd,
+                            "startMonth" to startMonth,
+                            "endMonth" to endMonth
+                        )
+
+                        db.collection("users").document(userUid)
+                            .collection("savings_targets")
+                            .document(documentId)
+                            .update(updatedData)
+                            .addOnSuccessListener {
+                                Toast.makeText(this, "Savings target updated!", Toast.LENGTH_SHORT).show()
+                                dialog.dismiss()
+                                loadSavingsTarget() // Refresh the target list
+                            }
+                            .addOnFailureListener { e ->
+                                Toast.makeText(this, "Error updating target: ${e.message}", Toast.LENGTH_SHORT).show()
+                            }
+                    }
                 }
                 .addOnFailureListener { e ->
-                    Toast.makeText(this, "Error updating target: ${e.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this,
+                        "Error checking existing savings targets: ${e.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
         } else {
-            Toast.makeText(this, "Please enter a valid amount.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Please enter valid inputs.", Toast.LENGTH_SHORT).show()
         }
     }
+
 
     private fun deleteSavingsTarget(dialog: Dialog, documentId: String) {
         val userUid = FirebaseAuth.getInstance().currentUser?.uid
@@ -1125,6 +1205,7 @@ class MainMenu : AppCompatActivity() {
 
         return current in start..end
     }
+
 
     // Updated method to calculate months difference between two Date objects
     private fun calculateMonthsDifference(startDate: Date?, endDate: Date?): Int {
