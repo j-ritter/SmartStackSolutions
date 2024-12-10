@@ -1030,17 +1030,29 @@ class MainMenu : AppCompatActivity() {
         val userUid = FirebaseAuth.getInstance().currentUser?.uid
 
         if (userUid != null) {
-            db.collection("users").document(userUid)
-                .collection("savings_targets")
-                .document(documentId)
-                .delete()
-                .addOnSuccessListener {
-                    Toast.makeText(this, "Savings target deleted successfully.", Toast.LENGTH_SHORT).show()
-                    dialog.dismiss()
-                    loadSavingsTarget() // Refresh the target list
+            // Delete nested collections first
+            val targetRef = db.collection("users").document(userUid)
+                .collection("savings_targets").document(documentId)
+
+            targetRef.collection("monthly_savings")
+                .get()
+                .addOnSuccessListener { documents ->
+                    for (doc in documents) {
+                        doc.reference.delete()
+                    }
+                    // After deleting nested collections, delete the main document
+                    targetRef.delete()
+                        .addOnSuccessListener {
+                            Toast.makeText(this, "Savings target deleted successfully.", Toast.LENGTH_SHORT).show()
+                            dialog.dismiss()
+                            loadSavingsTarget() // Refresh the target list
+                        }
+                        .addOnFailureListener { e ->
+                            Toast.makeText(this, "Failed to delete savings target: ${e.message}", Toast.LENGTH_SHORT).show()
+                        }
                 }
                 .addOnFailureListener { e ->
-                    Toast.makeText(this, "Failed to delete savings target: ${e.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Failed to retrieve associated data: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
         } else {
             Toast.makeText(this, "User not logged in!", Toast.LENGTH_SHORT).show()
