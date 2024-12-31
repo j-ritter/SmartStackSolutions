@@ -44,7 +44,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Title"
+            android:text="@string/title"
             android:textSize="14sp"
             android:textColor="@android:color/black" />
 
@@ -61,7 +61,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Amount"
+            android:text="@string/amount"
             android:layout_marginTop="8dp"
             android:textSize="14sp"
             android:textColor="@android:color/black" />
@@ -79,7 +79,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Due Date"
+            android:text="@string/due_date"
             android:layout_marginTop="8dp"
             android:textSize="14sp"
             android:textColor="@android:color/black" />
@@ -98,7 +98,7 @@
             android:id="@+id/btnCloseDialogNotification"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Close"
+            android:text="@string/close"
             android:textSize="14sp"
             android:layout_gravity="center"
             app:backgroundTint="@color/colorSecondary"

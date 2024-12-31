@@ -23,7 +23,7 @@
         android:id="@+id/terms_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Terms &amp; Conditions"
+        android:text="@string/terms_and_conditions_title"
         android:textSize="24sp"
         android:textStyle="bold"
         android:textColor="@android:color/black"
@@ -55,15 +55,7 @@
                 android:id="@+id/terms_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="1. Acceptance of Terms\n\nBy using the SmartStack Solutions application, you agree to be bound by these terms and conditions. If you do not agree, please do not use the application.
-                \n\n2. Changes to Terms\n\nSmartStack Solutions reserves the right to modify these terms at any time. We will notify users of any changes via the application or email. Continued use of the application after changes have been posted constitutes acceptance of the new terms.
-                \n\n3. User Responsibilities\n\nAccount Security: Users are responsible for maintaining the confidentiality of their account information and for all activities that occur under their account.\nAccurate Information: Users must provide accurate and complete information when creating and managing their accounts.\nProhibited Actions: Users must not use the application for any unlawful purposes or activities that could harm the application or other users.
-                \n\n4. Privacy Policy\n\nYour privacy is important to us. Please refer to our Privacy Policy for information on how we collect, use, and protect your personal data.
-                \n\n5. Usage of the Application\n\nFeatures: SmartStack Solutions provides tools for managing financial receipts and expenses. The application allows users to input, organize, and review their financial data.\nLimitations: While we strive to provide accurate and reliable features, SmartStackBills cannot guarantee that all features will be error-free or uninterrupted.
-                \n\n6. Premium Account\n\nFeatures: Premium Account users have access to additional functionalities and the ability to create more than three entries.\nPayments: Premium Account fees are charged according to the pricing plan selected by the user. Fees are non-refundable.
-                \n\n7. Liability\n\nNo Warranty: The application is provided 'as is' without any warranties of any kind. SmartStack Solutions does not guarantee the accuracy, completeness, or reliability of the application.\nLimitation of Liability: SmartStack Solutions will not be liable for any damages arising from the use or inability to use the application.
-                \n\n8. Termination\n\nSmartStack Solutions reserves the right to terminate or suspend access to the application for any user who violates these terms and conditions.
-                \n\n9. Contact Information\n\nFor any questions or concerns regarding these terms and conditions, please contact us at service@smartstacksolution.info."
+                android:text="@string/terms_and_conditions_content"
                 android:textSize="12sp"
                 android:textColor="@android:color/black"/>
 

@@ -4,39 +4,39 @@
             android:id="@+id/nav_item_premium"
             android:icon="@drawable/abc_vector_test"
             android:drawableEnd="@drawable/ic_star_orange"
-            android:title="Unlock Premium Features ★"
+            android:title="@string/unlock_premium"
             android:actionLayout="@layout/nav_item_premium"
             android:background="@drawable/nav_item_background_light"
              />
         <item
             android:id="@+id/nav_item_aboutus"
             android:icon="@drawable/abc_vector_test"
-            android:title="About Us"
+            android:title="@string/about_us"
             android:background="@drawable/nav_item_background_light"/>
         <item
             android:id="@+id/nav_item_faq"
             android:icon="@drawable/abc_vector_test"
-            android:title="FAQs"
+            android:title="@string/faqs"
             android:background="@drawable/nav_item_background_dark"/>
         <item
             android:id="@+id/nav_item_datasec"
             android:icon="@drawable/abc_vector_test"
-            android:title="Data Security"
+            android:title="@string/data_security"
             android:background="@drawable/nav_item_background_light"/>
         <item
             android:id="@+id/nav_item_help"
             android:icon="@drawable/abc_vector_test"
-            android:title="Help and Support"
+            android:title="@string/help_support"
             android:background="@drawable/nav_item_background_dark"/>
         <item
             android:id="@+id/nav_item_terms"
             android:icon="@drawable/abc_vector_test"
-            android:title="Terms and Conditions"
+            android:title="@string/terms_conditions"
             android:background="@drawable/nav_item_background_light"/>
         <item
             android:id="@+id/nav_item_logout"
             android:icon="@drawable/abc_vector_test"
-            android:title="Logout"
+            android:title="@string/logout"
             android:background="@drawable/nav_item_background_dark"/>
     </group>
 </menu>

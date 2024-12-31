@@ -1,6 +1,5 @@
 package com.example.smartstackbills
 
-import NotificationsAdapter
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle

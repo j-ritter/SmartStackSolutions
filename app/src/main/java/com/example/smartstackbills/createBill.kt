@@ -1,7 +1,11 @@
 package com.example.smartstackbills
 
+import android.app.Activity
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import android.text.Editable
+import android.os.Environment
+import android.provider.MediaStore
 import android.view.View
 import android.widget.*
 import androidx.activity.enableEdgeToEdge
@@ -11,12 +15,14 @@ import androidx.core.view.WindowInsetsCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import android.text.InputType
-import android.text.TextWatcher
+import androidx.appcompat.app.AlertDialog
+import androidx.core.content.FileProvider
 import androidx.work.WorkManager
 import java.text.SimpleDateFormat
 import java.util.*
 import com.google.firebase.Timestamp
-import java.text.DecimalFormat
+import java.io.File
+import java.io.IOException
 import java.util.concurrent.TimeUnit
 
 class createBill : AppCompatActivity() {
@@ -25,6 +31,10 @@ class createBill : AppCompatActivity() {
     private var userEmail: String? = null
     private var userUid: String? = null
     private lateinit var edtAmountBill: EditText
+    private val REQUEST_IMAGE_CAPTURE = 1
+    private val REQUEST_IMAGE_GALLERY = 2
+    private var imageUri: Uri? = null
+    private var currentPhotoPath: String? = null
 
     val repeat = arrayOf(
         "No", "Weekly", "Every 2 Weeks", "Monthly", "Every 2 Months",
@@ -220,6 +230,8 @@ class createBill : AppCompatActivity() {
         btnCancel.setOnClickListener {
             finish()
         }
+        // Image upload handling
+        findViewById<Button>(R.id.btnUploadImageBill).setOnClickListener { handleImageUpload() }
     }
     // Load categories dynamically (not pre-selected)
     private fun loadCategories(spinnerCategories: Spinner) {
@@ -263,6 +275,69 @@ class createBill : AppCompatActivity() {
     private fun onDateSelected(day: Int, month: Int, year: Int) {
         val edtDate = findViewById<EditText>(R.id.edtDateBill)
         edtDate.setText("$day/${month + 1}/$year")
+    }
+    private fun handleImageUpload() {
+        val options = arrayOf("Take Photo", "Choose from Gallery", "Cancel")
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Upload Bill Image")
+        builder.setItems(options) { dialog, which ->
+            when (options[which]) {
+                "Take Photo" -> dispatchTakePictureIntent()
+                "Choose from Gallery" -> dispatchChooseFromGalleryIntent()
+                "Cancel" -> dialog.dismiss()
+            }
+        }
+        builder.show()
+    }
+
+    private fun dispatchTakePictureIntent() {
+        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        takePictureIntent.resolveActivity(packageManager)?.let {
+            val photoFile: File? = try {
+                createImageFile()
+            } catch (ex: IOException) {
+                null
+            }
+            photoFile?.also {
+                val photoURI: Uri = FileProvider.getUriForFile(this, "${applicationContext.packageName}.provider", it)
+                currentPhotoPath = it.absolutePath
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+            }
+        }
+    }
+
+    private fun dispatchChooseFromGalleryIntent() {
+        val pickPhoto = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        startActivityForResult(pickPhoto, REQUEST_IMAGE_GALLERY)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        val txtImageAdded = findViewById<TextView>(R.id.txtImageAddedBill)
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                REQUEST_IMAGE_CAPTURE -> {
+                    val file = File(currentPhotoPath)
+                    imageUri = Uri.fromFile(file)
+                    txtImageAdded.text = "Image added"
+                }
+                REQUEST_IMAGE_GALLERY -> {
+                    imageUri = data?.data
+                    txtImageAdded.text = "Image added"
+                }
+            }
+            txtImageAdded.visibility = View.VISIBLE
+        }
+    }
+
+    @Throws(IOException::class)
+    private fun createImageFile(): File {
+        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())
+        val storageDir: File = getExternalFilesDir(Environment.DIRECTORY_PICTURES)!!
+        return File.createTempFile("JPEG_${timeStamp}_", ".jpg", storageDir).apply {
+            currentPhotoPath = absolutePath
+        }
     }
 
     private fun saveBill() {

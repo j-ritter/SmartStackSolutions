@@ -44,7 +44,7 @@
                 android:id="@+id/textViewTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/create_new_Open_Payment"
+                android:text="@string/create_new_open_payment"
                 android:textStyle="bold"
                 android:textSize="24sp"
                 android:gravity="center"
@@ -118,7 +118,7 @@
                 android:id="@+id/txtDateLabelBill"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/Date"
+                android:text="@string/date"
                 android:textStyle="bold"
                 android:textSize="18sp"
                 android:layout_marginTop="16dp" />
@@ -175,7 +175,7 @@
                 android:id="@+id/txtSubcategoryBill"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Subcategory"
+                android:text="@string/subcategory"
                 android:textStyle="bold"
                 android:textSize="18sp"
                 android:layout_marginTop="16dp" />
@@ -203,7 +203,7 @@
                 android:layout_height="48dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/rounded_frame_background_blue"
-                android:hint="Search or Select Vendor"
+                android:hint="@string/search_or_select_vendor"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
                 android:textColorHint="#A5A5A5"
@@ -214,7 +214,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_marginTop="8dp"
-                android:hint="Enter custom vendor"
+                android:hint="@string/enter_custom_vendor"
                 android:visibility="gone"
                 android:background="@drawable/rounded_frame_background_yellow" />
 
@@ -223,7 +223,7 @@
                 android:id="@+id/txtCommentBill"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/comment"
+                android:text="@string/comments"
                 android:textStyle="bold"
                 android:textSize="18sp"
                 android:layout_marginTop="16dp" />
@@ -252,7 +252,7 @@
                     android:id="@+id/txtAttachmentBill"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/Attachment"
+                    android:text="@string/attachment"
                     android:textStyle="bold"
                     android:textSize="18sp"
                     android:layout_gravity="center_vertical" />
@@ -261,7 +261,7 @@
                     android:id="@+id/btnUploadImageBill"
                     android:layout_width="wrap_content"
                     android:layout_height="36dp"
-                    android:text="@string/Upload"
+                    android:text="@string/upload"
                     android:background="@drawable/rounded_frame_background_yellow"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="16dp" />
@@ -270,7 +270,7 @@
                     android:id="@+id/txtImageAddedBill"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Image added"
+                    android:text="@string/image_added"
                     android:visibility="gone"
                     android:layout_gravity="center_vertical"
                     android:textStyle="bold"

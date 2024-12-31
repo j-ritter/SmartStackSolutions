@@ -32,7 +32,6 @@ import com.google.gson.reflect.TypeToken
 import java.text.SimpleDateFormat
 import java.util.LinkedHashMap
 import java.util.Locale
-import com.example.smartstackbills.NotificationsActivity
 
 
 class CalendarActivity : AppCompatActivity(), MyAdapterCalendar.OnItemClickListener {

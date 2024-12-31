@@ -16,14 +16,14 @@
         android:id="@+id/navHeaderImageView"
         android:layout_width="64dp"
         android:layout_height="64dp"
-        android:src="@mipmap/ic_launcher" />
+        android:src="@mipmap/logotipo" />
 
     <TextView
         android:id="@+id/navHeaderTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="16dp"
-        android:text="SmartStackSolutions"/>
+        android:text="SmartStack Solutions"/>
 
 
 

@@ -9,7 +9,7 @@
         android:id="@+id/textviewDateHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Date Header"
+        android:text="@string/date_header"
         android:textAppearance="?attr/textAppearanceSubtitle1"
         android:textColor="@android:color/black" />
 </LinearLayout>

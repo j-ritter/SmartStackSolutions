@@ -55,4 +55,7 @@ dependencies {
     implementation ("androidx.work:work-runtime-ktx:2.7.1")
     implementation("com.google.android.gms:play-services-ads:23.6.0")
 
+    val billing_version = "7.0.0"
+    implementation("com.android.billingclient:billing:$billing_version")
+
 }

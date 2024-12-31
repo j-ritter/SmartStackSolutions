@@ -26,7 +26,8 @@
                 android:layout_height="?actionBarSize"
                 app:menu="@menu/top_nav"
                 app:navigationIcon="@drawable/ic_menu"
-                app:title="Calendar"
+                app:navigationContentDescription="@string/content_description_navigation_menu"
+                app:title="@string/calendar_title"
                 app:titleCentered="true"
                 android:paddingEnd="12dp"
                 android:paddingStart="12dp"/>

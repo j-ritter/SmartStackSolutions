@@ -23,7 +23,7 @@
         android:id="@+id/premium_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Unlock Premium Features"
+        android:text="@string/unlock_premium_features"
         android:textSize="24sp"
         android:textStyle="bold"
         android:textColor="@android:color/black"
@@ -68,7 +68,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Thank you for choosing SmartStack Solutions!\n\nWith the basic version, you can manage your Open Payments and stay on top of upcoming bills.\n\nUpgrade to Premium to unlock:"
+                        android:text="@string/premium_intro_text"
                         android:textSize="12sp"
                         android:textColor="@android:color/black"
                         android:layout_marginBottom="8dp" />
@@ -90,7 +90,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Closed Payments: Track paid bills."
+                            android:text="@string/premium_feature_closed_payments"
                             android:textSize="12sp"
                             android:textColor="@android:color/black" />
                     </LinearLayout>
@@ -112,7 +112,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Income Management: Manage your income streams."
+                            android:text="@string/premium_feature_income_management"
                             android:textSize="12sp"
                             android:textColor="@android:color/black" />
                     </LinearLayout>
@@ -134,7 +134,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Saving Target: Set yourself a saving target &amp; track the progress."
+                            android:text="@string/premium_feature_saving_target"
                             android:textSize="12sp"
                             android:textColor="@android:color/black" />
                     </LinearLayout>
@@ -142,7 +142,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Unlock Premium to enjoy a comprehensive financial overview."
+                        android:text="@string/premium_closing_text"
                         android:textSize="12sp"
                         android:textColor="@android:color/black"
                         android:layout_marginTop="8dp" />
@@ -155,7 +155,7 @@
                 android:id="@+id/features"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Features"
+                android:text="@string/features"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="@android:color/black"
@@ -195,7 +195,7 @@
                         android:id="@+id/feature1_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Open Payments"
+                        android:text="@string/feature_open_payments_title"
                         android:textSize="12sp"
                         android:textStyle="bold"
                         android:textColor="@android:color/black" />
@@ -212,7 +212,7 @@
                             android:id="@+id/feature1_description"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Manage open payments and stay on top of upcoming bills."
+                            android:text="@string/feature_open_payments_desc"
                             android:textSize="12sp"
                             android:textColor="@android:color/black" />
 
@@ -221,7 +221,7 @@
                             android:id="@+id/feature1_expandable_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Open Payments allow you to manage your upcoming bills, set reminders, track payments, and help you pay on time."
+                            android:text="@string/feature_open_payments_expandable"
                             android:textSize="12sp"
                             android:textColor="@android:color/black"
                             android:visibility="gone" />
@@ -232,7 +232,7 @@
                     android:id="@+id/btn_more_info1"
                     android:layout_width="70dp"
                     android:layout_height="50dp"
-                    android:text="More information"
+                    android:text="@string/more_information"
                     android:textSize="7sp"
                     android:background="@color/blue"
                     android:padding="8dp"
@@ -289,7 +289,7 @@
                         android:id="@+id/feature2_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Closed Payments"
+                        android:text="@string/closed_payments"
                         android:textSize="12sp"
                         android:textStyle="bold"
                         android:textColor="@android:color/black" />
@@ -304,7 +304,7 @@
                             android:id="@+id/feature2_description"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Track bills you've paid and manage your transaction history."
+                            android:text="@string/feature_closed_payments_desc"
                             android:textSize="12sp"
                             android:textColor="@android:color/black" />
 
@@ -312,7 +312,7 @@
                             android:id="@+id/feature2_expandable_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Closed Payments help you track paid bills for financial history."
+                            android:text="@string/feature_closed_payments_expandable"
                             android:textSize="12sp"
                             android:textColor="@android:color/black"
                             android:visibility="gone" />
@@ -323,7 +323,7 @@
                     android:id="@+id/btn_more_info2"
                     android:layout_width="70dp"
                     android:layout_height="50dp"
-                    android:text="More information"
+                    android:text="@string/more_information"
                     android:textSize="7sp"
                     android:background="@color/blue"
                     android:padding="8dp"
@@ -378,7 +378,7 @@
                         android:id="@+id/feature3_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Income Management"
+                        android:text="@string/feature_income_management_title"
                         android:textSize="12sp"
                         android:textStyle="bold"
                         android:textColor="@android:color/black" />
@@ -393,7 +393,7 @@
                             android:id="@+id/feature3_description"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Track and categorize your income sources."
+                            android:text="@string/feature_income_management_desc"
                             android:textSize="12sp"
                             android:textColor="@android:color/black" />
 
@@ -401,7 +401,7 @@
                             android:id="@+id/feature3_expandable_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Income Management helps you track your different income streams, including salaries, freelance work, and investments."
+                            android:text="@string/feature_income_management_expandable"
                             android:textSize="12sp"
                             android:textColor="@android:color/black"
                             android:visibility="gone" />
@@ -412,7 +412,7 @@
                     android:id="@+id/btn_more_info3"
                     android:layout_width="70dp"
                     android:layout_height="50dp"
-                    android:text="More information"
+                    android:text="@string/more_information"
                     android:textSize="7sp"
                     android:background="@color/blue"
                     android:padding="8dp"
@@ -454,7 +454,7 @@
                         android:id="@+id/feature4_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Notifications"
+                        android:text="@string/feature_notifications_title"
                         android:textSize="12sp"
                         android:textStyle="bold"
                         android:textColor="@android:color/black" />
@@ -469,7 +469,7 @@
                             android:id="@+id/feature4_description"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Receive timely reminders for your open payments."
+                            android:text="@string/feature_notifications_desc"
                             android:textSize="12sp"
                             android:textColor="@android:color/black" />
 
@@ -477,7 +477,7 @@
                             android:id="@+id/feature4_expandable_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Get timely notifications to ensure you never miss an upcoming payment."
+                            android:text="@string/feature_notifications_expandable"
                             android:textSize="12sp"
                             android:textColor="@android:color/black"
                             android:visibility="gone" />
@@ -488,7 +488,7 @@
                     android:id="@+id/btn_more_info4"
                     android:layout_width="70dp"
                     android:layout_height="50dp"
-                    android:text="More information"
+                    android:text="@string/more_information"
                     android:textSize="7sp"
                     android:background="@color/blue"
                     android:padding="8dp"
@@ -530,7 +530,7 @@
                         android:id="@+id/feature5_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Calendar"
+                        android:text="@string/feature_calendar_title"
                         android:textSize="12sp"
                         android:textStyle="bold"
                         android:textColor="@android:color/black" />
@@ -545,7 +545,7 @@
                             android:id="@+id/feature5_description"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Get an overview of all your transactions in a calendar view."
+                            android:text="@string/feature_calendar_desc"
                             android:textSize="12sp"
                             android:textColor="@android:color/black" />
 
@@ -553,7 +553,7 @@
                             android:id="@+id/feature5_expandable_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="The calendar feature provides an overview of payments, income, and transactions in a monthly view."
+                            android:text="@string/feature_calendar_expandable"
                             android:textSize="12sp"
                             android:textColor="@android:color/black"
                             android:visibility="gone" />
@@ -564,7 +564,7 @@
                     android:id="@+id/btn_more_info5"
                     android:layout_width="70dp"
                     android:layout_height="50dp"
-                    android:text="More information"
+                    android:text="@string/more_information"
                     android:textSize="7sp"
                     android:background="@color/blue"
                     android:padding="8dp"
@@ -622,7 +622,7 @@
                         android:id="@+id/feature6_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Saving Target"
+                        android:text="@string/feature_saving_target_title"
                         android:textSize="12sp"
                         android:textStyle="bold"
                         android:textColor="@android:color/black" />
@@ -637,7 +637,7 @@
                             android:id="@+id/feature6_description"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Set yourself a saving target and track the progress."
+                            android:text="@string/feature_saving_target_desc"
                             android:textSize="12sp"
                             android:textColor="@android:color/black" />
 
@@ -645,7 +645,7 @@
                             android:id="@+id/feature6_expandable_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="The Saving Target feature allows you to set personalized financial goals. Define a target amount, set a period, and track your monthly progress towards achieving your financial dreams."
+                            android:text="@string/feature_saving_target_expandable"
                             android:textSize="12sp"
                             android:textColor="@android:color/black"
                             android:visibility="gone" />
@@ -657,7 +657,7 @@
                     android:id="@+id/btn_more_info6"
                     android:layout_width="70dp"
                     android:layout_height="50dp"
-                    android:text="More information"
+                    android:text="@string/more_information"
                     android:textSize="7sp"
                     android:background="@color/yellow"
                     android:padding="8dp"
@@ -677,7 +677,7 @@
         android:id="@+id/button_premium"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Unlock SmartStack Solutions Premium"
+        android:text="@string/unlock_button_text"
         android:textSize="14sp"
         android:textColor="@android:color/white"
         android:background="@color/yellow"

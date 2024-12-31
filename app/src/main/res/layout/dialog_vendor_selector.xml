@@ -9,7 +9,7 @@
         android:id="@+id/edtSearchVendor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Search Vendor"
+        android:hint="@string/search_vendor"
         android:inputType="text" />
 
     <ListView

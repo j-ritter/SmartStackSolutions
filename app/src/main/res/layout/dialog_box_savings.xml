@@ -27,7 +27,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Set Savings Target"
+                    android:text="@string/set_savings_target"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:textColor="@android:color/black"
@@ -58,7 +58,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Name Target"
+                android:text="@string/name_target"
                 android:textSize="14sp"
                 android:textStyle="bold"
                 android:textColor="@android:color/black" />
@@ -75,7 +75,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Target Amount"
+                android:text="@string/target_amount"
                 android:layout_marginTop="16dp"
                 android:textStyle="bold"
                 android:textSize="14sp"
@@ -97,7 +97,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Start Date"
+                android:text="@string/start_date"
                 android:layout_marginTop="16dp"
                 android:textStyle="bold"
                 android:textSize="14sp"
@@ -121,7 +121,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="End Date"
+                android:text="@string/end_date"
                 android:layout_marginTop="16dp"
                 android:textStyle="bold"
                 android:textSize="14sp"
@@ -145,7 +145,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Monthly Savings"
+                android:text="@string/monthly_savings"
                 android:layout_marginTop="16dp"
                 android:textStyle="bold"
                 android:textSize="14sp"
@@ -193,7 +193,7 @@
                     android:id="@+id/btnCloseDialogSavings"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Close"
+                    android:text="@string/close"
                     android:textSize="14sp"
                     app:backgroundTint="#023047"
                     android:layout_centerInParent="true" />
@@ -202,7 +202,7 @@
                     android:id="@+id/btnSaveTargetSavings"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Save"
+                    android:text="@string/save"
                     android:textSize="14sp"
                     app:backgroundTint="#1E97F4"
                     android:layout_alignParentEnd="true"

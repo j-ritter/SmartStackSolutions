@@ -1,6 +1,7 @@
 package com.example.smartstackbills;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -8,12 +9,56 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.billingclient.api.BillingClient;
+import com.android.billingclient.api.BillingClientStateListener;
+import com.android.billingclient.api.BillingResult;
+import com.android.billingclient.api.ProductDetails;
+import com.android.billingclient.api.Purchase;
+import com.android.billingclient.api.PurchasesUpdatedListener;
+import com.android.billingclient.api.QueryProductDetailsParams;
+
+import java.util.Collections;
+import java.util.List;
+
 public class Premium extends AppCompatActivity {
 
+    private BillingClient billingClient;
+
+    // Define the PurchasesUpdatedListener
+    private final PurchasesUpdatedListener purchasesUpdatedListener = new PurchasesUpdatedListener() {
+        @Override
+        public void onPurchasesUpdated(BillingResult billingResult, List<Purchase> purchases) {
+            if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK && purchases != null) {
+                for (Purchase purchase : purchases) {
+                    // Handle the purchase
+                    handlePurchase(purchase);
+                }
+            } else if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.USER_CANCELED) {
+                // Handle user cancellation
+                Log.i("BillingClient", "User canceled the purchase");
+            } else {
+                // Handle other errors
+                Log.e("BillingClient", "Error during purchase: " + billingResult.getDebugMessage());
+            }
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_premium);
+
+        // Initialize the BillingClient
+        billingClient = BillingClient.newBuilder(this)
+                .setListener(purchasesUpdatedListener)
+                .enablePendingPurchases()
+                .build();
+
+        // Connect to Google Play Billing
+        startBillingConnection();
+
+        // Other initialization code...
+        handleUIInteractions();
+
 
         // Handle the back button click
         ImageView backButton = findViewById(R.id.btnBackPremium);
@@ -199,4 +244,74 @@ public class Premium extends AppCompatActivity {
         });
 
     }
+    // Query available products
+    private void queryProducts() {
+        List<QueryProductDetailsParams.Product> productList = Collections.singletonList(
+                QueryProductDetailsParams.Product.newBuilder()
+                        .setProductId("premium_unlock") // Replace with your product ID
+                        .setProductType(BillingClient.ProductType.INAPP) // or SUBS for subscriptions
+                        .build()
+        );
+
+        QueryProductDetailsParams params = QueryProductDetailsParams.newBuilder()
+                .setProductList(productList)
+                .build();
+
+        billingClient.queryProductDetailsAsync(params, (billingResult, productDetailsList) -> {
+            if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK && productDetailsList != null) {
+                for (ProductDetails productDetails : productDetailsList) {
+                    // Display product details to the user
+                    Log.i("BillingClient", "Product: " + productDetails.getTitle() + ", Price: " + productDetails.getOneTimePurchaseOfferDetails().getFormattedPrice());
+                }
+            } else {
+                Log.e("BillingClient", "Error querying product details: " + billingResult.getDebugMessage());
+            }
+        });
+    }
+    // Method to start BillingClient connection
+    private void startBillingConnection() {
+        billingClient.startConnection(new BillingClientStateListener() {
+            @Override
+            public void onBillingSetupFinished(BillingResult billingResult) {
+                if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
+                    Log.i("BillingClient", "Billing setup complete");
+                    // You can now query products or purchases
+                } else {
+                    Log.e("BillingClient", "Billing setup failed: " + billingResult.getDebugMessage());
+                }
+            }
+
+            @Override
+            public void onBillingServiceDisconnected() {
+                Log.w("BillingClient", "Billing service disconnected. Retrying...");
+                startBillingConnection();
+            }
+        });
+    }
+
+    // Method to handle purchases
+    private void handlePurchase(Purchase purchase) {
+        // Process the purchase (e.g., grant entitlement, consume the purchase)
+        Log.i("BillingClient", "Purchase successful: " + purchase.getPurchaseToken());
+        // Verify the purchase token with your backend or handle entitlement here
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (billingClient != null) {
+            billingClient.endConnection();
+        }
+    }
+
+    private void handleUIInteractions() {
+        // Handle back button
+        ImageView backButton = findViewById(R.id.btnBackPremium);
+        backButton.setOnClickListener(v -> onBackPressed());
+
+        // Other UI interactions for features (already implemented in your existing code)
+    }
 }
+
+
+

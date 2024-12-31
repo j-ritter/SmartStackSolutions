@@ -27,7 +27,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Details"
+                    android:text="@string/details"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:textColor="@android:color/black"
@@ -46,7 +46,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Title"
+                    android:text="@string/title"
                     android:textSize="14sp"
                     android:textColor="@android:color/black" />
 
@@ -63,7 +63,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Category"
+                    android:text="@string/category"
                     android:layout_marginTop="4dp"
                     android:textSize="14sp"
                     android:textColor="@android:color/black" />
@@ -81,7 +81,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Subcategory"
+                    android:text="@string/subcategory"
                     android:layout_marginTop="4dp"
                     android:textSize="14sp"
                     android:textColor="@android:color/black" />
@@ -99,7 +99,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Vendor"
+                    android:text="@string/vendor"
                     android:layout_marginTop="4dp"
                     android:textSize="14sp"
                     android:textColor="@android:color/black" />
@@ -117,7 +117,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Amount"
+                    android:text="@string/amount"
                     android:layout_marginTop="4dp"
                     android:textSize="14sp"
                     android:textColor="@android:color/black" />
@@ -135,7 +135,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Date"
+                    android:text="@string/date"
                     android:layout_marginTop="4dp"
                     android:textSize="14sp"
                     android:textColor="@android:color/black" />
@@ -153,7 +153,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Comment"
+                    android:text="@string/comments"
                     android:layout_marginTop="4dp"
                     android:textSize="14sp"
                     android:textColor="@android:color/black" />
@@ -171,7 +171,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Attachment"
+                    android:text="@string/attachment"
                     android:layout_marginTop="4dp"
                     android:textSize="14sp"
                     android:textColor="@android:color/black" />
@@ -195,7 +195,7 @@
                     android:id="@+id/btnCloseDialogSpendingsCalendar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Close"
+                    android:text="@string/close"
                     android:textSize="14sp"
                     app:backgroundTint="#023047"
                     android:layout_centerInParent="true" />

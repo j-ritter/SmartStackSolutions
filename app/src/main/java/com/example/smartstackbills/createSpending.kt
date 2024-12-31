@@ -1,6 +1,5 @@
 package com.example.smartstackbills
 
-import android.R.layout.simple_spinner_dropdown_item
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -12,19 +11,14 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import android.graphics.Bitmap
 import android.net.Uri
 import android.provider.MediaStore
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.FileProvider
 import android.os.Environment
-import android.text.Editable
 import android.text.InputType
-import android.text.TextWatcher
-import com.google.firebase.firestore.FieldValue
 import java.io.File
 import java.io.IOException
-import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 

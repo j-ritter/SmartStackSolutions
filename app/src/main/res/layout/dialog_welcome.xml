@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
             android:gravity="center"
-            android:text="Welcome to SmartStack Solutions"
+            android:text="@string/welcome_title"
             android:textColor="@color/black"
             android:textSize="20sp" />
 
@@ -52,7 +52,7 @@
             style="@style/TextAppearance.Material3.BodyMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Your tool to organize your Finances and simplify your Life!"
+            android:text="@string/welcome_body_message"
             android:textColor="@color/textPrimary"
             android:textSize="16sp"
             android:gravity="center"
@@ -65,7 +65,7 @@
             style="@style/Widget.Material3.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Get Started"
+            android:text="@string/get_started"
             android:textSize="16sp"
             android:textStyle="bold"
             android:backgroundTint="@color/colorPrimary"

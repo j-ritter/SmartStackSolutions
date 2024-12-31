@@ -24,7 +24,7 @@
                 android:layout_height="59dp"
                 app:menu="@menu/top_nav"
                 app:navigationIcon="@drawable/ic_menu"
-                app:title="Open Payments"
+                app:title="@string/open_payments"
                 app:titleCentered="true"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -118,7 +118,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
-                android:contentDescription="@string/create_new_Open_Payment"/>
+                android:contentDescription="@string/create_new_open_payment"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
