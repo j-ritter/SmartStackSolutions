@@ -22,6 +22,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SmartStackBills"
         tools:targetApi="31">
+
+        <!-- Supported Locales -->
+        <meta-data
+            android:name="android.supportedLocales"
+            android:value="en,es,de" />
+
+        <!-- AdMob Application ID -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-8302603162293293~3198672737"/>

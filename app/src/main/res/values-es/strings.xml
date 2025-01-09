@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="notification_details">Detalles de la Notificación</string>
+    <string name="main">Principal</string>
     <string name="app_name">Soluciones SmartStack</string>
     <string name="target_name">Nombre del objetivo</string>
     <string name="log_in">Iniciar sesión</string>
@@ -229,5 +231,63 @@
     Antes de contactarnos, puedes consultar nuestra sección de preguntas frecuentes, donde hemos recopilado respuestas a preguntas comunes sobre el uso de SmartStack Solutions. Esta sección cubre temas como la creación de entradas, la gestión de tu cuenta y el uso efectivo de las funciones.\n\n
     Para cualquier otra necesidad de ayuda o soporte, no dudes en contactarnos por correo electrónico. ¡Estamos aquí para ayudarte a sacar el máximo provecho de SmartStack Solutions!
 </string>
+    <string name="content_description_logo">Logo de la aplicación</string>
+    <string name="app_title">Soluciones SmartStack</string>
+    <string name="total_net_savings">Ahorros netos totales</string>
+    <string name="set_saving_target">Meta de ahorro</string>
+    <string name="target_achieved">Meta alcanzada</string>
+    <string name="goal_summary">Necesitas ahorrar %s por mes para alcanzar tu meta para %s.</string>
 
+    <string name="content_description_back_arrow">Volver a la pantalla anterior</string>
+    <string name="content_description_notifications_list">Lista de notificaciones</string>
+
+    <string name="unlock_premium_features">Desbloquear funciones premium</string>
+    <string name="premium_intro_text">¡Gracias por elegir Soluciones SmartStack!\n\nCon la versión básica, puedes gestionar tus pagos pendientes y mantenerte al tanto de tus facturas próximas.\n\nActualiza a Premium para desbloquear:</string>
+    <string name="premium_feature_closed_payments">Pagos cerrados: Haz un seguimiento de las facturas pagadas.</string>
+    <string name="premium_feature_income_management">Gestión de ingresos: Administra tus fuentes de ingresos.</string>
+    <string name="premium_feature_saving_target">Meta de ahorro: Establece una meta de ahorro y sigue el progreso.</string>
+    <string name="premium_closing_text">Desbloquea Premium para disfrutar de una visión financiera completa.</string>
+    <string name="features">Características</string>
+    <string name="feature_open_payments_title">Pagos pendientes</string>
+    <string name="feature_open_payments_desc">Gestiona los pagos pendientes y mantente al día con tus facturas próximas.</string>
+    <string name="feature_open_payments_expandable">Los pagos pendientes te permiten gestionar tus facturas próximas, establecer recordatorios, realizar un seguimiento de los pagos y ayudarte a pagar a tiempo.</string>
+    <string name="feature_closed_payments_title">Pagos cerrados</string>
+    <string name="feature_closed_payments_desc">Haz un seguimiento de las facturas que has pagado y gestiona tu historial de transacciones.</string>
+    <string name="feature_closed_payments_expandable">Los pagos cerrados te ayudan a hacer un seguimiento de las facturas pagadas para tu historial financiero.</string>
+    <string name="feature_income_management_title">Gestión de ingresos</string>
+    <string name="feature_income_management_desc">Haz un seguimiento y clasifica tus fuentes de ingresos.</string>
+    <string name="feature_income_management_expandable">La gestión de ingresos te ayuda a realizar un seguimiento de tus diferentes flujos de ingresos, incluidos salarios, trabajos freelance e inversiones.</string>
+    <string name="feature_notifications_title">Notificaciones</string>
+    <string name="feature_notifications_desc">Recibe recordatorios oportunos para tus pagos pendientes.</string>
+    <string name="feature_notifications_expandable">Obtén notificaciones oportunas para asegurarte de que nunca te pierdas un pago próximo.</string>
+    <string name="feature_calendar_title">Calendario</string>
+    <string name="feature_calendar_desc">Obtén una visión general de todas tus transacciones en una vista de calendario.</string>
+    <string name="feature_calendar_expandable">La función de calendario proporciona una visión general de los pagos, ingresos y transacciones en una vista mensual.</string>
+    <string name="feature_saving_target_title">Meta de ahorro</string>
+    <string name="feature_saving_target_desc">Establece una meta de ahorro y sigue el progreso.</string>
+    <string name="feature_saving_target_expandable">La función de Meta de Ahorro te permite establecer objetivos financieros personalizados. Define una cantidad objetivo, establece un período y sigue tu progreso mensual hacia el logro de tus metas financieras.</string>
+    <string name="unlock_button_text">Desbloquear SmartStack Solutions Premium</string>
+    <string name="more_information">Más información</string>
+    <string name="terms_and_conditions_title">Términos y condiciones</string>
+    <string name="terms_and_conditions_content">
+        1. Aceptación de los términos&#10;&#10;Al usar la aplicación Soluciones SmartStack, aceptas estar sujeto a estos términos y condiciones. Si no estás de acuerdo, por favor no utilices la aplicación.&#10;&#10;
+        2. Cambios en los términos&#10;&#10;Soluciones SmartStack se reserva el derecho de modificar estos términos en cualquier momento. Notificaremos a los usuarios de cualquier cambio a través de la aplicación o por correo electrónico. El uso continuo de la aplicación después de que se hayan publicado los cambios constituye la aceptación de los nuevos términos.&#10;&#10;
+        3. Responsabilidades del usuario&#10;&#10;Seguridad de la cuenta: Los usuarios son responsables de mantener la confidencialidad de su información de cuenta y de todas las actividades que ocurran bajo su cuenta.&#10;&#10;Información precisa: Los usuarios deben proporcionar información precisa y completa al crear y gestionar sus cuentas.\nAcciones prohibidas: Los usuarios no deben utilizar la aplicación para ningún propósito ilegal o actividades que puedan dañar la aplicación o a otros usuarios.&#10;&#10;
+        4. Política de privacidad&#10;&#10;Tu privacidad es importante para nosotros. Consulta nuestra Política de privacidad para obtener información sobre cómo recopilamos, usamos y protegemos tus datos personales.&#10;&#10;
+        5. Uso de la aplicación&#10;&#10;Funciones: Soluciones SmartStack proporciona herramientas para gestionar recibos y gastos financieros. La aplicación permite a los usuarios ingresar, organizar y revisar sus datos financieros.\nLimitaciones: Aunque nos esforzamos por proporcionar funciones precisas y confiables, Soluciones SmartStack no puede garantizar que todas las funciones estén libres de errores o interrupciones.&#10;&#10;
+        6. Cuenta Premium&#10;&#10;Funciones: Los usuarios de la Cuenta Premium tienen acceso a funcionalidades adicionales y la capacidad de crear más de tres entradas.&#10;&#10;Pagos: Las tarifas de la Cuenta Premium se cobran según el plan de precios seleccionado por el usuario. Las tarifas no son reembolsables.&#10;&#10;
+        7. Responsabilidad&#10;&#10;Sin garantía: La aplicación se proporciona tal cual sin garantías de ningún tipo. Soluciones SmartStack no garantiza la exactitud, integridad o fiabilidad de la aplicación.&#10;&#10;Limitación de responsabilidad: Soluciones SmartStack no será responsable de ningún daño derivado del uso o la imposibilidad de usar la aplicación.&#10;&#10;
+        8. Terminación&#10;&#10;Soluciones SmartStack se reserva el derecho de terminar o suspender el acceso a la aplicación para cualquier usuario que viole estos términos y condiciones.&#10;&#10;
+        9. Información de contacto&#10;&#10;Para cualquier pregunta o inquietud relacionada con estos términos y condiciones, por favor contáctanos en service@smartstacksolution.info.
+    </string>
+    <string name="back">Volver</string>
+    <string name="content_description_back">Volver</string>
+    <string name="about_us_title">Acerca de nosotros</string>
+    <string name="about_us_content">
+        En Soluciones SmartStack, nuestra misión es proporcionar a los usuarios soluciones que aporten orden a su vida diaria y a sus finanzas. Nuestro objetivo es capacitar a los usuarios para que recopilen, organicen y recuperen información, documentos y fotos relevantes de manera eficiente. Al hacerlo, les ayudamos a mantenerse organizados y a gestionar eficazmente sus finanzas.
+
+        Nuestro equipo se dedica a crear soluciones fáciles de usar que se adapten a las necesidades de las personas que buscan una mejor gestión y organización financiera. Creemos que con las herramientas adecuadas, todos pueden tomar el control de sus finanzas y mejorar su bienestar financiero.
+
+        Si tienes alguna pregunta o necesitas más información sobre nuestra misión y servicios, no dudes en contactarnos. Correo electrónico: service@smartstack-solutions.com. ¡Estamos aquí para ayudarte a aprovechar al máximo Soluciones SmartStack!
+    </string>
 </resources>

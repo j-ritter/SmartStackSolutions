@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:335330685775:android:98ae89b1b393c43bb14b3a",
         "android_client_info": {
-          "package_name": "com.example.smartstackbills"
+          "package_name": "com.ritter.smartstackbills"
         }
       },
       "oauth_client": [
@@ -17,7 +17,7 @@
           "client_id": "335330685775-ngqfr5vqupj0smekoc1uvdjq5vmibkud.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.smartstackbills",
+            "package_name": "com.ritter.smartstackbills",
             "certificate_hash": "f59dc0381d48c06e05e6f4fc3aa90c0d2336ef06"
           }
         },

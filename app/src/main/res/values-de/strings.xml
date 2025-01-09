@@ -1,2 +1,296 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="notification_details">Benachrichtigungsdetails</string>
+    <string name="main">Hauptmenü</string>
+    <string name="app_name">SmartStack Solutions</string>
+    <string name="target_name">Zielname</string>
+    <string name="log_in">Anmelden</string>
+    <string name="email">E-Mail</string>
+    <string name="password">Passwort</string>
+    <string name="don_t_have_an_account">Noch kein Konto?</string>
+    <string name="sign_up">Registrieren</string>
+    <string name="forgot_password">Passwort vergessen?</string>
+    <string name="already_have_an_account">Bereits ein Konto?</string>
+    <string name="sign_up_with_google">Mit Google registrieren</string>
+    <string name="default_web_client_id">335330685775-ngqfr5vqupj0smekoc1uvdjq5vmibkud.apps.googleusercontent.com</string>
+    <string name="or">oder</string>
+    <string name="all">Alle</string>
+    <string name="you_still_do_not_have_any_bill_registered">Es sind noch keine Rechnungen registriert</string>
+    <string name="my_bills">Meine Rechnungen</string>
+    <string name="my_spendings">Meine Ausgaben</string>
+    <string name="income">Einkommen</string>
+    <string name="calendar">Kalender</string>
+    <string name="account">Konto</string>
+    <string name="incoming">Eingehend</string>
+    <string name="overdue">Überfällig</string>
+    <string name="recurring">Wiederkehrend</string>
+    <string name="paid">Bezahlt</string>
+    <string name="select_date">Datum auswählen</string>
+    <string name="amount">Betrag</string>
+    <string name="vendor">Anbieter</string>
+    <string name="category">Kategorie</string>
+    <string name="write_your_title">Titel eingeben</string>
+    <string name="write_your_comments">Kommentare eingeben</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="save">Speichern</string>
+    <string name="attachment">Anhang</string>
+    <string name="create_new_open_payment">Neue offene Zahlung erstellen</string>
+    <string name="open_payments">Offene Zahlungen</string>
+    <string name="create_new_closed_payment">Neue geschlossene Zahlung erstellen</string>
+    <string name="closed_payments">Geschlossene Zahlungen</string>
+    <string name="create_new_income">Neues Einkommen erstellen</string>
+    <string name="date">Datum</string>
+    <string name="date_header">Datumsüberschrift</string>
+    <string name="due_date">Fälligkeitsdatum</string>
+    <string name="comments">Kommentare</string>
+    <string name="close">Schließen</string>
+    <string name="set_savings_target">Sparziel festlegen</string>
+    <string name="delete_target">Ziel löschen</string>
+    <string name="edit_target">Ziel bearbeiten</string>
+    <string name="name_target">Zielname</string>
+    <string name="target_amount">Zielbetrag</string>
+    <string name="start_date">Startdatum</string>
+    <string name="end_date">Enddatum</string>
+    <string name="monthly_savings">Monatliche Einsparungen</string>
+    <string name="savings_goal_image">Bild des Sparziels</string>
+    <string name="search_vendor">Anbieter suchen</string>
+    <string name="welcome_title">Willkommen bei SmartStack Solutions!</string>
+    <string name="welcome_icon_description">Willkommenssymbol</string>
+    <string name="welcome_body_message">Dein Tool, um deine Finanzen zu organisieren und dein Leben zu vereinfachen!</string>
+    <string name="get_started">Loslegen</string>
+    <string name="unlock_premium">Premium-Funktionen freischalten &#9733;</string>
+    <string name="about_us">Über uns</string>
+    <string name="faqs">Häufig gestellte Fragen</string>
+    <string name="data_security">Datensicherheit</string>
+    <string name="help_support">Hilfe und Support</string>
+    <string name="terms_conditions">Nutzungsbedingungen</string>
+    <string name="logout">Abmelden</string>
+    <string name="income_date">Einkommensdatum</string>
+    <string name="repeat">Wiederholen</string>
+    <string name="purchase_date">Kaufdatum</string>
+    <string name="details">Details</string>
+    <string name="upload">Hochladen</string>
+    <string name="alarm">Alarm</string>
+    <string name="categorydbx">Kategorie</string>
+    <string name="essential">Essentiell</string>
+    <string name="non_essential">Nicht-essentiell</string>
+    <string name="one_time">Einmalig</string>
+    <string name="delete_income">Einkommen löschen</string>
+    <string name="previous_month">Vorheriger Monat</string>
+    <string name="next_month">Nächster Monat</string>
+    <string name="mark_as_paid">Als bezahlt markieren</string>
+    <string name="calendar_title">Kalender</string>
+    <string name="content_description_navigation_menu">Navigationsmenü öffnen</string>
+    <string name="search_or_select_vendor">Anbieter suchen oder auswählen</string>
+    <string name="enter_custom_vendor">Eigenen Anbieter eingeben</string>
+    <string name="subcategory">Unterkategorie</string>
+    <string name="image_added">Bild hinzugefügt</string>
+    <string name="title">Titel</string>
+    <string name="select_a_category">Eine Kategorie auswählen</string>
+    <string name="data_security_title">Datensicherheit</string>
+    <string name="data_security_question_1">1. Wie schützt SmartStack Solutions meine Daten?</string>
+    <string name="data_security_answer_1">
+  Antwort: SmartStack Solutions implementiert Sicherheitsmaßnahmen, um Ihre Daten zu schützen. Dazu gehören sichere Anmeldeprotokolle und grundlegende Zugriffskontrollen. Wir vertrauen auf bewährte Cloud-Dienste, um Daten sicher zu speichern und zu verwalten.
+</string>
+    <string name="data_security_question_2">2. Werden meine Zahlungsinformationen sicher gespeichert?</string>
+    <string name="data_security_answer_2">
+  Antwort: SmartStack Solutions ist so konzipiert, dass Benutzer ihre Finanzdaten manuell eingeben können, ohne dass Zahlungstransaktionen erforderlich sind.
+</string>
+    <string name="data_security_question_3">3. Wie werden meine persönlichen Informationen behandelt?</string>
+    <string name="data_security_answer_3">
+  Antwort: Persönliche Informationen werden nur in minimalem Umfang erfasst und ausschließlich zur Bereitstellung unserer Dienste verwendet. Sie werden sicher in der Cloud gespeichert. Weitere Informationen finden Sie in unserer Datenschutzrichtlinie, die von PrivacyPolicies gehostet wird.
+</string>
+    <string name="data_security_question_4">4. Welche Maßnahmen gibt es, um unbefugten Zugriff zu verhindern?</string>
+    <string name="data_security_answer_4">
+  Antwort: Um unbefugten Zugriff zu verhindern, verwendet SmartStack Solutions starke Passwortanforderungen und Sitzungsverwaltungsprotokolle. Wir empfehlen auch, Passwörter regelmäßig zu aktualisieren und die Anmeldeinformationen nicht weiterzugeben.
+</string>
+    <string name="data_security_question_5">5. Wie gewährleistet SmartStack Solutions die Integrität meiner Daten?</string>
+    <string name="data_security_answer_5">
+  Antwort: Die Datenintegrität wird durch regelmäßige Backups und Echtzeitsynchronisation aufrechterhalten. Wir führen auch regelmäßige Prüfungen durch, um die Genauigkeit und Konsistenz der Daten sicherzustellen.
+</string>
+    <string name="data_security_question_6">6. Was soll ich tun, wenn ich einen Sicherheitsverstoß vermute?</string>
+    <string name="data_security_answer_6">
+  Antwort: Wenn Sie einen Sicherheitsverstoß vermuten, kontaktieren Sie bitte sofort unser Support-Team über den Bereich Hilfe und Support in der App. Wir werden das Problem umgehend untersuchen und die erforderlichen Maßnahmen ergreifen, um Ihr Konto zu sichern.
+</string>
+    <string name="data_security_question_7">7. Wie kann ich meine eigene Sicherheit beim Nutzen von SmartStack Solutions verbessern?</string>
+    <string name="data_security_answer_7">
+  Antwort: Erhöhen Sie Ihre Sicherheit, indem Sie ein starkes, eindeutiges Passwort für Ihr SmartStack Solutions-Konto verwenden. Stellen Sie sicher, dass Ihr Gerät mit einem Passwort oder biometrischen Sperre geschützt ist, und vermeiden Sie die Nutzung öffentlicher WLAN-Netzwerke beim Zugriff auf die App.
+</string>
+    <string name="data_security_question_8">8. Hält sich SmartStack Solutions an Datenschutzvorschriften?</string>
+    <string name="data_security_answer_8">
+  Antwort: Ja, SmartStack Solutions entspricht den relevanten Datenschutzvorschriften. Wir verpflichten uns, Ihre Privatsphäre zu schützen und die geltenden Gesetze einzuhalten.
+</string>
+    <string name="data_security_question_9">9. Welche Art von Verschlüsselung verwendet SmartStack Solutions?</string>
+    <string name="data_security_answer_9">
+  Antwort: SmartStack Solutions verwendet branchenübliche Verschlüsselungsmethoden für Daten während der Übertragung, um Ihre Informationen vor unbefugtem Zugriff zu schützen.
+</string>
+    <string name="data_security_question_10">10. Wie oft werden Sicherheitsprüfungen durchgeführt?</string>
+    <string name="data_security_answer_10">
+  Antwort: Sicherheitsprüfungen werden regelmäßig durchgeführt, um potenzielle Schwachstellen zu identifizieren und zu beheben. So stellen wir sicher, dass Ihre Daten effektiv geschützt werden.
+</string>
+    <string name="data_security_question_11">11. Was passiert mit meinen Daten, wenn ich mein Konto lösche?</string>
+    <string name="data_security_answer_11">
+  Antwort: Wenn Sie Ihr Konto löschen, werden alle zugehörigen Daten dauerhaft von unseren Servern entfernt. Wir speichern keine persönlichen Informationen über den Zeitraum hinaus, der zur Erfüllung unserer gesetzlichen Verpflichtungen erforderlich ist.
+</string>
+    <string name="data_security_question_12">12. Wie kann ich SmartStack Solutions bei Bedenken zur Datensicherheit kontaktieren?</string>
+    <string name="data_security_answer_12">
+  Antwort: Wenn Sie Bedenken zur Datensicherheit haben, können Sie unser Support-Team über den Bereich Hilfe und Support in der App kontaktieren. Unser Team steht Ihnen zur Verfügung, um Ihre Fragen zu beantworten und die Sicherheit Ihrer Daten zu gewährleisten.
+</string>
+    <string name="data_security_question_13">13. Welche Maßnahmen gibt es, um Datenverlust zu verhindern?</string>
+    <string name="data_security_answer_13">
+  Antwort: Um Datenverlust zu verhindern, führt SmartStack Solutions regelmäßige Backups durch und hält Datenredundanz aufrecht. Unsere Systeme sind so konzipiert, dass sie Datenverfügbarkeit und -integrität gewährleisten.
+</string>
+    <string name="data_security_question_14">14. Bieten Sie Zwei-Faktor-Authentifizierung (2FA) an?</string>
+    <string name="data_security_answer_14">
+  Antwort: Derzeit bieten wir keine 2FA an, prüfen jedoch deren Implementierung, um die Kontosicherheit zu verbessern. Die Verwendung eines starken, eindeutigen Passworts und eines sicheren Geräts bietet jedoch bereits erheblichen Schutz.
+</string>
+    <string name="faqs_question_1">1. Was ist SmartStack Solutions?</string>
+    <string name="faqs_answer_1">
+  Antwort: SmartStack Solutions ist eine umfassende Finanzverwaltungs-App, die Benutzern hilft, ihre Zahlungen und Einkommen zu verfolgen. Sie ermöglicht es Benutzern, Transaktionen zu kategorisieren, Erinnerungen einzustellen und Finanzdaten in verschiedenen Formaten anzuzeigen, um bei der Budgetierung und Finanzplanung zu helfen.
+</string>
+
+    <string name="faqs_question_2">2. Wie füge ich eine neue offene Zahlung hinzu?</string>
+    <string name="faqs_answer_2">
+  Antwort: Um eine neue offene Zahlung hinzuzufügen, gehen Sie zum Bereich „Offene Zahlungen“ der App, klicken Sie auf die Plus-Schaltfläche und geben Sie die erforderlichen Details wie Titel, Betrag und Datum ein. Sie können auch ein Dokument oder andere relevante Informationen hinzufügen.
+</string>
+
+    <string name="faqs_question_3">3. Kann ich meine Zahlungen/Ausgaben kategorisieren?</string>
+    <string name="faqs_answer_3">
+  Antwort: Ja, SmartStack Solutions ermöglicht es Ihnen, Ihre Zahlungen/Ausgaben in vordefinierte Kategorien und Unterkategorien einzuordnen.
+</string>
+
+    <string name="faqs_question_4">4. Wie kann ich meine Zahlungen/Ausgaben nach Status anzeigen (eingehend, überfällig, wiederkehrend)?</string>
+    <string name="faqs_answer_4">
+  Antwort: Im Bereich „Offene Zahlungen“ können Sie Ihre offenen Zahlungen nach ihrem Status filtern. Bezahlte Zahlungen werden zu „Geschlossene Zahlungen“ verschoben. Überfällige Zahlungen erscheinen unter „Überfällig“, und bevorstehende Zahlungen werden unter „Eingehend“ aufgelistet. Wiederkehrende Zahlungen werden unter „Wiederkehrend“ angezeigt.
+</string>
+
+    <string name="faqs_question_5">5. Was sind wesentliche und nicht wesentliche Zahlungen, und was sind die Unterschiede?</string>
+    <string name="faqs_answer_5">
+  Antwort: Wesentliche Ausgaben sind notwendige Kosten wie Miete oder Lebensmittel. Nicht wesentliche Ausgaben umfassen optionale Posten wie Streaming-Dienste. In SmartStack Solutions sind Kategorien und Unterkategorien vordefiniert als entweder wesentlich oder nicht wesentlich, und Änderungen sind nicht möglich. Wenn einer Zahlung eine Kategorie fehlt, wird sie im Hauptmenü weder als wesentlich noch als nicht wesentlich angezeigt.
+</string>
+
+    <string name="faqs_question_6">6. Ist es möglich, Zahlungen zu scannen?</string>
+    <string name="faqs_answer_6">
+  Antwort: Sie können Ihr Dokument in SmartStack Solutions hochladen, aber ein automatisches Scannen des Dokuments ist derzeit nicht möglich.
+</string>
+
+    <string name="faqs_question_7">7. Kann ich mit SmartStack Solutions mein Einkommen verfolgen?</string>
+    <string name="faqs_answer_7">
+  Antwort: Ja, Sie können Ihr Einkommen verfolgen, indem Sie Einkommenseinträge im Bereich „Einkommen“ der App hinzufügen. Geben Sie Details wie Titel, Betrag und Empfangsdatum ein, um eine genaue Aufzeichnung Ihrer Einnahmen zu führen.
+</string>
+
+    <string name="faqs_question_8">8. Welche Sicherheitsmaßnahmen hat SmartStack Solutions, um meine Daten zu schützen?</string>
+    <string name="faqs_answer_8">
+  Antwort: SmartStack Solutions verwendet robuste Sicherheitsmaßnahmen wie Datenverschlüsselung, sichere Anmeldeprotokolle und regelmäßige Backups, um Ihre Finanzdaten zu schützen. Darüber hinaus speichert die App keine sensiblen Zahlungsinformationen.
+</string>
+
+    <string name="faqs_question_9">9. Was ist das Premium-Konto, und welche Vorteile bietet es?</string>
+    <string name="faqs_answer_9">
+  Antwort: Das Premium-Konto schaltet alle Funktionen von SmartStack Solutions frei. Es ermöglicht Ihnen die Nutzung aller Funktionen zusätzlich zu den Basisfunktionen. Weitere Details finden Sie unter „Premium-Funktionen freischalten“. Das Premium-Konto ist ideal für Benutzer, die von umfangreichem Tracking und Management profitieren möchten.
+</string>
+
+    <string name="faqs_question_10">10. Wie kann ich auf das Premium-Konto upgraden?</string>
+    <string name="faqs_answer_10">
+  Antwort: Um auf das Premium-Konto zu upgraden, gehen Sie zum Menübereich und wählen Sie „Premium-Funktionen freischalten“. Folgen Sie den Anweisungen, um Ihren Kauf abzuschließen und alle Funktionen freizuschalten.
+</string>
+
+    <string name="faqs_question_11">11. Was ist der Unterschied zwischen offenen Zahlungen und geschlossenen Zahlungen?</string>
+    <string name="faqs_answer_11">
+  Antwort: Offene Zahlungen sind Aufzeichnungen von Transaktionen, bei denen Sie eine Dienstleistung oder ein Produkt erhalten haben und die Zahlung noch leisten müssen. Geschlossene Zahlungen hingegen sind Aufzeichnungen Ihrer vergangenen Ausgaben. Die App ermöglicht es Ihnen, beide zu verfolgen, um Ihre Finanzen besser zu verwalten.
+</string>
+
+    <string name="faqs_question_12">12. Wie lege ich ein Sparziel fest?</string>
+    <string name="faqs_answer_12">
+  Antwort: Um ein Sparziel festzulegen, navigieren Sie zur Schaltfläche im Hauptmenü. Klicken Sie darauf und wählen Sie „Sparziel festlegen“, geben Sie Ihren Zielgrund, den Zielbetrag und den Zeitraum an. Sie können Ihren monatlichen Fortschritt zur Erreichung Ihres Ziels im Hauptmenü verfolgen.
+</string>
+
+    <string name="faqs_question_13">13. Kann ich mehrere Sparziele festlegen?</string>
+    <string name="faqs_answer_13">
+  Antwort: Ja, Sie können mehrere Sparziele in unterschiedlichen Zeiträumen festlegen. Jedes Ziel wird im Hauptmenü individuell verfolgt, wo Sie Ihren Fortschritt für jedes Ziel sehen können. Beachten Sie, dass sich die Zeiträume nicht überschneiden dürfen. Wählen Sie daher für jedes Ziel nicht überlappende Zeiträume.
+</string>
+
+    <string name="faqs_question_14">14. Was soll ich tun, wenn ich ein Problem mit der App habe?</string>
+    <string name="faqs_answer_14">
+  Antwort: Wenn Sie Probleme mit der App haben, können Sie unser Support-Team über service@smartstack-solutions.com kontaktieren. Geben Sie eine detaillierte Beschreibung des Problems an, und unser Team wird Ihnen umgehend helfen.
+</string>
+
+    <string name="faqs_question_15">15. Wie funktioniert das Benachrichtigungssystem in SmartStack Solutions, und welche Funktionen bietet es?</string>
+    <string name="faqs_answer_15">
+  Antwort: In SmartStack Solutions werden Benachrichtigungen automatisch drei Tage vor dem Fälligkeitsdatum einer offenen Zahlung erstellt, um rechtzeitige Erinnerungen zu gewährleisten. Benachrichtigungen erscheinen sowohl innerhalb der App, damit Sie informiert bleiben. Benutzer können Benachrichtigungen direkt in der App anzeigen, als gelesen markieren oder löschen. Benachrichtigungen, die älter als 30 Tage sind, werden automatisch entfernt. Dieses System stellt sicher, dass Sie konsequent an bevorstehende Zahlungen erinnert werden, ohne die Einstellungen manuell anpassen zu müssen.
+</string>
+    <string name="help_title">Hilfe und Support</string>
+    <string name="help_content">
+    Wenn Sie Hilfe oder Unterstützung bei der Nutzung von SmartStack Solutions benötigen, können Sie unser Service-Team kontaktieren.\n\n
+    Kontaktieren Sie uns\n\n
+    Für alle Fragen, Probleme oder Feedback kontaktieren Sie bitte unser Support-Team per E-Mail unter service@smartstack-solutions.com. Unser Team wird so schnell wie möglich auf Ihre Anfragen antworten.\n\n
+    Häufig gestellte Fragen (FAQs)\n\n
+    Bevor Sie uns kontaktieren, schauen Sie sich bitte unseren FAQ-Bereich an, in dem wir Antworten auf häufig gestellte Fragen zur Nutzung von SmartStack Solutions zusammengestellt haben. Dieser Abschnitt behandelt Themen wie das Erstellen von Einträgen, die Verwaltung Ihres Kontos und die effektive Nutzung der Funktionen.\n\n
+    Für alle anderen Hilfe- oder Support-Bedürfnisse zögern Sie nicht, uns per E-Mail zu kontaktieren. Wir sind hier, um Ihnen zu helfen, das Beste aus SmartStack Solutions herauszuholen!
+</string>
+    <string name="main_tagline">Organisieren Sie Ihre Finanzen\n\nund vereinfachen Sie Ihr Leben!</string>
+    <string name="content_description_logo">App-Logo</string>
+    <string name="app_title">SmartStack Solutions</string>
+    <string name="total_net_savings">Gesamtersparnisse</string>
+    <string name="set_saving_target">Sparziel festlegen</string>
+    <string name="target_achieved">Ziel erreicht</string>
+    <string name="goal_summary">Sie müssen %s pro Monat sparen, um Ihr Ziel bis %s zu erreichen.</string>
+    <string name="add_new_entry">Neuen Eintrag hinzufügen</string>
+    <string name="notifications">Benachrichtigungen</string>
+    <string name="content_description_back_arrow">Zur vorherigen Seite zurückkehren</string>
+    <string name="content_description_notifications_list">Liste der Benachrichtigungen</string>
+
+    <string name="unlock_premium_features">Premium-Funktionen freischalten</string>
+    <string name="premium_intro_text">Vielen Dank, dass Sie sich für SmartStack Solutions entschieden haben!\n\nMit der Basisversion können Sie Ihre offenen Zahlungen verwalten und den Überblick über anstehende Rechnungen behalten.\n\nUpgraden Sie auf Premium, um folgende Funktionen freizuschalten:</string>
+    <string name="premium_feature_closed_payments">Geschlossene Zahlungen: Verfolgen Sie bezahlte Rechnungen.</string>
+    <string name="premium_feature_income_management">Einkommensverwaltung: Verwalten Sie Ihre Einkommensquellen.</string>
+    <string name="premium_feature_saving_target">Sparziel: Legen Sie ein Sparziel fest und verfolgen Sie Ihren Fortschritt.</string>
+    <string name="premium_closing_text">Schalten Sie Premium frei, um eine umfassende Finanzübersicht zu genießen.</string>
+    <string name="features">Funktionen</string>
+    <string name="feature_open_payments_title">Offene Zahlungen</string>
+    <string name="feature_open_payments_desc">Verwalten Sie offene Zahlungen und behalten Sie anstehende Rechnungen im Blick.</string>
+    <string name="feature_open_payments_expandable">Mit offenen Zahlungen können Sie Ihre anstehenden Rechnungen verwalten, Erinnerungen einstellen, Zahlungen verfolgen und rechtzeitig bezahlen.</string>
+    <string name="feature_closed_payments_title">Geschlossene Zahlungen</string>
+    <string name="feature_closed_payments_desc">Verfolgen Sie bezahlte Rechnungen und verwalten Sie Ihre Transaktionshistorie.</string>
+    <string name="feature_closed_payments_expandable">Geschlossene Zahlungen helfen Ihnen, bezahlte Rechnungen für Ihre Finanzhistorie zu verfolgen.</string>
+    <string name="feature_income_management_title">Einkommensverwaltung</string>
+    <string name="feature_income_management_desc">Verfolgen und kategorisieren Sie Ihre Einkommensquellen.</string>
+    <string name="feature_income_management_expandable">Die Einkommensverwaltung hilft Ihnen, Ihre verschiedenen Einkommensquellen wie Gehälter, freiberufliche Arbeit und Investitionen zu verfolgen.</string>
+    <string name="feature_notifications_title">Benachrichtigungen</string>
+    <string name="feature_notifications_desc">Erhalten Sie rechtzeitige Erinnerungen für Ihre offenen Zahlungen.</string>
+    <string name="feature_notifications_expandable">Erhalten Sie rechtzeitige Benachrichtigungen, damit Sie keine anstehende Zahlung verpassen.</string>
+    <string name="feature_calendar_title">Kalender</string>
+    <string name="feature_calendar_desc">Erhalten Sie einen Überblick über alle Ihre Transaktionen in einer Kalenderansicht.</string>
+    <string name="feature_calendar_expandable">Die Kalenderfunktion bietet einen Überblick über Zahlungen, Einkommen und Transaktionen in einer Monatsansicht.</string>
+    <string name="feature_saving_target_title">Sparziel</string>
+    <string name="feature_saving_target_desc">Legen Sie ein Sparziel fest und verfolgen Sie den Fortschritt.</string>
+    <string name="feature_saving_target_expandable">Die Sparziel-Funktion ermöglicht es Ihnen, personalisierte Finanzziele festzulegen. Definieren Sie einen Zielbetrag, legen Sie einen Zeitraum fest und verfolgen Sie Ihren monatlichen Fortschritt auf dem Weg zu Ihren finanziellen Zielen.</string>
+    <string name="unlock_button_text">SmartStack Solutions Premium freischalten</string>
+    <string name="more_information">Weitere Informationen</string>
+    <string name="terms_and_conditions_title">Allgemeine Geschäftsbedingungen</string>
+    <string name="terms_and_conditions_content">
+1. Akzeptanz der Bedingungen&#10;&#10;Durch die Nutzung der SmartStack Solutions-Anwendung stimmen Sie zu, an diese Bedingungen gebunden zu sein. Wenn Sie nicht einverstanden sind, verwenden Sie die Anwendung bitte nicht.&#10;&#10;
+2. Änderungen der Bedingungen&#10;&#10;SmartStack Solutions behält sich das Recht vor, diese Bedingungen jederzeit zu ändern. Wir werden die Benutzer über Änderungen über die Anwendung oder per E-Mail informieren. Die weitere Nutzung der Anwendung nach Veröffentlichung der Änderungen bedeutet die Annahme der neuen Bedingungen.&#10;&#10;
+3. Benutzerverantwortlichkeiten&#10;&#10;Kontosicherheit: Benutzer sind dafür verantwortlich, die Vertraulichkeit ihrer Kontoinformationen zu wahren und alle Aktivitäten unter ihrem Konto zu überwachen.&#10;&#10;Genauigkeit der Informationen: Benutzer müssen genaue und vollständige Informationen bei der Erstellung und Verwaltung ihrer Konten angeben.\nVerbotene Handlungen: Benutzer dürfen die Anwendung nicht für rechtswidrige Zwecke oder Aktivitäten nutzen, die der Anwendung oder anderen Benutzern schaden könnten.&#10;&#10;
+4. Datenschutzrichtlinie&#10;&#10;Ihre Privatsphäre ist uns wichtig. Bitte lesen Sie unsere Datenschutzrichtlinie, um Informationen darüber zu erhalten, wie wir Ihre persönlichen Daten sammeln, verwenden und schützen.&#10;&#10;
+5. Nutzung der Anwendung&#10;&#10;Funktionen: SmartStack Solutions bietet Werkzeuge zur Verwaltung von Finanzbelegen und Ausgaben. Die Anwendung ermöglicht es Benutzern, Finanzdaten einzugeben, zu organisieren und zu überprüfen.\nEinschränkungen: Obwohl wir uns bemühen, genaue und zuverlässige Funktionen bereitzustellen, kann SmartStack Solutions nicht garantieren, dass alle Funktionen fehlerfrei oder ununterbrochen verfügbar sind.&#10;&#10;
+6. Premium-Konto&#10;&#10;Funktionen: Premium-Kontobenutzer haben Zugriff auf zusätzliche Funktionen und die Möglichkeit, mehr als drei Einträge zu erstellen.&#10;&#10;Zahlungen: Die Gebühren für Premium-Konten werden entsprechend dem vom Benutzer ausgewählten Tarif berechnet. Gebühren sind nicht erstattungsfähig.&#10;&#10;
+7. Haftung&#10;&#10;Keine Garantie: Die Anwendung wird ohne jegliche Garantien bereitgestellt. SmartStack Solutions übernimmt keine Garantie für die Genauigkeit, Vollständigkeit oder Zuverlässigkeit der Anwendung.&#10;&#10;Haftungsbeschränkung: SmartStack Solutions haftet nicht für Schäden, die durch die Nutzung oder die Unfähigkeit zur Nutzung der Anwendung entstehen.&#10;&#10;
+8. Kündigung&#10;&#10;SmartStack Solutions behält sich das Recht vor, den Zugang zur Anwendung für Benutzer, die gegen diese Bedingungen verstoßen, zu kündigen oder auszusetzen.&#10;&#10;
+9. Kontaktinformationen&#10;&#10;Bei Fragen oder Bedenken zu diesen Bedingungen kontaktieren Sie uns bitte unter service@smartstacksolution.info.
+</string>
+    <string name="back">Zurück</string>
+
+    <string name="content_description_back">Zurück</string>
+    <string name="about_us_title">Über uns</string>
+    <string name="about_us_content">
+Bei SmartStack Solutions ist es unsere Mission, Benutzern Lösungen zu bieten, die Ordnung in ihren Alltag und ihre Finanzen bringen. Wir möchten Benutzer dazu befähigen, relevante Informationen, Dokumente und Fotos effizient zu sammeln, zu organisieren und abzurufen. Dadurch helfen wir Ihnen, organisiert zu bleiben und Ihre Finanzen effektiv zu verwalten.
+
+Unser Team widmet sich der Entwicklung benutzerfreundlicher Lösungen, die den Bedürfnissen von Personen gerecht werden, die eine bessere Finanzverwaltung und Organisation suchen. Wir glauben, dass jeder mit den richtigen Werkzeugen die Kontrolle über seine Finanzen übernehmen und sein finanzielles Wohlbefinden verbessern kann.
+
+Wenn Sie Fragen haben oder weitere Informationen zu unserer Mission und unseren Dienstleistungen benötigen, können Sie uns gerne kontaktieren. E-Mail: service@smartstack-solutions.com. Wir sind hier, um Ihnen zu helfen, das Beste aus SmartStack Solutions herauszuholen!
+</string>
+
+
+
+
+</resources>

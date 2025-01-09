@@ -9,7 +9,7 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="com.example.smartstackbills" />
+                  <option name="appId" value="com.ritter.smartstackbills" />
                   <option name="mobileSdkAppId" value="1:335330685775:android:98ae89b1b393c43bb14b3a" />
                   <option name="projectId" value="smart-stack-bills" />
                   <option name="projectNumber" value="335330685775" />

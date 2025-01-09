@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="Main"
+    <item android:title="@string/main"
         android:id="@+id/Main"
         android:icon="@drawable/baseline_home_24"/>
-    <item android:title="Open Payments"
+    <item android:title="@string/open_payments"
         android:id="@+id/Bills"
         android:icon="@drawable/baseline_spendings_24"
         android:tint="@null"/>
-    <item android:title="Closed Payments"
+    <item android:title="@string/closed_payments"
         android:id="@+id/Spendings"
         android:icon="@drawable/ic_closedpayment"/>
-    <item android:title="Income"
+    <item android:title="@string/income"
         android:id="@+id/Income"
         android:icon="@drawable/baseline_attach_money_24"/>
-    <item android:title="Calendar"
+    <item android:title="@string/calendar"
         android:id="@+id/Calendar"
         android:icon="@drawable/baseline_calendar_month_24"/>
 </menu>

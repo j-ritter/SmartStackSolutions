@@ -23,7 +23,7 @@
         android:id="@+id/faqs_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="FAQs"
+        android:text="@string/faqs"
         android:textSize="24sp"
         android:textStyle="bold"
         android:textColor="@android:color/black"
