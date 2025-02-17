@@ -331,25 +331,75 @@ class createSpending : AppCompatActivity() {
 
     private fun loadCategories(spinnerCategories: Spinner) {
         val categories = arrayOf("Accommodation", "Communication", "Insurance", "Subscription and Memberships",
-            "Transportation", "Finances/Fees", "Taxes", "Health", "Education", "Shopping & Consumption", "Others")
+            "Transportation", "Finances/Fees", "Taxes", "Health", "Education", "Shopping & Consumption", "Groceries", "Others")
         val arrayAdapterCategories = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, categories)
         spinnerCategories.adapter = arrayAdapterCategories
     }
 
     private fun loadSubcategories(category: String, spinnerSubcategories: Spinner) {
         val subcategories = when (category) {
-            "Accommodation" -> arrayOf("Rent", "Mortgage", "Home maintenance", "Utilities", "Furniture", "Repairs and renovations")
-            "Communication" -> arrayOf("Mobile phone", "Landline phone", "Internet", "Cable/satellite TV", "Messaging services")
-            "Insurance" -> arrayOf("Health insurance", "Life insurance", "Car insurance", "Home insurance", "Travel insurance", "Pet insurance")
-            "Subscription and Memberships" -> arrayOf("Streaming services", "Gym memberships", "Software subscriptions", "Magazine/newspaper subscriptions", "Clubs and associations")
-            "Transportation" -> arrayOf("Fuel", "Vehicle maintenance", "Public transportation", "Parking", "Vehicle rental")
-            "Finances/Fees" -> arrayOf("Bank fees", "Investment fees", "Loan interest", "Credit card fees", "Brokerage fees")
-            "Taxes" -> arrayOf("Income tax", "Property tax", "Sales tax", "Self-employment tax", "Capital gains tax")
-            "Health" -> arrayOf("Doctor visits", "Dental care", "Prescription medications", "Health supplements", "Medical equipment")
-            "Education" -> arrayOf("Tuition fees", "Textbooks", "Online courses", "School supplies", "Extracurricular activities")
-            "Shopping & Consumption" -> arrayOf("Clothing", "Electronics", "Household goods", "Personal care products")
-            "Groceries" -> arrayOf("Basic food", "Household necessities", "Beverages", "Alcoholic beverages", "Snacks and sweets", "Luxury foods")
-            "Others" -> arrayOf("Miscellaneous")
+            "Accommodation" -> arrayOf(
+                "Rent", "Mortgage", "Home maintenance", "Utilities", "Furniture",
+                "Repairs and renovations", "Property management", "Home security"
+            )
+
+            "Communication" -> arrayOf(
+                "Mobile phone", "Landline phone", "Internet", "Cable/satellite TV",
+                "Messaging services", "Cloud storage", "VPN services", "VOIP services"
+            )
+
+            "Insurance" -> arrayOf(
+                "Health insurance", "Life insurance", "Car insurance", "Home insurance",
+                "Travel insurance", "Pet insurance", "Disability insurance", "Business insurance"
+            )
+
+            "Subscription and Memberships" -> arrayOf(
+                "Streaming services", "Gym memberships", "Software subscriptions",
+                "Magazine/newspaper subscriptions", "Clubs and associations",
+                "Music services", "Educational memberships", "Loyalty programs"
+            )
+
+            "Transportation" -> arrayOf(
+                "Fuel", "Vehicle maintenance", "Public transportation", "Parking",
+                "Vehicle rental", "Tolls", "Car lease", "Ride-sharing services"
+            )
+
+            "Finances/Fees" -> arrayOf(
+                "Bank fees", "Investment fees", "Loan interest", "Credit card fees",
+                "Brokerage fees", "Financial advisor fees", "ATM withdrawal fees", "Foreign transaction fees"
+            )
+
+            "Taxes" -> arrayOf(
+                "Income tax", "Property tax", "Sales tax", "Self-employment tax",
+                "Capital gains tax", "VAT (Value Added Tax)", "Import tax", "Luxury tax"
+            )
+
+            "Health" -> arrayOf(
+                "Doctor visits", "Dental care", "Prescription medications",
+                "Health supplements", "Medical equipment", "Mental health services",
+                "Alternative medicine", "Vaccinations"
+            )
+
+            "Education" -> arrayOf(
+                "Tuition fees", "Textbooks", "Online courses", "School supplies",
+                "Extracurricular activities", "Tutoring", "Professional development", "Educational software"
+            )
+
+            "Shopping & Consumption" -> arrayOf(
+                "Clothing", "Electronics", "Household goods", "Personal care products",
+                "Beauty & cosmetics", "Luxury goods", "Office supplies", "Gifts", "Movies"
+            )
+
+            "Groceries" -> arrayOf(
+                "Basic food", "Household necessities", "Beverages",
+                "Alcoholic beverages", "Snacks and sweets", "Luxury foods",
+                "Frozen foods", "Organic products"
+            )
+
+            "Others" -> arrayOf(
+                "Miscellaneous", "Donations", "Gambling", "Unexpected expenses",
+                "Legal fees", "Lottery tickets", "Pet expenses", "Festivals & events"
+            )
             else -> emptyArray()
         }
         val arrayAdapterSubcategories = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, subcategories)

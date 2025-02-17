@@ -39,6 +39,7 @@
     <string name="create_new_closed_payment">Neue geschlossene Zahlung erstellen</string>
     <string name="closed_payments">Geschlossene Zahlungen</string>
     <string name="create_new_income">Neues Einkommen erstellen</string>
+    <string name="create_new_spending">Neue Zahlung erstellen</string>
     <string name="date">Datum</string>
     <string name="date_header">Datumsüberschrift</string>
     <string name="due_date">Fälligkeitsdatum</string>

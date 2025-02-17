@@ -38,6 +38,7 @@
     <string name="create_new_closed_payment">Create new Closed Payment</string>
     <string name="closed_payments">Closed Payments</string>
     <string name="create_new_income">Create new Income</string>
+    <string name="create_new_spending">Create new Spending</string>
     <string name="date">Date</string>
     <string name="date_header">Date Header</string>
     <string name="due_date">Due Date</string>

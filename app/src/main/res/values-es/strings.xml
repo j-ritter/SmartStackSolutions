@@ -39,6 +39,7 @@
     <string name="create_new_closed_payment">Crear nuevo pago cerrado</string>
     <string name="closed_payments">Pagos cerrados</string>
     <string name="create_new_income">Crear nuevo ingreso</string>
+    <string name="create_new_spending">Crear nuevo pago</string>
     <string name="date">Fecha</string>
     <string name="date_header">Encabezado de fecha</string>
     <string name="due_date">Fecha de vencimiento</string>

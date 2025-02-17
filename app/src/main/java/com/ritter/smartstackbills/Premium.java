@@ -1,28 +1,38 @@
 package com.ritter.smartstackbills;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.ImageView;
+import android.widget.Toast;
+
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.billingclient.api.AcknowledgePurchaseParams;
 import com.android.billingclient.api.BillingClient;
 import com.android.billingclient.api.BillingClientStateListener;
+import com.android.billingclient.api.BillingFlowParams;
 import com.android.billingclient.api.BillingResult;
 import com.android.billingclient.api.ProductDetails;
 import com.android.billingclient.api.Purchase;
 import com.android.billingclient.api.PurchasesUpdatedListener;
 import com.android.billingclient.api.QueryProductDetailsParams;
+import com.android.billingclient.api.QueryPurchasesParams;
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.Collections;
 import java.util.List;
 
+
+
 public class Premium extends AppCompatActivity {
 
     private BillingClient billingClient;
+    private ProductDetails premiumProduct; // Store product details for later purchase
 
     // Define the PurchasesUpdatedListener
     private final PurchasesUpdatedListener purchasesUpdatedListener = new PurchasesUpdatedListener() {
@@ -42,6 +52,8 @@ public class Premium extends AppCompatActivity {
             }
         }
     };
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +71,26 @@ public class Premium extends AppCompatActivity {
         // Other initialization code...
         handleUIInteractions();
 
+        // ✅ Subscribe Button Click Event Listener
+        Button subscribeButton = findViewById(R.id.button_premium);
+        subscribeButton.setEnabled(false); // Disable initially
+
+        subscribeButton.setOnClickListener(v -> {
+            Log.i("BillingClient", "Subscribe button clicked");
+
+            if (!billingClient.isReady()) {
+                Log.e("BillingClient", "Billing Client is not ready. Reconnecting...");
+                startBillingConnection();
+                return;
+            }
+
+            if (premiumProduct != null) {
+                purchaseSubscription(premiumProduct);
+            } else {
+                Log.e("BillingClient", "Product details not loaded yet. Fetching now...");
+                queryProducts();
+            }
+        });
 
         // Handle the back button click
         ImageView backButton = findViewById(R.id.btnBackPremium);
@@ -244,38 +276,21 @@ public class Premium extends AppCompatActivity {
         });
 
     }
-    // Query available products
-    private void queryProducts() {
-        List<QueryProductDetailsParams.Product> productList = Collections.singletonList(
-                QueryProductDetailsParams.Product.newBuilder()
-                        .setProductId("premium_unlock") // Replace with your product ID
-                        .setProductType(BillingClient.ProductType.INAPP) // or SUBS for subscriptions
-                        .build()
-        );
-
-        QueryProductDetailsParams params = QueryProductDetailsParams.newBuilder()
-                .setProductList(productList)
-                .build();
-
-        billingClient.queryProductDetailsAsync(params, (billingResult, productDetailsList) -> {
-            if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK && productDetailsList != null) {
-                for (ProductDetails productDetails : productDetailsList) {
-                    // Display product details to the user
-                    Log.i("BillingClient", "Product: " + productDetails.getTitle() + ", Price: " + productDetails.getOneTimePurchaseOfferDetails().getFormattedPrice());
-                }
-            } else {
-                Log.e("BillingClient", "Error querying product details: " + billingResult.getDebugMessage());
-            }
-        });
-    }
-    // Method to start BillingClient connection
     private void startBillingConnection() {
+        if (billingClient.isReady()) {
+            Log.i("BillingClient", "BillingClient is already connected.");
+            return;
+        }
+
         billingClient.startConnection(new BillingClientStateListener() {
             @Override
             public void onBillingSetupFinished(BillingResult billingResult) {
                 if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
                     Log.i("BillingClient", "Billing setup complete");
-                    // You can now query products or purchases
+
+                    // ✅ Ensure we only query products after successful setup
+                    queryProducts();
+                    checkExistingSubscription();
                 } else {
                     Log.e("BillingClient", "Billing setup failed: " + billingResult.getDebugMessage());
                 }
@@ -284,17 +299,122 @@ public class Premium extends AppCompatActivity {
             @Override
             public void onBillingServiceDisconnected() {
                 Log.w("BillingClient", "Billing service disconnected. Retrying...");
-                startBillingConnection();
+
+                new android.os.Handler().postDelayed(() -> {
+                    startBillingConnection(); // ✅ Retry connection after 2 seconds
+                }, 2000);
             }
         });
     }
 
-    // Method to handle purchases
-    private void handlePurchase(Purchase purchase) {
-        // Process the purchase (e.g., grant entitlement, consume the purchase)
-        Log.i("BillingClient", "Purchase successful: " + purchase.getPurchaseToken());
-        // Verify the purchase token with your backend or handle entitlement here
+
+    private void queryProducts() {
+        if (!billingClient.isReady()) {
+            Log.e("BillingClient", "Billing Client is not ready. Trying to reconnect...");
+            startBillingConnection(); // ✅ Ensure connection before querying
+            return;
+        }
+
+        QueryProductDetailsParams params = QueryProductDetailsParams.newBuilder()
+                .setProductList(Collections.singletonList(
+                        QueryProductDetailsParams.Product.newBuilder()
+                                .setProductId("smart-stack-bills") // ✅ Ensure this matches Play Console
+                                .setProductType(BillingClient.ProductType.SUBS)
+                                .build()))
+                .build();
+
+        billingClient.queryProductDetailsAsync(params, (billingResult, productDetailsList) -> {
+            if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK && productDetailsList != null && !productDetailsList.isEmpty()) {
+                premiumProduct = productDetailsList.get(0); // ✅ Store the product details
+                Log.i("BillingClient", "Product details fetched successfully.");
+
+                // ✅ Enable the button only when product details are available
+                runOnUiThread(() -> {
+                    Button subscribeButton = findViewById(R.id.button_premium);
+                    subscribeButton.setEnabled(true); // Enable the button
+                });
+            } else {
+                Log.e("BillingClient", "Error fetching product details: " + billingResult.getDebugMessage());
+            }
+        });
     }
+
+
+    private void checkExistingSubscription() {
+        billingClient.queryPurchasesAsync(
+                QueryPurchasesParams.newBuilder().setProductType(BillingClient.ProductType.SUBS).build(),
+                (billingResult, purchasesList) -> {
+                    if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK && purchasesList != null) {
+                        for (Purchase purchase : purchasesList) {
+                            if (purchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED) {
+                                grantPremiumAccess();
+                                return;
+                            }
+                        }
+                    }
+                }
+        );
+    }
+
+    private void purchaseSubscription(ProductDetails productDetails) {
+        if (!billingClient.isReady()) {
+            Log.e("BillingClient", "Billing Client is not ready");
+            return;
+        }
+
+        BillingFlowParams billingFlowParams = BillingFlowParams.newBuilder()
+                .setProductDetailsParamsList(Collections.singletonList(
+                        BillingFlowParams.ProductDetailsParams.newBuilder()
+                                .setProductDetails(productDetails)
+                                .build()
+                ))
+                .build();
+
+        BillingResult billingResult = billingClient.launchBillingFlow(this, billingFlowParams);
+        if (billingResult.getResponseCode() != BillingClient.BillingResponseCode.OK) {
+            Log.e("BillingClient", "Failed to launch billing flow: " + billingResult.getDebugMessage());
+        }
+    }
+
+
+    private void handlePurchase(Purchase purchase) {
+        if (purchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED) {
+            if (!purchase.isAcknowledged()) {
+                AcknowledgePurchaseParams acknowledgePurchaseParams =
+                        AcknowledgePurchaseParams.newBuilder()
+                                .setPurchaseToken(purchase.getPurchaseToken())
+                                .build();
+
+                billingClient.acknowledgePurchase(acknowledgePurchaseParams, billingResult -> {
+                    if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
+                        grantPremiumAccess();
+                    }
+                });
+            } else {
+                grantPremiumAccess();
+            }
+        }
+    }
+
+    private void grantPremiumAccess() {
+        runOnUiThread(() -> {
+            Toast.makeText(this, "Premium Activated 🎉", Toast.LENGTH_LONG).show();
+            Button subscribeButton = findViewById(R.id.button_premium);
+            subscribeButton.setVisibility(View.GONE);
+        });
+
+        getSharedPreferences("AppPrefs", MODE_PRIVATE)
+                .edit()
+                .putBoolean("isPremiumUser", true)
+                .apply();
+
+        // ✅ Return to MainMenu to refresh UI
+        Intent intent = new Intent(this, MainMenu.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
+        finish(); // Close the Premium activity
+    }
+
 
     @Override
     protected void onDestroy() {

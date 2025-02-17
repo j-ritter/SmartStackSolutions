@@ -31,15 +31,21 @@ class LogIn : AppCompatActivity() {
             insets
         }
 
-        val registertext: TextView = findViewById(R.id.txtSign)
-
-        registertext.setOnClickListener {
+        // Handle Register Link
+        val registerText: TextView = findViewById(R.id.txtSign)
+        registerText.setOnClickListener {
             val intent = Intent(this, SignUp::class.java)
             startActivity(intent)
         }
 
-        val loginButton: Button = findViewById(R.id.btnlog)
+        // Handle Forgot Password Link
+        val forgotPasswordText: TextView = findViewById(R.id.txtForgotPassword)
+        forgotPasswordText.setOnClickListener {
+            showForgotPasswordDialog()
+        }
 
+        // Handle Login Button
+        val loginButton: Button = findViewById(R.id.btnlog)
         loginButton.setOnClickListener {
             performLogin()
         }
@@ -59,32 +65,42 @@ class LogIn : AppCompatActivity() {
         auth.signInWithEmailAndPassword(emailInput, passwordInput)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    // Check if the welcome dialog should be shown
                     if (isFirstLogin()) {
                         showWelcomeDialog(emailInput)
                     } else {
                         navigateToMainMenu(emailInput)
                     }
                 } else {
-                    // If sign in fails, display a message to the user.
-                    Toast.makeText(
-                        baseContext,
-                        "Authentication failed.",
-                        Toast.LENGTH_SHORT,
-                    ).show()
+                    Toast.makeText(this, "Authentication failed.", Toast.LENGTH_SHORT).show()
                 }
             }
             .addOnFailureListener {
-                Toast.makeText(
-                    baseContext,
-                    "Authentication failed.${it.localizedMessage}",
-                    Toast.LENGTH_SHORT,
-                ).show()
+                Toast.makeText(this, "Authentication failed: ${it.localizedMessage}", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    private fun showForgotPasswordDialog() {
+        val emailInput = findViewById<EditText>(R.id.edtEmail).text.toString()
+
+        if (emailInput.isEmpty()) {
+            Toast.makeText(this, "Please enter your email address to reset your password.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        auth.sendPasswordResetEmail(emailInput)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Toast.makeText(this, "Password reset email sent. Please check your inbox.", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(this, "Failed to send password reset email.", Toast.LENGTH_SHORT).show()
+                }
+            }
+            .addOnFailureListener {
+                Toast.makeText(this, "Error: ${it.localizedMessage}", Toast.LENGTH_SHORT).show()
             }
     }
 
     private fun showWelcomeDialog(emailInput: String) {
-        // Create the welcome dialog
         val builder = androidx.appcompat.app.AlertDialog.Builder(this)
         val inflater = this.layoutInflater
         val dialogView = inflater.inflate(R.layout.dialog_welcome, null)
@@ -95,7 +111,7 @@ class LogIn : AppCompatActivity() {
 
         btnGetStarted.setOnClickListener {
             dialog.dismiss()
-            setFirstLoginFlag(false) // Mark as not first login anymore
+            setFirstLoginFlag(false)
             navigateToMainMenu(emailInput)
         }
 

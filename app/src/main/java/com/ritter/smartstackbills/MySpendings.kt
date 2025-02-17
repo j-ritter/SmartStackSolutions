@@ -52,43 +52,46 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
     private lateinit var drawerLayout: DrawerLayout
 
     private val essentialSubcategories = setOf(
-        "Rent", "Mortgage", "Home maintenance", "Utilities",
+        "Rent", "Mortgage", "Home maintenance", "Utilities", "Repairs and renovations",
+        "Property management", "Home security",
         "Mobile phone", "Landline phone", "Internet",
         "Health insurance", "Life insurance", "Car insurance", "Home insurance",
-        "Fuel", "Vehicle maintenance", "Public transportation",
+        "Disability insurance", "Business insurance",
+        "Fuel", "Vehicle maintenance", "Public transportation", "Tolls", "Car lease",
+        "Bank fees", "Loan interest", "Credit card fees", "Income tax", "Property tax",
+        "Sales tax", "Self-employment tax", "Capital gains tax", "VAT (Value Added Tax)",
         "Doctor visits", "Dental care", "Prescription medications", "Medical equipment",
-        "Groceries - Basic Food", "Groceries - Household Necessities",
-        "Household goods", "Personal care products",
-        "Income tax", "Property tax", "Sales tax", "Self-employment tax", "Capital gains tax",
-        "Tuition fees", "Textbooks", "School supplies"
-    )
-    val essentialCategories = setOf(
-        "Accommodation", "Communication", "Insurance", "Transportation", "Finances/Fees", "Taxes", "Health", "Education", "Shopping & Consumption")
-
-    // Non-Essential Subcategories
-    val nonEssentialSubcategories = setOf(
-        // Accommodation
-        "Furniture", "Repairs and renovations",
-        // Communication
-        "Cable/satellite TV", "Messaging services",
-        // Insurance
-        "Travel insurance", "Pet insurance",
-        // Transportation
-        "Parking", "Vehicle rental",
-        // Finances/Fees
-        "Investment fees", "Brokerage fees",
-        // Health
-        "Health supplements",
-        // Education
-        "Online courses", "Extracurricular activities",
-        // Shopping & Consumption
-        "Groceries - Beverages", "Groceries - Alcoholic Beverages", "Groceries - Snacks and Sweets", "Groceries - Luxury Foods", "Electronics", "Personal care products", "Clothing", "Others"
+        "Mental health services", "Vaccinations",
+        "Tuition fees", "Textbooks", "School supplies", "Professional development",
+        "Clothing", "Household goods", "Personal care products",
+        "Groceries - Basic Food", "Groceries - Household Necessities", "Groceries - Frozen Foods", "Groceries - Organic Products"
     )
 
-    // Non-Essential Categories (used when subcategory is not provided)
-    val nonEssentialCategories = setOf(
+    private val essentialCategories = setOf(
+        "Accommodation", "Communication", "Insurance", "Transportation",
+        "Finances/Fees", "Taxes", "Health", "Education", "Shopping & Consumption"
+    )
+
+    private val nonEssentialSubcategories = setOf(
+        "Streaming services", "Movies", "Gym memberships", "Software subscriptions",
+        "Magazine/newspaper subscriptions", "Clubs and associations", "Music services",
+        "Cable/satellite TV", "Messaging services", "Cloud storage", "VPN services", "VOIP services",
+        "Investment fees", "Brokerage fees", "Financial advisor fees", "ATM withdrawal fees",
+        "Foreign transaction fees", "Travel insurance", "Pet insurance",
+        "Entertainment", "Dining out", "Hobbies", "Movies", "Vacation", "Gadgets",
+        "Luxury tax", "Health supplements", "Alternative medicine",
+        "Online courses", "Extracurricular activities", "Tutoring", "Educational software",
+        "Electronics", "Beauty & cosmetics", "Luxury goods", "Office supplies", "Gifts",
+        "Groceries - Beverages", "Groceries - Alcoholic Beverages", "Groceries - Snacks and Sweets", "Groceries - Luxury Foods",
+        "Miscellaneous", "Donations", "Gambling", "Unexpected expenses", "Legal fees",
+        "Lottery tickets", "Pet expenses", "Festivals & events"
+    )
+
+    private val nonEssentialCategories = setOf(
         "Subscription and Memberships", "Others"
     )
+
+
     private val spendingsReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             // This will be triggered when the broadcast is received
@@ -320,9 +323,14 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
     }
 
     override fun onSpendingClick(position: Int) {
-        val spending = spendingsArrayList[position]
-        showSpendingDetailsDialog(spending)
+        val item = myAdapter.getItemAtPosition(position)
+        // Check if the clicked item is a spending
+        if (item is Spendings) {
+            selectedSpending = item
+            showSpendingDetailsDialog(item)
+        }
     }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.top_nav, menu)
         // Find and update the unread notification count TextView on the alarm icon badge
@@ -449,38 +457,39 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
     private fun filterSpendings(filter: String) {
         val filteredSpendings = ArrayList<Spendings>()
 
-        // Reset the button background to inactive color
+        // Reset button colors
         findViewById<Button>(R.id.btnSpendingsAll).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_inactive))
         findViewById<Button>(R.id.btnEssential).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_inactive))
         findViewById<Button>(R.id.btnNonEssential).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_inactive))
 
         for (spending in allSpendingsArrayList) {
+            val subcategory = spending.subcategory?.trim()
+            val category = spending.category?.trim()
+
+            val isEssential = when {
+                subcategory in essentialSubcategories -> true
+                category in essentialCategories && (subcategory == null || subcategory.isEmpty()) -> true
+                else -> false
+            }
+
+            val isNonEssential = when {
+                subcategory in nonEssentialSubcategories -> true
+                category in nonEssentialCategories && (subcategory == null || subcategory.isEmpty()) -> true
+                else -> false
+            }
+
             when (filter) {
                 "essential" -> {
                     findViewById<Button>(R.id.btnEssential).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_active))
-                    // Check if spending is essential by subcategory or fallback to category
-                    val isEssential = spending.subcategory in essentialSubcategories ||
-                            (spending.subcategory == null && spending.category in essentialCategories)
-                    if (isEssential) {
-                        filteredSpendings.add(spending)
-                        Log.d("Filter", "Essential spending added: ${spending.name}")
-                    }
+                    if (isEssential) filteredSpendings.add(spending)
                 }
                 "non-essential" -> {
                     findViewById<Button>(R.id.btnNonEssential).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_active))
-                    // Check if spending is non-essential by subcategory or fallback to category
-                    val isNonEssential = spending.subcategory in nonEssentialSubcategories ||
-                            (spending.subcategory == null && spending.category in nonEssentialCategories)
-                    if (isNonEssential) {
-                        filteredSpendings.add(spending)
-                        Log.d("Filter", "Non-essential spending added: ${spending.name}")
-                    }
+                    if (isNonEssential) filteredSpendings.add(spending)
                 }
                 "all" -> {
                     findViewById<Button>(R.id.btnSpendingsAll).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_active))
-                    // Add all spendings regardless of subcategory
                     filteredSpendings.add(spending)
-                    Log.d("Filter", "All spending added: ${spending.name}")
                 }
             }
         }
@@ -488,6 +497,8 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
         myAdapter.updateSpendings(filteredSpendings)
         Log.d("Filter", "Filtered spendings count for $filter: ${filteredSpendings.size}")
     }
+
+
     // Update the unread count badge from SharedPreferences
     private fun updateUnreadCountBadge(badgeCountTextView: TextView?) {
         val unreadCount = NotificationsActivity.getUnreadNotificationCount(this)

@@ -440,14 +440,15 @@
                 app:layout_constraintStart_toEndOf="@id/progressBarSavings"
                 app:layout_constraintTop_toBottomOf="@id/etMonthlySavings"
                 android:layout_marginTop="-4dp"
-                android:layout_marginEnd="6dp" />
+                android:layout_marginStart="-16dp" />
 
             <!-- Progress Bar -->
             <com.google.android.material.progressindicator.LinearProgressIndicator
                 android:id="@+id/progressBarSavings"
-                android:layout_width="100dp"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="-12dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginEnd="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvTargetAchieved"
@@ -456,20 +457,6 @@
                 android:max="100"
                 android:progress="0"
                 app:trackThickness="12dp" />
-
-            <!-- Goal Summary -->
-            <TextView
-                android:id="@+id/tvGoalSummary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:layout_marginTop="4dp"
-                android:textSize="14sp"
-                android:textColor="@android:color/holo_orange_dark"
-                android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@id/progressBarSavings"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="16dp" />
 
             <!-- FloatingActionButton -->
             <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -483,7 +470,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="12dp"
                 android:contentDescription="@string/create_new_open_payment" />
 
             <com.google.android.gms.ads.AdView
