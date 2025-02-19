@@ -68,6 +68,9 @@ public class Premium extends AppCompatActivity {
         // Connect to Google Play Billing
         startBillingConnection();
 
+        // ✅ Immediately check for an active subscription
+        checkExistingSubscription();
+
         // Other initialization code...
         handleUIInteractions();
 
@@ -288,7 +291,7 @@ public class Premium extends AppCompatActivity {
                 if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
                     Log.i("BillingClient", "Billing setup complete");
 
-                    // ✅ Ensure we only query products after successful setup
+                    // ✅ Wait for connection before querying products
                     queryProducts();
                     checkExistingSubscription();
                 } else {
@@ -299,58 +302,66 @@ public class Premium extends AppCompatActivity {
             @Override
             public void onBillingServiceDisconnected() {
                 Log.w("BillingClient", "Billing service disconnected. Retrying...");
-
-                new android.os.Handler().postDelayed(() -> {
-                    startBillingConnection(); // ✅ Retry connection after 2 seconds
-                }, 2000);
+                startBillingConnection(); // ✅ Retry connection
             }
         });
     }
 
-
     private void queryProducts() {
         if (!billingClient.isReady()) {
             Log.e("BillingClient", "Billing Client is not ready. Trying to reconnect...");
-            startBillingConnection(); // ✅ Ensure connection before querying
+            startBillingConnection();
             return;
         }
 
         QueryProductDetailsParams params = QueryProductDetailsParams.newBuilder()
                 .setProductList(Collections.singletonList(
                         QueryProductDetailsParams.Product.newBuilder()
-                                .setProductId("smart-stack-bills") // ✅ Ensure this matches Play Console
+                                .setProductId("smartstacksolutions_01")
                                 .setProductType(BillingClient.ProductType.SUBS)
                                 .build()))
                 .build();
 
         billingClient.queryProductDetailsAsync(params, (billingResult, productDetailsList) -> {
             if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK && productDetailsList != null && !productDetailsList.isEmpty()) {
-                premiumProduct = productDetailsList.get(0); // ✅ Store the product details
+                premiumProduct = productDetailsList.get(0);
                 Log.i("BillingClient", "Product details fetched successfully.");
 
-                // ✅ Enable the button only when product details are available
                 runOnUiThread(() -> {
                     Button subscribeButton = findViewById(R.id.button_premium);
-                    subscribeButton.setEnabled(true); // Enable the button
+                    subscribeButton.setEnabled(true);
                 });
+
+                // ✅ Now that product details are loaded, check existing subscriptions
+                checkExistingSubscription();
             } else {
                 Log.e("BillingClient", "Error fetching product details: " + billingResult.getDebugMessage());
             }
         });
     }
 
-
     private void checkExistingSubscription() {
         billingClient.queryPurchasesAsync(
-                QueryPurchasesParams.newBuilder().setProductType(BillingClient.ProductType.SUBS).build(),
+                QueryPurchasesParams.newBuilder()
+                        .setProductType(BillingClient.ProductType.SUBS) // ✅ Ensure checking subscriptions
+                        .build(),
                 (billingResult, purchasesList) -> {
                     if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK && purchasesList != null) {
+                        boolean hasActiveSubscription = false;
+
                         for (Purchase purchase : purchasesList) {
                             if (purchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED) {
-                                grantPremiumAccess();
-                                return;
+                                Log.i("BillingClient", "Active subscription found: " + purchase.getProducts());
+                                hasActiveSubscription = true;
+                                grantPremiumAccess(); // ✅ Unlock premium access
                             }
                         }
+
+                        if (!hasActiveSubscription) {
+                            Log.i("BillingClient", "No active subscription found");
+                        }
+                    } else {
+                        Log.e("BillingClient", "Failed to query purchases: " + billingResult.getDebugMessage());
                     }
                 }
         );
@@ -387,14 +398,19 @@ public class Premium extends AppCompatActivity {
 
                 billingClient.acknowledgePurchase(acknowledgePurchaseParams, billingResult -> {
                     if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
+                        Log.i("BillingClient", "Subscription acknowledged.");
                         grantPremiumAccess();
                     }
                 });
             } else {
+                Log.i("BillingClient", "Purchase already acknowledged.");
                 grantPremiumAccess();
             }
+        } else {
+            Log.w("BillingClient", "Purchase not completed. State: " + purchase.getPurchaseState());
         }
     }
+
 
     private void grantPremiumAccess() {
         runOnUiThread(() -> {
