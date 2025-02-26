@@ -1,65 +1,46 @@
 package com.ritter.smartstackbills;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
-
-
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.android.billingclient.api.AcknowledgePurchaseParams;
-import com.android.billingclient.api.BillingClient;
-import com.android.billingclient.api.BillingClientStateListener;
-import com.android.billingclient.api.BillingFlowParams;
-import com.android.billingclient.api.BillingResult;
-import com.android.billingclient.api.ProductDetails;
-import com.android.billingclient.api.Purchase;
-import com.android.billingclient.api.PurchasesUpdatedListener;
-import com.android.billingclient.api.QueryProductDetailsParams;
-import com.android.billingclient.api.QueryPurchasesParams;
-import com.google.android.material.navigation.NavigationView;
+import com.android.billingclient.api.*;
 
 import java.util.Collections;
 import java.util.List;
 
-
-
 public class Premium extends AppCompatActivity {
 
     private BillingClient billingClient;
-    private ProductDetails premiumProduct; // Store product details for later purchase
+    private ProductDetails premiumProduct;
+    private String offerToken = ""; // Offer Token for the subscription
 
-    // Define the PurchasesUpdatedListener
-    private final PurchasesUpdatedListener purchasesUpdatedListener = new PurchasesUpdatedListener() {
-        @Override
-        public void onPurchasesUpdated(BillingResult billingResult, List<Purchase> purchases) {
-            if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK && purchases != null) {
-                for (Purchase purchase : purchases) {
-                    // Handle the purchase
-                    handlePurchase(purchase);
-                }
-            } else if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.USER_CANCELED) {
-                // Handle user cancellation
-                Log.i("BillingClient", "User canceled the purchase");
-            } else {
-                // Handle other errors
-                Log.e("BillingClient", "Error during purchase: " + billingResult.getDebugMessage());
+    // Listener for purchase updates
+    private final PurchasesUpdatedListener purchasesUpdatedListener = (billingResult, purchases) -> {
+        if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK && purchases != null) {
+            for (Purchase purchase : purchases) {
+                handlePurchase(purchase);
             }
+        } else if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.USER_CANCELED) {
+            Log.i("BillingClient", "User canceled the purchase.");
+        } else {
+            Log.e("BillingClient", "Purchase failed: " + billingResult.getDebugMessage());
         }
     };
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_premium);
 
-        // Initialize the BillingClient
+        // Initialize UI interactions (handles back button)
+        handleUIInteractions();
+
+        // Initialize BillingClient
         billingClient = BillingClient.newBuilder(this)
                 .setListener(purchasesUpdatedListener)
                 .enablePendingPurchases()
@@ -68,15 +49,9 @@ public class Premium extends AppCompatActivity {
         // Connect to Google Play Billing
         startBillingConnection();
 
-        // ✅ Immediately check for an active subscription
-        checkExistingSubscription();
-
-        // Other initialization code...
-        handleUIInteractions();
-
-        // ✅ Subscribe Button Click Event Listener
+        // Subscribe Button
         Button subscribeButton = findViewById(R.id.button_premium);
-        subscribeButton.setEnabled(false); // Disable initially
+        subscribeButton.setEnabled(false);
 
         subscribeButton.setOnClickListener(v -> {
             Log.i("BillingClient", "Subscribe button clicked");
@@ -87,22 +62,26 @@ public class Premium extends AppCompatActivity {
                 return;
             }
 
-            if (premiumProduct != null) {
-                purchaseSubscription(premiumProduct);
+            if (premiumProduct != null && !offerToken.isEmpty()) {
+                purchaseSubscription();
             } else {
                 Log.e("BillingClient", "Product details not loaded yet. Fetching now...");
                 queryProducts();
             }
         });
 
+        // Check for existing subscription when app opens
+        checkExistingSubscription();
+
         // Handle the back button click
         ImageView backButton = findViewById(R.id.btnBackPremium);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();  // Go back to the previous activity
+                finish();  // This will correctly close the activity and return to the previous screen
             }
         });
+
 
         // Feature 1: Open Payments
         Button btnMoreInfo1 = findViewById(R.id.btn_more_info1);
@@ -277,21 +256,15 @@ public class Premium extends AppCompatActivity {
                 }
             }
         });
-
     }
-    private void startBillingConnection() {
-        if (billingClient.isReady()) {
-            Log.i("BillingClient", "BillingClient is already connected.");
-            return;
-        }
 
+    // Connect to Google Play Billing
+    private void startBillingConnection() {
         billingClient.startConnection(new BillingClientStateListener() {
             @Override
             public void onBillingSetupFinished(BillingResult billingResult) {
                 if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
                     Log.i("BillingClient", "Billing setup complete");
-
-                    // ✅ Wait for connection before querying products
                     queryProducts();
                     checkExistingSubscription();
                 } else {
@@ -302,11 +275,12 @@ public class Premium extends AppCompatActivity {
             @Override
             public void onBillingServiceDisconnected() {
                 Log.w("BillingClient", "Billing service disconnected. Retrying...");
-                startBillingConnection(); // ✅ Retry connection
+                startBillingConnection();
             }
         });
     }
 
+    // Query product details from Google Play
     private void queryProducts() {
         if (!billingClient.isReady()) {
             Log.e("BillingClient", "Billing Client is not ready. Trying to reconnect...");
@@ -317,7 +291,7 @@ public class Premium extends AppCompatActivity {
         QueryProductDetailsParams params = QueryProductDetailsParams.newBuilder()
                 .setProductList(Collections.singletonList(
                         QueryProductDetailsParams.Product.newBuilder()
-                                .setProductId("smartstacksolutions_01")
+                                .setProductId("smartstacksolutions_01") // Your Subscription ID
                                 .setProductType(BillingClient.ProductType.SUBS)
                                 .build()))
                 .build();
@@ -325,6 +299,12 @@ public class Premium extends AppCompatActivity {
         billingClient.queryProductDetailsAsync(params, (billingResult, productDetailsList) -> {
             if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK && productDetailsList != null && !productDetailsList.isEmpty()) {
                 premiumProduct = productDetailsList.get(0);
+
+                // Extract Offer Token
+                if (premiumProduct.getSubscriptionOfferDetails() != null && !premiumProduct.getSubscriptionOfferDetails().isEmpty()) {
+                    offerToken = premiumProduct.getSubscriptionOfferDetails().get(0).getOfferToken();
+                }
+
                 Log.i("BillingClient", "Product details fetched successfully.");
 
                 runOnUiThread(() -> {
@@ -332,42 +312,14 @@ public class Premium extends AppCompatActivity {
                     subscribeButton.setEnabled(true);
                 });
 
-                // ✅ Now that product details are loaded, check existing subscriptions
-                checkExistingSubscription();
             } else {
                 Log.e("BillingClient", "Error fetching product details: " + billingResult.getDebugMessage());
             }
         });
     }
 
-    private void checkExistingSubscription() {
-        billingClient.queryPurchasesAsync(
-                QueryPurchasesParams.newBuilder()
-                        .setProductType(BillingClient.ProductType.SUBS) // ✅ Ensure checking subscriptions
-                        .build(),
-                (billingResult, purchasesList) -> {
-                    if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK && purchasesList != null) {
-                        boolean hasActiveSubscription = false;
-
-                        for (Purchase purchase : purchasesList) {
-                            if (purchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED) {
-                                Log.i("BillingClient", "Active subscription found: " + purchase.getProducts());
-                                hasActiveSubscription = true;
-                                grantPremiumAccess(); // ✅ Unlock premium access
-                            }
-                        }
-
-                        if (!hasActiveSubscription) {
-                            Log.i("BillingClient", "No active subscription found");
-                        }
-                    } else {
-                        Log.e("BillingClient", "Failed to query purchases: " + billingResult.getDebugMessage());
-                    }
-                }
-        );
-    }
-
-    private void purchaseSubscription(ProductDetails productDetails) {
+    // Launch purchase flow with Offer Token
+    private void purchaseSubscription() {
         if (!billingClient.isReady()) {
             Log.e("BillingClient", "Billing Client is not ready");
             return;
@@ -376,9 +328,9 @@ public class Premium extends AppCompatActivity {
         BillingFlowParams billingFlowParams = BillingFlowParams.newBuilder()
                 .setProductDetailsParamsList(Collections.singletonList(
                         BillingFlowParams.ProductDetailsParams.newBuilder()
-                                .setProductDetails(productDetails)
-                                .build()
-                ))
+                                .setProductDetails(premiumProduct)
+                                .setOfferToken(offerToken) // REQUIRED for subscriptions
+                                .build()))
                 .build();
 
         BillingResult billingResult = billingClient.launchBillingFlow(this, billingFlowParams);
@@ -387,7 +339,7 @@ public class Premium extends AppCompatActivity {
         }
     }
 
-
+    // Handle purchase result
     private void handlePurchase(Purchase purchase) {
         if (purchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED) {
             if (!purchase.isAcknowledged()) {
@@ -406,29 +358,37 @@ public class Premium extends AppCompatActivity {
                 Log.i("BillingClient", "Purchase already acknowledged.");
                 grantPremiumAccess();
             }
+        } else if (purchase.getPurchaseState() == Purchase.PurchaseState.PENDING) {
+            Log.i("BillingClient", "Purchase is pending. Waiting for completion.");
         } else {
             Log.w("BillingClient", "Purchase not completed. State: " + purchase.getPurchaseState());
         }
     }
 
+    // Check existing subscriptions
+    private void checkExistingSubscription() {
+        billingClient.queryPurchasesAsync(
+                QueryPurchasesParams.newBuilder()
+                        .setProductType(BillingClient.ProductType.SUBS)
+                        .build(),
+                (billingResult, purchasesList) -> {
+                    if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK && purchasesList != null) {
+                        for (Purchase purchase : purchasesList) {
+                            handlePurchase(purchase);
+                        }
+                    } else {
+                        Log.e("BillingClient", "Failed to query purchases: " + billingResult.getDebugMessage());
+                    }
+                }
+        );
+    }
 
     private void grantPremiumAccess() {
-        runOnUiThread(() -> {
-            Toast.makeText(this, "Premium Activated 🎉", Toast.LENGTH_LONG).show();
-            Button subscribeButton = findViewById(R.id.button_premium);
-            subscribeButton.setVisibility(View.GONE);
-        });
-
-        getSharedPreferences("AppPrefs", MODE_PRIVATE)
-                .edit()
-                .putBoolean("isPremiumUser", true)
-                .apply();
-
-        // ✅ Return to MainMenu to refresh UI
-        Intent intent = new Intent(this, MainMenu.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        startActivity(intent);
-        finish(); // Close the Premium activity
+        runOnUiThread(() -> Toast.makeText(this, "Premium Activated 🎉", Toast.LENGTH_LONG).show());
+    }
+    private void handleUIInteractions() {
+        ImageView backButton = findViewById(R.id.btnBackPremium);
+        backButton.setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed()); // Recommended Fix
     }
 
 
@@ -439,15 +399,4 @@ public class Premium extends AppCompatActivity {
             billingClient.endConnection();
         }
     }
-
-    private void handleUIInteractions() {
-        // Handle back button
-        ImageView backButton = findViewById(R.id.btnBackPremium);
-        backButton.setOnClickListener(v -> onBackPressed());
-
-        // Other UI interactions for features (already implemented in your existing code)
-    }
 }
-
-
-
