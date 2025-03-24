@@ -50,6 +50,8 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
     private lateinit var dialog: Dialog
     private var selectedSpending: Spendings? = null
     private lateinit var drawerLayout: DrawerLayout
+    private lateinit var btnCloseDialog: Button
+
 
     private val essentialSubcategories = setOf(
         "Rent", "Mortgage", "Home maintenance", "Utilities", "Repairs and renovations",
@@ -245,13 +247,26 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
         dialog.window?.setBackgroundDrawable(getDrawable(R.drawable.dialog_box_spendings_bg))
         dialog.setCancelable(false)
 
-        val btnCloseDialog = dialog.findViewById<Button>(R.id.btnCloseDialogSpendings)
+
         val imgDeleteSpending = dialog.findViewById<ImageView>(R.id.imgDeleteSpendings)
         val imgEditSpending = dialog.findViewById<ImageView>(R.id.imgEditSpendings)
 
+        btnCloseDialog = dialog.findViewById(R.id.btnCloseDialogSpendings)
         btnCloseDialog.setOnClickListener {
-            dialog.dismiss()
+            if (btnCloseDialog.text == getString(R.string.cancel)) {
+                // Cancel editing mode
+                btnCloseDialog.text = getString(R.string.close)
+                dialog.findViewById<Button>(R.id.btnSaveChangesSpendings).visibility = View.GONE
+
+                // Disable inputs again
+                dialog.findViewById<EditText>(R.id.edtTitleDialogSpendings).isEnabled = false
+                dialog.findViewById<EditText>(R.id.edtAmountDialogSpendings).isEnabled = false
+                dialog.findViewById<EditText>(R.id.edtCommentDialogSpendings).isEnabled = false
+            } else {
+                dialog.dismiss()
+            }
         }
+
         imgDeleteSpending.setOnClickListener {
             deleteSpending()
         }
@@ -400,6 +415,8 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
             edtCommentDialog.isEnabled = true
 
             btnSaveChanges.visibility = View.VISIBLE
+            btnCloseDialog.text = getString(R.string.cancel)
+
         }
         btnSaveChanges.setOnClickListener {
             val userUid = FirebaseAuth.getInstance().currentUser?.uid
@@ -424,6 +441,7 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
                             myAdapter.notifyItemChanged(index)
                         }
                         Toast.makeText(this, "'Closed Payment' updated successfully", Toast.LENGTH_SHORT).show()
+                        btnCloseDialog.text = getString(R.string.close)
                         dialog.dismiss()
                     }
                     .addOnFailureListener { e ->

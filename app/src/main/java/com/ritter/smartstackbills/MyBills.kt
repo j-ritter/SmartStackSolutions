@@ -49,6 +49,7 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
     private lateinit var dialog: Dialog
     private var selectedBill: Bills? = null
     private lateinit var drawerLayout: DrawerLayout
+    private lateinit var btnCloseDialog: Button
 
     private val billsReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -207,12 +208,24 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
         dialog.window?.setBackgroundDrawable(getDrawable(R.drawable.dialog_box_bills_bg))
         dialog.setCancelable(false)
 
-        val btnCloseDialog = dialog.findViewById<Button>(R.id.btnCloseDialog)
         val imgDeleteBill = dialog.findViewById<ImageView>(R.id.imgDeleteBill)
         val imgEditBill = dialog.findViewById<ImageView>(R.id.imgEditBill)
 
+        // Initialize btnCloseDialog
+        btnCloseDialog = dialog.findViewById(R.id.btnCloseDialog)
         btnCloseDialog.setOnClickListener {
-            dialog.dismiss()
+            if (btnCloseDialog.text == getString(R.string.cancel)) {
+                // Cancel editing mode
+                btnCloseDialog.text = getString(R.string.close)
+                dialog.findViewById<Button>(R.id.btnSaveChanges).visibility = View.GONE
+
+                // Disable fields again
+                dialog.findViewById<EditText>(R.id.edtTitleDialog).isEnabled = false
+                dialog.findViewById<EditText>(R.id.edtAmountDialog).isEnabled = false
+                dialog.findViewById<EditText>(R.id.edtCommentDialog).isEnabled = false
+            } else {
+                dialog.dismiss()
+            }
         }
 
         imgDeleteBill.setOnClickListener {
@@ -359,6 +372,7 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
             edtCommentDialog.isEnabled = true
 
             btnSaveChanges.visibility = View.VISIBLE
+            btnCloseDialog.text = getString(R.string.cancel)
         }
 
         btnSaveChanges.setOnClickListener {
@@ -383,6 +397,7 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
                             myAdapter.notifyItemChanged(index)
                         }
                         Toast.makeText(this, "'Open Payment' updated successfully", Toast.LENGTH_SHORT).show()
+                        btnCloseDialog.text = getString(R.string.close)
                         dialog.dismiss()
                     }
                     .addOnFailureListener { e ->

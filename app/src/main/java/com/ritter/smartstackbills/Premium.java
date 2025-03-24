@@ -19,6 +19,11 @@ public class Premium extends AppCompatActivity {
     private ProductDetails premiumProduct;
     private String offerToken = ""; // Offer Token for the subscription
 
+    private boolean isPremiumUser() {
+        return getSharedPreferences("AppPrefs", MODE_PRIVATE)
+                .getBoolean("isPremiumUser", false);
+    }
+
     // Listener for purchase updates
     private final PurchasesUpdatedListener purchasesUpdatedListener = (billingResult, purchases) -> {
         if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK && purchases != null) {
@@ -69,6 +74,7 @@ public class Premium extends AppCompatActivity {
                 queryProducts();
             }
         });
+
 
         // Check for existing subscription when app opens
         checkExistingSubscription();
@@ -374,7 +380,9 @@ public class Premium extends AppCompatActivity {
                 (billingResult, purchasesList) -> {
                     if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK && purchasesList != null) {
                         for (Purchase purchase : purchasesList) {
-                            handlePurchase(purchase);
+                            if (purchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED) {
+                                grantPremiumAccess();  // Ensure premium access is granted
+                            }
                         }
                     } else {
                         Log.e("BillingClient", "Failed to query purchases: " + billingResult.getDebugMessage());
@@ -383,14 +391,24 @@ public class Premium extends AppCompatActivity {
         );
     }
 
+
     private void grantPremiumAccess() {
-        runOnUiThread(() -> Toast.makeText(this, "Premium Activated 🎉", Toast.LENGTH_LONG).show());
+        runOnUiThread(() -> {
+            Toast.makeText(this, "Premium Activated 🎉", Toast.LENGTH_LONG).show();
+        // Save premium status locally
+        getSharedPreferences("AppPrefs", MODE_PRIVATE)
+                .edit()
+                .putBoolean("isPremiumUser", true)
+                .apply();
+
+
+    });
     }
+
     private void handleUIInteractions() {
         ImageView backButton = findViewById(R.id.btnBackPremium);
         backButton.setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed()); // Recommended Fix
     }
-
 
     @Override
     protected void onDestroy() {

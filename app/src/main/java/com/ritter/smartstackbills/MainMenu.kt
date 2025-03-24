@@ -526,8 +526,7 @@ class MainMenu : AppCompatActivity() {
     }
 
     private fun showCreateOptionsDialog() {
-        val options =
-            arrayOf("Create an Open Payment", "Create a Closed Payment", "Create an Income",  "Set a Saving Target")
+        val options = arrayOf("Create an Open Payment", "Create a Closed Payment", "Create an Income", "Set a Saving Target")
 
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Select an option")
@@ -536,22 +535,38 @@ class MainMenu : AppCompatActivity() {
                 0 -> startActivity(Intent(this, createBill::class.java).apply {
                     putExtra("USER_EMAIL", userEmail)
                 })
-
                 1 -> startActivity(Intent(this, createSpending::class.java).apply {
                     putExtra("USER_EMAIL", userEmail)
                 })
+                2 -> {
+                    val isPremiumUser = getSharedPreferences("AppPrefs", MODE_PRIVATE)
+                        .getBoolean("isPremiumUser", false)
 
-                2 -> startActivity(Intent(this, createIncome::class.java).apply {
-                    putExtra("USER_EMAIL", userEmail)
-
-                })
-
+                    if (!isPremiumUser) {
+                        showUpgradeDialog()
+                    } else {
+                        startActivity(Intent(this, createIncome::class.java).apply {
+                            putExtra("USER_EMAIL", userEmail)
+                        })
+                    }
+                }
                 3 -> createSavings()
             }
         }
         builder.show()
     }
 
+    private fun showUpgradeDialog() {
+        AlertDialog.Builder(this)
+            .setTitle("Upgrade to Premium")
+            .setMessage("This feature is for premium users only. Upgrade now to unlock all features!")
+            .setPositiveButton("Upgrade") { _, _ ->
+                val intent = Intent(this, Premium::class.java)
+                startActivity(intent)
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
 
     private fun validateMandatoryFields(
         targetAmountEditText: EditText,

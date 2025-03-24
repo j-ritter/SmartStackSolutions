@@ -2,13 +2,13 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/feature2_constraint_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_blue1"
     tools:context=".createSpending">
 
-    <!-- Vertical Guideline -->
+    <!-- Vertical Guidelines -->
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineStart"
         android:layout_width="wrap_content"
@@ -23,291 +23,250 @@
         android:orientation="vertical"
         app:layout_constraintGuide_end="32dp" />
 
-    <!-- Header Title -->
-    <TextView
-        android:id="@+id/textViewTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/create_new_closed_payment"
-        android:textStyle="bold"
-        android:textSize="24sp"
+    <!-- ScrollView for better usability -->
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btnCancelSpending"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <!-- Section Label: Title -->
-    <TextView
-        android:id="@+id/txtTitleLabelSpending"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/title"
-        android:textStyle="bold"
-        android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@+id/textViewTitle"
-        app:layout_constraintStart_toStartOf="@+id/guidelineStart" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
 
-    <!-- Spending Title -->
-    <EditText
-        android:id="@+id/edtTitleSpending"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/rounded_frame_background_blue"
-        android:hint="@string/write_your_title"
-        android:inputType="text"
-        android:maxLength="30"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:textColorHint="#A5A5A5"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="@+id/guidelineEnd"
-        app:layout_constraintStart_toStartOf="@+id/guidelineStart"
-        app:layout_constraintTop_toBottomOf="@+id/txtTitleLabelSpending" />
+            <!-- Header Title -->
+            <TextView
+                android:id="@+id/textViewTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/create_new_closed_payment"
+                android:textStyle="bold"
+                android:textSize="24sp"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="16dp" />
 
-    <!-- Amount and Paid Checkbox -->
-    <TextView
-        android:id="@+id/txtAmountLabelSpending"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/amount"
-        android:textStyle="bold"
-        android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@+id/edtTitleSpending"
-        app:layout_constraintStart_toStartOf="@+id/guidelineStart" />
+            <!-- Spending Title -->
+            <TextView
+                android:id="@+id/txtTitleLabelSpending"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/title"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_marginTop="16dp" />
 
-    <EditText
-        android:id="@+id/edtAmountSpending"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="@drawable/rounded_frame_background_blue"
-        android:hint="@string/amount"
-        android:inputType="numberDecimal"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:textColorHint="#A5A5A5"
-        android:textSize="15sp"
-        app:layout_constraintTop_toBottomOf="@+id/txtAmountLabelSpending"
-        app:layout_constraintStart_toStartOf="@+id/guidelineStart"
-        app:layout_constraintEnd_toStartOf="@+id/checkBoxPaidSpending" />
+            <EditText
+                android:id="@+id/edtTitleSpending"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/rounded_frame_background_blue"
+                android:hint="@string/write_your_title"
+                android:maxLength="30"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:textColorHint="#A5A5A5"
+                android:textSize="15sp" />
 
-    <!-- Paid Checkbox -->
-    <CheckBox
-        android:id="@+id/checkBoxPaidSpending"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:checked="true"
-        android:enabled="false"
-        android:text="@string/paid"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/guidelineEnd"
-        app:layout_constraintTop_toTopOf="@+id/edtAmountSpending"
-        app:layout_constraintStart_toEndOf="@+id/edtAmountSpending" />
+            <!-- Amount & Paid Checkbox -->
+            <TextView
+                android:id="@+id/txtAmountLabelSpending"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/amount"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_marginTop="16dp" />
 
-    <!-- Date -->
-    <TextView
-        android:id="@+id/txtDateLabelSpending"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/date"
-        android:textStyle="bold"
-        android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@+id/edtAmountSpending"
-        app:layout_constraintStart_toStartOf="@+id/guidelineStart" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp">
 
-    <EditText
-        android:id="@+id/edtDateSpending"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/rounded_frame_background_blue"
-        android:hint="@string/purchase_date"
-        android:inputType="text"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:textColorHint="#A5A5A5"
-        android:textSize="15sp"
-        app:layout_constraintTop_toBottomOf="@+id/txtDateLabelSpending"
-        app:layout_constraintStart_toStartOf="@+id/guidelineStart"
-        app:layout_constraintEnd_toEndOf="@+id/guidelineEnd" />
+                <EditText
+                    android:id="@+id/edtAmountSpending"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="48dp"
+                    android:background="@drawable/rounded_frame_background_blue"
+                    android:hint="@string/amount"
+                    android:inputType="numberDecimal"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:textColorHint="#A5A5A5"
+                    android:textSize="15sp" />
 
-    <!-- Category -->
-    <TextView
-        android:id="@+id/txtCategorySpending"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/category"
-        android:textStyle="bold"
-        android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@+id/edtDateSpending"
-        app:layout_constraintStart_toStartOf="@+id/guidelineStart" />
+                <CheckBox
+                    android:id="@+id/checkBoxPaidSpending"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/paid"
+                    android:textStyle="bold"
+                    android:layout_gravity="center_vertical"
+                    android:enabled="false" />
+            </LinearLayout>
 
-    <Spinner
-        android:id="@+id/spinnerCategoriesSpending"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/rounded_frame_background_blue"
-        android:text="@string/select_a_category"
-        app:layout_constraintTop_toBottomOf="@+id/txtCategorySpending"
-        app:layout_constraintStart_toStartOf="@+id/guidelineStart"
-        app:layout_constraintEnd_toEndOf="@+id/guidelineEnd" />
+            <!-- Date -->
+            <TextView
+                android:id="@+id/txtDateLabelSpending"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/date"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_marginTop="16dp" />
 
-    <!-- Subcategory -->
-    <TextView
-        android:id="@+id/txtSubcategorySpending"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/subcategory"
-        android:textStyle="bold"
-        android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerCategoriesSpending"
-        app:layout_constraintStart_toStartOf="@+id/guidelineStart" />
+            <EditText
+                android:id="@+id/edtDateSpending"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/rounded_frame_background_blue"
+                android:hint="@string/purchase_date"
+                android:inputType="text"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:textColorHint="#A5A5A5"
+                android:textSize="15sp" />
 
-    <Spinner
-        android:id="@+id/spinnerSubcategoriesSpending"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/rounded_frame_background_blue"
-        app:layout_constraintTop_toBottomOf="@+id/txtSubcategorySpending"
-        app:layout_constraintStart_toStartOf="@+id/guidelineStart"
-        app:layout_constraintEnd_toEndOf="@+id/guidelineEnd" />
+            <!-- Category -->
+            <TextView
+                android:id="@+id/txtCategorySpending"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/category"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_marginTop="16dp" />
 
-    <!-- Vendor with AutoCompleteTextView -->
-    <TextView
-        android:id="@+id/txtVendorSpending"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/vendor"
-        android:textStyle="bold"
-        android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerSubcategoriesSpending"
-        app:layout_constraintStart_toStartOf="@+id/guidelineStart" />
+            <Spinner
+                android:id="@+id/spinnerCategoriesSpending"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/rounded_frame_background_blue" />
 
-    <AutoCompleteTextView
-        android:id="@+id/autoCompleteVendorSpending"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/rounded_frame_background_blue"
-        android:hint="@string/search_or_select_vendor"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:textColorHint="#A5A5A5"
-        android:textSize="15sp"
-        android:inputType="text"
-        app:layout_constraintTop_toBottomOf="@+id/txtVendorSpending"
-        app:layout_constraintStart_toStartOf="@+id/guidelineStart"
-        app:layout_constraintEnd_toEndOf="@+id/guidelineEnd" />
+            <!-- Subcategory -->
+            <TextView
+                android:id="@+id/txtSubcategorySpending"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/subcategory"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_marginTop="16dp" />
 
-    <!-- Custom Vendor -->
-    <EditText
-        android:id="@+id/edtCustomVendorSpending"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:hint="@string/enter_custom_vendor"
-        android:visibility="gone"
-        android:background="@drawable/rounded_frame_background_blue"
-        app:layout_constraintTop_toBottomOf="@+id/autoCompleteVendorSpending"
-        app:layout_constraintStart_toStartOf="@+id/guidelineStart"
-        app:layout_constraintEnd_toEndOf="@+id/guidelineEnd" />
+            <Spinner
+                android:id="@+id/spinnerSubcategoriesSpending"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/rounded_frame_background_blue" />
 
-    <!-- Comment -->
-    <TextView
-        android:id="@+id/txtCommentSpending"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/comments"
-        android:textStyle="bold"
-        android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@+id/edtCustomVendorSpending"
-        app:layout_constraintStart_toStartOf="@+id/guidelineStart" />
+            <!-- Vendor -->
+            <TextView
+                android:id="@+id/txtVendorSpending"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/vendor"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_marginTop="16dp" />
 
-    <EditText
-        android:id="@+id/edtCommentSpending"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/rounded_frame_background_blue"
-        android:hint="@string/write_your_comments"
-        android:inputType="text"
-        android:maxLength="30"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:textColorHint="#A5A5A5"
-        android:textSize="15sp"
-        app:layout_constraintTop_toBottomOf="@+id/txtCommentSpending"
-        app:layout_constraintStart_toStartOf="@+id/guidelineStart"
-        app:layout_constraintEnd_toEndOf="@+id/guidelineEnd" />
+            <AutoCompleteTextView
+                android:id="@+id/autoCompleteVendorSpending"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/rounded_frame_background_blue"
+                android:hint="@string/search_or_select_vendor"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:textColorHint="#A5A5A5"
+                android:textSize="15sp" />
 
-    <!-- Attachment and Upload Button -->
-    <TextView
-        android:id="@+id/txtAttachmentSpending"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/attachment"
-        android:textStyle="bold"
-        android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@+id/edtCommentSpending"
-        app:layout_constraintStart_toStartOf="@+id/guidelineStart" />
+            <!-- Comment -->
+            <TextView
+                android:id="@+id/txtCommentSpending"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/comments"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_marginTop="16dp" />
 
-    <Button
-        android:id="@+id/btnUploadImageSpending"
-        android:layout_width="wrap_content"
-        android:layout_height="36dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="0dp"
-        android:text="@string/upload"
-        android:background="@drawable/rounded_frame_background_blue"
-        app:layout_constraintStart_toEndOf="@+id/txtAttachmentSpending"
-        app:layout_constraintTop_toTopOf="@+id/txtAttachmentSpending" />
+            <EditText
+                android:id="@+id/edtCommentSpending"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/rounded_frame_background_blue"
+                android:hint="@string/write_your_comments"
+                android:maxLength="30"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:textColorHint="#A5A5A5"
+                android:textSize="15sp" />
 
-    <TextView
-        android:id="@+id/txtImageAddedSpending"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/image_added"
-        android:textStyle="bold"
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@+id/btnUploadImageSpending"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+            <!-- Attachment and Upload Button -->
+            <TextView
+                android:id="@+id/txtAttachmentSpending"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/attachment"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                app:layout_constraintTop_toBottomOf="@+id/edtCommentSpending"
+                app:layout_constraintStart_toStartOf="@+id/guidelineStart" />
+
+            <Button
+                android:id="@+id/btnUploadImageSpending"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="0dp"
+                android:text="@string/upload"
+                android:background="@drawable/rounded_frame_background_blue"
+                app:layout_constraintStart_toEndOf="@+id/txtAttachmentSpending"
+                app:layout_constraintTop_toTopOf="@+id/txtAttachmentSpending" />
+
+            <TextView
+                android:id="@+id/txtImageAddedSpending"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/image_added"
+                android:textStyle="bold"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@+id/btnUploadImageSpending"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+        </LinearLayout>
+    </ScrollView>
 
     <!-- Buttons -->
     <Button
         android:id="@+id/btnCancelSpending"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
         android:background="@drawable/btnlog"
         android:text="@string/cancel"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnSaveSpending"
-        app:layout_constraintStart_toStartOf="@+id/guidelineStart" />
+        app:layout_constraintStart_toStartOf="@+id/guidelineStart"
+        app:layout_constraintEnd_toStartOf="@+id/btnSaveSpending" />
 
     <Button
         android:id="@+id/btnSaveSpending"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
         android:background="@drawable/btnlogin"
         android:text="@string/save"
         android:textColor="@color/white"

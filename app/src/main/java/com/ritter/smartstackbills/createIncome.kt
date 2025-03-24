@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.text.InputType
 import android.widget.*
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -48,6 +49,13 @@ class createIncome : AppCompatActivity() {
         userEmail = intent.getStringExtra("USER_EMAIL")
         userUid = FirebaseAuth.getInstance().currentUser?.uid
 
+        val isPremiumUser = getSharedPreferences("AppPrefs", MODE_PRIVATE)
+            .getBoolean("isPremiumUser", false)
+
+        if (!isPremiumUser) {
+            showUpgradeDialog()
+        }
+
         val edtDate = findViewById<EditText>(R.id.edtDateIncome)
         edtDate.inputType = InputType.TYPE_NULL  // Disable manual input
         edtDate.setOnClickListener { showDatePickerDialog() }
@@ -90,6 +98,21 @@ class createIncome : AppCompatActivity() {
             intent.putExtra("USER_EMAIL", userEmail)
             startActivity(intent)
         }
+    }
+
+    private fun showUpgradeDialog() {
+        AlertDialog.Builder(this)
+            .setTitle("Upgrade to Premium")
+            .setMessage("This feature is for premium users only. Upgrade now to unlock all features!")
+            .setPositiveButton("Upgrade") { _, _ ->
+                val intent = Intent(this, Premium::class.java)
+                startActivity(intent)
+                finish()
+            }
+            .setNegativeButton("Cancel") { _, _ ->
+                finish() // Closes `createIncome`
+            }
+            .show()
     }
 
     private fun showDatePickerDialog() {

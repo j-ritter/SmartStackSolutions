@@ -46,6 +46,8 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var notificationRecyclerView: RecyclerView
     private var selectedIncome: Income? = null
+    private lateinit var btnCloseDialog: Button
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -190,12 +192,22 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
         dialog.window?.setBackgroundDrawable(getDrawable(R.drawable.dialog_box_income_bg))
         dialog.setCancelable(false)
 
-        val btnCloseDialog = dialog.findViewById<Button>(R.id.btnCloseDialogIncome)
         val imgDeleteIncome = dialog.findViewById<ImageView>(R.id.imgDeleteIncome)
 
+        btnCloseDialog = dialog.findViewById(R.id.btnCloseDialogIncome)
 
         btnCloseDialog.setOnClickListener {
-            dialog.dismiss()
+            if (btnCloseDialog.text == getString(R.string.cancel)) {
+                // Cancel editing
+                btnCloseDialog.text = getString(R.string.close)
+                dialog.findViewById<Button>(R.id.btnSaveChangesIncome).visibility = View.GONE
+
+                dialog.findViewById<EditText>(R.id.edtTitleDialogIncome).isEnabled = false
+                dialog.findViewById<EditText>(R.id.edtAmountDialogIncome).isEnabled = false
+                dialog.findViewById<EditText>(R.id.edtCommentDialogIncome).isEnabled = false
+            } else {
+                dialog.dismiss()
+            }
         }
 
         imgDeleteIncome.setOnClickListener {
@@ -293,12 +305,11 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
         val edtDateDialog = dialog.findViewById<EditText>(R.id.edtDateDialogIncome)
         val edtRepeatDialog = dialog.findViewById<EditText>(R.id.edtRepeatDialogIncome)
         val edtCommentDialog = dialog.findViewById<EditText>(R.id.edtCommentDialogIncome)
+        val btnSaveChanges = dialog.findViewById<Button>(R.id.btnSaveChangesIncome)
+        val btnEditChanges = dialog.findViewById<ImageView>(R.id.imgEditIncome)
 
-
-        // Convertir el Timestamp a String
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-        val incomeDateString =
-            if (income.date != null) dateFormat.format(income.date.toDate()) else ""
+        val incomeDateString = if (income.date != null) dateFormat.format(income.date.toDate()) else ""
 
         edtTitleDialog.setText(income.name)
         edtAmountDialog.setText(String.format(Locale.getDefault(), "%.2f", income.amount))
@@ -308,7 +319,51 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
         edtRepeatDialog.setText(income.repeat)
         edtCommentDialog.setText(income.comment)
 
+        // Disable inputs initially
+        edtTitleDialog.isEnabled = false
+        edtAmountDialog.isEnabled = false
+        edtCommentDialog.isEnabled = false
+
+        btnSaveChanges.visibility = View.GONE
+
         dialog.show()
+
+        btnEditChanges.setOnClickListener {
+            edtTitleDialog.isEnabled = true
+            edtAmountDialog.isEnabled = true
+            edtCommentDialog.isEnabled = true
+
+            btnSaveChanges.visibility = View.VISIBLE
+            btnCloseDialog.text = getString(R.string.cancel)
+        }
+
+        btnSaveChanges.setOnClickListener {
+            val userUid = FirebaseAuth.getInstance().currentUser?.uid
+            if (userUid != null && selectedIncome != null) {
+                selectedIncome?.name = edtTitleDialog.text.toString()
+                selectedIncome?.amount = edtAmountDialog.text.toString().toDoubleOrNull() ?: 0.0
+                selectedIncome?.comment = edtCommentDialog.text.toString()
+
+                db.collection("users").document(userUid).collection("income")
+                    .document(selectedIncome!!.incomeId)
+                    .set(selectedIncome!!)
+                    .addOnSuccessListener {
+                        val index = incomeArrayList.indexOfFirst { it.incomeId == selectedIncome?.incomeId }
+                        if (index != -1) {
+                            incomeArrayList[index] = selectedIncome!!
+                            myAdapterIncome.notifyItemChanged(index)
+                        }
+                        Toast.makeText(this, "Income updated successfully", Toast.LENGTH_SHORT).show()
+                        btnCloseDialog.text = getString(R.string.close)
+                        dialog.dismiss()
+                    }
+                    .addOnFailureListener { e ->
+                        Toast.makeText(this, "Failed to update income: ${e.message}", Toast.LENGTH_SHORT).show()
+                    }
+            } else {
+                Toast.makeText(this, "Error: Unable to update income", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun deleteIncome() {
