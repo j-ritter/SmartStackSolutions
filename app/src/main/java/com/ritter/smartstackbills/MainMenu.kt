@@ -237,6 +237,12 @@ class MainMenu : AppCompatActivity() {
         setAmountForMonth()
 
         // Connection to other folders
+        val tvBills: TextView = findViewById(R.id.tvBills)
+        tvBills.setOnClickListener {
+            val intent = Intent(this, MyBills::class.java)
+            intent.putExtra("FILTER_TYPE", "all")
+            startActivity(intent)
+        }
         val etBills: EditText = findViewById(R.id.etBillsAmount)
         etBills.setOnClickListener {
             val intent = Intent(this, MyBills::class.java)
@@ -249,8 +255,20 @@ class MainMenu : AppCompatActivity() {
             intent.putExtra("FILTER_TYPE", "all")
             startActivity(intent)
         }
+        val tvSpendings: TextView = findViewById(R.id.tvSpendings)
+        tvSpendings.setOnClickListener {
+            val intent = Intent(this, MySpendings::class.java)
+            intent.putExtra("FILTER_TYPE", "all")
+            startActivity(intent)
+        }
         val etIncome: EditText = findViewById(R.id.etIncomeAmount)
         etIncome.setOnClickListener {
+            val intent = Intent(this, MyIncome::class.java)
+            intent.putExtra("FILTER_TYPE", "all")
+            startActivity(intent)
+        }
+        val tvIncome: TextView = findViewById(R.id.tvIncome)
+        tvIncome.setOnClickListener {
             val intent = Intent(this, MyIncome::class.java)
             intent.putExtra("FILTER_TYPE", "all")
             startActivity(intent)

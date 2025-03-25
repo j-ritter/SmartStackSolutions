@@ -285,13 +285,11 @@
     <string name="content_description_back">Back</string>
     <string name="about_us_title">About Us</string>
     <string name="about_us_content">
-    At SmartStack Solutions, our mission is to provide users with solutions that bring order to their daily lives and finances. We aim to empower users to efficiently collect, organize, and retrieve relevant information, documents, and photos. By doing so, we help you stay organized and manage your finances effectively.
-
-    Our team is dedicated to creating user-friendly solutions that cater to the needs of individuals seeking better financial management and organization. We believe that with the right tools, everyone can take control of their finances and improve their financial well-being.
-
+    At SmartStack Solutions, our mission is to provide users with solutions that bring order to their daily lives and finances. We aim to empower users to efficiently collect, organize, and retrieve relevant information, documents, and photos. By doing so, we help you stay organized and manage your finances effectively.\n\n
+    Our team is dedicated to creating user-friendly solutions that cater to the needs of individuals seeking better financial management and organization. We believe that with the right tools, everyone can take control of their finances and improve their financial well-being.\n\n
     If you have any questions or need further information about our mission and services, feel free to reach out to us. Email: service@smartstack-solutions.com. We are here to help you make the most out of SmartStack Solutions!
+</string>
 
-    </string>
 
 
 
