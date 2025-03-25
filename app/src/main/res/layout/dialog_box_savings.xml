@@ -195,7 +195,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/close"
-                    android:textSize="14sp"
+                    android:textSize="14dp"
                     app:backgroundTint="#023047"
                     android:layout_centerInParent="true" />
 
@@ -204,7 +204,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/save"
-                    android:textSize="14sp"
+                    android:textSize="14dp"
                     app:backgroundTint="#1E97F4"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true" />
