@@ -290,13 +290,11 @@ class MainMenu : AppCompatActivity() {
         // Optional: Set AdListener to handle ad events
         adView.adListener = object : AdListener() {
             override fun onAdLoaded() {
-                // Handle successful ad load
-                Toast.makeText(this@MainMenu, "Ad Loaded Successfully", Toast.LENGTH_SHORT).show()
+
             }
 
             override fun onAdFailedToLoad(error: LoadAdError) {
-                // Handle ad load failure
-                Toast.makeText(this@MainMenu, "Ad Failed to Load: ${error.message}", Toast.LENGTH_SHORT).show()
+
             }
         }
     }

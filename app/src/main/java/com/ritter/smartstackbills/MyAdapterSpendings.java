@@ -140,7 +140,7 @@ public class MyAdapterSpendings extends RecyclerView.Adapter<RecyclerView.ViewHo
                     .document(spending.getSpendingId())
                     .set(bill)
                     .addOnSuccessListener(aVoid -> {
-                        Toast.makeText(context, "Spending moved back to Bills.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Closed Payment moved back to Open Payment.", Toast.LENGTH_SHORT).show();
                         FirebaseFirestore.getInstance()
                                 .collection("users")
                                 .document(userUid)
@@ -148,14 +148,14 @@ public class MyAdapterSpendings extends RecyclerView.Adapter<RecyclerView.ViewHo
                                 .document(spending.getSpendingId())
                                 .delete()
                                 .addOnSuccessListener(aVoid1 -> {
-                                    Toast.makeText(context, "Spending removed from Spendings collection.", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context, "Closed Payment removed from Closed Payment collection.", Toast.LENGTH_SHORT).show();
                                 })
                                 .addOnFailureListener(e -> {
-                                    Toast.makeText(context, "Error removing spending from Spendings: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context, "Error removing closed payment: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                                 });
                     })
                     .addOnFailureListener(e -> {
-                        Toast.makeText(context, "Error moving spending back to Bills: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Error moving closed payment back to open payment: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     });
         }
     }

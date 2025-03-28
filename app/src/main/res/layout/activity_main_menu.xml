@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <androidx.drawerlayout.widget.DrawerLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -8,98 +9,98 @@
     android:fitsSystemWindows="true"
     tools:context=".MainMenu">
 
-    <!-- Main Content inside ScrollView -->
+    <!-- Main container with content and fixed FAB -->
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <!-- Scrollable content -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/main"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="16dp">
+
+        <!-- All your content starting here -->
+        <!-- FrameLayout, Toolbar, View, Month Navigation, etc. -->
+        <!-- ... -->
+
+        <FrameLayout
+            android:id="@+id/frame_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar_main"
             android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:menu="@menu/top_nav"
+            app:navigationIcon="@drawable/ic_menu"
+            app:title="@string/app_title"
+            app:titleCentered="true" />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="26dp"
+            android:background="@color/light_gray"
+            app:layout_constraintTop_toBottomOf="@id/toolbar_main"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="24dp" />
+
+        <!-- Month Navigation Layout -->
+        <LinearLayout
+            android:id="@+id/monthNavigationLayout"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingBottom="0dp"
-            android:layout_marginBottom="0dp">
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="-26dp"
+            app:layout_constraintTop_toBottomOf="@id/view"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
 
-            <FrameLayout
-                android:id="@+id/frame_layout"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0" />
-
-            <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/toolbar_main"
-                android:layout_width="match_parent"
-                android:layout_height="?actionBarSize"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:menu="@menu/top_nav"
-                app:navigationIcon="@drawable/ic_menu"
-                app:title="@string/app_title"
-                app:titleCentered="true"
-                android:paddingEnd="12dp"
-                android:paddingStart="12dp" />
-
-            <View
-                android:id="@+id/view"
-                android:layout_width="match_parent"
-                android:layout_height="26dp"
-                android:background="@color/light_gray"
-                app:layout_constraintTop_toBottomOf="@id/toolbar_main"
-                android:layout_marginTop="24dp"
-                app:layout_constraintHeight_default="wrap"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
-
-            <!-- Month Navigation Layout -->
-            <LinearLayout
-                android:id="@+id/monthNavigationLayout"
+            <ImageButton
+                android:id="@+id/btnPreviousMonth"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center"
-                app:layout_constraintTop_toBottomOf="@id/view"
-                android:layout_marginTop="-26dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
+                android:src="@drawable/ic_arrow_left"
+                android:background="?attr/selectableItemBackground"
+                android:contentDescription="@string/previous_month" />
 
-                <!-- Left Arrow for Previous Month -->
-                <ImageButton
-                    android:id="@+id/btnPreviousMonth"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_arrow_left"
-                    android:background="?attr/selectableItemBackground"
-                    android:contentDescription="@string/previous_month" />
+            <TextView
+                android:id="@+id/tvMonth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textColor="@android:color/black"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp" />
 
-                <!-- Dynamic TextView for Month Display -->
-                <TextView
-                    android:id="@+id/tvMonth"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:textColor="@android:color/black"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp" />
+            <ImageButton
+                android:id="@+id/btnNextMonth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_arrow_right"
+                android:background="?attr/selectableItemBackground"
+                android:contentDescription="@string/next_month" />
+        </LinearLayout>
 
-                <!-- Right Arrow for Next Month -->
-                <ImageButton
-                    android:id="@+id/btnNextMonth"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_arrow_right"
-                    android:background="?attr/selectableItemBackground"
-                    android:contentDescription="@string/next_month" />
-            </LinearLayout>
-
-            <!-- TextViews and EditTexts for Open Payments with Thin Line Divider -->
             <TextView
                 android:id="@+id/tvBills"
                 android:layout_width="wrap_content"
@@ -458,48 +459,48 @@
                 android:progress="0"
                 app:trackThickness="12dp" />
 
-            <!-- FloatingActionButton -->
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fabMainMenu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_add"
-                app:backgroundTint="#8ECAE6"
-                app:fabSize="normal"
+        <!-- AdView -->
+        <com.google.android.gms.ads.AdView
+            android:id="@+id/adView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom"
+            app:adSize="BANNER"
+            app:adUnitId="ca-app-pub-8302603162293293/1778340932" />
 
-                app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="12dp"
-                android:contentDescription="@string/create_new_open_payment" />
+        <!-- BottomNavigationView -->
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottomNavigationView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF"
+            app:itemIconTint="@color/nav_item_color_selector"
+            app:itemTextColor="@color/nav_item_color_selector"
+            app:itemTextAppearanceActive="@style/BottomNavTextStyle"
+            app:itemTextAppearanceInactive="@style/BottomNavTextStyle"
+            app:menu="@menu/bottom_nav"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
-            <com.google.android.gms.ads.AdView
-                android:id="@+id/adView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_alignParentBottom="true"
-                android:layout_gravity="bottom"
-                app:adSize="BANNER"
-                app:adUnitId="ca-app-pub-8302603162293293/1778340932">
-            </com.google.android.gms.ads.AdView>
-
-            <!-- Bottom Navigation View -->
-            <com.google.android.material.bottomnavigation.BottomNavigationView
-                android:id="@+id/bottomNavigationView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="#FFFFFF"
-                app:itemIconTint="@color/nav_item_color_selector"
-                app:itemTextColor="@color/nav_item_color_selector"
-                app:itemTextAppearanceActive="@style/BottomNavTextStyle"
-                app:itemTextAppearanceInactive="@style/BottomNavTextStyle"
-                app:menu="@menu/bottom_nav"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+
+        <!-- FloatingActionButton OUTSIDE the scrollable area -->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabMainMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="16dp"
+            android:contentDescription="@string/create_new_open_payment"
+            android:src="@drawable/ic_add"
+            app:backgroundTint="#8ECAE6"
+            app:fabSize="normal" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <!-- Navigation Drawer -->
     <com.google.android.material.navigation.NavigationView
@@ -512,4 +513,3 @@
         app:menu="@menu/activity_main_drawer" />
 
 </androidx.drawerlayout.widget.DrawerLayout>
-
