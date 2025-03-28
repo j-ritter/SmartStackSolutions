@@ -120,10 +120,18 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
 
         fab = findViewById(R.id.fabSpendings)
         fab.setOnClickListener {
-            val intent = Intent(this, createSpending::class.java)
-            intent.putExtra("USER_EMAIL", userEmail)
-            startActivity(intent)
+            val isPremiumUser = getSharedPreferences("AppPrefs", MODE_PRIVATE)
+                .getBoolean("isPremiumUser", false)
+
+            if (!isPremiumUser) {
+                showUpgradeDialog()
+            } else {
+                val intent = Intent(this, createSpending::class.java)
+                intent.putExtra("USER_EMAIL", userEmail)
+                startActivity(intent)
+            }
         }
+
         registerReceiver(spendingsReceiver, IntentFilter("com.example.smartstackbills.REFRESH_SPENDINGS"))
 
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationViewSpendings)
@@ -532,6 +540,17 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
     private fun resetUnreadNotificationCount(badgeCountTextView: TextView?) {
         NotificationsActivity.resetUnreadNotificationCount(this)
         updateUnreadCountBadge(badgeCountTextView) // Update the badge display immediately
+    }
+    private fun showUpgradeDialog() {
+        val builder = androidx.appcompat.app.AlertDialog.Builder(this)
+        builder.setTitle("Upgrade to Premium")
+            .setMessage("Creating 'Closed Payments' is a premium feature. Upgrade now to unlock all features!")
+            .setPositiveButton("Upgrade") { _, _ ->
+                val intent = Intent(this, Premium::class.java)
+                startActivity(intent)
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
     }
 
     private fun logoutUser() {

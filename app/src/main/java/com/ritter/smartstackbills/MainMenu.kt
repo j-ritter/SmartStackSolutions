@@ -551,9 +551,17 @@ class MainMenu : AppCompatActivity() {
                 0 -> startActivity(Intent(this, createBill::class.java).apply {
                     putExtra("USER_EMAIL", userEmail)
                 })
-                1 -> startActivity(Intent(this, createSpending::class.java).apply {
-                    putExtra("USER_EMAIL", userEmail)
-                })
+                1 -> {
+                    val isPremiumUser = getSharedPreferences("AppPrefs", MODE_PRIVATE)
+                        .getBoolean("isPremiumUser", false)
+
+                    if (!isPremiumUser) {
+                        showUpgradeDialog()
+                    } else {
+                        startActivity(Intent(this, createSpending::class.java)
+                            .apply { putExtra("USER_EMAIL", userEmail) })
+                    }
+                }
                 2 -> {
                     val isPremiumUser = getSharedPreferences("AppPrefs", MODE_PRIVATE)
                         .getBoolean("isPremiumUser", false)
@@ -566,7 +574,16 @@ class MainMenu : AppCompatActivity() {
                         })
                     }
                 }
-                3 -> createSavings()
+                3 -> {
+                    val isPremiumUser = getSharedPreferences("AppPrefs", MODE_PRIVATE)
+                        .getBoolean("isPremiumUser", false)
+
+                    if (!isPremiumUser) {
+                        showUpgradeDialog()
+                    } else {
+                        createSavings()
+                    }
+                }
             }
         }
         builder.show()
