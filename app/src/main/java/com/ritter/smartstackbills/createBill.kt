@@ -380,7 +380,8 @@ class createBill : AppCompatActivity() {
     private fun saveBill() {
         // Retrieve values from input fields
         val billName = findViewById<EditText>(R.id.edtTitleBill).text.toString()
-        val billAmount = findViewById<EditText>(R.id.edtAmountBill).text.toString().toDoubleOrNull() ?: 0.0
+        val billAmountString = findViewById<EditText>(R.id.edtAmountBill).text.toString()
+        val billAmount = billAmountString.toDoubleOrNull()
         val billDateString = findViewById<EditText>(R.id.edtDateBill).text.toString()
         val billCategory = findViewById<Spinner>(R.id.spinnerCategoriesBill).selectedItem?.toString() ?: "-"
         val billVendor = findViewById<AutoCompleteTextView>(R.id.autoCompleteVendorBill).text.toString()
@@ -398,7 +399,7 @@ class createBill : AppCompatActivity() {
             Toast.makeText(this, "Please enter a valid amount", Toast.LENGTH_SHORT).show()
             return
         }
-        if (billDateString == null) {
+        if (billDateString.isBlank()) {
             Toast.makeText(this, "Please select a valid due date for the bill", Toast.LENGTH_SHORT).show()
             return
         }
@@ -410,6 +411,11 @@ class createBill : AppCompatActivity() {
         } catch (e: Exception) {
             null
         }
+        if (billDate == null) {
+            Toast.makeText(this, "Invalid date format. Please select a valid due date.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         val timestamp = billDate?.let { Timestamp(it) }
 
         // Prepare the bill data
