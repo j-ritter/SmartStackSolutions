@@ -407,70 +407,74 @@ class createSpending : AppCompatActivity() {
     }
 
     private fun saveSpending() {
-        if (validateMandatoryFields() && validateDateField()) {
-            userUid?.let {
-                val spendingName = findViewById<EditText>(R.id.edtTitleSpending).text.toString()
-                val spendingAmount = findViewById<EditText>(R.id.edtAmountSpending).text.toString().toDoubleOrNull() ?: 0.0
-                val spendingDateString = findViewById<EditText>(R.id.edtDateSpending).text.toString()
-                val spendingCategory = findViewById<Spinner>(R.id.spinnerCategoriesSpending).selectedItem?.toString() ?: ""
-                val spendingSubcategory = findViewById<Spinner>(R.id.spinnerSubcategoriesSpending).selectedItem?.toString() ?: ""
-                val spendingVendor = findViewById<AutoCompleteTextView>(R.id.autoCompleteVendorSpending).text.toString()
-                val customVendor = findViewById<EditText>(R.id.edtCustomVendorSpending).text.toString()
-                val spendingComment = findViewById<EditText>(R.id.edtCommentSpending).text.toString()
-                val spendingAttachment = imageUri?.toString()
-
-                val spendingDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(spendingDateString)
-                val timestamp = spendingDate?.let { com.google.firebase.Timestamp(it) }
-
-                val repeatValue = intent.getStringExtra("repeat") ?: "No"
-
-                // Generate a unique ID for the spending
-                val spendingId = db.collection("users").document(it).collection("spendings").document().id
-
-                val spending = hashMapOf(
-                    "name" to spendingName,
-                    "amount" to spendingAmount,
-                    "date" to timestamp,
-                    "category" to spendingCategory,
-                    "subcategory" to spendingSubcategory,
-                    "vendor" to if (spendingVendor == "Create Own Vendor") customVendor else spendingVendor,
-                    "repeat" to repeatValue,
-                    "comment" to spendingComment,
-                    "attachment" to spendingAttachment,
-                    "paid" to true
-                )
-
-                // Save spending to Firestore with specified document ID
-                db.collection("users").document(it).collection("spendings").document(spendingId)
-                    .set(spending)
-                    .addOnSuccessListener {
-                        Toast.makeText(this, "Spending saved successfully", Toast.LENGTH_SHORT).show()
-                        finish()
-                    }
-                    .addOnFailureListener { e ->
-                        Toast.makeText(this, "Error saving spending: ${e.message}", Toast.LENGTH_SHORT).show()
-                    }
-            } ?: run {
-                Toast.makeText(this, "Error: No user ID available", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
-    private fun validateMandatoryFields(): Boolean {
+        // Retrieve values from input fields
         val spendingName = findViewById<EditText>(R.id.edtTitleSpending).text.toString()
-        val spendingAmount = findViewById<EditText>(R.id.edtAmountSpending).text.toString()
+        val spendingAmountString = findViewById<EditText>(R.id.edtAmountSpending).text.toString()
+        val spendingAmount = spendingAmountString.toDoubleOrNull()
+        val spendingDateString = findViewById<EditText>(R.id.edtDateSpending).text.toString()
+        val spendingCategory = findViewById<Spinner>(R.id.spinnerCategoriesSpending).selectedItem?.toString() ?: ""
+        val spendingSubcategory = findViewById<Spinner>(R.id.spinnerSubcategoriesSpending).selectedItem?.toString() ?: ""
+        val spendingVendor = findViewById<AutoCompleteTextView>(R.id.autoCompleteVendorSpending).text.toString()
+        val customVendor = findViewById<EditText>(R.id.edtCustomVendorSpending).text.toString()
+        val spendingComment = findViewById<EditText>(R.id.edtCommentSpending).text.toString()
+        val spendingAttachment = imageUri?.toString()
+        val repeatValue = intent.getStringExtra("repeat") ?: "No"
 
-        if (spendingName.isEmpty()) {
+        // Validate mandatory fields
+        if (spendingName.isBlank()) {
             Toast.makeText(this, "Title is required", Toast.LENGTH_SHORT).show()
-            return false
+            return
         }
-
-        if (spendingAmount.isEmpty()) {
+        if (spendingAmount == null || spendingAmount <= 0) {
             Toast.makeText(this, "Amount is required", Toast.LENGTH_SHORT).show()
-            return false
+            return
+        }
+        if (spendingDateString.isBlank()) {
+            Toast.makeText(this, "Please select a valid date for the spending", Toast.LENGTH_SHORT).show()
+            return
         }
 
-        return true
+        // Convert date string to Timestamp
+        val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val spendingDate: Date? = try {
+            sdf.parse(spendingDateString)
+        } catch (e: Exception) {
+            null
+        }
+        if (spendingDate == null) {
+            Toast.makeText(this, "Invalid date format. Please select a valid date.", Toast.LENGTH_SHORT).show()
+            return
+        }
+        val timestamp = com.google.firebase.Timestamp(spendingDate)
+
+        // Save to Firestore
+        if (userUid != null) {
+            val spendingId = db.collection("users").document(userUid!!).collection("spendings").document().id
+            val spending = hashMapOf(
+                "name" to spendingName,
+                "amount" to spendingAmount,
+                "date" to timestamp,
+                "category" to spendingCategory,
+                "subcategory" to spendingSubcategory,
+                "vendor" to if (spendingVendor == "Create Own Vendor") customVendor else spendingVendor,
+                "repeat" to repeatValue,
+                "comment" to spendingComment,
+                "attachment" to spendingAttachment,
+                "paid" to true
+            )
+
+            db.collection("users").document(userUid!!).collection("spendings").document(spendingId)
+                .set(spending)
+                .addOnSuccessListener {
+                    Toast.makeText(this, "Spending saved successfully", Toast.LENGTH_SHORT).show()
+                    finish()
+                }
+                .addOnFailureListener { e ->
+                    Toast.makeText(this, "Error saving spending: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
+        } else {
+            Toast.makeText(this, "Error: No user ID available", Toast.LENGTH_SHORT).show()
+        }
     }
 
     // Methods for handling image capture and gallery selection

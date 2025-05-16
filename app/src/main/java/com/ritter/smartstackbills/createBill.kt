@@ -356,9 +356,14 @@ class createBill : AppCompatActivity() {
             when (requestCode) {
                 REQUEST_IMAGE_CAPTURE -> {
                     val file = File(currentPhotoPath)
-                    imageUri = Uri.fromFile(file)
+                    imageUri = FileProvider.getUriForFile(
+                        this,
+                        "${applicationContext.packageName}.provider",
+                        file
+                    )
                     txtImageAdded.text = "Image added"
                 }
+
                 REQUEST_IMAGE_GALLERY -> {
                     imageUri = data?.data
                     txtImageAdded.text = "Image added"
@@ -418,6 +423,7 @@ class createBill : AppCompatActivity() {
 
         val timestamp = billDate?.let { Timestamp(it) }
 
+
         // Prepare the bill data
         val bill = hashMapOf(
             "name" to billName,
@@ -427,7 +433,8 @@ class createBill : AppCompatActivity() {
             "vendor" to if (billVendor == "Create Own Vendor") customVendor else billVendor,
             "repeat" to billRepeat,
             "comment" to billComment,
-            "paid" to billPaid
+            "paid" to billPaid,
+            "attachment" to imageUri?.toString()
         )
 
         // Save bill to Firebase

@@ -24,6 +24,7 @@ import android.content.IntentFilter
 import android.view.Menu
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
@@ -340,12 +341,21 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         val billDateString = if (bill.date != null) dateFormat.format(bill.date.toDate()) else ""
 
-        if (attachmentUri != null) {
-            edtAttachmentDialog.setImageURI(Uri.parse(attachmentUri))
-            edtAttachmentDialog.visibility = View.VISIBLE
+        if (!attachmentUri.isNullOrEmpty()) {
+            try {
+                val uri = Uri.parse(attachmentUri)
+                edtAttachmentDialog.setImageURI(uri)
+                edtAttachmentDialog.visibility = View.VISIBLE
+            } catch (e: Exception) {
+                edtAttachmentDialog.visibility = View.GONE
+                Log.e("ImageLoad", "Error loading image", e)
+                Toast.makeText(this, "Error loading image", Toast.LENGTH_SHORT).show()
+            }
         } else {
             edtAttachmentDialog.visibility = View.GONE
         }
+
+
         dialog.show()
 
         edtTitleDialog.setText(bill.name)
