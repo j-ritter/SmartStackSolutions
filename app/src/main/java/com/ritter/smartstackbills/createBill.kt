@@ -2,6 +2,7 @@ package com.ritter.smartstackbills
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -207,6 +208,42 @@ class createBill : AppCompatActivity() {
         userEmail = intent.getStringExtra("USER_EMAIL")
         userUid = FirebaseAuth.getInstance().currentUser?.uid
 
+        val btnUpload = findViewById<Button>(R.id.btnUploadImageBill)
+        btnUpload.setOnClickListener {
+            val options = arrayOf("Take Photo", "Choose from Gallery", "Cancel")
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Upload Bill Image")
+            builder.setItems(options) { dialog, which ->
+                when (options[which]) {
+                    "Take Photo" -> {
+                        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                        if (takePictureIntent.resolveActivity(packageManager) != null) {
+                            val photoFile: File? = try {
+                                createImageFile()
+                            } catch (ex: IOException) {
+                                null
+                            }
+                            photoFile?.also {
+                                val photoURI: Uri = FileProvider.getUriForFile(
+                                    this,
+                                    "${applicationContext.packageName}.provider",
+                                    it
+                                )
+                                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+                            }
+                        }
+                    }
+                    "Choose from Gallery" -> {
+                        val pickPhoto = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                        startActivityForResult(pickPhoto, REQUEST_IMAGE_GALLERY)
+                    }
+                    "Cancel" -> dialog.dismiss()
+                }
+            }
+            builder.show()
+        }
+
         val edtDate = findViewById<EditText>(R.id.edtDateBill)
         edtDate.inputType = InputType.TYPE_NULL
         edtDate.setOnClickListener { showDatePickerDialog() }
@@ -355,15 +392,15 @@ class createBill : AppCompatActivity() {
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 REQUEST_IMAGE_CAPTURE -> {
-                    val file = File(currentPhotoPath)
-                    imageUri = FileProvider.getUriForFile(
-                        this,
-                        "${applicationContext.packageName}.provider",
-                        file
-                    )
+                    val imageBitmap = data?.extras?.get("data") as? Bitmap
+                    if (imageBitmap != null) {
+                        imageUri = saveImageToGallery(imageBitmap)
+                    } else if (currentPhotoPath != null) {
+                        val file = File(currentPhotoPath!!)
+                        imageUri = Uri.fromFile(file)
+                    }
                     txtImageAdded.text = "Image added"
                 }
-
                 REQUEST_IMAGE_GALLERY -> {
                     imageUri = data?.data
                     txtImageAdded.text = "Image added"
@@ -380,6 +417,10 @@ class createBill : AppCompatActivity() {
         return File.createTempFile("JPEG_${timeStamp}_", ".jpg", storageDir).apply {
             currentPhotoPath = absolutePath
         }
+    }
+    private fun saveImageToGallery(bitmap: Bitmap): Uri? {
+        val path = MediaStore.Images.Media.insertImage(contentResolver, bitmap, "Bill_Image", null)
+        return Uri.parse(path)
     }
 
     private fun saveBill() {

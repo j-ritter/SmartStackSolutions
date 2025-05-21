@@ -344,7 +344,11 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
         if (!attachmentUri.isNullOrEmpty()) {
             try {
                 val uri = Uri.parse(attachmentUri)
-                edtAttachmentDialog.setImageURI(uri)
+                Glide.with(this)
+                    .load(uri)
+                    .error(R.drawable.ic_image_error)
+                    .into(edtAttachmentDialog)
+
                 edtAttachmentDialog.visibility = View.VISIBLE
             } catch (e: Exception) {
                 edtAttachmentDialog.visibility = View.GONE
