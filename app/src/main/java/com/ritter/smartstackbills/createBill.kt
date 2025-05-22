@@ -25,6 +25,12 @@ import com.google.firebase.Timestamp
 import java.io.File
 import java.io.IOException
 import java.util.concurrent.TimeUnit
+import android.Manifest
+import android.content.pm.PackageManager
+import android.os.Build
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 
 class createBill : AppCompatActivity() {
 
@@ -36,6 +42,10 @@ class createBill : AppCompatActivity() {
     private val REQUEST_IMAGE_GALLERY = 2
     private var imageUri: Uri? = null
     private var currentPhotoPath: String? = null
+    private lateinit var requestCameraPermissionLauncher: ActivityResultLauncher<String>
+    private lateinit var requestGalleryPermissionLauncher: ActivityResultLauncher<String>
+
+    private var pendingAction: (() -> Unit)? = null
 
     val repeat = arrayOf(
         "No", "Weekly", "Every 2 Weeks", "Monthly", "Every 2 Months",
@@ -208,6 +218,26 @@ class createBill : AppCompatActivity() {
         userEmail = intent.getStringExtra("USER_EMAIL")
         userUid = FirebaseAuth.getInstance().currentUser?.uid
 
+        requestCameraPermissionLauncher =
+            registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+                if (isGranted) {
+                    pendingAction?.invoke() // Execute the stored action (e.g., dispatchTakePictureIntent)
+                } else {
+                    Toast.makeText(this, "Camera permission denied", Toast.LENGTH_SHORT).show()
+                }
+                pendingAction = null // Clear pending action
+            }
+
+        requestGalleryPermissionLauncher =
+            registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+                if (isGranted) {
+                    pendingAction?.invoke() // Execute the stored action (e.g., dispatchChooseFromGalleryIntent)
+                } else {
+                    Toast.makeText(this, "Gallery permission denied", Toast.LENGTH_SHORT).show()
+                }
+                pendingAction = null // Clear pending action
+            }
+
         val btnUpload = findViewById<Button>(R.id.btnUploadImageBill)
         btnUpload.setOnClickListener {
             val options = arrayOf("Take Photo", "Choose from Gallery", "Cancel")
@@ -356,8 +386,29 @@ class createBill : AppCompatActivity() {
         builder.setTitle("Upload Bill Image")
         builder.setItems(options) { dialog, which ->
             when (options[which]) {
-                "Take Photo" -> dispatchTakePictureIntent()
-                "Choose from Gallery" -> dispatchChooseFromGalleryIntent()
+                "Take Photo" -> {
+                    pendingAction = { dispatchTakePictureIntent() }
+                    if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                        pendingAction?.invoke()
+                        pendingAction = null
+                    } else {
+                        requestCameraPermissionLauncher.launch(Manifest.permission.CAMERA)
+                    }
+                }
+                "Choose from Gallery" -> {
+                    pendingAction = { dispatchChooseFromGalleryIntent() }
+                    val permissionToRequest = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        Manifest.permission.READ_MEDIA_IMAGES
+                    } else {
+                        Manifest.permission.READ_EXTERNAL_STORAGE
+                    }
+                    if (ContextCompat.checkSelfPermission(this, permissionToRequest) == PackageManager.PERMISSION_GRANTED) {
+                        pendingAction?.invoke()
+                        pendingAction = null
+                    } else {
+                        requestGalleryPermissionLauncher.launch(permissionToRequest)
+                    }
+                }
                 "Cancel" -> dialog.dismiss()
             }
         }

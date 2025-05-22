@@ -23,6 +23,8 @@ import android.content.Context
 import android.content.IntentFilter
 import android.view.Menu
 import android.widget.TextView
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -51,6 +53,10 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
     private var selectedBill: Bills? = null
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var btnCloseDialog: Button
+    private lateinit var requestDisplayPermissionLauncher: ActivityResultLauncher<String>
+    private var pendingBillForDialog: Bills? = null
+    private var pendingDialogImageView: ImageView? = null
+    private var pendingDialogDetailsLayout: View? = null
 
     private val billsReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -83,6 +89,26 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
             startActivity(intent)
         }
         registerReceiver(billsReceiver, IntentFilter("com.example.smartstackbills.REFRESH_BILLS"))
+
+        requestDisplayPermissionLauncher =
+            registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+                if (isGranted) {
+                    pendingBillForDialog?.let { bill ->
+                        pendingDialogImageView?.let { imageView ->
+                            loadImageIntoView(bill.attachment, imageView, pendingDialogDetailsLayout)
+                        }
+                    }
+                } else {
+                    Toast.makeText(this, "Storage permission denied. Cannot display image.", Toast.LENGTH_SHORT).show()
+                    // Hide image view or show placeholder if permission is denied
+                    pendingDialogImageView?.visibility = View.GONE
+                    pendingDialogDetailsLayout?.visibility = View.VISIBLE // Show other details
+                }
+                // Clear pending items
+                pendingBillForDialog = null
+                pendingDialogImageView = null
+                pendingDialogDetailsLayout = null
+            }
 
         // Extract the billId passed from NotificationsActivity
         val billIdFromNotification = intent.getStringExtra("BILL_ID")
@@ -334,33 +360,13 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
         val edtCommentDialog = dialog.findViewById<EditText>(R.id.edtCommentDialog)
         val edtAttachmentDialog = dialog.findViewById<ImageView>(R.id.edtAttachmentDialog)
         val attachmentUri = bill.attachment
+        val billAttachmentImageView = dialog.findViewById<ImageView>(R.id.edtAttachmentDialog)
         val btnSaveChanges = dialog.findViewById<Button>(R.id.btnSaveChanges)
         val btnEditChanges = dialog.findViewById<ImageView>(R.id.imgEditBill)
 
         // Convertir el Timestamp a String
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         val billDateString = if (bill.date != null) dateFormat.format(bill.date.toDate()) else ""
-
-        if (!attachmentUri.isNullOrEmpty()) {
-            try {
-                val uri = Uri.parse(attachmentUri)
-                Glide.with(this)
-                    .load(uri)
-                    .error(R.drawable.ic_image_error)
-                    .into(edtAttachmentDialog)
-
-                edtAttachmentDialog.visibility = View.VISIBLE
-            } catch (e: Exception) {
-                edtAttachmentDialog.visibility = View.GONE
-                Log.e("ImageLoad", "Error loading image", e)
-                Toast.makeText(this, "Error loading image", Toast.LENGTH_SHORT).show()
-            }
-        } else {
-            edtAttachmentDialog.visibility = View.GONE
-        }
-
-
-        dialog.show()
 
         edtTitleDialog.setText(bill.name)
         edtAmountDialog.setText(String.format(Locale.getDefault(), "%.2f", bill.amount))
@@ -370,6 +376,37 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
         edtRepeatDialog.setText(bill.repeat)
         edtDateDialog.setText(billDateString)
         edtCommentDialog.setText(bill.comment)
+
+        val attachmentUriString = bill.attachment
+        billAttachmentImageView.visibility = View.GONE // Hide image view initially
+
+        if (!attachmentUriString.isNullOrEmpty()) {
+            val permissionToRequest = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+                android.Manifest.permission.READ_MEDIA_IMAGES
+            } else {
+                android.Manifest.permission.READ_EXTERNAL_STORAGE
+            }
+
+            if (ContextCompat.checkSelfPermission(this, permissionToRequest) == android.content.pm.PackageManager.PERMISSION_GRANTED) {
+                // Permission is already granted, load the image directly
+                loadImageIntoView(attachmentUriString, billAttachmentImageView, null /*pendingDialogDetailsLayout not needed here*/)
+            } else {
+                // Permission is not granted, request it.
+                // Store the bill and ImageView to use in the permission result callback.
+                pendingBillForDialog = bill
+                pendingDialogImageView = billAttachmentImageView
+                // pendingDialogDetailsLayout = null; // Or pass a relevant layout if needed by loadImageIntoView's callback part
+
+                // You can add a rationale here if needed:
+                // if (shouldShowRequestPermissionRationale(permissionToRequest)) { ... }
+
+                requestDisplayPermissionLauncher.launch(permissionToRequest)
+                // The image will be loaded by the launcher's callback if permission is granted.
+                // If denied, the launcher's callback already shows a Toast.
+            }
+        }
+
+        dialog.show()
 
         // Initially disable fields
         edtTitleDialog.isEnabled = false
@@ -523,6 +560,27 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
             showBillDetailsDialog(bill)
         } else {
             Toast.makeText(this, "Bill not found", Toast.LENGTH_SHORT).show()
+        }
+    }
+    private fun loadImageIntoView(attachmentUriString: String?, imageView: ImageView, detailsLayout: View?) {
+        if (!attachmentUriString.isNullOrEmpty()) {
+            try {
+                val uri = Uri.parse(attachmentUriString)
+                Glide.with(this)
+                    .load(uri)
+                    .error(R.drawable.ic_image_error) // Ensure you have this drawable
+                    .into(imageView)
+                imageView.visibility = View.VISIBLE
+                detailsLayout?.visibility =View.VISIBLE // Or however you manage layout visibility
+            } catch (e: Exception) {
+                Log.e("ImageLoad", "Error loading image in loadImageIntoView", e)
+                Toast.makeText(this, "Error displaying image: ${e.message}", Toast.LENGTH_SHORT).show()
+                imageView.visibility = View.GONE
+                detailsLayout?.visibility = View.VISIBLE // Still show other details
+            }
+        } else {
+            imageView.visibility = View.GONE
+            detailsLayout?.visibility = View.VISIBLE // Still show other details
         }
     }
 
