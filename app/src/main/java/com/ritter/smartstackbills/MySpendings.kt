@@ -17,6 +17,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
@@ -24,6 +26,7 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -48,6 +51,10 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
     private lateinit var fab: FloatingActionButton
     private var userEmail: String? = null
     private lateinit var dialog: Dialog
+    private lateinit var requestDisplayPermissionLauncher: ActivityResultLauncher<String>
+    private var pendingSpendingForDialog: Spendings? = null
+    private var pendingDialogImageView: ImageView? = null
+    private var pendingDialogDetailsLayout: View? = null
     private var selectedSpending: Spendings? = null
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var btnCloseDialog: Button
@@ -133,6 +140,26 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
         }
 
         registerReceiver(spendingsReceiver, IntentFilter("com.example.smartstackbills.REFRESH_SPENDINGS"))
+
+        requestDisplayPermissionLauncher =
+            registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+                if (isGranted) {
+                    pendingSpendingForDialog?.let { spending ->
+                        pendingDialogImageView?.let { imageView ->
+                            loadImageIntoView(spending.attachment, imageView, pendingDialogDetailsLayout)
+                        }
+                    }
+                } else {
+                    Toast.makeText(this, "Storage permission denied. Cannot display image.", Toast.LENGTH_SHORT).show()
+                    // Hide image view or show placeholder if permission is denied
+                    pendingDialogImageView?.visibility = View.GONE
+                    pendingDialogDetailsLayout?.visibility = View.VISIBLE // Show other details
+                }
+                // Clear pending items
+                pendingSpendingForDialog = null
+                pendingDialogImageView = null
+                pendingDialogDetailsLayout = null
+            }
 
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationViewSpendings)
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
@@ -385,6 +412,7 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
         val edtCommentDialog = dialog.findViewById<EditText>(R.id.edtCommentDialogSpendings)
         val edtAttachmentDialog = dialog.findViewById<ImageView>(R.id.edtAttachmentDialogSpendings)
         val attachmentUri = spending.attachment
+        val spendingAttachmentImageView = dialog.findViewById<ImageView>(R.id.edtAttachmentDialogSpendings)
         val btnSaveChanges = dialog.findViewById<Button>(R.id.btnSaveChangesSpendings)
         val btnEditChanges = dialog.findViewById<ImageView>(R.id.imgEditSpendings)
 
@@ -392,11 +420,33 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         val spendingDateString = if (spending.date != null) dateFormat.format(spending.date.toDate()) else ""
 
-        if (attachmentUri != null) {
-            edtAttachmentDialog.setImageURI(Uri.parse(attachmentUri))
-            edtAttachmentDialog.visibility = View.VISIBLE
-        } else {
-            edtAttachmentDialog.visibility = View.GONE
+        val attachmentUriString = spending.attachment
+        spendingAttachmentImageView.visibility = View.GONE // Hide image view initially
+
+        if (!attachmentUriString.isNullOrEmpty()) {
+            val permissionToRequest = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+                android.Manifest.permission.READ_MEDIA_IMAGES
+            } else {
+                android.Manifest.permission.READ_EXTERNAL_STORAGE
+            }
+
+            if (ContextCompat.checkSelfPermission(this, permissionToRequest) == android.content.pm.PackageManager.PERMISSION_GRANTED) {
+                // Permission is already granted, load the image directly
+                loadImageIntoView(attachmentUriString, spendingAttachmentImageView, null /*pendingDialogDetailsLayout not needed here*/)
+            } else {
+                // Permission is not granted, request it.
+                // Store the bill and ImageView to use in the permission result callback.
+                pendingSpendingForDialog = spending
+                pendingDialogImageView = spendingAttachmentImageView
+                // pendingDialogDetailsLayout = null; // Or pass a relevant layout if needed by loadImageIntoView's callback part
+
+                // You can add a rationale here if needed:
+                // if (shouldShowRequestPermissionRationale(permissionToRequest)) { ... }
+
+                requestDisplayPermissionLauncher.launch(permissionToRequest)
+                // The image will be loaded by the launcher's callback if permission is granted.
+                // If denied, the launcher's callback already shows a Toast.
+            }
         }
         dialog.show()
 
@@ -551,6 +601,27 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
             }
             .setNegativeButton("Cancel", null)
             .show()
+    }
+    private fun loadImageIntoView(attachmentUriString: String?, imageView: ImageView, detailsLayout: View?) {
+        if (!attachmentUriString.isNullOrEmpty()) {
+            try {
+                val uri = Uri.parse(attachmentUriString)
+                Glide.with(this)
+                    .load(uri)
+                    .error(R.drawable.ic_image_error) // Ensure you have this drawable
+                    .into(imageView)
+                imageView.visibility = View.VISIBLE
+                detailsLayout?.visibility =View.VISIBLE // Or however you manage layout visibility
+            } catch (e: Exception) {
+                Log.e("ImageLoad", "Error loading image in loadImageIntoView", e)
+                Toast.makeText(this, "Error displaying image: ${e.message}", Toast.LENGTH_SHORT).show()
+                imageView.visibility = View.GONE
+                detailsLayout?.visibility = View.VISIBLE // Still show other details
+            }
+        } else {
+            imageView.visibility = View.GONE
+            detailsLayout?.visibility = View.VISIBLE // Still show other details
+        }
     }
 
     private fun logoutUser() {

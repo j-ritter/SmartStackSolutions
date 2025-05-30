@@ -1,7 +1,10 @@
 package com.ritter.smartstackbills
 
+import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.View
 import android.widget.*
@@ -12,11 +15,15 @@ import androidx.core.view.WindowInsetsCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import android.net.Uri
+import android.os.Build
 import android.provider.MediaStore
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.FileProvider
 import android.os.Environment
 import android.text.InputType
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -30,6 +37,10 @@ class createSpending : AppCompatActivity() {
     private val REQUEST_IMAGE_GALLERY = 2
     private var imageUri: Uri? = null
     private var currentPhotoPath: String? = null
+    private lateinit var requestCameraPermissionLauncher: ActivityResultLauncher<String>
+    private lateinit var requestGalleryPermissionLauncher: ActivityResultLauncher<String>
+
+    private var pendingAction: (() -> Unit)? = null
 
     // Maps for filtering purposes in MySpendings
     val subcategoryFilterMap = mapOf(
@@ -202,6 +213,61 @@ class createSpending : AppCompatActivity() {
 
         userEmail = intent.getStringExtra("USER_EMAIL")
         userUid = FirebaseAuth.getInstance().currentUser?.uid
+        requestCameraPermissionLauncher =
+            registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+                if (isGranted) {
+                    pendingAction?.invoke() // Execute the stored action (e.g., dispatchTakePictureIntent)
+                } else {
+                    Toast.makeText(this, "Camera permission denied", Toast.LENGTH_SHORT).show()
+                }
+                pendingAction = null // Clear pending action
+            }
+
+        requestGalleryPermissionLauncher =
+            registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+                if (isGranted) {
+                    pendingAction?.invoke() // Execute the stored action (e.g., dispatchChooseFromGalleryIntent)
+                } else {
+                    Toast.makeText(this, "Gallery permission denied", Toast.LENGTH_SHORT).show()
+                }
+                pendingAction = null // Clear pending action
+            }
+
+        val btnUpload = findViewById<Button>(R.id.btnUploadImageSpending)
+        btnUpload.setOnClickListener {
+            val options = arrayOf("Take Photo", "Choose from Gallery", "Cancel")
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Upload Spending Image")
+            builder.setItems(options) { dialog, which ->
+                when (options[which]) {
+                    "Take Photo" -> {
+                        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                        if (takePictureIntent.resolveActivity(packageManager) != null) {
+                            val photoFile: File? = try {
+                                createImageFile()
+                            } catch (ex: IOException) {
+                                null
+                            }
+                            photoFile?.also {
+                                val photoURI: Uri = FileProvider.getUriForFile(
+                                    this,
+                                    "${applicationContext.packageName}.provider",
+                                    it
+                                )
+                                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+                            }
+                        }
+                    }
+                    "Choose from Gallery" -> {
+                        val pickPhoto = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                        startActivityForResult(pickPhoto, REQUEST_IMAGE_GALLERY)
+                    }
+                    "Cancel" -> dialog.dismiss()
+                }
+            }
+            builder.show()
+        }
 
         val repeatValue = intent.getStringExtra("repeat") ?: "No"
 
@@ -308,12 +374,54 @@ class createSpending : AppCompatActivity() {
         builder.setTitle("Upload Spending Image")
         builder.setItems(options) { dialog, which ->
             when (options[which]) {
-                "Take Photo" -> dispatchTakePictureIntent()
-                "Choose from Gallery" -> dispatchChooseFromGalleryIntent()
+                "Take Photo" -> {
+                    pendingAction = { dispatchTakePictureIntent() }
+                    if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                        pendingAction?.invoke()
+                        pendingAction = null
+                    } else {
+                        requestCameraPermissionLauncher.launch(Manifest.permission.CAMERA)
+                    }
+                }
+                "Choose from Gallery" -> {
+                    pendingAction = { dispatchChooseFromGalleryIntent() }
+                    val permissionToRequest = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        Manifest.permission.READ_MEDIA_IMAGES
+                    } else {
+                        Manifest.permission.READ_EXTERNAL_STORAGE
+                    }
+                    if (ContextCompat.checkSelfPermission(this, permissionToRequest) == PackageManager.PERMISSION_GRANTED) {
+                        pendingAction?.invoke()
+                        pendingAction = null
+                    } else {
+                        requestGalleryPermissionLauncher.launch(permissionToRequest)
+                    }
+                }
                 "Cancel" -> dialog.dismiss()
             }
         }
         builder.show()
+    }
+    private fun dispatchTakePictureIntent() {
+        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        takePictureIntent.resolveActivity(packageManager)?.let {
+            val photoFile: File? = try {
+                createImageFile()
+            } catch (ex: IOException) {
+                null
+            }
+            photoFile?.also {
+                val photoURI: Uri = FileProvider.getUriForFile(this, "${applicationContext.packageName}.provider", it)
+                currentPhotoPath = it.absolutePath
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+            }
+        }
+    }
+
+    private fun dispatchChooseFromGalleryIntent() {
+        val pickPhoto = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        startActivityForResult(pickPhoto, REQUEST_IMAGE_GALLERY)
     }
 
     // Date validation to ensure it's in correct format
@@ -459,7 +567,7 @@ class createSpending : AppCompatActivity() {
                 "vendor" to if (spendingVendor == "Create Own Vendor") customVendor else spendingVendor,
                 "repeat" to repeatValue,
                 "comment" to spendingComment,
-                "attachment" to spendingAttachment,
+                "attachment" to imageUri?.toString(),
                 "paid" to true
             )
 
@@ -477,37 +585,19 @@ class createSpending : AppCompatActivity() {
         }
     }
 
-    // Methods for handling image capture and gallery selection
-    private fun dispatchTakePictureIntent() {
-        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        takePictureIntent.resolveActivity(packageManager)?.let {
-            val photoFile: File? = try {
-                createImageFile()
-            } catch (ex: IOException) {
-                null
-            }
-            photoFile?.also {
-                val photoURI: Uri = FileProvider.getUriForFile(this, "${applicationContext.packageName}.provider", it)
-                currentPhotoPath = it.absolutePath
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
-            }
-        }
-    }
-
-    private fun dispatchChooseFromGalleryIntent() {
-        val pickPhoto = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        startActivityForResult(pickPhoto, REQUEST_IMAGE_GALLERY)
-    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         val txtImageAdded = findViewById<TextView>(R.id.txtImageAddedSpending)
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 REQUEST_IMAGE_CAPTURE -> {
-                    val file = File(currentPhotoPath)
-                    imageUri = Uri.fromFile(file)
+                    val imageBitmap = data?.extras?.get("data") as? Bitmap
+                    if (imageBitmap != null) {
+                        imageUri = saveImageToGallery(imageBitmap)
+                    } else if (currentPhotoPath != null) {
+                        val file = File(currentPhotoPath!!)
+                        imageUri = Uri.fromFile(file)
+                    }
                     txtImageAdded.text = "Image added"
                 }
                 REQUEST_IMAGE_GALLERY -> {
@@ -526,5 +616,9 @@ class createSpending : AppCompatActivity() {
         return File.createTempFile("JPEG_${timeStamp}_", ".jpg", storageDir).apply {
             currentPhotoPath = absolutePath
         }
+    }
+    private fun saveImageToGallery(bitmap: Bitmap): Uri? {
+        val path = MediaStore.Images.Media.insertImage(contentResolver, bitmap, "Bill_Image", null)
+        return Uri.parse(path)
     }
 }
