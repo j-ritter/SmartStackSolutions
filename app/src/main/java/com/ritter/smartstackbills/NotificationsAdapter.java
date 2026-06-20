@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,9 +15,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.TreeMap;
 
 public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -57,18 +58,46 @@ public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.View
             Notifications currentNotification = (Notifications) groupedNotificationsList.get(position);
 
             notificationHolder.title.setText(currentNotification.getTitle());
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-            notificationHolder.date.setText(sdf.format(currentNotification.getDate().toDate()));
+            notificationHolder.message.setText(
+                    currentNotification.getMessage() != null
+                            ? currentNotification.getMessage()
+                            : currentNotification.getPaymentName()
+            );
+            SimpleDateFormat sdf = new SimpleDateFormat("dd MMM", Locale.getDefault());
+            notificationHolder.date.setText(
+                    currentNotification.getDate() != null
+                            ? context.getString(
+                                    R.string.notification_due_date_short,
+                                    sdf.format(currentNotification.getDate().toDate())
+                            )
+                            : ""
+            );
 
-            notificationHolder.amount.setText(String.format(Locale.getDefault(), "%.2f", currentNotification.getAmount()));
-
-            notificationHolder.createdAt.setText(sdf.format(currentNotification.getCreatedAt().toDate()));
+            notificationHolder.createdAt.setText(
+                    currentNotification.getCreatedAt() != null
+                            ? new SimpleDateFormat("HH:mm", Locale.getDefault())
+                                    .format(currentNotification.getCreatedAt().toDate())
+                            : ""
+            );
 
             notificationHolder.unreadDot.setVisibility(currentNotification.isUnread() ? View.VISIBLE : View.GONE);
+            String type = currentNotification.getType();
+            if (PaymentNotificationScheduler.EVENT_ADVANCE.equals(type)) {
+                notificationHolder.iconBackground.setBackgroundResource(R.drawable.circle_notification_blue);
+            } else if (PaymentNotificationScheduler.EVENT_DUE_TODAY.equals(type)) {
+                notificationHolder.iconBackground.setBackgroundResource(R.drawable.circle_notification_orange);
+            } else {
+                notificationHolder.iconBackground.setBackgroundResource(R.drawable.circle_notification_red);
+            }
 
             notificationHolder.itemView.setOnClickListener(v -> {
                 if (listener != null) {
-                    listener.onNotificationClick(currentNotification.getNotificationId());
+                    listener.onNotificationClick(
+                            currentNotification.getNotificationId(),
+                            currentNotification.getBillId() != null
+                                    ? currentNotification.getBillId()
+                                    : currentNotification.getNotificationId()
+                    );
                     currentNotification.setUnread(false);
                     notifyItemChanged(position);
                 }
@@ -92,17 +121,20 @@ public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     public static class NotificationViewHolder extends RecyclerView.ViewHolder {
-        TextView title, date, amount, createdAt;
+        TextView title, message, date, amount, createdAt;
         ImageView unreadDot, deleteIcon;
+        FrameLayout iconBackground;
 
         public NotificationViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.tvTitleNotification);
+            message = itemView.findViewById(R.id.tvMessageNotification);
             date = itemView.findViewById(R.id.tvDateNotification);
             amount = itemView.findViewById(R.id.tvAmountNotification);
             createdAt = itemView.findViewById(R.id.tvNotificationTime);
             unreadDot = itemView.findViewById(R.id.unreadDot);
             deleteIcon = itemView.findViewById(R.id.imgDeleteNotification);
+            iconBackground = itemView.findViewById(R.id.notificationIconBackground);
         }
     }
 
@@ -116,19 +148,19 @@ public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     public interface OnNotificationClickListener {
-        void onNotificationClick(String notificationId);
+        void onNotificationClick(String notificationId, String billId);
         void onDeleteNotificationClick(String notificationId);
     }
 
     private List<Object> groupNotificationsByWeek(List<Notifications> notificationsList) {
-        TreeMap<String, List<Notifications>> groupedMap = new TreeMap<>();
+        Map<String, List<Notifications>> groupedMap = new LinkedHashMap<>();
         SimpleDateFormat sdf = new SimpleDateFormat("'CW' w, yyyy", Locale.getDefault());
         Calendar calendar = Calendar.getInstance();
 
         for (Notifications notification : notificationsList) {
-            if (notification.getDate() == null) continue;
+            if (notification.getCreatedAt() == null) continue;
 
-            calendar.setTime(notification.getDate().toDate());
+            calendar.setTime(notification.getCreatedAt().toDate());
             String weekKey = sdf.format(calendar.getTime());
 
             groupedMap.computeIfAbsent(weekKey, k -> new ArrayList<>()).add(notification);

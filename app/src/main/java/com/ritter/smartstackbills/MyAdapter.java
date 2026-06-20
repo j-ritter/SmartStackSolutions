@@ -1,7 +1,6 @@
 package com.ritter.smartstackbills;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.Timestamp;
@@ -70,9 +70,16 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             BillViewHolder billHolder = (BillViewHolder) holder;
             Bills bill = (Bills) itemsArrayList.get(position);
 
-            billHolder.title.setText(bill.getName());
-            billHolder.amount.setText(String.format(Locale.getDefault(), "%.2f", bill.getAmount()));
-            billHolder.category.setText(bill.getCategory());
+            billHolder.title.setText(isBlank(bill.getName()) ? context.getString(R.string.untitled_payment) : bill.getName());
+            billHolder.amount.setText(CurrencyPreferences.format(context, bill.getAmount()));
+            boolean overdue = bill.getDate() != null
+                    && AppDateUtils.INSTANCE.isBeforeToday(bill.getDate().toDate())
+                    && !bill.isPaid();
+            billHolder.amount.setTextColor(ContextCompat.getColor(
+                    context,
+                    overdue ? R.color.red : R.color.bill_color
+            ));
+            billHolder.category.setText(isBlank(bill.getCategory()) || "-".equals(bill.getCategory()) ? context.getString(R.string.uncategorized) : bill.getCategory());
 
             // Convierte Timestamp a String
             String formattedDate = formatTimestamp(bill.getDate());
@@ -83,19 +90,18 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             // Set the checkbox state
             billHolder.checkBoxPaid.setOnCheckedChangeListener(null);
+            billHolder.checkBoxPaid.setEnabled(true);
             billHolder.checkBoxPaid.setChecked(bill.isPaid());
 
             // Handle checkbox change
             billHolder.checkBoxPaid.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                if (!isChecked) {
+                    return;
+                }
+
+                billHolder.checkBoxPaid.setEnabled(false);
                 bill.setPaid(isChecked);
-
-                // Save the bill to the Spendings collection in Firestore
-                saveBillToSpendings(bill);
-
-                // Remove the bill from the current list and notify the adapter
-                itemsArrayList.remove(position);
-                notifyItemRemoved(position);
-                notifyItemRangeChanged(position, itemsArrayList.size());
+                saveBillToSpendings(bill, getCurrentBillPosition(bill));
             });
 
             // Show or hide recurring icon based on the bill's repeat status
@@ -111,11 +117,28 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             headerHolder.monthHeader.setText(monthHeader);
         }
     }
-    private void saveBillToSpendings(Bills bill) {
+    private int getCurrentBillPosition(Bills bill) {
+        return itemsArrayList.indexOf(bill);
+    }
+
+    private boolean isBlank(String value) {
+        return value == null || value.trim().isEmpty();
+    }
+
+    private void saveBillToSpendings(Bills bill, int adapterPosition) {
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+            bill.setPaid(false);
+            Toast.makeText(context, "Please log in again to update this payment.", Toast.LENGTH_SHORT).show();
+            notifyDataSetChanged();
+            return;
+        }
+
         String userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         String billId = bill.getBillId();
         if (billId == null) {
-            Log.e("SaveBillToSpendings", "Bill ID is null. Cannot save to spendings.");
+            bill.setPaid(false);
+            Toast.makeText(context, "Unable to move this payment because its ID is missing.", Toast.LENGTH_SHORT).show();
+            notifyDataSetChanged();
             return;  // Exit the method to avoid a crash
         }
         if (userUid != null) {
@@ -131,43 +154,62 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             spending.setComment(bill.getComment());
             spending.setAttachment(bill.getAttachment());
             spending.setPaid(true);  // Set it as paid since it's moving to spendings
+            spending.setRepeat(bill.getRepeat());
+            spending.setRecurring(!"No".equals(bill.getRepeat()));
+            spending.setBillId(bill.getBillId());
+            spending.setParentBillId(bill.getParentBillId());
 
-            FirebaseFirestore.getInstance()
-                    .collection("users")
-                    .document(userUid)
-                    .collection("spendings")
-                    .document(bill.getBillId())
-                    .set(bill)
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            com.google.firebase.firestore.DocumentReference spendingRef = db.collection("users")
+                    .document(userUid).collection("spendings").document(bill.getBillId());
+            com.google.firebase.firestore.DocumentReference billRef = db.collection("users")
+                    .document(userUid).collection("bills").document(bill.getBillId());
+
+            db.runBatch(batch -> {
+                        batch.set(spendingRef, spending);
+                        batch.delete(billRef);
+                    })
                     .addOnSuccessListener(aVoid -> {
-                        Toast.makeText(context, "Open payment moved to closed payment.", Toast.LENGTH_SHORT).show();
-                        // After successfully adding to Spendings, remove it from the Bills collection
-                        FirebaseFirestore.getInstance()
-                                .collection("users")
-                                .document(userUid)
-                                .collection("bills")
-                                .document(bill.getBillId())
-                                .delete()
-                                .addOnSuccessListener(aVoid1 -> {
-                                    Toast.makeText(context, "Open Payment removed from collection.", Toast.LENGTH_SHORT).show();
-                                })
-                                .addOnFailureListener(e -> {
-                                    Toast.makeText(context, "Error removing open payment: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                                });
+                        Toast.makeText(context, R.string.payment_moved_to_closed, Toast.LENGTH_SHORT).show();
+                        PaymentNotificationScheduler.INSTANCE.cancelBill(context, bill.getBillId());
+                        if (adapterPosition >= 0 && adapterPosition < itemsArrayList.size()) {
+                            itemsArrayList.remove(adapterPosition);
+                            notifyItemRemoved(adapterPosition);
+                            notifyItemRangeChanged(adapterPosition, itemsArrayList.size());
+                        } else {
+                            notifyDataSetChanged();
+                        }
                     })
                     .addOnFailureListener(e -> {
-                        Toast.makeText(context, "Error moving open payment to closed payment: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        bill.setPaid(false);
+                        billHolderRollback(adapterPosition);
+                        Toast.makeText(context, context.getString(R.string.payment_move_failed, e.getMessage()), Toast.LENGTH_SHORT).show();
                     });
+        }
+    }
+
+    private void billHolderRollback(int adapterPosition) {
+        if (adapterPosition >= 0 && adapterPosition < itemsArrayList.size()) {
+            notifyItemChanged(adapterPosition);
+        } else {
+            notifyDataSetChanged();
         }
     }
 
     // Método para formatear el Timestamp a String
     private String formatTimestamp(Timestamp timestamp) {
+        if (timestamp == null) {
+            return "";
+        }
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         return sdf.format(timestamp.toDate());
     }
 
     // Método para formatear el Timestamp a mes y año
     private String formatMonthYear(Timestamp timestamp) {
+        if (timestamp == null) {
+            return "";
+        }
         SimpleDateFormat sdf = new SimpleDateFormat("MMM yyyy", Locale.getDefault());
         return sdf.format(timestamp.toDate());
     }
@@ -203,7 +245,10 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         @Override
         public void onClick(View v) {
-            onBillClickListener.onBillClick(getAdapterPosition());
+            int position = getAdapterPosition();
+            if (position != RecyclerView.NO_POSITION) {
+                onBillClickListener.onBillClick(position);
+            }
         }
     }
 
@@ -241,6 +286,9 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         Map<Integer, Map<Integer, List<Bills>>> pastMonthBills = new TreeMap<>(Comparator.reverseOrder());
 
         for (Bills bill : billsArrayList) {
+            if (bill.getDate() == null) {
+                continue;
+            }
             Date billDate = bill.getDate().toDate();
             Calendar billCalendar = Calendar.getInstance();
             billCalendar.setTime(billDate);

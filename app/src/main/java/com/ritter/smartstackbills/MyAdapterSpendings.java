@@ -67,7 +67,7 @@ public class MyAdapterSpendings extends RecyclerView.Adapter<RecyclerView.ViewHo
             Spendings spending = (Spendings) itemsArrayList.get(position);
 
             spendingHolder.title.setText(spending.getName());
-            spendingHolder.amount.setText(String.format(Locale.getDefault(), "%.2f", spending.getAmount()));
+            spendingHolder.amount.setText(CurrencyPreferences.format(context, spending.getAmount()));
 
             spendingHolder.category.setText(spending.getCategory());
 
@@ -90,12 +90,10 @@ public class MyAdapterSpendings extends RecyclerView.Adapter<RecyclerView.ViewHo
 
             spendingHolder.checkBoxPaid.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 if (!isChecked) {  // Se ejecutará solo cuando se quite el check
+                    spendingHolder.checkBoxPaid.setEnabled(false);
                     spending.setPaid(false);
 
-                    saveSpendingToBills(spending);
-                    itemsArrayList.remove(position);
-                    notifyItemRemoved(position);
-                    notifyItemRangeChanged(position, itemsArrayList.size());
+                    saveSpendingToBills(spending, position, spendingHolder);
                 }
             });
 
@@ -105,12 +103,19 @@ public class MyAdapterSpendings extends RecyclerView.Adapter<RecyclerView.ViewHo
             headerHolder.monthHeader.setText(monthHeader);
         }
     }
-    private void saveSpendingToBills(Spendings spending) {
+    private void saveSpendingToBills(Spendings spending, int adapterPosition, SpendingViewHolder holder) {
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+            holder.checkBoxPaid.setEnabled(true);
+            notifyDataSetChanged();
+            return;
+        }
         String userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         String spendingId = spending.getSpendingId();
 
         if (spendingId == null) {
             Log.e("SaveSpendingToBills", "Spending ID is null. Cannot save to bills.");
+            holder.checkBoxPaid.setEnabled(true);
+            notifyDataSetChanged();
             return;  // Exit the method to avoid a crash
         }
 
@@ -128,34 +133,39 @@ public class MyAdapterSpendings extends RecyclerView.Adapter<RecyclerView.ViewHo
             bill.setComment(spending.getComment());
             bill.setAttachment(spending.getAttachment());
             bill.setPaid(false);
+            bill.setRepeat(spending.getRepeat() == null ? "No" : spending.getRepeat());
+            bill.setParentBillId(
+                    spending.getParentBillId() == null
+                            ? spending.getSpendingId()
+                            : spending.getParentBillId()
+            );
 
-            // Check if repeat info is available and set it, defaulting to "No" if not available
-            String repeatValue = spending.isRecurring() ? "Yes" : "No";
-            bill.setRepeat(repeatValue);
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            com.google.firebase.firestore.DocumentReference billRef = db.collection("users")
+                    .document(userUid).collection("bills").document(spendingId);
+            com.google.firebase.firestore.DocumentReference spendingRef = db.collection("users")
+                    .document(userUid).collection("spendings").document(spendingId);
 
-            FirebaseFirestore.getInstance()
-                    .collection("users")
-                    .document(userUid)
-                    .collection("bills")
-                    .document(spending.getSpendingId())
-                    .set(bill)
+            db.runBatch(batch -> {
+                        batch.set(billRef, bill);
+                        batch.delete(spendingRef);
+                    })
                     .addOnSuccessListener(aVoid -> {
-                        Toast.makeText(context, "Closed Payment moved back to Open Payment.", Toast.LENGTH_SHORT).show();
-                        FirebaseFirestore.getInstance()
-                                .collection("users")
-                                .document(userUid)
-                                .collection("spendings")
-                                .document(spending.getSpendingId())
-                                .delete()
-                                .addOnSuccessListener(aVoid1 -> {
-                                    Toast.makeText(context, "Closed Payment removed from Closed Payment collection.", Toast.LENGTH_SHORT).show();
-                                })
-                                .addOnFailureListener(e -> {
-                                    Toast.makeText(context, "Error removing closed payment: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                                });
+                        Toast.makeText(context, R.string.payment_moved_to_open, Toast.LENGTH_SHORT).show();
+                        PaymentNotificationScheduler.INSTANCE.scheduleBill(context, userUid, bill, false);
+                        if (adapterPosition >= 0 && adapterPosition < itemsArrayList.size()) {
+                            itemsArrayList.remove(adapterPosition);
+                            notifyItemRemoved(adapterPosition);
+                            notifyItemRangeChanged(adapterPosition, itemsArrayList.size());
+                        } else {
+                            notifyDataSetChanged();
+                        }
                     })
                     .addOnFailureListener(e -> {
-                        Toast.makeText(context, "Error moving closed payment back to open payment: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        spending.setPaid(true);
+                        holder.checkBoxPaid.setEnabled(true);
+                        Toast.makeText(context, context.getString(R.string.payment_move_failed, e.getMessage()), Toast.LENGTH_SHORT).show();
+                        notifyDataSetChanged();
                     });
         }
     }

@@ -6,14 +6,14 @@ plugins {
 
 android {
     namespace = "com.ritter.smartstackbills"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.ritter.smartstackbills"
         minSdk = 24
         targetSdk = 34
         versionCode = 11
-        versionName = "1.4"
+        versionName = "1.5"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -47,6 +47,8 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:33.1.1"))
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("com.google.firebase:firebase-firestore")
+    releaseImplementation("com.google.firebase:firebase-appcheck-playintegrity:19.2.0")
+    debugImplementation("com.google.firebase:firebase-appcheck-debug:19.2.0")
     implementation("com.google.android.gms:play-services-auth:21.2.0")
     implementation("androidx.compose.material3:material3:1.2.1")
     implementation("androidx.compose.material3:material3-window-size-class:1.2.1")
@@ -54,11 +56,8 @@ dependencies {
     implementation ("com.google.code.gson:gson:2.8.9")
     implementation ("androidx.work:work-runtime-ktx:2.7.1")
     implementation("com.google.android.gms:play-services-ads:23.6.0")
-    implementation ("com.github.bumptech.glide:glide:4.16.0")
-    annotationProcessor ("com.github.bumptech.glide:compiler:4.16.0")
 
-
-    val billing_version = "7.1.1"
+    val billing_version = "9.1.0"
     implementation("com.android.billingclient:billing:$billing_version")
 
 }

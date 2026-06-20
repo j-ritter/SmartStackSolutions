@@ -4,232 +4,99 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.firebase.Timestamp;
-
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Locale;
 
-public class MyAdapterCalendar extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
-    private static final int ITEM_BILL = 0;
-    private static final int ITEM_INCOME = 1;
-    private static final int ITEM_SPENDING = 2;
-    private static final int ITEM_DATE_HEADER = 3;
-
-    private Context context;
-    private ArrayList<Object> calendarEntries;
+public class MyAdapterCalendar extends RecyclerView.Adapter<MyAdapterCalendar.EntryViewHolder> {
+    private final Context context;
+    private final ArrayList<Object> entries;
     private OnItemClickListener listener;
 
-    public MyAdapterCalendar(Context context, ArrayList<Object> calendarEntries) {
+    public MyAdapterCalendar(Context context, ArrayList<Object> entries) {
         this.context = context;
-        this.calendarEntries = calendarEntries;
+        this.entries = new ArrayList<>(entries);
     }
 
-    public interface OnItemClickListener {
-        void onItemClick(int position);
-    }
-
-    public void setOnItemClickListener(OnItemClickListener listener) {
-        this.listener = listener;
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        Object entry = calendarEntries.get(position);
-        if (entry instanceof String) {
-            return ITEM_DATE_HEADER;
-        } else if (entry instanceof Bills) {
-            return ITEM_BILL;
-        } else if (entry instanceof Spendings) {
-            return ITEM_SPENDING;
-        } else if (entry instanceof Income) {
-            return ITEM_INCOME;
-        }
-        return -1; // Invalid type, handle this scenario if needed
-    }
+    public interface OnItemClickListener { void onItemClick(int position); }
+    public void setOnItemClickListener(OnItemClickListener listener) { this.listener = listener; }
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if (viewType == ITEM_DATE_HEADER) {
-            View view = LayoutInflater.from(context).inflate(R.layout.item_date_header, parent, false);
-            return new DateHeaderViewHolder(view);
-        } else if (viewType == ITEM_BILL) {
-            View view = LayoutInflater.from(context).inflate(R.layout.items, parent, false);
-            return new BillViewHolder(view, listener);
-        } else if (viewType == ITEM_SPENDING) {
-            View view = LayoutInflater.from(context).inflate(R.layout.items_spendings, parent, false);
-            return new SpendingViewHolder(view, listener);
-        } else if (viewType == ITEM_INCOME) {
-            View view = LayoutInflater.from(context).inflate(R.layout.items_income, parent, false);
-            return new IncomeViewHolder(view, listener);
-        }
-        return null;
+    public EntryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new EntryViewHolder(
+                LayoutInflater.from(context).inflate(R.layout.item_calendar_entry, parent, false)
+        );
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if (holder.getItemViewType() == ITEM_DATE_HEADER) {
-            String dateHeader = (String) calendarEntries.get(position);
-            DateHeaderViewHolder dateHeaderViewHolder = (DateHeaderViewHolder) holder;
-            dateHeaderViewHolder.dateHeaderText.setText(dateHeader);
-        } else if (holder.getItemViewType() == ITEM_BILL) {
-            Bills bill = (Bills) calendarEntries.get(position);
-            BillViewHolder billViewHolder = (BillViewHolder) holder;
-            billViewHolder.title.setText(bill.getName());
-            billViewHolder.amount.setText(String.format(Locale.getDefault(), "%.2f", bill.getAmount()));
-            billViewHolder.category.setText(bill.getCategory());
-            String formattedDate = formatTimestamp(bill.getDate());
-            billViewHolder.purchaseDate.setText(formattedDate);
-
-            // Disable the checkbox for CalendarActivity
-            CheckBox checkbox = holder.itemView.findViewById(R.id.imgCheckBoxItemsBills);
-            if (checkbox != null) {
-                checkbox.setChecked(bill.isPaid());
-                checkbox.setEnabled(false); // Disable interaction in Calendar
-            }
-
-        } else if (holder.getItemViewType() == ITEM_SPENDING) {
-            Spendings spending = (Spendings) calendarEntries.get(position);
-            SpendingViewHolder spendingViewHolder = (SpendingViewHolder) holder;
-            spendingViewHolder.title.setText(spending.getName());
-            spendingViewHolder.amount.setText(String.format(Locale.getDefault(), "%.2f", spending.getAmount()));
-            spendingViewHolder.category.setText(spending.getCategory());
-            String formattedDate = formatTimestamp(spending.getDate());
-            spendingViewHolder.dateOfSpending.setText(formattedDate);
-
-            // Disable the checkbox for CalendarActivity
-            CheckBox checkbox = holder.itemView.findViewById(R.id.imgCheckBoxItemsSpendings);
-            if (checkbox != null) {
-                checkbox.setChecked(spending.isPaid());
-                checkbox.setEnabled(false); // Disable interaction in Calendar
-            }
-        } else if (holder.getItemViewType() == ITEM_INCOME) {
-            Income income = (Income) calendarEntries.get(position);
-            IncomeViewHolder incomeViewHolder = (IncomeViewHolder) holder;
-            incomeViewHolder.title.setText(income.getName());
-            incomeViewHolder.amount.setText(String.format(Locale.getDefault(), "%.2f", income.getAmount()));
-            incomeViewHolder.category.setText(income.getCategory());
-            String formattedDate = formatTimestamp(income.getDate());
-            incomeViewHolder.dateOfIncome.setText(formattedDate);
+    public void onBindViewHolder(@NonNull EntryViewHolder holder, int position) {
+        Object entry = entries.get(position);
+        String title = "";
+        String category = "";
+        double amount = 0;
+        int color;
+        int typeText;
+        if (entry instanceof Bills) {
+            Bills bill = (Bills) entry;
+            title = safe(bill.getName());
+            category = safe(bill.getCategory());
+            amount = bill.getAmount();
+            boolean overdue = bill.getDate() != null &&
+                    AppDateUtils.INSTANCE.isBeforeToday(bill.getDate().toDate()) && !bill.isPaid();
+            color = overdue ? R.color.red : R.color.bill_color;
+            typeText = overdue ? R.string.overdue_open_payment : R.string.open_payment;
+        } else if (entry instanceof Spendings) {
+            Spendings spending = (Spendings) entry;
+            title = safe(spending.getName());
+            category = safe(spending.getCategory());
+            amount = spending.getAmount();
+            color = R.color.spending_color;
+            typeText = R.string.closed_payment;
+        } else {
+            Income income = (Income) entry;
+            title = safe(income.getName());
+            category = safe(income.getCategory());
+            amount = income.getAmount();
+            color = R.color.income_color;
+            typeText = R.string.income;
         }
+        holder.type.setText(typeText);
+        holder.title.setText(title.isEmpty() ? context.getString(R.string.untitled_entry) : title);
+        holder.category.setText(category.isEmpty() ? context.getString(R.string.no_category) : category);
+        holder.amount.setText(CurrencyPreferences.format(context, amount));
+        holder.amount.setTextColor(ContextCompat.getColor(context, color));
+        holder.typeBar.setBackgroundColor(ContextCompat.getColor(context, color));
+        holder.itemView.setOnClickListener(v -> {
+            int adapterPosition = holder.getAdapterPosition();
+            if (listener != null && adapterPosition != RecyclerView.NO_POSITION) {
+                listener.onItemClick(adapterPosition);
+            }
+        });
     }
 
-    // Método para formatear el Timestamp a String
-    private String formatTimestamp(Timestamp timestamp) {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-        return sdf.format(timestamp.toDate());
-    }
-
-    // Método para formatear el Timestamp a mes y año
-    private String formatMonthYear(Timestamp timestamp) {
-        SimpleDateFormat sdf = new SimpleDateFormat("MMM yyyy", Locale.getDefault());
-        return sdf.format(timestamp.toDate());
-    }
-
-    @Override
-    public int getItemCount() {
-        return calendarEntries.size();
-    }
-
-    public Object getItemAtPosition(int position) {
-        return calendarEntries.get(position);
-    }
-
+    @Override public int getItemCount() { return entries.size(); }
+    public Object getItemAtPosition(int position) { return entries.get(position); }
     public void updateEntries(ArrayList<Object> newEntries) {
-        calendarEntries.clear();
-        calendarEntries.addAll(newEntries);
+        ArrayList<Object> snapshot = new ArrayList<>(newEntries);
+        entries.clear();
+        entries.addAll(snapshot);
         notifyDataSetChanged();
     }
+    private String safe(String value) { return value == null ? "" : value.trim(); }
 
-    // ViewHolder for Bills
-    static class BillViewHolder extends RecyclerView.ViewHolder {
-        TextView title, amount, category, purchaseDate;
-
-        public BillViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
+    static class EntryViewHolder extends RecyclerView.ViewHolder {
+        View typeBar;
+        TextView type, title, category, amount;
+        EntryViewHolder(@NonNull View itemView) {
             super(itemView);
-            title = itemView.findViewById(R.id.textviewTitleItemsBills);
-            amount = itemView.findViewById(R.id.textviewAmountItemsBills);
-            category = itemView.findViewById(R.id.textviewCategoryItemsBills);
-            purchaseDate = itemView.findViewById(R.id.textviewDateItemsBills);
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (listener != null) {
-                        int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION) {
-                            listener.onItemClick(position);
-                        }
-                    }
-                }
-            });
+            typeBar = itemView.findViewById(R.id.calendarTypeBar);
+            type = itemView.findViewById(R.id.calendarEntryType);
+            title = itemView.findViewById(R.id.calendarEntryTitle);
+            category = itemView.findViewById(R.id.calendarEntryCategory);
+            amount = itemView.findViewById(R.id.calendarEntryAmount);
         }
     }
-    // ViewHolder for Spendings
-    static class SpendingViewHolder extends RecyclerView.ViewHolder {
-        TextView title, amount, category, dateOfSpending;
-
-        public SpendingViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
-            super(itemView);
-            title = itemView.findViewById(R.id.textviewTitleItemsSpendings);
-            amount = itemView.findViewById(R.id.textviewAmountItemsSpendings);
-            category = itemView.findViewById(R.id.textviewCategoryItemsSpendings);
-            dateOfSpending = itemView.findViewById(R.id.textviewDateItemsSpendings);
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (listener != null) {
-                        int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION) {
-                            listener.onItemClick(position);
-                        }
-                    }
-                }
-            });
-        }
-    }
-    // ViewHolder for Income
-    static class IncomeViewHolder extends RecyclerView.ViewHolder {
-        TextView title, amount, category, dateOfIncome;
-
-        public IncomeViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
-            super(itemView);
-            title = itemView.findViewById(R.id.textviewTitleItemsIncome);
-            amount = itemView.findViewById(R.id.textviewAmountItemsIncome);
-            category = itemView.findViewById(R.id.textviewCategoryItemsIncome);
-            dateOfIncome = itemView.findViewById(R.id.textviewDateItemsIncome);
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (listener != null) {
-                        int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION) {
-                            listener.onItemClick(position);
-                        }
-                    }
-                }
-            });
-        }
-    }
-    // ViewHolder for Date Headers
-    static class DateHeaderViewHolder extends RecyclerView.ViewHolder {
-        TextView dateHeaderText;
-
-        public DateHeaderViewHolder(@NonNull View itemView) {
-            super(itemView);
-            dateHeaderText = itemView.findViewById(R.id.textviewDateHeader);
-            if (dateHeaderText == null) {
-                throw new IllegalStateException("TextView with ID 'textviewDateHeader' not found in item_date_header.xml");
-        }
-    }
-}}
+}

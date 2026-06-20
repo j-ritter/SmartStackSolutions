@@ -1,10 +1,7 @@
-package com.ritter.smartstackbills
+﻿package com.ritter.smartstackbills
 
 import android.app.Dialog
-import android.content.BroadcastReceiver
-import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -23,6 +20,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -34,8 +33,6 @@ import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -58,88 +55,47 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
     private var selectedSpending: Spendings? = null
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var btnCloseDialog: Button
-
-
-    private val essentialSubcategories = setOf(
-        "Rent", "Mortgage", "Home maintenance", "Utilities", "Repairs and renovations",
-        "Property management", "Home security",
-        "Mobile phone", "Landline phone", "Internet",
-        "Health insurance", "Life insurance", "Car insurance", "Home insurance",
-        "Disability insurance", "Business insurance",
-        "Fuel", "Vehicle maintenance", "Public transportation", "Tolls", "Car lease",
-        "Bank fees", "Loan interest", "Credit card fees", "Income tax", "Property tax",
-        "Sales tax", "Self-employment tax", "Capital gains tax", "VAT (Value Added Tax)",
-        "Doctor visits", "Dental care", "Prescription medications", "Medical equipment",
-        "Mental health services", "Vaccinations",
-        "Tuition fees", "Textbooks", "School supplies", "Professional development",
-        "Clothing", "Household goods", "Personal care products",
-        "Groceries - Basic Food", "Groceries - Household Necessities", "Groceries - Frozen Foods", "Groceries - Organic Products"
+    private var activeFilter: String = "all"
+    private var dataLoaded = false
+    private val hasPremiumAccess: Boolean
+        get() = PremiumAccess.isPremiumUser(this)
+    private val emptyStateConfig = EmptyStateConfig(
+        preferenceKey = "closed_payments_tutorial_shown",
+        imageRes = R.drawable.image_closedpayments,
+        titleRes = R.string.empty_closed_payments_title,
+        messageRes = R.string.empty_closed_payments_message,
+        addActionRes = R.string.add_closed_payment,
+        requiresPremium = true
     )
 
-    private val essentialCategories = setOf(
-        "Accommodation", "Communication", "Insurance", "Transportation",
-        "Finances/Fees", "Taxes", "Health", "Education", "Shopping & Consumption"
-    )
-
-    private val nonEssentialSubcategories = setOf(
-        "Streaming services", "Movies", "Gym memberships", "Software subscriptions",
-        "Magazine/newspaper subscriptions", "Clubs and associations", "Music services",
-        "Cable/satellite TV", "Messaging services", "Cloud storage", "VPN services", "VOIP services",
-        "Investment fees", "Brokerage fees", "Financial advisor fees", "ATM withdrawal fees",
-        "Foreign transaction fees", "Travel insurance", "Pet insurance",
-        "Entertainment", "Dining out", "Hobbies", "Movies", "Vacation", "Gadgets",
-        "Luxury tax", "Health supplements", "Alternative medicine",
-        "Online courses", "Extracurricular activities", "Tutoring", "Educational software",
-        "Electronics", "Beauty & cosmetics", "Luxury goods", "Office supplies", "Gifts",
-        "Groceries - Beverages", "Groceries - Alcoholic Beverages", "Groceries - Snacks and Sweets", "Groceries - Luxury Foods",
-        "Miscellaneous", "Donations", "Gambling", "Unexpected expenses", "Legal fees",
-        "Lottery tickets", "Pet expenses", "Festivals & events"
-    )
-
-    private val nonEssentialCategories = setOf(
-        "Subscription and Memberships", "Others"
-    )
-
-
-    private val spendingsReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
-            // This will be triggered when the broadcast is received
-            refreshSpendingsList()
-        }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_my_spendings)
 
-        recyclerView = findViewById(R.id.recyclerViewSpendings)
         drawerLayout = findViewById(R.id.drawer_layout_spendings)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.mainSpendings)) { view, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            view.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
+
         recyclerView = findViewById(R.id.recyclerViewSpendings)
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        userEmail = intent.getStringExtra("USER_EMAIL")
+        userEmail = intent.getStringExtra(AuthUtils.EXTRA_USER_EMAIL) ?: AuthUtils.currentUserEmail()
 
         spendingsArrayList = ArrayList()
         allSpendingsArrayList = ArrayList()
         myAdapter = MyAdapterSpendings(this, spendingsArrayList, this)
         recyclerView.adapter = myAdapter
 
+        findViewById<TextView>(R.id.tvSpendingsPremiumPreview).visibility =
+            if (hasPremiumAccess) View.GONE else View.VISIBLE
+
         fab = findViewById(R.id.fabSpendings)
-        fab.setOnClickListener {
-            val isPremiumUser = getSharedPreferences("AppPrefs", MODE_PRIVATE)
-                .getBoolean("isPremiumUser", false)
-
-            if (!isPremiumUser) {
-                showUpgradeDialog()
-            } else {
-                val intent = Intent(this, createSpending::class.java)
-                intent.putExtra("USER_EMAIL", userEmail)
-                startActivity(intent)
-            }
-        }
-
-        registerReceiver(spendingsReceiver, IntentFilter("com.example.smartstackbills.REFRESH_SPENDINGS"))
+        fab.setOnClickListener { handleAddSpending() }
 
         requestDisplayPermissionLauncher =
             registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
@@ -162,35 +118,33 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
             }
 
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationViewSpendings)
+        bottomNavigationView.selectedItemId = R.id.Spendings
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.Main -> {
                     val intent = Intent(this, MainMenu::class.java)
-                    intent.putExtra("USER_EMAIL", userEmail) // Pasar el correo electrónico
+                    intent.putExtra(AuthUtils.EXTRA_USER_EMAIL, userEmail) // Pasar el correo electrÃ³nico
                     startActivity(intent)
                     true
                 }
                 R.id.Bills -> {
                     val intent = Intent(this, MyBills::class.java)
-                    intent.putExtra("USER_EMAIL", userEmail) // Pasar el correo electrónico
+                    intent.putExtra(AuthUtils.EXTRA_USER_EMAIL, userEmail) // Pasar el correo electrÃ³nico
                     startActivity(intent)
                     true
                 }
                 R.id.Spendings -> {
-                    val intent = Intent(this, MySpendings::class.java)
-                    intent.putExtra("USER_EMAIL", userEmail) // Pasar el correo electrónico
-                    startActivity(intent)
                     true
                 }
                 R.id.Income -> {
                     val intent = Intent(this, MyIncome::class.java)
-                    intent.putExtra("USER_EMAIL", userEmail)
+                    intent.putExtra(AuthUtils.EXTRA_USER_EMAIL, userEmail)
                     startActivity(intent)
                     true
                 }
                 R.id.Calendar -> {
                     val intent = Intent(this,CalendarActivity::class.java)
-                    intent.putExtra("USER_EMAIL", userEmail)
+                    intent.putExtra(AuthUtils.EXTRA_USER_EMAIL, userEmail)
                     startActivity(intent)
                     true
                 }
@@ -203,78 +157,21 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
         toolbar.setNavigationOnClickListener {
             drawerLayout.openDrawer(GravityCompat.START)
         }
-        // Setup NavigationView
-        val navView: NavigationView = findViewById(R.id.nav_viewSpendings)
-        navView.setNavigationItemSelectedListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.nav_item_premium -> {
-                    val intent = Intent(this, Premium::class.java)
-                    startActivity(intent)
-                    true
-                }
-                R.id.nav_item_aboutus -> {
-                    val intent = Intent(this, AboutUs::class.java)
-                    startActivity(intent)
-                    true
-                }
-                R.id.nav_item_faq -> {
-                    val intent = Intent(this, FAQs::class.java)
-                    startActivity(intent)
-                    true
-                }
-                R.id.nav_item_datasec -> {
-                    val intent = Intent(this, Datasecurity::class.java)
-                    startActivity(intent)
-                    true
-                }
-                R.id.nav_item_help -> {
-                    val intent = Intent(this, Help::class.java)
-                    startActivity(intent)
-                    true
-                }
-                R.id.nav_item_terms -> {
-                    val intent = Intent(this, Terms::class.java)
-                    startActivity(intent)
-                    true
-                }
-                R.id.nav_item_logout -> {
-                    logoutUser()
-                    true
-                }
-                else -> false
-            }
-        }
+        DrawerNavigation.setup(this, drawerLayout, findViewById(R.id.nav_viewSpendings))
 
         db = FirebaseFirestore.getInstance()
         setupDialog()
         setupEventChangeListener()
 
         // Check if the activity was started with a specific filter
-        val filterType = intent.getStringExtra("FILTER_TYPE") ?: "all"  // Default to "all"
-        filterSpendings(filterType)
+        activeFilter = intent.getStringExtra("FILTER_TYPE") ?: "all"
+        filterSpendings(activeFilter)
 
         // Initialize filter buttons
         findViewById<Button>(R.id.btnEssential).setOnClickListener { filterSpendings("essential") }
         findViewById<Button>(R.id.btnNonEssential).setOnClickListener { filterSpendings("non-essential") }
         findViewById<Button>(R.id.btnSpendingsAll).setOnClickListener { filterSpendings("all") }
     }
-    private fun loadSpendings(): ArrayList<Spendings> {
-        val sharedPref = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
-        val gson = Gson()
-        val json = sharedPref.getString("spendingsList", null)
-        val type = object : TypeToken<ArrayList<Spendings>>() {}.type
-        return gson.fromJson(json, type) ?: ArrayList()
-    }
-
-    private fun saveSpendings() {
-        val sharedPref = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
-        val editor = sharedPref.edit()
-        val gson = Gson()
-        val json = gson.toJson(spendingsArrayList)
-        editor.putString("spendingsList", json)
-        editor.apply()
-    }
-
     private fun setupDialog() {
         dialog = Dialog(this)
         dialog.setContentView(R.layout.dialog_box_spendings)
@@ -303,7 +200,11 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
         }
 
         imgDeleteSpending.setOnClickListener {
-            deleteSpending()
+            if (hasPremiumAccess) {
+                deleteSpending()
+            } else {
+                showUpgradeDialog()
+            }
         }
     }
 
@@ -319,11 +220,13 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
                     }
 
                     if (snapshots != null) {
+                        dataLoaded = true
                         spendingsArrayList.clear()
                         allSpendingsArrayList.clear()
                         for (document in snapshots.documents) {
                             val spending = document.toObject(Spendings::class.java)
                             if (spending != null) {
+                                repairLegacySpending(userUid, document.id, spending)
                                 spendingsArrayList.add(spending)
                                 allSpendingsArrayList.add(spending)
                                 Log.d("Firestore Data", "Spending added: ${spending.name}, ${spending.date}")
@@ -333,9 +236,16 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
                         myAdapter.updateSpendings(spendingsArrayList)
 
                         // Save the updated list 
-                        saveSpendings()
-                        // Show all spendings by default or apply filter if specified
-                        filterSpendings("all")
+                        filterSpendings(activeFilter)
+                        if (allSpendingsArrayList.isEmpty()) {
+                            EmptyStateTutorial.showFirstTimeIfNeeded(
+                                this,
+                                emptyStateConfig,
+                                hasPremiumAccess,
+                                onAdd = ::openCreateSpending,
+                                onPremium = ::showUpgradeDialog
+                            )
+                        }
                     } else {
                         Log.d("Firestore Data", "No spendings found")
                     }
@@ -345,25 +255,22 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
             Log.e("Authentication Error", "User not authenticated")
         }
     }
-    private fun refreshSpendingsList() {
-        val userUid = FirebaseAuth.getInstance().currentUser?.uid
-        if (userUid != null) {
-            db.collection("users").document(userUid).collection("spendings")
-                .get()
-                .addOnSuccessListener { documents ->
-                    spendingsArrayList.clear()
-                    allSpendingsArrayList.clear()
-                    for (document in documents) {
-                        val spending = document.toObject(Spendings::class.java)
-                        spendingsArrayList.add(spending)
-                        allSpendingsArrayList.add(spending)
-                    }
-                    // Notify the adapter of the updated data
-                    myAdapter.updateSpendings(spendingsArrayList)
-                }
-                .addOnFailureListener { e ->
-                    Toast.makeText(this, "Error loading spendings: ${e.message}", Toast.LENGTH_SHORT).show()
-                }
+    private fun repairLegacySpending(userUid: String, documentId: String, spending: Spendings) {
+        val updates = mutableMapOf<String, Any>()
+
+        if (spending.spendingId.isNullOrBlank()) {
+            spending.spendingId = documentId
+            updates["spendingId"] = documentId
+        }
+        if (spending.subcategory == null) {
+            spending.subcategory = "-"
+            updates["subcategory"] = "-"
+        }
+        if (updates.isNotEmpty()) {
+            db.collection("users").document(userUid)
+                .collection("spendings")
+                .document(documentId)
+                .update(updates)
         }
     }
 
@@ -415,6 +322,7 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
         val spendingAttachmentImageView = dialog.findViewById<ImageView>(R.id.edtAttachmentDialogSpendings)
         val btnSaveChanges = dialog.findViewById<Button>(R.id.btnSaveChangesSpendings)
         val btnEditChanges = dialog.findViewById<ImageView>(R.id.imgEditSpendings)
+        val btnDelete = dialog.findViewById<ImageView>(R.id.imgDeleteSpendings)
 
         // Convertir el Timestamp a String
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
@@ -449,6 +357,7 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
             }
         }
         dialog.show()
+        styleDetailsDialogWindow(dialog)
 
         edtTitleDialog.setText(spending.name)
         edtAmountDialog.setText(String.format(Locale.getDefault(), "%.2f", spending.amount))
@@ -466,8 +375,14 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
 
         // Hide save button initially
         btnSaveChanges.visibility = View.GONE
+        btnEditChanges.visibility = if (hasPremiumAccess) View.VISIBLE else View.GONE
+        btnDelete.visibility = if (hasPremiumAccess) View.VISIBLE else View.GONE
 
         btnEditChanges.setOnClickListener {
+            if (!hasPremiumAccess) {
+                showUpgradeDialog()
+                return@setOnClickListener
+            }
             edtTitleDialog.isEnabled = true
             edtAmountDialog.isEnabled = true
             edtCommentDialog.isEnabled = true
@@ -477,25 +392,30 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
 
         }
         btnSaveChanges.setOnClickListener {
+            if (!hasPremiumAccess) {
+                showUpgradeDialog()
+                return@setOnClickListener
+            }
             val userUid = FirebaseAuth.getInstance().currentUser?.uid
-            if (userUid != null && selectedSpending != null) {
+            val spending = selectedSpending
+            if (userUid != null && spending != null) {
                 // Update the bill object with new values
-                selectedSpending?.name = edtTitleDialog.text.toString()
-                selectedSpending?.amount = edtAmountDialog.text.toString().toDoubleOrNull() ?: 0.0
+                spending.name = edtTitleDialog.text.toString()
+                spending.amount = edtAmountDialog.text.toString().toDoubleOrNull() ?: 0.0
 
-                selectedSpending?.comment = edtCommentDialog.text.toString()
+                spending.comment = edtCommentDialog.text.toString()
 
                 btnSaveChanges.visibility = View.VISIBLE
 
                 // Save the updated bill to Firebase
                 db.collection("users").document(userUid).collection("spendings")
-                    .document(selectedSpending!!.spendingId)
-                    .set(selectedSpending!!)
+                    .document(spending.spendingId)
+                    .set(spending)
                     .addOnSuccessListener {
                         // Update the local list
-                        val index = spendingsArrayList.indexOfFirst { it.spendingId == selectedSpending?.spendingId }
+                        val index = spendingsArrayList.indexOfFirst { it.spendingId == spending.spendingId }
                         if (index != -1) {
-                            spendingsArrayList[index] = selectedSpending!!
+                            spendingsArrayList[index] = spending
                             myAdapter.notifyItemChanged(index)
                         }
                         Toast.makeText(this, "'Closed Payment' updated successfully", Toast.LENGTH_SHORT).show()
@@ -531,6 +451,7 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
     }
 
     private fun filterSpendings(filter: String) {
+        activeFilter = filter
         val filteredSpendings = ArrayList<Spendings>()
 
         // Reset button colors
@@ -539,38 +460,42 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
         findViewById<Button>(R.id.btnNonEssential).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_inactive))
 
         for (spending in allSpendingsArrayList) {
-            val subcategory = spending.subcategory?.trim()
-            val category = spending.category?.trim()
-
-            val isEssential = when {
-                subcategory in essentialSubcategories -> true
-                category in essentialCategories && (subcategory == null || subcategory.isEmpty()) -> true
-                else -> false
-            }
-
-            val isNonEssential = when {
-                subcategory in nonEssentialSubcategories -> true
-                category in nonEssentialCategories && (subcategory == null || subcategory.isEmpty()) -> true
-                else -> false
-            }
+            val classification =
+                SpendingClassification.classify(spending.category, spending.subcategory)
 
             when (filter) {
                 "essential" -> {
-                    findViewById<Button>(R.id.btnEssential).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_active))
-                    if (isEssential) filteredSpendings.add(spending)
+                    findViewById<Button>(R.id.btnEssential).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_closed_active))
+                    if (classification == SpendingClassification.Type.ESSENTIAL) {
+                        filteredSpendings.add(spending)
+                    }
                 }
                 "non-essential" -> {
-                    findViewById<Button>(R.id.btnNonEssential).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_active))
-                    if (isNonEssential) filteredSpendings.add(spending)
+                    findViewById<Button>(R.id.btnNonEssential).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_closed_active))
+                    if (classification == SpendingClassification.Type.NON_ESSENTIAL) {
+                        filteredSpendings.add(spending)
+                    }
                 }
                 "all" -> {
-                    findViewById<Button>(R.id.btnSpendingsAll).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_active))
+                    findViewById<Button>(R.id.btnSpendingsAll).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_closed_active))
                     filteredSpendings.add(spending)
                 }
             }
         }
 
         myAdapter.updateSpendings(filteredSpendings)
+        if (dataLoaded) {
+            EmptyStateTutorial.bind(
+                this,
+                findViewById(R.id.emptyStateSpendings),
+                emptyStateConfig,
+                hasAnyEntries = allSpendingsArrayList.isNotEmpty(),
+                hasFilteredEntries = filteredSpendings.isNotEmpty(),
+                hasPremiumAccess = hasPremiumAccess,
+                onAdd = ::openCreateSpending,
+                onPremium = ::showUpgradeDialog
+            )
+        }
         Log.d("Filter", "Filtered spendings count for $filter: ${filteredSpendings.size}")
     }
 
@@ -592,15 +517,22 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
         updateUnreadCountBadge(badgeCountTextView) // Update the badge display immediately
     }
     private fun showUpgradeDialog() {
-        val builder = androidx.appcompat.app.AlertDialog.Builder(this)
-        builder.setTitle("Upgrade to Premium")
-            .setMessage("Creating 'Closed Payments' is a premium feature. Upgrade now to unlock all features!")
-            .setPositiveButton("Upgrade") { _, _ ->
-                val intent = Intent(this, Premium::class.java)
-                startActivity(intent)
-            }
-            .setNegativeButton("Cancel", null)
-            .show()
+        PremiumUpgradeDialog.show(this, R.string.premium_preview_closed_payments, userEmail)
+    }
+
+    private fun handleAddSpending() {
+        if (hasPremiumAccess) openCreateSpending() else showUpgradeDialog()
+    }
+
+    private fun openCreateSpending() {
+        val intent = Intent(this, createSpending::class.java)
+        intent.putExtra(AuthUtils.EXTRA_USER_EMAIL, userEmail)
+        startActivity(intent)
+    }
+
+    private fun styleDetailsDialogWindow(dialog: Dialog) {
+        val width = (resources.displayMetrics.widthPixels * 0.92f).toInt()
+        dialog.window?.setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT)
     }
     private fun loadImageIntoView(attachmentUriString: String?, imageView: ImageView, detailsLayout: View?) {
         if (!attachmentUriString.isNullOrEmpty()) {

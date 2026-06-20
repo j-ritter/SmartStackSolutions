@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="shared_categories">
+        <item>Logement</item>
+        <item>Communication</item>
+        <item>Assurance</item>
+        <item>Abonnements et adhésions</item>
+        <item>Transport</item>
+        <item>Finances/Frais</item>
+        <item>Impôts</item>
+        <item>Santé</item>
+        <item>Éducation</item>
+        <item>Achats et consommation</item>
+        <item>Autres</item>
+    </string-array>
+    <string-array name="accommodation_subcategories">
+        <item>Loyer</item><item>Hypothèque</item><item>Entretien du logement</item><item>Services publics</item><item>Mobilier</item><item>Réparations et rénovations</item>
+    </string-array>
+    <string-array name="communication_subcategories">
+        <item>Téléphone mobile</item><item>Téléphone fixe</item><item>Internet</item><item>TV câble/satellite</item><item>Services de messagerie</item>
+    </string-array>
+    <string-array name="insurance_subcategories">
+        <item>Assurance santé</item><item>Assurance vie</item><item>Assurance auto</item><item>Assurance habitation</item><item>Assurance voyage</item><item>Assurance animaux</item>
+    </string-array>
+    <string-array name="subscription_memberships_subcategories">
+        <item>Abonnements magazines/journaux</item><item>Services de streaming</item><item>Abonnements salle de sport</item><item>Abonnements logiciels</item><item>Clubs et associations</item>
+    </string-array>
+    <string-array name="transportation_subcategories">
+        <item>Carburant</item><item>Entretien du véhicule</item><item>Transports publics</item><item>Stationnement</item><item>Location de véhicule</item>
+    </string-array>
+    <string-array name="finances_fees_subcategories">
+        <item>Frais bancaires</item><item>Frais d’investissement</item><item>Intérêts de prêt</item><item>Frais de carte de crédit</item><item>Frais de courtage</item>
+    </string-array>
+    <string-array name="taxes_subcategories">
+        <item>Impôt sur le revenu</item><item>Taxe foncière</item><item>Taxe de vente</item><item>Impôt travail indépendant</item><item>Impôt sur les plus-values</item>
+    </string-array>
+    <string-array name="health_subcategories">
+        <item>Consultations médicales</item><item>Soins dentaires</item><item>Médicaments sur ordonnance</item><item>Compléments santé</item><item>Équipement médical</item>
+    </string-array>
+    <string-array name="education_subcategories">
+        <item>Frais de scolarité</item><item>Manuels</item><item>Cours en ligne</item><item>Fournitures scolaires</item><item>Activités extrascolaires</item>
+    </string-array>
+    <string-array name="shopping_consumption_subcategories">
+        <item>Courses - Aliments de base</item><item>Courses - Nécessités du foyer</item><item>Courses - Boissons</item><item>Courses - Boissons alcoolisées</item><item>Courses - Snacks et sucreries</item><item>Courses - Aliments de luxe</item><item>Vêtements</item><item>Électronique</item><item>Articles ménagers</item><item>Produits de soin personnel</item>
+    </string-array>
+    <string-array name="others_subcategories"><item>Autres</item></string-array>
+    <string-array name="income_categories">
+        <item>Salaire</item><item>Travail indépendant/Freelance</item><item>Revenus locatifs</item><item>Revenus d’investissement</item><item>Revenus d’entreprise</item><item>Retraite et pensions</item><item>Prestations sociales</item><item>Bourses et subventions</item><item>Redevances et droits d’auteur</item><item>Autres revenus</item><item>Créer un nouveau type de revenu</item>
+    </string-array>
+    <string-array name="salary_subcategories"><item>Salaire régulier</item><item>Heures supplémentaires</item><item>Primes ou incitations</item></string-array>
+    <string-array name="self_employment_subcategories"><item>Honoraires de service</item><item>Revenu par projet</item></string-array>
+    <string-array name="rental_lease_income_subcategories"><item>Immobilier</item><item>Véhicules</item><item>Équipement</item></string-array>
+    <string-array name="investment_income_subcategories"><item>Dividendes</item><item>Intérêts perçus</item><item>Plus-values</item></string-array>
+    <string-array name="business_income_subcategories"><item>Parts de bénéfices</item><item>Salaire de direction</item></string-array>
+    <string-array name="retirement_pensions_subcategories"><item>Pension publique</item><item>Plans de retraite d’entreprise</item><item>Assurance retraite privée</item></string-array>
+    <string-array name="social_benefits_subcategories"><item>Allocations chômage</item><item>Prestations maladie</item><item>Prestations parentales</item></string-array>
+    <string-array name="scholarships_grants_subcategories"><item>Bourses d’études</item><item>Subventions de recherche</item></string-array>
+    <string-array name="royalties_copyrights_subcategories"><item>Brevets</item><item>Licences logicielles</item><item>Publications de livres</item></string-array>
+    <string-array name="other_income_subcategories"><item>Avantages en nature</item><item>Héritages et cadeaux</item><item>Retours crowdfunding/crowdinvesting</item></string-array>
+    <string-array name="savings_target_names">
+        <item>Fonds d’urgence</item><item>Vacances</item><item>Apport pour logement</item><item>Achat de voiture</item><item>Fonds d’éducation</item><item>Retraite</item><item>Mariage</item><item>Investissement</item><item>Aucune raison spécifique</item>
+    </string-array>
+    <string-array name="target_period_options"><item>1 mois</item><item>2 mois</item><item>3 mois</item><item>6 mois</item><item>12 mois</item></string-array>
+    <string-array name="custom_weekdays"><item>Dim</item><item>Lun</item><item>Mar</item><item>Mer</item><item>Jeu</item><item>Ven</item><item>Sam</item></string-array>
+</resources>

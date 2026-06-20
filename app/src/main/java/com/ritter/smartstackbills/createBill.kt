@@ -1,15 +1,13 @@
 package com.ritter.smartstackbills
 
-import android.app.Activity
 import android.content.Intent
-import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
-import android.provider.MediaStore
 import android.view.View
 import android.widget.*
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -18,19 +16,11 @@ import com.google.firebase.firestore.FirebaseFirestore
 import android.text.InputType
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.FileProvider
-import androidx.work.WorkManager
 import java.text.SimpleDateFormat
 import java.util.*
 import com.google.firebase.Timestamp
 import java.io.File
 import java.io.IOException
-import java.util.concurrent.TimeUnit
-import android.Manifest
-import android.content.pm.PackageManager
-import android.os.Build
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.ContextCompat
 
 class createBill : AppCompatActivity() {
 
@@ -38,14 +28,22 @@ class createBill : AppCompatActivity() {
     private var userEmail: String? = null
     private var userUid: String? = null
     private lateinit var edtAmountBill: EditText
-    private val REQUEST_IMAGE_CAPTURE = 1
-    private val REQUEST_IMAGE_GALLERY = 2
     private var imageUri: Uri? = null
     private var currentPhotoPath: String? = null
-    private lateinit var requestCameraPermissionLauncher: ActivityResultLauncher<String>
-    private lateinit var requestGalleryPermissionLauncher: ActivityResultLauncher<String>
+    private var pendingCameraFile: File? = null
 
-    private var pendingAction: (() -> Unit)? = null
+    private val takePictureLauncher =
+        registerForActivityResult(ActivityResultContracts.TakePicture()) { saved ->
+            val file = pendingCameraFile
+            imageUri = if (saved && file?.exists() == true) Uri.fromFile(file) else null
+            updateAttachmentStatus()
+        }
+
+    private val chooseImageLauncher =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { sourceUri ->
+            imageUri = sourceUri?.let { copyImageToAppStorage(it) }
+            updateAttachmentStatus()
+        }
 
     val repeat = arrayOf(
         "No", "Weekly", "Every 2 Weeks", "Monthly", "Every 2 Months",
@@ -215,64 +213,8 @@ class createBill : AppCompatActivity() {
             insets
         }
 
-        userEmail = intent.getStringExtra("USER_EMAIL")
+        userEmail = intent.getStringExtra(AuthUtils.EXTRA_USER_EMAIL) ?: AuthUtils.currentUserEmail()
         userUid = FirebaseAuth.getInstance().currentUser?.uid
-
-        requestCameraPermissionLauncher =
-            registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
-                if (isGranted) {
-                    pendingAction?.invoke() // Execute the stored action (e.g., dispatchTakePictureIntent)
-                } else {
-                    Toast.makeText(this, "Camera permission denied", Toast.LENGTH_SHORT).show()
-                }
-                pendingAction = null // Clear pending action
-            }
-
-        requestGalleryPermissionLauncher =
-            registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
-                if (isGranted) {
-                    pendingAction?.invoke() // Execute the stored action (e.g., dispatchChooseFromGalleryIntent)
-                } else {
-                    Toast.makeText(this, "Gallery permission denied", Toast.LENGTH_SHORT).show()
-                }
-                pendingAction = null // Clear pending action
-            }
-
-        val btnUpload = findViewById<Button>(R.id.btnUploadImageBill)
-        btnUpload.setOnClickListener {
-            val options = arrayOf("Take Photo", "Choose from Gallery", "Cancel")
-            val builder = AlertDialog.Builder(this)
-            builder.setTitle("Upload Bill Image")
-            builder.setItems(options) { dialog, which ->
-                when (options[which]) {
-                    "Take Photo" -> {
-                        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                        if (takePictureIntent.resolveActivity(packageManager) != null) {
-                            val photoFile: File? = try {
-                                createImageFile()
-                            } catch (ex: IOException) {
-                                null
-                            }
-                            photoFile?.also {
-                                val photoURI: Uri = FileProvider.getUriForFile(
-                                    this,
-                                    "${applicationContext.packageName}.provider",
-                                    it
-                                )
-                                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-                                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
-                            }
-                        }
-                    }
-                    "Choose from Gallery" -> {
-                        val pickPhoto = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-                        startActivityForResult(pickPhoto, REQUEST_IMAGE_GALLERY)
-                    }
-                    "Cancel" -> dialog.dismiss()
-                }
-            }
-            builder.show()
-        }
 
         val edtDate = findViewById<EditText>(R.id.edtDateBill)
         edtDate.inputType = InputType.TYPE_NULL
@@ -282,48 +224,24 @@ class createBill : AppCompatActivity() {
         val spinnerCategories = findViewById<Spinner>(R.id.spinnerCategoriesBill)
         val spinnerSubcategories = findViewById<Spinner>(R.id.spinnerSubcategoriesBill)
         val autoCompleteVendors = findViewById<AutoCompleteTextView>(R.id.autoCompleteVendorBill)
-        val edtCustomVendor = findViewById<EditText>(R.id.edtCustomVendorBill)
         val spinnerRepeat = findViewById<Spinner>(R.id.spinnerRepeatBill)
 
         val arrayAdapterRepeat = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, repeat)
         spinnerRepeat.adapter = arrayAdapterRepeat
 
-        // Initialize spinners with empty arrays (populated later)
-        val emptyAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, arrayOf<String>())
-        spinnerCategories.adapter = emptyAdapter
-        spinnerSubcategories.adapter = emptyAdapter
-
-        // Load categories dynamically when spinner is touched
-        spinnerCategories.setOnTouchListener { _, _ ->
-            loadCategories(spinnerCategories)
-            false
-        }
-
-        // Load subcategories based on selected category
-        spinnerSubcategories.setOnTouchListener { _, _ ->
-            spinnerCategories.selectedItem?.let { loadSubcategories(it.toString(), spinnerSubcategories) }
-            false
-        }
+        loadCategories(spinnerCategories)
+        spinnerCategories.selectedItem?.let { loadSubcategories(it.toString(), spinnerSubcategories) }
 
         // Load vendors based on selected category
         spinnerCategories.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val selectedCategory = spinnerCategories.selectedItem.toString()
                 loadVendors(selectedCategory, autoCompleteVendors)
+                loadSubcategories(selectedCategory, spinnerSubcategories)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 // Handle case where no category is selected
-            }
-        }
-
-        // Handle vendor selection and custom vendor input
-        autoCompleteVendors.setOnItemClickListener { parent, _, position, _ ->
-            val selectedVendor = parent.getItemAtPosition(position).toString()
-            if (selectedVendor == "Create Own Vendor") {
-                edtCustomVendor.visibility = View.VISIBLE
-            } else {
-                edtCustomVendor.visibility = View.GONE
             }
         }
 
@@ -339,26 +257,26 @@ class createBill : AppCompatActivity() {
     }
     // Load categories dynamically (not pre-selected)
     private fun loadCategories(spinnerCategories: Spinner) {
-        val arrayAdapterCategories = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, categories)
+        val arrayAdapterCategories = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, FinancialEntryOptions.expenseCategories)
         spinnerCategories.adapter = arrayAdapterCategories
     }
 
     // Load subcategories based on selected category
     private fun loadSubcategories(category: String, spinnerSubcategories: Spinner) {
-        val subcategories = subcategoriesMap[category] ?: emptyArray()
+        val subcategories = FinancialEntryOptions.expenseSubcategories[category] ?: emptyArray()
         val arrayAdapterSubcategories = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, subcategories)
         spinnerSubcategories.adapter = arrayAdapterSubcategories
     }
 
     // Load vendors for the selected category
     private fun loadVendors(category: String, autoCompleteVendors: AutoCompleteTextView) {
-        val vendors = vendorsMap[category] ?: emptyArray()
+        val vendors = FinancialEntryOptions.vendorSuggestions(this, category)
 
         // Set the adapter for the AutoCompleteTextView
         val arrayAdapterVendors = ArrayAdapter(
             this,
             android.R.layout.simple_dropdown_item_1line,
-            vendors + "Create Own Vendor"
+            vendors
         )
         autoCompleteVendors.setAdapter(arrayAdapterVendors)
 
@@ -381,128 +299,101 @@ class createBill : AppCompatActivity() {
         edtDate.setText("$day/${month + 1}/$year")
     }
     private fun handleImageUpload() {
-        val options = arrayOf("Take Photo", "Choose from Gallery", "Cancel")
+        val options = arrayOf(
+            getString(R.string.take_photo),
+            getString(R.string.choose_from_gallery),
+            getString(R.string.cancel)
+        )
         val builder = AlertDialog.Builder(this)
-        builder.setTitle("Upload Bill Image")
+        builder.setTitle(R.string.add_attachment)
         builder.setItems(options) { dialog, which ->
-            when (options[which]) {
-                "Take Photo" -> {
-                    pendingAction = { dispatchTakePictureIntent() }
-                    if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-                        pendingAction?.invoke()
-                        pendingAction = null
-                    } else {
-                        requestCameraPermissionLauncher.launch(Manifest.permission.CAMERA)
-                    }
-                }
-                "Choose from Gallery" -> {
-                    pendingAction = { dispatchChooseFromGalleryIntent() }
-                    val permissionToRequest = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                        Manifest.permission.READ_MEDIA_IMAGES
-                    } else {
-                        Manifest.permission.READ_EXTERNAL_STORAGE
-                    }
-                    if (ContextCompat.checkSelfPermission(this, permissionToRequest) == PackageManager.PERMISSION_GRANTED) {
-                        pendingAction?.invoke()
-                        pendingAction = null
-                    } else {
-                        requestGalleryPermissionLauncher.launch(permissionToRequest)
-                    }
-                }
-                "Cancel" -> dialog.dismiss()
+            when (which) {
+                0 -> dispatchTakePictureIntent()
+                1 -> chooseImageLauncher.launch("image/*")
+                else -> dialog.dismiss()
             }
         }
         builder.show()
     }
 
     private fun dispatchTakePictureIntent() {
-        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        takePictureIntent.resolveActivity(packageManager)?.let {
-            val photoFile: File? = try {
-                createImageFile()
-            } catch (ex: IOException) {
-                null
-            }
-            photoFile?.also {
-                val photoURI: Uri = FileProvider.getUriForFile(this, "${applicationContext.packageName}.provider", it)
-                currentPhotoPath = it.absolutePath
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
-            }
+        val photoFile = try {
+            createImageFile()
+        } catch (exception: IOException) {
+            null
+        }
+        if (photoFile == null) {
+            updateAttachmentStatus()
+            return
+        }
+        pendingCameraFile = photoFile
+        val photoUri = FileProvider.getUriForFile(
+            this,
+            "${applicationContext.packageName}.provider",
+            photoFile
+        )
+        takePictureLauncher.launch(photoUri)
+    }
+
+    private fun updateAttachmentStatus() {
+        findViewById<TextView>(R.id.txtImageAddedBill).apply {
+            text = getString(
+                if (imageUri != null) R.string.attachment_added else R.string.attachment_failed
+            )
+            visibility = View.VISIBLE
         }
     }
 
-    private fun dispatchChooseFromGalleryIntent() {
-        val pickPhoto = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        startActivityForResult(pickPhoto, REQUEST_IMAGE_GALLERY)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        val txtImageAdded = findViewById<TextView>(R.id.txtImageAddedBill)
-        if (resultCode == Activity.RESULT_OK) {
-            when (requestCode) {
-                REQUEST_IMAGE_CAPTURE -> {
-                    val imageBitmap = data?.extras?.get("data") as? Bitmap
-                    if (imageBitmap != null) {
-                        imageUri = saveImageToGallery(imageBitmap)
-                    } else if (currentPhotoPath != null) {
-                        val file = File(currentPhotoPath!!)
-                        imageUri = Uri.fromFile(file)
-                    }
-                    txtImageAdded.text = "Image added"
+    private fun copyImageToAppStorage(sourceUri: Uri): Uri? {
+        return try {
+            val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())
+            val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES) ?: return null
+            val outputFile = File(storageDir, "BILL_${timeStamp}.jpg")
+            contentResolver.openInputStream(sourceUri)?.use { input ->
+                outputFile.outputStream().use { output ->
+                    input.copyTo(output)
                 }
-                REQUEST_IMAGE_GALLERY -> {
-                    imageUri = data?.data
-                    txtImageAdded.text = "Image added"
-                }
-            }
-            txtImageAdded.visibility = View.VISIBLE
+            } ?: return null
+            Uri.fromFile(outputFile)
+        } catch (exception: Exception) {
+            null
         }
     }
 
     @Throws(IOException::class)
     private fun createImageFile(): File {
         val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())
-        val storageDir: File = getExternalFilesDir(Environment.DIRECTORY_PICTURES)!!
+        val storageDir: File = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+            ?: throw IOException("Pictures directory unavailable")
         return File.createTempFile("JPEG_${timeStamp}_", ".jpg", storageDir).apply {
             currentPhotoPath = absolutePath
         }
-    }
-    private fun saveImageToGallery(bitmap: Bitmap): Uri? {
-        val path = MediaStore.Images.Media.insertImage(contentResolver, bitmap, "Bill_Image", null)
-        return Uri.parse(path)
     }
 
     private fun saveBill() {
         // Retrieve values from input fields
         val billName = findViewById<EditText>(R.id.edtTitleBill).text.toString()
-        val billAmountString = findViewById<EditText>(R.id.edtAmountBill).text.toString()
-        val billAmount = billAmountString.toDoubleOrNull()
+        val billAmount = findViewById<EditText>(R.id.edtAmountBill).text.toString().toDoubleOrNull() ?: 0.0
         val billDateString = findViewById<EditText>(R.id.edtDateBill).text.toString()
         val billCategory = findViewById<Spinner>(R.id.spinnerCategoriesBill).selectedItem?.toString() ?: "-"
+        val billSubcategory = findViewById<Spinner>(R.id.spinnerSubcategoriesBill).selectedItem?.toString() ?: "-"
         val billVendor = findViewById<AutoCompleteTextView>(R.id.autoCompleteVendorBill).text.toString()
-        val customVendor = findViewById<EditText>(R.id.edtCustomVendorBill).text.toString()
         val billRepeat = findViewById<Spinner>(R.id.spinnerRepeatBill).selectedItem?.toString() ?: "-"
         val billComment = findViewById<EditText>(R.id.edtCommentBill).text.toString()
         val billPaid = findViewById<CheckBox>(R.id.checkBoxPaidBill).isChecked
+        val billAttachment = imageUri?.toString()
 
         // Validate mandatory fields
         if (billName.isBlank()) {
-            Toast.makeText(this, "Please enter a name for the open payment", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.enter_open_payment_name, Toast.LENGTH_SHORT).show()
             return
         }
-        if (billAmount == null || billAmount <= 0) {
-            Toast.makeText(this, "Please enter a valid amount", Toast.LENGTH_SHORT).show()
+        if (billAmount <= 0) {
+            Toast.makeText(this, R.string.enter_valid_amount, Toast.LENGTH_SHORT).show()
             return
         }
-<<<<<<< HEAD
         if (billDateString.isBlank()) {
-            Toast.makeText(this, "Please select a valid due date for the bill", Toast.LENGTH_SHORT).show()
-=======
-        if (billDateString == null) {
-            Toast.makeText(this, "Please select a valid due date for the open payment", Toast.LENGTH_SHORT).show()
->>>>>>> 5b3c78e (Update bill creation logic)
+            Toast.makeText(this, R.string.select_valid_due_date, Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -513,13 +404,7 @@ class createBill : AppCompatActivity() {
         } catch (e: Exception) {
             null
         }
-        if (billDate == null) {
-            Toast.makeText(this, "Invalid date format. Please select a valid due date.", Toast.LENGTH_SHORT).show()
-            return
-        }
-
         val timestamp = billDate?.let { Timestamp(it) }
-
 
         // Prepare the bill data
         val bill = hashMapOf(
@@ -527,67 +412,62 @@ class createBill : AppCompatActivity() {
             "amount" to billAmount,
             "date" to timestamp,
             "category" to billCategory,
-            "vendor" to if (billVendor == "Create Own Vendor") customVendor else billVendor,
+            "subcategory" to billSubcategory,
+            "vendor" to billVendor,
             "repeat" to billRepeat,
             "comment" to billComment,
-            "paid" to billPaid,
-            "attachment" to imageUri?.toString()
+            "attachment" to billAttachment,
+            "paid" to billPaid
         )
 
         // Save bill to Firebase
-        if (userEmail != null && userUid != null && billDate != null) {
-            db.collection("users").document(userUid!!).collection("bills")
-                .add(bill)
-                .addOnSuccessListener { documentReference ->
-                    Toast.makeText(this, "Open payment saved successfully", Toast.LENGTH_SHORT).show()
+        val uid = userUid
+        if (uid != null && billDate != null) {
+            val documentReference = db.collection("users").document(uid).collection("bills").document()
+            val billId = documentReference.id
+            bill["billId"] = billId
+            bill["parentBillId"] = billId
 
-                    // Get the newly generated document ID for billId
-                    val billId = documentReference.id
-                    documentReference.update("billId", billId)
+            val batch = db.batch()
+            val billsToSchedule = mutableListOf<Bills>()
+            batch.set(documentReference, bill)
+            billsToSchedule += Bills().apply {
+                this.billId = billId
+                this.name = billName
+                this.amount = billAmount
+                this.date = timestamp
+                this.paid = billPaid
+            }
 
-                    // Trigger immediate notification using WorkManager
-                    val workManager = androidx.work.WorkManager.getInstance(this)
-                    // Calculate delay for 72 hours (3 days) before the due date
-                    val delayMillis = (billDate?.time ?: 0L) - System.currentTimeMillis() - TimeUnit.HOURS.toMillis(72)
+            if (billRepeat != "No") {
+                addRecurringBillsToBatch(
+                    batch, billsToSchedule, uid, billName, billAmount, billDate,
+                    billCategory, billSubcategory, billVendor, billRepeat,
+                    billComment, billAttachment, billId
+                )
+            }
 
-                    if (delayMillis > 0) {
-                        val workRequest = androidx.work.OneTimeWorkRequestBuilder<NotificationWorker>()
-                            .setInitialDelay(delayMillis, java.util.concurrent.TimeUnit.MILLISECONDS)
-                            .setInputData(
-                                androidx.work.workDataOf(
-                                    "title" to billName,
-                                    "amount" to billAmount,
-                                    "billId" to billId,
-                                    "dueDateMillis" to (billDate?.time ?: 0L),
-                                    "createdAt" to (timestamp?.toDate()?.time ?: 0L)
-                                )
-                            )
-                            .build()
-                        WorkManager.getInstance(this).enqueue(workRequest)
-                    } else {
-                        Toast.makeText(this, "Open payment is due or overdue; no notification scheduled.", Toast.LENGTH_SHORT).show()
+            batch.commit()
+                .addOnSuccessListener {
+                    Toast.makeText(this, R.string.open_payment_saved, Toast.LENGTH_SHORT).show()
+                    FinancialEntryOptions.rememberVendor(this, billVendor)
+                    billsToSchedule.forEach {
+                        PaymentNotificationScheduler.scheduleBill(this, uid, it)
                     }
-
-                    // Generate recurring bills if necessary
-                    if (billRepeat != "No") {
-                        generateRecurringBills(
-                            billName, billAmount, billDate, billCategory,
-                            if (billVendor == "Create Own Vendor") customVendor else billVendor,
-                            billRepeat, billComment, billId
-                        )
-                    }
-
                     finish()
                 }
                 .addOnFailureListener { e ->
-                    Toast.makeText(this, "Error saving bill: ${e.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getString(R.string.open_payment_save_failed, e.message.orEmpty()), Toast.LENGTH_SHORT).show()
                 }
         }
     }
 
-    private fun generateRecurringBills(
-        billTitle: String, billAmount: Double, startDate: Date, billCategory: String,
-        billVendor: String, billRepeat: String, billComment: String, parentBillId: String
+    private fun addRecurringBillsToBatch(
+        batch: com.google.firebase.firestore.WriteBatch,
+        billsToSchedule: MutableList<Bills>,
+        uid: String, billTitle: String, billAmount: Double, startDate: Date, billCategory: String,
+        billSubcategory: String, billVendor: String, billRepeat: String, billComment: String,
+        billAttachment: String?, parentBillId: String
     ) {
         val calendar = Calendar.getInstance()
         calendar.time = startDate
@@ -605,44 +485,33 @@ class createBill : AppCompatActivity() {
             }
             if (calendar.after(endDate)) break
 
-            val newBillId = db.collection("users").document(userUid!!).collection("bills").document().id
+            val newBillId = db.collection("users").document(uid).collection("bills").document().id
+            val occurrenceDate = calendar.time
             val recurringBill = hashMapOf(
                 "name" to billTitle,
                 "amount" to billAmount,
-                "date" to com.google.firebase.Timestamp(calendar.time),
+                "date" to com.google.firebase.Timestamp(occurrenceDate),
                 "category" to billCategory,
+                "subcategory" to billSubcategory,
                 "vendor" to billVendor,
                 "repeat" to billRepeat,
                 "comment" to billComment,
+                "attachment" to billAttachment,
                 "parentBillId" to parentBillId,
-                "billId" to newBillId
+                "billId" to newBillId,
+                "paid" to false
             )
 
-            db.collection("users").document(userUid!!).collection("bills").document(newBillId)
-                .set(recurringBill)
-                .addOnSuccessListener {
-                    Toast.makeText(this, "Recurring open payment saved successfully", Toast.LENGTH_SHORT).show()
-
-                    // Schedule notification for the recurring bill
-                    val delayMillis = calendar.timeInMillis - System.currentTimeMillis() - TimeUnit.HOURS.toMillis(72)
-                    if (delayMillis > 0) {
-                        val workRequest = androidx.work.OneTimeWorkRequestBuilder<NotificationWorker>()
-                            .setInitialDelay(delayMillis, java.util.concurrent.TimeUnit.MILLISECONDS)
-                            .setInputData(
-                                androidx.work.workDataOf(
-                                    "title" to billTitle,
-                                    "amount" to billAmount,
-                                    "billId" to newBillId,
-                                    "dueDateMillis" to calendar.timeInMillis
-                                )
-                            )
-                            .build()
-                        WorkManager.getInstance(this).enqueue(workRequest)
-                    }
-                }
-                .addOnFailureListener { e ->
-                    Toast.makeText(this, "Error saving recurring bill: ${e.message}", Toast.LENGTH_SHORT).show()
-                }
+            val recurringRef = db.collection("users").document(uid)
+                .collection("bills").document(newBillId)
+            batch.set(recurringRef, recurringBill)
+            billsToSchedule += Bills().apply {
+                this.billId = newBillId
+                this.name = billTitle
+                this.amount = billAmount
+                this.date = Timestamp(occurrenceDate)
+                this.paid = false
+            }
         }
     }
 }

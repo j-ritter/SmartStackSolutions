@@ -2,16 +2,15 @@ package com.ritter.smartstackbills
 
 import android.app.DatePickerDialog
 import android.app.Dialog
-import android.content.Context
 import android.content.Intent
-import android.os.Build
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.Menu
 import android.view.View
-import android.view.WindowMetrics
+import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
@@ -28,22 +27,19 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.MobileAds
-import com.google.android.gms.ads.RequestConfiguration
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import java.text.NumberFormat
+import com.google.firebase.firestore.ListenerRegistration
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -69,32 +65,35 @@ class MainMenu : AppCompatActivity() {
     private var userEmail: String? = null
     private var userUid: String? = null
     private lateinit var db: FirebaseFirestore
-    private lateinit var adView: AdView
     private var currentSavingsTargetDocumentId: String? = null
-    private var checkedSavingsTargetForMonth: Boolean = false
-    private val numberFormat: NumberFormat = NumberFormat.getInstance(Locale.getDefault())
-
-    private val adSize: AdSize
-        get() {
-            val displayMetrics = resources.displayMetrics
-            val adWidthPixels = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                val windowMetrics: WindowMetrics = this.windowManager.currentWindowMetrics
-                windowMetrics.bounds.width()
-            } else {
-                displayMetrics.widthPixels
-            }
-            val density = displayMetrics.density
-            val adWidth = (adWidthPixels / density).toInt()
-            return AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(this, adWidth)
-        }
-
+    private var billsListenerRegistration: ListenerRegistration? = null
+    private var spendingsListenerRegistration: ListenerRegistration? = null
+    private var incomeListenerRegistration: ListenerRegistration? = null
+    private val billsList = arrayListOf<Bills>()
+    private val spendingsList = arrayListOf<Spendings>()
+    private val incomeList = arrayListOf<Income>()
+    private var billsLoaded = false
+    private var spendingsLoaded = false
+    private var incomeLoaded = false
+    private var currentActualMonthlySavings = 0.0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main_menu)
+        PremiumPurchaseVerifier.refresh(this)
 
         MobileAds.initialize(this) {}
+
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        if (currentUser == null) {
+            startActivity(AuthUtils.loginIntent(this))
+            finish()
+            return
+        }
+
+        userEmail = intent.getStringExtra(AuthUtils.EXTRA_USER_EMAIL) ?: currentUser.email
+        userUid = currentUser.uid
 
         // Create and load the AdView
         setupBannerAd()
@@ -105,10 +104,6 @@ class MainMenu : AppCompatActivity() {
         fabMainMenu.setOnClickListener {
             showCreateOptionsDialog()
         }
-
-        userEmail = intent.getStringExtra("USER_EMAIL")
-
-        userUid = FirebaseAuth.getInstance().currentUser?.uid
 
         drawerLayout = findViewById(R.id.drawer_layout)
 
@@ -127,10 +122,8 @@ class MainMenu : AppCompatActivity() {
         etMonthlySavingsMain = findViewById(R.id.etMonthlySavings)
 
         setupMonthNavigation()
-
-
-        // Call this to load the saved target when the activity starts
-        loadSavingsTarget()
+        setupDashboardNavigation()
+        setupDashboardListeners()
 
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -154,27 +147,28 @@ class MainMenu : AppCompatActivity() {
                 R.id.Main -> true
                 R.id.Bills -> {
                     val intent = Intent(this, MyBills::class.java)
-                    intent.putExtra("USER_EMAIL", userEmail)
+                    intent.putExtra(AuthUtils.EXTRA_USER_EMAIL, userEmail)
                     startActivity(intent)
                     true
                 }
 
                 R.id.Spendings -> {
                     val intent = Intent(this, MySpendings::class.java)
-                    intent.putExtra("USER_EMAIL", userEmail)
+                    intent.putExtra(AuthUtils.EXTRA_USER_EMAIL, userEmail)
                     startActivity(intent)
                     true
                 }
 
                 R.id.Income -> {
                     val intent = Intent(this, MyIncome::class.java)
-                    intent.putExtra("USER_EMAIL", userEmail)
+                    intent.putExtra(AuthUtils.EXTRA_USER_EMAIL, userEmail)
                     startActivity(intent)
                     true
                 }
 
                 R.id.Calendar -> {
                     val intent = Intent(this, CalendarActivity::class.java)
+                    intent.putExtra(AuthUtils.EXTRA_USER_EMAIL, userEmail)
                     startActivity(intent)
                     true
                 }
@@ -183,96 +177,55 @@ class MainMenu : AppCompatActivity() {
             }
         }
 
-        val navView: NavigationView = findViewById(R.id.nav_view)
+        DrawerNavigation.setup(this, drawerLayout, findViewById(R.id.nav_view))
 
+    }
 
-        navView.setNavigationItemSelectedListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.nav_item_premium -> {
-                    val intent = Intent(this, Premium::class.java)
-                    startActivity(intent)
-                    true
-                }
-
-                R.id.nav_item_aboutus -> {
-                    val intent = Intent(this, AboutUs::class.java)
-                    startActivity(intent)
-                    true
-                }
-
-                R.id.nav_item_faq -> {
-                    val intent = Intent(this, FAQs::class.java)
-                    startActivity(intent)
-                    true
-                }
-
-                R.id.nav_item_datasec -> {
-                    val intent = Intent(this, Datasecurity::class.java)
-                    startActivity(intent)
-                    true
-                }
-
-                R.id.nav_item_help -> {
-                    val intent = Intent(this, Help::class.java)
-                    startActivity(intent)
-                    true
-                }
-
-                R.id.nav_item_terms -> {
-                    val intent = Intent(this, Terms::class.java)
-                    startActivity(intent)
-                    true
-                }
-
-                R.id.nav_item_logout -> {
-                    logoutUser()
-                    true
-                }
-
-                else -> false
-            }
+    private fun setupDashboardNavigation() {
+        findViewById<View>(R.id.openPaymentsCard).setOnClickListener {
+            openDashboardSection(MyBills::class.java, "all")
         }
+        findViewById<View>(R.id.incomingPaymentsMetric).setOnClickListener {
+            openDashboardSection(MyBills::class.java, "incoming")
+        }
+        findViewById<View>(R.id.overduePaymentsMetric).setOnClickListener {
+            openDashboardSection(MyBills::class.java, "overdue")
+        }
+        findViewById<View>(R.id.closedPaymentsCard).setOnClickListener {
+            openDashboardSection(MySpendings::class.java, "all")
+        }
+        findViewById<View>(R.id.essentialPaymentsMetric).setOnClickListener {
+            openDashboardSection(MySpendings::class.java, "essential")
+        }
+        findViewById<View>(R.id.nonEssentialPaymentsMetric).setOnClickListener {
+            openDashboardSection(MySpendings::class.java, "non-essential")
+        }
+        findViewById<View>(R.id.incomeCard).setOnClickListener {
+            openDashboardSection(MyIncome::class.java, "all")
+        }
+        findViewById<View>(R.id.recurringIncomeMetric).setOnClickListener {
+            openDashboardSection(MyIncome::class.java, "recurring")
+        }
+        findViewById<View>(R.id.oneTimeIncomeMetric).setOnClickListener {
+            openDashboardSection(MyIncome::class.java, "one-time")
+        }
+        findViewById<View>(R.id.savingsTargetCard).setOnClickListener {
+            openSavingsTarget()
+        }
+    }
 
-        // Set values
-        setAmountForMonth()
+    private fun openDashboardSection(destination: Class<*>, filter: String) {
+        startActivity(Intent(this, destination).apply {
+            putExtra("FILTER_TYPE", filter)
+            putExtra(AuthUtils.EXTRA_USER_EMAIL, userEmail)
+        })
+    }
 
-        // Connection to other folders
-        val tvBills: TextView = findViewById(R.id.tvBills)
-        tvBills.setOnClickListener {
-            val intent = Intent(this, MyBills::class.java)
-            intent.putExtra("FILTER_TYPE", "all")
-            startActivity(intent)
-        }
-        val etBills: EditText = findViewById(R.id.etBillsAmount)
-        etBills.setOnClickListener {
-            val intent = Intent(this, MyBills::class.java)
-            intent.putExtra("FILTER_TYPE", "all")
-            startActivity(intent)
-        }
-        val etSpendings: EditText = findViewById(R.id.etSpendingsAmount)
-        etSpendings.setOnClickListener {
-            val intent = Intent(this, MySpendings::class.java)
-            intent.putExtra("FILTER_TYPE", "all")
-            startActivity(intent)
-        }
-        val tvSpendings: TextView = findViewById(R.id.tvSpendings)
-        tvSpendings.setOnClickListener {
-            val intent = Intent(this, MySpendings::class.java)
-            intent.putExtra("FILTER_TYPE", "all")
-            startActivity(intent)
-        }
-        val etIncome: EditText = findViewById(R.id.etIncomeAmount)
-        etIncome.setOnClickListener {
-            val intent = Intent(this, MyIncome::class.java)
-            intent.putExtra("FILTER_TYPE", "all")
-            startActivity(intent)
-        }
-        val tvIncome: TextView = findViewById(R.id.tvIncome)
-        tvIncome.setOnClickListener {
-            val intent = Intent(this, MyIncome::class.java)
-            intent.putExtra("FILTER_TYPE", "all")
-            startActivity(intent)
-        }
+    override fun onDestroy() {
+        super.onDestroy()
+        billsListenerRegistration?.remove()
+        spendingsListenerRegistration?.remove()
+        incomeListenerRegistration?.remove()
     }
 
     private fun setupBannerAd() {
@@ -300,89 +253,78 @@ class MainMenu : AppCompatActivity() {
     }
 
     private fun formatAmount(value: Double): String {
-        val numberFormat = NumberFormat.getCurrencyInstance(Locale.getDefault())
-        return if (value < 0) {
-            // Handle negative values appropriately
-            if (Locale.getDefault() == Locale.US) {
-                "(${numberFormat.format(-value)})" // Parentheses for US locale
-            } else {
-                "-${numberFormat.format(-value)}" // Explicit negative sign for other locales
+        return CurrencyPreferences.format(this, value)
+    }
+
+    private fun setupDashboardListeners() {
+        val uid = userUid
+        if (uid == null) {
+            Toast.makeText(this, "User not logged in.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val userRef = db.collection("users").document(uid)
+
+        billsListenerRegistration = userRef.collection("bills")
+            .addSnapshotListener { snapshots, error ->
+                if (error != null) {
+                    Toast.makeText(this, "Error loading open payments: ${error.message}", Toast.LENGTH_SHORT).show()
+                    return@addSnapshotListener
+                }
+                billsList.clear()
+                snapshots?.documents?.forEach { document ->
+                    document.toObject(Bills::class.java)?.let { bill ->
+                        if (bill.billId.isNullOrBlank()) bill.billId = document.id
+                        PaymentNotificationScheduler.scheduleBill(this, uid, bill)
+                        billsList.add(bill)
+                    }
+                }
+                billsLoaded = true
+                refreshDashboard()
             }
-        } else {
-            numberFormat.format(value)
+
+        spendingsListenerRegistration = userRef.collection("spendings")
+            .addSnapshotListener { snapshots, error ->
+                if (error != null) {
+                    Toast.makeText(this, "Error loading closed payments: ${error.message}", Toast.LENGTH_SHORT).show()
+                    return@addSnapshotListener
+                }
+                spendingsList.clear()
+                snapshots?.documents?.forEach { document ->
+                    document.toObject(Spendings::class.java)?.let { spendingsList.add(it) }
+                }
+                spendingsLoaded = true
+                refreshDashboard()
+            }
+
+        incomeListenerRegistration = userRef.collection("income")
+            .addSnapshotListener { snapshots, error ->
+                if (error != null) {
+                    Toast.makeText(this, "Error loading income: ${error.message}", Toast.LENGTH_SHORT).show()
+                    return@addSnapshotListener
+                }
+                incomeList.clear()
+                snapshots?.documents?.forEach { document ->
+                    document.toObject(Income::class.java)?.let { incomeList.add(it) }
+                }
+                incomeLoaded = true
+                refreshDashboard()
+            }
+    }
+
+    private fun refreshDashboard() {
+        setAmountForMonth()
+        if (billsLoaded && spendingsLoaded && incomeLoaded) {
+            loadSavingsTarget()
         }
     }
 
-    // Method to retrieve all bills, spendings and income from SharedPreferences
-    private fun getBills(): ArrayList<Bills> {
-        val sharedPref = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
-        val gson = Gson()
-        val json = sharedPref.getString("billsList", null)
-        val type = object : TypeToken<ArrayList<Bills>>() {}.type
-        val billsList: ArrayList<Bills> = gson.fromJson(json, type) ?: ArrayList()
+    private fun getBills(): List<Bills> = billsList
 
-        // Parse amounts correctly
-        billsList.forEach { bill ->
-            bill.amount = parseLocalizedDouble(bill.amount.toString())
-        }
-        return billsList
-    }
+    private fun getSpendings(): List<Spendings> = spendingsList
 
-    private fun getSpendings(): ArrayList<Spendings> {
-        val sharedPref = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
-        val gson = Gson()
-        val json = sharedPref.getString("spendingsList", null)
-        val type = object : TypeToken<ArrayList<Spendings>>() {}.type
-        val spendingsList: ArrayList<Spendings> = gson.fromJson(json, type) ?: ArrayList()
+    private fun getIncome(): List<Income> = incomeList
 
-        // Parse amounts correctly
-        spendingsList.forEach { spending ->
-            spending.amount = parseLocalizedDouble(spending.amount.toString())
-        }
-        return spendingsList
-    }
-
-    private fun getIncome(): ArrayList<Income> {
-        val sharedPref = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
-        val gson = Gson()
-        val json = sharedPref.getString("incomeList", null)
-        val type = object : TypeToken<ArrayList<Income>>() {}.type
-        val incomeList: ArrayList<Income> = gson.fromJson(json, type) ?: ArrayList()
-
-        // Parse amounts correctly
-        incomeList.forEach { income ->
-            income.amount = parseLocalizedDouble(income.amount.toString())
-        }
-        return incomeList
-    }
-
-    // Method to filter bills and income by the currently selected month
-    private fun getEntriesForCurrentMonth(): List<Any> {
-        val billsList = getBills()
-        val spendingsList = getSpendings()
-        val incomeList = getIncome()
-
-        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-        val selectedMonth = dateFormat.format(currentMonth.time)
-
-        val billsForMonth = billsList.filter { bill ->
-            val billDate = bill.date?.toDate()
-            billDate != null && dateFormat.format(billDate) == selectedMonth
-        }
-        val spendingsForMonth = spendingsList.filter { spending ->
-            val spendingDate = spending.date?.toDate()
-            spendingDate != null && dateFormat.format(spendingDate) == selectedMonth
-        }
-        val incomeForMonth = incomeList.filter { income ->
-            val incomeDate = income.date?.toDate()
-            incomeDate != null && dateFormat.format(incomeDate) == selectedMonth
-        }
-
-        // Combine lists
-        return billsForMonth + incomeForMonth + spendingsForMonth
-    }
-
-    // Method to calculate and set the total amount for the selected month
     private fun setAmountForMonth() {
         val dateFormat = SimpleDateFormat("MM-yyyy", Locale.getDefault())
         val currentMonthString = dateFormat.format(currentMonth.time)
@@ -401,83 +343,35 @@ class MainMenu : AppCompatActivity() {
         }
 
         // Calculate totals for bills, spendings, and income
-        val totalBills = billsForMonth.sumOf { it.amount }
+        val totalBills = billsForMonth.filter { !it.paid }.sumOf { it.amount }
         val totalSpendings = spendingsForMonth.sumOf { it.amount }
         val totalIncome = incomeForMonth.sumOf { it.amount }
 
         // Calculate actual monthly savings
         val actualMonthlySavings = totalIncome - totalBills - totalSpendings
 
-        // Debug logs for troubleshooting
-        Log.d("SavingsDebug", "Current Month: $currentMonthString")
-        Log.d("SavingsDebug", "Total Bills: $totalBills")
-        Log.d("SavingsDebug", "Total Spendings: $totalSpendings")
-        Log.d("SavingsDebug", "Total Income: $totalIncome")
-        Log.d("SavingsDebug", "Actual Monthly Savings: $actualMonthlySavings")
+        currentActualMonthlySavings = actualMonthlySavings
 
         // Calculate incoming bills (unpaid, in the future)
-        val currentDate = Date()
         val totalIncoming = billsForMonth.filter { bill ->
             val billDate = bill.date?.toDate()
-            billDate != null && billDate.after(currentDate) && !bill.paid
+            billDate != null && AppDateUtils.isTodayOrAfter(billDate) && !bill.paid
         }.sumOf { it.amount }
 
         // Calculate overdue bills (unpaid, in the past)
         val totalOverdue = billsForMonth.filter { bill ->
             val billDate = bill.date?.toDate()
-            billDate != null && billDate.before(currentDate) && !bill.paid
+            billDate != null && AppDateUtils.isBeforeToday(billDate) && !bill.paid
         }.sumOf { it.amount }
-
-        // Calculate totals for essential and non-essential spendings
-        val essentialCategories = listOf(
-            "Accommodation", "Communication", "Insurance", "Transportation",
-            "Finances/Fees", "Taxes", "Health", "Education", "Shopping & Consumption"
-        )
-        val essentialSubcategories = listOf(
-            "Rent", "Mortgage", "Home maintenance", "Utilities", "Repairs and renovations",
-            "Property management", "Home security",
-            "Mobile phone", "Landline phone", "Internet",
-            "Health insurance", "Life insurance", "Car insurance", "Home insurance",
-            "Disability insurance", "Business insurance",
-            "Fuel", "Vehicle maintenance", "Public transportation", "Tolls", "Car lease",
-            "Bank fees", "Loan interest", "Credit card fees", "Income tax", "Property tax",
-            "Sales tax", "Self-employment tax", "Capital gains tax", "VAT (Value Added Tax)",
-            "Doctor visits", "Dental care", "Prescription medications", "Medical equipment",
-            "Mental health services", "Vaccinations",
-            "Tuition fees", "Textbooks", "School supplies", "Professional development",
-            "Clothing", "Household goods", "Personal care products",
-            "Groceries - Basic Food", "Groceries - Household Necessities", "Groceries - Frozen Foods", "Groceries - Organic Products"
-        )
 
         val totalEssential = spendingsForMonth.filter { spending ->
-            val category = spending.category?.trim()?.lowercase() ?: "-"
-            val subcategory = spending.subcategory?.trim()?.lowercase() ?: "-"
-
-            category in essentialCategories.map { it.lowercase() } || subcategory in essentialSubcategories.map { it.lowercase() }
+            SpendingClassification.classify(spending.category, spending.subcategory) ==
+                    SpendingClassification.Type.ESSENTIAL
         }.sumOf { it.amount }
 
-
-        val nonEssentialCategories = listOf("Subscription and Memberships", "Others")
-        val nonEssentialSubcategories = listOf(
-            "Streaming services", "Movies", "Gym memberships", "Software subscriptions",
-            "Magazine/newspaper subscriptions", "Clubs and associations", "Music services",
-            "Cable/satellite TV", "Messaging services", "Cloud storage", "VPN services", "VOIP services",
-            "Investment fees", "Brokerage fees", "Financial advisor fees", "ATM withdrawal fees",
-            "Foreign transaction fees", "Travel insurance", "Pet insurance",
-            "Entertainment", "Dining out", "Hobbies", "Movies", "Vacation", "Gadgets",
-            "Luxury tax", "Health supplements", "Alternative medicine",
-            "Online courses", "Extracurricular activities", "Tutoring", "Educational software",
-            "Electronics", "Beauty & cosmetics", "Luxury goods", "Office supplies", "Gifts",
-            "Groceries - Beverages", "Groceries - Alcoholic Beverages", "Groceries - Snacks and Sweets", "Groceries - Luxury Foods",
-            "Miscellaneous", "Donations", "Gambling", "Unexpected expenses", "Legal fees",
-            "Lottery tickets", "Pet expenses", "Festivals & events"
-        )
-
         val totalNonEssential = spendingsForMonth.filter { spending ->
-            val category = spending.category?.trim()?.lowercase() ?: "-"
-            val subcategory = spending.subcategory?.trim()?.lowercase() ?: "-"
-
-            category in nonEssentialCategories.map { it.lowercase() } || subcategory in nonEssentialSubcategories.map { it.lowercase() }
+            SpendingClassification.classify(spending.category, spending.subcategory) ==
+                    SpendingClassification.Type.NON_ESSENTIAL
         }.sumOf { it.amount }
 
         // Calculate recurring and one-time income
@@ -485,16 +379,6 @@ class MainMenu : AppCompatActivity() {
         val totalOneTimeIncome = incomeForMonth.filter { income -> income.repeat == "No" }.sumOf { it.amount }
 
         // Calculate monthly savings target amount
-        val monthlyAmount = etMonthlySavingsMain.text.toString().toDoubleOrNull() ?: 0.0
-
-        // Update progress bar based on actual and target monthly savings
-        updateProgressBar(
-            findViewById(R.id.progressBarSavings),
-            findViewById(R.id.tvProgressPercentage),
-            monthlyAmount,
-            actualMonthlySavings
-        )
-
         // Update UI fields with calculated values
         etBillsAmount.setText(formatAmount(totalBills))
         etSpendingsAmount.setText(formatAmount(totalSpendings))
@@ -506,6 +390,12 @@ class MainMenu : AppCompatActivity() {
         etRecurringAmount.setText(formatAmount(totalRecurringIncome))
         etOneTimeAmount.setText(formatAmount(totalOneTimeIncome))
         etTotalAmount.setText(formatAmount(actualMonthlySavings))
+        etTotalAmount.setTextColor(
+            ContextCompat.getColor(
+                this,
+                if (actualMonthlySavings >= 0) R.color.positive_balance else R.color.negative_balance
+            )
+        )
     }
 
 
@@ -521,8 +411,7 @@ class MainMenu : AppCompatActivity() {
         btnPreviousMonth.setOnClickListener {
             currentMonth.add(Calendar.MONTH, -1)
             updateMonthDisplay(tvMonth)
-            setAmountForMonth()
-            loadSavingsTarget()
+            refreshDashboard()
 
 
         }
@@ -530,8 +419,7 @@ class MainMenu : AppCompatActivity() {
         btnNextMonth.setOnClickListener {
             currentMonth.add(Calendar.MONTH, 1)
             updateMonthDisplay(tvMonth)
-            setAmountForMonth()
-            loadSavingsTarget()
+            refreshDashboard()
 
         }
     }
@@ -542,43 +430,39 @@ class MainMenu : AppCompatActivity() {
     }
 
     private fun showCreateOptionsDialog() {
-        val options = arrayOf("Create an Open Payment", "Create a Closed Payment", "Create an Income", "Set a Saving Target")
+        val options = arrayOf(
+            getString(R.string.create_new_open_payment),
+            getString(R.string.create_new_closed_payment),
+            getString(R.string.create_new_income),
+            getString(R.string.set_savings_target)
+        )
 
         val builder = AlertDialog.Builder(this)
-        builder.setTitle("Select an option")
+        builder.setTitle(R.string.add_new_entry)
         builder.setItems(options) { _, which ->
             when (which) {
                 0 -> startActivity(Intent(this, createBill::class.java).apply {
-                    putExtra("USER_EMAIL", userEmail)
+                    putExtra(AuthUtils.EXTRA_USER_EMAIL, userEmail)
                 })
                 1 -> {
-                    val isPremiumUser = getSharedPreferences("AppPrefs", MODE_PRIVATE)
-                        .getBoolean("isPremiumUser", false)
-
-                    if (!isPremiumUser) {
+                    if (!PremiumAccess.isPremiumUser(this)) {
                         showUpgradeDialog()
                     } else {
                         startActivity(Intent(this, createSpending::class.java)
-                            .apply { putExtra("USER_EMAIL", userEmail) })
+                            .apply { putExtra(AuthUtils.EXTRA_USER_EMAIL, userEmail) })
                     }
                 }
                 2 -> {
-                    val isPremiumUser = getSharedPreferences("AppPrefs", MODE_PRIVATE)
-                        .getBoolean("isPremiumUser", false)
-
-                    if (!isPremiumUser) {
+                    if (!PremiumAccess.isPremiumUser(this)) {
                         showUpgradeDialog()
                     } else {
                         startActivity(Intent(this, createIncome::class.java).apply {
-                            putExtra("USER_EMAIL", userEmail)
+                            putExtra(AuthUtils.EXTRA_USER_EMAIL, userEmail)
                         })
                     }
                 }
                 3 -> {
-                    val isPremiumUser = getSharedPreferences("AppPrefs", MODE_PRIVATE)
-                        .getBoolean("isPremiumUser", false)
-
-                    if (!isPremiumUser) {
+                    if (!PremiumAccess.isPremiumUser(this)) {
                         showUpgradeDialog()
                     } else {
                         createSavings()
@@ -590,15 +474,7 @@ class MainMenu : AppCompatActivity() {
     }
 
     private fun showUpgradeDialog() {
-        AlertDialog.Builder(this)
-            .setTitle("Upgrade to Premium")
-            .setMessage("This feature is for premium users only. Upgrade now to unlock all features!")
-            .setPositiveButton("Upgrade") { _, _ ->
-                val intent = Intent(this, Premium::class.java)
-                startActivity(intent)
-            }
-            .setNegativeButton("Cancel", null)
-            .show()
+        PremiumUpgradeDialog.show(this, R.string.premium_upgrade_required, userEmail)
     }
 
     private fun validateMandatoryFields(
@@ -629,39 +505,6 @@ class MainMenu : AppCompatActivity() {
                 false
             }
             else -> true
-        }
-    }
-
-    private fun validateDateFields(): Boolean {
-        val startDateEditText = findViewById<EditText>(R.id.edtStartDateSavings)
-        val endDateEditText = findViewById<EditText>(R.id.edtEndDateSavings)
-
-        val startDate = getDateFromEditText(startDateEditText)
-        val endDate = getDateFromEditText(endDateEditText)
-
-        // Check if start and end dates are valid
-        return when {
-            startDate == null -> {
-                Toast.makeText(this, "Please select a valid start date", Toast.LENGTH_SHORT).show()
-                false
-            }
-            endDate == null -> {
-                Toast.makeText(this, "Please select a valid end date", Toast.LENGTH_SHORT).show()
-                false
-            }
-            !startDate.before(endDate) -> {
-                Toast.makeText(this, "Start date must be before the end date", Toast.LENGTH_SHORT).show()
-                false
-            }
-            else -> true
-        }
-    }
-    private fun parseLocalizedDouble(input: String): Double {
-        return try {
-            val numberFormat = NumberFormat.getInstance(Locale.getDefault())
-            numberFormat.parse(input)?.toDouble() ?: 0.0
-        } catch (e: Exception) {
-            0.0 // Return 0.0 if parsing fails
         }
     }
 
@@ -723,14 +566,16 @@ class MainMenu : AppCompatActivity() {
         NotificationsActivity.resetUnreadNotificationCount(this)
         updateUnreadCountBadge(badgeCountTextView) // Update the badge display immediately
     }
-    fun openSavingsDialog(view: View) {
-        // Check if there is an active savings target for the current month
+    private fun openSavingsTarget() {
+        if (!PremiumAccess.isPremiumUser(this)) {
+            showUpgradeDialog()
+            return
+        }
+
         currentSavingsTargetDocumentId?.let { documentId ->
-            // Pass the documentId to showSavingsDialog to view/edit the target
             showSavingsDialog(documentId)
         } ?: run {
-            // If no target exists for the current month, notify the user
-            Toast.makeText(this, "No savings target available to view or edit.", Toast.LENGTH_SHORT).show()
+            createSavings()
         }
     }
 
@@ -741,6 +586,7 @@ class MainMenu : AppCompatActivity() {
 
         val dialog = dialogBuilder.create()
         dialog.show()
+        styleSavingsDialogWindow(dialog)
 
         // Find views
         val targetAmountEditText = dialogView.findViewById<EditText>(R.id.edtTargetAmount)
@@ -750,16 +596,10 @@ class MainMenu : AppCompatActivity() {
         val targetNameSpinner = dialogView.findViewById<Spinner>(R.id.spinnerTargetName)
         val btnSaveTarget = dialogView.findViewById<Button>(R.id.btnSaveTargetSavings)
 
-        // Hide edit and delete options for new savings creation
-        dialogView.findViewById<ImageView>(R.id.imgEditTargetSavings).visibility = View.GONE
-        dialogView.findViewById<ImageView>(R.id.imgDeleteTargetSavings).visibility = View.GONE
+        dialogView.findViewById<View>(R.id.savingsDialogActions).visibility = View.GONE
 
         // Initialize Spinner Adapter
-        val targetNames = listOf(
-            "Vacation", "New Car", "Emergency Fund", "Home Down Payment",
-            "Car Purchase", "Education Fund", "Retirement", "Wedding",
-            "Investment", "No specific reason"
-        )
+        val targetNames = resources.getStringArray(R.array.savings_target_names).toList()
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, targetNames)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         targetNameSpinner.adapter = adapter
@@ -824,6 +664,7 @@ class MainMenu : AppCompatActivity() {
 
         val dialog = dialogBuilder.create()
         dialog.show()
+        styleSavingsDialogWindow(dialog)
 
         // Find views
         val targetAmountEditText = dialogView.findViewById<EditText>(R.id.edtTargetAmount)
@@ -832,21 +673,25 @@ class MainMenu : AppCompatActivity() {
         val monthlySavingsEditText = dialogView.findViewById<EditText>(R.id.edtMonthlySavings)
         val targetNameSpinner = dialogView.findViewById<Spinner>(R.id.spinnerTargetName)
         val btnSaveTarget = dialogView.findViewById<Button>(R.id.btnSaveTargetSavings)
-        val imgEditTargetSavings = dialogView.findViewById<ImageView>(R.id.imgEditTargetSavings)
-        val imgDeleteTargetSavings = dialogView.findViewById<ImageView>(R.id.imgDeleteTargetSavings)
+        val editTargetAction = dialogView.findViewById<View>(R.id.btnEditTargetSavingsAction)
+        val deleteTargetAction = dialogView.findViewById<View>(R.id.btnDeleteTargetSavingsAction)
+        val savingsDialogActions = dialogView.findViewById<View>(R.id.savingsDialogActions)
 
         // Initialize Spinner Adapter
-        val targetNames = listOf(
-            "Vacation", "New Car", "Emergency Fund", "Home Down Payment",
-            "Car Purchase", "Education Fund", "Retirement", "Wedding",
-            "Investment", "No specific reason"
-        )
+        val targetNames = resources.getStringArray(R.array.savings_target_names).toList()
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, targetNames)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         targetNameSpinner.adapter = adapter
 
+        val uid = userUid
+        if (uid == null) {
+            Toast.makeText(this, "User not logged in.", Toast.LENGTH_SHORT).show()
+            dialog.dismiss()
+            return
+        }
+
         // Fetch and populate data from Firestore
-        db.collection("users").document(userUid!!)
+        db.collection("users").document(uid)
             .collection("savings_targets")
             .document(documentId)
             .get()
@@ -873,12 +718,13 @@ class MainMenu : AppCompatActivity() {
             }
 
         // Enable fields for editing
-        imgEditTargetSavings.setOnClickListener {
+        editTargetAction.setOnClickListener {
             targetAmountEditText.isEnabled = true
             startDateEditText.isEnabled = true
             endDateEditText.isEnabled = true
             targetNameSpinner.isEnabled = true
             btnSaveTarget.visibility = View.VISIBLE
+            savingsDialogActions.visibility = View.GONE
 
             // Add TextWatcher to dynamically update monthly savings
             targetAmountEditText.addTextChangedListener(object : TextWatcher {
@@ -907,8 +753,15 @@ class MainMenu : AppCompatActivity() {
         }
 
         // Delete savings target
-        imgDeleteTargetSavings.setOnClickListener {
-            deleteSavingsTarget(dialog, documentId)
+        deleteTargetAction.setOnClickListener {
+            AlertDialog.Builder(this)
+                .setTitle(R.string.delete_target)
+                .setMessage(R.string.delete_savings_target_confirmation)
+                .setNegativeButton(R.string.cancel, null)
+                .setPositiveButton(R.string.delete) { _, _ ->
+                    deleteSavingsTarget(dialog, documentId)
+                }
+                .show()
         }
 
         // Save button logic
@@ -1026,11 +879,12 @@ class MainMenu : AppCompatActivity() {
 
                 // Check for overlapping savings targets
                 val isOverlap = documents.any { document ->
-                    val existingStartMonth = document.getString("startMonth").orEmpty()
-                    val existingEndMonth = document.getString("endMonth").orEmpty()
-
-                    isWithinDateRange(startMonth, endMonth, existingStartMonth) ||
-                            isWithinDateRange(startMonth, endMonth, existingEndMonth)
+                    rangesOverlap(
+                        startMonth,
+                        endMonth,
+                        document.getString("startMonth"),
+                        document.getString("endMonth")
+                    )
                 }
 
                 if (isOverlap) {
@@ -1079,8 +933,9 @@ class MainMenu : AppCompatActivity() {
 
                         // Check if the savings target is 100% achieved - 27.01
                         isSavingsTargetAchieved(docRef.id) { isAchieved ->
-                            if (isAchieved) {
+                            if (isAchieved && !hasSavingsDialogBeenShown(docRef.id)) {
                                 showSavingsCompleteDialog()
+                                markSavingsDialogAsShown(docRef.id)
                             }
                         }
                     }
@@ -1138,24 +993,13 @@ class MainMenu : AppCompatActivity() {
                     }.sumOf { it.amount }
 
                     val billsWithinPeriod = getBills().filter { bill ->
-                        bill.date?.toDate()?.let { it >= startDate && it <= endDate } == true
+                        !bill.paid &&
+                                bill.date?.toDate()?.let { it >= startDate && it <= endDate } == true
                     }.sumOf { it.amount }
 
                     // Cumulative savings within the time period
                     val currentSavingsAmount = incomeWithinPeriod - spendingsWithinPeriod - billsWithinPeriod
 
-                    // Debug logs
-                    Log.d("SavingsDebug", "Target Amount: $targetAmount")
-                    Log.d("SavingsDebug", "Income within period: $incomeWithinPeriod")
-                    Log.d("SavingsDebug", "Spendings within period: $spendingsWithinPeriod")
-                    Log.d("SavingsDebug", "Bills within period: $billsWithinPeriod")
-                    Log.d("SavingsDebug", "Current Savings Amount: $currentSavingsAmount")
-
-                    // Check if the savings target is achieved
-                    if (currentSavingsAmount >= targetAmount && !hasSavingsDialogBeenShown(documentId)) {
-                        showSavingsCompleteDialog()
-                        markSavingsDialogAsShown(documentId)
-                    }
                     onCompletion(currentSavingsAmount >= targetAmount)
                 } else {
                     Toast.makeText(this, "Savings target not found.", Toast.LENGTH_SHORT).show()
@@ -1170,14 +1014,14 @@ class MainMenu : AppCompatActivity() {
 
     // Function to show the savings complete dialog - 09.01
     private fun showSavingsCompleteDialog() {
-        val dialog = AlertDialog.Builder(this)
-            .setTitle("Congratulations!")
-            .setMessage("You have reached 100% of your saving target.")
-            .setPositiveButton("OK") { dialog, _ ->
-                dialog.dismiss()
-            }
-            .create()
+        val dialog = Dialog(this)
+        dialog.setContentView(R.layout.dialog_savings_complete)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.findViewById<Button>(R.id.btnCloseSavingsComplete).setOnClickListener {
+            dialog.dismiss()
+        }
         dialog.show()
+        styleSavingsDialogWindow(dialog)
     }
 
     // Method to load and display the savings target for the current month
@@ -1188,12 +1032,6 @@ class MainMenu : AppCompatActivity() {
         val tvTargetAchieved = findViewById<TextView>(R.id.tvTargetAchieved)
         val progressBarSavings = findViewById<LinearProgressIndicator>(R.id.progressBarSavings)
         val tvProgressPercentage = findViewById<TextView>(R.id.tvProgressPercentage)
-
-        // Call setAmountForMonth to calculate totals, including actualMonthlySavings
-        setAmountForMonth()
-
-        // Get actualMonthlySavings from the EditText after calculations
-        val actualMonthlySavings = etTotalAmount.text.toString().replace("[^\\d.-]".toRegex(), "").toDoubleOrNull() ?: 0.0
 
         if (userUid != null) {
             db.collection("users").document(userUid)
@@ -1212,22 +1050,20 @@ class MainMenu : AppCompatActivity() {
                     if (document == null) {
                         // No active savings target
                         etMonthlySavingsMain.text = formatAmount(0.0)
-                        findViewById<TextView>(R.id.tvSetSavingTarget).text = "Saving Target"
+                        etMonthlySavingsMain.visibility = View.GONE
+                        findViewById<TextView>(R.id.tvSetSavingTarget).text = getString(R.string.set_savings_target)
                         currentSavingsTargetDocumentId = null
-                        updateProgressBar(progressBarSavings, tvProgressPercentage, 0.0, actualMonthlySavings)
+                        updateProgressBar(progressBarSavings, tvProgressPercentage, 0.0, currentActualMonthlySavings)
                         tvTargetAchieved.visibility = View.GONE
                         tvProgressPercentage.visibility = View.GONE
                         progressBarSavings.visibility = View.GONE
-                        // Reset flag since no target exists for this month
-                        checkedSavingsTargetForMonth = false
                     } else {
                         val targetName = document.getString("targetName") ?: "Unnamed Target"
                         val monthlyAmount = document.getDouble("monthlySavings") ?: 0.0
 
-                        Log.d("ProgressBarData", "monthlyAmount: $monthlyAmount, actualMonthlySavings: $actualMonthlySavings")
-
-                        updateProgressBar(progressBarSavings, tvProgressPercentage, monthlyAmount, actualMonthlySavings)
+                        updateProgressBar(progressBarSavings, tvProgressPercentage, monthlyAmount, currentActualMonthlySavings)
                         etMonthlySavingsMain.text = formatAmount(monthlyAmount)
+                        etMonthlySavingsMain.visibility = View.VISIBLE
                         findViewById<TextView>(R.id.tvSetSavingTarget).text = targetName
                         currentSavingsTargetDocumentId = document.id
 
@@ -1241,12 +1077,13 @@ class MainMenu : AppCompatActivity() {
                             progressBarSavings.visibility = View.GONE
                         }
                         // Only check if the savings target is achieved for the first time this month
-                        if (!isSavingsTargetCheckedForMonth()) {
+                        if (!isSavingsTargetCheckedForMonth(document.id)) {
                             isSavingsTargetAchieved(document.id) { isAchieved ->
-                                if (isAchieved) {
+                                if (isAchieved && !hasSavingsDialogBeenShown(document.id)) {
                                     showSavingsCompleteDialog()
+                                    markSavingsDialogAsShown(document.id)
                                 }
-                                markSavingsTargetCheckedForMonth() // Persist the checked state
+                                markSavingsTargetCheckedForMonth(document.id)
                             }
                         }
                     }
@@ -1254,8 +1091,9 @@ class MainMenu : AppCompatActivity() {
                 .addOnFailureListener { e ->
                     Toast.makeText(this, "Error loading savings target: ${e.message}", Toast.LENGTH_SHORT).show()
                     etMonthlySavingsMain.text = "0.00"
-                    findViewById<TextView>(R.id.tvSetSavingTarget).text = "Set Saving Target"
-                    updateProgressBar(progressBarSavings, tvProgressPercentage, 0.0, actualMonthlySavings)
+                    etMonthlySavingsMain.visibility = View.GONE
+                    findViewById<TextView>(R.id.tvSetSavingTarget).text = getString(R.string.set_savings_target)
+                    updateProgressBar(progressBarSavings, tvProgressPercentage, 0.0, currentActualMonthlySavings)
                     tvTargetAchieved.visibility = View.GONE
                     tvProgressPercentage.visibility = View.GONE
                     progressBarSavings.visibility = View.GONE
@@ -1263,8 +1101,9 @@ class MainMenu : AppCompatActivity() {
         } else {
             Toast.makeText(this, "User not logged in.", Toast.LENGTH_SHORT).show()
             etMonthlySavingsMain.text = "0.00"
-            findViewById<TextView>(R.id.tvSetSavingTarget).text = "Set Saving Target"
-            updateProgressBar(progressBarSavings, tvProgressPercentage, 0.0, actualMonthlySavings)
+            etMonthlySavingsMain.visibility = View.GONE
+            findViewById<TextView>(R.id.tvSetSavingTarget).text = getString(R.string.set_savings_target)
+            updateProgressBar(progressBarSavings, tvProgressPercentage, 0.0, currentActualMonthlySavings)
             tvTargetAchieved.visibility = View.GONE
             tvProgressPercentage.visibility = View.GONE
             progressBarSavings.visibility = View.GONE
@@ -1278,6 +1117,7 @@ class MainMenu : AppCompatActivity() {
         monthlySavings: Double, // pre-calculated monthly savings
         savingsId: String
     ) {
+        val uid = userUid ?: return
         val startCalendar = Calendar.getInstance()
         startCalendar.time = startDate
 
@@ -1296,7 +1136,7 @@ class MainMenu : AppCompatActivity() {
 
 
             // Save monthly savings data for each month within the target period
-            db.collection("users").document(userUid!!).collection("savings_targets")
+            db.collection("users").document(uid).collection("savings_targets")
                 .document(savingsId).collection("monthly_savings").document(monthString)
                 .set(
                     hashMapOf(
@@ -1306,9 +1146,6 @@ class MainMenu : AppCompatActivity() {
                         "savingsId" to savingsId
                     )
                 )
-                .addOnSuccessListener {
-                    Toast.makeText(this, "Monthly savings saved for $monthString", Toast.LENGTH_SHORT).show()
-                }
                 .addOnFailureListener { e ->
                     Toast.makeText(this, "Error saving monthly savings: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
@@ -1342,14 +1179,15 @@ class MainMenu : AppCompatActivity() {
                 .addOnSuccessListener { documents ->
                     // Check for overlapping savings targets, excluding the current one being edited
                     val isOverlap = documents.any { document ->
-                        val existingStartMonth = document.getString("startMonth")
-                        val existingEndMonth = document.getString("endMonth")
                         val existingDocumentId = document.id
 
                         existingDocumentId != documentId &&
-                                listOfNotNull(existingStartMonth, existingEndMonth).any {
-                                    isWithinDateRange(startMonth, endMonth, it)
-                                }
+                                rangesOverlap(
+                                    startMonth,
+                                    endMonth,
+                                    document.getString("startMonth"),
+                                    document.getString("endMonth")
+                                )
                     }
 
                     if (isOverlap) {
@@ -1466,14 +1304,34 @@ class MainMenu : AppCompatActivity() {
         }
     }
 
-    // Helper function to check if a month is within a start and end month range
-    private fun isWithinDateRange(startMonth: String, endMonth: String, currentMonth: String): Boolean {
-        val dateFormat = SimpleDateFormat("MM-yyyy", Locale.getDefault())
-        val start = dateFormat.parse(startMonth)
-        val end = dateFormat.parse(endMonth)
-        val current = dateFormat.parse(currentMonth)
+    private fun rangesOverlap(
+        startMonth: String,
+        endMonth: String,
+        existingStartMonth: String?,
+        existingEndMonth: String?
+    ): Boolean {
+        if (existingStartMonth.isNullOrBlank() || existingEndMonth.isNullOrBlank()) {
+            return false
+        }
 
-        return current in start..end
+        val dateFormat = SimpleDateFormat("MM-yyyy", Locale.getDefault())
+        val start = dateFormat.parse(startMonth) ?: return false
+        val end = dateFormat.parse(endMonth) ?: return false
+        val existingStart = dateFormat.parse(existingStartMonth) ?: return false
+        val existingEnd = dateFormat.parse(existingEndMonth) ?: return false
+
+        return !start.after(existingEnd) && !end.before(existingStart)
+    }
+
+    private fun styleSavingsDialogWindow(dialog: Dialog) {
+        val width = (resources.displayMetrics.widthPixels * 0.92f).toInt()
+        val maximumHeight = (resources.displayMetrics.heightPixels * 0.90f).toInt()
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.window?.setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT)
+        dialog.window?.decorView?.post {
+            val measuredHeight = dialog.window?.decorView?.measuredHeight ?: return@post
+            dialog.window?.setLayout(width, minOf(measuredHeight, maximumHeight))
+        }
     }
     // this method helps to manage SharedPreferences for shown achieved savings dialogs
     private fun hasSavingsDialogBeenShown(documentId: String): Boolean {
@@ -1488,14 +1346,20 @@ class MainMenu : AppCompatActivity() {
         shownDialogs.add(documentId)
         sharedPrefs.edit().putStringSet("shownSavingsDialogs", shownDialogs).apply()
     }
-    private fun isSavingsTargetCheckedForMonth(): Boolean {
-        val sharedPrefs = getSharedPreferences("SmartStackBillsPrefs", MODE_PRIVATE)
-        return sharedPrefs.getBoolean("checkedSavingsTargetForMonth", false)
+    private fun savingsTargetCheckedKey(documentId: String): String {
+        val uid = userUid ?: "unknown"
+        val month = SimpleDateFormat("MM-yyyy", Locale.getDefault()).format(currentMonth.time)
+        return "checkedSavingsTarget_${uid}_${documentId}_$month"
     }
 
-    private fun markSavingsTargetCheckedForMonth() {
+    private fun isSavingsTargetCheckedForMonth(documentId: String): Boolean {
         val sharedPrefs = getSharedPreferences("SmartStackBillsPrefs", MODE_PRIVATE)
-        sharedPrefs.edit().putBoolean("checkedSavingsTargetForMonth", true).apply()
+        return sharedPrefs.getBoolean(savingsTargetCheckedKey(documentId), false)
+    }
+
+    private fun markSavingsTargetCheckedForMonth(documentId: String) {
+        val sharedPrefs = getSharedPreferences("SmartStackBillsPrefs", MODE_PRIVATE)
+        sharedPrefs.edit().putBoolean(savingsTargetCheckedKey(documentId), true).apply()
     }
 
 

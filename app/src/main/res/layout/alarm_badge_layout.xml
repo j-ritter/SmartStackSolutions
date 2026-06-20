@@ -1,28 +1,32 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="end">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="48dp"
+    android:layout_height="48dp"
+    android:layout_gravity="end"
+    android:background="?attr/selectableItemBackgroundBorderless"
+    android:contentDescription="@string/notifications"
+    android:padding="12dp">
 
-    <!-- Alarm Icon -->
     <ImageView
         android:id="@+id/alarm_icon"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:src="@drawable/ic_alarm"
-        android:layout_gravity="end|center_vertical"/>
+        android:layout_gravity="center"
+        android:src="@drawable/ic_notifications_bell"
+        app:tint="@color/colorSecondary" />
 
-    <!-- Badge Count -->
     <TextView
         android:id="@+id/badge_count"
-        android:layout_width="18dp"
-        android:layout_height="18dp"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_gravity="end|top"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="6dp"
         android:background="@drawable/badge_background"
+        android:gravity="center"
+        android:includeFontPadding="false"
         android:textColor="@android:color/white"
         android:textSize="10sp"
-        android:gravity="center"
-        android:layout_gravity="end|top"
-        android:layout_marginEnd="-6dp"
-        android:layout_marginTop="-3dp"
-        android:padding="1dp"
+        android:textStyle="bold"
         android:visibility="gone" />
 </FrameLayout>

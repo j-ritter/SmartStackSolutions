@@ -1,11 +1,9 @@
 package com.ritter.smartstackbills
 
 import android.app.Dialog
-import android.content.BroadcastReceiver
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -14,27 +12,23 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import android.content.Context
-import android.content.IntentFilter
 import android.view.Menu
 import android.widget.TextView
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
-import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -53,17 +47,16 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
     private var selectedBill: Bills? = null
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var btnCloseDialog: Button
-    private lateinit var requestDisplayPermissionLauncher: ActivityResultLauncher<String>
-    private var pendingBillForDialog: Bills? = null
-    private var pendingDialogImageView: ImageView? = null
-    private var pendingDialogDetailsLayout: View? = null
-
-    private val billsReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
-            // This will be triggered when the broadcast is received
-            refreshBillsList()
-        }
-    }
+    private var activeFilter: String = "all"
+    private var pendingBillIdFromNotification: String? = null
+    private var dataLoaded = false
+    private val emptyStateConfig = EmptyStateConfig(
+        preferenceKey = "open_payments_tutorial_shown",
+        imageRes = R.drawable.image_openpayments,
+        titleRes = R.string.empty_open_payments_title,
+        messageRes = R.string.empty_open_payments_message,
+        addActionRes = R.string.add_open_payment
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,11 +64,16 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
         setContentView(R.layout.activity_my_bills)
 
         drawerLayout = findViewById(R.id.drawer_layout_bills)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.mainBills)) { view, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            view.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
 
         recyclerView = findViewById(R.id.recyclerViewBills)
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        userEmail = intent.getStringExtra("USER_EMAIL")
+        userEmail = intent.getStringExtra(AuthUtils.EXTRA_USER_EMAIL) ?: AuthUtils.currentUserEmail()
 
         billsArrayList = ArrayList()
         allBillsArrayList = ArrayList() // Inicializamos la lista para todas las facturas
@@ -83,40 +81,10 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
         recyclerView.adapter = myAdapter
 
         fab = findViewById(R.id.fabBills)
-        fab.setOnClickListener {
-            val intent = Intent(this, createBill::class.java)
-            intent.putExtra("USER_EMAIL", userEmail)
-            startActivity(intent)
-        }
-        registerReceiver(billsReceiver, IntentFilter("com.example.smartstackbills.REFRESH_BILLS"))
-
-        requestDisplayPermissionLauncher =
-            registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
-                if (isGranted) {
-                    pendingBillForDialog?.let { bill ->
-                        pendingDialogImageView?.let { imageView ->
-                            loadImageIntoView(bill.attachment, imageView, pendingDialogDetailsLayout)
-                        }
-                    }
-                } else {
-                    Toast.makeText(this, "Storage permission denied. Cannot display image.", Toast.LENGTH_SHORT).show()
-                    // Hide image view or show placeholder if permission is denied
-                    pendingDialogImageView?.visibility = View.GONE
-                    pendingDialogDetailsLayout?.visibility = View.VISIBLE // Show other details
-                }
-                // Clear pending items
-                pendingBillForDialog = null
-                pendingDialogImageView = null
-                pendingDialogDetailsLayout = null
-            }
+        fab.setOnClickListener { openCreateBill() }
 
         // Extract the billId passed from NotificationsActivity
-        val billIdFromNotification = intent.getStringExtra("BILL_ID")
-
-        // If billId is not null, find the bill and show its details
-        if (billIdFromNotification != null) {
-            findAndShowBillById(billIdFromNotification)
-        }
+        pendingBillIdFromNotification = intent.getStringExtra("BILL_ID")
 
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationViewBills)
         bottomNavigationView.selectedItemId = R.id.Bills
@@ -124,7 +92,7 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
             when (item.itemId) {
                 R.id.Main -> {
                     val intent = Intent(this, MainMenu::class.java)
-                    intent.putExtra("USER_EMAIL", userEmail) // Pasar el correo electrónico
+                    intent.putExtra(AuthUtils.EXTRA_USER_EMAIL, userEmail)
                     startActivity(intent)
                     true
                 }
@@ -133,19 +101,19 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
                 }
                 R.id.Spendings -> {
                     val intent = Intent(this, MySpendings::class.java)
-                    intent.putExtra("USER_EMAIL", userEmail) // Pasar el correo electrónico
+                    intent.putExtra(AuthUtils.EXTRA_USER_EMAIL, userEmail)
                     startActivity(intent)
                     true
                 }
                 R.id.Income -> {  // New navigation option for Income
                     val intent = Intent(this, MyIncome::class.java)
-                    intent.putExtra("USER_EMAIL", userEmail)
+                    intent.putExtra(AuthUtils.EXTRA_USER_EMAIL, userEmail)
                     startActivity(intent)
                     true
                 }
                 R.id.Calendar -> {
                     val intent = Intent(this, CalendarActivity::class.java)
-                    intent.putExtra("USER_EMAIL", userEmail)
+                    intent.putExtra(AuthUtils.EXTRA_USER_EMAIL, userEmail)
                     startActivity(intent)
                     true
                 }
@@ -159,47 +127,7 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
             drawerLayout.openDrawer(GravityCompat.START)
         }
 
-        // Setup NavigationView
-        val navView: NavigationView = findViewById(R.id.nav_viewBills)
-        navView.setNavigationItemSelectedListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.nav_item_premium -> {
-                    val intent = Intent(this, Premium::class.java)
-                    startActivity(intent)
-                    true
-                }
-                R.id.nav_item_aboutus -> {
-                    val intent = Intent(this, AboutUs::class.java)
-                    startActivity(intent)
-                    true
-                }
-                R.id.nav_item_faq -> {
-                    val intent = Intent(this, FAQs::class.java)
-                    startActivity(intent)
-                    true
-                }
-                R.id.nav_item_datasec -> {
-                    val intent = Intent(this, Datasecurity::class.java)
-                    startActivity(intent)
-                    true
-                }
-                R.id.nav_item_help -> {
-                    val intent = Intent(this, Help::class.java)
-                    startActivity(intent)
-                    true
-                }
-                R.id.nav_item_terms -> {
-                    val intent = Intent(this, Terms::class.java)
-                    startActivity(intent)
-                    true
-                }
-                R.id.nav_item_logout -> {
-                    logoutUser()
-                    true
-                }
-                else -> false
-            }
-        }
+        DrawerNavigation.setup(this, drawerLayout, findViewById(R.id.nav_viewBills))
 
         db = FirebaseFirestore.getInstance()
         setupDialog()
@@ -211,23 +139,6 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
         findViewById<Button>(R.id.btnRecurring).setOnClickListener { filterBills("recurring") }
         findViewById<Button>(R.id.btnAllBills).setOnClickListener { filterBills("all") }
     }
-    private fun loadBills(): ArrayList<Bills> {
-        val sharedPref = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
-        val gson = Gson()
-        val json = sharedPref.getString("billsList", null)
-        val type = object : TypeToken<ArrayList<Bills>>() {}.type
-        return gson.fromJson(json, type) ?: ArrayList()
-    }
-
-    private fun saveBills() {
-        val sharedPref = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
-        val editor = sharedPref.edit()
-        val gson = Gson()
-        val json = gson.toJson(billsArrayList)
-        editor.putString("billsList", json)
-        editor.apply()
-    }
-
     private fun setupDialog() {
         dialog = Dialog(this)
         dialog.setContentView(R.layout.dialog_box_bill)
@@ -267,51 +178,63 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
                 .addSnapshotListener { snapshots, e ->
                     if (e != null) {
                         Toast.makeText(this, "Error loading bills: ${e.message}", Toast.LENGTH_SHORT).show()
-                        Log.e("Firestore Error", e.message.toString())
                         return@addSnapshotListener
                     }
 
                     if (snapshots != null) {
+                        dataLoaded = true
                         billsArrayList.clear()
                         allBillsArrayList.clear() // Limpiamos la lista de todas las facturas
                         for (document in snapshots.documents) {
                             val bill = document.toObject(Bills::class.java)
                             if (bill != null) {
+                                repairLegacyBill(userUid, document.id, bill)
+                                PaymentNotificationScheduler.scheduleBill(this, userUid, bill)
                                 billsArrayList.add(bill)
                                 allBillsArrayList.add(bill) // Añadimos a la lista de todas las facturas
-                                Log.d("Firestore Data", "'Open Payment' added: ${bill.name}, ${bill.date}, ${bill.paid}")
                             }
                         }
-                        saveBills()
-                        myAdapter.updateBills(billsArrayList)
+                        filterBills(activeFilter)
+                        if (allBillsArrayList.none { !it.paid }) {
+                            EmptyStateTutorial.showFirstTimeIfNeeded(
+                                this,
+                                emptyStateConfig,
+                                hasPremiumAccess = PremiumAccess.isPremiumUser(this),
+                                onAdd = ::openCreateBill,
+                                onPremium = ::openCreateBill
+                            )
+                        }
+                        pendingBillIdFromNotification?.let { billId ->
+                            pendingBillIdFromNotification = null
+                            findAndShowBillById(billId)
+                        }
                     } else {
-                        Log.d("Firestore Data", "No 'Open Payments' found")
                     }
                 }
         } else {
             Toast.makeText(this, "Error: User not authenticated", Toast.LENGTH_SHORT).show()
-            Log.e("Authentication Error", "User not authenticated")
         }
     }
-    private fun refreshBillsList() {
-        val userUid = FirebaseAuth.getInstance().currentUser?.uid
-        if (userUid != null) {
-            db.collection("users").document(userUid).collection("bills")
-                .get()
-                .addOnSuccessListener { documents ->
-                    billsArrayList.clear()
-                    allBillsArrayList.clear()
-                    for (document in documents) {
-                        val bill = document.toObject(Bills::class.java)
-                        billsArrayList.add(bill)
-                        allBillsArrayList.add(bill)
-                    }
-                    // Notify the adapter of the updated data
-                    myAdapter.updateBills(billsArrayList)
-                }
-                .addOnFailureListener { e ->
-                    Toast.makeText(this, "Error loading spendings: ${e.message}", Toast.LENGTH_SHORT).show()
-                }
+    private fun repairLegacyBill(userUid: String, documentId: String, bill: Bills) {
+        val updates = mutableMapOf<String, Any>()
+
+        if (bill.billId.isNullOrBlank()) {
+            bill.billId = documentId
+            updates["billId"] = documentId
+        }
+        if (bill.subcategory == null) {
+            bill.subcategory = "-"
+            updates["subcategory"] = "-"
+        }
+        if (bill.parentBillId.isNullOrBlank()) {
+            bill.parentBillId = documentId
+            updates["parentBillId"] = documentId
+        }
+        if (updates.isNotEmpty()) {
+            db.collection("users").document(userUid)
+                .collection("bills")
+                .document(documentId)
+                .update(updates)
         }
     }
 
@@ -360,7 +283,6 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
         val edtCommentDialog = dialog.findViewById<EditText>(R.id.edtCommentDialog)
         val edtAttachmentDialog = dialog.findViewById<ImageView>(R.id.edtAttachmentDialog)
         val attachmentUri = bill.attachment
-        val billAttachmentImageView = dialog.findViewById<ImageView>(R.id.edtAttachmentDialog)
         val btnSaveChanges = dialog.findViewById<Button>(R.id.btnSaveChanges)
         val btnEditChanges = dialog.findViewById<ImageView>(R.id.imgEditBill)
 
@@ -368,45 +290,32 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         val billDateString = if (bill.date != null) dateFormat.format(bill.date.toDate()) else ""
 
+        if (attachmentUri != null) {
+            edtAttachmentDialog.setImageURI(Uri.parse(attachmentUri))
+            edtAttachmentDialog.visibility = View.VISIBLE
+        } else {
+            edtAttachmentDialog.visibility = View.GONE
+        }
+        dialog.show()
+
         edtTitleDialog.setText(bill.name)
         edtAmountDialog.setText(String.format(Locale.getDefault(), "%.2f", bill.amount))
+        edtAmountDialog.setTextColor(
+            ContextCompat.getColor(
+                this,
+                if (bill.date != null && AppDateUtils.isBeforeToday(bill.date.toDate()) && !bill.paid) {
+                    R.color.red
+                } else {
+                    R.color.bill_color
+                }
+            )
+        )
         edtCategoryDialog.setText(if (bill.category != "-") bill.category else "")
         edtSubcategoryDialog.setText(if (bill.subcategory != "-") bill.subcategory else "")
         edtVendorDialog.setText(if (bill.vendor != "-") bill.vendor else "")
         edtRepeatDialog.setText(bill.repeat)
         edtDateDialog.setText(billDateString)
         edtCommentDialog.setText(bill.comment)
-
-        val attachmentUriString = bill.attachment
-        billAttachmentImageView.visibility = View.GONE // Hide image view initially
-
-        if (!attachmentUriString.isNullOrEmpty()) {
-            val permissionToRequest = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
-                android.Manifest.permission.READ_MEDIA_IMAGES
-            } else {
-                android.Manifest.permission.READ_EXTERNAL_STORAGE
-            }
-
-            if (ContextCompat.checkSelfPermission(this, permissionToRequest) == android.content.pm.PackageManager.PERMISSION_GRANTED) {
-                // Permission is already granted, load the image directly
-                loadImageIntoView(attachmentUriString, billAttachmentImageView, null /*pendingDialogDetailsLayout not needed here*/)
-            } else {
-                // Permission is not granted, request it.
-                // Store the bill and ImageView to use in the permission result callback.
-                pendingBillForDialog = bill
-                pendingDialogImageView = billAttachmentImageView
-                // pendingDialogDetailsLayout = null; // Or pass a relevant layout if needed by loadImageIntoView's callback part
-
-                // You can add a rationale here if needed:
-                // if (shouldShowRequestPermissionRationale(permissionToRequest)) { ... }
-
-                requestDisplayPermissionLauncher.launch(permissionToRequest)
-                // The image will be loaded by the launcher's callback if permission is granted.
-                // If denied, the launcher's callback already shows a Toast.
-            }
-        }
-
-        dialog.show()
 
         // Initially disable fields
         edtTitleDialog.isEnabled = false
@@ -428,23 +337,25 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
 
         btnSaveChanges.setOnClickListener {
             val userUid = FirebaseAuth.getInstance().currentUser?.uid
-            if (userUid != null && selectedBill != null) {
+            val bill = selectedBill
+            if (userUid != null && bill != null) {
                 // Update the bill object with new values
-                selectedBill?.name = edtTitleDialog.text.toString()
-                selectedBill?.amount = edtAmountDialog.text.toString().toDoubleOrNull() ?: 0.0
-                selectedBill?.comment = edtCommentDialog.text.toString()
+                bill.name = edtTitleDialog.text.toString()
+                bill.amount = edtAmountDialog.text.toString().toDoubleOrNull() ?: 0.0
+                bill.comment = edtCommentDialog.text.toString()
 
                 btnSaveChanges.visibility = View.VISIBLE
 
                 // Save the updated bill to Firebase
                 db.collection("users").document(userUid).collection("bills")
-                    .document(selectedBill!!.billId)
-                    .set(selectedBill!!)
+                    .document(bill.billId)
+                    .set(bill)
                     .addOnSuccessListener {
+                        PaymentNotificationScheduler.scheduleBill(this, userUid, bill, forceReplace = true)
                         // Update the local list
-                        val index = billsArrayList.indexOfFirst { it.billId == selectedBill?.billId }
+                        val index = billsArrayList.indexOfFirst { it.billId == bill.billId }
                         if (index != -1) {
-                            billsArrayList[index] = selectedBill!!
+                            billsArrayList[index] = bill
                             myAdapter.notifyItemChanged(index)
                         }
                         Toast.makeText(this, "'Open Payment' updated successfully", Toast.LENGTH_SHORT).show()
@@ -460,30 +371,100 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
         }}
 
     private fun deleteBill() {
-        selectedBill?.let { bill ->
-            val userUid = FirebaseAuth.getInstance().currentUser?.uid
-            if (userUid != null) {
-                db.collection("users").document(userUid).collection("bills")
-                    .document(bill.billId)
-                    .delete()
-                    .addOnSuccessListener {
-                        Toast.makeText(this, "'Open Payment' deleted successfully", Toast.LENGTH_SHORT).show()
-                        dialog.dismiss()
+        val bill = selectedBill ?: return
+        if (!bill.repeat.isNullOrBlank() && bill.repeat != "No") {
+            AlertDialog.Builder(this)
+                .setTitle(R.string.delete_recurring_payment)
+                .setItems(
+                    arrayOf(
+                        getString(R.string.delete_this_occurrence),
+                        getString(R.string.delete_this_and_future)
+                    )
+                ) { _, choice ->
+                    if (choice == 0) {
+                        deleteSingleBill(bill)
+                    } else {
+                        deleteCurrentAndFutureBills(bill)
                     }
-                    .addOnFailureListener {
-                        Toast.makeText(this, "Failed to delete 'Open Payment'", Toast.LENGTH_SHORT).show()
-                    }
-            } else {
-                Toast.makeText(this, "Error: User not authenticated", Toast.LENGTH_SHORT).show()
-            }
+                }
+                .setNegativeButton(R.string.cancel, null)
+                .show()
+        } else {
+            AlertDialog.Builder(this)
+                .setTitle(R.string.delete_open_payment)
+                .setMessage(R.string.delete_open_payment_confirmation)
+                .setNegativeButton(R.string.cancel, null)
+                .setPositiveButton(R.string.delete) { _, _ -> deleteSingleBill(bill) }
+                .show()
         }
     }
 
-    private fun filterBills(filter: String) {
-        val filteredBills = ArrayList<Bills>()
-        val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-        val currentDate = Calendar.getInstance().time
+    private fun deleteSingleBill(bill: Bills) {
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return
+        db.collection("users").document(uid).collection("bills")
+            .document(bill.billId)
+            .delete()
+            .addOnSuccessListener {
+                PaymentNotificationScheduler.cancelBill(this, bill.billId)
+                Toast.makeText(this, R.string.open_payment_deleted, Toast.LENGTH_SHORT).show()
+                dialog.dismiss()
+            }
+            .addOnFailureListener {
+                Toast.makeText(this, R.string.open_payment_delete_failed, Toast.LENGTH_SHORT).show()
+            }
+    }
 
+    private fun deleteCurrentAndFutureBills(selected: Bills) {
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return
+        val selectedDate = selected.date ?: return
+        val seriesId = selected.parentBillId?.takeIf { it.isNotBlank() } ?: selected.billId
+        val billsReference = db.collection("users").document(uid).collection("bills")
+
+        billsReference.get()
+            .addOnSuccessListener { documents ->
+                val documentsToDelete = documents.filter { document ->
+                    val occurrenceDate = document.getTimestamp("date")
+                    val parentId = document.getString("parentBillId")
+                    val belongsToSeries =
+                        document.id == seriesId || parentId == seriesId || document.id == selected.billId
+                    belongsToSeries && occurrenceDate != null && occurrenceDate >= selectedDate
+                }
+
+                if (documentsToDelete.isEmpty()) {
+                    deleteSingleBill(selected)
+                    return@addOnSuccessListener
+                }
+
+                val batch = db.batch()
+                documentsToDelete.forEach { batch.delete(it.reference) }
+                batch.commit()
+                    .addOnSuccessListener {
+                        documentsToDelete.forEach {
+                            PaymentNotificationScheduler.cancelBill(this, it.id)
+                        }
+                        Toast.makeText(
+                            this,
+                            R.string.future_open_payments_deleted,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        dialog.dismiss()
+                    }
+                    .addOnFailureListener {
+                        Toast.makeText(
+                            this,
+                            R.string.open_payment_delete_failed,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+            }
+            .addOnFailureListener {
+                Toast.makeText(this, R.string.open_payment_delete_failed, Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    private fun filterBills(filter: String) {
+        activeFilter = filter
+        val filteredBills = ArrayList<Bills>()
         findViewById<Button>(R.id.btnAllBills).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_inactive))
         findViewById<Button>(R.id.btnIncoming).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_inactive))
         findViewById<Button>(R.id.btnDue).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_inactive))
@@ -495,43 +476,55 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
 
                 when (filter) {
                     "all" -> {
-                        findViewById<Button>(R.id.btnAllBills).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_active))
-                        // "All" includes both due and incoming bills that are not paid
-                        if (!bill.paid && (billDate == null || billDate.before(currentDate) || billDate.after(currentDate))) {
+                        findViewById<Button>(R.id.btnAllBills).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_open_active))
+                        if (!bill.paid) {
                             filteredBills.add(bill)
-                            Log.d("Filter", "All 'Open Payment' added: ${bill.name}")
                         }
                     }
                     "due" -> {
-                        findViewById<Button>(R.id.btnDue).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_active))
-                        if (billDate != null && billDate.before(currentDate) && !bill.paid) {
+                        findViewById<Button>(R.id.btnDue).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_overdue_active))
+                        if (billDate != null && AppDateUtils.isBeforeToday(billDate) && !bill.paid) {
                             filteredBills.add(bill)
-                            Log.d("Filter", "Overdue 'Open Payment' added: ${bill.name}")
                         }
                     }
                     "recurring" -> {
-                        findViewById<Button>(R.id.btnRecurring).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_active))
-                        if (bill.repeat != "No") {
+                        findViewById<Button>(R.id.btnRecurring).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_open_active))
+                        if (!bill.paid && bill.repeat != "No") {
                             filteredBills.add(bill)
-                            Log.d("Filter", "Recurring 'Open Payment' added: ${bill.name}")
                         }
                     }
                     "incoming" -> {
-                        findViewById<Button>(R.id.btnIncoming).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_active))
-                        if (billDate != null && billDate.after(currentDate) && !bill.paid && (bill.repeat != "No" || billDate.after(currentDate))) {
+                        findViewById<Button>(R.id.btnIncoming).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_open_active))
+                        if (billDate != null && AppDateUtils.isTodayOrAfter(billDate) && !bill.paid) {
                             filteredBills.add(bill)
-                            Log.d("Filter", "Incoming 'Open Payment' added: ${bill.name}")
                         }
                     }
                 }
             } catch (e: Exception) {
-                e.printStackTrace()
-                Log.e("Filter Error", "Error parsing date for 'Open Payment': ${bill.name}")
+                // Ignore malformed records so one bad date does not break the list.
             }
         }
 
         myAdapter.updateBills(filteredBills)
-        Log.d("Filter", "Filtered 'Open Payments' count for $filter: ${filteredBills.size}")
+        if (dataLoaded) {
+            val hasOpenPayments = allBillsArrayList.any { !it.paid }
+            EmptyStateTutorial.bind(
+                this,
+                findViewById(R.id.emptyStateBills),
+                emptyStateConfig,
+                hasAnyEntries = hasOpenPayments,
+                hasFilteredEntries = filteredBills.isNotEmpty(),
+                hasPremiumAccess = PremiumAccess.isPremiumUser(this),
+                onAdd = ::openCreateBill,
+                onPremium = ::openCreateBill
+            )
+        }
+    }
+
+    private fun openCreateBill() {
+        val intent = Intent(this, createBill::class.java)
+        intent.putExtra(AuthUtils.EXTRA_USER_EMAIL, userEmail)
+        startActivity(intent)
     }
 
 
@@ -560,27 +553,6 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
             showBillDetailsDialog(bill)
         } else {
             Toast.makeText(this, "Bill not found", Toast.LENGTH_SHORT).show()
-        }
-    }
-    private fun loadImageIntoView(attachmentUriString: String?, imageView: ImageView, detailsLayout: View?) {
-        if (!attachmentUriString.isNullOrEmpty()) {
-            try {
-                val uri = Uri.parse(attachmentUriString)
-                Glide.with(this)
-                    .load(uri)
-                    .error(R.drawable.ic_image_error) // Ensure you have this drawable
-                    .into(imageView)
-                imageView.visibility = View.VISIBLE
-                detailsLayout?.visibility =View.VISIBLE // Or however you manage layout visibility
-            } catch (e: Exception) {
-                Log.e("ImageLoad", "Error loading image in loadImageIntoView", e)
-                Toast.makeText(this, "Error displaying image: ${e.message}", Toast.LENGTH_SHORT).show()
-                imageView.visibility = View.GONE
-                detailsLayout?.visibility = View.VISIBLE // Still show other details
-            }
-        } else {
-            imageView.visibility = View.GONE
-            detailsLayout?.visibility = View.VISIBLE // Still show other details
         }
     }
 

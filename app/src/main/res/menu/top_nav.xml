@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/alarm"
-        android:icon="@drawable/ic_alarm"
+        android:icon="@drawable/ic_notifications_bell"
 
         android:title="@string/alarm"
         app:actionLayout="@layout/alarm_badge_layout"

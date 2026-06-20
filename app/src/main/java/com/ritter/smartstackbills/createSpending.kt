@@ -1,29 +1,21 @@
 package com.ritter.smartstackbills
 
-import android.Manifest
-import android.app.Activity
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.View
 import android.widget.*
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import android.net.Uri
-import android.os.Build
-import android.provider.MediaStore
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.FileProvider
 import android.os.Environment
 import android.text.InputType
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.ContextCompat
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -33,14 +25,22 @@ class createSpending : AppCompatActivity() {
     private val db = FirebaseFirestore.getInstance()
     private var userEmail: String? = null
     private var userUid: String? = null
-    private val REQUEST_IMAGE_CAPTURE = 1
-    private val REQUEST_IMAGE_GALLERY = 2
     private var imageUri: Uri? = null
     private var currentPhotoPath: String? = null
-    private lateinit var requestCameraPermissionLauncher: ActivityResultLauncher<String>
-    private lateinit var requestGalleryPermissionLauncher: ActivityResultLauncher<String>
+    private var pendingCameraFile: File? = null
 
-    private var pendingAction: (() -> Unit)? = null
+    private val takePictureLauncher =
+        registerForActivityResult(ActivityResultContracts.TakePicture()) { saved ->
+            val file = pendingCameraFile
+            imageUri = if (saved && file?.exists() == true) Uri.fromFile(file) else null
+            updateAttachmentStatus()
+        }
+
+    private val chooseImageLauncher =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { sourceUri ->
+            imageUri = sourceUri?.let { copyImageToAppStorage(it) }
+            updateAttachmentStatus()
+        }
 
     // Maps for filtering purposes in MySpendings
     val subcategoryFilterMap = mapOf(
@@ -211,62 +211,12 @@ class createSpending : AppCompatActivity() {
             insets
         }
 
-        userEmail = intent.getStringExtra("USER_EMAIL")
+        userEmail = intent.getStringExtra(AuthUtils.EXTRA_USER_EMAIL) ?: AuthUtils.currentUserEmail()
         userUid = FirebaseAuth.getInstance().currentUser?.uid
-        requestCameraPermissionLauncher =
-            registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
-                if (isGranted) {
-                    pendingAction?.invoke() // Execute the stored action (e.g., dispatchTakePictureIntent)
-                } else {
-                    Toast.makeText(this, "Camera permission denied", Toast.LENGTH_SHORT).show()
-                }
-                pendingAction = null // Clear pending action
-            }
 
-        requestGalleryPermissionLauncher =
-            registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
-                if (isGranted) {
-                    pendingAction?.invoke() // Execute the stored action (e.g., dispatchChooseFromGalleryIntent)
-                } else {
-                    Toast.makeText(this, "Gallery permission denied", Toast.LENGTH_SHORT).show()
-                }
-                pendingAction = null // Clear pending action
-            }
-
-        val btnUpload = findViewById<Button>(R.id.btnUploadImageSpending)
-        btnUpload.setOnClickListener {
-            val options = arrayOf("Take Photo", "Choose from Gallery", "Cancel")
-            val builder = AlertDialog.Builder(this)
-            builder.setTitle("Upload Spending Image")
-            builder.setItems(options) { dialog, which ->
-                when (options[which]) {
-                    "Take Photo" -> {
-                        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                        if (takePictureIntent.resolveActivity(packageManager) != null) {
-                            val photoFile: File? = try {
-                                createImageFile()
-                            } catch (ex: IOException) {
-                                null
-                            }
-                            photoFile?.also {
-                                val photoURI: Uri = FileProvider.getUriForFile(
-                                    this,
-                                    "${applicationContext.packageName}.provider",
-                                    it
-                                )
-                                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-                                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
-                            }
-                        }
-                    }
-                    "Choose from Gallery" -> {
-                        val pickPhoto = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-                        startActivityForResult(pickPhoto, REQUEST_IMAGE_GALLERY)
-                    }
-                    "Cancel" -> dialog.dismiss()
-                }
-            }
-            builder.show()
+        if (!PremiumAccess.isPremiumUser(this)) {
+            showUpgradeDialog()
+            return
         }
 
         val repeatValue = intent.getStringExtra("repeat") ?: "No"
@@ -288,44 +238,20 @@ class createSpending : AppCompatActivity() {
         val spinnerCategories = findViewById<Spinner>(R.id.spinnerCategoriesSpending)
         val spinnerSubcategories = findViewById<Spinner>(R.id.spinnerSubcategoriesSpending)
         val autoCompleteVendors = findViewById<AutoCompleteTextView>(R.id.autoCompleteVendorSpending)
-        val edtCustomVendor = findViewById<EditText>(R.id.edtCustomVendorSpending)
 
-        // Initialize spinners with empty adapters (populated later)
-        val emptyAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, arrayOf<String>())
-        spinnerCategories.adapter = emptyAdapter
-        spinnerSubcategories.adapter = emptyAdapter
-
-        // Load categories when the spinner is touched
-        spinnerCategories.setOnTouchListener { _, _ ->
-            loadCategories(spinnerCategories)
-            false
-        }
-
-        // Load subcategories based on selected category
-        spinnerSubcategories.setOnTouchListener { _, _ ->
-            spinnerCategories.selectedItem?.let { loadSubcategories(it.toString(), spinnerSubcategories) }
-            false
-        }
+        loadCategories(spinnerCategories)
+        spinnerCategories.selectedItem?.let { loadSubcategories(it.toString(), spinnerSubcategories) }
 
         // Load vendors based on selected category
         spinnerCategories.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val selectedCategory = spinnerCategories.selectedItem.toString()
                 loadVendors(selectedCategory, autoCompleteVendors)
+                loadSubcategories(selectedCategory, spinnerSubcategories)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 // Handle case where no category is selected
-            }
-        }
-
-        // Handle vendor selection in AutoCompleteTextView
-        autoCompleteVendors.setOnItemClickListener { parent, _, position, _ ->
-            val selectedVendor = parent.getItemAtPosition(position).toString()
-            if (selectedVendor == "Create Own Vendor") {
-                edtCustomVendor.visibility = View.VISIBLE
-            } else {
-                edtCustomVendor.visibility = View.GONE
             }
         }
 
@@ -339,14 +265,24 @@ class createSpending : AppCompatActivity() {
         // Image upload handling
         findViewById<Button>(R.id.btnUploadImageSpending).setOnClickListener { handleImageUpload() }
     }
+
+    private fun showUpgradeDialog() {
+        PremiumUpgradeDialog.show(
+            this,
+            R.string.premium_upgrade_required,
+            intent.getStringExtra(AuthUtils.EXTRA_USER_EMAIL),
+            finishHost = true
+        )
+    }
+
     private fun loadVendors(category: String, autoCompleteVendors: AutoCompleteTextView) {
-        val vendors = vendorsMap[category] ?: emptyArray()
+        val vendors = FinancialEntryOptions.vendorSuggestions(this, category)
 
         // Set the adapter for the AutoCompleteTextView
         val arrayAdapterVendors = ArrayAdapter(
             this,
             android.R.layout.simple_dropdown_item_1line,
-            vendors + "Create Own Vendor"
+            vendors
         )
         autoCompleteVendors.setAdapter(arrayAdapterVendors)
 
@@ -369,59 +305,21 @@ class createSpending : AppCompatActivity() {
     }
 
     private fun handleImageUpload() {
-        val options = arrayOf("Take Photo", "Choose from Gallery", "Cancel")
+        val options = arrayOf(
+            getString(R.string.take_photo),
+            getString(R.string.choose_from_gallery),
+            getString(R.string.cancel)
+        )
         val builder = AlertDialog.Builder(this)
-        builder.setTitle("Upload Spending Image")
+        builder.setTitle(R.string.add_attachment)
         builder.setItems(options) { dialog, which ->
-            when (options[which]) {
-                "Take Photo" -> {
-                    pendingAction = { dispatchTakePictureIntent() }
-                    if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-                        pendingAction?.invoke()
-                        pendingAction = null
-                    } else {
-                        requestCameraPermissionLauncher.launch(Manifest.permission.CAMERA)
-                    }
-                }
-                "Choose from Gallery" -> {
-                    pendingAction = { dispatchChooseFromGalleryIntent() }
-                    val permissionToRequest = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                        Manifest.permission.READ_MEDIA_IMAGES
-                    } else {
-                        Manifest.permission.READ_EXTERNAL_STORAGE
-                    }
-                    if (ContextCompat.checkSelfPermission(this, permissionToRequest) == PackageManager.PERMISSION_GRANTED) {
-                        pendingAction?.invoke()
-                        pendingAction = null
-                    } else {
-                        requestGalleryPermissionLauncher.launch(permissionToRequest)
-                    }
-                }
-                "Cancel" -> dialog.dismiss()
+            when (which) {
+                0 -> dispatchTakePictureIntent()
+                1 -> chooseImageLauncher.launch("image/*")
+                else -> dialog.dismiss()
             }
         }
         builder.show()
-    }
-    private fun dispatchTakePictureIntent() {
-        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        takePictureIntent.resolveActivity(packageManager)?.let {
-            val photoFile: File? = try {
-                createImageFile()
-            } catch (ex: IOException) {
-                null
-            }
-            photoFile?.also {
-                val photoURI: Uri = FileProvider.getUriForFile(this, "${applicationContext.packageName}.provider", it)
-                currentPhotoPath = it.absolutePath
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
-            }
-        }
-    }
-
-    private fun dispatchChooseFromGalleryIntent() {
-        val pickPhoto = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        startActivityForResult(pickPhoto, REQUEST_IMAGE_GALLERY)
     }
 
     // Date validation to ensure it's in correct format
@@ -438,187 +336,137 @@ class createSpending : AppCompatActivity() {
     }
 
     private fun loadCategories(spinnerCategories: Spinner) {
-        val categories = arrayOf("Accommodation", "Communication", "Insurance", "Subscription and Memberships",
-            "Transportation", "Finances/Fees", "Taxes", "Health", "Education", "Shopping & Consumption", "Groceries", "Others")
-        val arrayAdapterCategories = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, categories)
+        val arrayAdapterCategories = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, FinancialEntryOptions.expenseCategories)
         spinnerCategories.adapter = arrayAdapterCategories
     }
 
     private fun loadSubcategories(category: String, spinnerSubcategories: Spinner) {
-        val subcategories = when (category) {
-            "Accommodation" -> arrayOf(
-                "Rent", "Mortgage", "Home maintenance", "Utilities", "Furniture",
-                "Repairs and renovations", "Property management", "Home security"
-            )
-
-            "Communication" -> arrayOf(
-                "Mobile phone", "Landline phone", "Internet", "Cable/satellite TV",
-                "Messaging services", "Cloud storage", "VPN services", "VOIP services"
-            )
-
-            "Insurance" -> arrayOf(
-                "Health insurance", "Life insurance", "Car insurance", "Home insurance",
-                "Travel insurance", "Pet insurance", "Disability insurance", "Business insurance"
-            )
-
-            "Subscription and Memberships" -> arrayOf(
-                "Streaming services", "Gym memberships", "Software subscriptions",
-                "Magazine/newspaper subscriptions", "Clubs and associations",
-                "Music services", "Educational memberships", "Loyalty programs"
-            )
-
-            "Transportation" -> arrayOf(
-                "Fuel", "Vehicle maintenance", "Public transportation", "Parking",
-                "Vehicle rental", "Tolls", "Car lease", "Ride-sharing services"
-            )
-
-            "Finances/Fees" -> arrayOf(
-                "Bank fees", "Investment fees", "Loan interest", "Credit card fees",
-                "Brokerage fees", "Financial advisor fees", "ATM withdrawal fees", "Foreign transaction fees"
-            )
-
-            "Taxes" -> arrayOf(
-                "Income tax", "Property tax", "Sales tax", "Self-employment tax",
-                "Capital gains tax", "VAT (Value Added Tax)", "Import tax", "Luxury tax"
-            )
-
-            "Health" -> arrayOf(
-                "Doctor visits", "Dental care", "Prescription medications",
-                "Health supplements", "Medical equipment", "Mental health services",
-                "Alternative medicine", "Vaccinations"
-            )
-
-            "Education" -> arrayOf(
-                "Tuition fees", "Textbooks", "Online courses", "School supplies",
-                "Extracurricular activities", "Tutoring", "Professional development", "Educational software"
-            )
-
-            "Shopping & Consumption" -> arrayOf(
-                "Clothing", "Electronics", "Household goods", "Personal care products",
-                "Beauty & cosmetics", "Luxury goods", "Office supplies", "Gifts", "Movies"
-            )
-
-            "Groceries" -> arrayOf(
-                "Basic food", "Household necessities", "Beverages",
-                "Alcoholic beverages", "Snacks and sweets", "Luxury foods",
-                "Frozen foods", "Organic products"
-            )
-
-            "Others" -> arrayOf(
-                "Miscellaneous", "Donations", "Gambling", "Unexpected expenses",
-                "Legal fees", "Lottery tickets", "Pet expenses", "Festivals & events"
-            )
-            else -> emptyArray()
-        }
+        val subcategories = FinancialEntryOptions.expenseSubcategories[category] ?: emptyArray()
         val arrayAdapterSubcategories = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, subcategories)
         spinnerSubcategories.adapter = arrayAdapterSubcategories
     }
 
     private fun saveSpending() {
-        // Retrieve values from input fields
-        val spendingName = findViewById<EditText>(R.id.edtTitleSpending).text.toString()
-        val spendingAmountString = findViewById<EditText>(R.id.edtAmountSpending).text.toString()
-        val spendingAmount = spendingAmountString.toDoubleOrNull()
-        val spendingDateString = findViewById<EditText>(R.id.edtDateSpending).text.toString()
-        val spendingCategory = findViewById<Spinner>(R.id.spinnerCategoriesSpending).selectedItem?.toString() ?: ""
-        val spendingSubcategory = findViewById<Spinner>(R.id.spinnerSubcategoriesSpending).selectedItem?.toString() ?: ""
-        val spendingVendor = findViewById<AutoCompleteTextView>(R.id.autoCompleteVendorSpending).text.toString()
-        val customVendor = findViewById<EditText>(R.id.edtCustomVendorSpending).text.toString()
-        val spendingComment = findViewById<EditText>(R.id.edtCommentSpending).text.toString()
-        val spendingAttachment = imageUri?.toString()
-        val repeatValue = intent.getStringExtra("repeat") ?: "No"
+        if (validateMandatoryFields() && validateDateField()) {
+            userUid?.let {
+                val spendingName = findViewById<EditText>(R.id.edtTitleSpending).text.toString()
+                val spendingAmount = findViewById<EditText>(R.id.edtAmountSpending).text.toString().toDoubleOrNull() ?: 0.0
+                val spendingDateString = findViewById<EditText>(R.id.edtDateSpending).text.toString()
+                val spendingCategory = findViewById<Spinner>(R.id.spinnerCategoriesSpending).selectedItem?.toString() ?: ""
+                val spendingSubcategory = findViewById<Spinner>(R.id.spinnerSubcategoriesSpending).selectedItem?.toString() ?: ""
+                val spendingVendor = findViewById<AutoCompleteTextView>(R.id.autoCompleteVendorSpending).text.toString()
+                val spendingComment = findViewById<EditText>(R.id.edtCommentSpending).text.toString()
+                val spendingAttachment = imageUri?.toString()
 
-        // Validate mandatory fields
-        if (spendingName.isBlank()) {
-            Toast.makeText(this, "Title is required", Toast.LENGTH_SHORT).show()
-            return
-        }
-        if (spendingAmount == null || spendingAmount <= 0) {
-            Toast.makeText(this, "Amount is required", Toast.LENGTH_SHORT).show()
-            return
-        }
-        if (spendingDateString.isBlank()) {
-            Toast.makeText(this, "Please select a valid date for the spending", Toast.LENGTH_SHORT).show()
-            return
-        }
+                val spendingDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(spendingDateString)
+                val timestamp = spendingDate?.let { com.google.firebase.Timestamp(it) }
 
-        // Convert date string to Timestamp
-        val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-        val spendingDate: Date? = try {
-            sdf.parse(spendingDateString)
-        } catch (e: Exception) {
-            null
-        }
-        if (spendingDate == null) {
-            Toast.makeText(this, "Invalid date format. Please select a valid date.", Toast.LENGTH_SHORT).show()
-            return
-        }
-        val timestamp = com.google.firebase.Timestamp(spendingDate)
+                val repeatValue = intent.getStringExtra("repeat") ?: "No"
 
-        // Save to Firestore
-        if (userUid != null) {
-            val spendingId = db.collection("users").document(userUid!!).collection("spendings").document().id
-            val spending = hashMapOf(
-                "name" to spendingName,
-                "amount" to spendingAmount,
-                "date" to timestamp,
-                "category" to spendingCategory,
-                "subcategory" to spendingSubcategory,
-                "vendor" to if (spendingVendor == "Create Own Vendor") customVendor else spendingVendor,
-                "repeat" to repeatValue,
-                "comment" to spendingComment,
-                "attachment" to imageUri?.toString(),
-                "paid" to true
-            )
+                // Generate a unique ID for the spending
+                val spendingId = db.collection("users").document(it).collection("spendings").document().id
 
-            db.collection("users").document(userUid!!).collection("spendings").document(spendingId)
-                .set(spending)
-                .addOnSuccessListener {
-                    Toast.makeText(this, "Spending saved successfully", Toast.LENGTH_SHORT).show()
-                    finish()
-                }
-                .addOnFailureListener { e ->
-                    Toast.makeText(this, "Error saving spending: ${e.message}", Toast.LENGTH_SHORT).show()
-                }
-        } else {
-            Toast.makeText(this, "Error: No user ID available", Toast.LENGTH_SHORT).show()
+                val spending = hashMapOf(
+                    "spendingId" to spendingId,
+                    "name" to spendingName,
+                    "amount" to spendingAmount,
+                    "date" to timestamp,
+                    "category" to spendingCategory,
+                    "subcategory" to spendingSubcategory,
+                    "vendor" to spendingVendor,
+                    "repeat" to repeatValue,
+                    "isRecurring" to (repeatValue != "No"),
+                    "comment" to spendingComment,
+                    "attachment" to spendingAttachment,
+                    "paid" to true
+                )
+
+                // Save spending to Firestore with specified document ID
+                db.collection("users").document(it).collection("spendings").document(spendingId)
+                    .set(spending)
+                    .addOnSuccessListener {
+                        Toast.makeText(this, "Spending saved successfully", Toast.LENGTH_SHORT).show()
+                        FinancialEntryOptions.rememberVendor(this, spendingVendor)
+                        finish()
+                    }
+                    .addOnFailureListener { e ->
+                        Toast.makeText(this, "Error saving spending: ${e.message}", Toast.LENGTH_SHORT).show()
+                    }
+            } ?: run {
+                Toast.makeText(this, "Error: No user ID available", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        val txtImageAdded = findViewById<TextView>(R.id.txtImageAddedSpending)
-        if (resultCode == Activity.RESULT_OK) {
-            when (requestCode) {
-                REQUEST_IMAGE_CAPTURE -> {
-                    val imageBitmap = data?.extras?.get("data") as? Bitmap
-                    if (imageBitmap != null) {
-                        imageUri = saveImageToGallery(imageBitmap)
-                    } else if (currentPhotoPath != null) {
-                        val file = File(currentPhotoPath!!)
-                        imageUri = Uri.fromFile(file)
-                    }
-                    txtImageAdded.text = "Image added"
+    private fun validateMandatoryFields(): Boolean {
+        val spendingName = findViewById<EditText>(R.id.edtTitleSpending).text.toString()
+        val spendingAmount = findViewById<EditText>(R.id.edtAmountSpending).text.toString()
+
+        if (spendingName.isEmpty()) {
+            Toast.makeText(this, "Title is required", Toast.LENGTH_SHORT).show()
+            return false
+        }
+
+        if (spendingAmount.toDoubleOrNull()?.let { it > 0 } != true) {
+            Toast.makeText(this, "Please enter a valid amount", Toast.LENGTH_SHORT).show()
+            return false
+        }
+
+        return true
+    }
+
+    // Methods for handling image capture and gallery selection
+    private fun dispatchTakePictureIntent() {
+        val photoFile = try {
+            createImageFile()
+        } catch (exception: IOException) {
+            null
+        }
+        if (photoFile == null) {
+            updateAttachmentStatus()
+            return
+        }
+        pendingCameraFile = photoFile
+        val photoUri = FileProvider.getUriForFile(
+            this,
+            "${applicationContext.packageName}.provider",
+            photoFile
+        )
+        takePictureLauncher.launch(photoUri)
+    }
+
+    private fun updateAttachmentStatus() {
+        findViewById<TextView>(R.id.txtImageAddedSpending).apply {
+            text = getString(
+                if (imageUri != null) R.string.attachment_added else R.string.attachment_failed
+            )
+            visibility = View.VISIBLE
+        }
+    }
+
+    private fun copyImageToAppStorage(sourceUri: Uri): Uri? {
+        return try {
+            val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())
+            val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES) ?: return null
+            val outputFile = File(storageDir, "SPENDING_${timeStamp}.jpg")
+            contentResolver.openInputStream(sourceUri)?.use { input ->
+                outputFile.outputStream().use { output ->
+                    input.copyTo(output)
                 }
-                REQUEST_IMAGE_GALLERY -> {
-                    imageUri = data?.data
-                    txtImageAdded.text = "Image added"
-                }
-            }
-            txtImageAdded.visibility = View.VISIBLE
+            } ?: return null
+            Uri.fromFile(outputFile)
+        } catch (exception: Exception) {
+            null
         }
     }
 
     @Throws(IOException::class)
     private fun createImageFile(): File {
         val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())
-        val storageDir: File = getExternalFilesDir(Environment.DIRECTORY_PICTURES)!!
+        val storageDir: File = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+            ?: throw IOException("Pictures directory unavailable")
         return File.createTempFile("JPEG_${timeStamp}_", ".jpg", storageDir).apply {
             currentPhotoPath = absolutePath
         }
-    }
-    private fun saveImageToGallery(bitmap: Bitmap): Uri? {
-        val path = MediaStore.Images.Media.insertImage(contentResolver, bitmap, "Bill_Image", null)
-        return Uri.parse(path)
     }
 }

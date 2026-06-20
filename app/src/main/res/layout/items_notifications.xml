@@ -1,128 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardViewNotification"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardElevation="6dp"
-    app:cardCornerRadius="6dp"
-    android:layout_margin="12dp"
-    android:id="@+id/cardViewNotification">
+    android:layout_marginStart="12dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginEnd="12dp"
+    android:layout_marginBottom="4dp"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="3dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="12dp">
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="14dp">
 
-        <!-- Title Label -->
-        <TextView
-            android:id="@+id/labelTitleNotification"
-            android:layout_width="wrap_content"
+        <FrameLayout
+            android:id="@+id/notificationIconBackground"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:background="@drawable/circle_orange">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_notifications_bell"
+                app:tint="@color/white" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/title"
-            android:textColor="@color/black"
-            android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_marginStart="12dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-        <!-- Title Value -->
-        <TextView
-            android:id="@+id/tvTitleNotification"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Reminder Title"
-            android:textColor="@color/black"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@id/labelTitleNotification"
-            app:layout_constraintStart_toStartOf="@+id/tvAmountNotification"
-            app:layout_constraintTop_toTopOf="@id/labelTitleNotification" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-        <!-- Orange Dot for Unread Notifications -->
+                <TextView
+                    android:id="@+id/tvTitleNotification"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/colorSecondary"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
-        <!-- Notification Created Time and Date -->
-        <ImageView
-            android:id="@+id/unreadDot"
-            android:layout_width="10dp"
-            android:layout_height="10dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="12dp"
-            android:visibility="gone"
-            android:background="@drawable/circle_orange"
-            app:layout_constraintBottom_toTopOf="@id/tvNotificationTime"
-            app:layout_constraintEnd_toEndOf="parent" />
+                <ImageView
+                    android:id="@+id/unreadDot"
+                    android:layout_width="9dp"
+                    android:layout_height="9dp"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/circle_orange"
+                    android:contentDescription="@null"
+                    android:visibility="gone" />
+            </LinearLayout>
 
-        <TextView
-            android:id="@+id/tvNotificationTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:text="1/6/2024"
-            android:textColor="@color/black"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="@id/tvAmountNotification" />
+            <TextView
+                android:id="@+id/tvMessageNotification"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:textColor="#647383"
+                android:textSize="13sp" />
 
-        <!-- Delete Icon -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvDateNotification"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="#7B8793"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tvAmountNotification"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorSecondary"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/tvNotificationTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:textColor="#7B8793"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </LinearLayout>
+
         <ImageView
             android:id="@+id/imgDeleteNotification"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginEnd="8dp"
-            android:contentDescription="Delete notification"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/delete"
+            android:padding="10dp"
             android:src="@drawable/ic_delete"
-            app:layout_constraintBottom_toBottomOf="@id/tvDateNotification"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <!-- Amount Label -->
-        <TextView
-            android:id="@+id/labelAmountNotification"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/amount"
-            android:textColor="@color/black"
-            android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/labelTitleNotification" />
-
-        <!-- Amount Value -->
-        <TextView
-            android:id="@+id/tvAmountNotification"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="$1200"
-            android:textColor="@color/black"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@id/labelAmountNotification"
-            app:layout_constraintStart_toStartOf="@+id/tvDateNotification"
-            app:layout_constraintTop_toTopOf="@id/labelAmountNotification" />
-
-        <!-- Due Date Label -->
-        <TextView
-            android:id="@+id/labelDateNotification"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/due_date"
-            android:textColor="@color/black"
-            android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/labelAmountNotification" />
-
-        <!-- Due Date Value -->
-        <TextView
-            android:id="@+id/tvDateNotification"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="4/6/2024"
-            android:textColor="@color/black"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/labelDateNotification"
-            app:layout_constraintTop_toTopOf="@id/labelDateNotification" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            app:tint="#7B8793" />
+    </LinearLayout>
 </androidx.cardview.widget.CardView>

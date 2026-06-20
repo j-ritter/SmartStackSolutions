@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="shared_categories">
+        <item>Mieszkanie</item><item>Komunikacja</item><item>Ubezpieczenie</item><item>Subskrypcje i członkostwa</item><item>Transport</item><item>Finanse/Opłaty</item><item>Podatki</item><item>Zdrowie</item><item>Edukacja</item><item>Zakupy i konsumpcja</item><item>Inne</item>
+    </string-array>
+    <string-array name="accommodation_subcategories"><item>Czynsz</item><item>Kredyt hipoteczny</item><item>Utrzymanie domu</item><item>Media</item><item>Meble</item><item>Naprawy i remonty</item></string-array>
+    <string-array name="communication_subcategories"><item>Telefon komórkowy</item><item>Telefon stacjonarny</item><item>Internet</item><item>Telewizja kablowa/satelitarna</item><item>Komunikatory</item></string-array>
+    <string-array name="insurance_subcategories"><item>Ubezpieczenie zdrowotne</item><item>Ubezpieczenie na życie</item><item>Ubezpieczenie samochodu</item><item>Ubezpieczenie domu</item><item>Ubezpieczenie podróżne</item><item>Ubezpieczenie zwierząt</item></string-array>
+    <string-array name="subscription_memberships_subcategories"><item>Subskrypcje magazynów/gazet</item><item>Usługi streamingowe</item><item>Karnety na siłownię</item><item>Subskrypcje oprogramowania</item><item>Kluby i stowarzyszenia</item></string-array>
+    <string-array name="transportation_subcategories"><item>Paliwo</item><item>Utrzymanie pojazdu</item><item>Transport publiczny</item><item>Parking</item><item>Wynajem pojazdu</item></string-array>
+    <string-array name="finances_fees_subcategories"><item>Opłaty bankowe</item><item>Opłaty inwestycyjne</item><item>Odsetki od pożyczki</item><item>Opłaty kart kredytowych</item><item>Opłaty maklerskie</item></string-array>
+    <string-array name="taxes_subcategories"><item>Podatek dochodowy</item><item>Podatek od nieruchomości</item><item>Podatek od sprzedaży</item><item>Podatek od samozatrudnienia</item><item>Podatek od zysków kapitałowych</item></string-array>
+    <string-array name="health_subcategories"><item>Wizyty lekarskie</item><item>Opieka stomatologiczna</item><item>Leki na receptę</item><item>Suplementy zdrowotne</item><item>Sprzęt medyczny</item></string-array>
+    <string-array name="education_subcategories"><item>Czesne</item><item>Podręczniki</item><item>Kursy online</item><item>Przybory szkolne</item><item>Zajęcia dodatkowe</item></string-array>
+    <string-array name="shopping_consumption_subcategories"><item>Zakupy spożywcze - podstawowa żywność</item><item>Zakupy spożywcze - artykuły domowe</item><item>Zakupy spożywcze - napoje</item><item>Zakupy spożywcze - alkohol</item><item>Zakupy spożywcze - przekąski i słodycze</item><item>Zakupy spożywcze - produkty premium</item><item>Odzież</item><item>Elektronika</item><item>Artykuły gospodarstwa domowego</item><item>Produkty higieny osobistej</item></string-array>
+    <string-array name="others_subcategories"><item>Inne</item></string-array>
+    <string-array name="income_categories"><item>Wynagrodzenie</item><item>Samozatrudnienie/Freelance</item><item>Dochód z najmu</item><item>Dochód z inwestycji</item><item>Dochód z działalności</item><item>Emerytury i renty</item><item>Świadczenia społeczne</item><item>Stypendia i granty</item><item>Tantiemy i prawa autorskie</item><item>Inny dochód</item><item>Utwórz nowy typ dochodu</item></string-array>
+    <string-array name="salary_subcategories"><item>Regularne wynagrodzenie</item><item>Nadgodziny</item><item>Premie lub zachęty</item></string-array>
+    <string-array name="self_employment_subcategories"><item>Opłaty za usługę</item><item>Dochód projektowy</item></string-array>
+    <string-array name="rental_lease_income_subcategories"><item>Nieruchomości</item><item>Pojazdy</item><item>Sprzęt</item></string-array>
+    <string-array name="investment_income_subcategories"><item>Dywidendy</item><item>Odsetki</item><item>Zyski kapitałowe</item></string-array>
+    <string-array name="business_income_subcategories"><item>Udziały w zyskach</item><item>Wynagrodzenie kierownicze</item></string-array>
+    <string-array name="retirement_pensions_subcategories"><item>Emerytura państwowa</item><item>Firmowe plany emerytalne</item><item>Prywatne ubezpieczenie emerytalne</item></string-array>
+    <string-array name="social_benefits_subcategories"><item>Zasiłek dla bezrobotnych</item><item>Zasiłek chorobowy</item><item>Świadczenia rodzicielskie</item></string-array>
+    <string-array name="scholarships_grants_subcategories"><item>Stypendia edukacyjne</item><item>Granty badawcze</item></string-array>
+    <string-array name="royalties_copyrights_subcategories"><item>Patenty</item><item>Licencje oprogramowania</item><item>Publikacje książek</item></string-array>
+    <string-array name="other_income_subcategories"><item>Świadczenia rzeczowe</item><item>Spadki i prezenty</item><item>Zwroty crowdfunding/crowdinvesting</item></string-array>
+    <string-array name="savings_target_names"><item>Fundusz awaryjny</item><item>Wakacje</item><item>Wkład własny na dom</item><item>Zakup samochodu</item><item>Fundusz edukacyjny</item><item>Emerytura</item><item>Ślub</item><item>Inwestycja</item><item>Brak konkretnego powodu</item></string-array>
+    <string-array name="target_period_options"><item>1 miesiąc</item><item>2 miesiące</item><item>3 miesiące</item><item>6 miesięcy</item><item>12 miesięcy</item></string-array>
+    <string-array name="custom_weekdays"><item>Nd</item><item>Pn</item><item>Wt</item><item>Śr</item><item>Cz</item><item>Pt</item><item>Sb</item></string-array>
+</resources>

@@ -90,7 +90,7 @@
             android:layout_width="150dp"
             android:layout_height="18dp"
             android:text="$1200"
-            android:textColor="@color/black"
+            android:textColor="@color/spending_color"
             android:textSize="12sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@id/labelAmountItemsSpendings"

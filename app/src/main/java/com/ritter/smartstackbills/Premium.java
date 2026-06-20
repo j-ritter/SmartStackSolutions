@@ -11,18 +11,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.android.billingclient.api.*;
 
 import java.util.Collections;
-import java.util.List;
 
 public class Premium extends AppCompatActivity {
 
     private BillingClient billingClient;
     private ProductDetails premiumProduct;
     private String offerToken = ""; // Offer Token for the subscription
-
-    private boolean isPremiumUser() {
-        return getSharedPreferences("AppPrefs", MODE_PRIVATE)
-                .getBoolean("isPremiumUser", false);
-    }
+    private boolean billingConnectionInProgress = false;
+    private boolean premiumUnavailable = false;
 
     // Listener for purchase updates
     private final PurchasesUpdatedListener purchasesUpdatedListener = (billingResult, purchases) -> {
@@ -34,6 +30,7 @@ public class Premium extends AppCompatActivity {
             Log.i("BillingClient", "User canceled the purchase.");
         } else {
             Log.e("BillingClient", "Purchase failed: " + billingResult.getDebugMessage());
+            showBillingFailure(billingResult);
         }
     };
 
@@ -48,7 +45,12 @@ public class Premium extends AppCompatActivity {
         // Initialize BillingClient
         billingClient = BillingClient.newBuilder(this)
                 .setListener(purchasesUpdatedListener)
-                .enablePendingPurchases()
+                .enablePendingPurchases(
+                        PendingPurchasesParams.newBuilder()
+                                .enableOneTimeProducts()
+                                .build()
+                )
+                .enableAutoServiceReconnection()
                 .build();
 
         // Connect to Google Play Billing
@@ -56,14 +58,16 @@ public class Premium extends AppCompatActivity {
 
         // Subscribe Button
         Button subscribeButton = findViewById(R.id.button_premium);
-        subscribeButton.setEnabled(false);
+        updatePremiumButtonState();
 
         subscribeButton.setOnClickListener(v -> {
             Log.i("BillingClient", "Subscribe button clicked");
 
             if (!billingClient.isReady()) {
                 Log.e("BillingClient", "Billing Client is not ready. Reconnecting...");
+                Toast.makeText(this, R.string.billing_not_ready, Toast.LENGTH_SHORT).show();
                 startBillingConnection();
+                updatePremiumButtonState();
                 return;
             }
 
@@ -75,10 +79,6 @@ public class Premium extends AppCompatActivity {
             }
         });
 
-
-        // Check for existing subscription when app opens
-        checkExistingSubscription();
-
         // Handle the back button click
         ImageView backButton = findViewById(R.id.btnBackPremium);
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -89,199 +89,60 @@ public class Premium extends AppCompatActivity {
         });
 
 
-        // Feature 1: Open Payments
-        Button btnMoreInfo1 = findViewById(R.id.btn_more_info1);
-        TextView expandableText1 = findViewById(R.id.feature1_expandable_text);
-        TextView feature1Description = findViewById(R.id.feature1_description);
-        ImageView iconOpenPayments = findViewById(R.id.icon_open_payments);
-        TextView feature1Title = findViewById(R.id.feature1_title);
+        setupFeatureDisclosure(R.id.btn_more_info1, R.id.feature1_description, R.id.feature1_expandable_text);
+        setupFeatureDisclosure(R.id.btn_more_info2, R.id.feature2_description, R.id.feature2_expandable_text);
+        setupFeatureDisclosure(R.id.btn_more_info3, R.id.feature3_description, R.id.feature3_expandable_text);
+        setupFeatureDisclosure(R.id.btn_more_info4, R.id.feature4_description, R.id.feature4_expandable_text);
+        setupFeatureDisclosure(R.id.btn_more_info5, R.id.feature5_description, R.id.feature5_expandable_text);
+        setupFeatureDisclosure(R.id.btn_more_info6, R.id.feature6_description, R.id.feature6_expandable_text);
+    }
 
-        btnMoreInfo1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (expandableText1.getVisibility() == View.GONE) {
-                    feature1Description.setVisibility(View.GONE);
-                    iconOpenPayments.setVisibility(View.GONE);
-                    feature1Title.setVisibility(View.GONE);
-                    expandableText1.setVisibility(View.VISIBLE);
-                    btnMoreInfo1.setText("Less information");
-                } else {
-                    feature1Description.setVisibility(View.VISIBLE);
-                    iconOpenPayments.setVisibility(View.VISIBLE);
-                    feature1Title.setVisibility(View.VISIBLE);
-                    expandableText1.setVisibility(View.GONE);
-                    btnMoreInfo1.setText("More information");
-                }
-            }
-        });
+    private void setupFeatureDisclosure(int buttonId, int descriptionId, int expandableTextId) {
+        Button button = findViewById(buttonId);
+        TextView description = findViewById(descriptionId);
+        TextView expandedText = findViewById(expandableTextId);
 
-        // Feature 2: Closed Payments
-        Button btnMoreInfo2 = findViewById(R.id.btn_more_info2);
-        TextView expandableText2 = findViewById(R.id.feature2_expandable_text);
-        TextView feature2Description = findViewById(R.id.feature2_description);
-        ImageView iconClosedPayments = findViewById(R.id.icon_closed_payments);
-        TextView feature2Title = findViewById(R.id.feature2_title);
-        ImageView starIconClosedPayments = findViewById(R.id.star_icon_closed_payments);
-
-        btnMoreInfo2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (expandableText2.getVisibility() == View.GONE) {
-                    feature2Description.setVisibility(View.GONE);
-                    iconClosedPayments.setVisibility(View.GONE);
-                    feature2Title.setVisibility(View.GONE);
-                    starIconClosedPayments.setVisibility(View.GONE);
-                    expandableText2.setVisibility(View.VISIBLE);
-                    btnMoreInfo2.setText("Less information");
-                } else {
-                    feature2Description.setVisibility(View.VISIBLE);
-                    iconClosedPayments.setVisibility(View.VISIBLE);
-                    feature2Title.setVisibility(View.VISIBLE);
-                    starIconClosedPayments.setVisibility(View.VISIBLE);
-                    expandableText2.setVisibility(View.GONE);
-                    btnMoreInfo2.setText("More information");
-                }
-            }
-        });
-
-        // Feature 3: Income Management
-        Button btnMoreInfo3 = findViewById(R.id.btn_more_info3);
-        TextView expandableText3 = findViewById(R.id.feature3_expandable_text);
-        TextView feature3Description = findViewById(R.id.feature3_description);
-        ImageView iconIncome = findViewById(R.id.icon_income);
-        TextView feature3Title = findViewById(R.id.feature3_title);
-        ImageView iconStarIncome = findViewById(R.id.icon_star_income);
-
-        btnMoreInfo3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (expandableText3.getVisibility() == View.GONE) {
-                    feature3Description.setVisibility(View.GONE);
-                    iconIncome.setVisibility(View.GONE);
-                    feature3Title.setVisibility(View.GONE);
-                    iconStarIncome.setVisibility(View.GONE);
-                    expandableText3.setVisibility(View.VISIBLE);
-                    btnMoreInfo3.setText("Less information");
-                } else {
-                    feature3Description.setVisibility(View.VISIBLE);
-                    iconIncome.setVisibility(View.VISIBLE);
-                    feature3Title.setVisibility(View.VISIBLE);
-                    expandableText3.setVisibility(View.GONE);
-                    iconStarIncome.setVisibility(View.VISIBLE);
-                    btnMoreInfo3.setText("More information");
-                }
-            }
-        });
-
-        // Feature 4: Notifications
-        Button btnMoreInfo4 = findViewById(R.id.btn_more_info4);
-        TextView expandableText4 = findViewById(R.id.feature4_expandable_text);
-        TextView feature4Description = findViewById(R.id.feature4_description);
-        ImageView iconNotifications = findViewById(R.id.icon_notifications);
-        TextView feature4Title = findViewById(R.id.feature4_title);
-
-        btnMoreInfo4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (expandableText4.getVisibility() == View.GONE) {
-                    feature4Description.setVisibility(View.GONE);
-                    iconNotifications.setVisibility(View.GONE);
-                    feature4Title.setVisibility(View.GONE);
-                    expandableText4.setVisibility(View.VISIBLE);
-                    btnMoreInfo4.setText("Less information");
-                } else {
-                    feature4Description.setVisibility(View.VISIBLE);
-                    iconNotifications.setVisibility(View.VISIBLE);
-                    feature4Title.setVisibility(View.VISIBLE);
-                    expandableText4.setVisibility(View.GONE);
-                    btnMoreInfo4.setText("More information");
-                }
-            }
-        });
-
-        // Feature 5: Calendar
-        Button btnMoreInfo5 = findViewById(R.id.btn_more_info5);
-        TextView expandableText5 = findViewById(R.id.feature5_expandable_text);
-        TextView feature5Description = findViewById(R.id.feature5_description);
-        ImageView iconCalendar = findViewById(R.id.icon_calendar);
-        TextView feature5Title = findViewById(R.id.feature5_title);
-
-        btnMoreInfo5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (expandableText5.getVisibility() == View.GONE) {
-                    feature5Description.setVisibility(View.GONE);
-                    iconCalendar.setVisibility(View.GONE);
-                    feature5Title.setVisibility(View.GONE);
-                    expandableText5.setVisibility(View.VISIBLE);
-                    btnMoreInfo5.setText("Less information");
-                } else {
-                    feature5Description.setVisibility(View.VISIBLE);
-                    iconCalendar.setVisibility(View.VISIBLE);
-                    feature5Title.setVisibility(View.VISIBLE);
-                    expandableText5.setVisibility(View.GONE);
-                    btnMoreInfo5.setText("More information");
-                }
-            }
-        });
-        // Feature 6: Saving Target
-        Button btnMoreInfo6 = findViewById(R.id.btn_more_info6);
-        TextView expandableText6 = findViewById(R.id.feature6_expandable_text);
-        TextView feature6Description = findViewById(R.id.feature6_description);
-        ImageView iconSavingTarget = findViewById(R.id.icon_saving_target);
-        TextView feature6Title = findViewById(R.id.feature6_title);
-        ImageView starIconSavingTarget = findViewById(R.id.star_icon_saving_target);
-
-        btnMoreInfo6.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (expandableText6.getVisibility() == View.GONE) {
-                    // Hide the short description, title, and icon
-                    feature6Description.setVisibility(View.GONE);
-                    iconSavingTarget.setVisibility(View.GONE);
-                    feature6Title.setVisibility(View.GONE);
-                    starIconSavingTarget.setVisibility(View.GONE);
-
-                    // Show the expanded text
-                    expandableText6.setVisibility(View.VISIBLE);
-
-                    // Update button text
-                    btnMoreInfo6.setText("Less information");
-                } else {
-                    // Show the short description, title, and icon
-                    feature6Description.setVisibility(View.VISIBLE);
-                    iconSavingTarget.setVisibility(View.VISIBLE);
-                    feature6Title.setVisibility(View.VISIBLE);
-                    starIconSavingTarget.setVisibility(View.VISIBLE);
-
-                    // Hide the expanded text
-                    expandableText6.setVisibility(View.GONE);
-
-                    // Update button text
-                    btnMoreInfo6.setText("More information");
-                }
-            }
+        button.setOnClickListener(v -> {
+            boolean shouldExpand = expandedText.getVisibility() == View.GONE;
+            description.setVisibility(shouldExpand ? View.GONE : View.VISIBLE);
+            expandedText.setVisibility(shouldExpand ? View.VISIBLE : View.GONE);
+            button.setText(shouldExpand ? R.string.less_information : R.string.more_information);
+            button.setSelected(shouldExpand);
+            button.setCompoundDrawablesWithIntrinsicBounds(
+                    0,
+                    0,
+                    shouldExpand ? R.drawable.ic_arrow_up : R.drawable.ic_disclosure_down,
+                    0
+            );
         });
     }
 
     // Connect to Google Play Billing
     private void startBillingConnection() {
+        if (billingClient == null || billingClient.isReady() || billingConnectionInProgress) {
+            return;
+        }
+        billingConnectionInProgress = true;
         billingClient.startConnection(new BillingClientStateListener() {
             @Override
             public void onBillingSetupFinished(BillingResult billingResult) {
+                billingConnectionInProgress = false;
                 if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
                     Log.i("BillingClient", "Billing setup complete");
+                    premiumUnavailable = false;
                     queryProducts();
                     checkExistingSubscription();
                 } else {
                     Log.e("BillingClient", "Billing setup failed: " + billingResult.getDebugMessage());
+                    premiumUnavailable = true;
+                    runOnUiThread(Premium.this::updatePremiumButtonState);
                 }
             }
 
             @Override
             public void onBillingServiceDisconnected() {
-                Log.w("BillingClient", "Billing service disconnected. Retrying...");
-                startBillingConnection();
+                billingConnectionInProgress = false;
+                Log.w("BillingClient", "Billing service disconnected. Automatic reconnection is enabled.");
             }
         });
     }
@@ -293,16 +154,19 @@ public class Premium extends AppCompatActivity {
             startBillingConnection();
             return;
         }
+        premiumUnavailable = false;
+        runOnUiThread(this::updatePremiumButtonState);
 
         QueryProductDetailsParams params = QueryProductDetailsParams.newBuilder()
                 .setProductList(Collections.singletonList(
                         QueryProductDetailsParams.Product.newBuilder()
-                                .setProductId("smartstacksolutions_01") // Your Subscription ID
+                                .setProductId(PremiumAccess.PRODUCT_ID)
                                 .setProductType(BillingClient.ProductType.SUBS)
                                 .build()))
                 .build();
 
-        billingClient.queryProductDetailsAsync(params, (billingResult, productDetailsList) -> {
+        billingClient.queryProductDetailsAsync(params, (billingResult, productDetailsResult) -> {
+            java.util.List<ProductDetails> productDetailsList = productDetailsResult.getProductDetailsList();
             if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK && productDetailsList != null && !productDetailsList.isEmpty()) {
                 premiumProduct = productDetailsList.get(0);
 
@@ -314,12 +178,16 @@ public class Premium extends AppCompatActivity {
                 Log.i("BillingClient", "Product details fetched successfully.");
 
                 runOnUiThread(() -> {
-                    Button subscribeButton = findViewById(R.id.button_premium);
-                    subscribeButton.setEnabled(true);
+                    updatePremiumButtonState();
                 });
 
             } else {
                 Log.e("BillingClient", "Error fetching product details: " + billingResult.getDebugMessage());
+                premiumUnavailable = true;
+                runOnUiThread(() -> {
+                    Toast.makeText(this, R.string.premium_unavailable, Toast.LENGTH_SHORT).show();
+                    updatePremiumButtonState();
+                });
             }
         });
     }
@@ -328,6 +196,15 @@ public class Premium extends AppCompatActivity {
     private void purchaseSubscription() {
         if (!billingClient.isReady()) {
             Log.e("BillingClient", "Billing Client is not ready");
+            Toast.makeText(this, R.string.billing_not_ready, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (premiumProduct == null || offerToken.isEmpty()) {
+            Log.e("BillingClient", "Cannot launch billing flow without product details");
+            Toast.makeText(this, R.string.premium_still_loading, Toast.LENGTH_SHORT).show();
+            queryProducts();
+            updatePremiumButtonState();
             return;
         }
 
@@ -342,11 +219,31 @@ public class Premium extends AppCompatActivity {
         BillingResult billingResult = billingClient.launchBillingFlow(this, billingFlowParams);
         if (billingResult.getResponseCode() != BillingClient.BillingResponseCode.OK) {
             Log.e("BillingClient", "Failed to launch billing flow: " + billingResult.getDebugMessage());
+            showBillingFailure(billingResult);
         }
+    }
+
+    private void showBillingFailure(BillingResult billingResult) {
+        int message = R.string.premium_unavailable;
+        if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.USER_CANCELED) {
+            return;
+        }
+        if (billingResult.getOnPurchasesUpdatedSubResponseCode()
+                == BillingClient.OnPurchasesUpdatedSubResponseCode.PAYMENT_DECLINED_DUE_TO_INSUFFICIENT_FUNDS) {
+            message = R.string.billing_insufficient_funds;
+        } else if (billingResult.getOnPurchasesUpdatedSubResponseCode()
+                == BillingClient.OnPurchasesUpdatedSubResponseCode.USER_INELIGIBLE) {
+            message = R.string.billing_user_ineligible;
+        }
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
     // Handle purchase result
     private void handlePurchase(Purchase purchase) {
+        if (!purchase.getProducts().contains(PremiumAccess.PRODUCT_ID)) {
+            return;
+        }
+
         if (purchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED) {
             if (!purchase.isAcknowledged()) {
                 AcknowledgePurchaseParams acknowledgePurchaseParams =
@@ -357,12 +254,12 @@ public class Premium extends AppCompatActivity {
                 billingClient.acknowledgePurchase(acknowledgePurchaseParams, billingResult -> {
                     if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
                         Log.i("BillingClient", "Subscription acknowledged.");
-                        grantPremiumAccess();
+                        grantPremiumAccess(purchase);
                     }
                 });
             } else {
                 Log.i("BillingClient", "Purchase already acknowledged.");
-                grantPremiumAccess();
+                grantPremiumAccess(purchase);
             }
         } else if (purchase.getPurchaseState() == Purchase.PurchaseState.PENDING) {
             Log.i("BillingClient", "Purchase is pending. Waiting for completion.");
@@ -373,16 +270,27 @@ public class Premium extends AppCompatActivity {
 
     // Check existing subscriptions
     private void checkExistingSubscription() {
+        if (!billingClient.isReady()) {
+            return;
+        }
+
         billingClient.queryPurchasesAsync(
                 QueryPurchasesParams.newBuilder()
                         .setProductType(BillingClient.ProductType.SUBS)
                         .build(),
                 (billingResult, purchasesList) -> {
                     if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK && purchasesList != null) {
+                        boolean hasActivePremium = false;
                         for (Purchase purchase : purchasesList) {
-                            if (purchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED) {
-                                grantPremiumAccess();  // Ensure premium access is granted
+                            if (purchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED
+                                    && purchase.getProducts().contains(PremiumAccess.PRODUCT_ID)) {
+                                hasActivePremium = true;
+                                handlePurchase(purchase);
                             }
+                        }
+                        if (!hasActivePremium) {
+                            PremiumAccess.revokePremiumAccess(this);
+                            runOnUiThread(this::updatePremiumButtonState);
                         }
                     } else {
                         Log.e("BillingClient", "Failed to query purchases: " + billingResult.getDebugMessage());
@@ -392,22 +300,50 @@ public class Premium extends AppCompatActivity {
     }
 
 
-    private void grantPremiumAccess() {
+    private void grantPremiumAccess(Purchase purchase) {
+        PremiumAccess.grantPremiumAccess(this, purchase.getPurchaseToken());
         runOnUiThread(() -> {
-            Toast.makeText(this, "Premium Activated 🎉", Toast.LENGTH_LONG).show();
-        // Save premium status locally
-        getSharedPreferences("AppPrefs", MODE_PRIVATE)
-                .edit()
-                .putBoolean("isPremiumUser", true)
-                .apply();
+            Toast.makeText(this, R.string.premium_activated, Toast.LENGTH_LONG).show();
+            updatePremiumButtonState();
+        });
+    }
 
+    private void updatePremiumButtonState() {
+        Button subscribeButton = findViewById(R.id.button_premium);
+        if (subscribeButton == null) {
+            return;
+        }
 
-    });
+        if (PremiumAccess.isPremiumUser(this)) {
+            subscribeButton.setText(R.string.premium_active);
+            subscribeButton.setEnabled(false);
+        } else if (premiumUnavailable) {
+            subscribeButton.setText(R.string.premium_unavailable);
+            subscribeButton.setEnabled(true);
+        } else {
+            subscribeButton.setText(premiumProduct != null && !offerToken.isEmpty()
+                    ? getString(R.string.unlock_button_text)
+                    : getString(R.string.premium_loading));
+            subscribeButton.setEnabled(true);
+        }
     }
 
     private void handleUIInteractions() {
         ImageView backButton = findViewById(R.id.btnBackPremium);
         backButton.setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed()); // Recommended Fix
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (billingClient == null) {
+            return;
+        }
+        if (billingClient.isReady()) {
+            checkExistingSubscription();
+        } else {
+            startBillingConnection();
+        }
     }
 
     @Override

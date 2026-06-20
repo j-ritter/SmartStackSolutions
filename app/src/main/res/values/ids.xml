@@ -8,7 +8,6 @@
     <item name="spinnerSubcategoriesSpending" type="id" />
     <item name="txtVendorSpending" type="id" />
     <item name="spinnerVendorsSpending" type="id" />
-    <item name="edtCustomVendorSpending" type="id" />
     <item name="txtAmountSpending" type="id" />
     <item name="edtAmountSpending" type="id" />
     <item name="txtDateSpending" type="id" />
@@ -27,7 +26,6 @@
     <item name="spinnerSubcategoriesBill" type="id" />
     <item name="txtVendorBill" type="id" />
     <item name="spinnerVendorsBill" type="id" />
-    <item name="edtCustomVendorBill" type="id" />
     <item name="txtAmountBill" type="id" />
     <item name="edtAmountBill" type="id" />
     <item name="txtDateBill" type="id" />
@@ -42,7 +40,6 @@
     <item name="btnImage" type="id" />
     <item name="txtImageAdded" type="id" />
     <item name="spinnerVendors" type="id" />
-    <item name="edtCustomVendor" type="id" />
     <item name="txtVendor" type="id" />
     <item name="edtComments" type="id" />
     <item name="spinnerRepeat" type="id" />

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -37,7 +37,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:paddingStart="20dp"
+            android:paddingTop="16dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="16dp">
 
             <!-- Title -->
             <TextView
@@ -46,10 +49,11 @@
                 android:layout_height="wrap_content"
                 android:text="@string/create_new_income"
                 android:textStyle="bold"
-                android:textSize="24sp"
+                android:textColor="@color/colorSecondary"
+                android:textSize="22sp"
                 android:gravity="center"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="16dp" />
+                android:layout_marginBottom="8dp" />
 
             <!-- Title Section -->
             <TextView
@@ -57,9 +61,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/title"
-                android:textSize="18sp"
+                android:textSize="13sp"
                 android:textStyle="bold"
-                android:layout_marginTop="16dp" />
+                android:textColor="@color/colorSecondary"
+                android:layout_marginTop="8dp" />
 
             <EditText
                 android:id="@+id/edtTitleIncome"
@@ -71,7 +76,8 @@
                 android:maxLength="30"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
-                android:textColorHint="#A5A5A5"
+                android:textColorHint="#8A96A3"
+                android:textColor="@color/textPrimary"
                 android:textSize="15sp" />
 
             <!-- Amount Section -->
@@ -81,7 +87,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/amount"
                 android:textStyle="bold"
-                android:textSize="18sp"
+                android:textColor="@color/colorSecondary"
+                android:textSize="13sp"
                 android:layout_marginTop="16dp" />
 
             <EditText
@@ -94,7 +101,31 @@
                 android:inputType="numberDecimal"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
-                android:textColorHint="#A5A5A5"
+                android:textColorHint="#8A96A3"
+                android:textColor="@color/textPrimary"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/source_payer"
+                android:textColor="@color/colorSecondary"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/edtSourceIncome"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/rounded_frame_background_blue"
+                android:hint="@string/source_payer_hint"
+                android:maxLength="50"
+                android:paddingStart="15dp"
+                android:paddingEnd="15dp"
+                android:textColor="@color/income_color"
+                android:textColorHint="#8A96A3"
                 android:textSize="15sp" />
 
             <!-- Date Section -->
@@ -102,9 +133,10 @@
                 android:id="@+id/txtDateIncome"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/date"
+                android:text="@string/income_date"
                 android:textStyle="bold"
-                android:textSize="18sp"
+                android:textColor="@color/colorSecondary"
+                android:textSize="13sp"
                 android:layout_marginTop="16dp" />
 
             <EditText
@@ -117,7 +149,8 @@
                 android:inputType="text"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
-                android:textColorHint="#A5A5A5"
+                android:textColorHint="#8A96A3"
+                android:textColor="@color/textPrimary"
                 android:textSize="15sp" />
 
             <!-- Category Section -->
@@ -127,7 +160,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/category"
                 android:textStyle="bold"
-                android:textSize="18sp"
+                android:textColor="@color/colorSecondary"
+                android:textSize="13sp"
                 android:layout_marginTop="16dp" />
 
             <Spinner
@@ -144,7 +178,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/subcategory"
                 android:textStyle="bold"
-                android:textSize="18sp"
+                android:textColor="@color/colorSecondary"
+                android:textSize="13sp"
                 android:layout_marginTop="16dp" />
 
             <Spinner
@@ -161,7 +196,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/repeat"
                 android:textStyle="bold"
-                android:textSize="18sp"
+                android:textColor="@color/colorSecondary"
+                android:textSize="13sp"
                 android:layout_marginTop="16dp" />
 
             <Spinner
@@ -171,6 +207,14 @@
                 android:layout_marginTop="8dp"
                 android:background="@drawable/rounded_frame_background_blue" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="@string/recurrence_one_year_explanation"
+                android:textColor="#647383"
+                android:textSize="12sp" />
+
             <!-- Comment Section -->
             <TextView
                 android:id="@+id/txtCommentIncome"
@@ -178,7 +222,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/comments"
                 android:textStyle="bold"
-                android:textSize="18sp"
+                android:textColor="@color/colorSecondary"
+                android:textSize="13sp"
                 android:layout_marginTop="16dp" />
 
             <EditText
@@ -188,10 +233,11 @@
                 android:layout_marginTop="8dp"
                 android:background="@drawable/rounded_frame_background_blue"
                 android:hint="@string/write_your_comments"
-                android:maxLength="30"
+                android:maxLength="50"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
-                android:textColorHint="#A5A5A5"
+                android:textColorHint="#8A96A3"
+                android:textColor="@color/textPrimary"
                 android:textSize="15sp" />
 
         </LinearLayout>
@@ -201,12 +247,14 @@
     <Button
         android:id="@+id/btnCancelIncome"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="52dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/btnlog"
         android:text="@string/cancel"
+        android:textAllCaps="false"
+        android:textColor="@color/colorSecondary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnSaveIncome"
         app:layout_constraintStart_toStartOf="@+id/guidelineStart" />
@@ -214,12 +262,13 @@
     <Button
         android:id="@+id/btnSaveIncome"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="52dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/btnlogin"
         android:text="@string/save"
+        android:textAllCaps="false"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btnCancelIncome"

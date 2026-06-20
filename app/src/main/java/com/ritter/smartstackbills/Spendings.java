@@ -15,6 +15,7 @@ public class Spendings {
     // New fields to avoid Firestore mapping issues
     private String repeat = "No";  // Default to "No"
     private String billId;  // Optional, set to null if not used
+    private String parentBillId;
     private String recurrenceInterval;  // Optional, set to null if not used
 
     public Spendings() {
@@ -120,6 +121,10 @@ public class Spendings {
         return isEssential;
     }
 
+    public void setEssential(boolean essential) {
+        isEssential = essential;
+    }
+
     public boolean isRecurring() {
         return isRecurring;
     }
@@ -143,6 +148,14 @@ public class Spendings {
 
     public void setBillId(String billId) {
         this.billId = billId;
+    }
+
+    public String getParentBillId() {
+        return parentBillId;
+    }
+
+    public void setParentBillId(String parentBillId) {
+        this.parentBillId = parentBillId;
     }
 
     public String getRecurrenceInterval() {

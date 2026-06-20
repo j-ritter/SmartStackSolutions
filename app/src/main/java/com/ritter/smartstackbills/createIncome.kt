@@ -3,10 +3,13 @@ package com.ritter.smartstackbills
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
+import android.view.View
 import android.widget.*
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
@@ -46,14 +49,18 @@ class createIncome : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_create_income)
 
-        userEmail = intent.getStringExtra("USER_EMAIL")
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.feature3_constraint_layout)) { view, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            view.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
+
+        userEmail = intent.getStringExtra(AuthUtils.EXTRA_USER_EMAIL) ?: AuthUtils.currentUserEmail()
         userUid = FirebaseAuth.getInstance().currentUser?.uid
 
-        val isPremiumUser = getSharedPreferences("AppPrefs", MODE_PRIVATE)
-            .getBoolean("isPremiumUser", false)
-
-        if (!isPremiumUser) {
+        if (!PremiumAccess.isPremiumUser(this)) {
             showUpgradeDialog()
+            return
         }
 
         val edtDate = findViewById<EditText>(R.id.edtDateIncome)
@@ -72,20 +79,14 @@ class createIncome : AppCompatActivity() {
         arrayAdapterRepeat.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerRepeat.adapter = arrayAdapterRepeat
 
-        // Initialize spinners with empty arrays (populated later)
-        val emptyAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, arrayOf<String>())
-        spinnerCategories.adapter = emptyAdapter
-        spinnerSubcategories.adapter = emptyAdapter
+        loadCategories(spinnerCategories)
+        spinnerCategories.selectedItem?.let { loadSubcategories(it.toString(), spinnerSubcategories) }
+        spinnerCategories.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                spinnerCategories.selectedItem?.let { loadSubcategories(it.toString(), spinnerSubcategories) }
+            }
 
-        // Load categories dynamically when spinner is touched
-        spinnerCategories.setOnTouchListener { _, _ ->
-            loadCategories(spinnerCategories)
-            false
-        }
-
-        spinnerSubcategories.setOnTouchListener { _, _ ->
-            spinnerCategories.selectedItem?.let { loadSubcategories(it.toString(), spinnerSubcategories) }
-            false
+            override fun onNothingSelected(parent: AdapterView<*>?) = Unit
         }
 
         saveButton.setOnClickListener {
@@ -94,25 +95,17 @@ class createIncome : AppCompatActivity() {
 
         val btnCancel = findViewById<Button>(R.id.btnCancelIncome)
         btnCancel.setOnClickListener {
-            val intent = Intent(this, MyIncome::class.java)
-            intent.putExtra("USER_EMAIL", userEmail)
-            startActivity(intent)
+            finish()
         }
     }
 
     private fun showUpgradeDialog() {
-        AlertDialog.Builder(this)
-            .setTitle("Upgrade to Premium")
-            .setMessage("This feature is for premium users only. Upgrade now to unlock all features!")
-            .setPositiveButton("Upgrade") { _, _ ->
-                val intent = Intent(this, Premium::class.java)
-                startActivity(intent)
-                finish()
-            }
-            .setNegativeButton("Cancel") { _, _ ->
-                finish() // Closes `createIncome`
-            }
-            .show()
+        PremiumUpgradeDialog.show(
+            this,
+            R.string.premium_upgrade_required,
+            intent.getStringExtra(AuthUtils.EXTRA_USER_EMAIL),
+            finishHost = true
+        )
     }
 
     private fun showDatePickerDialog() {
@@ -139,16 +132,18 @@ class createIncome : AppCompatActivity() {
                 false
             }
         } catch (e: Exception) {
-            Toast.makeText(this, "Invalid date format. Please use dd/MM/yyyy", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.invalid_date_format, Toast.LENGTH_SHORT).show()
             false
         }
     }
 
     private fun saveIncome() {
         if (validateMandatoryFields() && validateDateField()) {
-            if (userEmail != null && userUid != null) {
+            val uid = userUid
+            if (uid != null) {
                 val incomeTitle = findViewById<EditText>(R.id.edtTitleIncome).text.toString()
                 val incomeAmount = findViewById<EditText>(R.id.edtAmountIncome).text.toString().toDoubleOrNull() ?: 0.0
+                val incomeSource = findViewById<EditText>(R.id.edtSourceIncome).text.toString().trim()
                 val incomeDateString = findViewById<EditText>(R.id.edtDateIncome).text.toString()
                 val incomeCategory = findViewById<Spinner>(R.id.spinnerCategoriesIncome).selectedItem?.toString() ?: "-"
                 val incomeSubcategory = findViewById<Spinner>(R.id.spinnerSubcategoriesIncome).selectedItem?.toString() ?: "-"
@@ -172,37 +167,44 @@ class createIncome : AppCompatActivity() {
                     "subcategory" to incomeSubcategory,
                     "repeat" to incomeRepeat,
                     "comment" to incomeComment,
+                    "source" to incomeSource,
                 )
 
-                val docRef = db.collection("users").document(userUid!!).collection("income").document()
+                val docRef = db.collection("users").document(uid).collection("income").document()
                 val incomeId = docRef.id
                 income["incomeId"] = incomeId
+                income["parentIncomeId"] = incomeId
 
-                docRef.set(income)
+                val batch = db.batch()
+                batch.set(docRef, income)
+                if (incomeRepeat != "No" && incomeDate != null) {
+                    addRecurringIncomeToBatch(
+                        batch, uid, incomeTitle, incomeAmount, incomeDate,
+                        incomeCategory, incomeSubcategory, incomeRepeat,
+                        incomeComment, incomeSource, incomeId
+                    )
+                }
+
+                batch.commit()
                     .addOnSuccessListener {
-                        Toast.makeText(this, "Income saved successfully", Toast.LENGTH_SHORT).show()
-                        // Generate recurring income if necessary
-                        if (incomeRepeat != "No" && incomeDate != null) {
-                            generateRecurringIncome(
-                                incomeTitle, incomeAmount, incomeDate, incomeCategory, incomeSubcategory,
-                                incomeRepeat, incomeComment, incomeId
-                            )
-                        }
+                        Toast.makeText(this, R.string.income_saved, Toast.LENGTH_SHORT).show()
                         val intent = Intent(this, MyIncome::class.java)
-                        intent.putExtra("USER_EMAIL", userEmail)
+                        intent.putExtra(AuthUtils.EXTRA_USER_EMAIL, userEmail)
                         startActivity(intent)
+                        finish()
                     }
                     .addOnFailureListener { e ->
-                        Toast.makeText(this, "Error saving income: ${e.message}", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, getString(R.string.income_save_failed, e.message.orEmpty()), Toast.LENGTH_SHORT).show()
                     }
             } else {
-                Toast.makeText(this, "Error: Unable to retrieve user email or UID", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Error: Unable to retrieve user UID", Toast.LENGTH_SHORT).show()
             }
         }
     }
-    private fun generateRecurringIncome(
-        incomeTitle: String, incomeAmount: Double, incomeDate: Date, incomeCategory: String, incomeSubcategory: String,
-        incomeRepeat: String, incomeComment: String, parentIncomeId: String
+    private fun addRecurringIncomeToBatch(
+        batch: com.google.firebase.firestore.WriteBatch,
+        uid: String, incomeTitle: String, incomeAmount: Double, incomeDate: Date, incomeCategory: String, incomeSubcategory: String,
+        incomeRepeat: String, incomeComment: String, incomeSource: String, parentIncomeId: String
     ) {
         val calendar = Calendar.getInstance()
         calendar.time = incomeDate
@@ -228,7 +230,7 @@ class createIncome : AppCompatActivity() {
                 break
             }
             // Create a new incomeId for the next occurrence
-            val newIncomeId = db.collection("users").document(userUid!!).collection("income").document().id
+            val newIncomeId = db.collection("users").document(uid).collection("income").document().id
             // Prepare the data for the recurring income
             val recurringIncome = hashMapOf(
                 "name" to incomeTitle,
@@ -238,18 +240,13 @@ class createIncome : AppCompatActivity() {
                 "subcategory" to incomeSubcategory,
                 "repeat" to incomeRepeat,
                 "comment" to incomeComment,
+                "source" to incomeSource,
                 "parentIncomeId" to parentIncomeId,  // Link to the original income
                 "incomeId" to newIncomeId
             )
-            // Save the next occurrence to Firebase
-            db.collection("users").document(userUid!!).collection("income").document(newIncomeId)
-                .set(recurringIncome)
-                .addOnSuccessListener {
-                    Toast.makeText(this, "Recurring income saved successfully", Toast.LENGTH_SHORT).show()
-                }
-                .addOnFailureListener { e ->
-                    Toast.makeText(this, "Error saving recurring income: ${e.message}", Toast.LENGTH_SHORT).show()
-                }
+            val recurringRef = db.collection("users").document(uid)
+                .collection("income").document(newIncomeId)
+            batch.set(recurringRef, recurringIncome)
         }
     }
 
@@ -259,17 +256,17 @@ class createIncome : AppCompatActivity() {
         val incomeDate = findViewById<EditText>(R.id.edtDateIncome).text.toString()
 
         if (incomeTitle.isEmpty()) {
-            Toast.makeText(this, "Title is required", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.title_required, Toast.LENGTH_SHORT).show()
             return false
         }
 
-        if (incomeAmount.isEmpty()) {
-            Toast.makeText(this, "Amount is required", Toast.LENGTH_SHORT).show()
+        if (incomeAmount.toDoubleOrNull()?.let { it > 0 } != true) {
+            Toast.makeText(this, R.string.enter_valid_amount, Toast.LENGTH_SHORT).show()
             return false
         }
 
         if (incomeDate.isEmpty()) {
-            Toast.makeText(this, "Date is required", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.date_required, Toast.LENGTH_SHORT).show()
             return false
         }
 
@@ -277,12 +274,12 @@ class createIncome : AppCompatActivity() {
     }
 
     private fun loadCategories(spinnerCategories: Spinner) {
-        val arrayAdapterCategories = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, categories)
+        val arrayAdapterCategories = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, FinancialEntryOptions.incomeCategories)
         spinnerCategories.adapter = arrayAdapterCategories
     }
 
     private fun loadSubcategories(category: String, spinnerSubcategories: Spinner) {
-        val subcategories = subcategoriesMap[category] ?: emptyArray()
+        val subcategories = FinancialEntryOptions.incomeSubcategories[category] ?: emptyArray()
         val arrayAdapterSubcategories = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, subcategories)
         spinnerSubcategories.adapter = arrayAdapterSubcategories
     }

@@ -3,10 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardElevation="8dp"
-    app:cardCornerRadius="8dp"
     android:layout_margin="8dp"
-    android:padding="8dp">
+    app:cardCornerRadius="8dp"
+    app:cardElevation="8dp">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -16,218 +15,104 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="8dp">
+            android:padding="18dp">
 
-            <!-- Upper Part -->
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="4dp">
+                android:layout_height="48dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/imgEditSpendings"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/edit_closed_payment"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_edit"
+                    app:tint="@color/colorSecondary" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/details"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/closed_payment_details"
+                    android:textColor="@color/colorSecondary"
                     android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textColor="@android:color/black"
-                    android:layout_centerInParent="true"/>
+                    android:textStyle="bold" />
 
                 <ImageView
                     android:id="@+id/imgDeleteSpendings"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/delete_closed_payment"
+                    android:padding="10dp"
                     android:src="@drawable/ic_delete"
-                    android:contentDescription="Delete Spending"/>
+                    app:tint="@color/colorSecondary" />
+            </LinearLayout>
 
-                <!-- Edit Icon -->
-                <ImageView
-                    android:id="@+id/imgEditSpendings"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_alignParentStart="true"
-                    android:src="@drawable/ic_edit"
-                    android:contentDescription="Edit Spending"/>
+            <TextView style="@style/DetailDialogLabel" android:layout_marginTop="10dp" android:text="@string/title" />
+            <EditText android:id="@+id/edtTitleDialogSpendings" style="@style/DetailDialogInput" />
 
-            </RelativeLayout>
+            <TextView style="@style/DetailDialogLabel" android:layout_marginTop="12dp" android:text="@string/amount" />
+            <EditText
+                android:id="@+id/edtAmountDialogSpendings"
+                style="@style/DetailDialogInput"
+                android:inputType="numberDecimal"
+                android:textColor="@color/spending_color" />
 
-            <!-- Middle Section -->
+            <TextView style="@style/DetailDialogLabel" android:layout_marginTop="12dp" android:text="@string/payment_date" />
+            <EditText android:id="@+id/edtDateDialogSpendings" style="@style/DetailDialogInput" />
+
+            <TextView style="@style/DetailDialogLabel" android:layout_marginTop="12dp" android:text="@string/category" />
+            <EditText android:id="@+id/edtCategoryDialogSpendings" style="@style/DetailDialogInput" />
+
+            <TextView style="@style/DetailDialogLabel" android:layout_marginTop="12dp" android:text="@string/subcategory" />
+            <EditText android:id="@+id/edtSubcategoryDialogSpendings" style="@style/DetailDialogInput" />
+
+            <TextView style="@style/DetailDialogLabel" android:layout_marginTop="12dp" android:text="@string/vendor" />
+            <EditText android:id="@+id/edtVendorDialogSpendings" style="@style/DetailDialogInput" />
+
+            <TextView style="@style/DetailDialogLabel" android:layout_marginTop="12dp" android:text="@string/comments" />
+            <EditText
+                android:id="@+id/edtCommentDialogSpendings"
+                style="@style/DetailDialogInput"
+                android:layout_height="wrap_content"
+                android:gravity="top|start"
+                android:minHeight="72dp"
+                android:singleLine="false" />
+
+            <TextView style="@style/DetailDialogLabel" android:layout_marginTop="12dp" android:text="@string/attachment" />
+            <ImageView
+                android:id="@+id/edtAttachmentDialogSpendings"
+                android:layout_width="match_parent"
+                android:layout_height="190dp"
+                android:layout_marginTop="8dp"
+                android:contentDescription="@string/closed_payment_attachment"
+                android:scaleType="centerCrop" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="4dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/title"
-                    android:textSize="14sp"
-                    android:textColor="@android:color/black" />
-
-                <EditText
-                    android:id="@+id/edtTitleDialogSpendings"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:enabled="false"
-                    android:layout_marginTop="2dp"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:textColor="@android:color/black"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/category"
-                    android:layout_marginTop="4dp"
-                    android:textSize="14sp"
-                    android:textColor="@android:color/black" />
-
-                <EditText
-                    android:id="@+id/edtCategoryDialogSpendings"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:enabled="false"
-                    android:layout_marginTop="2dp"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:textColor="@android:color/black"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/subcategory"
-                    android:layout_marginTop="4dp"
-                    android:textSize="14sp"
-                    android:textColor="@android:color/black" />
-
-                <EditText
-                    android:id="@+id/edtSubcategoryDialogSpendings"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:enabled="false"
-                    android:layout_marginTop="2dp"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:textColor="@android:color/black"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/vendor"
-                    android:layout_marginTop="4dp"
-                    android:textSize="14sp"
-                    android:textColor="@android:color/black" />
-
-                <EditText
-                    android:id="@+id/edtVendorDialogSpendings"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:enabled="false"
-                    android:layout_marginTop="2dp"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:textColor="@android:color/black"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/amount"
-                    android:layout_marginTop="4dp"
-                    android:textSize="14sp"
-                    android:textColor="@android:color/black" />
-
-                <EditText
-                    android:id="@+id/edtAmountDialogSpendings"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:enabled="false"
-                    android:layout_marginTop="2dp"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:textColor="@android:color/black"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/date"
-                    android:layout_marginTop="4dp"
-                    android:textSize="14sp"
-                    android:textColor="@android:color/black" />
-
-                <EditText
-                    android:id="@+id/edtDateDialogSpendings"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:enabled="false"
-                    android:layout_marginTop="2dp"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:textColor="@android:color/black"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/comments"
-                    android:layout_marginTop="4dp"
-                    android:textSize="14sp"
-                    android:textColor="@android:color/black" />
-
-                <EditText
-                    android:id="@+id/edtCommentDialogSpendings"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:enabled="false"
-                    android:layout_marginTop="2dp"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:textColor="@android:color/black"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/attachment"
-                    android:layout_marginTop="4dp"
-                    android:textSize="14sp"
-                    android:textColor="@android:color/black" />
-
-                <ImageView
-                    android:id="@+id/edtAttachmentDialogSpendings"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:scaleType="centerCrop"
-                    android:layout_marginTop="8dp"
-                    android:contentDescription="Spending Image"/>
-            </LinearLayout>
-
-            <!-- Lower Part -->
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="8dp">
+                android:layout_marginTop="18dp"
+                android:gravity="end"
+                android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/btnCloseDialogSpendings"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/close"
-                    android:textSize="14dp"
-                    app:backgroundTint="#023047"
-                    android:layout_centerInParent="true" />
+                    style="@style/DetailDialogSecondaryButton"
+                    android:text="@string/close" />
 
                 <Button
                     android:id="@+id/btnSaveChangesSpendings"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/DetailDialogPrimaryButton"
+                    android:layout_marginStart="10dp"
                     android:text="@string/save"
-                    android:textSize="14dp"
-                    app:backgroundTint="#1E97F4"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:visibility="gone"/>
-            </RelativeLayout>
+                    android:visibility="gone" />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </androidx.cardview.widget.CardView>

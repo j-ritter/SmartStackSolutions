@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/dialog_premium_upgrade_bg"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <ImageView
+        android:id="@+id/tutorialImage"
+        android:layout_width="190dp"
+        android:layout_height="160dp"
+        android:contentDescription="@null"
+        android:scaleType="fitCenter" />
+
+    <TextView
+        android:id="@+id/tutorialTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:fontFamily="@font/ssboldbody"
+        android:gravity="center"
+        android:textColor="@color/colorSecondary"
+        android:textSize="22sp" />
+
+    <TextView
+        android:id="@+id/tutorialMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:lineSpacingExtra="3dp"
+        android:textColor="#647383"
+        android:textSize="15sp" />
+
+    <Button
+        android:id="@+id/tutorialPrimaryAction"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="22dp"
+        android:background="@drawable/tutorial_primary_button"
+        android:backgroundTint="@null"
+        android:textAllCaps="false"
+        android:textColor="@color/white" />
+
+    <Button
+        android:id="@+id/tutorialSecondaryAction"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="4dp"
+        android:text="@string/not_now"
+        android:textAllCaps="false"
+        android:textColor="@color/colorSecondary" />
+</LinearLayout>

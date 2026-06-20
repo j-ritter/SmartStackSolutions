@@ -6,4 +6,115 @@
     <style name="BottomNavTextStyle" parent="TextAppearance.AppCompat">
         <item name="android:textSize">9sp</item>
     </style>
+    <style name="PremiumFeatureCard">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">12dp</item>
+        <item name="android:background">@drawable/main_menu_card</item>
+        <item name="android:padding">14dp</item>
+    </style>
+    <style name="PremiumFeatureIcon">
+        <item name="android:layout_width">36dp</item>
+        <item name="android:layout_height">36dp</item>
+        <item name="android:scaleType">centerInside</item>
+    </style>
+    <style name="PremiumFeatureBadge">
+        <item name="android:layout_width">18dp</item>
+        <item name="android:layout_height">18dp</item>
+        <item name="android:src">@drawable/ic_star_orange</item>
+        <item name="android:visibility">visible</item>
+    </style>
+    <style name="PremiumFeatureTextContainer">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">14dp</item>
+        <item name="android:layout_marginEnd">12dp</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+    <style name="PremiumFeatureTitle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/colorSecondary</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="PremiumFeatureDescription">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">3dp</item>
+        <item name="android:lineSpacingExtra">1dp</item>
+        <item name="android:textColor">#647383</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+    <style name="PremiumMoreInfoButton">
+        <item name="android:layout_width">112dp</item>
+        <item name="android:layout_height">44dp</item>
+        <item name="android:background">@drawable/create_upload_button</item>
+        <item name="android:drawableEnd">@drawable/ic_disclosure_down</item>
+        <item name="android:drawablePadding">4dp</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:paddingStart">8dp</item>
+        <item name="android:paddingEnd">8dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">10sp</item>
+    </style>
+    <style name="SavingsDialogLabel">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/colorSecondary</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="SavingsDialogInput">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:background">@drawable/main_menu_card</item>
+        <item name="android:paddingStart">14dp</item>
+        <item name="android:paddingEnd">14dp</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="DetailDialogLabel">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">#647383</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+    <style name="DetailDialogInput">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:background">@drawable/auth_input_background</item>
+        <item name="android:enabled">false</item>
+        <item name="android:paddingStart">14dp</item>
+        <item name="android:paddingEnd">14dp</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">@color/colorSecondary</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="DetailDialogSecondaryButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:background">@drawable/auth_google_button</item>
+        <item name="android:backgroundTint">@null</item>
+        <item name="android:minWidth">104dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/colorSecondary</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="DetailDialogPrimaryButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:background">@drawable/auth_primary_button</item>
+        <item name="android:backgroundTint">@null</item>
+        <item name="android:minWidth">104dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/colorOnPrimary</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 </resources>

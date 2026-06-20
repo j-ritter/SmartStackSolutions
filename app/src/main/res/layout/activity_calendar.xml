@@ -5,57 +5,101 @@
     android:id="@+id/drawer_layout_calendar"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context=".CalendarActivity">
 
-    <!-- Main Content Frame -->
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="#F5F7FA">
 
-        <!-- Main Content Layout -->
         <LinearLayout
             android:id="@+id/main_Calendar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <!-- Toolbar -->
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar_main_Calendar"
                 android:layout_width="match_parent"
-                android:layout_height="?actionBarSize"
-                app:menu="@menu/top_nav"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/white"
+                android:elevation="2dp"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
                 app:navigationIcon="@drawable/ic_menu"
                 app:navigationContentDescription="@string/content_description_navigation_menu"
                 app:title="@string/calendar_title"
                 app:titleCentered="true"
-                android:paddingEnd="12dp"
-                android:paddingStart="12dp"/>
+                app:titleTextColor="@color/colorSecondary" />
 
-            <!-- CalendarView -->
             <CalendarView
                 android:id="@+id/calendarView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:background="@color/white"
                 android:dateTextAppearance="?android:attr/textAppearanceLarge" />
 
-            <!-- RecyclerView to display bills on the selected date -->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewCalendarEntries"
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
-                android:padding="16dp" />
+                android:layout_weight="1">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewCalendarEntries"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clipToPadding="false"
+                    android:paddingStart="12dp"
+                    android:paddingTop="12dp"
+                    android:paddingEnd="12dp"
+                    android:paddingBottom="72dp" />
+
+                <ProgressBar
+                    android:id="@+id/progressCalendar"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center" />
+
+                <LinearLayout
+                    android:id="@+id/calendarEmptyState"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="32dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/no_entries_for_date"
+                        android:textColor="@color/colorSecondary"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center"
+                        android:text="@string/no_entries_for_date_explanation"
+                        android:textColor="#647383"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </FrameLayout>
 
         </LinearLayout>
 
-        <!-- Bottom Navigation View -->
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomNavigationViewCalendar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="64dp"
             android:layout_gravity="bottom"
+            android:background="#FFFFFF"
             app:itemIconTint="@color/nav_item_color_selector"
             app:itemTextColor="@color/nav_item_color_selector"
             app:itemTextAppearanceActive="@style/BottomNavTextStyle"
@@ -64,12 +108,17 @@
 
     </FrameLayout>
 
-    <!-- Navigation Drawer -->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_viewCalendar"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        android:background="@color/white"
+        app:headerLayout="@layout/nav_header_main"
+        app:itemBackground="@drawable/drawer_item_background"
+        app:itemHorizontalPadding="20dp"
+        app:itemIconPadding="18dp"
+        app:itemTextColor="@color/drawer_text_tint"
         app:menu="@menu/activity_main_drawer" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

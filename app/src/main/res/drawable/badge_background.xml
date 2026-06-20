@@ -3,6 +3,6 @@
     <solid android:color="@color/orange" />
     <corners android:radius="50dp" /> <!-- Makes the shape circular -->
     <size
-        android:width="24dp"
-        android:height="24dp" /> <!-- Controls the size of the badge -->
+        android:width="16dp"
+        android:height="16dp" /> <!-- Controls the size of the badge -->
 </shape>

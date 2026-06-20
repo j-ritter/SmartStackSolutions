@@ -12,7 +12,7 @@
     <string name="forgot_password">¿Olvidaste tu contraseña?</string>
     <string name="already_have_an_account">¿Ya tienes una cuenta?</string>
     <string name="sign_up_with_google">Registrarse con Google</string>
-    <string name="default_web_client_id">335330685775-ngqfr5vqupj0smekoc1uvdjq5vmibkud.apps.googleusercontent.com</string>
+    <string name="default_web_client_id">335330685775-busm9leph5emh7ifp13925ncer4vrq4q.apps.googleusercontent.com</string>
     <string name="or">o</string>
     <string name="all">Todos</string>
     <string name="you_still_do_not_have_any_bill_registered">Aún no tienes ninguna factura registrada</string>
@@ -21,7 +21,7 @@
     <string name="income">Ingresos</string>
     <string name="calendar">Calendario</string>
     <string name="account">Cuenta</string>
-    <string name="incoming">Entrante</string>
+    <string name="incoming">Próximos</string>
     <string name="overdue">Atrasado</string>
     <string name="recurring">Recurrente</string>
     <string name="paid">Pagado</string>
@@ -34,6 +34,24 @@
     <string name="cancel">Cancelar</string>
     <string name="save">Guardar</string>
     <string name="attachment">Adjunto</string>
+    <string name="delete_open_payment_confirmation">¿Eliminar este pago pendiente?</string>
+    <string name="delete_recurring_payment">Eliminar pago recurrente</string>
+    <string name="delete_this_occurrence">Eliminar solo este pago</string>
+    <string name="delete_this_and_future">Eliminar este pago y los futuros</string>
+    <string name="open_payment_deleted">Pago pendiente eliminado.</string>
+    <string name="future_open_payments_deleted">Este pago y los futuros fueron eliminados.</string>
+    <string name="open_payment_delete_failed">No se pudo eliminar el pago.</string>
+    <string name="add_attachment">Agregar archivo adjunto</string>
+    <string name="take_photo">Tomar foto</string>
+    <string name="choose_from_gallery">Elegir de la galería</string>
+    <string name="attachment_added">Archivo adjunto agregado</string>
+    <string name="attachment_failed">No se pudo agregar el archivo adjunto</string>
+    <string name="closed_payment_details">Detalles del pago cerrado</string>
+    <string name="edit_closed_payment">Editar pago cerrado</string>
+    <string name="delete_closed_payment">Eliminar pago cerrado</string>
+    <string name="closed_payment_attachment">Archivo adjunto del pago cerrado</string>
+    <string name="edit_income">Editar ingreso</string>
+    <string name="income_details">Detalles del ingreso</string>
     <string name="create_new_open_payment">Crear nuevo pago pendiente</string>
     <string name="open_payments">Pagos pendientes</string>
     <string name="create_new_closed_payment">Crear nuevo pago cerrado</string>
@@ -47,6 +65,8 @@
     <string name="close">Cerrar</string>
     <string name="set_savings_target">Establecer objetivo de ahorro</string>
     <string name="delete_target">Eliminar objetivo</string>
+    <string name="delete">Eliminar</string>
+    <string name="delete_savings_target_confirmation">¿Eliminar este objetivo de ahorro? También se borrará su historial de progreso.</string>
     <string name="edit_target">Editar objetivo</string>
     <string name="name_target">Nombre del objetivo</string>
     <string name="target_amount">Cantidad objetivo</string>
@@ -66,6 +86,13 @@
     <string name="help_support">Ayuda y soporte</string>
     <string name="terms_conditions">Términos y condiciones</string>
     <string name="logout">Cerrar sesión</string>
+    <string name="logout_confirmation">¿Cerrar sesión de SmartStack Solutions en este dispositivo?</string>
+    <string name="about_us_subtitle">Por qué existe SmartStack y cómo facilita decisiones financieras más claras.</string>
+    <string name="faqs_subtitle">Respuestas rápidas sobre pagos, ingresos, metas de ahorro, Premium y notificaciones.</string>
+    <string name="data_security_subtitle">Cómo se gestionan el acceso a la cuenta y tus registros financieros.</string>
+    <string name="help_subtitle">Encuentra respuestas o contacta al equipo de soporte de SmartStack.</string>
+    <string name="terms_subtitle">Condiciones importantes aplicables al usar SmartStack Solutions.</string>
+    <string name="about_us_image_description">Descripción general de SmartStack Solutions</string>
     <string name="income_date">Fecha de ingreso</string>
     <string name="repeat">Repetir</string>
     <string name="purchase_date">Fecha de compra</string>
@@ -234,9 +261,10 @@
 </string>
     <string name="content_description_logo">Logo de la aplicación</string>
     <string name="app_title">Soluciones SmartStack</string>
-    <string name="total_net_savings">Ahorros netos totales</string>
+    <string name="total_net_savings">Saldo mensual previsto</string>
     <string name="set_saving_target">Meta de ahorro</string>
     <string name="target_achieved">Meta alcanzada</string>
+    <string name="savings_target_reached_message">Felicidades. Alcanzaste el 100 % de tu meta de ahorro.</string>
     <string name="goal_summary">Necesitas ahorrar %s por mes para alcanzar tu meta para %s.</string>
 
     <string name="content_description_back_arrow">Volver a la pantalla anterior</string>
@@ -248,6 +276,7 @@
     <string name="premium_feature_income_management">Gestión de ingresos: Administra tus fuentes de ingresos.</string>
     <string name="premium_feature_saving_target">Meta de ahorro: Establece una meta de ahorro y sigue el progreso.</string>
     <string name="premium_closing_text">Desbloquea Premium para disfrutar de una visión financiera completa.</string>
+    <string name="premium_upgrade_required">Actualiza a Premium para crear pagos cerrados, ingresos y metas de ahorro.</string>
     <string name="features">Características</string>
     <string name="feature_open_payments_title">Pagos pendientes</string>
     <string name="feature_open_payments_desc">Gestiona los pagos pendientes y mantente al día con tus facturas próximas.</string>
@@ -269,6 +298,13 @@
     <string name="feature_saving_target_expandable">La función de Meta de Ahorro te permite establecer objetivos financieros personalizados. Define una cantidad objetivo, establece un período y sigue tu progreso mensual hacia el logro de tus metas financieras.</string>
     <string name="unlock_button_text">Desbloquear SmartStack Solutions Premium</string>
     <string name="more_information">Más información</string>
+    <string name="premium_still_loading">Premium todavía se está cargando. Inténtalo de nuevo.</string>
+    <string name="billing_not_ready">La facturación aún no está lista. Inténtalo de nuevo.</string>
+    <string name="premium_activated">Premium activado</string>
+    <string name="premium_active">Premium activo</string>
+    <string name="premium_unavailable">Premium no está disponible ahora. Toca para intentar de nuevo.</string>
+    <string name="premium_loading">Cargando opciones Premium...</string>
+    <string name="less_information">Menos información</string>
     <string name="terms_and_conditions_title">Términos y condiciones</string>
     <string name="terms_and_conditions_content">
         1. Aceptación de los términos&#10;&#10;Al usar la aplicación Soluciones SmartStack, aceptas estar sujeto a estos términos y condiciones. Si no estás de acuerdo, por favor no utilices la aplicación.&#10;&#10;
@@ -291,4 +327,73 @@
 
         Si tienes alguna pregunta o necesitas más información sobre nuestra misión y servicios, no dudes en contactarnos. Correo electrónico: service@smartstack-solutions.com. ¡Estamos aquí para ayudarte a aprovechar al máximo Soluciones SmartStack!
     </string>
+    <string name="delete_recurring_income">Eliminar ingreso recurrente</string>
+    <string name="delete_this_income_entry">Eliminar solo este ingreso</string>
+    <string name="delete_this_and_future_income">Eliminar este ingreso y los futuros</string>
+    <string name="delete_all_recurring_income">Eliminar todos los ingresos recurrentes</string>
+    <string name="delete_income_entry">Eliminar ingreso</string>
+    <string name="delete_income_confirmation">¿Eliminar este ingreso?</string>
+    <string name="income_deleted">Ingreso eliminado.</string>
+    <string name="future_income_deleted">Este ingreso y los futuros fueron eliminados.</string>
+    <string name="all_recurring_income_deleted">Se eliminaron todas las entradas de esta serie de ingresos recurrentes.</string>
+    <string name="income_delete_failed">No se pudo eliminar el ingreso.</string>
+    <string name="empty_open_payments_title">Mantente al día con tus próximos pagos</string>
+    <string name="empty_open_payments_message">Añade facturas y otros pagos pendientes. SmartStack organiza los próximos y vencidos y te recuerda antes de su fecha límite.</string>
+    <string name="empty_closed_payments_title">Crea tu historial de gastos</string>
+    <string name="empty_closed_payments_message">Los pagos cerrados son gastos que ya pagaste. Añádelos directamente o marca un pago pendiente como pagado para moverlo aquí.</string>
+    <string name="empty_income_title">Descubre de dónde viene tu dinero</string>
+    <string name="empty_income_message">Añade salario, trabajo independiente, prestaciones u otros ingresos. Marca los recurrentes para crear automáticamente entradas futuras.</string>
+    <string name="add_open_payment">Añadir pago pendiente</string>
+    <string name="add_closed_payment">Añadir pago cerrado</string>
+    <string name="add_income">Añadir ingreso</string>
+    <string name="explore_premium">Explorar Premium</string>
+    <string name="not_now">Ahora no</string>
+    <string name="no_entries_match_filter">Ninguna entrada coincide con este filtro</string>
+    <string name="show_tutorial_again">Mostrar tutorial de la sección</string>
+    <string name="payment_reminders">Recordatorios de pagos</string>
+    <string name="payment_reminders_channel_description">Recordatorios de pagos pendientes próximos, con vencimiento hoy o atrasados.</string>
+    <string name="notification_settings">Configuración de notificaciones</string>
+    <string name="payment_notifications">Notificaciones de pagos</string>
+    <string name="advance_reminder">Recordatorio anticipado</string>
+    <string name="due_today_reminder">Recordatorio el día del vencimiento</string>
+    <string name="overdue_reminder">Recordatorio de pago atrasado</string>
+    <string name="weekly_overdue_reminder">Repetir semanalmente si está atrasado</string>
+    <string name="reminder_off">Desactivado</string>
+    <string name="reminder_one_day">1 día antes</string>
+    <string name="reminder_three_days">3 días antes</string>
+    <string name="reminder_seven_days">7 días antes</string>
+    <string name="notification_settings_saved">Configuración de notificaciones guardada.</string>
+    <string name="notifications_load_failed">No se pudieron cargar las notificaciones.</string>
+    <string name="notification_due_soon_title">Pago próximo a vencer</string>
+    <string name="notification_due_soon_text">%1$s · %2$s · Vence el %3$s</string>
+    <string name="notification_due_today_title">Pago con vencimiento hoy</string>
+    <string name="notification_due_today_text">%1$s · %2$s · Vence hoy</string>
+    <string name="notification_overdue_title">Pago atrasado</string>
+
+    <string name="view_payment">Ver pago</string>
+    <string name="notification_due_date_short">Vence %1$s</string>
+    <string name="empty_notifications_title">No olvides ningún pago importante</string>
+    <string name="empty_notifications_message">SmartStack te avisa cuando un pago pendiente se acerca, vence hoy o está atrasado. Los recordatorios terminan cuando lo marcas como pagado.</string>
+    <string name="notifications_all_caught_up_title">Todo está al día</string>
+    <string name="notifications_all_caught_up_message">No hay recordatorios de pagos en este momento. Las nuevas notificaciones aparecerán aquí cuando un pago se acerque o esté atrasado.</string>
+    <string name="notifications_turned_off_title">Las notificaciones están desactivadas</string>
+    <string name="notifications_turned_off_message">Activa las notificaciones para recibir recordatorios de pagos próximos y atrasados.</string>
+    <string name="enable_notifications">Activar notificaciones</string>
+    <string name="payment_reminders_paused_title">Los recordatorios están pausados</string>
+    <string name="payment_reminders_paused_message">Vuelve a activar las notificaciones cuando quieras que SmartStack programe recordatorios.</string>
+    <plurals name="notification_overdue_text">
+        <item quantity="one">%1$s · %2$s · %3$d día de atraso</item>
+        <item quantity="other">%1$s · %2$s · %3$d días de atraso</item>
+    </plurals>
+    <string name="open_payment">Pago pendiente</string>
+    <string name="closed_payment">Pago cerrado</string>
+    <string name="overdue_open_payment">Pago pendiente atrasado</string>
+    <string name="untitled_entry">Entrada sin título</string>
+    <string name="no_category">Sin categoría</string>
+    <string name="no_entries_for_date">No hay entradas para esta fecha</string>
+    <string name="no_entries_for_date_explanation">Aquí aparecerán los pagos pendientes, pagos cerrados e ingresos de la fecha seleccionada.</string>
+    <string name="payment_date">Fecha de pago</string>
+    <string name="source_payer">Fuente / pagador</string>
+    <string name="source_payer_hint">Empleador, cliente, inquilino, institución…</string>
+    <string name="recurrence_one_year_explanation">SmartStack prepara entradas recurrentes para los próximos 12 meses para mantener tu panorama actualizado y manejable.</string>
 </resources>

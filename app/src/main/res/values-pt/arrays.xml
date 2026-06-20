@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="shared_categories">
+        <item>Moradia</item><item>Comunicação</item><item>Seguro</item><item>Assinaturas e associações</item><item>Transporte</item><item>Finanças/Taxas</item><item>Impostos</item><item>Saúde</item><item>Educação</item><item>Compras e consumo</item><item>Outros</item>
+    </string-array>
+    <string-array name="accommodation_subcategories"><item>Aluguel</item><item>Hipoteca</item><item>Manutenção da casa</item><item>Serviços públicos</item><item>Móveis</item><item>Reparos e reformas</item></string-array>
+    <string-array name="communication_subcategories"><item>Telefone celular</item><item>Telefone fixo</item><item>Internet</item><item>TV a cabo/satélite</item><item>Serviços de mensagens</item></string-array>
+    <string-array name="insurance_subcategories"><item>Seguro saúde</item><item>Seguro de vida</item><item>Seguro de carro</item><item>Seguro residencial</item><item>Seguro viagem</item><item>Seguro para pets</item></string-array>
+    <string-array name="subscription_memberships_subcategories"><item>Assinaturas de revistas/jornais</item><item>Serviços de streaming</item><item>Academias</item><item>Assinaturas de software</item><item>Clubes e associações</item></string-array>
+    <string-array name="transportation_subcategories"><item>Combustível</item><item>Manutenção do veículo</item><item>Transporte público</item><item>Estacionamento</item><item>Aluguel de veículo</item></string-array>
+    <string-array name="finances_fees_subcategories"><item>Taxas bancárias</item><item>Taxas de investimento</item><item>Juros de empréstimo</item><item>Taxas de cartão de crédito</item><item>Taxas de corretagem</item></string-array>
+    <string-array name="taxes_subcategories"><item>Imposto de renda</item><item>Imposto predial</item><item>Imposto sobre vendas</item><item>Imposto de trabalho autônomo</item><item>Imposto sobre ganhos de capital</item></string-array>
+    <string-array name="health_subcategories"><item>Consultas médicas</item><item>Cuidados dentários</item><item>Medicamentos prescritos</item><item>Suplementos de saúde</item><item>Equipamento médico</item></string-array>
+    <string-array name="education_subcategories"><item>Mensalidades</item><item>Livros didáticos</item><item>Cursos online</item><item>Material escolar</item><item>Atividades extracurriculares</item></string-array>
+    <string-array name="shopping_consumption_subcategories"><item>Mercado - Alimentos básicos</item><item>Mercado - Necessidades domésticas</item><item>Mercado - Bebidas</item><item>Mercado - Bebidas alcoólicas</item><item>Mercado - Lanches e doces</item><item>Mercado - Alimentos premium</item><item>Roupas</item><item>Eletrônicos</item><item>Itens domésticos</item><item>Produtos de cuidado pessoal</item></string-array>
+    <string-array name="others_subcategories"><item>Outros</item></string-array>
+    <string-array name="income_categories"><item>Salário</item><item>Trabalho autônomo/Freelance</item><item>Receita de aluguel</item><item>Receita de investimentos</item><item>Receita empresarial</item><item>Aposentadoria e pensões</item><item>Benefícios sociais</item><item>Bolsas e subsídios</item><item>Royalties e direitos autorais</item><item>Outras receitas</item><item>Criar novo tipo de receita</item></string-array>
+    <string-array name="salary_subcategories"><item>Salário regular</item><item>Horas extras</item><item>Bônus ou incentivos</item></string-array>
+    <string-array name="self_employment_subcategories"><item>Honorários por serviço</item><item>Receita por projeto</item></string-array>
+    <string-array name="rental_lease_income_subcategories"><item>Imóveis</item><item>Veículos</item><item>Equipamentos</item></string-array>
+    <string-array name="investment_income_subcategories"><item>Dividendos</item><item>Rendimentos de juros</item><item>Ganhos de capital</item></string-array>
+    <string-array name="business_income_subcategories"><item>Participação nos lucros</item><item>Salário executivo</item></string-array>
+    <string-array name="retirement_pensions_subcategories"><item>Pensão pública</item><item>Planos de pensão da empresa</item><item>Previdência privada</item></string-array>
+    <string-array name="social_benefits_subcategories"><item>Seguro-desemprego</item><item>Auxílio-doença</item><item>Benefícios parentais</item></string-array>
+    <string-array name="scholarships_grants_subcategories"><item>Bolsas de estudo</item><item>Subsídios de pesquisa</item></string-array>
+    <string-array name="royalties_copyrights_subcategories"><item>Patentes</item><item>Licenças de software</item><item>Publicações de livros</item></string-array>
+    <string-array name="other_income_subcategories"><item>Benefícios em espécie</item><item>Heranças e presentes</item><item>Retornos de crowdfunding/crowdinvesting</item></string-array>
+    <string-array name="savings_target_names"><item>Fundo de emergência</item><item>Férias</item><item>Entrada de imóvel</item><item>Compra de carro</item><item>Fundo de educação</item><item>Aposentadoria</item><item>Casamento</item><item>Investimento</item><item>Nenhum motivo específico</item></string-array>
+    <string-array name="target_period_options"><item>1 mês</item><item>2 meses</item><item>3 meses</item><item>6 meses</item><item>12 meses</item></string-array>
+    <string-array name="custom_weekdays"><item>Dom</item><item>Seg</item><item>Ter</item><item>Qua</item><item>Qui</item><item>Sex</item><item>Sáb</item></string-array>
+</resources>

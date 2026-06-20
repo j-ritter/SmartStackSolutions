@@ -5,6 +5,10 @@ import com.google.firebase.Timestamp;
 public class Notifications {
 
     private String notificationId;
+    private String billId;
+    private String type;
+    private String message;
+    private String paymentName;
     private String title;
     private Double amount;
     private Timestamp date;
@@ -33,6 +37,15 @@ public class Notifications {
     public void setNotificationId(String notificationId) {
         this.notificationId = notificationId;
     }
+
+    public String getBillId() { return billId; }
+    public void setBillId(String billId) { this.billId = billId; }
+    public String getType() { return type; }
+    public void setType(String type) { this.type = type; }
+    public String getMessage() { return message; }
+    public void setMessage(String message) { this.message = message; }
+    public String getPaymentName() { return paymentName; }
+    public void setPaymentName(String paymentName) { this.paymentName = paymentName; }
 
     public String getTitle() {
         return title;

@@ -4,21 +4,17 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.READ_MEDIA_VISUAL_USER_SELECTED" />
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
-    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
     <uses-permission android:name="com.android.vending.BILLING" />
 
     <application
-        android:allowBackup="true"
+        android:name=".SmartStackApplication"
+        android:allowBackup="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/logo_smartstack"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/logo_smartstack"
         android:supportsRtl="true"
         android:theme="@style/Theme.SmartStackBills"
         tools:targetApi="31">
@@ -26,7 +22,7 @@
         <!-- Supported Locales -->
         <meta-data
             android:name="android.supportedLocales"
-            android:value="en,es,de" />
+            android:value="en,es,de,fr,pt,pl" />
 
         <!-- AdMob Application ID -->
         <meta-data
@@ -34,7 +30,10 @@
             android:value="ca-app-pub-8302603162293293~3198672737"/>
         <activity
             android:name=".CalendarActivity"
-            android:exported="true" />
+            android:exported="false" />
+        <activity
+            android:name=".DataAccountActivity"
+            android:exported="false" />
         <activity
             android:name=".Premium"
             android:exported="false" />
@@ -61,6 +60,9 @@
             android:exported="false" />
         <activity
             android:name=".NotificationsActivity"
+            android:exported="false" />
+        <receiver
+            android:name=".PaymentNotificationActionReceiver"
             android:exported="false" />
 
         <provider

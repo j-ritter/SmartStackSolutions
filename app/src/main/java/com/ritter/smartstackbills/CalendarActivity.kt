@@ -1,7 +1,6 @@
 package com.ritter.smartstackbills
 
 import android.app.Dialog
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -13,11 +12,14 @@ import android.widget.CalendarView
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -27,10 +29,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
 import java.text.SimpleDateFormat
-import java.util.LinkedHashMap
+import java.util.Calendar
 import java.util.Locale
 
 
@@ -49,6 +51,13 @@ class CalendarActivity : AppCompatActivity(), MyAdapterCalendar.OnItemClickListe
     private lateinit var dialogBills: Dialog
     private lateinit var dialogSpendings: Dialog
     private lateinit var dialogIncome: Dialog
+    private val db = FirebaseFirestore.getInstance()
+    private val listenerRegistrations = mutableListOf<ListenerRegistration>()
+    private var billsLoaded = false
+    private var spendingsLoaded = false
+    private var incomeLoaded = false
+    private var selectedDate: String = SimpleDateFormat("d/M/yyyy", Locale.getDefault())
+        .format(Calendar.getInstance().time)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,7 +70,7 @@ class CalendarActivity : AppCompatActivity(), MyAdapterCalendar.OnItemClickListe
             insets
         }
 
-        userEmail = intent.getStringExtra("USER_EMAIL")
+        userEmail = intent.getStringExtra(AuthUtils.EXTRA_USER_EMAIL) ?: AuthUtils.currentUserEmail()
 
         drawerLayoutCalendar = findViewById(R.id.drawer_layout_calendar)
         calendarView = findViewById(R.id.calendarView)
@@ -74,37 +83,14 @@ class CalendarActivity : AppCompatActivity(), MyAdapterCalendar.OnItemClickListe
         myAdapterCalendar.setOnItemClickListener(this)
         recyclerViewCalendar.adapter = myAdapterCalendar
 
-        // Load bills, spendings  and income data
-        billsList = loadBills()
-        spendingList = loadSpendings()
-        incomeList = loadIncome()
+        billsList = ArrayList()
+        spendingList = ArrayList()
+        incomeList = ArrayList()
+        setupCalendarDataListeners()
 
         calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
-            val selectedDate = "$dayOfMonth/${month + 1}/$year"
-            Toast.makeText(this, "Date selected: $selectedDate", Toast.LENGTH_SHORT).show()
-
-            // Combine all entries into a single list
-            val allEntries = ArrayList<Any>()
-            allEntries.addAll(billsList)
-            allEntries.addAll(spendingList)
-            allEntries.addAll(incomeList)
-
-            // Filter combined entries based on the selected date
-            val sdf = SimpleDateFormat("d/M/yyyy", Locale.getDefault())
-            calendarEntries.clear()
-            calendarEntries.addAll(allEntries.filter { entry ->
-                when (entry) {
-                    is Bills -> entry.date != null && sdf.format(entry.date.toDate()) == selectedDate
-                    is Spendings -> entry.date != null && sdf.format(entry.date.toDate()) == selectedDate
-                    is Income -> entry.date != null && sdf.format(entry.date.toDate()) == selectedDate
-                    else -> false
-                }
-            })
-            // Group entries by date
-            val groupedEntries = groupEntriesByDate(calendarEntries)
-
-            // Update RecyclerView with combined entries
-            myAdapterCalendar.updateEntries(groupedEntries)
+            selectedDate = "$dayOfMonth/${month + 1}/$year"
+            updateSelectedDateEntries()
         }
 
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationViewCalendar)
@@ -113,32 +99,29 @@ class CalendarActivity : AppCompatActivity(), MyAdapterCalendar.OnItemClickListe
             when (item.itemId) {
                 R.id.Main -> {
                     val intent = Intent(this, MainMenu::class.java)
-                    intent.putExtra("USER_EMAIL", userEmail)
+                    intent.putExtra(AuthUtils.EXTRA_USER_EMAIL, userEmail)
                     startActivity(intent)
                     true
                 }
                 R.id.Bills -> {
                     val intent = Intent(this, MyBills::class.java)
-                    intent.putExtra("USER_EMAIL", userEmail)
+                    intent.putExtra(AuthUtils.EXTRA_USER_EMAIL, userEmail)
                     startActivity(intent)
                     true
                 }
                 R.id.Spendings -> {
                     val intent = Intent(this, MySpendings::class.java)
-                    intent.putExtra("USER_EMAIL", userEmail)
+                    intent.putExtra(AuthUtils.EXTRA_USER_EMAIL, userEmail)
                     startActivity(intent)
                     true
                 }
                 R.id.Income -> {
                     val intent = Intent(this, MyIncome::class.java)
-                    intent.putExtra("USER_EMAIL", userEmail)
+                    intent.putExtra(AuthUtils.EXTRA_USER_EMAIL, userEmail)
                     startActivity(intent)
                     true
                 }
                 R.id.Calendar -> {
-                    val intent = Intent(this, CalendarActivity::class.java)
-                    intent.putExtra("USER_EMAIL", userEmail)
-                    startActivity(intent)
                     true
                 }
                 else -> false
@@ -151,47 +134,7 @@ class CalendarActivity : AppCompatActivity(), MyAdapterCalendar.OnItemClickListe
         toolbar.setNavigationOnClickListener {
             drawerLayoutCalendar.openDrawer(GravityCompat.START)
         }
-        // Setup NavigationView
-        val navView: NavigationView = findViewById(R.id.nav_viewCalendar)
-        navView.setNavigationItemSelectedListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.nav_item_premium -> {
-                    val intent = Intent(this, Premium::class.java)
-                    startActivity(intent)
-                    true
-                }
-                R.id.nav_item_aboutus -> {
-                    val intent = Intent(this, AboutUs::class.java)
-                    startActivity(intent)
-                    true
-                }
-                R.id.nav_item_faq -> {
-                    val intent = Intent(this, FAQs::class.java)
-                    startActivity(intent)
-                    true
-                }
-                R.id.nav_item_datasec -> {
-                    val intent = Intent(this, Datasecurity::class.java)
-                    startActivity(intent)
-                    true
-                }
-                R.id.nav_item_help -> {
-                    val intent = Intent(this, Help::class.java)
-                    startActivity(intent)
-                    true
-                }
-                R.id.nav_item_terms -> {
-                    val intent = Intent(this, Terms::class.java)
-                    startActivity(intent)
-                    true
-                }
-                R.id.nav_item_logout -> {
-                    logoutUser()
-                    true
-                }
-                else -> false
-            }
-        }
+        DrawerNavigation.setup(this, drawerLayoutCalendar, findViewById(R.id.nav_viewCalendar))
 
         setupDialogBills()
         setupDialogSpendings()
@@ -219,31 +162,86 @@ class CalendarActivity : AppCompatActivity(), MyAdapterCalendar.OnItemClickListe
         return true
     }
 
-    private fun loadBills(): ArrayList<Bills> {
-        val sharedPref = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
-        val gson = Gson()
-        val json = sharedPref.getString("billsList", null)
-        val type = object : TypeToken<ArrayList<Bills>>() {}.type
-        return gson.fromJson(json, type) ?: ArrayList()
+    private fun setupCalendarDataListeners() {
+        val userUid = FirebaseAuth.getInstance().currentUser?.uid
+        if (userUid == null) {
+            Toast.makeText(this, "Error: User not authenticated", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val userDocument = db.collection("users").document(userUid)
+        listenerRegistrations.add(userDocument.collection("bills").addSnapshotListener { snapshots, error ->
+            if (error != null) {
+                billsLoaded = true
+                updateSelectedDateEntries()
+                Toast.makeText(this, "Error loading bills: ${error.message}", Toast.LENGTH_SHORT).show()
+                return@addSnapshotListener
+            }
+            billsList.clear()
+            snapshots?.documents?.mapNotNullTo(billsList) { it.toObject(Bills::class.java) }
+            billsLoaded = true
+            updateSelectedDateEntries()
+        })
+
+        listenerRegistrations.add(userDocument.collection("spendings").addSnapshotListener { snapshots, error ->
+            if (error != null) {
+                spendingsLoaded = true
+                updateSelectedDateEntries()
+                Toast.makeText(this, "Error loading spendings: ${error.message}", Toast.LENGTH_SHORT).show()
+                return@addSnapshotListener
+            }
+            spendingList.clear()
+            snapshots?.documents?.mapNotNullTo(spendingList) { it.toObject(Spendings::class.java) }
+            spendingsLoaded = true
+            updateSelectedDateEntries()
+        })
+
+        listenerRegistrations.add(userDocument.collection("income").addSnapshotListener { snapshots, error ->
+            if (error != null) {
+                incomeLoaded = true
+                updateSelectedDateEntries()
+                Toast.makeText(this, "Error loading income: ${error.message}", Toast.LENGTH_SHORT).show()
+                return@addSnapshotListener
+            }
+            incomeList.clear()
+            snapshots?.documents?.mapNotNullTo(incomeList) { it.toObject(Income::class.java) }
+            incomeLoaded = true
+            updateSelectedDateEntries()
+        })
     }
-    private fun loadSpendings(): ArrayList<Spendings> {
-        val sharedPref = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
-        val gson = Gson()
-        val json = sharedPref.getString("spendingList", null)
-        val type = object : TypeToken<ArrayList<Spendings>>() {}.type
-        return gson.fromJson(json, type) ?: ArrayList()
-    }
-    private fun loadIncome(): ArrayList<Income> {
-        val sharedPref = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
-        val gson = Gson()
-        val json = sharedPref.getString("incomeList", null)
-        val type = object : TypeToken<ArrayList<Income>>() {}.type
-        return gson.fromJson(json, type) ?: ArrayList()
+
+    private fun updateSelectedDateEntries() {
+        val loaded = billsLoaded && spendingsLoaded && incomeLoaded
+        findViewById<ProgressBar>(R.id.progressCalendar).visibility =
+            if (loaded) View.GONE else View.VISIBLE
+        if (!loaded) {
+            findViewById<LinearLayout>(R.id.calendarEmptyState).visibility = View.GONE
+            return
+        }
+        val allEntries = ArrayList<Any>()
+        allEntries.addAll(billsList)
+        allEntries.addAll(spendingList)
+        allEntries.addAll(incomeList)
+
+        val sdf = SimpleDateFormat("d/M/yyyy", Locale.getDefault())
+        calendarEntries.clear()
+        calendarEntries.addAll(allEntries.filter { entry ->
+            when (entry) {
+                is Bills -> entry.date?.let { sdf.format(it.toDate()) == selectedDate } ?: false
+                is Spendings -> entry.date?.let { sdf.format(it.toDate()) == selectedDate } ?: false
+                is Income -> entry.date?.let { sdf.format(it.toDate()) == selectedDate } ?: false
+                else -> false
+            }
+        })
+        myAdapterCalendar.updateEntries(calendarEntries)
+        findViewById<LinearLayout>(R.id.calendarEmptyState).visibility =
+            if (calendarEntries.isEmpty()) View.VISIBLE else View.GONE
+        recyclerViewCalendar.visibility = if (calendarEntries.isEmpty()) View.GONE else View.VISIBLE
     }
 
     private fun setupDialogBills() {
         dialogBills = Dialog(this)
-        dialogBills.setContentView(R.layout.dialog_box_bill_calendar)
+        dialogBills.setContentView(R.layout.dialog_box_bill)
         dialogBills.window?.setLayout(
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
@@ -252,26 +250,26 @@ class CalendarActivity : AppCompatActivity(), MyAdapterCalendar.OnItemClickListe
         dialogBills.setCancelable(true)
 
         // Find and disable the paid checkbox
-        val chkPaid = dialogBills.findViewById<CheckBox>(R.id.imgCheckBoxItemsBills)
-        chkPaid?.isEnabled = false
-
-        val btnCloseDialog = dialogBills.findViewById<Button>(R.id.btnCloseDialogBillCalendar)
+        dialogBills.findViewById<ImageView>(R.id.imgEditBill).visibility = View.INVISIBLE
+        dialogBills.findViewById<ImageView>(R.id.imgDeleteBill).visibility = View.INVISIBLE
+        dialogBills.findViewById<Button>(R.id.btnSaveChanges).visibility = View.GONE
+        val btnCloseDialog = dialogBills.findViewById<Button>(R.id.btnCloseDialog)
         btnCloseDialog.setOnClickListener {
             dialogBills.dismiss()
         }
     }
     private fun setupDialogSpendings() {
         dialogSpendings = Dialog(this)
-        dialogSpendings.setContentView(R.layout.dialog_box_spendings_calendar)
+        dialogSpendings.setContentView(R.layout.dialog_box_spendings)
         dialogSpendings.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         dialogSpendings.window?.setBackgroundDrawable(getDrawable(R.drawable.dialog_box_spendings_bg))
         dialogSpendings.setCancelable(true)
 
         // Find and disable the paid checkbox
-        val chkPaid = dialogSpendings.findViewById<CheckBox>(R.id.imgCheckBoxItemsSpendings)
-        chkPaid?.isEnabled = false
-
-        val btnCloseDialog = dialogSpendings.findViewById<Button>(R.id.btnCloseDialogSpendingsCalendar)
+        dialogSpendings.findViewById<ImageView>(R.id.imgEditSpendings).visibility = View.INVISIBLE
+        dialogSpendings.findViewById<ImageView>(R.id.imgDeleteSpendings).visibility = View.INVISIBLE
+        dialogSpendings.findViewById<Button>(R.id.btnSaveChangesSpendings).visibility = View.GONE
+        val btnCloseDialog = dialogSpendings.findViewById<Button>(R.id.btnCloseDialogSpendings)
         btnCloseDialog.setOnClickListener {
             dialogSpendings.dismiss()
         }
@@ -279,97 +277,119 @@ class CalendarActivity : AppCompatActivity(), MyAdapterCalendar.OnItemClickListe
 
     private fun setupDialogIncome() {
         dialogIncome = Dialog(this)
-        dialogIncome.setContentView(R.layout.dialog_box_income_calendar)
+        dialogIncome.setContentView(R.layout.dialog_box_income)
         dialogIncome.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         dialogIncome.window?.setBackgroundDrawable(getDrawable(R.drawable.dialog_box_income_bg))
         dialogIncome.setCancelable(true)
 
-        val btnCloseDialog = dialogIncome.findViewById<Button>(R.id.btnCloseDialogIncomeCalendar)
+        dialogIncome.findViewById<ImageView>(R.id.imgEditIncome).visibility = View.INVISIBLE
+        dialogIncome.findViewById<ImageView>(R.id.imgDeleteIncome).visibility = View.INVISIBLE
+        dialogIncome.findViewById<Button>(R.id.btnSaveChangesIncome).visibility = View.GONE
+        val btnCloseDialog = dialogIncome.findViewById<Button>(R.id.btnCloseDialogIncome)
         btnCloseDialog.setOnClickListener {
             dialogIncome.dismiss()
         }
     }
 
     private fun showBillDetailsDialog(bill: Bills) {
-        val edtTitleDialog = dialogBills.findViewById<EditText>(R.id.edtTitleDialogBillCalendar)
-        val edtAmountDialog = dialogBills.findViewById<EditText>(R.id.edtAmountDialogBillCalendar)
-        val edtCategoryDialog = dialogBills.findViewById<EditText>(R.id.edtCategoryDialogBillCalendar)
-        val edtSubcategoryDialog = dialogBills.findViewById<EditText>(R.id.edtSubcategoryDialogBillCalendar)
-        val edtVendorDialog = dialogBills.findViewById<EditText>(R.id.edtVendorDialogBillCalendar)
-        val edtDateDialog = dialogBills.findViewById<EditText>(R.id.edtDateDialogBillCalendar)
-        val edtRepeatDialog = dialogBills.findViewById<EditText>(R.id.edtRepeatDialogBillCalendar)
-        val edtCommentDialog = dialogBills.findViewById<EditText>(R.id.edtCommentDialogBillCalendar)
-        val edtAttachmentDialog = dialogBills.findViewById<ImageView>(R.id.edtAttachmentDialogBillCalendar)
+        val edtTitleDialog = dialogBills.findViewById<EditText>(R.id.edtTitleDialog)
+        val edtAmountDialog = dialogBills.findViewById<EditText>(R.id.edtAmountDialog)
+        val edtCategoryDialog = dialogBills.findViewById<EditText>(R.id.edtCategoryDialog)
+        val edtSubcategoryDialog = dialogBills.findViewById<EditText>(R.id.edtSubcategoryDialog)
+        val edtVendorDialog = dialogBills.findViewById<EditText>(R.id.edtVendorDialog)
+        val edtDateDialog = dialogBills.findViewById<EditText>(R.id.edtDateDialog)
+        val edtRepeatDialog = dialogBills.findViewById<EditText>(R.id.edtRepeatDialog)
+        val edtCommentDialog = dialogBills.findViewById<EditText>(R.id.edtCommentDialog)
+        val edtAttachmentDialog = dialogBills.findViewById<ImageView>(R.id.edtAttachmentDialog)
 
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         val billDateString = bill.date?.let { dateFormat.format(it.toDate()) } ?: ""
 
-        edtTitleDialog?.setText(bill.name)
+        edtTitleDialog.setText(bill.name.orEmpty())
         edtAmountDialog.setText(String.format(Locale.getDefault(), "%.2f", bill.amount))
-        edtCategoryDialog?.setText(bill.category)
-        edtSubcategoryDialog?.setText(bill.subcategory)
-        edtVendorDialog?.setText(bill.vendor)
-        edtDateDialog?.setText(billDateString)
-        edtRepeatDialog?.setText(bill.repeat)
-        edtCommentDialog?.setText(bill.comment)
+        edtAmountDialog.setTextColor(
+            ContextCompat.getColor(
+                this,
+                if (bill.date != null && AppDateUtils.isBeforeToday(bill.date.toDate()) && !bill.paid) {
+                    R.color.red
+                } else {
+                    R.color.bill_color
+                }
+            )
+        )
+        edtCategoryDialog.setText(bill.category.orEmpty())
+        edtSubcategoryDialog.setText(bill.subcategory.orEmpty())
+        edtVendorDialog.setText(bill.vendor.orEmpty())
+        edtDateDialog.setText(billDateString)
+        edtRepeatDialog.setText(bill.repeat.orEmpty())
+        edtCommentDialog.setText(bill.comment.orEmpty())
 
         if (bill.attachment != null) {
-            edtAttachmentDialog?.setImageURI(Uri.parse(bill.attachment))
-            edtAttachmentDialog?.visibility = View.VISIBLE
+            edtAttachmentDialog.setImageURI(Uri.parse(bill.attachment))
+            edtAttachmentDialog.visibility = View.VISIBLE
         } else {
-            edtAttachmentDialog?.visibility = View.GONE
+            edtAttachmentDialog.visibility = View.GONE
         }
 
         dialogBills.show()
+        styleDetailsDialogWindow(dialogBills)
     }
     private fun showSpendingsDetailsDialog(spending: Spendings) {
-        val edtTitleDialog = dialogSpendings.findViewById<EditText>(R.id.edtTitleDialogSpendingsCalendar)
-        val edtAmountDialog = dialogSpendings.findViewById<EditText>(R.id.edtAmountDialogSpendingsCalendar)
-        val edtCategoryDialog = dialogSpendings.findViewById<EditText>(R.id.edtCategoryDialogSpendingsCalendar)
-        val edtSubcategoryDialog = dialogSpendings.findViewById<EditText>(R.id.edtSubcategoryDialogSpendingsCalendar)
-        val edtVendorDialog = dialogSpendings.findViewById<EditText>(R.id.edtVendorDialogSpendingsCalendar)
-        val edtDateDialog = dialogSpendings.findViewById<EditText>(R.id.edtDateDialogSpendingsCalendar)
-
-        val edtCommentDialog = dialogSpendings.findViewById<EditText>(R.id.edtCommentDialogSpendingsCalendar)
+        val edtTitleDialog = dialogSpendings.findViewById<EditText>(R.id.edtTitleDialogSpendings)
+        val edtAmountDialog = dialogSpendings.findViewById<EditText>(R.id.edtAmountDialogSpendings)
+        val edtCategoryDialog = dialogSpendings.findViewById<EditText>(R.id.edtCategoryDialogSpendings)
+        val edtSubcategoryDialog = dialogSpendings.findViewById<EditText>(R.id.edtSubcategoryDialogSpendings)
+        val edtVendorDialog = dialogSpendings.findViewById<EditText>(R.id.edtVendorDialogSpendings)
+        val edtDateDialog = dialogSpendings.findViewById<EditText>(R.id.edtDateDialogSpendings)
+        val edtCommentDialog = dialogSpendings.findViewById<EditText>(R.id.edtCommentDialogSpendings)
+        val attachment = dialogSpendings.findViewById<ImageView>(R.id.edtAttachmentDialogSpendings)
 
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         val spendingDateString = spending.date?.let { dateFormat.format(it.toDate()) } ?: ""
 
-        edtTitleDialog?.setText(spending.name)
+        edtTitleDialog.setText(spending.name.orEmpty())
         edtAmountDialog.setText(String.format(Locale.getDefault(), "%.2f", spending.amount))
 
-        edtCategoryDialog?.setText(spending.category)
-        edtSubcategoryDialog?.setText(spending.subcategory)
-        edtVendorDialog?.setText(spending.vendor)
-        edtDateDialog?.setText(spendingDateString)
-
-        edtCommentDialog?.setText(spending.comment)
+        edtCategoryDialog.setText(spending.category.orEmpty())
+        edtSubcategoryDialog.setText(spending.subcategory.orEmpty())
+        edtVendorDialog.setText(spending.vendor.orEmpty())
+        edtDateDialog.setText(spendingDateString)
+        edtCommentDialog.setText(spending.comment.orEmpty())
+        if (spending.attachment.isNullOrBlank()) attachment.visibility = View.GONE
+        else {
+            attachment.setImageURI(Uri.parse(spending.attachment))
+            attachment.visibility = View.VISIBLE
+        }
 
         dialogSpendings.show()
+        styleDetailsDialogWindow(dialogSpendings)
     }
 
     private fun showIncomeDetailsDialog(income: Income) {
-        val edtTitleDialog = dialogIncome.findViewById<EditText>(R.id.edtTitleDialogIncomeCalendar)
-        val edtAmountDialog = dialogIncome.findViewById<EditText>(R.id.edtAmountDialogIncomeCalendar)
-        val edtCategoryDialog = dialogIncome.findViewById<EditText>(R.id.edtCategoryDialogIncomeCalendar)
-        val edtSubcategoryDialog = dialogIncome.findViewById<EditText>(R.id.edtSubcategoryDialogIncomeCalendar)
-        val edtDateDialog = dialogIncome.findViewById<EditText>(R.id.edtDateDialogIncomeCalendar)
-        val edtRepeatDialog = dialogIncome.findViewById<EditText>(R.id.edtRepeatDialogIncomeCalendar)
-        val edtCommentDialog = dialogIncome.findViewById<EditText>(R.id.edtCommentDialogIncomeCalendar)
+        val edtTitleDialog = dialogIncome.findViewById<EditText>(R.id.edtTitleDialogIncome)
+        val edtAmountDialog = dialogIncome.findViewById<EditText>(R.id.edtAmountDialogIncome)
+        val edtCategoryDialog = dialogIncome.findViewById<EditText>(R.id.edtCategoryDialogIncome)
+        val edtSubcategoryDialog = dialogIncome.findViewById<EditText>(R.id.edtSubcategoryDialogIncome)
+        val edtDateDialog = dialogIncome.findViewById<EditText>(R.id.edtDateDialogIncome)
+        val edtRepeatDialog = dialogIncome.findViewById<EditText>(R.id.edtRepeatDialogIncome)
+        val edtCommentDialog = dialogIncome.findViewById<EditText>(R.id.edtCommentDialogIncome)
+        val edtSourceDialog = dialogIncome.findViewById<EditText>(R.id.edtSourceDialogIncome)
 
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         val incomeDateString = income.date?.let { dateFormat.format(it.toDate()) } ?: ""
 
-        edtTitleDialog?.setText(income.name)
+        edtTitleDialog.setText(income.name.orEmpty())
         edtAmountDialog.setText(String.format(Locale.getDefault(), "%.2f", income.amount))
 
-        edtCategoryDialog?.setText(income.category)
-        edtSubcategoryDialog?.setText(income.subcategory)
-        edtDateDialog?.setText(incomeDateString)
-        edtRepeatDialog?.setText(income.repeat)
-        edtCommentDialog?.setText(income.comment)
+        edtCategoryDialog.setText(income.category.orEmpty())
+        edtSubcategoryDialog.setText(income.subcategory.orEmpty())
+        edtDateDialog.setText(incomeDateString)
+        edtRepeatDialog.setText(income.repeat.orEmpty())
+        edtCommentDialog.setText(income.comment.orEmpty())
+        edtSourceDialog.setText(income.source.orEmpty())
 
         dialogIncome.show()
+        styleDetailsDialogWindow(dialogIncome)
     }
 
     override fun onItemClick(position: Int) {
@@ -382,31 +402,19 @@ class CalendarActivity : AppCompatActivity(), MyAdapterCalendar.OnItemClickListe
         }
     }
 
-    private fun groupEntriesByDate(entries: ArrayList<Any>): ArrayList<Any> {
-        val groupedEntries = LinkedHashMap<String, MutableList<Any>>()
-        val sdf = SimpleDateFormat("d/M/yyyy", Locale.getDefault())
-
-        for (entry in entries) {
-            val date = when (entry) {
-                is Bills -> sdf.format(entry.date.toDate())
-                is Spendings -> sdf.format(entry.date.toDate())
-                is Income -> sdf.format(entry.date.toDate())
-                else -> continue
-            }
-            if (!groupedEntries.containsKey(date)) {
-                groupedEntries[date] = ArrayList()
-            }
-            groupedEntries[date]?.add(entry)
-        }
-
-        val items = ArrayList<Any>()
-        for ((date, groupedEntriesList) in groupedEntries) {
-            items.add(date)
-            items.addAll(groupedEntriesList)
-        }
-
-        return items
+    override fun onDestroy() {
+        super.onDestroy()
+        listenerRegistrations.forEach { it.remove() }
+        listenerRegistrations.clear()
     }
+
+    private fun styleDetailsDialogWindow(dialog: Dialog) {
+        dialog.window?.setLayout(
+            (resources.displayMetrics.widthPixels * 0.92f).toInt(),
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+    }
+
     // Update the unread count badge from SharedPreferences
     private fun updateUnreadCountBadge(badgeCountTextView: TextView?) {
         val unreadCount = NotificationsActivity.getUnreadNotificationCount(this)

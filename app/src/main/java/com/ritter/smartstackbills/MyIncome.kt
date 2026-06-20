@@ -1,7 +1,6 @@
-package com.ritter.smartstackbills
+﻿package com.ritter.smartstackbills
 
 import android.app.Dialog
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -12,9 +11,12 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -27,7 +29,6 @@ import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
-import com.google.gson.Gson
 import java.text.SimpleDateFormat
 import java.util.Locale
 import kotlin.collections.ArrayList
@@ -44,9 +45,20 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
     private var userEmail: String? = null
     private lateinit var dialog: Dialog
     private lateinit var drawerLayout: DrawerLayout
-    private lateinit var notificationRecyclerView: RecyclerView
     private var selectedIncome: Income? = null
     private lateinit var btnCloseDialog: Button
+    private var activeFilter: String = "all income"
+    private var dataLoaded = false
+    private val hasPremiumAccess: Boolean
+        get() = PremiumAccess.isPremiumUser(this)
+    private val emptyStateConfig = EmptyStateConfig(
+        preferenceKey = "income_tutorial_shown",
+        imageRes = R.drawable.image_income,
+        titleRes = R.string.empty_income_title,
+        messageRes = R.string.empty_income_message,
+        addActionRes = R.string.add_income,
+        requiresPremium = true
+    )
 
 
 
@@ -56,30 +68,27 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
         setContentView(R.layout.activity_my_income)
 
         drawerLayout = findViewById(R.id.drawer_layout_income)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.mainIncome)) { view, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            view.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
 
         recyclerView = findViewById(R.id.recyclerViewIncome)
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        userEmail = intent.getStringExtra("USER_EMAIL")
+        userEmail = intent.getStringExtra(AuthUtils.EXTRA_USER_EMAIL) ?: AuthUtils.currentUserEmail()
 
         incomeArrayList = ArrayList()
         allIncomeArrayList = ArrayList()
         myAdapterIncome = MyAdapterIncome(this, incomeArrayList, this)
         recyclerView.adapter = myAdapterIncome
 
-        fab = findViewById(R.id.fabIncome)
-        fab.setOnClickListener {
-            val isPremiumUser = getSharedPreferences("AppPrefs", MODE_PRIVATE)
-                .getBoolean("isPremiumUser", false)
+        findViewById<TextView>(R.id.tvIncomePremiumPreview).visibility =
+            if (hasPremiumAccess) View.GONE else View.VISIBLE
 
-            if (!isPremiumUser) {
-                showUpgradeDialog()
-            } else {
-                val intent = Intent(this, createIncome::class.java)
-                intent.putExtra("USER_EMAIL", userEmail)
-                startActivity(intent)
-            }
-        }
+        fab = findViewById(R.id.fabIncome)
+        fab.setOnClickListener { handleAddIncome() }
 
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationViewIncome)
         bottomNavigationView.selectedItemId = R.id.Income
@@ -87,21 +96,21 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
             when (item.itemId) {
                 R.id.Main -> {
                     val intent = Intent(this, MainMenu::class.java)
-                    intent.putExtra("USER_EMAIL", userEmail) // Pasar el correo electrónico
+                    intent.putExtra(AuthUtils.EXTRA_USER_EMAIL, userEmail) // Pasar el correo electrÃ³nico
                     startActivity(intent)
                     true
                 }
 
                 R.id.Bills -> {
                     val intent = Intent(this, MyBills::class.java)
-                    intent.putExtra("USER_EMAIL", userEmail)
+                    intent.putExtra(AuthUtils.EXTRA_USER_EMAIL, userEmail)
                     startActivity(intent)
                     true
                 }
 
                 R.id.Spendings -> {
                     val intent = Intent(this, MySpendings::class.java)
-                    intent.putExtra("USER_EMAIL", userEmail)
+                    intent.putExtra(AuthUtils.EXTRA_USER_EMAIL, userEmail)
                     startActivity(intent)
                     true
                 }
@@ -113,7 +122,7 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
                 R.id.Calendar -> {
                     // Intent for Calendar (assumed to be implemented)
                     val intent = Intent(this, CalendarActivity::class.java)
-                    intent.putExtra("USER_EMAIL", userEmail) // Pasar el correo electrónico
+                    intent.putExtra(AuthUtils.EXTRA_USER_EMAIL, userEmail) // Pasar el correo electrÃ³nico
                     startActivity(intent)
                     true
                 }
@@ -128,52 +137,7 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
             drawerLayout.openDrawer(GravityCompat.START)
         }
 
-        // Setup NavigationView
-        val navView: NavigationView = findViewById(R.id.nav_viewIncome)
-        navView.setNavigationItemSelectedListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.nav_item_premium -> {
-                    val intent = Intent(this, Premium::class.java)
-                    startActivity(intent)
-                    true
-                }
-                R.id.nav_item_aboutus -> {
-                    val intent = Intent(this, AboutUs::class.java)
-                    startActivity(intent)
-                    true
-                }
-                R.id.nav_item_faq -> {
-                    val intent = Intent(this, FAQs::class.java)
-                    startActivity(intent)
-                    true
-                }
-                R.id.nav_item_datasec -> {
-                    val intent = Intent(this, Datasecurity::class.java)
-                    startActivity(intent)
-                    true
-                }
-                R.id.nav_item_help -> {
-                    val intent = Intent(this, Help::class.java)
-                    startActivity(intent)
-                    true
-                }
-                R.id.nav_item_terms -> {
-                    val intent = Intent(this, Terms::class.java)
-                    startActivity(intent)
-                    true
-                }
-                R.id.nav_item_logout -> {
-                    logoutUser()
-                    true
-                }
-                else -> false
-            }
-        }
-
-        // Setup notifications drawer
-        notificationRecyclerView = findViewById(R.id.recyclerViewNotifications)
-        notificationRecyclerView.layoutManager = LinearLayoutManager(this)
-
+        DrawerNavigation.setup(this, drawerLayout, findViewById(R.id.nav_viewIncome))
 
         db = FirebaseFirestore.getInstance()
         setupDialog()
@@ -183,15 +147,6 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
         findViewById<Button>(R.id.btnOneTimeIncome).setOnClickListener { filterIncome("one-time") }
         findViewById<Button>(R.id.btnAllIncome).setOnClickListener { filterIncome("all income") }
     }
-    private fun saveIncome() {
-        val sharedPref = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
-        val editor = sharedPref.edit()
-        val gson = Gson()
-        val json = gson.toJson(incomeArrayList)
-        editor.putString("incomeList", json)
-        editor.apply()
-    }
-
     private fun setupDialog() {
         dialog = Dialog(this)
         dialog.setContentView(R.layout.dialog_box_income)
@@ -212,13 +167,18 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
                 dialog.findViewById<EditText>(R.id.edtTitleDialogIncome).isEnabled = false
                 dialog.findViewById<EditText>(R.id.edtAmountDialogIncome).isEnabled = false
                 dialog.findViewById<EditText>(R.id.edtCommentDialogIncome).isEnabled = false
+                dialog.findViewById<EditText>(R.id.edtSourceDialogIncome).isEnabled = false
             } else {
                 dialog.dismiss()
             }
         }
 
         imgDeleteIncome.setOnClickListener {
-            deleteIncome()
+            if (hasPremiumAccess) {
+                deleteIncome()
+            } else {
+                showUpgradeDialog()
+            }
         }
     }
 
@@ -234,6 +194,7 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
                     }
 
                     if (snapshots != null) {
+                        dataLoaded = true
                         incomeArrayList.clear()
                         allIncomeArrayList.clear()
 
@@ -241,6 +202,7 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
                             try {
                                 val income = document.toObject(Income::class.java)
                                 if (income != null) {
+                                    repairLegacyIncome(userUid, document.id, income)
                                     // Validate and handle the `amount` field
                                     if (document.contains("amount")) {
                                         val rawAmount = document["amount"]
@@ -258,8 +220,16 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
                                 Log.e("DataError", "Error processing document ${document.id}: ${ex.message}")
                             }
                         }
-                        saveIncome()
-                        filterIncome("all income") // Default filter
+                        filterIncome(activeFilter)
+                        if (allIncomeArrayList.isEmpty()) {
+                            EmptyStateTutorial.showFirstTimeIfNeeded(
+                                this,
+                                emptyStateConfig,
+                                hasPremiumAccess,
+                                onAdd = ::openCreateIncome,
+                                onPremium = ::showUpgradeDialog
+                            )
+                        }
                     } else {
                         Log.d("Firestore Data", "No income found")
                     }
@@ -267,6 +237,28 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
         } else {
             Toast.makeText(this, "Error: User not authenticated", Toast.LENGTH_SHORT).show()
             Log.e("Authentication Error", "User not authenticated")
+        }
+    }
+
+    private fun repairLegacyIncome(userUid: String, documentId: String, income: Income) {
+        val updates = mutableMapOf<String, Any>()
+        if (income.incomeId.isNullOrBlank()) {
+            income.incomeId = documentId
+            updates["incomeId"] = documentId
+        }
+        if (income.parentIncomeId.isNullOrBlank()) {
+            income.parentIncomeId = documentId
+            updates["parentIncomeId"] = documentId
+        }
+        if (income.subcategory == null) {
+            income.subcategory = "-"
+            updates["subcategory"] = "-"
+        }
+        if (updates.isNotEmpty()) {
+            db.collection("users").document(userUid)
+                .collection("income")
+                .document(documentId)
+                .update(updates)
         }
     }
 
@@ -312,8 +304,10 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
         val edtDateDialog = dialog.findViewById<EditText>(R.id.edtDateDialogIncome)
         val edtRepeatDialog = dialog.findViewById<EditText>(R.id.edtRepeatDialogIncome)
         val edtCommentDialog = dialog.findViewById<EditText>(R.id.edtCommentDialogIncome)
+        val edtSourceDialog = dialog.findViewById<EditText>(R.id.edtSourceDialogIncome)
         val btnSaveChanges = dialog.findViewById<Button>(R.id.btnSaveChangesIncome)
         val btnEditChanges = dialog.findViewById<ImageView>(R.id.imgEditIncome)
+        val btnDelete = dialog.findViewById<ImageView>(R.id.imgDeleteIncome)
 
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         val incomeDateString = if (income.date != null) dateFormat.format(income.date.toDate()) else ""
@@ -325,39 +319,55 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
         edtDateDialog.setText(incomeDateString)
         edtRepeatDialog.setText(income.repeat)
         edtCommentDialog.setText(income.comment)
+        edtSourceDialog.setText(income.source.orEmpty())
 
         // Disable inputs initially
         edtTitleDialog.isEnabled = false
         edtAmountDialog.isEnabled = false
         edtCommentDialog.isEnabled = false
+        edtSourceDialog.isEnabled = false
 
         btnSaveChanges.visibility = View.GONE
+        btnEditChanges.visibility = View.VISIBLE
+        btnDelete.visibility = View.VISIBLE
 
         dialog.show()
+        styleDetailsDialogWindow(dialog)
 
         btnEditChanges.setOnClickListener {
+            if (!hasPremiumAccess) {
+                showUpgradeDialog()
+                return@setOnClickListener
+            }
             edtTitleDialog.isEnabled = true
             edtAmountDialog.isEnabled = true
             edtCommentDialog.isEnabled = true
+            edtSourceDialog.isEnabled = true
 
             btnSaveChanges.visibility = View.VISIBLE
             btnCloseDialog.text = getString(R.string.cancel)
         }
 
         btnSaveChanges.setOnClickListener {
+            if (!hasPremiumAccess) {
+                showUpgradeDialog()
+                return@setOnClickListener
+            }
             val userUid = FirebaseAuth.getInstance().currentUser?.uid
-            if (userUid != null && selectedIncome != null) {
-                selectedIncome?.name = edtTitleDialog.text.toString()
-                selectedIncome?.amount = edtAmountDialog.text.toString().toDoubleOrNull() ?: 0.0
-                selectedIncome?.comment = edtCommentDialog.text.toString()
+            val income = selectedIncome
+            if (userUid != null && income != null) {
+                income.name = edtTitleDialog.text.toString()
+                income.amount = edtAmountDialog.text.toString().toDoubleOrNull() ?: 0.0
+                income.comment = edtCommentDialog.text.toString()
+                income.source = edtSourceDialog.text.toString()
 
                 db.collection("users").document(userUid).collection("income")
-                    .document(selectedIncome!!.incomeId)
-                    .set(selectedIncome!!)
+                    .document(income.incomeId)
+                    .set(income)
                     .addOnSuccessListener {
-                        val index = incomeArrayList.indexOfFirst { it.incomeId == selectedIncome?.incomeId }
+                        val index = incomeArrayList.indexOfFirst { it.incomeId == income.incomeId }
                         if (index != -1) {
-                            incomeArrayList[index] = selectedIncome!!
+                            incomeArrayList[index] = income
                             myAdapterIncome.notifyItemChanged(index)
                         }
                         Toast.makeText(this, "Income updated successfully", Toast.LENGTH_SHORT).show()
@@ -374,26 +384,80 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
     }
 
     private fun deleteIncome() {
-        selectedIncome?.let { income ->
-            val userUid = FirebaseAuth.getInstance().currentUser?.uid
-            if (userUid != null) {
-                db.collection("users").document(userUid).collection("income")
-                    .document(income.incomeId)
-                    .delete()
-                    .addOnSuccessListener {
-                        Toast.makeText(this, "Income deleted successfully", Toast.LENGTH_SHORT).show()
-                        dialog.dismiss()
-                    }
-                    .addOnFailureListener {
-                        Toast.makeText(this, "Failed to delete income", Toast.LENGTH_SHORT).show()
-                    }
-            } else {
-                Toast.makeText(this, "Error: User not authenticated", Toast.LENGTH_SHORT).show()
-            }
+        val income = selectedIncome ?: return
+        if (!income.repeat.isNullOrBlank() && income.repeat != "No") {
+            AlertDialog.Builder(this)
+                .setTitle(R.string.delete_recurring_income)
+                .setItems(
+                    arrayOf(
+                        getString(R.string.delete_this_income_entry),
+                        getString(R.string.delete_all_recurring_income)
+                    )
+                ) { _, choice ->
+                    if (choice == 0) deleteSingleIncome(income)
+                    else deleteAllRecurringIncome(income)
+                }
+                .setNegativeButton(R.string.cancel, null)
+                .show()
+        } else {
+            AlertDialog.Builder(this)
+                .setTitle(R.string.delete_income_entry)
+                .setMessage(R.string.delete_income_confirmation)
+                .setNegativeButton(R.string.cancel, null)
+                .setPositiveButton(R.string.delete) { _, _ -> deleteSingleIncome(income) }
+                .show()
         }
     }
 
+    private fun deleteSingleIncome(income: Income) {
+        val userUid = FirebaseAuth.getInstance().currentUser?.uid ?: return
+        db.collection("users").document(userUid).collection("income")
+            .document(income.incomeId)
+            .delete()
+            .addOnSuccessListener {
+                Toast.makeText(this, R.string.income_deleted, Toast.LENGTH_SHORT).show()
+                dialog.dismiss()
+            }
+            .addOnFailureListener {
+                Toast.makeText(this, R.string.income_delete_failed, Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    private fun deleteAllRecurringIncome(selected: Income) {
+        val userUid = FirebaseAuth.getInstance().currentUser?.uid ?: return
+        val seriesId = selected.parentIncomeId?.takeIf { it.isNotBlank() } ?: selected.incomeId
+        val incomeReference = db.collection("users").document(userUid).collection("income")
+
+        incomeReference.get()
+            .addOnSuccessListener { documents ->
+                val documentsToDelete = documents.filter { document ->
+                    val parentId = document.getString("parentIncomeId")
+                    document.id == seriesId || parentId == seriesId || document.id == selected.incomeId
+                }
+
+                if (documentsToDelete.isEmpty()) {
+                    deleteSingleIncome(selected)
+                    return@addOnSuccessListener
+                }
+
+                val batch = db.batch()
+                documentsToDelete.forEach { batch.delete(it.reference) }
+                batch.commit()
+                    .addOnSuccessListener {
+                        Toast.makeText(this, R.string.all_recurring_income_deleted, Toast.LENGTH_SHORT).show()
+                        dialog.dismiss()
+                    }
+                    .addOnFailureListener {
+                        Toast.makeText(this, R.string.income_delete_failed, Toast.LENGTH_SHORT).show()
+                    }
+            }
+            .addOnFailureListener {
+                Toast.makeText(this, R.string.income_delete_failed, Toast.LENGTH_SHORT).show()
+            }
+    }
+
     private fun filterIncome(filter: String) {
+        activeFilter = filter
         val filteredIncome = ArrayList<Income>()
 
         // Reset the button background to inactive color
@@ -406,7 +470,7 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
         for (income in allIncomeArrayList) {
             when (filter) {
                 "recurring" -> {
-                    findViewById<Button>(R.id.btnRecurringIncome).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_active))
+                    findViewById<Button>(R.id.btnRecurringIncome).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_income_active))
 
                         if (income.repeat != "No") {
                             filteredIncome.add(income)
@@ -415,7 +479,7 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
 
                 }
                 "one-time" -> {
-                    findViewById<Button>(R.id.btnOneTimeIncome).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_active))
+                    findViewById<Button>(R.id.btnOneTimeIncome).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_income_active))
 
                         if (income.repeat == "No") {
                             filteredIncome.add(income)
@@ -424,7 +488,7 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
 
                 }
                 "all income" -> {
-                    findViewById<Button>(R.id.btnAllIncome).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_active))
+                    findViewById<Button>(R.id.btnAllIncome).setBackgroundColor(ContextCompat.getColor(this, R.color.filter_income_active))
                     // Add all spendings regardless of subcategory
                     filteredIncome.add(income)
                     Log.d("Filter", "All income added: ${income.name}")
@@ -433,6 +497,18 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
         }
 
         myAdapterIncome.updateIncome(filteredIncome)
+        if (dataLoaded) {
+            EmptyStateTutorial.bind(
+                this,
+                findViewById(R.id.emptyStateIncome),
+                emptyStateConfig,
+                hasAnyEntries = allIncomeArrayList.isNotEmpty(),
+                hasFilteredEntries = filteredIncome.isNotEmpty(),
+                hasPremiumAccess = hasPremiumAccess,
+                onAdd = ::openCreateIncome,
+                onPremium = ::showUpgradeDialog
+            )
+        }
         Log.d("Filter", "Filtered income count for $filter: ${filteredIncome.size}")
     }
     private fun groupIncomeByMonth(incomeArrayList: ArrayList<Income>): ArrayList<Any> {
@@ -472,15 +548,22 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
         updateUnreadCountBadge(badgeCountTextView) // Update the badge display immediately
     }
     private fun showUpgradeDialog() {
-        val builder = androidx.appcompat.app.AlertDialog.Builder(this)
-        builder.setTitle("Upgrade to Premium")
-            .setMessage("Creating income entries is a premium feature. Upgrade now to unlock full access!")
-            .setPositiveButton("Upgrade") { _, _ ->
-                val intent = Intent(this, Premium::class.java)
-                startActivity(intent)
-            }
-            .setNegativeButton("Cancel", null)
-            .show()
+        PremiumUpgradeDialog.show(this, R.string.premium_preview_income, userEmail)
+    }
+
+    private fun handleAddIncome() {
+        if (hasPremiumAccess) openCreateIncome() else showUpgradeDialog()
+    }
+
+    private fun openCreateIncome() {
+        val intent = Intent(this, createIncome::class.java)
+        intent.putExtra(AuthUtils.EXTRA_USER_EMAIL, userEmail)
+        startActivity(intent)
+    }
+
+    private fun styleDetailsDialogWindow(dialog: Dialog) {
+        val width = (resources.displayMetrics.widthPixels * 0.92f).toInt()
+        dialog.window?.setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT)
     }
 
     private fun logoutUser() {

@@ -6,6 +6,7 @@ public class Bills {
 
     String billId;
     String name, comment, category, vendor, repeat, subcategory, attachment;
+    String parentBillId;
     Timestamp date;
     double amount;
     boolean paid;
@@ -117,5 +118,13 @@ public class Bills {
 
     public void setPaid(boolean paid) {
         this.paid = paid;
+    }
+
+    public String getParentBillId() {
+        return parentBillId;
+    }
+
+    public void setParentBillId(String parentBillId) {
+        this.parentBillId = parentBillId;
     }
 }

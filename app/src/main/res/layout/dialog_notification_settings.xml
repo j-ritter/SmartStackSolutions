@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/dialog_premium_upgrade_bg"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/ssboldbody"
+        android:text="@string/notification_settings"
+        android:textColor="@color/colorSecondary"
+        android:textSize="22sp" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/switchPaymentNotifications"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="12dp"
+        android:text="@string/payment_notifications"
+        android:textColor="@color/colorSecondary" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="@string/advance_reminder"
+        android:textColor="#647383"
+        android:textSize="13sp" />
+
+    <Spinner
+        android:id="@+id/spinnerAdvanceReminder"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/auth_input_background"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/switchDueToday"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/due_today_reminder"
+        android:textColor="@color/colorSecondary" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/switchOverdue"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="@string/overdue_reminder"
+        android:textColor="@color/colorSecondary" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/switchWeeklyOverdue"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="@string/weekly_overdue_reminder"
+        android:textColor="@color/colorSecondary" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:gravity="end"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnCancelNotificationSettings"
+            style="@style/DetailDialogSecondaryButton"
+            android:text="@string/cancel" />
+
+        <Button
+            android:id="@+id/btnSaveNotificationSettings"
+            style="@style/DetailDialogPrimaryButton"
+            android:layout_marginStart="10dp"
+            android:text="@string/save" />
+    </LinearLayout>
+</LinearLayout>

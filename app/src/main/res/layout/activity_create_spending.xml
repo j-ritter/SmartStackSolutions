@@ -37,7 +37,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:paddingStart="20dp"
+            android:paddingTop="24dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="24dp">
 
             <!-- Header Title -->
             <TextView
@@ -46,7 +49,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/create_new_closed_payment"
                 android:textStyle="bold"
-                android:textSize="24sp"
+                android:textColor="@color/colorSecondary"
+                android:textSize="22sp"
                 android:gravity="center"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="16dp" />
@@ -58,7 +62,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/title"
                 android:textStyle="bold"
-                android:textSize="18sp"
+                android:textColor="@color/colorSecondary"
+                android:textSize="13sp"
                 android:layout_marginTop="16dp" />
 
             <EditText
@@ -71,7 +76,8 @@
                 android:maxLength="30"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
-                android:textColorHint="#A5A5A5"
+                android:textColorHint="#8A96A3"
+                android:textColor="@color/textPrimary"
                 android:textSize="15sp" />
 
             <!-- Amount & Paid Checkbox -->
@@ -81,7 +87,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/amount"
                 android:textStyle="bold"
-                android:textSize="18sp"
+                android:textColor="@color/colorSecondary"
+                android:textSize="13sp"
                 android:layout_marginTop="16dp" />
 
             <LinearLayout
@@ -91,7 +98,7 @@
                 android:layout_marginTop="8dp">
 
                 <EditText
-                    android:id="@+id/edtAmountSpending"
+                android:id="@+id/edtAmountSpending"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="48dp"
@@ -100,7 +107,8 @@
                     android:inputType="numberDecimal"
                     android:paddingLeft="15dp"
                     android:paddingRight="15dp"
-                    android:textColorHint="#A5A5A5"
+                    android:textColorHint="#8A96A3"
+                    android:textColor="@color/textPrimary"
                     android:textSize="15sp" />
 
                 <CheckBox
@@ -118,9 +126,10 @@
                 android:id="@+id/txtDateLabelSpending"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/date"
+                android:text="@string/payment_date"
                 android:textStyle="bold"
-                android:textSize="18sp"
+                android:textColor="@color/colorSecondary"
+                android:textSize="13sp"
                 android:layout_marginTop="16dp" />
 
             <EditText
@@ -129,11 +138,12 @@
                 android:layout_height="48dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/rounded_frame_background_blue"
-                android:hint="@string/purchase_date"
+                android:hint="@string/payment_date"
                 android:inputType="text"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
-                android:textColorHint="#A5A5A5"
+                android:textColorHint="#8A96A3"
+                android:textColor="@color/textPrimary"
                 android:textSize="15sp" />
 
             <!-- Category -->
@@ -143,7 +153,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/category"
                 android:textStyle="bold"
-                android:textSize="18sp"
+                android:textColor="@color/colorSecondary"
+                android:textSize="13sp"
                 android:layout_marginTop="16dp" />
 
             <Spinner
@@ -160,7 +171,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/subcategory"
                 android:textStyle="bold"
-                android:textSize="18sp"
+                android:textColor="@color/colorSecondary"
+                android:textSize="13sp"
                 android:layout_marginTop="16dp" />
 
             <Spinner
@@ -177,7 +189,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/vendor"
                 android:textStyle="bold"
-                android:textSize="18sp"
+                android:textColor="@color/colorSecondary"
+                android:textSize="13sp"
                 android:layout_marginTop="16dp" />
 
             <AutoCompleteTextView
@@ -189,7 +202,8 @@
                 android:hint="@string/search_or_select_vendor"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
-                android:textColorHint="#A5A5A5"
+                android:textColorHint="#8A96A3"
+                android:textColor="@color/spending_color"
                 android:textSize="15sp" />
 
             <!-- Comment -->
@@ -199,7 +213,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/comments"
                 android:textStyle="bold"
-                android:textSize="18sp"
+                android:textColor="@color/colorSecondary"
+                android:textSize="13sp"
                 android:layout_marginTop="16dp" />
 
             <EditText
@@ -209,46 +224,53 @@
                 android:layout_marginTop="8dp"
                 android:background="@drawable/rounded_frame_background_blue"
                 android:hint="@string/write_your_comments"
-                android:maxLength="30"
+                android:maxLength="50"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
-                android:textColorHint="#A5A5A5"
+                android:textColorHint="#8A96A3"
+                android:textColor="@color/textPrimary"
                 android:textSize="15sp" />
 
-            <!-- Attachment and Upload Button -->
-            <TextView
-                android:id="@+id/txtAttachmentSpending"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@string/attachment"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                app:layout_constraintTop_toBottomOf="@+id/edtCommentSpending"
-                app:layout_constraintStart_toStartOf="@+id/guidelineStart" />
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/btnUploadImageSpending"
-                android:layout_width="wrap_content"
-                android:layout_height="36dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="0dp"
-                android:text="@string/upload"
-                android:background="@drawable/rounded_frame_background_blue"
-                app:layout_constraintStart_toEndOf="@+id/txtAttachmentSpending"
-                app:layout_constraintTop_toTopOf="@+id/txtAttachmentSpending" />
+                <TextView
+                    android:id="@+id/txtAttachmentSpending"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/attachment"
+                    android:textColor="@color/colorSecondary"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/txtImageAddedSpending"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="@string/image_added"
-                android:textStyle="bold"
-                android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@+id/btnUploadImageSpending"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                <Button
+                    android:id="@+id/btnUploadImageSpending"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_marginStart="16dp"
+                    android:background="@drawable/create_upload_button"
+                    android:text="@string/upload"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorPrimary" />
+
+                <TextView
+                    android:id="@+id/txtImageAddedSpending"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:text="@string/image_added"
+                    android:textColor="@color/colorSecondary"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 
@@ -257,8 +279,13 @@
         android:id="@+id/btnCancelSpending"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/btnlog"
         android:text="@string/cancel"
+        android:textAllCaps="false"
+        android:textColor="@color/colorSecondary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guidelineStart"
         app:layout_constraintEnd_toStartOf="@+id/btnSaveSpending" />
@@ -267,8 +294,12 @@
         android:id="@+id/btnSaveSpending"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/btnlogin"
         android:text="@string/save"
+        android:textAllCaps="false"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btnCancelSpending"

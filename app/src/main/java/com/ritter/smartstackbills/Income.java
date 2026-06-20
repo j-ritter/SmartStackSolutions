@@ -4,8 +4,8 @@ import com.google.firebase.Timestamp;
 
 public class Income {
 
-    String incomeId;
-    String name, comment, category, repeat, subcategory;
+    String incomeId, parentIncomeId;
+    String name, comment, category, repeat, subcategory, source;
     double amount;
     Timestamp date;
 
@@ -27,6 +27,18 @@ public class Income {
 
     public String getIncomeId() {
         return incomeId;
+    }
+
+    public void setIncomeId(String incomeId) {
+        this.incomeId = incomeId;
+    }
+
+    public String getParentIncomeId() {
+        return parentIncomeId;
+    }
+
+    public void setParentIncomeId(String parentIncomeId) {
+        this.parentIncomeId = parentIncomeId;
     }
 
     public String getName() {
@@ -84,4 +96,7 @@ public class Income {
     public void setSubcategory(String subcategory) {
         this.subcategory = subcategory;
     }
+
+    public String getSource() { return source; }
+    public void setSource(String source) { this.source = source; }
 }

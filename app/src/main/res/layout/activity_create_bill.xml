@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -37,7 +37,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:paddingStart="20dp"
+            android:paddingTop="24dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="24dp">
 
             <!-- Header Title -->
             <TextView
@@ -46,7 +49,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/create_new_open_payment"
                 android:textStyle="bold"
-                android:textSize="24sp"
+                android:textColor="@color/colorSecondary"
+                android:textSize="22sp"
                 android:gravity="center"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="16dp" />
@@ -58,7 +62,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/title"
                 android:textStyle="bold"
-                android:textSize="18sp"
+                android:textColor="@color/colorSecondary"
+                android:textSize="13sp"
                 android:layout_marginTop="16dp" />
 
             <EditText
@@ -71,7 +76,8 @@
                 android:maxLength="30"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
-                android:textColorHint="#A5A5A5"
+                android:textColorHint="#8A96A3"
+                android:textColor="@color/textPrimary"
                 android:textSize="15sp" />
 
             <!-- Amount Section (spacing corrected) -->
@@ -81,7 +87,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/amount"
                 android:textStyle="bold"
-                android:textSize="18sp"
+                android:textColor="@color/colorSecondary"
+                android:textSize="13sp"
                 android:layout_marginTop="16dp" />
 
             <LinearLayout
@@ -91,7 +98,7 @@
                 android:layout_marginTop="8dp">
 
                 <EditText
-                    android:id="@+id/edtAmountBill"
+                android:id="@+id/edtAmountBill"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="48dp"
@@ -100,7 +107,8 @@
                     android:inputType="numberDecimal"
                     android:paddingLeft="15dp"
                     android:paddingRight="15dp"
-                    android:textColorHint="#A5A5A5"
+                    android:textColorHint="#8A96A3"
+                    android:textColor="@color/textPrimary"
                     android:textSize="15sp" />
 
                 <CheckBox
@@ -118,9 +126,10 @@
                 android:id="@+id/txtDateLabelBill"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/date"
+                android:text="@string/due_date"
                 android:textStyle="bold"
-                android:textSize="18sp"
+                android:textColor="@color/colorSecondary"
+                android:textSize="13sp"
                 android:layout_marginTop="16dp" />
 
             <EditText
@@ -129,11 +138,12 @@
                 android:layout_height="48dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/rounded_frame_background_blue"
-                android:hint="@string/purchase_date"
+                android:hint="@string/due_date"
                 android:inputType="text"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
-                android:textColorHint="#A5A5A5"
+                android:textColorHint="#8A96A3"
+                android:textColor="@color/bill_color"
                 android:textSize="15sp" />
 
             <!-- Repeat Section -->
@@ -143,7 +153,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/repeat"
                 android:textStyle="bold"
-                android:textSize="18sp"
+                android:textColor="@color/colorSecondary"
+                android:textSize="13sp"
                 android:layout_marginTop="16dp" />
 
             <Spinner
@@ -153,6 +164,14 @@
                 android:layout_marginTop="8dp"
                 android:background="@drawable/rounded_frame_background_blue" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="@string/recurrence_one_year_explanation"
+                android:textColor="#647383"
+                android:textSize="12sp" />
+
             <!-- Category Section -->
             <TextView
                 android:id="@+id/txtCategoryBill"
@@ -160,7 +179,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/category"
                 android:textStyle="bold"
-                android:textSize="18sp"
+                android:textColor="@color/colorSecondary"
+                android:textSize="13sp"
                 android:layout_marginTop="16dp" />
 
             <Spinner
@@ -177,7 +197,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/subcategory"
                 android:textStyle="bold"
-                android:textSize="18sp"
+                android:textColor="@color/colorSecondary"
+                android:textSize="13sp"
                 android:layout_marginTop="16dp" />
 
             <Spinner
@@ -194,7 +215,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/vendor"
                 android:textStyle="bold"
-                android:textSize="18sp"
+                android:textColor="@color/colorSecondary"
+                android:textSize="13sp"
                 android:layout_marginTop="16dp" />
 
             <AutoCompleteTextView
@@ -206,17 +228,9 @@
                 android:hint="@string/search_or_select_vendor"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
-                android:textColorHint="#A5A5A5"
+                android:textColorHint="#8A96A3"
+                android:textColor="@color/textPrimary"
                 android:textSize="15sp" />
-
-            <EditText
-                android:id="@+id/edtCustomVendorBill"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginTop="8dp"
-                android:hint="@string/enter_custom_vendor"
-                android:visibility="gone"
-                android:background="@drawable/rounded_frame_background_yellow" />
 
             <!-- Comment Section -->
             <TextView
@@ -225,7 +239,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/comments"
                 android:textStyle="bold"
-                android:textSize="18sp"
+                android:textColor="@color/colorSecondary"
+                android:textSize="13sp"
                 android:layout_marginTop="16dp" />
 
             <EditText
@@ -235,10 +250,11 @@
                 android:layout_marginTop="8dp"
                 android:background="@drawable/rounded_frame_background_blue"
                 android:hint="@string/write_your_comments"
-                android:maxLength="30"
+                android:maxLength="50"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
-                android:textColorHint="#A5A5A5"
+                android:textColorHint="#8A96A3"
+                android:textColor="@color/textPrimary"
                 android:textSize="15sp" />
 
             <!-- Attachment Section (corrected to match createSpending) -->
@@ -254,7 +270,8 @@
                     android:layout_height="wrap_content"
                     android:text="@string/attachment"
                     android:textStyle="bold"
-                    android:textSize="18sp"
+                    android:textColor="@color/colorSecondary"
+                    android:textSize="13sp"
                     android:layout_gravity="center_vertical" />
 
                 <Button
@@ -262,7 +279,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="36dp"
                     android:text="@string/upload"
-                    android:background="@drawable/rounded_frame_background_yellow"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorPrimary"
+                    android:background="@drawable/create_upload_button"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="16dp" />
 
@@ -289,6 +308,8 @@
         android:layout_marginBottom="8dp"
         android:background="@drawable/btnlog"
         android:text="@string/cancel"
+        android:textAllCaps="false"
+        android:textColor="@color/colorSecondary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnSaveBill"
         app:layout_constraintStart_toStartOf="@+id/guidelineStart" />
@@ -302,6 +323,7 @@
         android:layout_marginBottom="8dp"
         android:background="@drawable/btnlogin"
         android:text="@string/save"
+        android:textAllCaps="false"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btnCancelBill"

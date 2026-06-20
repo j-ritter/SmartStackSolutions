@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F7FA"
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/dataAccountToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/white"
+        app:navigationIcon="@drawable/ic_arrow_back"
+        app:navigationIconTint="@color/colorSecondary"
+        app:title="@string/data_account"
+        app:titleCentered="true"
+        app:titleTextColor="@color/colorSecondary" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/export_data_title"
+                android:textColor="@color/colorSecondary"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="@string/export_data_explanation"
+                android:textColor="#647383"
+                android:textSize="14sp" />
+
+            <Button
+                android:id="@+id/btnExportData"
+                style="@style/DetailDialogPrimaryButton"
+                android:layout_width="match_parent"
+                android:layout_marginTop="16dp"
+                android:text="@string/export_my_data" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="28dp"
+                android:layout_marginBottom="28dp"
+                android:background="@color/light_gray" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/delete_account_title"
+                android:textColor="@color/negative_balance"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="@string/delete_account_explanation"
+                android:textColor="#647383"
+                android:textSize="14sp" />
+
+            <Button
+                android:id="@+id/btnDeleteAccount"
+                style="@style/DetailDialogSecondaryButton"
+                android:layout_width="match_parent"
+                android:layout_marginTop="16dp"
+                android:text="@string/delete_my_account"
+                android:textColor="@color/negative_balance" />
+
+            <ProgressBar
+                android:id="@+id/dataAccountProgress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:visibility="gone" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
