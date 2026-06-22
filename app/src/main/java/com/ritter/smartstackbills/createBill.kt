@@ -489,15 +489,20 @@ class createBill : AppCompatActivity() {
 
         // Validate mandatory fields
         if (billName.isBlank()) {
-            Toast.makeText(this, "Please enter a name for the bill", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Please enter a name for the open payment", Toast.LENGTH_SHORT).show()
             return
         }
         if (billAmount == null || billAmount <= 0) {
             Toast.makeText(this, "Please enter a valid amount", Toast.LENGTH_SHORT).show()
             return
         }
+<<<<<<< HEAD
         if (billDateString.isBlank()) {
             Toast.makeText(this, "Please select a valid due date for the bill", Toast.LENGTH_SHORT).show()
+=======
+        if (billDateString == null) {
+            Toast.makeText(this, "Please select a valid due date for the open payment", Toast.LENGTH_SHORT).show()
+>>>>>>> 5b3c78e (Update bill creation logic)
             return
         }
 
@@ -534,7 +539,7 @@ class createBill : AppCompatActivity() {
             db.collection("users").document(userUid!!).collection("bills")
                 .add(bill)
                 .addOnSuccessListener { documentReference ->
-                    Toast.makeText(this, "Bill saved successfully", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Open payment saved successfully", Toast.LENGTH_SHORT).show()
 
                     // Get the newly generated document ID for billId
                     val billId = documentReference.id
@@ -560,7 +565,7 @@ class createBill : AppCompatActivity() {
                             .build()
                         WorkManager.getInstance(this).enqueue(workRequest)
                     } else {
-                        Toast.makeText(this, "Bill is due or overdue; no notification scheduled.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Open payment is due or overdue; no notification scheduled.", Toast.LENGTH_SHORT).show()
                     }
 
                     // Generate recurring bills if necessary
@@ -616,7 +621,7 @@ class createBill : AppCompatActivity() {
             db.collection("users").document(userUid!!).collection("bills").document(newBillId)
                 .set(recurringBill)
                 .addOnSuccessListener {
-                    Toast.makeText(this, "Recurring bill saved successfully", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Recurring open payment saved successfully", Toast.LENGTH_SHORT).show()
 
                     // Schedule notification for the recurring bill
                     val delayMillis = calendar.timeInMillis - System.currentTimeMillis() - TimeUnit.HOURS.toMillis(72)
