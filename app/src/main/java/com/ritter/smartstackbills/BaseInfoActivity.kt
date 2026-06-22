@@ -94,6 +94,7 @@ abstract class BaseInfoActivity : AppCompatActivity() {
 
             question.setText(questionId)
             answer.setText(answerId)
+            Linkify.addLinks(answer, Linkify.EMAIL_ADDRESSES or Linkify.WEB_URLS)
             header.contentDescription = getString(questionId)
             header.setOnClickListener {
                 val expand = answer.visibility != View.VISIBLE

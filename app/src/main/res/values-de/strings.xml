@@ -199,7 +199,7 @@
 
     <string name="faqs_question_6">6. Ist es möglich, Zahlungen zu scannen?</string>
     <string name="faqs_answer_6">
-  Antwort: Sie können Ihr Dokument in SmartStack Solutions hochladen, aber ein automatisches Scannen des Dokuments ist derzeit nicht möglich.
+  Antwort: Ja. Wählen Sie beim Erstellen einer offenen Zahlung, abgeschlossenen Ausgabe oder Einnahme die Option Dokument scannen. SmartStack schneidet das Dokument zu, erkennt gedruckten Text auf dem Gerät und schlägt Felder wie Titel, Betrag, Datum, Anbieter oder Zahler vor. Prüfen Sie alle Vorschläge vor dem Speichern.
 </string>
 
     <string name="faqs_question_7">7. Kann ich mit SmartStack Solutions mein Einkommen verfolgen?</string>
@@ -214,7 +214,7 @@
 
     <string name="faqs_question_9">9. Was ist das Premium-Konto, und welche Vorteile bietet es?</string>
     <string name="faqs_answer_9">
-  Antwort: Das Premium-Konto schaltet alle Funktionen von SmartStack Solutions frei. Es ermöglicht Ihnen die Nutzung aller Funktionen zusätzlich zu den Basisfunktionen. Weitere Details finden Sie unter „Premium-Funktionen freischalten“. Das Premium-Konto ist ideal für Benutzer, die von umfangreichem Tracking und Management profitieren möchten.
+  Antwort: Premium entfernt Werbung und schaltet die Verwaltung geschlossener Zahlungen, Einnahmenverwaltung, Sparziele sowie Finanzanalysen über sechs und zwölf Monate frei. Dazu gehören Cashflow-Trends, Kategorieveränderungen, wiederkehrende Verpflichtungen und Sparkonsistenz. Offene Zahlungen, Erinnerungen, monatliche Einblicke, Export und Kalender bleiben in der Basisversion verfügbar.
 </string>
 
     <string name="faqs_question_10">10. Wie kann ich auf das Premium-Konto upgraden?</string>
@@ -255,6 +255,21 @@
     Bevor Sie uns kontaktieren, schauen Sie sich bitte unseren FAQ-Bereich an, in dem wir Antworten auf häufig gestellte Fragen zur Nutzung von SmartStack Solutions zusammengestellt haben. Dieser Abschnitt behandelt Themen wie das Erstellen von Einträgen, die Verwaltung Ihres Kontos und die effektive Nutzung der Funktionen.\n\n
     Für alle anderen Hilfe- oder Support-Bedürfnisse zögern Sie nicht, uns per E-Mail zu kontaktieren. Wir sind hier, um Ihnen zu helfen, das Beste aus SmartStack Solutions herauszuholen!
 </string>
+    <string name="help_hub_title">Wie können wir helfen?</string>
+    <string name="help_hub_intro">Finden Sie schnell eine Antwort, verwalten Sie Ihre Kontodaten oder kontaktieren Sie uns direkt.</string>
+    <string name="help_choose_option">Support-Option auswählen</string>
+    <string name="help_faq_title">Häufig gestellte Fragen durchsuchen</string>
+    <string name="help_faq_description">Antworten zu Zahlungen, Erinnerungen, Premium, Kontingenten und Kontonutzung.</string>
+    <string name="help_contact_title">SmartStack-Support per E-Mail</string>
+    <string name="help_contact_description">Öffnen Sie eine vorbereitete E-Mail an service@smartstack-solutions.com.</string>
+    <string name="help_data_title">Hilfe zu Daten und Konto</string>
+    <string name="help_data_description">Exportieren Sie Ihre Daten oder prüfen Sie die Optionen zur Kontolöschung.</string>
+    <string name="help_message_title">Für eine schnellere Antwort</string>
+    <string name="help_message_checklist">Bitte geben Sie an:\n• Was Sie tun wollten\n• Was stattdessen passiert ist\n• Schritte, mit denen das Problem wiederholt werden kann\n• Einen Screenshot, sofern er keine sensiblen Finanzdaten enthält</string>
+    <string name="help_response_note">Senden Sie niemals Passwörter, Kauf-Token oder vollständige Finanzunterlagen per E-Mail.</string>
+    <string name="support_email_subject">Support-Anfrage zu SmartStack Solutions</string>
+    <string name="support_email_template">Hallo SmartStack-Support,\n\nIch benötige Hilfe bei:\n\nErwartetes Verhalten:\n\nTatsächliches Verhalten:\n\nSchritte zur Wiederholung:\n\nApp-Version: %1$s\n\nBitte keine Passwörter oder sensiblen Finanzunterlagen einfügen.</string>
+    <string name="support_email_copied">Keine E-Mail-App gefunden. Die Support-Adresse wurde in die Zwischenablage kopiert.</string>
     <string name="main_tagline">Organisieren Sie Ihre Finanzen\n\nund vereinfachen Sie Ihr Leben!</string>
     <string name="content_description_logo">App-Logo</string>
     <string name="app_title">SmartStack Solutions</string>
@@ -269,11 +284,12 @@
     <string name="content_description_notifications_list">Liste der Benachrichtigungen</string>
 
     <string name="unlock_premium_features">Premium-Funktionen freischalten</string>
-    <string name="premium_intro_text">Vielen Dank, dass Sie sich für SmartStack Solutions entschieden haben!\n\nMit der Basisversion können Sie Ihre offenen Zahlungen verwalten und den Überblick über anstehende Rechnungen behalten.\n\nUpgraden Sie auf Premium, um folgende Funktionen freizuschalten:</string>
-    <string name="premium_feature_closed_payments">Geschlossene Zahlungen: Verfolgen Sie bezahlte Rechnungen.</string>
-    <string name="premium_feature_income_management">Einkommensverwaltung: Verwalten Sie Ihre Einkommensquellen.</string>
-    <string name="premium_feature_saving_target">Sparziel: Legen Sie ein Sparziel fest und verfolgen Sie Ihren Fortschritt.</string>
-    <string name="premium_closing_text">Schalten Sie Premium frei, um eine umfassende Finanzübersicht zu genießen.</string>
+    <string name="premium_intro_text">Die wichtigsten Funktionen bleiben kostenlos. Wechseln Sie zu Premium, wenn Sie einen vollständigen Finanzarbeitsbereich mit umfangreicher Historie, Einnahmenverwaltung, Sparzielen und ohne Werbung möchten.</string>
+    <string name="premium_feature_closed_payments">Erstellen, bearbeiten und organisieren Sie Ihre detaillierte Zahlungshistorie.</string>
+    <string name="premium_feature_income_management">Erstellen und verwalten Sie einmalige und wiederkehrende Einnahmen.</string>
+    <string name="premium_feature_saving_target">Legen Sie Sparziele fest und verfolgen Sie den monatlichen Fortschritt.</string>
+    <string name="premium_feature_financial_insights">Entdecken Sie Finanztrends über sechs und zwölf Monate.</string>
+    <string name="premium_closing_text">Offene Zahlungen, Erinnerungen, Kalender, Datenexport und das Markieren als bezahlt bleiben in der kostenlosen Version verfügbar.</string>
     <string name="premium_upgrade_required">Upgraden Sie auf Premium, um geschlossene Zahlungen, Einkommenseinträge und Sparziele zu erstellen.</string>
     <string name="features">Funktionen</string>
     <string name="feature_open_payments_title">Offene Zahlungen</string>
@@ -294,7 +310,11 @@
     <string name="feature_saving_target_title">Sparziel</string>
     <string name="feature_saving_target_desc">Legen Sie ein Sparziel fest und verfolgen Sie den Fortschritt.</string>
     <string name="feature_saving_target_expandable">Die Sparziel-Funktion ermöglicht es Ihnen, personalisierte Finanzziele festzulegen. Definieren Sie einen Zielbetrag, legen Sie einen Zeitraum fest und verfolgen Sie Ihren monatlichen Fortschritt auf dem Weg zu Ihren finanziellen Zielen.</string>
+    <string name="feature_financial_insights_title">Erweiterte finanzielle Einblicke</string>
+    <string name="feature_financial_insights_desc">Verwandeln Sie Ihre Historie in aussagekräftige Trends.</string>
+    <string name="feature_financial_insights_expandable">Vergleichen Sie Cashflow über sechs und zwölf Monate, erkennen Sie veränderte Ausgabenkategorien, verfolgen Sie wiederkehrende Verpflichtungen und prüfen Sie Ihre Sparkonsistenz. Die Analyse folgt dem im Dashboard ausgewählten Monat.</string>
     <string name="unlock_button_text">SmartStack Solutions Premium freischalten</string>
+    <string name="unlock_button_with_price">Premium freischalten · %1$s</string>
     <string name="more_information">Weitere Informationen</string>
     <string name="premium_still_loading">Premium wird noch geladen. Bitte versuchen Sie es erneut.</string>
     <string name="billing_not_ready">Die Abrechnung ist noch nicht bereit. Bitte versuchen Sie es erneut.</string>
@@ -303,7 +323,7 @@
     <string name="premium_unavailable">Premium ist momentan nicht verfügbar. Tippen Sie zum erneuten Versuch.</string>
     <string name="premium_loading">Premium-Optionen werden geladen...</string>
     <string name="less_information">Weniger Informationen</string>
-    <string name="terms_and_conditions_title">Allgemeine Geschäftsbedingungen</string>
+    <string name="terms_and_conditions_title">Allgemeine Nutzungsbedingungen</string>
     <string name="terms_and_conditions_content">
 1. Akzeptanz der Bedingungen&#10;&#10;Durch die Nutzung der SmartStack Solutions-Anwendung stimmen Sie zu, an diese Bedingungen gebunden zu sein. Wenn Sie nicht einverstanden sind, verwenden Sie die Anwendung bitte nicht.&#10;&#10;
 2. Änderungen der Bedingungen&#10;&#10;SmartStack Solutions behält sich das Recht vor, diese Bedingungen jederzeit zu ändern. Wir werden die Benutzer über Änderungen über die Anwendung oder per E-Mail informieren. Die weitere Nutzung der Anwendung nach Veröffentlichung der Änderungen bedeutet die Annahme der neuen Bedingungen.&#10;&#10;
@@ -397,4 +417,146 @@ Wenn Sie Fragen haben oder weitere Informationen zu unserer Mission und unseren 
     <string name="source_payer">Quelle / Zahler</string>
     <string name="source_payer_hint">Arbeitgeber, Kunde, Mieter, Institution…</string>
     <string name="recurrence_one_year_explanation">SmartStack erstellt wiederkehrende Einträge für die nächsten 12 Monate, damit Ihre Vorschau aktuell und übersichtlich bleibt.</string>
+    <string name="show_details">Details anzeigen</string>
+    <string name="hide_details">Details ausblenden</string>
+    <string name="free_open_payment_limit_reached">Sie haben das kostenlose Kontingent von 30 einzelnen aktiven offenen Zahlungen erreicht. Markieren Sie abgeschlossene Einträge als bezahlt oder wechseln Sie zu Premium.</string>
+    <string name="free_recurring_limit_reached">Dieser Zahlungsplan würde das kostenlose Kontingent von 250 zukünftigen wiederkehrenden Zahlungsvorgängen überschreiten. Entfernen Sie einen nicht mehr benötigten Plan oder wechseln Sie zu Premium.</string>
+    <string name="premium_usage_limit_reached">Dieser Eintrag würde das Premium-Kontingent von 2.000 kombinierten zukünftigen Zahlungs- und Einnahmeneinträgen überschreiten. Entfernen Sie nicht mehr benötigte zukünftige Einträge oder kontaktieren Sie den Support.</string>
+    <string name="usage_limit_check_failed">SmartStack konnte das verfügbare Eintragskontingent nicht prüfen. Überprüfen Sie Ihre Verbindung und versuchen Sie es erneut.</string>
+    <string name="terms_section_title_1">1. Zustimmung und Geltungsbereich</string>
+    <string name="terms_section_body_1">Mit der Erstellung eines Kontos oder der Nutzung von SmartStack Solutions stimmen Sie diesen Nutzungsbedingungen zu. Wenn Sie nicht zustimmen, verwenden Sie die Anwendung bitte nicht.</string>
+    <string name="terms_section_title_2">2. Zweck des Dienstes</string>
+    <string name="terms_section_body_2">SmartStack bietet Organisationswerkzeuge für Zahlungen, Ausgaben, Einnahmen, Erinnerungen und Sparziele. Die Anwendung bietet keine Finanz-, Steuer-, Rechts- oder Anlageberatung.</string>
+    <string name="terms_section_title_3">3. Verantwortung für das Konto</string>
+    <string name="terms_section_body_3">Sie sind für den Schutz Ihres Kontos, korrekte Angaben und die Prüfung Ihrer Einträge und Erinnerungen verantwortlich. Eine rechtswidrige Nutzung, automatisierter Missbrauch oder die Umgehung technischer Schutzmaßnahmen ist untersagt.</string>
+    <string name="terms_section_title_4">4. Kostenlose Version und Werbung</string>
+    <string name="terms_section_body_4">Die kostenlose Version wird durch Werbung unterstützt und umfasst grundlegende Funktionen für offene Zahlungen, Erinnerungen, Kalender, Datenexport und das Abschließen von Zahlungen. Einige Funktionen für Erstellung, Bearbeitung, Historie, Einnahmen, Ziele und Analysen erfordern Premium.</string>
+    <string name="terms_section_title_5">5. Kontingente für faire Nutzung</string>
+    <string name="terms_section_body_5">Für einen zuverlässigen und nachhaltigen Dienst unterstützen kostenlose Konten bis zu 30 einzelne aktive offene Zahlungen und 250 zukünftige wiederkehrende Zahlungsvorgänge. Premium-Konten unterstützen bis zu 2.000 kombinierte zukünftige Zahlungs- und Einnahmeneinträge. Das Markieren einer bestehenden Zahlung als bezahlt wird nicht blockiert. Kontingente können für Sicherheit, Zuverlässigkeit oder Nachhaltigkeit mit angemessener Vorabinformation angepasst werden, soweit dies praktisch möglich ist.</string>
+    <string name="terms_section_title_6">6. Premium-Abonnement</string>
+    <string name="terms_section_body_6">Premium-Funktionen und der aktuelle Preis werden vor dem Kauf angezeigt. Abrechnung, Verlängerung, Kündigung und berechtigte Erstattungen werden über Google Play gemäß dessen Bedingungen und dem geltenden Recht abgewickelt. Premium entfernt Werbung und schaltet die auf der Premium-Seite beschriebenen Funktionen frei, vorbehaltlich der Fair-Use-Schutzmaßnahmen.</string>
+    <string name="terms_section_title_7">7. Datenverfügbarkeit und Export</string>
+    <string name="terms_section_body_7">Wir bemühen uns, Kontodaten verfügbar zu halten; kein Online-Dienst kann jedoch eine dauerhafte oder unterbrechungsfreie Speicherung garantieren. Nutzen Sie regelmäßig die Exportfunktion für Daten, die Sie aufbewahren müssen. Vor wesentlichen automatischen Aufbewahrungs- oder Löschregeln informieren wir im Voraus, außer eine Löschung ist aus Sicherheits- oder Rechtsgründen oder aufgrund einer Kontolöschung erforderlich.</string>
+    <string name="terms_section_title_8">8. Verfügbarkeit und Haftung</string>
+    <string name="terms_section_body_8">Der Dienst wird im verfügbaren Zustand bereitgestellt. Soweit gesetzlich zulässig, haftet SmartStack Solutions nicht für mittelbare Verluste durch Ausfälle, fehlerhafte Benutzereingaben, verpasste Erinnerungen, Gerätefehler oder die Nutzung der Anwendung als professionelle Beratung. Gesetzliche Verbraucherrechte bleiben unberührt.</string>
+    <string name="terms_section_title_9">9. Änderungen und Beendigung</string>
+    <string name="terms_section_body_9">Funktionen und Nutzungsbedingungen können sich mit der Weiterentwicklung des Dienstes ändern. Wesentliche Änderungen werden nach Möglichkeit mitgeteilt. Der Zugang kann bei Betrug, Missbrauch, rechtswidriger Nutzung, Sicherheitsrisiken oder schwerwiegenden Verstößen eingeschränkt werden.</string>
+    <string name="terms_section_title_10">10. Kontakt</string>
+    <string name="terms_section_body_10">Fragen zu diesen Nutzungsbedingungen oder zum Dienst können an service@smartstack-solutions.com gesendet werden.</string>
+    <string name="faqs_question_16">16. Welche Nutzungskontingente gelten für kostenlose und Premium-Konten?</string>
+    <string name="faqs_answer_16">Kostenlose Konten können bis zu 30 einzelne aktive offene Zahlungen und 250 zukünftige wiederkehrende Zahlungsvorgänge verwalten. Premium-Konten können bis zu 2.000 kombinierte zukünftige Zahlungs- und Einnahmeneinträge verwalten. Diese großzügigen Sicherheitsgrenzen schützen einen zuverlässigen Dienst und verhindern versehentliche Eintragsexplosionen.</string>
+    <string name="faqs_question_17">17. Können kostenlose Nutzer Zahlungen weiterhin als bezahlt markieren?</string>
+    <string name="faqs_answer_17">Ja. Der normale Ablauf von offen zu bezahlt wird durch das kostenlose Kontingent nicht blockiert. Das direkte Erstellen, Bearbeiten und Löschen geschlossener Zahlungen gehört zu den Premium-Verwaltungsfunktionen.</string>
+    <string name="faqs_question_18">18. Löscht SmartStack meine Finanzhistorie automatisch?</string>
+    <string name="faqs_answer_18">SmartStack verwendet derzeit keine automatische Löschfrist für die Zahlungshistorie. Sie können Ihre Kontodaten jederzeit exportieren. Falls später eine wesentliche Aufbewahrungsregel eingeführt wird, informiert die App nach Möglichkeit im Voraus.</string>
+    <string name="faqs_question_19">19. Welche finanziellen Einblicke sind enthalten?</string>
+    <string name="faqs_answer_19">Die kostenlose Version enthält Geldfluss, Dringlichkeit offener Zahlungen und Ausgabenzusammensetzung für den ausgewählten Monat. Premium ergänzt Cashflow-Trends über sechs und zwölf Monate, Kategorieveränderungen, Trends wiederkehrender Verpflichtungen und Sparkonsistenz. Mehrmonatige Zeiträume enden im im Dashboard ausgewählten Monat.</string>
+    <string name="financial_insights">Finanzielle Einblicke</string>
+    <string name="financial_insights_subtitle">Den ausgewählten Monat auf einen Blick verstehen</string>
+    <string name="monthly_money_map">Monatlicher Geldfluss</string>
+    <string name="monthly_money_map_description">Sehen Sie, wie Einnahmen, abgeschlossene Ausgaben, offene Verpflichtungen und Ihr Sparziel zusammenwirken.</string>
+    <string name="open_payment_risk_timeline">Dringlichkeit offener Zahlungen</string>
+    <string name="open_payment_risk_description">Konzentrieren Sie sich zuerst auf überfällige und kurzfristige Verpflichtungen.</string>
+    <string name="spending_composition">Zusammensetzung der Ausgaben</string>
+    <string name="spending_composition_description">Sehen Sie, welche Kategorien die abgeschlossenen Ausgaben dieses Monats bestimmen.</string>
+    <string name="available_after_commitments">Verfügbar</string>
+    <string name="paid_expenses_short">Bezahlt</string>
+    <string name="still_due_short">Noch offen</string>
+    <string name="savings_target">Sparziel</string>
+    <string name="no_savings_target_insight">Für diesen Monat ist kein Sparziel aktiv.</string>
+    <string name="savings_target_cushion">Nach dem Sparziel bleiben %1$s übrig.</string>
+    <string name="savings_target_shortfall">Zum Erreichen des Sparziels fehlen noch %1$s.</string>
+    <string name="due_next_seven_days">Nächste 7 Tage</string>
+    <string name="later_this_month">Später</string>
+    <string name="other">Sonstige</string>
+    <string name="no_closed_payments_for_month">Keine abgeschlossenen Ausgaben in diesem Monat.</string>
+    <plurals name="payment_count">
+        <item quantity="one">%1$d Zahlung</item>
+        <item quantity="other">%1$d Zahlungen</item>
+    </plurals>
+    <string name="positive_balance_status">Positiver Saldo</string>
+    <string name="balance">Saldo</string>
+    <string name="shortfall_status">Fehlbetrag</string>
+    <string name="no_activity_status">Keine Aktivität</string>
+    <string name="balanced_status">Ausgeglichen</string>
+    <string name="selected_month">Dieser Monat</string>
+    <string name="six_months">6 Monate</string>
+    <string name="twelve_months">12 Monate</string>
+    <string name="premium_insights_teaser_title">Ihre Zahlen erzählen eine längere Geschichte</string>
+    <string name="premium_insights_teaser_message">Premium zeigt Trends, Kategorieveränderungen, wiederkehrende Verpflichtungen und wie beständig Ihre Sparpläne auf Kurs bleiben.</string>
+    <string name="unlock_deeper_insights">Tiefere Einblicke freischalten →</string>
+    <string name="premium_insights_upgrade">Wechseln Sie zu Premium, um Finanztrends über sechs und zwölf Monate zu entdecken.</string>
+    <string name="cash_flow_trend">Cashflow-Trend</string>
+    <string name="cash_flow_trend_description">Vergleichen Sie Einnahmen und Gesamtverpflichtungen; grüne und rote Balken zeigen den monatlichen Saldo.</string>
+    <string name="category_changes">Kategorieveränderungen</string>
+    <string name="category_changes_description">Sehen Sie, welche Ausgabenkategorien gegenüber den früheren Monaten dieses Zeitraums gestiegen oder gesunken sind.</string>
+    <string name="category_changes_info_title">Berechnung der Kategorieveränderungen</string>
+    <string name="category_changes_info_message">Der ausgewählte Monat wird mit dem Monatsdurchschnitt der vorherigen Monate im gewählten Sechs- oder Zwölfmonatszeitraum verglichen.\n\nVeränderung = Betrag des ausgewählten Monats minus früherer Monatsdurchschnitt, geteilt durch diesen Durchschnitt.\n\nEin Pfeil nach oben bedeutet höhere, ein Pfeil nach unten niedrigere Ausgaben. Ein Strich bedeutet, dass keine früheren Ausgaben für eine Prozentberechnung vorhanden sind. Angezeigt werden die vier größten Kategorien des ausgewählten Monats.</string>
+    <string name="category_changes_info_content_description">Kategorieveränderungen erklären</string>
+    <string name="recurring_commitment_trend">Trend wiederkehrender Verpflichtungen</string>
+    <string name="recurring_commitment_trend_description">Verfolgen Sie, wie sich geplante wiederkehrende Verpflichtungen entwickeln.</string>
+    <string name="savings_consistency">Sparkonsistenz</string>
+    <string name="savings_consistency_description">Sehen Sie, wie oft der prognostizierte Monatssaldo ein aktives Sparziel erreicht hat.</string>
+    <string name="total_obligations">Verpflichtungen</string>
+    <string name="not_enough_category_data">Fügen Sie abgeschlossene Ausgaben über mehrere Monate hinzu, um Kategorien zu vergleichen.</string>
+    <string name="commitments_increased">Wiederkehrende Verpflichtungen stiegen um %1$s.</string>
+    <string name="commitments_decreased">Wiederkehrende Verpflichtungen sanken um %1$s.</string>
+    <string name="commitments_steady">Wiederkehrende Verpflichtungen blieben stabil.</string>
+    <string name="no_savings_goals_in_period">In diesem Zeitraum waren keine Sparziele aktiv.</string>
+    <string name="savings_goals_achieved">%1$d von %2$d Zielmonaten erreicht</string>
+    <string name="dashboard_welcome_title">Erstellen Sie Ihren ersten Finanzüberblick</string>
+    <string name="dashboard_welcome_message">Beginnen Sie mit einer anstehenden Zahlung. Mit Einnahmen und abgeschlossenen Ausgaben entsteht Schritt für Schritt Ihr Monatsbild.</string>
+    <string name="dashboard_welcome_steps">1. Anstehende Zahlung hinzufügen\n2. Einnahmen für die Saldoberechnung erfassen\n3. Zahlungen als bezahlt markieren und Ausgabeneinblicke freischalten</string>
+    <string name="add_first_payment">Erste Zahlung hinzufügen</string>
+    <string name="how_smartstack_works">So funktioniert SmartStack</string>
+    <string name="dashboard_tutorial_title">Ihr SmartStack-Ablauf</string>
+    <string name="dashboard_tutorial_message">Offene Zahlungen zeigen, was noch fällig ist. Wenn Sie eine Zahlung als bezahlt markieren, wird sie Teil Ihrer abgeschlossenen Ausgabenhistorie. Einnahmen und Sparziele vervollständigen den Monatsüberblick. Erinnerungen und Einblicke zeigen, was Aufmerksamkeit benötigt.</string>
+    <string name="about_us_hero_title">Klarheit für die täglichen Finanzen</string>
+    <string name="about_why_title">Warum es SmartStack gibt</string>
+    <string name="about_why_body">Finanzorganisation sollte verständlich und nicht überwältigend sein. SmartStack vereint anstehende Zahlungen, abgeschlossene Ausgaben, Einnahmen, Sparziele und Erinnerungen in einem klaren Monatsüberblick.</string>
+    <string name="about_manage_title">Was SmartStack für Sie organisiert</string>
+    <string name="about_manage_body">Behalten Sie Fälligkeiten und überfällige Zahlungen im Blick, ordnen Sie wiederkehrende Verpflichtungen, prüfen Sie Ausgabenkategorien und erkennen Sie, was monatlich verfügbar bleibt.</string>
+    <string name="about_privacy_title">Datenschutzbewusst entwickelt</string>
+    <string name="about_privacy_body">Die App erfasst nur Informationen, die für ihre Funktionen erforderlich sind. Finanzdaten sind Ihrem angemeldeten Konto zugeordnet. Anhangsbilder verbleiben im privaten App-Speicher dieses Geräts und werden nicht zu Firebase hochgeladen.</string>
+    <string name="about_independent_title">Unabhängig entwickelt</string>
+    <string name="about_independent_body">SmartStack wird unabhängig entwickelt – mit Fokus auf praktischen Nutzen, faire Grenzen und kontinuierliche Verbesserung. Die App dient der Organisation und bietet keine Finanz-, Steuer- oder Anlageberatung.</string>
+    <string name="about_contact_title">Fragen und Feedback</string>
+    <string name="about_contact_body">Ihr Feedback hilft bei der Weiterentwicklung von SmartStack. Kontakt: service@smartstack-solutions.com.</string>
+    <string name="about_version">App-Version %1$s</string>
+    <string name="income_attachment">Einnahmenanhang</string>
+    <string name="data_security_question_15">15. Wo werden Anhangsbilder gespeichert?</string>
+    <string name="data_security_answer_15">Antwort: Bilder zu offenen Zahlungen, abgeschlossenen Ausgaben oder Einnahmen werden in den privaten App-Speicher dieses Geräts kopiert. Firebase speichert den Finanzdatensatz und dessen lokale Anhangsreferenz, das Bild selbst wird jedoch nicht hochgeladen oder synchronisiert. Beim Entfernen der App oder ihrer lokalen Daten können diese Bilder verloren gehen. Wichtige Dokumente sollten deshalb zusätzlich anderweitig aufbewahrt werden.</string>
+    <string name="getting_started_title">Erste Schritte</string>
+    <string name="getting_started_hero_title">Ihr erster Monat mit SmartStack</string>
+    <string name="getting_started_intro">Mit diesem einfachen Ablauf werden einzelne Einträge zu einem hilfreichen Monatsüberblick.</string>
+    <string name="guide_step_1_title">Erfassen Sie offene Verpflichtungen</string>
+    <string name="guide_step_1_description">Wählen Sie manuelle Eingabe oder Dokument scannen. Ergänzen Sie Fälligkeit und Wiederholung und prüfen Sie alle Scanvorschläge vor dem Speichern.</string>
+    <string name="guide_step_2_title">Erfassen Sie Ihre Einnahmen</string>
+    <string name="guide_step_2_description">Fügen Sie wiederkehrende oder einmalige Einnahmen hinzu, damit das Dashboard den voraussichtlichen Monatssaldo berechnen kann.</string>
+    <string name="guide_step_3_title">Markieren Sie Zahlungen als bezahlt</string>
+    <string name="guide_step_3_description">Aktivieren Sie nach der Zahlung das Bezahlt-Kästchen. Der Eintrag wird automatisch in die Historie abgeschlossener Ausgaben verschoben.</string>
+    <string name="guide_step_4_title">Verstehen Sie Ihren Monat</string>
+    <string name="guide_step_4_description">Prüfen Sie offene und abgeschlossene Zahlungen, Einnahmen, Sparfortschritt, Ausgabenkategorien und Finanzanalysen im Dashboard.</string>
+    <string name="guide_step_5_title">Bleiben Sie auf Kurs</string>
+    <string name="guide_step_5_description">Nutzen Sie Erinnerungen, wiederkehrende Einträge und den Kalender, um Termine im Blick zu behalten und wiederholte Arbeit zu reduzieren.</string>
+    <string name="getting_started_open_faq">Noch Fragen? FAQs öffnen</string>
+    <string name="help_getting_started_title">Leitfaden für erste Schritte</string>
+    <string name="help_getting_started_description">Lernen Sie den empfohlenen Ablauf für Zahlungen, Einnahmen, Erinnerungen und Monatsanalysen kennen.</string>
+    <string name="entry_method_subtitle">Wählen Sie die schnellste Option für diesen Eintrag.</string>
+    <string name="entry_method_open_payment">Wie möchten Sie diese offene Zahlung hinzufügen?</string>
+    <string name="entry_method_closed_payment">Wie möchten Sie diese abgeschlossene Ausgabe hinzufügen?</string>
+    <string name="entry_method_income">Wie möchten Sie diese Einnahme hinzufügen?</string>
+    <string name="scan_document">Dokument scannen</string>
+    <string name="scan_document_description">Foto aufnehmen oder Bild auswählen und vorgeschlagene Angaben prüfen.</string>
+    <string name="enter_manually">Manuell eingeben</string>
+    <string name="enter_manually_description">Leeres Formular öffnen und Angaben selbst eintragen.</string>
+    <string name="scan_and_prefill">Scannen und Felder vorausfüllen</string>
+    <string name="preparing_document_scanner">Dokumentscanner wird vorbereitet…</string>
+    <string name="reading_document">Dokument wird gelesen und Vorschläge werden vorbereitet…</string>
+    <string name="document_text_not_recognized">Das Dokument wurde angehängt, der Text konnte jedoch nicht erkannt werden. Bitte geben Sie die Angaben manuell ein.</string>
+    <string name="document_scan_failed_title">Dokument konnte nicht gescannt werden</string>
+    <string name="document_scan_failed_message">Versuchen Sie es erneut mit einem klaren, gut beleuchteten Dokument oder fahren Sie mit der manuellen Eingabe fort.</string>
+    <string name="try_again">Erneut versuchen</string>
+    <string name="faqs_question_20">20. Wie genau ist das Scannen von Dokumenten?</string>
+    <string name="faqs_answer_20">Antwort: Das Scannen soll Tipparbeit reduzieren, ersetzt aber nicht Ihre Prüfung. Das Ergebnis hängt von Bildqualität, Dokumentlayout, Sprache und mehreren Datums- oder Betragsangaben ab. SmartStack kann einen falschen Gesamtbetrag, ein falsches Datum oder einen falschen Anbieter auswählen. Prüfen Sie jeden Vorschlag vor dem Speichern. Die Verarbeitung erfolgt auf dem Gerät; das Dokument wird durch die Scanfunktion nicht zu Firebase hochgeladen. Google Play-Dienste können Scanner- und Texterkennungskomponenten herunterladen und technische Leistungsdaten erfassen, ML Kit sendet jedoch weder das Dokument noch den erkannten Text an Google-Server.</string>
 </resources>

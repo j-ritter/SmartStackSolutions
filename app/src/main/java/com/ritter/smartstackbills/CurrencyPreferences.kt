@@ -8,17 +8,34 @@ import java.util.Locale
 object CurrencyPreferences {
     private const val PREFERENCES_NAME = "currency_preferences"
     private const val KEY_CURRENCY_CODE = "currency_code"
+    private val supportedCurrencyCodes = listOf(
+        "USD", // United States dollar
+        "EUR", // Euro
+        "GBP", // British pound
+        "JPY", // Japanese yen
+        "CNY", // Chinese yuan
+        "CAD", // Canadian dollar
+        "AUD", // Australian dollar
+        "CHF", // Swiss franc
+        "INR", // Indian rupee
+        "MXN", // Mexican peso
+        "BRL", // Brazilian real
+        "KRW", // South Korean won
+        "SGD", // Singapore dollar
+        "SEK", // Swedish krona
+        "PLN"  // Polish zloty
+    )
 
     @JvmStatic
     fun selectedCode(context: Context): String =
         context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE)
             .getString(KEY_CURRENCY_CODE, null)
-            ?.takeIf { code -> runCatching { Currency.getInstance(code) }.isSuccess }
+            ?.takeIf { it in supportedCurrencyCodes }
             ?: defaultCurrencyCode()
 
     @JvmStatic
     fun setSelectedCode(context: Context, code: String) {
-        Currency.getInstance(code)
+        require(code in supportedCurrencyCodes) { "Unsupported currency: $code" }
         context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE)
             .edit()
             .putString(KEY_CURRENCY_CODE, code)
@@ -33,9 +50,11 @@ object CurrencyPreferences {
 
     @JvmStatic
     fun availableCurrencies(): List<Currency> =
-        Currency.getAvailableCurrencies().sortedBy { it.currencyCode }
+        supportedCurrencyCodes.map(Currency::getInstance)
 
     private fun defaultCurrencyCode(): String =
         runCatching { Currency.getInstance(Locale.getDefault()).currencyCode }
             .getOrDefault("USD")
+            .takeIf { it in supportedCurrencyCodes }
+            ?: "USD"
 }

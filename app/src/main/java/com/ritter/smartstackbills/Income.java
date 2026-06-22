@@ -5,7 +5,7 @@ import com.google.firebase.Timestamp;
 public class Income {
 
     String incomeId, parentIncomeId;
-    String name, comment, category, repeat, subcategory, source;
+    String name, comment, category, repeat, subcategory, source, attachment;
     double amount;
     Timestamp date;
 
@@ -99,4 +99,7 @@ public class Income {
 
     public String getSource() { return source; }
     public void setSource(String source) { this.source = source; }
+
+    public String getAttachment() { return attachment; }
+    public void setAttachment(String attachment) { this.attachment = attachment; }
 }

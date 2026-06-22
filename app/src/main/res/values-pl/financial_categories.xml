@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="expense_category_labels">
+        <item>Mieszkanie i media</item><item>Komunikacja</item><item>Ubezpieczenia</item><item>Subskrypcje</item><item>Transport</item><item>Zobowiązania finansowe</item><item>Podatki</item><item>Zdrowie</item><item>Edukacja</item><item>Zakupy i potrzeby osobiste</item><item>Artykuły spożywcze</item><item>Rodzina i opieka nad dziećmi</item><item>Zwierzęta</item><item>Podróże i wypoczynek</item><item>Inne</item>
+    </string-array>
+    <string-array name="expense_subcategories_housing"><item>Czynsz</item><item>Kredyt hipoteczny</item><item>Media</item><item>Konserwacja i naprawy</item><item>Meble</item><item>Usługi domowe</item><item>Inne</item></string-array>
+    <string-array name="expense_subcategories_communication"><item>Telefon komórkowy</item><item>Internet</item><item>Telewizja</item><item>Przechowywanie w chmurze</item><item>Inne</item></string-array>
+    <string-array name="expense_subcategories_insurance"><item>Zdrowotne</item><item>Na życie</item><item>Pojazdu</item><item>Mieszkania</item><item>Podróżne</item><item>Zwierzęcia</item><item>Inne</item></string-array>
+    <string-array name="expense_subcategories_subscriptions"><item>Streaming</item><item>Muzyka</item><item>Oprogramowanie</item><item>Członkostwa</item><item>Wiadomości i publikacje</item><item>Inne</item></string-array>
+    <string-array name="expense_subcategories_transportation"><item>Paliwo</item><item>Transport publiczny</item><item>Utrzymanie pojazdu</item><item>Parking i opłaty drogowe</item><item>Taksówki i przejazdy</item><item>Wynajem pojazdu</item><item>Inne</item></string-array>
+    <string-array name="expense_subcategories_financial"><item>Rata kredytu</item><item>Spłata karty kredytowej</item><item>Opłaty bankowe</item><item>Odsetki i opłaty</item><item>Honoraria</item><item>Inne</item></string-array>
+    <string-array name="expense_subcategories_taxes"><item>Podatek dochodowy</item><item>Podatek od nieruchomości</item><item>Podatek od sprzedaży lub VAT</item><item>Podatek firmowy</item><item>Inne</item></string-array>
+    <string-array name="expense_subcategories_health"><item>Lekarz</item><item>Dentysta</item><item>Leki</item><item>Zdrowie psychiczne</item><item>Sprzęt medyczny</item><item>Wellness</item><item>Inne</item></string-array>
+    <string-array name="expense_subcategories_education"><item>Czesne</item><item>Książki i materiały</item><item>Kursy</item><item>Edukacja dzieci</item><item>Rozwój zawodowy</item><item>Inne</item></string-array>
+    <string-array name="expense_subcategories_shopping"><item>Odzież</item><item>Elektronika</item><item>Artykuły gospodarstwa domowego</item><item>Higiena osobista</item><item>Prezenty</item><item>Inne</item></string-array>
+    <string-array name="expense_subcategories_groceries"><item>Żywność</item><item>Podstawowe artykuły domowe</item><item>Napoje</item><item>Restauracje i jedzenie na wynos</item><item>Inne</item></string-array>
+    <string-array name="expense_subcategories_family"><item>Opieka nad dziećmi</item><item>Alimenty</item><item>Artykuły dla niemowląt</item><item>Aktywności rodzinne</item><item>Inne</item></string-array>
+    <string-array name="expense_subcategories_pets"><item>Karma</item><item>Opieka weterynaryjna</item><item>Ubezpieczenie</item><item>Akcesoria</item><item>Inne</item></string-array>
+    <string-array name="expense_subcategories_travel"><item>Zakwaterowanie</item><item>Loty</item><item>Aktywności</item><item>Rozrywka</item><item>Inne</item></string-array>
+    <string-array name="expense_subcategories_other"><item>Darowizny</item><item>Sprawy prawne</item><item>Nieoczekiwany wydatek</item><item>Różne</item></string-array>
+    <string-array name="income_category_labels">
+        <item>Wynagrodzenie</item><item>Freelance i samozatrudnienie</item><item>Dochód z działalności</item><item>Dochód z najmu</item><item>Dochód z inwestycji</item><item>Emerytura i renta</item><item>Świadczenia i wsparcie</item><item>Stypendia i granty</item><item>Tantiemy</item><item>Prezenty i spadki</item><item>Zwroty i refundacje</item><item>Inny dochód</item>
+    </string-array>
+    <string-array name="income_subcategories_salary"><item>Stałe wynagrodzenie</item><item>Nadgodziny</item><item>Premia</item><item>Inne</item></string-array>
+    <string-array name="income_subcategories_freelance"><item>Opłata za usługę</item><item>Dochód z projektu</item><item>Prowizja</item><item>Inne</item></string-array>
+    <string-array name="income_subcategories_business"><item>Zysk firmy</item><item>Udział w zysku</item><item>Wypłata właściciela</item><item>Inne</item></string-array>
+    <string-array name="income_subcategories_rental"><item>Nieruchomość</item><item>Pojazd</item><item>Sprzęt</item><item>Inne</item></string-array>
+    <string-array name="income_subcategories_investment"><item>Dywidenda</item><item>Odsetki</item><item>Zysk kapitałowy</item><item>Inne</item></string-array>
+    <string-array name="income_subcategories_pension"><item>Emerytura państwowa</item><item>Emerytura pracownicza</item><item>Emerytura prywatna</item><item>Inne</item></string-array>
+    <string-array name="income_subcategories_benefits"><item>Bezrobocie</item><item>Chorobowe</item><item>Świadczenie rodzicielskie</item><item>Alimenty</item><item>Inne</item></string-array>
+    <string-array name="income_subcategories_scholarships"><item>Stypendium</item><item>Grant badawczy</item><item>Inne</item></string-array>
+    <string-array name="income_subcategories_royalties"><item>Książki</item><item>Muzyka</item><item>Oprogramowanie</item><item>Patent</item><item>Inne</item></string-array>
+    <string-array name="income_subcategories_gifts"><item>Prezent</item><item>Spadek</item><item>Inne</item></string-array>
+    <string-array name="income_subcategories_refunds"><item>Zwrot zakupu</item><item>Zwrot podatku</item><item>Zwrot wydatków</item><item>Inne</item></string-array>
+    <string-array name="income_subcategories_other"><item>Sprzedaż rzeczy osobistej</item><item>Zwrot z crowdfundingu</item><item>Różne</item></string-array>
+</resources>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F7FA"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="32dp">
+
+    <ProgressBar
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:indeterminateTint="@color/colorPrimary" />
+
+    <TextView
+        android:id="@+id/documentScanStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:text="@string/preparing_document_scanner"
+        android:textColor="@color/colorSecondary"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+</LinearLayout>

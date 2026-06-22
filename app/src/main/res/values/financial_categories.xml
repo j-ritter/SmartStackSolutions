@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="expense_category_labels">
+        <item>Housing &amp; utilities</item><item>Communication</item><item>Insurance</item>
+        <item>Subscriptions</item><item>Transportation</item><item>Financial obligations</item>
+        <item>Taxes</item><item>Health</item><item>Education</item>
+        <item>Shopping &amp; personal</item><item>Groceries</item><item>Family &amp; childcare</item>
+        <item>Pets</item><item>Travel &amp; leisure</item><item>Other</item>
+    </string-array>
+    <string-array name="expense_subcategories_housing"><item>Rent</item><item>Mortgage</item><item>Utilities</item><item>Maintenance &amp; repairs</item><item>Furniture</item><item>Home services</item><item>Other</item></string-array>
+    <string-array name="expense_subcategories_communication"><item>Mobile phone</item><item>Internet</item><item>TV</item><item>Cloud storage</item><item>Other</item></string-array>
+    <string-array name="expense_subcategories_insurance"><item>Health</item><item>Life</item><item>Vehicle</item><item>Home</item><item>Travel</item><item>Pet</item><item>Other</item></string-array>
+    <string-array name="expense_subcategories_subscriptions"><item>Streaming</item><item>Music</item><item>Software</item><item>Memberships</item><item>News &amp; publications</item><item>Other</item></string-array>
+    <string-array name="expense_subcategories_transportation"><item>Fuel</item><item>Public transport</item><item>Vehicle maintenance</item><item>Parking &amp; tolls</item><item>Taxi &amp; ride share</item><item>Vehicle rental</item><item>Other</item></string-array>
+    <string-array name="expense_subcategories_financial"><item>Loan payment</item><item>Credit card payment</item><item>Bank fees</item><item>Interest &amp; charges</item><item>Professional fees</item><item>Other</item></string-array>
+    <string-array name="expense_subcategories_taxes"><item>Income tax</item><item>Property tax</item><item>Sales or VAT</item><item>Business tax</item><item>Other</item></string-array>
+    <string-array name="expense_subcategories_health"><item>Doctor</item><item>Dental</item><item>Medication</item><item>Mental health</item><item>Medical equipment</item><item>Wellness</item><item>Other</item></string-array>
+    <string-array name="expense_subcategories_education"><item>Tuition</item><item>Books &amp; supplies</item><item>Courses</item><item>Child education</item><item>Professional development</item><item>Other</item></string-array>
+    <string-array name="expense_subcategories_shopping"><item>Clothing</item><item>Electronics</item><item>Household goods</item><item>Personal care</item><item>Gifts</item><item>Other</item></string-array>
+    <string-array name="expense_subcategories_groceries"><item>Food</item><item>Household necessities</item><item>Beverages</item><item>Dining &amp; takeaway</item><item>Other</item></string-array>
+    <string-array name="expense_subcategories_family"><item>Childcare</item><item>Child support</item><item>Baby supplies</item><item>Family activities</item><item>Other</item></string-array>
+    <string-array name="expense_subcategories_pets"><item>Food</item><item>Veterinary care</item><item>Insurance</item><item>Supplies</item><item>Other</item></string-array>
+    <string-array name="expense_subcategories_travel"><item>Accommodation</item><item>Flights</item><item>Activities</item><item>Entertainment</item><item>Other</item></string-array>
+    <string-array name="expense_subcategories_other"><item>Donations</item><item>Legal</item><item>Unexpected expense</item><item>Miscellaneous</item></string-array>
+
+    <string-array name="income_category_labels">
+        <item>Salary &amp; wages</item><item>Freelance &amp; self-employment</item><item>Business income</item>
+        <item>Rental income</item><item>Investment income</item><item>Pension &amp; retirement</item>
+        <item>Benefits &amp; support</item><item>Scholarships &amp; grants</item><item>Royalties</item>
+        <item>Gifts &amp; inheritance</item><item>Refunds &amp; reimbursements</item><item>Other income</item>
+    </string-array>
+    <string-array name="income_subcategories_salary"><item>Regular salary</item><item>Overtime</item><item>Bonus</item><item>Other</item></string-array>
+    <string-array name="income_subcategories_freelance"><item>Service fee</item><item>Project income</item><item>Commission</item><item>Other</item></string-array>
+    <string-array name="income_subcategories_business"><item>Business profit</item><item>Profit share</item><item>Owner payment</item><item>Other</item></string-array>
+    <string-array name="income_subcategories_rental"><item>Property</item><item>Vehicle</item><item>Equipment</item><item>Other</item></string-array>
+    <string-array name="income_subcategories_investment"><item>Dividend</item><item>Interest</item><item>Capital gain</item><item>Other</item></string-array>
+    <string-array name="income_subcategories_pension"><item>State pension</item><item>Employer pension</item><item>Private pension</item><item>Other</item></string-array>
+    <string-array name="income_subcategories_benefits"><item>Unemployment</item><item>Sickness</item><item>Parental</item><item>Child support</item><item>Other</item></string-array>
+    <string-array name="income_subcategories_scholarships"><item>Scholarship</item><item>Research grant</item><item>Other</item></string-array>
+    <string-array name="income_subcategories_royalties"><item>Books</item><item>Music</item><item>Software</item><item>Patent</item><item>Other</item></string-array>
+    <string-array name="income_subcategories_gifts"><item>Gift</item><item>Inheritance</item><item>Other</item></string-array>
+    <string-array name="income_subcategories_refunds"><item>Purchase refund</item><item>Tax refund</item><item>Expense reimbursement</item><item>Other</item></string-array>
+    <string-array name="income_subcategories_other"><item>Sale of personal item</item><item>Crowdfunding return</item><item>Miscellaneous</item></string-array>
+</resources>

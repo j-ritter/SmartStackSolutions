@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/helpRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F7FA"
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/helpToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/white"
+        android:elevation="2dp"
+        app:navigationIcon="@drawable/ic_arrow_back"
+        app:navigationIconTint="@color/colorSecondary"
+        app:title="@string/help_title"
+        app:titleCentered="true"
+        app:titleTextColor="@color/colorSecondary" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="18dp"
+            android:paddingTop="22dp"
+            android:paddingEnd="18dp"
+            android:paddingBottom="32dp">
+
+            <ImageView
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/savings_target_icon_bg"
+                android:contentDescription="@null"
+                android:padding="13dp"
+                android:src="@drawable/ic_nav_help"
+                app:tint="@color/colorPrimary" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:gravity="center"
+                android:text="@string/help_hub_title"
+                android:textColor="@color/colorSecondary"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:lineSpacingExtra="2dp"
+                android:text="@string/help_hub_intro"
+                android:textColor="#647383"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="26dp"
+                android:layout_marginBottom="10dp"
+                android:text="@string/help_choose_option"
+                android:textColor="@color/colorSecondary"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/helpGettingStartedCard"
+                style="@style/SupportActionCard">
+
+                <LinearLayout style="@style/SupportActionContent">
+
+                    <ImageView
+                        style="@style/SupportActionIcon"
+                        android:contentDescription="@null"
+                        android:src="@drawable/ic_nav_open_payments" />
+
+                    <LinearLayout style="@style/SupportActionTextContainer">
+
+                        <TextView
+                            style="@style/SupportActionTitle"
+                            android:text="@string/help_getting_started_title" />
+
+                        <TextView
+                            style="@style/SupportActionDescription"
+                            android:text="@string/help_getting_started_description" />
+                    </LinearLayout>
+
+                    <ImageView
+                        style="@style/SupportActionArrow"
+                        android:contentDescription="@null" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/helpFaqCard"
+                style="@style/SupportActionCard">
+
+                <LinearLayout style="@style/SupportActionContent">
+
+                    <ImageView
+                        style="@style/SupportActionIcon"
+                        android:contentDescription="@null"
+                        android:src="@drawable/ic_nav_faq" />
+
+                    <LinearLayout style="@style/SupportActionTextContainer">
+
+                        <TextView
+                            style="@style/SupportActionTitle"
+                            android:text="@string/help_faq_title" />
+
+                        <TextView
+                            style="@style/SupportActionDescription"
+                            android:text="@string/help_faq_description" />
+                    </LinearLayout>
+
+                    <ImageView
+                        style="@style/SupportActionArrow"
+                        android:contentDescription="@null" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/helpEmailCard"
+                style="@style/SupportActionCard">
+
+                <LinearLayout style="@style/SupportActionContent">
+
+                    <ImageView
+                        style="@style/SupportActionIcon"
+                        android:contentDescription="@null"
+                        android:src="@drawable/ic_nav_help" />
+
+                    <LinearLayout style="@style/SupportActionTextContainer">
+
+                        <TextView
+                            style="@style/SupportActionTitle"
+                            android:text="@string/help_contact_title" />
+
+                        <TextView
+                            style="@style/SupportActionDescription"
+                            android:text="@string/help_contact_description" />
+                    </LinearLayout>
+
+                    <ImageView
+                        style="@style/SupportActionArrow"
+                        android:contentDescription="@null" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/helpDataCard"
+                style="@style/SupportActionCard">
+
+                <LinearLayout style="@style/SupportActionContent">
+
+                    <ImageView
+                        style="@style/SupportActionIcon"
+                        android:contentDescription="@null"
+                        android:src="@drawable/ic_account" />
+
+                    <LinearLayout style="@style/SupportActionTextContainer">
+
+                        <TextView
+                            style="@style/SupportActionTitle"
+                            android:text="@string/help_data_title" />
+
+                        <TextView
+                            style="@style/SupportActionDescription"
+                            android:text="@string/help_data_description" />
+                    </LinearLayout>
+
+                    <ImageView
+                        style="@style/SupportActionArrow"
+                        android:contentDescription="@null" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/premium_fair_use_background"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/help_message_title"
+                    android:textColor="@color/colorSecondary"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:lineSpacingExtra="3dp"
+                    android:text="@string/help_message_checklist"
+                    android:textColor="#526473"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:gravity="center"
+                android:text="@string/help_response_note"
+                android:textColor="#7A8794"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

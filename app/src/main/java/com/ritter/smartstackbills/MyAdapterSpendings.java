@@ -69,7 +69,9 @@ public class MyAdapterSpendings extends RecyclerView.Adapter<RecyclerView.ViewHo
             spendingHolder.title.setText(spending.getName());
             spendingHolder.amount.setText(CurrencyPreferences.format(context, spending.getAmount()));
 
-            spendingHolder.category.setText(spending.getCategory());
+            spendingHolder.category.setText(
+                    FinancialEntryOptions.displayCategory(context, spending.getCategory())
+            );
 
             // Convert Timestamp to String
             String formattedDate = formatTimestamp(spending.getDate());

@@ -240,12 +240,14 @@ class createSpending : AppCompatActivity() {
         val autoCompleteVendors = findViewById<AutoCompleteTextView>(R.id.autoCompleteVendorSpending)
 
         loadCategories(spinnerCategories)
-        spinnerCategories.selectedItem?.let { loadSubcategories(it.toString(), spinnerSubcategories) }
+        spinnerCategories.selectedItem?.let {
+            loadSubcategories(FinancialEntryOptions.selectedKey(it), spinnerSubcategories)
+        }
 
         // Load vendors based on selected category
         spinnerCategories.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val selectedCategory = spinnerCategories.selectedItem.toString()
+                val selectedCategory = FinancialEntryOptions.selectedKey(spinnerCategories.selectedItem)
                 loadVendors(selectedCategory, autoCompleteVendors)
                 loadSubcategories(selectedCategory, spinnerSubcategories)
             }
@@ -264,6 +266,26 @@ class createSpending : AppCompatActivity() {
 
         // Image upload handling
         findViewById<Button>(R.id.btnUploadImageSpending).setOnClickListener { handleImageUpload() }
+        applyScanPrefill()
+    }
+
+    private fun applyScanPrefill() {
+        intent.getStringExtra(ScanPrefill.EXTRA_SCAN_TITLE)?.takeIf { it.isNotBlank() }?.let {
+            findViewById<EditText>(R.id.edtTitleSpending).setText(it)
+        }
+        intent.getStringExtra(ScanPrefill.EXTRA_SCAN_AMOUNT)?.takeIf { it.isNotBlank() }?.let {
+            findViewById<EditText>(R.id.edtAmountSpending).setText(it)
+        }
+        intent.getStringExtra(ScanPrefill.EXTRA_SCAN_DATE)?.takeIf { it.isNotBlank() }?.let {
+            findViewById<EditText>(R.id.edtDateSpending).setText(it)
+        }
+        intent.getStringExtra(ScanPrefill.EXTRA_SCAN_PARTY)?.takeIf { it.isNotBlank() }?.let {
+            findViewById<AutoCompleteTextView>(R.id.autoCompleteVendorSpending).setText(it)
+        }
+        intent.getStringExtra(ScanPrefill.EXTRA_SCAN_ATTACHMENT)?.takeIf { it.isNotBlank() }?.let {
+            imageUri = Uri.parse(it)
+            updateAttachmentStatus()
+        }
     }
 
     private fun showUpgradeDialog() {
@@ -306,6 +328,7 @@ class createSpending : AppCompatActivity() {
 
     private fun handleImageUpload() {
         val options = arrayOf(
+            getString(R.string.scan_and_prefill),
             getString(R.string.take_photo),
             getString(R.string.choose_from_gallery),
             getString(R.string.cancel)
@@ -314,8 +337,15 @@ class createSpending : AppCompatActivity() {
         builder.setTitle(R.string.add_attachment)
         builder.setItems(options) { dialog, which ->
             when (which) {
-                0 -> dispatchTakePictureIntent()
-                1 -> chooseImageLauncher.launch("image/*")
+                0 -> {
+                    startActivity(Intent(this, DocumentScanActivity::class.java).apply {
+                        putExtra(DocumentScanActivity.EXTRA_ENTRY_TYPE, EntryType.CLOSED_PAYMENT.wireValue)
+                        putExtra(AuthUtils.EXTRA_USER_EMAIL, userEmail)
+                    })
+                    finish()
+                }
+                1 -> dispatchTakePictureIntent()
+                2 -> chooseImageLauncher.launch("image/*")
                 else -> dialog.dismiss()
             }
         }
@@ -336,12 +366,16 @@ class createSpending : AppCompatActivity() {
     }
 
     private fun loadCategories(spinnerCategories: Spinner) {
-        val arrayAdapterCategories = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, FinancialEntryOptions.expenseCategories)
+        val arrayAdapterCategories = ArrayAdapter(
+            this,
+            android.R.layout.simple_spinner_dropdown_item,
+            FinancialEntryOptions.expenseCategories(this)
+        )
         spinnerCategories.adapter = arrayAdapterCategories
     }
 
     private fun loadSubcategories(category: String, spinnerSubcategories: Spinner) {
-        val subcategories = FinancialEntryOptions.expenseSubcategories[category] ?: emptyArray()
+        val subcategories = FinancialEntryOptions.expenseSubcategories(this, category)
         val arrayAdapterSubcategories = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, subcategories)
         spinnerSubcategories.adapter = arrayAdapterSubcategories
     }
@@ -352,8 +386,12 @@ class createSpending : AppCompatActivity() {
                 val spendingName = findViewById<EditText>(R.id.edtTitleSpending).text.toString()
                 val spendingAmount = findViewById<EditText>(R.id.edtAmountSpending).text.toString().toDoubleOrNull() ?: 0.0
                 val spendingDateString = findViewById<EditText>(R.id.edtDateSpending).text.toString()
-                val spendingCategory = findViewById<Spinner>(R.id.spinnerCategoriesSpending).selectedItem?.toString() ?: ""
-                val spendingSubcategory = findViewById<Spinner>(R.id.spinnerSubcategoriesSpending).selectedItem?.toString() ?: ""
+                val spendingCategory = FinancialEntryOptions.selectedKey(
+                    findViewById<Spinner>(R.id.spinnerCategoriesSpending).selectedItem
+                )
+                val spendingSubcategory = FinancialEntryOptions.selectedKey(
+                    findViewById<Spinner>(R.id.spinnerSubcategoriesSpending).selectedItem
+                )
                 val spendingVendor = findViewById<AutoCompleteTextView>(R.id.autoCompleteVendorSpending).text.toString()
                 val spendingComment = findViewById<EditText>(R.id.edtCommentSpending).text.toString()
                 val spendingAttachment = imageUri?.toString()

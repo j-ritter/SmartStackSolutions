@@ -126,6 +126,30 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:lineSpacingExtra="1dp"
+                            android:text="@string/premium_feature_financial_insights"
+                            android:textColor="#3B4856"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:gravity="top"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_marginTop="1dp"
+                            android:layout_marginEnd="10dp"
+                            android:src="@drawable/ic_star_orange" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:lineSpacingExtra="1dp"
                             android:text="@string/premium_feature_income_management"
                             android:textColor="#3B4856"
                             android:textSize="14sp" />
@@ -191,7 +215,7 @@
                 <LinearLayout
                     android:id="@+id/feature1_text_container"
                     style="@style/PremiumFeatureTextContainer"
-                    app:layout_constraintEnd_toStartOf="@+id/btn_more_info1"
+                    app:layout_constraintEnd_toStartOf="@+id/feature1_arrow"
                     app:layout_constraintStart_toEndOf="@id/icon_open_payments"
                     app:layout_constraintTop_toTopOf="parent">
 
@@ -219,15 +243,17 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <Button
-                    android:id="@+id/btn_more_info1"
-                    style="@style/PremiumMoreInfoButton"
-                    android:text="@string/more_information"
+                <ImageView
+                    android:id="@+id/feature1_arrow"
+                    style="@style/PremiumDisclosureIcon"
+                    android:contentDescription="@string/show_details"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/feature2_constraint_layout"
                 style="@style/PremiumFeatureCard">
 
                 <ImageView
@@ -248,7 +274,7 @@
                 <LinearLayout
                     android:id="@+id/feature2_text_container"
                     style="@style/PremiumFeatureTextContainer"
-                    app:layout_constraintEnd_toStartOf="@+id/btn_more_info2"
+                    app:layout_constraintEnd_toStartOf="@+id/feature2_arrow"
                     app:layout_constraintStart_toEndOf="@id/icon_closed_payments"
                     app:layout_constraintTop_toTopOf="parent">
 
@@ -276,15 +302,17 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <Button
-                    android:id="@+id/btn_more_info2"
-                    style="@style/PremiumMoreInfoButton"
-                    android:text="@string/more_information"
+                <ImageView
+                    android:id="@+id/feature2_arrow"
+                    style="@style/PremiumDisclosureIcon"
+                    android:contentDescription="@string/show_details"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/feature3_constraint_layout"
                 style="@style/PremiumFeatureCard">
 
                 <ImageView
@@ -305,7 +333,7 @@
                 <LinearLayout
                     android:id="@+id/feature3_text_container"
                     style="@style/PremiumFeatureTextContainer"
-                    app:layout_constraintEnd_toStartOf="@+id/btn_more_info3"
+                    app:layout_constraintEnd_toStartOf="@+id/feature3_arrow"
                     app:layout_constraintStart_toEndOf="@id/icon_income"
                     app:layout_constraintTop_toTopOf="parent">
 
@@ -333,15 +361,17 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <Button
-                    android:id="@+id/btn_more_info3"
-                    style="@style/PremiumMoreInfoButton"
-                    android:text="@string/more_information"
+                <ImageView
+                    android:id="@+id/feature3_arrow"
+                    style="@style/PremiumDisclosureIcon"
+                    android:contentDescription="@string/show_details"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/feature4_constraint_layout"
                 style="@style/PremiumFeatureCard">
 
                 <ImageView
@@ -355,7 +385,7 @@
                 <LinearLayout
                     android:id="@+id/feature4_text_container"
                     style="@style/PremiumFeatureTextContainer"
-                    app:layout_constraintEnd_toStartOf="@+id/btn_more_info4"
+                    app:layout_constraintEnd_toStartOf="@+id/feature4_arrow"
                     app:layout_constraintStart_toEndOf="@id/icon_notifications"
                     app:layout_constraintTop_toTopOf="parent">
 
@@ -383,15 +413,17 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <Button
-                    android:id="@+id/btn_more_info4"
-                    style="@style/PremiumMoreInfoButton"
-                    android:text="@string/more_information"
+                <ImageView
+                    android:id="@+id/feature4_arrow"
+                    style="@style/PremiumDisclosureIcon"
+                    android:contentDescription="@string/show_details"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/feature5_constraint_layout"
                 style="@style/PremiumFeatureCard">
 
                 <ImageView
@@ -405,7 +437,7 @@
                 <LinearLayout
                     android:id="@+id/feature5_text_container"
                     style="@style/PremiumFeatureTextContainer"
-                    app:layout_constraintEnd_toStartOf="@+id/btn_more_info5"
+                    app:layout_constraintEnd_toStartOf="@+id/feature5_arrow"
                     app:layout_constraintStart_toEndOf="@id/icon_calendar"
                     app:layout_constraintTop_toTopOf="parent">
 
@@ -433,15 +465,17 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <Button
-                    android:id="@+id/btn_more_info5"
-                    style="@style/PremiumMoreInfoButton"
-                    android:text="@string/more_information"
+                <ImageView
+                    android:id="@+id/feature5_arrow"
+                    style="@style/PremiumDisclosureIcon"
+                    android:contentDescription="@string/show_details"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/feature6_constraint_layout"
                 style="@style/PremiumFeatureCard">
 
                 <ImageView
@@ -462,7 +496,7 @@
                 <LinearLayout
                     android:id="@+id/feature6_text_container"
                     style="@style/PremiumFeatureTextContainer"
-                    app:layout_constraintEnd_toStartOf="@+id/btn_more_info6"
+                    app:layout_constraintEnd_toStartOf="@+id/feature6_arrow"
                     app:layout_constraintStart_toEndOf="@id/icon_saving_target"
                     app:layout_constraintTop_toTopOf="parent">
 
@@ -490,10 +524,59 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <Button
-                    android:id="@+id/btn_more_info6"
-                    style="@style/PremiumMoreInfoButton"
-                    android:text="@string/more_information"
+                <ImageView
+                    android:id="@+id/feature6_arrow"
+                    style="@style/PremiumDisclosureIcon"
+                    android:contentDescription="@string/show_details"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/feature7_constraint_layout"
+                style="@style/PremiumFeatureCard">
+
+                <ImageView
+                    android:id="@+id/icon_financial_insights"
+                    style="@style/PremiumFeatureIcon"
+                    android:src="@drawable/baseline_data_thresholding_24"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    style="@style/PremiumFeatureBadge"
+                    android:contentDescription="@string/premium_active"
+                    app:layout_constraintEnd_toEndOf="@id/icon_financial_insights"
+                    app:layout_constraintTop_toTopOf="@id/icon_financial_insights" />
+
+                <LinearLayout
+                    style="@style/PremiumFeatureTextContainer"
+                    app:layout_constraintEnd_toStartOf="@+id/feature7_arrow"
+                    app:layout_constraintStart_toEndOf="@id/icon_financial_insights"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        style="@style/PremiumFeatureTitle"
+                        android:text="@string/feature_financial_insights_title" />
+
+                    <TextView
+                        style="@style/PremiumFeatureDescription"
+                        android:text="@string/feature_financial_insights_desc" />
+
+                    <TextView
+                        android:id="@+id/feature7_expandable_text"
+                        style="@style/PremiumFeatureDescription"
+                        android:text="@string/feature_financial_insights_expandable"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/feature7_arrow"
+                    style="@style/PremiumDisclosureIcon"
+                    android:contentDescription="@string/show_details"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>

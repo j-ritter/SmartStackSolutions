@@ -240,6 +240,46 @@
                 android:textColor="@color/textPrimary"
                 android:textSize="15sp" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/attachment"
+                    android:textColor="@color/colorSecondary"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/btnUploadImageIncome"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_marginStart="16dp"
+                    android:background="@drawable/create_upload_button"
+                    android:text="@string/upload"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorPrimary" />
+
+                <TextView
+                    android:id="@+id/txtImageAddedIncome"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:text="@string/image_added"
+                    android:textColor="@color/colorSecondary"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
+            </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
 

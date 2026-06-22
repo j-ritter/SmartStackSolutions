@@ -2,6 +2,7 @@ package com.ritter.smartstackbills
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Environment
 import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
@@ -17,6 +18,7 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import org.json.JSONArray
 import org.json.JSONObject
+import java.io.File
 
 class DataAccountActivity : AppCompatActivity() {
     private val db = FirebaseFirestore.getInstance()
@@ -117,6 +119,9 @@ class DataAccountActivity : AppCompatActivity() {
                 deleteCollection(targets)
                 Tasks.await(userRef.delete())
                 Tasks.await(user.delete())
+                getExternalFilesDir(Environment.DIRECTORY_PICTURES)?.let { pictures ->
+                    deleteLocalPictureFiles(pictures)
+                }
                 getSharedPreferences("AppPrefs", MODE_PRIVATE).edit().clear().apply()
                 runOnUiThread {
                     startActivity(AuthUtils.loginIntent(this))
@@ -163,6 +168,12 @@ class DataAccountActivity : AppCompatActivity() {
         }
         is Iterable<*> -> JSONArray().apply { value.forEach { put(jsonValue(it)) } }
         else -> value
+    }
+
+    private fun deleteLocalPictureFiles(directory: File) {
+        directory.listFiles().orEmpty().forEach { file ->
+            if (file.isDirectory) deleteLocalPictureFiles(file) else file.delete()
+        }
     }
 
     private fun setBusy(busy: Boolean) {

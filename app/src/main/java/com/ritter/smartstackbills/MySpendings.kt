@@ -362,8 +362,10 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
         edtTitleDialog.setText(spending.name)
         edtAmountDialog.setText(String.format(Locale.getDefault(), "%.2f", spending.amount))
 
-        edtCategoryDialog.setText(spending.category ?: "-")
-        edtSubcategoryDialog.setText(spending.subcategory ?: "-")
+        edtCategoryDialog.setText(FinancialEntryOptions.displayCategory(this, spending.category))
+        edtSubcategoryDialog.setText(
+            FinancialEntryOptions.displaySubcategory(this, spending.category, spending.subcategory)
+        )
         edtVendorDialog.setText(spending.vendor ?: "-")
         edtDateDialog.setText(spendingDateString)
         edtCommentDialog.setText(spending.comment)
@@ -504,7 +506,7 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
     private fun updateUnreadCountBadge(badgeCountTextView: TextView?) {
         val unreadCount = NotificationsActivity.getUnreadNotificationCount(this)
         if (unreadCount > 0) {
-            badgeCountTextView?.text = unreadCount.toString()
+            badgeCountTextView?.text = if (unreadCount > 99) "99+" else unreadCount.toString()
             badgeCountTextView?.visibility = View.VISIBLE // Show the badge
         } else {
             badgeCountTextView?.visibility = View.GONE // Hide the badge if no unread notifications
@@ -525,9 +527,7 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
     }
 
     private fun openCreateSpending() {
-        val intent = Intent(this, createSpending::class.java)
-        intent.putExtra(AuthUtils.EXTRA_USER_EMAIL, userEmail)
-        startActivity(intent)
+        EntryCreationFlow.show(this, EntryType.CLOSED_PAYMENT, userEmail)
     }
 
     private fun styleDetailsDialogWindow(dialog: Dialog) {

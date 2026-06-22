@@ -79,7 +79,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     context,
                     overdue ? R.color.red : R.color.bill_color
             ));
-            billHolder.category.setText(isBlank(bill.getCategory()) || "-".equals(bill.getCategory()) ? context.getString(R.string.uncategorized) : bill.getCategory());
+            billHolder.category.setText(FinancialEntryOptions.displayCategory(context, bill.getCategory()));
 
             // Convierte Timestamp a String
             String formattedDate = formatTimestamp(bill.getDate());

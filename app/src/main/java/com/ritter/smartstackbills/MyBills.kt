@@ -310,8 +310,10 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
                 }
             )
         )
-        edtCategoryDialog.setText(if (bill.category != "-") bill.category else "")
-        edtSubcategoryDialog.setText(if (bill.subcategory != "-") bill.subcategory else "")
+        edtCategoryDialog.setText(FinancialEntryOptions.displayCategory(this, bill.category))
+        edtSubcategoryDialog.setText(
+            FinancialEntryOptions.displaySubcategory(this, bill.category, bill.subcategory)
+        )
         edtVendorDialog.setText(if (bill.vendor != "-") bill.vendor else "")
         edtRepeatDialog.setText(bill.repeat)
         edtDateDialog.setText(billDateString)
@@ -522,9 +524,7 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
     }
 
     private fun openCreateBill() {
-        val intent = Intent(this, createBill::class.java)
-        intent.putExtra(AuthUtils.EXTRA_USER_EMAIL, userEmail)
-        startActivity(intent)
+        EntryCreationFlow.show(this, EntryType.OPEN_PAYMENT, userEmail)
     }
 
 
@@ -532,7 +532,7 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
     private fun updateUnreadCountBadge(badgeCountTextView: TextView?) {
         val unreadCount = NotificationsActivity.getUnreadNotificationCount(this)
         if (unreadCount > 0) {
-            badgeCountTextView?.text = unreadCount.toString()
+            badgeCountTextView?.text = if (unreadCount > 99) "99+" else unreadCount.toString()
             badgeCountTextView?.visibility = View.VISIBLE // Show the badge
         } else {
             badgeCountTextView?.visibility = View.GONE // Hide the badge if no unread notifications

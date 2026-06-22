@@ -69,7 +69,9 @@ public class MyAdapterIncome extends RecyclerView.Adapter<RecyclerView.ViewHolde
             incomeHolder.title.setText(income.getName());
             incomeHolder.amount.setText(CurrencyPreferences.format(context, income.getAmount()));
 
-            incomeHolder.category.setText(income.getCategory());
+            incomeHolder.category.setText(
+                    FinancialEntryOptions.displayCategory(context, income.getCategory())
+            );
 
             // Convierte Timestamp a String
             String formattedDate = formatTimestamp(income.getDate());

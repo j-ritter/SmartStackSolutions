@@ -17,6 +17,7 @@ public class Premium extends AppCompatActivity {
     private BillingClient billingClient;
     private ProductDetails premiumProduct;
     private String offerToken = ""; // Offer Token for the subscription
+    private String displayPrice = "";
     private boolean billingConnectionInProgress = false;
     private boolean premiumUnavailable = false;
 
@@ -89,31 +90,27 @@ public class Premium extends AppCompatActivity {
         });
 
 
-        setupFeatureDisclosure(R.id.btn_more_info1, R.id.feature1_description, R.id.feature1_expandable_text);
-        setupFeatureDisclosure(R.id.btn_more_info2, R.id.feature2_description, R.id.feature2_expandable_text);
-        setupFeatureDisclosure(R.id.btn_more_info3, R.id.feature3_description, R.id.feature3_expandable_text);
-        setupFeatureDisclosure(R.id.btn_more_info4, R.id.feature4_description, R.id.feature4_expandable_text);
-        setupFeatureDisclosure(R.id.btn_more_info5, R.id.feature5_description, R.id.feature5_expandable_text);
-        setupFeatureDisclosure(R.id.btn_more_info6, R.id.feature6_description, R.id.feature6_expandable_text);
+        setupFeatureDisclosure(R.id.feature1_constraint_layout, R.id.feature1_arrow, R.id.feature1_expandable_text);
+        setupFeatureDisclosure(R.id.feature2_constraint_layout, R.id.feature2_arrow, R.id.feature2_expandable_text);
+        setupFeatureDisclosure(R.id.feature3_constraint_layout, R.id.feature3_arrow, R.id.feature3_expandable_text);
+        setupFeatureDisclosure(R.id.feature4_constraint_layout, R.id.feature4_arrow, R.id.feature4_expandable_text);
+        setupFeatureDisclosure(R.id.feature5_constraint_layout, R.id.feature5_arrow, R.id.feature5_expandable_text);
+        setupFeatureDisclosure(R.id.feature6_constraint_layout, R.id.feature6_arrow, R.id.feature6_expandable_text);
+        setupFeatureDisclosure(R.id.feature7_constraint_layout, R.id.feature7_arrow, R.id.feature7_expandable_text);
     }
 
-    private void setupFeatureDisclosure(int buttonId, int descriptionId, int expandableTextId) {
-        Button button = findViewById(buttonId);
-        TextView description = findViewById(descriptionId);
+    private void setupFeatureDisclosure(int cardId, int arrowId, int expandableTextId) {
+        View card = findViewById(cardId);
+        ImageView arrow = findViewById(arrowId);
         TextView expandedText = findViewById(expandableTextId);
 
-        button.setOnClickListener(v -> {
+        card.setOnClickListener(v -> {
             boolean shouldExpand = expandedText.getVisibility() == View.GONE;
-            description.setVisibility(shouldExpand ? View.GONE : View.VISIBLE);
             expandedText.setVisibility(shouldExpand ? View.VISIBLE : View.GONE);
-            button.setText(shouldExpand ? R.string.less_information : R.string.more_information);
-            button.setSelected(shouldExpand);
-            button.setCompoundDrawablesWithIntrinsicBounds(
-                    0,
-                    0,
-                    shouldExpand ? R.drawable.ic_arrow_up : R.drawable.ic_disclosure_down,
-                    0
-            );
+            arrow.animate().rotation(shouldExpand ? 180f : 0f).setDuration(180L).start();
+            card.setContentDescription(getString(
+                    shouldExpand ? R.string.hide_details : R.string.show_details
+            ));
         });
     }
 
@@ -172,7 +169,14 @@ public class Premium extends AppCompatActivity {
 
                 // Extract Offer Token
                 if (premiumProduct.getSubscriptionOfferDetails() != null && !premiumProduct.getSubscriptionOfferDetails().isEmpty()) {
-                    offerToken = premiumProduct.getSubscriptionOfferDetails().get(0).getOfferToken();
+                    ProductDetails.SubscriptionOfferDetails offer =
+                            premiumProduct.getSubscriptionOfferDetails().get(0);
+                    offerToken = offer.getOfferToken();
+                    if (!offer.getPricingPhases().getPricingPhaseList().isEmpty()) {
+                        java.util.List<ProductDetails.PricingPhase> phases =
+                                offer.getPricingPhases().getPricingPhaseList();
+                        displayPrice = phases.get(phases.size() - 1).getFormattedPrice();
+                    }
                 }
 
                 Log.i("BillingClient", "Product details fetched successfully.");
@@ -322,7 +326,9 @@ public class Premium extends AppCompatActivity {
             subscribeButton.setEnabled(true);
         } else {
             subscribeButton.setText(premiumProduct != null && !offerToken.isEmpty()
-                    ? getString(R.string.unlock_button_text)
+                    ? (displayPrice.isEmpty()
+                        ? getString(R.string.unlock_button_text)
+                        : getString(R.string.unlock_button_with_price, displayPrice))
                     : getString(R.string.premium_loading));
             subscribeButton.setEnabled(true);
         }

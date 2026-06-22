@@ -16,6 +16,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
@@ -28,10 +29,8 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
-import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
-import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.MobileAds
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -76,14 +75,29 @@ class MainMenu : AppCompatActivity() {
     private var spendingsLoaded = false
     private var incomeLoaded = false
     private var currentActualMonthlySavings = 0.0
+    private var currentMonthlySavingsTarget = 0.0
+    private var selectedInsightMonths = 1
+    private var displayedPremiumState: Boolean? = null
+    private var savingsTargetsForInsights = emptyList<SavingsTargetInfo>()
+
+    private data class SavingsTargetInfo(
+        val startDate: Date,
+        val endDate: Date,
+        val monthlyAmount: Double
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main_menu)
-        PremiumPurchaseVerifier.refresh(this)
-
-        MobileAds.initialize(this) {}
+        PremiumPurchaseVerifier.refresh(this) {
+            if (!isFinishing && ::currentMonth.isInitialized) {
+                val hasPremium = PremiumAccess.isPremiumUser(this)
+                refreshPremiumInsightsState(
+                    selectDefaultPeriod = hasPremium && displayedPremiumState != true
+                )
+            }
+        }
 
         val currentUser = FirebaseAuth.getInstance().currentUser
         if (currentUser == null) {
@@ -121,8 +135,10 @@ class MainMenu : AppCompatActivity() {
         etTotalAmount = findViewById(R.id.etTotalAmount)
         etMonthlySavingsMain = findViewById(R.id.etMonthlySavings)
 
+        setupFinancialInsights()
         setupMonthNavigation()
         setupDashboardNavigation()
+        setupDashboardWelcome()
         setupDashboardListeners()
 
 
@@ -221,6 +237,15 @@ class MainMenu : AppCompatActivity() {
         })
     }
 
+    private fun setupDashboardWelcome() {
+        findViewById<View>(R.id.dashboardWelcomeAdd).setOnClickListener {
+            EntryCreationFlow.show(this, EntryType.OPEN_PAYMENT, userEmail)
+        }
+        findViewById<View>(R.id.dashboardWelcomeLearn).setOnClickListener {
+            startActivity(Intent(this, GettingStartedActivity::class.java))
+        }
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         billsListenerRegistration?.remove()
@@ -229,31 +254,128 @@ class MainMenu : AppCompatActivity() {
     }
 
     private fun setupBannerAd() {
-        // Find the AdView from the layout
         val adView = findViewById<AdView>(R.id.adView)
+        if (PremiumAccess.isPremiumUser(this)) {
+            adView.visibility = View.GONE
+            return
+        }
 
-        // Create an AdRequest with the test device included
-        val adRequest = AdRequest.Builder()
-
-            .build()
-
-        // Load the ad into the AdView
-        adView.loadAd(adRequest)
-
-        // Optional: Set AdListener to handle ad events
-        adView.adListener = object : AdListener() {
-            override fun onAdLoaded() {
-
-            }
-
-            override fun onAdFailedToLoad(error: LoadAdError) {
-
-            }
+        MobileAds.initialize(this) {
+            adView.loadAd(AdRequest.Builder().build())
         }
     }
 
     private fun formatAmount(value: Double): String {
         return CurrencyPreferences.format(this, value)
+    }
+
+    private fun setupFinancialInsights() {
+        val preferences = getSharedPreferences("dashboard_preferences", MODE_PRIVATE)
+        val content = findViewById<LinearLayout>(R.id.financialInsightsContent)
+        val arrow = findViewById<ImageView>(R.id.financialInsightsArrow)
+
+        fun applyState(expanded: Boolean, animate: Boolean) {
+            content.visibility = if (expanded) View.VISIBLE else View.GONE
+            if (animate) {
+                arrow.animate().rotation(if (expanded) 180f else 0f).setDuration(180L).start()
+            } else {
+                arrow.rotation = if (expanded) 180f else 0f
+            }
+            arrow.contentDescription = getString(
+                if (expanded) R.string.hide_details else R.string.show_details
+            )
+        }
+
+        applyState(preferences.getBoolean("financial_insights_expanded", false), false)
+        findViewById<View>(R.id.financialInsightsHeader).setOnClickListener {
+            val expanded = content.visibility != View.VISIBLE
+            preferences.edit().putBoolean("financial_insights_expanded", expanded).apply()
+            applyState(expanded, true)
+        }
+
+        findViewById<View>(R.id.premiumInsightsLocked).setOnClickListener {
+            PremiumUpgradeDialog.show(this, R.string.premium_insights_upgrade, userEmail)
+        }
+        findViewById<View>(R.id.categoryChangesInfo).setOnClickListener {
+            AlertDialog.Builder(this)
+                .setTitle(R.string.category_changes_info_title)
+                .setMessage(R.string.category_changes_info_message)
+                .setPositiveButton(android.R.string.ok, null)
+                .show()
+        }
+        findViewById<Button>(R.id.btnInsightsMonth).setOnClickListener {
+            selectInsightPeriod(1)
+        }
+        findViewById<Button>(R.id.btnInsightsSixMonths).setOnClickListener {
+            if (PremiumAccess.isPremiumUser(this)) selectInsightPeriod(6)
+            else PremiumUpgradeDialog.show(this, R.string.premium_insights_upgrade, userEmail)
+        }
+        findViewById<Button>(R.id.btnInsightsTwelveMonths).setOnClickListener {
+            if (PremiumAccess.isPremiumUser(this)) selectInsightPeriod(12)
+            else PremiumUpgradeDialog.show(this, R.string.premium_insights_upgrade, userEmail)
+        }
+        refreshPremiumInsightsState(selectDefaultPeriod = true)
+    }
+
+    private fun refreshPremiumInsightsState(selectDefaultPeriod: Boolean) {
+        val hasPremium = PremiumAccess.isPremiumUser(this)
+        listOf(R.id.btnInsightsSixMonths, R.id.btnInsightsTwelveMonths).forEach { id ->
+            findViewById<Button>(id).apply {
+                setCompoundDrawablesWithIntrinsicBounds(
+                    0,
+                    0,
+                    if (hasPremium) 0 else R.drawable.ic_star_orange,
+                    0
+                )
+                compoundDrawablePadding = if (hasPremium) 0
+                    else (4 * resources.displayMetrics.density).toInt()
+            }
+        }
+        findViewById<View>(R.id.premiumInsightsLocked).visibility =
+            if (hasPremium) View.GONE else View.VISIBLE
+
+        when {
+            hasPremium && selectDefaultPeriod -> selectInsightPeriod(6)
+            !hasPremium && selectedInsightMonths > 1 -> selectInsightPeriod(1)
+            else -> selectInsightPeriod(selectedInsightMonths)
+        }
+        displayedPremiumState = hasPremium
+    }
+
+    private fun selectInsightPeriod(months: Int) {
+        selectedInsightMonths = months
+        val monthly = findViewById<View>(R.id.monthlyInsightsContainer)
+        val premium = findViewById<View>(R.id.premiumInsightsContainer)
+        monthly.visibility = View.VISIBLE
+        premium.visibility =
+            if (months > 1 && PremiumAccess.isPremiumUser(this)) View.VISIBLE else View.GONE
+
+        listOf(
+            R.id.btnInsightsMonth to 1,
+            R.id.btnInsightsSixMonths to 6,
+            R.id.btnInsightsTwelveMonths to 12
+        ).forEach { (id, value) ->
+            findViewById<Button>(id).apply {
+                backgroundTintList = null
+                setBackgroundResource(
+                    if (months == value) R.drawable.insight_period_selected
+                    else android.R.color.transparent
+                )
+            }
+        }
+        updateFinancialInsights()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (::currentMonth.isInitialized) {
+            val hasPremium = PremiumAccess.isPremiumUser(this)
+            refreshPremiumInsightsState(
+                selectDefaultPeriod = hasPremium && displayedPremiumState == false
+            )
+            val adView = findViewById<AdView>(R.id.adView)
+            adView.visibility = if (hasPremium) View.GONE else View.VISIBLE
+        }
     }
 
     private fun setupDashboardListeners() {
@@ -315,6 +437,12 @@ class MainMenu : AppCompatActivity() {
     private fun refreshDashboard() {
         setAmountForMonth()
         if (billsLoaded && spendingsLoaded && incomeLoaded) {
+            findViewById<View>(R.id.dashboardWelcomeCard).visibility =
+                if (billsList.isEmpty() && spendingsList.isEmpty() && incomeList.isEmpty()) {
+                    View.VISIBLE
+                } else {
+                    View.GONE
+                }
             loadSavingsTarget()
         }
     }
@@ -396,6 +524,189 @@ class MainMenu : AppCompatActivity() {
                 if (actualMonthlySavings >= 0) R.color.positive_balance else R.color.negative_balance
             )
         )
+        val statusView = findViewById<TextView>(R.id.tvBalanceStatus)
+        val hasActivity = totalIncome != 0.0 || totalBills != 0.0 || totalSpendings != 0.0
+        when {
+            !hasActivity -> {
+                statusView.setText(R.string.no_activity_status)
+                statusView.setBackgroundResource(R.drawable.balance_status_neutral)
+            }
+            actualMonthlySavings > 0.005 -> {
+                statusView.setText(R.string.positive_balance_status)
+                statusView.setBackgroundResource(R.drawable.balance_status_positive)
+            }
+            actualMonthlySavings < -0.005 -> {
+                statusView.setText(R.string.shortfall_status)
+                statusView.setBackgroundResource(R.drawable.balance_status_negative)
+            }
+            else -> {
+                statusView.setText(R.string.balanced_status)
+                statusView.setBackgroundResource(R.drawable.balance_status_neutral)
+            }
+        }
+        updateFinancialInsights()
+    }
+
+    private fun updateFinancialInsights() {
+        if (!::currentMonth.isInitialized) return
+        val monthFormat = SimpleDateFormat("MM-yyyy", Locale.getDefault())
+        val selectedMonth = monthFormat.format(currentMonth.time)
+        val billsForMonth = billsList.filter {
+            it.date?.toDate()?.let { date -> monthFormat.format(date) == selectedMonth } == true
+        }
+        val spendingsForMonth = spendingsList.filter {
+            it.date?.toDate()?.let { date -> monthFormat.format(date) == selectedMonth } == true
+        }
+        val incomeForMonth = incomeList.filter {
+            it.date?.toDate()?.let { date -> monthFormat.format(date) == selectedMonth } == true
+        }
+
+        val openAmount = billsForMonth.filter { !it.paid }.sumOf { it.amount }
+        val closedAmount = spendingsForMonth.sumOf { it.amount }
+        val incomeAmount = incomeForMonth.sumOf { it.amount }
+        val available = incomeAmount - openAmount - closedAmount
+        findViewById<MonthlyMoneyMapView>(R.id.monthlyMoneyMap).setData(
+            incomeAmount,
+            closedAmount,
+            openAmount,
+            available,
+            currentMonthlySavingsTarget
+        )
+
+        val today = Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }
+        val sevenDaysFromToday = (today.clone() as Calendar).apply { add(Calendar.DAY_OF_YEAR, 7) }
+        val overdue = billsForMonth.filter {
+            !it.paid && it.date?.toDate()?.before(today.time) == true
+        }
+        val dueSoon = billsForMonth.filter {
+            val date = it.date?.toDate()
+            !it.paid && date != null && !date.before(today.time) && !date.after(sevenDaysFromToday.time)
+        }
+        val later = billsForMonth.filter {
+            val date = it.date?.toDate()
+            !it.paid && date != null && date.after(sevenDaysFromToday.time)
+        }
+        findViewById<OpenPaymentRiskView>(R.id.openPaymentRiskView).setData(
+            overdue.sumOf { it.amount },
+            overdue.size,
+            dueSoon.sumOf { it.amount },
+            dueSoon.size,
+            later.sumOf { it.amount },
+            later.size
+        )
+
+        val categoryTotals = spendingsForMonth
+            .groupBy {
+                it.category?.takeIf { category -> category.isNotBlank() }
+                    ?: getString(R.string.uncategorized)
+            }
+            .mapValues { (_, entries) -> entries.sumOf { it.amount } }
+            .mapKeys { (category, _) ->
+                FinancialEntryOptions.displayCategory(this, category)
+            }
+        findViewById<SpendingCompositionView>(R.id.spendingCompositionView).setData(categoryTotals)
+        if (selectedInsightMonths > 1 && PremiumAccess.isPremiumUser(this)) {
+            updatePremiumInsights(selectedInsightMonths)
+        }
+    }
+
+    private fun updatePremiumInsights(monthCount: Int) {
+        val calendars = (monthCount - 1 downTo 0).map { offset ->
+            (currentMonth.clone() as Calendar).apply { add(Calendar.MONTH, -offset) }
+        }
+        val monthKey = SimpleDateFormat("MM-yyyy", Locale.getDefault())
+        val monthLabel = SimpleDateFormat("MMM", Locale.getDefault())
+
+        fun billsFor(calendar: Calendar) = billsList.filter {
+            it.date?.toDate()?.let { date -> monthKey.format(date) == monthKey.format(calendar.time) } == true
+        }
+        fun spendingsFor(calendar: Calendar) = spendingsList.filter {
+            it.date?.toDate()?.let { date -> monthKey.format(date) == monthKey.format(calendar.time) } == true
+        }
+        fun incomeFor(calendar: Calendar) = incomeList.filter {
+            it.date?.toDate()?.let { date -> monthKey.format(date) == monthKey.format(calendar.time) } == true
+        }
+
+        val trendPoints = calendars.map { calendar ->
+            val income = incomeFor(calendar).sumOf { it.amount }
+            val obligations = billsFor(calendar).filter { !it.paid }.sumOf { it.amount } +
+                spendingsFor(calendar).sumOf { it.amount }
+            FinancialTrendView.Point(monthLabel.format(calendar.time), income, obligations)
+        }
+        findViewById<FinancialTrendView>(R.id.financialTrendView).setData(trendPoints)
+
+        val currentCategories = spendingsFor(calendars.last())
+            .groupBy { it.category?.takeIf { value -> value.isNotBlank() } ?: getString(R.string.uncategorized) }
+            .mapValues { (_, values) -> values.sumOf { it.amount } }
+        val earlierCalendars = calendars.dropLast(1)
+        val earlierTotals = earlierCalendars
+            .flatMap { spendingsFor(it) }
+            .groupBy { it.category?.takeIf { value -> value.isNotBlank() } ?: getString(R.string.uncategorized) }
+            .mapValues { (_, values) ->
+                values.sumOf { it.amount } / earlierCalendars.size.coerceAtLeast(1)
+            }
+        val categoryChanges = currentCategories.entries
+            .sortedByDescending { it.value }
+            .take(4)
+            .map { (category, amount) ->
+                val previous = earlierTotals[category] ?: 0.0
+                CategoryChangeView.Change(
+                    FinancialEntryOptions.displayCategory(this, category),
+                    amount,
+                    if (previous > 0.0) ((amount - previous) / previous) * 100.0 else null,
+                    CategoryColorPalette.colorFor(this, category)
+                )
+            }
+        findViewById<CategoryChangeView>(R.id.categoryChangeView).setData(categoryChanges)
+
+        val recurringPoints = calendars.map { calendar ->
+            val recurringOpen = billsFor(calendar)
+                .filter { it.repeat != "No" }
+                .sumOf { it.amount }
+            val recurringClosed = spendingsFor(calendar)
+                .filter { it.repeat != "No" || it.isRecurring }
+                .sumOf { it.amount }
+            RecurringCommitmentView.Point(
+                monthLabel.format(calendar.time),
+                recurringOpen + recurringClosed
+            )
+        }
+        findViewById<RecurringCommitmentView>(R.id.recurringCommitmentView)
+            .setData(recurringPoints)
+
+        val savingsMonths = calendars.map { calendar ->
+            val monthStart = (calendar.clone() as Calendar).apply {
+                set(Calendar.DAY_OF_MONTH, 1)
+                set(Calendar.HOUR_OF_DAY, 0)
+                set(Calendar.MINUTE, 0)
+                set(Calendar.SECOND, 0)
+                set(Calendar.MILLISECOND, 0)
+            }.time
+            val monthEnd = (calendar.clone() as Calendar).apply {
+                set(Calendar.DAY_OF_MONTH, getActualMaximum(Calendar.DAY_OF_MONTH))
+                set(Calendar.HOUR_OF_DAY, 23)
+                set(Calendar.MINUTE, 59)
+                set(Calendar.SECOND, 59)
+            }.time
+            val target = savingsTargetsForInsights.firstOrNull {
+                !it.startDate.after(monthEnd) && !it.endDate.before(monthStart)
+            }
+            val income = incomeFor(calendar).sumOf { it.amount }
+            val obligations = billsFor(calendar).filter { !it.paid }.sumOf { it.amount } +
+                spendingsFor(calendar).sumOf { it.amount }
+            SavingsConsistencyView.Month(
+                monthLabel.format(calendar.time),
+                target != null,
+                target != null && income - obligations >= target.monthlyAmount
+            )
+        }
+        findViewById<SavingsConsistencyView>(R.id.savingsConsistencyView)
+            .setData(savingsMonths)
     }
 
 
@@ -427,6 +738,8 @@ class MainMenu : AppCompatActivity() {
     private fun updateMonthDisplay(tvMonth: TextView) {
         val dateFormat = SimpleDateFormat("MMMM yyyy", Locale.getDefault())
         tvMonth.text = dateFormat.format(currentMonth.time)
+        findViewById<Button>(R.id.btnInsightsMonth).text =
+            SimpleDateFormat("MMMM", Locale.getDefault()).format(currentMonth.time)
     }
 
     private fun showCreateOptionsDialog() {
@@ -441,26 +754,9 @@ class MainMenu : AppCompatActivity() {
         builder.setTitle(R.string.add_new_entry)
         builder.setItems(options) { _, which ->
             when (which) {
-                0 -> startActivity(Intent(this, createBill::class.java).apply {
-                    putExtra(AuthUtils.EXTRA_USER_EMAIL, userEmail)
-                })
-                1 -> {
-                    if (!PremiumAccess.isPremiumUser(this)) {
-                        showUpgradeDialog()
-                    } else {
-                        startActivity(Intent(this, createSpending::class.java)
-                            .apply { putExtra(AuthUtils.EXTRA_USER_EMAIL, userEmail) })
-                    }
-                }
-                2 -> {
-                    if (!PremiumAccess.isPremiumUser(this)) {
-                        showUpgradeDialog()
-                    } else {
-                        startActivity(Intent(this, createIncome::class.java).apply {
-                            putExtra(AuthUtils.EXTRA_USER_EMAIL, userEmail)
-                        })
-                    }
-                }
+                0 -> EntryCreationFlow.show(this, EntryType.OPEN_PAYMENT, userEmail)
+                1 -> EntryCreationFlow.show(this, EntryType.CLOSED_PAYMENT, userEmail)
+                2 -> EntryCreationFlow.show(this, EntryType.INCOME, userEmail)
                 3 -> {
                     if (!PremiumAccess.isPremiumUser(this)) {
                         showUpgradeDialog()
@@ -554,7 +850,7 @@ class MainMenu : AppCompatActivity() {
     private fun updateUnreadCountBadge(badgeCountTextView: TextView?) {
         val unreadCount = NotificationsActivity.getUnreadNotificationCount(this)
         if (unreadCount > 0) {
-            badgeCountTextView?.text = unreadCount.toString()
+            badgeCountTextView?.text = if (unreadCount > 99) "99+" else unreadCount.toString()
             badgeCountTextView?.visibility = View.VISIBLE // Show the badge
         } else {
             badgeCountTextView?.visibility = View.GONE // Hide the badge if no unread notifications
@@ -1027,7 +1323,20 @@ class MainMenu : AppCompatActivity() {
     // Method to load and display the savings target for the current month
     private fun loadSavingsTarget() {
         val userUid = FirebaseAuth.getInstance().currentUser?.uid
-        val currentTimestamp = com.google.firebase.Timestamp(currentMonth.time)
+        val selectedMonthStart = (currentMonth.clone() as Calendar).apply {
+            set(Calendar.DAY_OF_MONTH, 1)
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }.time
+        val selectedMonthEnd = (currentMonth.clone() as Calendar).apply {
+            set(Calendar.DAY_OF_MONTH, getActualMaximum(Calendar.DAY_OF_MONTH))
+            set(Calendar.HOUR_OF_DAY, 23)
+            set(Calendar.MINUTE, 59)
+            set(Calendar.SECOND, 59)
+            set(Calendar.MILLISECOND, 999)
+        }.time
 
         val tvTargetAchieved = findViewById<TextView>(R.id.tvTargetAchieved)
         val progressBarSavings = findViewById<LinearProgressIndicator>(R.id.progressBarSavings)
@@ -1038,17 +1347,32 @@ class MainMenu : AppCompatActivity() {
                 .collection("savings_targets")
                 .get()
                 .addOnSuccessListener { documents ->
+                    savingsTargetsForInsights = documents.mapNotNull { document ->
+                        val start = document.getTimestamp("startDate")?.toDate()
+                        val end = document.getTimestamp("endDate")?.toDate()
+                        if (start == null || end == null) {
+                            null
+                        } else {
+                            SavingsTargetInfo(
+                                start,
+                                end,
+                                document.getDouble("monthlySavings") ?: 0.0
+                            )
+                        }
+                    }
                     val filteredDocuments = documents.filter { document ->
-                        val startDate = document.getTimestamp("startDate")
-                        val endDate = document.getTimestamp("endDate")
+                        val startDate = document.getTimestamp("startDate")?.toDate()
+                        val endDate = document.getTimestamp("endDate")?.toDate()
                         startDate != null && endDate != null &&
-                                startDate <= currentTimestamp && endDate >= currentTimestamp
+                            !startDate.after(selectedMonthEnd) &&
+                            !endDate.before(selectedMonthStart)
                     }
 
                     val document = filteredDocuments.firstOrNull()
 
                     if (document == null) {
                         // No active savings target
+                        currentMonthlySavingsTarget = 0.0
                         etMonthlySavingsMain.text = formatAmount(0.0)
                         etMonthlySavingsMain.visibility = View.GONE
                         findViewById<TextView>(R.id.tvSetSavingTarget).text = getString(R.string.set_savings_target)
@@ -1057,9 +1381,11 @@ class MainMenu : AppCompatActivity() {
                         tvTargetAchieved.visibility = View.GONE
                         tvProgressPercentage.visibility = View.GONE
                         progressBarSavings.visibility = View.GONE
+                        updateFinancialInsights()
                     } else {
                         val targetName = document.getString("targetName") ?: "Unnamed Target"
                         val monthlyAmount = document.getDouble("monthlySavings") ?: 0.0
+                        currentMonthlySavingsTarget = monthlyAmount
 
                         updateProgressBar(progressBarSavings, tvProgressPercentage, monthlyAmount, currentActualMonthlySavings)
                         etMonthlySavingsMain.text = formatAmount(monthlyAmount)
@@ -1076,6 +1402,7 @@ class MainMenu : AppCompatActivity() {
                             tvProgressPercentage.visibility = View.GONE
                             progressBarSavings.visibility = View.GONE
                         }
+                        updateFinancialInsights()
                         // Only check if the savings target is achieved for the first time this month
                         if (!isSavingsTargetCheckedForMonth(document.id)) {
                             isSavingsTargetAchieved(document.id) { isAchieved ->
@@ -1090,6 +1417,8 @@ class MainMenu : AppCompatActivity() {
                 }
                 .addOnFailureListener { e ->
                     Toast.makeText(this, "Error loading savings target: ${e.message}", Toast.LENGTH_SHORT).show()
+                    savingsTargetsForInsights = emptyList()
+                    currentMonthlySavingsTarget = 0.0
                     etMonthlySavingsMain.text = "0.00"
                     etMonthlySavingsMain.visibility = View.GONE
                     findViewById<TextView>(R.id.tvSetSavingTarget).text = getString(R.string.set_savings_target)
@@ -1097,9 +1426,11 @@ class MainMenu : AppCompatActivity() {
                     tvTargetAchieved.visibility = View.GONE
                     tvProgressPercentage.visibility = View.GONE
                     progressBarSavings.visibility = View.GONE
+                    updateFinancialInsights()
                 }
         } else {
             Toast.makeText(this, "User not logged in.", Toast.LENGTH_SHORT).show()
+            currentMonthlySavingsTarget = 0.0
             etMonthlySavingsMain.text = "0.00"
             etMonthlySavingsMain.visibility = View.GONE
             findViewById<TextView>(R.id.tvSetSavingTarget).text = getString(R.string.set_savings_target)
@@ -1107,6 +1438,7 @@ class MainMenu : AppCompatActivity() {
             tvTargetAchieved.visibility = View.GONE
             tvProgressPercentage.visibility = View.GONE
             progressBarSavings.visibility = View.GONE
+            updateFinancialInsights()
         }
     }
 

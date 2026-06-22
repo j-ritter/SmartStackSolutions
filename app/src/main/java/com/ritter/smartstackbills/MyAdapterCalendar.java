@@ -65,7 +65,11 @@ public class MyAdapterCalendar extends RecyclerView.Adapter<MyAdapterCalendar.En
         }
         holder.type.setText(typeText);
         holder.title.setText(title.isEmpty() ? context.getString(R.string.untitled_entry) : title);
-        holder.category.setText(category.isEmpty() ? context.getString(R.string.no_category) : category);
+        holder.category.setText(
+                category.isEmpty()
+                        ? context.getString(R.string.no_category)
+                        : FinancialEntryOptions.displayCategory(context, category)
+        );
         holder.amount.setText(CurrencyPreferences.format(context, amount));
         holder.amount.setTextColor(ContextCompat.getColor(context, color));
         holder.typeBar.setBackgroundColor(ContextCompat.getColor(context, color));

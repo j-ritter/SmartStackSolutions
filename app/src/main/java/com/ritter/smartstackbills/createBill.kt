@@ -230,12 +230,14 @@ class createBill : AppCompatActivity() {
         spinnerRepeat.adapter = arrayAdapterRepeat
 
         loadCategories(spinnerCategories)
-        spinnerCategories.selectedItem?.let { loadSubcategories(it.toString(), spinnerSubcategories) }
+        spinnerCategories.selectedItem?.let {
+            loadSubcategories(FinancialEntryOptions.selectedKey(it), spinnerSubcategories)
+        }
 
         // Load vendors based on selected category
         spinnerCategories.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val selectedCategory = spinnerCategories.selectedItem.toString()
+                val selectedCategory = FinancialEntryOptions.selectedKey(spinnerCategories.selectedItem)
                 loadVendors(selectedCategory, autoCompleteVendors)
                 loadSubcategories(selectedCategory, spinnerSubcategories)
             }
@@ -254,16 +256,40 @@ class createBill : AppCompatActivity() {
         }
         // Image upload handling
         findViewById<Button>(R.id.btnUploadImageBill).setOnClickListener { handleImageUpload() }
+        applyScanPrefill()
+    }
+
+    private fun applyScanPrefill() {
+        intent.getStringExtra(ScanPrefill.EXTRA_SCAN_TITLE)?.takeIf { it.isNotBlank() }?.let {
+            findViewById<EditText>(R.id.edtTitleBill).setText(it)
+        }
+        intent.getStringExtra(ScanPrefill.EXTRA_SCAN_AMOUNT)?.takeIf { it.isNotBlank() }?.let {
+            findViewById<EditText>(R.id.edtAmountBill).setText(it)
+        }
+        intent.getStringExtra(ScanPrefill.EXTRA_SCAN_DATE)?.takeIf { it.isNotBlank() }?.let {
+            findViewById<EditText>(R.id.edtDateBill).setText(it)
+        }
+        intent.getStringExtra(ScanPrefill.EXTRA_SCAN_PARTY)?.takeIf { it.isNotBlank() }?.let {
+            findViewById<AutoCompleteTextView>(R.id.autoCompleteVendorBill).setText(it)
+        }
+        intent.getStringExtra(ScanPrefill.EXTRA_SCAN_ATTACHMENT)?.takeIf { it.isNotBlank() }?.let {
+            imageUri = Uri.parse(it)
+            updateAttachmentStatus()
+        }
     }
     // Load categories dynamically (not pre-selected)
     private fun loadCategories(spinnerCategories: Spinner) {
-        val arrayAdapterCategories = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, FinancialEntryOptions.expenseCategories)
+        val arrayAdapterCategories = ArrayAdapter(
+            this,
+            android.R.layout.simple_spinner_dropdown_item,
+            FinancialEntryOptions.expenseCategories(this)
+        )
         spinnerCategories.adapter = arrayAdapterCategories
     }
 
     // Load subcategories based on selected category
     private fun loadSubcategories(category: String, spinnerSubcategories: Spinner) {
-        val subcategories = FinancialEntryOptions.expenseSubcategories[category] ?: emptyArray()
+        val subcategories = FinancialEntryOptions.expenseSubcategories(this, category)
         val arrayAdapterSubcategories = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, subcategories)
         spinnerSubcategories.adapter = arrayAdapterSubcategories
     }
@@ -300,6 +326,7 @@ class createBill : AppCompatActivity() {
     }
     private fun handleImageUpload() {
         val options = arrayOf(
+            getString(R.string.scan_and_prefill),
             getString(R.string.take_photo),
             getString(R.string.choose_from_gallery),
             getString(R.string.cancel)
@@ -308,8 +335,15 @@ class createBill : AppCompatActivity() {
         builder.setTitle(R.string.add_attachment)
         builder.setItems(options) { dialog, which ->
             when (which) {
-                0 -> dispatchTakePictureIntent()
-                1 -> chooseImageLauncher.launch("image/*")
+                0 -> {
+                    startActivity(Intent(this, DocumentScanActivity::class.java).apply {
+                        putExtra(DocumentScanActivity.EXTRA_ENTRY_TYPE, EntryType.OPEN_PAYMENT.wireValue)
+                        putExtra(AuthUtils.EXTRA_USER_EMAIL, userEmail)
+                    })
+                    finish()
+                }
+                1 -> dispatchTakePictureIntent()
+                2 -> chooseImageLauncher.launch("image/*")
                 else -> dialog.dismiss()
             }
         }
@@ -375,8 +409,12 @@ class createBill : AppCompatActivity() {
         val billName = findViewById<EditText>(R.id.edtTitleBill).text.toString()
         val billAmount = findViewById<EditText>(R.id.edtAmountBill).text.toString().toDoubleOrNull() ?: 0.0
         val billDateString = findViewById<EditText>(R.id.edtDateBill).text.toString()
-        val billCategory = findViewById<Spinner>(R.id.spinnerCategoriesBill).selectedItem?.toString() ?: "-"
-        val billSubcategory = findViewById<Spinner>(R.id.spinnerSubcategoriesBill).selectedItem?.toString() ?: "-"
+        val billCategory = FinancialEntryOptions.selectedKey(
+            findViewById<Spinner>(R.id.spinnerCategoriesBill).selectedItem
+        ).ifBlank { "-" }
+        val billSubcategory = FinancialEntryOptions.selectedKey(
+            findViewById<Spinner>(R.id.spinnerSubcategoriesBill).selectedItem
+        ).ifBlank { "-" }
         val billVendor = findViewById<AutoCompleteTextView>(R.id.autoCompleteVendorBill).text.toString()
         val billRepeat = findViewById<Spinner>(R.id.spinnerRepeatBill).selectedItem?.toString() ?: "-"
         val billComment = findViewById<EditText>(R.id.edtCommentBill).text.toString()
@@ -406,59 +444,72 @@ class createBill : AppCompatActivity() {
         }
         val timestamp = billDate?.let { Timestamp(it) }
 
-        // Prepare the bill data
-        val bill = hashMapOf(
-            "name" to billName,
-            "amount" to billAmount,
-            "date" to timestamp,
-            "category" to billCategory,
-            "subcategory" to billSubcategory,
-            "vendor" to billVendor,
-            "repeat" to billRepeat,
-            "comment" to billComment,
-            "attachment" to billAttachment,
-            "paid" to billPaid
-        )
-
-        // Save bill to Firebase
         val uid = userUid
         if (uid != null && billDate != null) {
-            val documentReference = db.collection("users").document(uid).collection("bills").document()
-            val billId = documentReference.id
-            bill["billId"] = billId
-            bill["parentBillId"] = billId
+            val saveButton = findViewById<Button>(R.id.btnSaveBill)
+            saveButton.isEnabled = false
+            UsageLimits.checkBillCreation(this, uid, billRepeat, billDate) { allowed, messageRes ->
+                if (!allowed) {
+                    saveButton.isEnabled = true
+                    Toast.makeText(
+                        this,
+                        messageRes ?: R.string.usage_limit_check_failed,
+                        Toast.LENGTH_LONG
+                    ).show()
+                    return@checkBillCreation
+                }
 
-            val batch = db.batch()
-            val billsToSchedule = mutableListOf<Bills>()
-            batch.set(documentReference, bill)
-            billsToSchedule += Bills().apply {
-                this.billId = billId
-                this.name = billName
-                this.amount = billAmount
-                this.date = timestamp
-                this.paid = billPaid
-            }
-
-            if (billRepeat != "No") {
-                addRecurringBillsToBatch(
-                    batch, billsToSchedule, uid, billName, billAmount, billDate,
-                    billCategory, billSubcategory, billVendor, billRepeat,
-                    billComment, billAttachment, billId
+                val bill = hashMapOf(
+                    "name" to billName,
+                    "amount" to billAmount,
+                    "date" to timestamp,
+                    "category" to billCategory,
+                    "subcategory" to billSubcategory,
+                    "vendor" to billVendor,
+                    "repeat" to billRepeat,
+                    "isRecurring" to (billRepeat != "No"),
+                    "comment" to billComment,
+                    "attachment" to billAttachment,
+                    "paid" to billPaid
                 )
-            }
+                val documentReference = db.collection("users").document(uid).collection("bills").document()
+                val billId = documentReference.id
+                bill["billId"] = billId
+                bill["parentBillId"] = billId
 
-            batch.commit()
-                .addOnSuccessListener {
-                    Toast.makeText(this, R.string.open_payment_saved, Toast.LENGTH_SHORT).show()
-                    FinancialEntryOptions.rememberVendor(this, billVendor)
-                    billsToSchedule.forEach {
-                        PaymentNotificationScheduler.scheduleBill(this, uid, it)
+                val batch = db.batch()
+                val billsToSchedule = mutableListOf<Bills>()
+                batch.set(documentReference, bill)
+                billsToSchedule += Bills().apply {
+                    this.billId = billId
+                    this.name = billName
+                    this.amount = billAmount
+                    this.date = timestamp
+                    this.paid = billPaid
+                }
+
+                if (billRepeat != "No") {
+                    addRecurringBillsToBatch(
+                        batch, billsToSchedule, uid, billName, billAmount, billDate,
+                        billCategory, billSubcategory, billVendor, billRepeat,
+                        billComment, billAttachment, billId
+                    )
+                }
+
+                batch.commit()
+                    .addOnSuccessListener {
+                        Toast.makeText(this, R.string.open_payment_saved, Toast.LENGTH_SHORT).show()
+                        FinancialEntryOptions.rememberVendor(this, billVendor)
+                        billsToSchedule.forEach {
+                            PaymentNotificationScheduler.scheduleBill(this, uid, it)
+                        }
+                        finish()
                     }
-                    finish()
-                }
-                .addOnFailureListener { e ->
-                    Toast.makeText(this, getString(R.string.open_payment_save_failed, e.message.orEmpty()), Toast.LENGTH_SHORT).show()
-                }
+                    .addOnFailureListener { e ->
+                        saveButton.isEnabled = true
+                        Toast.makeText(this, getString(R.string.open_payment_save_failed, e.message.orEmpty()), Toast.LENGTH_SHORT).show()
+                    }
+            }
         }
     }
 
@@ -495,6 +546,7 @@ class createBill : AppCompatActivity() {
                 "subcategory" to billSubcategory,
                 "vendor" to billVendor,
                 "repeat" to billRepeat,
+                "isRecurring" to true,
                 "comment" to billComment,
                 "attachment" to billAttachment,
                 "parentBillId" to parentBillId,

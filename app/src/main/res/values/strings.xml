@@ -221,7 +221,7 @@
 
     <string name="faqs_question_6">6. Is it possible to scan payments?</string>
     <string name="faqs_answer_6">
-  Answer: You can upload your document in SmartStack Solutions but an automatic scanning of the document is not possible yet.
+  Answer: Yes. When creating an open payment, completed expense, or income entry, choose Scan document. SmartStack crops the document, recognizes printed text on the device, and suggests fields such as title, amount, date, vendor, or payer. Review every suggestion before saving.
 </string>
 
     <string name="faqs_question_7">7. Can I track my income with SmartStack Solutions?</string>
@@ -236,7 +236,7 @@
 
     <string name="faqs_question_9">9. What is the Premium Account, and what are its benefits?</string>
     <string name="faqs_answer_9">
-  Answer: Premium unlocks creation and editing for closed payments, income management, and savings goals. Open payments and the complete calendar remain available in the basic version.
+  Answer: Premium removes advertising and unlocks closed-payment management, income management, savings goals, and six- and twelve-month financial analysis, including cash-flow trends, category changes, recurring commitments, and savings consistency. Open payments, reminders, monthly insights, export, and the calendar remain available in the basic version.
 </string>
 
     <string name="faqs_question_10">10. How can I upgrade to the Premium Account?</string>
@@ -294,34 +294,39 @@
     <string name="content_description_notifications_list">List of notifications</string>
 
     <string name="unlock_premium_features">Unlock Premium Features</string>
-    <string name="premium_intro_text">Thank you for choosing SmartStack Solutions!\n\nWith the basic version, you can manage your Open Payments and stay on top of upcoming bills.\n\nUpgrade to Premium to unlock:</string>
-    <string name="premium_feature_closed_payments">Closed Payments: Track paid bills.</string>
-    <string name="premium_feature_income_management">Income Management: Manage your income streams.</string>
-    <string name="premium_feature_saving_target">Saving Target: Set yourself a saving target &amp; track the progress.</string>
-    <string name="premium_closing_text">Calendar is included in the basic version. Premium unlocks editing and creation for your complete financial overview.</string>
+    <string name="premium_intro_text">Keep the essentials free. Upgrade when you want a complete financial workspace with richer history, income management, goals, and no advertising.</string>
+    <string name="premium_feature_closed_payments">Create, edit, and organize your detailed payment history.</string>
+    <string name="premium_feature_income_management">Create, edit, and organize recurring and one-time income.</string>
+    <string name="premium_feature_saving_target">Set savings goals and follow monthly progress.</string>
+    <string name="premium_feature_financial_insights">Explore six- and twelve-month financial trends.</string>
+    <string name="premium_closing_text">Open payments, reminders, the calendar, data export, and marking payments as paid remain available in the free version.</string>
     <string name="premium_preview_closed_payments">Preview mode: you can review closed payments. Upgrade to Premium to create, edit, or delete closed payments.</string>
     <string name="premium_preview_income">Preview mode: you can review income entries. Upgrade to Premium to create, edit, or delete income.</string>
     <string name="premium_upgrade_required">Upgrade to Premium to create closed payments, income entries, and saving targets.</string>
     <string name="features">Features</string>
     <string name="feature_open_payments_title">Open Payments</string>
     <string name="feature_open_payments_desc">Manage open payments and stay on top of upcoming bills.</string>
-    <string name="feature_open_payments_expandable">Open Payments allow you to manage your upcoming bills, set reminders, track payments, and help you pay on time.</string>
+    <string name="feature_open_payments_expandable">Free includes up to 30 standalone active open payments plus recurring schedules within the fair-use allowance. Premium provides a substantially higher safety allowance for active and future entries.</string>
     <string name="feature_closed_payments_title">Closed Payments</string>
     <string name="feature_closed_payments_desc">Track bills you have paid and manage your transaction history.</string>
-    <string name="feature_closed_payments_expandable">Closed Payments help you track paid bills for financial history.</string>
+    <string name="feature_closed_payments_expandable">Everyone can mark an open payment as paid. Premium also unlocks direct creation, editing, deletion, and complete detailed-history management.</string>
     <string name="feature_income_management_title">Income Management</string>
     <string name="feature_income_management_desc">Track and categorize your income sources.</string>
-    <string name="feature_income_management_expandable">Income Management helps you track your different income streams, including salaries, freelance work, and investments.</string>
+    <string name="feature_income_management_expandable">Track salary, freelance work, benefits, investments, and recurring income alongside your expenses and projected balance.</string>
     <string name="feature_notifications_title">Notifications</string>
     <string name="feature_notifications_desc">Receive timely reminders for your open payments.</string>
-    <string name="feature_notifications_expandable">Get timely notifications to ensure you never miss an upcoming payment.</string>
+    <string name="feature_notifications_expandable">Configure advance, due-today, and overdue reminders. Mark a payment as paid directly from a notification.</string>
     <string name="feature_calendar_title">Calendar</string>
     <string name="feature_calendar_desc">Get an overview of all your transactions in a calendar view.</string>
-    <string name="feature_calendar_expandable">The calendar feature provides an overview of payments, income, and transactions in a monthly view.</string>
+    <string name="feature_calendar_expandable">The calendar remains available in the free version and combines open payments, completed expenses, and income by date.</string>
     <string name="feature_saving_target_title">Saving Target</string>
     <string name="feature_saving_target_desc">Set yourself a saving target and track the progress.</string>
-    <string name="feature_saving_target_expandable">The Saving Target feature allows you to set personalized financial goals. Define a target amount, set a period, and track your monthly progress towards achieving your financial dreams.</string>
+    <string name="feature_saving_target_expandable">Define a target amount and time period, then compare the required monthly amount with your actual projected balance.</string>
+    <string name="feature_financial_insights_title">Advanced Financial Insights</string>
+    <string name="feature_financial_insights_desc">Turn your history into meaningful trends.</string>
+    <string name="feature_financial_insights_expandable">Compare six- and twelve-month cash flow, identify changing spending categories, track recurring commitments, and review savings consistency. The analysis follows the month selected on your dashboard.</string>
     <string name="unlock_button_text">Unlock SmartStack Solutions Premium</string>
+    <string name="unlock_button_with_price">Unlock Premium · %1$s</string>
     <string name="more_information">More information</string>
     <string name="premium_still_loading">Premium is still loading. Please try again.</string>
     <string name="billing_not_ready">Billing is not ready yet. Please try again.</string>
@@ -330,6 +335,12 @@
     <string name="premium_unavailable">Premium is unavailable right now. Tap to retry.</string>
     <string name="premium_loading">Loading Premium options...</string>
     <string name="less_information">Less information</string>
+    <string name="show_details">Show details</string>
+    <string name="hide_details">Hide details</string>
+    <string name="free_open_payment_limit_reached">You have reached the free allowance of 30 standalone active open payments. Mark completed items as paid or upgrade to Premium.</string>
+    <string name="free_recurring_limit_reached">This recurring schedule would exceed the free allowance of 250 future recurring payment occurrences. Remove an unused schedule or upgrade to Premium.</string>
+    <string name="premium_usage_limit_reached">This entry would exceed the Premium fair-use allowance of 2,000 combined future payment and income entries. Please remove obsolete future entries or contact support.</string>
+    <string name="usage_limit_check_failed">SmartStack could not verify the available entry allowance. Check your connection and try again.</string>
     <string name="terms_and_conditions_title">Terms &amp; Conditions</string>
     <string name="terms_and_conditions_content">
     1. Acceptance of Terms&#10;&#10;By using the SmartStack Solutions application, you agree to be bound by these terms and conditions. If you do not agree, please do not use the application.&#10;&#10;
@@ -342,6 +353,49 @@
     8. Termination&#10;&#10;SmartStack Solutions reserves the right to terminate or suspend access to the application for any user who violates these terms and conditions.&#10;&#10;
     9. Contact Information&#10;&#10;For questions or concerns regarding these terms and conditions, contact service@smartstack-solutions.com.
 </string>
+    <string name="help_hub_title">How can we help?</string>
+    <string name="help_hub_intro">Find a quick answer, manage your account data, or contact us directly.</string>
+    <string name="help_choose_option">Choose a support option</string>
+    <string name="help_faq_title">Browse frequently asked questions</string>
+    <string name="help_faq_description">Get answers about payments, reminders, Premium, limits, and account use.</string>
+    <string name="help_contact_title">Email SmartStack Support</string>
+    <string name="help_contact_description">Open a prepared email to service@smartstack-solutions.com.</string>
+    <string name="help_data_title">Data and account assistance</string>
+    <string name="help_data_description">Export your information or review the account-deletion options.</string>
+    <string name="help_message_title">For a faster answer</string>
+    <string name="help_message_checklist">Please include:\n• What you were trying to do\n• What happened instead\n• Steps that reproduce the issue\n• A screenshot, if it does not contain sensitive financial information</string>
+    <string name="help_response_note">Never send passwords, purchase tokens, or complete financial records by email.</string>
+    <string name="support_email_subject">SmartStack Solutions support request</string>
+    <string name="support_email_template">Hello SmartStack Support,\n\nI need help with:\n\nWhat I expected:\n\nWhat happened:\n\nSteps to reproduce:\n\nApp version: %1$s\n\nPlease do not include passwords or sensitive financial records.</string>
+    <string name="support_email_copied">No email app was found. The support address was copied to your clipboard.</string>
+    <string name="terms_section_title_1">1. Acceptance and scope</string>
+    <string name="terms_section_body_1">By creating an account or using SmartStack Solutions, you agree to these terms. If you do not agree, do not use the application.</string>
+    <string name="terms_section_title_2">2. Purpose of the service</string>
+    <string name="terms_section_body_2">SmartStack provides organizational tools for payments, expenses, income, reminders, and savings goals. It does not provide financial, tax, legal, or investment advice.</string>
+    <string name="terms_section_title_3">3. Account responsibility</string>
+    <string name="terms_section_body_3">You are responsible for safeguarding your account, maintaining accurate information, and reviewing entries and reminders. Do not use the service unlawfully or attempt to disrupt, automate abuse of, or bypass its technical protections.</string>
+    <string name="terms_section_title_4">4. Free service and advertising</string>
+    <string name="terms_section_body_4">The free version is supported by advertising and includes core open-payment, reminder, calendar, export, and payment-completion functions. Some creation, editing, history, income, goal, and analysis functions require Premium.</string>
+    <string name="terms_section_title_5">5. Fair-use allowances</string>
+    <string name="terms_section_body_5">To maintain reliable and sustainable service, free accounts support up to 30 standalone active open payments and 250 future recurring payment occurrences. Premium accounts support up to 2,000 combined future payment and income entries. Marking an existing payment as paid is not blocked. Allowances may be adjusted prospectively for security, reliability, or service sustainability with reasonable notice where practical.</string>
+    <string name="terms_section_title_6">6. Premium subscription</string>
+    <string name="terms_section_body_6">Premium features and the current price are shown before purchase. Billing, renewal, cancellation, and eligible refunds are handled through Google Play under its terms and applicable law. Premium removes advertising and unlocks the functions described on the Premium screen, subject to fair-use safeguards.</string>
+    <string name="terms_section_title_7">7. Data availability and export</string>
+    <string name="terms_section_body_7">We aim to keep account data available, but no online service can guarantee permanent or uninterrupted storage. You should periodically use the export function for records you need to retain. We will provide notice before introducing material automatic-retention or deletion policies, except where deletion is required for security, law, or an account-deletion request.</string>
+    <string name="terms_section_title_8">8. Availability and liability</string>
+    <string name="terms_section_body_8">The service is provided as available. To the extent permitted by law, SmartStack Solutions is not liable for indirect losses caused by outages, inaccurate user entries, missed reminders, device failures, or reliance on the application as professional advice. Statutory consumer rights remain unaffected.</string>
+    <string name="terms_section_title_9">9. Changes and termination</string>
+    <string name="terms_section_body_9">Features and these terms may change as the service evolves. Material changes will be communicated where reasonably possible. Access may be restricted for fraud, abuse, unlawful use, security risks, or serious violations of these terms.</string>
+    <string name="terms_section_title_10">10. Contact</string>
+    <string name="terms_section_body_10">Questions about these terms or the service can be sent to service@smartstack-solutions.com.</string>
+    <string name="faqs_question_16">16. What usage allowances apply to free and Premium accounts?</string>
+    <string name="faqs_answer_16">Free accounts can keep up to 30 standalone active open payments and up to 250 future recurring payment occurrences. Premium accounts can keep up to 2,000 combined future payment and income entries. These generous safety allowances protect reliable service and prevent accidental entry explosions.</string>
+    <string name="faqs_question_17">17. Can free users still mark payments as paid?</string>
+    <string name="faqs_answer_17">Yes. Completing the normal open-to-closed workflow is never blocked by the free allowance. Direct creation, editing, and deletion of closed payments are Premium management features.</string>
+    <string name="faqs_question_18">18. Will SmartStack automatically delete my financial history?</string>
+    <string name="faqs_answer_18">SmartStack does not currently apply an automatic deletion period to payment history. You can export your account data at any time. If a material retention policy is introduced later, the app will provide advance information where reasonably possible.</string>
+    <string name="faqs_question_19">19. What financial insights are included?</string>
+    <string name="faqs_answer_19">The free version includes selected-month money flow, open-payment urgency, and spending composition. Premium adds six- and twelve-month cash-flow trends, category changes, recurring-commitment trends, and savings consistency. Multi-month periods end in the month selected on the dashboard.</string>
     <string name="back">Back</string>
 
 
@@ -456,4 +510,112 @@
     <string name="select_currency">Select currency</string>
     <string name="billing_insufficient_funds">The payment was declined because there are insufficient funds.</string>
     <string name="billing_user_ineligible">This subscription offer is not available for this account.</string>
+    <string name="financial_insights">Financial insights</string>
+    <string name="financial_insights_subtitle">Understand the selected month at a glance</string>
+    <string name="monthly_money_map">Monthly money map</string>
+    <string name="monthly_money_map_description">See how income, completed expenses, upcoming obligations, and your savings goal fit together.</string>
+    <string name="open_payment_risk_timeline">Open-payment risk timeline</string>
+    <string name="open_payment_risk_description">Focus first on overdue and near-term obligations.</string>
+    <string name="spending_composition">Spending composition</string>
+    <string name="spending_composition_description">See which categories account for this month’s completed expenses.</string>
+    <string name="available_after_commitments">Available</string>
+    <string name="paid_expenses_short">Paid</string>
+    <string name="still_due_short">Still due</string>
+    <string name="savings_target">Savings goal</string>
+    <string name="no_savings_target_insight">No savings goal is active for this month.</string>
+    <string name="savings_target_cushion">%1$s remains after the savings goal.</string>
+    <string name="savings_target_shortfall">%1$s more is needed to reach the savings goal.</string>
+    <string name="due_next_seven_days">Next 7 days</string>
+    <string name="later_this_month">Later</string>
+    <string name="other">Other</string>
+    <string name="no_closed_payments_for_month">No completed expenses for this month.</string>
+    <plurals name="payment_count">
+        <item quantity="one">%1$d payment</item>
+        <item quantity="other">%1$d payments</item>
+    </plurals>
+    <string name="positive_balance_status">Positive balance</string>
+    <string name="balance">Balance</string>
+    <string name="shortfall_status">Shortfall</string>
+    <string name="no_activity_status">No activity</string>
+    <string name="balanced_status">Balanced</string>
+    <string name="selected_month">This month</string>
+    <string name="six_months">6 months</string>
+    <string name="twelve_months">12 months</string>
+    <string name="premium_insights_teaser_title">Your numbers have a longer story</string>
+    <string name="premium_insights_teaser_message">Premium reveals trends, category shifts, recurring commitments, and how consistently your savings plans stay on track.</string>
+    <string name="unlock_deeper_insights">Unlock deeper insights →</string>
+    <string name="premium_insights_upgrade">Upgrade to Premium to explore six- and twelve-month financial trends.</string>
+    <string name="cash_flow_trend">Cash-flow trend</string>
+    <string name="cash_flow_trend_description">Compare income and total obligations; green and red bars show each month’s balance.</string>
+    <string name="category_changes">Category changes</string>
+    <string name="category_changes_description">See which spending categories increased or decreased against the earlier months in this period.</string>
+    <string name="category_changes_info_title">How category changes are calculated</string>
+    <string name="category_changes_info_message">The selected month is compared with the monthly average of the earlier months in the chosen six- or twelve-month period.\n\nChange = selected-month amount minus the earlier monthly average, divided by that earlier average.\n\nAn upward arrow means spending increased; a downward arrow means it decreased. A dash means there was no earlier spending to calculate a percentage. The four largest categories in the selected month are shown.</string>
+    <string name="category_changes_info_content_description">Explain category changes</string>
+    <string name="recurring_commitment_trend">Recurring-commitment trend</string>
+    <string name="recurring_commitment_trend_description">Track how scheduled recurring obligations evolve over time.</string>
+    <string name="savings_consistency">Savings consistency</string>
+    <string name="savings_consistency_description">See how often the projected monthly balance met an active savings goal.</string>
+    <string name="total_obligations">Obligations</string>
+    <string name="not_enough_category_data">Add completed expenses across more months to compare categories.</string>
+    <string name="commitments_increased">Recurring commitments increased by %1$s.</string>
+    <string name="commitments_decreased">Recurring commitments decreased by %1$s.</string>
+    <string name="commitments_steady">Recurring commitments stayed steady.</string>
+    <string name="no_savings_goals_in_period">No savings goals were active in this period.</string>
+    <string name="savings_goals_achieved">%1$d of %2$d goal months achieved</string>
+    <string name="dashboard_welcome_title">Build your first financial overview</string>
+    <string name="dashboard_welcome_message">Start with one upcoming payment. SmartStack becomes more useful as income and completed expenses build your monthly picture.</string>
+    <string name="dashboard_welcome_steps">1. Add an upcoming payment\n2. Add income to calculate your balance\n3. Mark payments as paid to unlock spending insights</string>
+    <string name="add_first_payment">Add first payment</string>
+    <string name="how_smartstack_works">How SmartStack works</string>
+    <string name="dashboard_tutorial_title">Your SmartStack workflow</string>
+    <string name="dashboard_tutorial_message">Open payments show what is still due. When you mark one as paid, it becomes part of your completed spending history. Income and savings goals complete the monthly overview, while reminders and insights help you notice what needs attention.</string>
+    <string name="about_us_hero_title">Clarity for everyday finances</string>
+    <string name="about_why_title">Why SmartStack exists</string>
+    <string name="about_why_body">Financial organization should feel understandable, not overwhelming. SmartStack was created to bring upcoming payments, completed expenses, income, savings goals, and reminders into one clear monthly view.</string>
+    <string name="about_manage_title">What SmartStack helps you manage</string>
+    <string name="about_manage_body">Track what is due, recognize overdue payments, organize recurring commitments, review spending categories, and understand what remains available each month.</string>
+    <string name="about_privacy_title">Privacy-conscious by design</string>
+    <string name="about_privacy_body">The app collects only the information needed to provide its features. Financial records are associated with your authenticated account. Attachment images remain in the app’s private storage on this device and are not uploaded to Firebase.</string>
+    <string name="about_independent_title">Built independently</string>
+    <string name="about_independent_body">SmartStack is independently developed with a focus on practical usefulness, fair limits, and steady improvement. It is an organizational aid and does not provide financial, tax, or investment advice.</string>
+    <string name="about_contact_title">Questions and feedback</string>
+    <string name="about_contact_body">Your feedback helps shape SmartStack. Contact service@smartstack-solutions.com.</string>
+    <string name="about_version">App version %1$s</string>
+    <string name="income_attachment">Income attachment</string>
+    <string name="data_security_question_15">15. Where are attachment images stored?</string>
+    <string name="data_security_answer_15">Answer: Images attached to open payments, completed expenses, or income are copied into the app’s private storage on this device. Firebase stores the financial record and its local attachment reference, but the image itself is not uploaded or synchronized. Removing the app or its local data can remove these images, so important documents should also be kept elsewhere.</string>
+    <string name="getting_started_title">Getting started</string>
+    <string name="getting_started_hero_title">Your first month with SmartStack</string>
+    <string name="getting_started_intro">Follow this simple workflow to turn individual entries into a useful monthly overview.</string>
+    <string name="guide_step_1_title">Add what is still due</string>
+    <string name="guide_step_1_description">Choose manual entry or scan a document. Add the due date and recurrence, then review all scanned suggestions before saving.</string>
+    <string name="guide_step_2_title">Record your income</string>
+    <string name="guide_step_2_description">Add recurring or one-time income so the dashboard can calculate your projected monthly balance.</string>
+    <string name="guide_step_3_title">Mark payments as paid</string>
+    <string name="guide_step_3_description">Use the paid checkbox when a payment is completed. It moves into your completed-expense history automatically.</string>
+    <string name="guide_step_4_title">Understand your month</string>
+    <string name="guide_step_4_description">Review open and completed payments, income, savings progress, category composition, and financial insights from the dashboard.</string>
+    <string name="guide_step_5_title">Stay on track</string>
+    <string name="guide_step_5_description">Use reminders, recurring entries, and the calendar to notice approaching dates and reduce repeated work.</string>
+    <string name="getting_started_open_faq">Still have questions? Open FAQs</string>
+    <string name="help_getting_started_title">Getting started guide</string>
+    <string name="help_getting_started_description">Learn the recommended workflow for payments, income, reminders, and monthly insights.</string>
+    <string name="entry_method_subtitle">Choose the quickest option for this entry.</string>
+    <string name="entry_method_open_payment">How would you like to add this open payment?</string>
+    <string name="entry_method_closed_payment">How would you like to add this completed expense?</string>
+    <string name="entry_method_income">How would you like to add this income?</string>
+    <string name="scan_document">Scan document</string>
+    <string name="scan_document_description">Take a photo or select an image and review suggested details.</string>
+    <string name="enter_manually">Enter manually</string>
+    <string name="enter_manually_description">Open an empty form and enter the details yourself.</string>
+    <string name="scan_and_prefill">Scan and prefill fields</string>
+    <string name="preparing_document_scanner">Preparing document scanner…</string>
+    <string name="reading_document">Reading the document and preparing suggestions…</string>
+    <string name="document_text_not_recognized">The document was attached, but its text could not be recognized. Please enter the details manually.</string>
+    <string name="document_scan_failed_title">Document could not be scanned</string>
+    <string name="document_scan_failed_message">Try again with a clear, well-lit document, or continue with manual entry.</string>
+    <string name="try_again">Try again</string>
+    <string name="faqs_question_20">20. How accurate is document scanning?</string>
+    <string name="faqs_answer_20">Answer: Scanning is designed to reduce typing, not to replace your review. Results depend on image quality, document layout, language, and whether several dates or totals appear. SmartStack may select the wrong total, date, vendor, or payer. Always verify every suggested field before saving. The scan is processed on the device; the document is not uploaded to Firebase by the scanning feature. Google Play services may download scanner and text-recognition components and collect operational performance metrics, but ML Kit does not send the document or recognized text to Google servers.</string>
 </resources>

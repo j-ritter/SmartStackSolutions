@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/aboutRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F7FA"
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/aboutToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/white"
+        android:elevation="2dp"
+        app:navigationIcon="@drawable/ic_arrow_back"
+        app:navigationIconTint="@color/colorSecondary"
+        app:title="@string/about_us_title"
+        app:titleCentered="true"
+        app:titleTextColor="@color/colorSecondary" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="18dp"
+            android:paddingTop="18dp"
+            android:paddingEnd="18dp"
+            android:paddingBottom="28dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="210dp"
+                android:background="@drawable/main_menu_card"
+                android:clipToOutline="true"
+                android:contentDescription="@string/about_us_image_description"
+                android:scaleType="centerCrop"
+                android:src="@drawable/image_aboutus_v2" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:gravity="center"
+                android:text="@string/about_us_hero_title"
+                android:textColor="@color/colorSecondary"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:gravity="center"
+                android:lineSpacingExtra="2dp"
+                android:text="@string/about_us_subtitle"
+                android:textColor="#647383"
+                android:textSize="14sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:background="@drawable/main_menu_card"
+                android:orientation="vertical"
+                android:padding="18dp">
+
+                <TextView style="@style/InsightTitle" android:text="@string/about_why_title" />
+                <TextView style="@style/InsightDescription" android:layout_marginTop="7dp" android:text="@string/about_why_body" />
+
+                <TextView style="@style/InsightTitle" android:layout_marginTop="20dp" android:text="@string/about_manage_title" />
+                <TextView style="@style/InsightDescription" android:layout_marginTop="7dp" android:text="@string/about_manage_body" />
+
+                <TextView style="@style/InsightTitle" android:layout_marginTop="20dp" android:text="@string/about_privacy_title" />
+                <TextView style="@style/InsightDescription" android:layout_marginTop="7dp" android:text="@string/about_privacy_body" />
+
+                <TextView style="@style/InsightTitle" android:layout_marginTop="20dp" android:text="@string/about_independent_title" />
+                <TextView style="@style/InsightDescription" android:layout_marginTop="7dp" android:text="@string/about_independent_body" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/main_menu_card"
+                android:orientation="vertical"
+                android:padding="18dp">
+
+                <TextView style="@style/InsightTitle" android:text="@string/about_contact_title" />
+
+                <TextView
+                    android:id="@+id/aboutContact"
+                    style="@style/InsightDescription"
+                    android:layout_marginTop="7dp"
+                    android:text="@string/about_contact_body"
+                    android:textColor="@color/colorPrimary" />
+
+                <TextView
+                    android:id="@+id/aboutVersion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:textColor="#647383"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

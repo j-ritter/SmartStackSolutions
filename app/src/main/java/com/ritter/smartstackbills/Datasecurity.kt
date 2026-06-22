@@ -10,6 +10,6 @@ class Datasecurity : BaseInfoActivity() {
             R.string.data_security_subtitle,
             R.drawable.ic_nav_security
         )
-        showExpandableContent("data_security_question", "data_security_answer", 14)
+        showExpandableContent("data_security_question", "data_security_answer", 15)
     }
 }

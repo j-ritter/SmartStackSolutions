@@ -23,6 +23,9 @@
         <meta-data
             android:name="android.supportedLocales"
             android:value="en,es,de,fr,pt,pl" />
+        <meta-data
+            android:name="com.google.mlkit.vision.DEPENDENCIES"
+            android:value="ocr" />
 
         <!-- AdMob Application ID -->
         <meta-data
@@ -48,6 +51,12 @@
             android:exported="false" />
         <activity
             android:name=".Help"
+            android:exported="false" />
+        <activity
+            android:name=".GettingStartedActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DocumentScanActivity"
             android:exported="false" />
         <activity
             android:name=".Datasecurity"

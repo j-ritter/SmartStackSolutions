@@ -203,7 +203,7 @@
 
     <string name="faqs_question_6">6. ¿Es posible escanear pagos?</string>
     <string name="faqs_answer_6">
-    Respuesta: Puedes subir un documento en SmartStack Solutions, pero la función de escaneo automático aún no está disponible.
+    Respuesta: Sí. Al crear un pago abierto, gasto completado o ingreso, elige Escanear documento. SmartStack recorta el documento, reconoce el texto impreso en el dispositivo y sugiere título, importe, fecha, proveedor o pagador. Revisa todas las sugerencias antes de guardar.
 </string>
 
     <string name="faqs_question_7">7. ¿Puedo hacer un seguimiento de mis ingresos con SmartStack Solutions?</string>
@@ -396,4 +396,63 @@
     <string name="source_payer">Fuente / pagador</string>
     <string name="source_payer_hint">Empleador, cliente, inquilino, institución…</string>
     <string name="recurrence_one_year_explanation">SmartStack prepara entradas recurrentes para los próximos 12 meses para mantener tu panorama actualizado y manejable.</string>
+    <string name="balance">Saldo</string>
+    <string name="category_changes_info_title">Cómo se calculan los cambios por categoría</string>
+    <string name="category_changes_info_message">El mes seleccionado se compara con el promedio mensual de los meses anteriores del periodo elegido de seis o doce meses.\n\nCambio = importe del mes seleccionado menos el promedio mensual anterior, dividido entre ese promedio.\n\nLa flecha hacia arriba indica un aumento y la flecha hacia abajo una disminución. Un guion indica que no hubo gastos anteriores para calcular un porcentaje. Se muestran las cuatro categorías principales del mes seleccionado.</string>
+    <string name="category_changes_info_content_description">Explicar cambios por categoría</string>
+    <string name="dashboard_welcome_title">Crea tu primer resumen financiero</string>
+    <string name="dashboard_welcome_message">Comienza con un próximo pago. Los ingresos y gastos completados formarán poco a poco tu panorama mensual.</string>
+    <string name="dashboard_welcome_steps">1. Añade un próximo pago\n2. Añade ingresos para calcular tu saldo\n3. Marca pagos como pagados para desbloquear análisis</string>
+    <string name="add_first_payment">Añadir primer pago</string>
+    <string name="how_smartstack_works">Cómo funciona SmartStack</string>
+    <string name="dashboard_tutorial_title">Tu flujo de SmartStack</string>
+    <string name="dashboard_tutorial_message">Los pagos abiertos muestran lo que aún está pendiente. Al marcar uno como pagado, pasa al historial de gastos completados. Los ingresos y objetivos de ahorro completan el resumen mensual, mientras los recordatorios y análisis señalan lo que requiere atención.</string>
+    <string name="about_us_hero_title">Claridad para tus finanzas diarias</string>
+    <string name="about_why_title">Por qué existe SmartStack</string>
+    <string name="about_why_body">Organizar las finanzas debe ser comprensible, no abrumador. SmartStack reúne pagos, gastos, ingresos, objetivos de ahorro y recordatorios en una vista mensual clara.</string>
+    <string name="about_manage_title">Lo que SmartStack te ayuda a gestionar</string>
+    <string name="about_manage_body">Controla vencimientos, pagos atrasados, compromisos recurrentes, categorías de gasto y el saldo disponible de cada mes.</string>
+    <string name="about_privacy_title">Diseñado pensando en la privacidad</string>
+    <string name="about_privacy_body">La aplicación recopila únicamente la información necesaria. Las imágenes adjuntas permanecen en el almacenamiento privado de la aplicación en este dispositivo y no se suben a Firebase.</string>
+    <string name="about_independent_title">Desarrollado de forma independiente</string>
+    <string name="about_independent_body">SmartStack se desarrolla de forma independiente, con atención a la utilidad, límites justos y mejoras continuas. Es una herramienta de organización y no ofrece asesoramiento financiero, fiscal ni de inversión.</string>
+    <string name="about_contact_title">Preguntas y comentarios</string>
+    <string name="about_contact_body">Tus comentarios ayudan a mejorar SmartStack. Contacto: service@smartstack-solutions.com.</string>
+    <string name="about_version">Versión de la aplicación %1$s</string>
+    <string name="income_attachment">Adjunto de ingreso</string>
+    <string name="data_security_question_15">15. ¿Dónde se almacenan las imágenes adjuntas?</string>
+    <string name="data_security_answer_15">Respuesta: Las imágenes adjuntas se copian al almacenamiento privado de la aplicación en este dispositivo. Firebase guarda el registro financiero y su referencia local, pero la imagen no se sube ni se sincroniza. Conserva una copia adicional de los documentos importantes.</string>
+    <string name="getting_started_title">Primeros pasos</string>
+    <string name="getting_started_hero_title">Tu primer mes con SmartStack</string>
+    <string name="getting_started_intro">Sigue este flujo sencillo para convertir entradas individuales en un resumen mensual útil.</string>
+    <string name="guide_step_1_title">Añade lo que aún debes pagar</string>
+    <string name="guide_step_1_description">Elige entrada manual o escanea un documento. Añade vencimiento y repetición, y revisa todas las sugerencias antes de guardar.</string>
+    <string name="guide_step_2_title">Registra tus ingresos</string>
+    <string name="guide_step_2_description">Añade ingresos recurrentes o únicos para que el panel calcule tu saldo mensual previsto.</string>
+    <string name="guide_step_3_title">Marca los pagos como pagados</string>
+    <string name="guide_step_3_description">Activa la casilla de pagado al completar un pago. Se moverá automáticamente al historial de gastos.</string>
+    <string name="guide_step_4_title">Comprende tu mes</string>
+    <string name="guide_step_4_description">Revisa pagos, ingresos, ahorro, categorías y análisis financieros desde el panel principal.</string>
+    <string name="guide_step_5_title">Mantente al día</string>
+    <string name="guide_step_5_description">Usa recordatorios, entradas recurrentes y el calendario para controlar fechas y reducir tareas repetitivas.</string>
+    <string name="getting_started_open_faq">¿Todavía tienes preguntas? Abrir preguntas frecuentes</string>
+    <string name="help_getting_started_title">Guía de primeros pasos</string>
+    <string name="help_getting_started_description">Aprende el flujo recomendado para pagos, ingresos, recordatorios y análisis mensuales.</string>
+    <string name="entry_method_subtitle">Elige la opción más rápida para esta entrada.</string>
+    <string name="entry_method_open_payment">¿Cómo quieres añadir este pago abierto?</string>
+    <string name="entry_method_closed_payment">¿Cómo quieres añadir este gasto completado?</string>
+    <string name="entry_method_income">¿Cómo quieres añadir este ingreso?</string>
+    <string name="scan_document">Escanear documento</string>
+    <string name="scan_document_description">Toma una foto o selecciona una imagen y revisa los datos sugeridos.</string>
+    <string name="enter_manually">Introducir manualmente</string>
+    <string name="enter_manually_description">Abre un formulario vacío e introduce los datos.</string>
+    <string name="scan_and_prefill">Escanear y completar campos</string>
+    <string name="preparing_document_scanner">Preparando el escáner de documentos…</string>
+    <string name="reading_document">Leyendo el documento y preparando sugerencias…</string>
+    <string name="document_text_not_recognized">El documento se adjuntó, pero no se pudo reconocer el texto. Introduce los datos manualmente.</string>
+    <string name="document_scan_failed_title">No se pudo escanear el documento</string>
+    <string name="document_scan_failed_message">Inténtalo de nuevo con un documento claro y bien iluminado o continúa manualmente.</string>
+    <string name="try_again">Intentar de nuevo</string>
+    <string name="faqs_question_20">20. ¿Qué precisión tiene el escaneo de documentos?</string>
+    <string name="faqs_answer_20">Respuesta: El escaneo reduce la escritura, pero no sustituye tu revisión. El resultado depende de la calidad de imagen, diseño, idioma y presencia de varias fechas o importes. SmartStack puede elegir un total, fecha, proveedor o pagador incorrecto. Verifica cada campo antes de guardar. El procesamiento se realiza en el dispositivo y el documento no se sube a Firebase mediante esta función.</string>
 </resources>

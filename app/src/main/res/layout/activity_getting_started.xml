@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/gettingStartedRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F7FA"
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/gettingStartedToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/white"
+        android:elevation="2dp"
+        app:navigationIcon="@drawable/ic_arrow_back"
+        app:navigationIconTint="@color/colorSecondary"
+        app:title="@string/getting_started_title"
+        app:titleCentered="true"
+        app:titleTextColor="@color/colorSecondary" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="18dp"
+            android:paddingTop="20dp"
+            android:paddingEnd="18dp"
+            android:paddingBottom="30dp">
+
+            <ImageView
+                android:layout_width="160dp"
+                android:layout_height="92dp"
+                android:layout_gravity="center_horizontal"
+                android:contentDescription="@null"
+                android:scaleType="centerInside"
+                android:src="@drawable/logo_smartstack" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="@string/getting_started_hero_title"
+                android:textColor="@color/colorSecondary"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:gravity="center"
+                android:lineSpacingExtra="2dp"
+                android:text="@string/getting_started_intro"
+                android:textColor="#647383"
+                android:textSize="14sp" />
+
+            <LinearLayout
+                android:id="@+id/gettingStartedSteps"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:orientation="vertical" />
+
+            <Button
+                android:id="@+id/gettingStartedAddPayment"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/tutorial_primary_button"
+                android:backgroundTint="@null"
+                android:text="@string/add_first_payment"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/gettingStartedFaq"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="8dp"
+                android:background="@android:color/transparent"
+                android:text="@string/getting_started_open_faq"
+                android:textAllCaps="false"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

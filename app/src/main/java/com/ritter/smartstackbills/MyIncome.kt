@@ -2,6 +2,7 @@
 
 import android.app.Dialog
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -30,6 +31,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import java.text.SimpleDateFormat
+import java.io.File
 import java.util.Locale
 import kotlin.collections.ArrayList
 
@@ -308,18 +310,27 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
         val btnSaveChanges = dialog.findViewById<Button>(R.id.btnSaveChangesIncome)
         val btnEditChanges = dialog.findViewById<ImageView>(R.id.imgEditIncome)
         val btnDelete = dialog.findViewById<ImageView>(R.id.imgDeleteIncome)
+        val attachmentView = dialog.findViewById<ImageView>(R.id.edtAttachmentDialogIncome)
 
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         val incomeDateString = if (income.date != null) dateFormat.format(income.date.toDate()) else ""
 
         edtTitleDialog.setText(income.name)
         edtAmountDialog.setText(String.format(Locale.getDefault(), "%.2f", income.amount))
-        edtCategoryDialog.setText(income.category)
-        edtSubcategoryDialog.setText(income.subcategory)
+        edtCategoryDialog.setText(FinancialEntryOptions.displayCategory(this, income.category))
+        edtSubcategoryDialog.setText(
+            FinancialEntryOptions.displaySubcategory(this, income.category, income.subcategory)
+        )
         edtDateDialog.setText(incomeDateString)
         edtRepeatDialog.setText(income.repeat)
         edtCommentDialog.setText(income.comment)
         edtSourceDialog.setText(income.source.orEmpty())
+        if (income.attachment.isNullOrBlank()) {
+            attachmentView.visibility = View.GONE
+        } else {
+            attachmentView.setImageURI(Uri.parse(income.attachment))
+            attachmentView.visibility = View.VISIBLE
+        }
 
         // Disable inputs initially
         edtTitleDialog.isEnabled = false
@@ -415,6 +426,7 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
             .document(income.incomeId)
             .delete()
             .addOnSuccessListener {
+                deleteLocalAttachmentIfUnused(userUid, income.attachment)
                 Toast.makeText(this, R.string.income_deleted, Toast.LENGTH_SHORT).show()
                 dialog.dismiss()
             }
@@ -444,6 +456,7 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
                 documentsToDelete.forEach { batch.delete(it.reference) }
                 batch.commit()
                     .addOnSuccessListener {
+                        deleteLocalAttachmentIfUnused(userUid, selected.attachment)
                         Toast.makeText(this, R.string.all_recurring_income_deleted, Toast.LENGTH_SHORT).show()
                         dialog.dismiss()
                     }
@@ -453,6 +466,22 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
             }
             .addOnFailureListener {
                 Toast.makeText(this, R.string.income_delete_failed, Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    private fun deleteLocalAttachmentIfUnused(userUid: String, attachment: String?) {
+        if (attachment.isNullOrBlank()) return
+        db.collection("users").document(userUid).collection("income")
+            .whereEqualTo("attachment", attachment)
+            .limit(1)
+            .get()
+            .addOnSuccessListener { remaining ->
+                if (remaining.isEmpty) {
+                    runCatching {
+                        val uri = Uri.parse(attachment)
+                        if (uri.scheme == "file") File(uri.path.orEmpty()).delete()
+                    }
+                }
             }
     }
 
@@ -535,7 +564,7 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
     private fun updateUnreadCountBadge(badgeCountTextView: TextView?) {
         val unreadCount = NotificationsActivity.getUnreadNotificationCount(this)
         if (unreadCount > 0) {
-            badgeCountTextView?.text = unreadCount.toString()
+            badgeCountTextView?.text = if (unreadCount > 99) "99+" else unreadCount.toString()
             badgeCountTextView?.visibility = View.VISIBLE // Show the badge
         } else {
             badgeCountTextView?.visibility = View.GONE // Hide the badge if no unread notifications
@@ -556,9 +585,7 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
     }
 
     private fun openCreateIncome() {
-        val intent = Intent(this, createIncome::class.java)
-        intent.putExtra(AuthUtils.EXTRA_USER_EMAIL, userEmail)
-        startActivity(intent)
+        EntryCreationFlow.show(this, EntryType.INCOME, userEmail)
     }
 
     private fun styleDetailsDialogWindow(dialog: Dialog) {

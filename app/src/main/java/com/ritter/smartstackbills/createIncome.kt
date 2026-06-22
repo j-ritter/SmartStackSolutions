@@ -1,17 +1,23 @@
 package com.ritter.smartstackbills
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.text.InputType
 import android.view.View
 import android.widget.*
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.FileProvider
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import java.io.File
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -19,6 +25,21 @@ class createIncome : AppCompatActivity() {
     private val db = FirebaseFirestore.getInstance()
     private var userEmail: String? = null
     private var userUid: String? = null
+    private var imageUri: Uri? = null
+    private var pendingCameraFile: File? = null
+
+    private val takePictureLauncher =
+        registerForActivityResult(ActivityResultContracts.TakePicture()) { saved ->
+            val file = pendingCameraFile
+            imageUri = if (saved && file?.exists() == true) Uri.fromFile(file) else null
+            updateAttachmentStatus()
+        }
+
+    private val chooseImageLauncher =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { sourceUri ->
+            imageUri = sourceUri?.let { copyImageToAppStorage(it) }
+            updateAttachmentStatus()
+        }
 
     val repeatOptions = arrayOf(
         "No", "Weekly", "Every 2 Weeks", "Monthly", "Every 2 Months", "Quarterly", "Every 6 months", "Yearly"
@@ -80,10 +101,14 @@ class createIncome : AppCompatActivity() {
         spinnerRepeat.adapter = arrayAdapterRepeat
 
         loadCategories(spinnerCategories)
-        spinnerCategories.selectedItem?.let { loadSubcategories(it.toString(), spinnerSubcategories) }
+        spinnerCategories.selectedItem?.let {
+            loadSubcategories(FinancialEntryOptions.selectedKey(it), spinnerSubcategories)
+        }
         spinnerCategories.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                spinnerCategories.selectedItem?.let { loadSubcategories(it.toString(), spinnerSubcategories) }
+                spinnerCategories.selectedItem?.let {
+                    loadSubcategories(FinancialEntryOptions.selectedKey(it), spinnerSubcategories)
+                }
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) = Unit
@@ -96,6 +121,29 @@ class createIncome : AppCompatActivity() {
         val btnCancel = findViewById<Button>(R.id.btnCancelIncome)
         btnCancel.setOnClickListener {
             finish()
+        }
+        findViewById<Button>(R.id.btnUploadImageIncome).setOnClickListener {
+            handleImageUpload()
+        }
+        applyScanPrefill()
+    }
+
+    private fun applyScanPrefill() {
+        intent.getStringExtra(ScanPrefill.EXTRA_SCAN_TITLE)?.takeIf { it.isNotBlank() }?.let {
+            findViewById<EditText>(R.id.edtTitleIncome).setText(it)
+        }
+        intent.getStringExtra(ScanPrefill.EXTRA_SCAN_AMOUNT)?.takeIf { it.isNotBlank() }?.let {
+            findViewById<EditText>(R.id.edtAmountIncome).setText(it)
+        }
+        intent.getStringExtra(ScanPrefill.EXTRA_SCAN_DATE)?.takeIf { it.isNotBlank() }?.let {
+            findViewById<EditText>(R.id.edtDateIncome).setText(it)
+        }
+        intent.getStringExtra(ScanPrefill.EXTRA_SCAN_PARTY)?.takeIf { it.isNotBlank() }?.let {
+            findViewById<EditText>(R.id.edtSourceIncome).setText(it)
+        }
+        intent.getStringExtra(ScanPrefill.EXTRA_SCAN_ATTACHMENT)?.takeIf { it.isNotBlank() }?.let {
+            imageUri = Uri.parse(it)
+            updateAttachmentStatus()
         }
     }
 
@@ -145,10 +193,15 @@ class createIncome : AppCompatActivity() {
                 val incomeAmount = findViewById<EditText>(R.id.edtAmountIncome).text.toString().toDoubleOrNull() ?: 0.0
                 val incomeSource = findViewById<EditText>(R.id.edtSourceIncome).text.toString().trim()
                 val incomeDateString = findViewById<EditText>(R.id.edtDateIncome).text.toString()
-                val incomeCategory = findViewById<Spinner>(R.id.spinnerCategoriesIncome).selectedItem?.toString() ?: "-"
-                val incomeSubcategory = findViewById<Spinner>(R.id.spinnerSubcategoriesIncome).selectedItem?.toString() ?: "-"
+                val incomeCategory = FinancialEntryOptions.selectedKey(
+                    findViewById<Spinner>(R.id.spinnerCategoriesIncome).selectedItem
+                ).ifBlank { "-" }
+                val incomeSubcategory = FinancialEntryOptions.selectedKey(
+                    findViewById<Spinner>(R.id.spinnerSubcategoriesIncome).selectedItem
+                ).ifBlank { "-" }
                 val incomeRepeat = findViewById<Spinner>(R.id.spinnerRepeatIncome).selectedItem.toString()
                 val incomeComment = findViewById<EditText>(R.id.edtCommentIncome).text.toString()
+                val incomeAttachment = imageUri?.toString()
 
                 // Convert String to Date
                 val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
@@ -159,43 +212,62 @@ class createIncome : AppCompatActivity() {
                 }
                 val timestamp = incomeDate?.let { com.google.firebase.Timestamp(it) }
 
-                val income = hashMapOf(
-                    "name" to incomeTitle,
-                    "amount" to incomeAmount,
-                    "date" to timestamp,  // Save the Timestamp
-                    "category" to incomeCategory,
-                    "subcategory" to incomeSubcategory,
-                    "repeat" to incomeRepeat,
-                    "comment" to incomeComment,
-                    "source" to incomeSource,
-                )
+                if (incomeDate != null) {
+                    val saveButton = findViewById<Button>(R.id.btnSaveIncome)
+                    saveButton.isEnabled = false
+                    UsageLimits.checkIncomeCreation(this, uid, incomeRepeat, incomeDate) { allowed, messageRes ->
+                        if (!allowed) {
+                            saveButton.isEnabled = true
+                            Toast.makeText(
+                                this,
+                                messageRes ?: R.string.usage_limit_check_failed,
+                                Toast.LENGTH_LONG
+                            ).show()
+                            return@checkIncomeCreation
+                        }
 
-                val docRef = db.collection("users").document(uid).collection("income").document()
-                val incomeId = docRef.id
-                income["incomeId"] = incomeId
-                income["parentIncomeId"] = incomeId
+                        val income = hashMapOf(
+                            "name" to incomeTitle,
+                            "amount" to incomeAmount,
+                            "date" to timestamp,
+                            "category" to incomeCategory,
+                            "subcategory" to incomeSubcategory,
+                            "repeat" to incomeRepeat,
+                            "isRecurring" to (incomeRepeat != "No"),
+                            "comment" to incomeComment,
+                            "source" to incomeSource,
+                            "attachment" to incomeAttachment,
+                        )
 
-                val batch = db.batch()
-                batch.set(docRef, income)
-                if (incomeRepeat != "No" && incomeDate != null) {
-                    addRecurringIncomeToBatch(
-                        batch, uid, incomeTitle, incomeAmount, incomeDate,
-                        incomeCategory, incomeSubcategory, incomeRepeat,
-                        incomeComment, incomeSource, incomeId
-                    )
+                        val docRef = db.collection("users").document(uid).collection("income").document()
+                        val incomeId = docRef.id
+                        income["incomeId"] = incomeId
+                        income["parentIncomeId"] = incomeId
+
+                        val batch = db.batch()
+                        batch.set(docRef, income)
+                        if (incomeRepeat != "No") {
+                            addRecurringIncomeToBatch(
+                                batch, uid, incomeTitle, incomeAmount, incomeDate,
+                                incomeCategory, incomeSubcategory, incomeRepeat,
+                                incomeComment, incomeSource, incomeAttachment, incomeId
+                            )
+                        }
+
+                        batch.commit()
+                            .addOnSuccessListener {
+                                Toast.makeText(this, R.string.income_saved, Toast.LENGTH_SHORT).show()
+                                val intent = Intent(this, MyIncome::class.java)
+                                intent.putExtra(AuthUtils.EXTRA_USER_EMAIL, userEmail)
+                                startActivity(intent)
+                                finish()
+                            }
+                            .addOnFailureListener { e ->
+                                saveButton.isEnabled = true
+                                Toast.makeText(this, getString(R.string.income_save_failed, e.message.orEmpty()), Toast.LENGTH_SHORT).show()
+                            }
+                    }
                 }
-
-                batch.commit()
-                    .addOnSuccessListener {
-                        Toast.makeText(this, R.string.income_saved, Toast.LENGTH_SHORT).show()
-                        val intent = Intent(this, MyIncome::class.java)
-                        intent.putExtra(AuthUtils.EXTRA_USER_EMAIL, userEmail)
-                        startActivity(intent)
-                        finish()
-                    }
-                    .addOnFailureListener { e ->
-                        Toast.makeText(this, getString(R.string.income_save_failed, e.message.orEmpty()), Toast.LENGTH_SHORT).show()
-                    }
             } else {
                 Toast.makeText(this, "Error: Unable to retrieve user UID", Toast.LENGTH_SHORT).show()
             }
@@ -204,7 +276,8 @@ class createIncome : AppCompatActivity() {
     private fun addRecurringIncomeToBatch(
         batch: com.google.firebase.firestore.WriteBatch,
         uid: String, incomeTitle: String, incomeAmount: Double, incomeDate: Date, incomeCategory: String, incomeSubcategory: String,
-        incomeRepeat: String, incomeComment: String, incomeSource: String, parentIncomeId: String
+        incomeRepeat: String, incomeComment: String, incomeSource: String,
+        incomeAttachment: String?, parentIncomeId: String
     ) {
         val calendar = Calendar.getInstance()
         calendar.time = incomeDate
@@ -239,8 +312,10 @@ class createIncome : AppCompatActivity() {
                 "category" to incomeCategory,
                 "subcategory" to incomeSubcategory,
                 "repeat" to incomeRepeat,
+                "isRecurring" to true,
                 "comment" to incomeComment,
                 "source" to incomeSource,
+                "attachment" to incomeAttachment,
                 "parentIncomeId" to parentIncomeId,  // Link to the original income
                 "incomeId" to newIncomeId
             )
@@ -274,13 +349,94 @@ class createIncome : AppCompatActivity() {
     }
 
     private fun loadCategories(spinnerCategories: Spinner) {
-        val arrayAdapterCategories = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, FinancialEntryOptions.incomeCategories)
+        val arrayAdapterCategories = ArrayAdapter(
+            this,
+            android.R.layout.simple_spinner_dropdown_item,
+            FinancialEntryOptions.incomeCategories(this)
+        )
         spinnerCategories.adapter = arrayAdapterCategories
     }
 
     private fun loadSubcategories(category: String, spinnerSubcategories: Spinner) {
-        val subcategories = FinancialEntryOptions.incomeSubcategories[category] ?: emptyArray()
+        val subcategories = FinancialEntryOptions.incomeSubcategories(this, category)
         val arrayAdapterSubcategories = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, subcategories)
         spinnerSubcategories.adapter = arrayAdapterSubcategories
+    }
+
+    private fun handleImageUpload() {
+        AlertDialog.Builder(this)
+            .setTitle(R.string.add_attachment)
+            .setItems(
+                arrayOf(
+                    getString(R.string.scan_and_prefill),
+                    getString(R.string.take_photo),
+                    getString(R.string.choose_from_gallery),
+                    getString(R.string.cancel)
+                )
+            ) { dialog, which ->
+                when (which) {
+                    0 -> {
+                        startActivity(Intent(this, DocumentScanActivity::class.java).apply {
+                            putExtra(DocumentScanActivity.EXTRA_ENTRY_TYPE, EntryType.INCOME.wireValue)
+                            putExtra(AuthUtils.EXTRA_USER_EMAIL, userEmail)
+                        })
+                        finish()
+                    }
+                    1 -> dispatchTakePictureIntent()
+                    2 -> chooseImageLauncher.launch("image/*")
+                    else -> dialog.dismiss()
+                }
+            }
+            .show()
+    }
+
+    private fun dispatchTakePictureIntent() {
+        val photoFile = try {
+            createImageFile()
+        } catch (_: IOException) {
+            null
+        }
+        if (photoFile == null) {
+            updateAttachmentStatus()
+            return
+        }
+        pendingCameraFile = photoFile
+        val photoUri = FileProvider.getUriForFile(
+            this,
+            "${applicationContext.packageName}.provider",
+            photoFile
+        )
+        takePictureLauncher.launch(photoUri)
+    }
+
+    private fun updateAttachmentStatus() {
+        findViewById<TextView>(R.id.txtImageAddedIncome).apply {
+            text = getString(
+                if (imageUri != null) R.string.attachment_added else R.string.attachment_failed
+            )
+            visibility = View.VISIBLE
+        }
+    }
+
+    private fun copyImageToAppStorage(sourceUri: Uri): Uri? {
+        return try {
+            val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())
+            val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES) ?: return null
+            val outputFile = File(storageDir, "INCOME_${timeStamp}.jpg")
+            contentResolver.openInputStream(sourceUri)?.use { input ->
+                outputFile.outputStream().use { output -> input.copyTo(output) }
+            } ?: return null
+            Uri.fromFile(outputFile)
+        } catch (_: Exception) {
+            null
+        }
+    }
+
+    @Throws(IOException::class)
+    private fun createImageFile(): File {
+        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())
+        val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+            ?: throw IOException("Pictures directory unavailable")
+        return File.createTempFile("INCOME_${timeStamp}_", ".jpg", storageDir)
     }
 }

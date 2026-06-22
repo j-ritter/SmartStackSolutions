@@ -317,8 +317,10 @@ class CalendarActivity : AppCompatActivity(), MyAdapterCalendar.OnItemClickListe
                 }
             )
         )
-        edtCategoryDialog.setText(bill.category.orEmpty())
-        edtSubcategoryDialog.setText(bill.subcategory.orEmpty())
+        edtCategoryDialog.setText(FinancialEntryOptions.displayCategory(this, bill.category))
+        edtSubcategoryDialog.setText(
+            FinancialEntryOptions.displaySubcategory(this, bill.category, bill.subcategory)
+        )
         edtVendorDialog.setText(bill.vendor.orEmpty())
         edtDateDialog.setText(billDateString)
         edtRepeatDialog.setText(bill.repeat.orEmpty())
@@ -350,8 +352,10 @@ class CalendarActivity : AppCompatActivity(), MyAdapterCalendar.OnItemClickListe
         edtTitleDialog.setText(spending.name.orEmpty())
         edtAmountDialog.setText(String.format(Locale.getDefault(), "%.2f", spending.amount))
 
-        edtCategoryDialog.setText(spending.category.orEmpty())
-        edtSubcategoryDialog.setText(spending.subcategory.orEmpty())
+        edtCategoryDialog.setText(FinancialEntryOptions.displayCategory(this, spending.category))
+        edtSubcategoryDialog.setText(
+            FinancialEntryOptions.displaySubcategory(this, spending.category, spending.subcategory)
+        )
         edtVendorDialog.setText(spending.vendor.orEmpty())
         edtDateDialog.setText(spendingDateString)
         edtCommentDialog.setText(spending.comment.orEmpty())
@@ -374,6 +378,8 @@ class CalendarActivity : AppCompatActivity(), MyAdapterCalendar.OnItemClickListe
         val edtRepeatDialog = dialogIncome.findViewById<EditText>(R.id.edtRepeatDialogIncome)
         val edtCommentDialog = dialogIncome.findViewById<EditText>(R.id.edtCommentDialogIncome)
         val edtSourceDialog = dialogIncome.findViewById<EditText>(R.id.edtSourceDialogIncome)
+        val attachmentView =
+            dialogIncome.findViewById<ImageView>(R.id.edtAttachmentDialogIncome)
 
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         val incomeDateString = income.date?.let { dateFormat.format(it.toDate()) } ?: ""
@@ -381,12 +387,20 @@ class CalendarActivity : AppCompatActivity(), MyAdapterCalendar.OnItemClickListe
         edtTitleDialog.setText(income.name.orEmpty())
         edtAmountDialog.setText(String.format(Locale.getDefault(), "%.2f", income.amount))
 
-        edtCategoryDialog.setText(income.category.orEmpty())
-        edtSubcategoryDialog.setText(income.subcategory.orEmpty())
+        edtCategoryDialog.setText(FinancialEntryOptions.displayCategory(this, income.category))
+        edtSubcategoryDialog.setText(
+            FinancialEntryOptions.displaySubcategory(this, income.category, income.subcategory)
+        )
         edtDateDialog.setText(incomeDateString)
         edtRepeatDialog.setText(income.repeat.orEmpty())
         edtCommentDialog.setText(income.comment.orEmpty())
         edtSourceDialog.setText(income.source.orEmpty())
+        if (income.attachment.isNullOrBlank()) {
+            attachmentView.visibility = View.GONE
+        } else {
+            attachmentView.setImageURI(Uri.parse(income.attachment))
+            attachmentView.visibility = View.VISIBLE
+        }
 
         dialogIncome.show()
         styleDetailsDialogWindow(dialogIncome)
@@ -419,7 +433,7 @@ class CalendarActivity : AppCompatActivity(), MyAdapterCalendar.OnItemClickListe
     private fun updateUnreadCountBadge(badgeCountTextView: TextView?) {
         val unreadCount = NotificationsActivity.getUnreadNotificationCount(this)
         if (unreadCount > 0) {
-            badgeCountTextView?.text = unreadCount.toString()
+            badgeCountTextView?.text = if (unreadCount > 99) "99+" else unreadCount.toString()
             badgeCountTextView?.visibility = View.VISIBLE // Show the badge
         } else {
             badgeCountTextView?.visibility = View.GONE // Hide the badge if no unread notifications

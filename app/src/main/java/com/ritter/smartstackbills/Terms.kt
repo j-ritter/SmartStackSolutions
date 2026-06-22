@@ -10,6 +10,6 @@ class Terms : BaseInfoActivity() {
             R.string.terms_subtitle,
             R.drawable.ic_nav_terms
         )
-        showTextContent(R.string.terms_and_conditions_content, autoLinkEmail = true)
+        showExpandableContent("terms_section_title", "terms_section_body", 10)
     }
 }

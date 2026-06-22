@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="expense_category_labels">
+        <item>Moradia e serviços</item><item>Comunicação</item><item>Seguros</item><item>Assinaturas</item><item>Transporte</item><item>Obrigações financeiras</item><item>Impostos</item><item>Saúde</item><item>Educação</item><item>Compras e cuidados pessoais</item><item>Supermercado</item><item>Família e cuidados infantis</item><item>Animais de estimação</item><item>Viagens e lazer</item><item>Outros</item>
+    </string-array>
+    <string-array name="expense_subcategories_housing"><item>Aluguel</item><item>Financiamento imobiliário</item><item>Serviços públicos</item><item>Manutenção e reparos</item><item>Móveis</item><item>Serviços domésticos</item><item>Outros</item></string-array>
+    <string-array name="expense_subcategories_communication"><item>Celular</item><item>Internet</item><item>TV</item><item>Armazenamento em nuvem</item><item>Outros</item></string-array>
+    <string-array name="expense_subcategories_insurance"><item>Saúde</item><item>Vida</item><item>Veículo</item><item>Residência</item><item>Viagem</item><item>Animal de estimação</item><item>Outros</item></string-array>
+    <string-array name="expense_subcategories_subscriptions"><item>Streaming</item><item>Música</item><item>Software</item><item>Associações</item><item>Notícias e publicações</item><item>Outros</item></string-array>
+    <string-array name="expense_subcategories_transportation"><item>Combustível</item><item>Transporte público</item><item>Manutenção do veículo</item><item>Estacionamento e pedágios</item><item>Táxi e transporte por aplicativo</item><item>Aluguel de veículo</item><item>Outros</item></string-array>
+    <string-array name="expense_subcategories_financial"><item>Pagamento de empréstimo</item><item>Pagamento de cartão de crédito</item><item>Tarifas bancárias</item><item>Juros e encargos</item><item>Honorários profissionais</item><item>Outros</item></string-array>
+    <string-array name="expense_subcategories_taxes"><item>Imposto de renda</item><item>Imposto sobre propriedade</item><item>Imposto sobre vendas ou IVA</item><item>Imposto empresarial</item><item>Outros</item></string-array>
+    <string-array name="expense_subcategories_health"><item>Médico</item><item>Dentista</item><item>Medicamentos</item><item>Saúde mental</item><item>Equipamento médico</item><item>Bem-estar</item><item>Outros</item></string-array>
+    <string-array name="expense_subcategories_education"><item>Mensalidade</item><item>Livros e materiais</item><item>Cursos</item><item>Educação infantil</item><item>Desenvolvimento profissional</item><item>Outros</item></string-array>
+    <string-array name="expense_subcategories_shopping"><item>Roupas</item><item>Eletrônicos</item><item>Artigos domésticos</item><item>Cuidados pessoais</item><item>Presentes</item><item>Outros</item></string-array>
+    <string-array name="expense_subcategories_groceries"><item>Alimentos</item><item>Itens essenciais do lar</item><item>Bebidas</item><item>Restaurantes e comida para viagem</item><item>Outros</item></string-array>
+    <string-array name="expense_subcategories_family"><item>Cuidados infantis</item><item>Pensão alimentícia</item><item>Artigos para bebê</item><item>Atividades familiares</item><item>Outros</item></string-array>
+    <string-array name="expense_subcategories_pets"><item>Alimentos</item><item>Cuidados veterinários</item><item>Seguro</item><item>Suprimentos</item><item>Outros</item></string-array>
+    <string-array name="expense_subcategories_travel"><item>Hospedagem</item><item>Voos</item><item>Atividades</item><item>Entretenimento</item><item>Outros</item></string-array>
+    <string-array name="expense_subcategories_other"><item>Doações</item><item>Questões jurídicas</item><item>Despesa inesperada</item><item>Diversos</item></string-array>
+    <string-array name="income_category_labels">
+        <item>Salário e remuneração</item><item>Freelance e trabalho autônomo</item><item>Receita empresarial</item><item>Receita de aluguel</item><item>Receita de investimentos</item><item>Aposentadoria e pensão</item><item>Benefícios e apoio</item><item>Bolsas e subsídios</item><item>Royalties</item><item>Presentes e heranças</item><item>Devoluções e reembolsos</item><item>Outras receitas</item>
+    </string-array>
+    <string-array name="income_subcategories_salary"><item>Salário regular</item><item>Horas extras</item><item>Bônus</item><item>Outros</item></string-array>
+    <string-array name="income_subcategories_freelance"><item>Honorário por serviço</item><item>Receita de projeto</item><item>Comissão</item><item>Outros</item></string-array>
+    <string-array name="income_subcategories_business"><item>Lucro empresarial</item><item>Participação nos lucros</item><item>Pagamento ao proprietário</item><item>Outros</item></string-array>
+    <string-array name="income_subcategories_rental"><item>Imóvel</item><item>Veículo</item><item>Equipamento</item><item>Outros</item></string-array>
+    <string-array name="income_subcategories_investment"><item>Dividendo</item><item>Juros</item><item>Ganho de capital</item><item>Outros</item></string-array>
+    <string-array name="income_subcategories_pension"><item>Aposentadoria pública</item><item>Pensão do empregador</item><item>Previdência privada</item><item>Outros</item></string-array>
+    <string-array name="income_subcategories_benefits"><item>Desemprego</item><item>Auxílio-doença</item><item>Benefício parental</item><item>Pensão alimentícia</item><item>Outros</item></string-array>
+    <string-array name="income_subcategories_scholarships"><item>Bolsa de estudos</item><item>Subsídio de pesquisa</item><item>Outros</item></string-array>
+    <string-array name="income_subcategories_royalties"><item>Livros</item><item>Música</item><item>Software</item><item>Patente</item><item>Outros</item></string-array>
+    <string-array name="income_subcategories_gifts"><item>Presente</item><item>Herança</item><item>Outros</item></string-array>
+    <string-array name="income_subcategories_refunds"><item>Reembolso de compra</item><item>Restituição de imposto</item><item>Reembolso de despesas</item><item>Outros</item></string-array>
+    <string-array name="income_subcategories_other"><item>Venda de item pessoal</item><item>Retorno de financiamento coletivo</item><item>Diversos</item></string-array>
+</resources>
