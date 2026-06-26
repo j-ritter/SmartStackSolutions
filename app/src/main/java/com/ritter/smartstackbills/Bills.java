@@ -5,7 +5,7 @@ import com.google.firebase.Timestamp;
 public class Bills {
 
     String billId;
-    String name, comment, category, vendor, repeat, subcategory, attachment;
+    String name, comment, category, vendor, repeat, subcategory, attachment, currency;
     String parentBillId;
     Timestamp date;
     double amount;
@@ -126,5 +126,13 @@ public class Bills {
 
     public void setParentBillId(String parentBillId) {
         this.parentBillId = parentBillId;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 }

@@ -67,7 +67,7 @@ public class MyAdapterIncome extends RecyclerView.Adapter<RecyclerView.ViewHolde
             Income income = (Income) itemsArrayList.get(position);
 
             incomeHolder.title.setText(income.getName());
-            incomeHolder.amount.setText(CurrencyPreferences.format(context, income.getAmount()));
+            incomeHolder.amount.setText(CurrencyPreferences.format(context, income.getAmount(), income.getCurrency()));
 
             incomeHolder.category.setText(
                     FinancialEntryOptions.displayCategory(context, income.getCategory())

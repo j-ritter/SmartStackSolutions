@@ -55,12 +55,90 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="16dp" />
 
+            <TextView
+                android:id="@+id/tvQuickEntryHintBill"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/quick_entry_hint"
+                android:textColor="#647383"
+                android:textSize="12sp" />
+
+            <LinearLayout
+                android:id="@+id/layoutTemplatesBill"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="vertical"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <LinearLayout
+                    android:id="@+id/templateToggleBill"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvUseTemplateBill"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/use_template"
+                        android:textColor="@color/colorSecondary"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/templateArrowBill"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:layout_marginStart="4dp"
+                        android:contentDescription="@string/use_template"
+                        android:src="@drawable/ic_arrow_down"
+                        app:tint="@color/colorPrimary" />
+                </LinearLayout>
+
+                <HorizontalScrollView
+                    android:id="@+id/templateScrollBill"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:overScrollMode="never"
+                    android:scrollbars="none"
+                    android:visibility="gone"
+                    tools:visibility="visible">
+
+                    <LinearLayout
+                        android:id="@+id/templateChipsBill"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal" />
+                </HorizontalScrollView>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvScanReviewHintBill"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/rounded_frame_background_blue"
+                android:paddingStart="14dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="14dp"
+                android:paddingBottom="10dp"
+                android:text="@string/scan_review_disclaimer"
+                android:textColor="#647383"
+                android:textSize="12sp"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
             <!-- Title Section -->
             <TextView
                 android:id="@+id/txtTitleLabelBill"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/title"
+                android:text="@string/title_optional"
                 android:textStyle="bold"
                 android:textColor="@color/colorSecondary"
                 android:textSize="13sp"
@@ -118,7 +196,8 @@
                     android:text="@string/paid"
                     android:textStyle="bold"
                     android:layout_gravity="center_vertical"
-                    android:enabled="false" />
+                    android:enabled="false"
+                    android:visibility="gone" />
             </LinearLayout>
 
             <!-- Date Section -->
@@ -146,6 +225,17 @@
                 android:textColor="@color/bill_color"
                 android:textSize="15sp" />
 
+            <TextView
+                android:id="@+id/tvMoreDetailsBill"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginTop="12dp"
+                android:gravity="center_vertical"
+                android:text="@string/show_details"
+                android:textColor="@color/colorPrimary"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
             <!-- Repeat Section -->
             <TextView
                 android:id="@+id/txtRepeatBill"
@@ -165,6 +255,7 @@
                 android:background="@drawable/rounded_frame_background_blue" />
 
             <TextView
+                android:id="@+id/tvRecurrenceNoteBill"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
@@ -259,6 +350,7 @@
 
             <!-- Attachment Section (corrected to match createSpending) -->
             <LinearLayout
+                android:id="@+id/layoutAttachmentBill"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -295,6 +387,32 @@
                     android:textStyle="bold"
                     android:layout_marginStart="16dp" />
             </LinearLayout>
+
+            <CheckBox
+                android:id="@+id/checkSaveTemplateBill"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:text="@string/save_as_template"
+                android:textColor="@color/colorSecondary"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/edtTemplateNameBill"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/rounded_frame_background_blue"
+                android:hint="@string/template_name_hint"
+                android:maxLength="30"
+                android:paddingStart="15dp"
+                android:paddingEnd="15dp"
+                android:textColor="@color/textPrimary"
+                android:textColorHint="#8A96A3"
+                android:textSize="15sp"
+                android:visibility="gone"
+                tools:visibility="visible" />
         </LinearLayout>
     </ScrollView>
 

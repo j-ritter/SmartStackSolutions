@@ -165,7 +165,7 @@ class CalendarActivity : AppCompatActivity(), MyAdapterCalendar.OnItemClickListe
     private fun setupCalendarDataListeners() {
         val userUid = FirebaseAuth.getInstance().currentUser?.uid
         if (userUid == null) {
-            Toast.makeText(this, "Error: User not authenticated", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.user_not_authenticated, Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -174,7 +174,7 @@ class CalendarActivity : AppCompatActivity(), MyAdapterCalendar.OnItemClickListe
             if (error != null) {
                 billsLoaded = true
                 updateSelectedDateEntries()
-                Toast.makeText(this, "Error loading bills: ${error.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.load_open_payments_failed, error.message.orEmpty()), Toast.LENGTH_SHORT).show()
                 return@addSnapshotListener
             }
             billsList.clear()
@@ -187,7 +187,7 @@ class CalendarActivity : AppCompatActivity(), MyAdapterCalendar.OnItemClickListe
             if (error != null) {
                 spendingsLoaded = true
                 updateSelectedDateEntries()
-                Toast.makeText(this, "Error loading spendings: ${error.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.load_closed_payments_failed, error.message.orEmpty()), Toast.LENGTH_SHORT).show()
                 return@addSnapshotListener
             }
             spendingList.clear()
@@ -200,7 +200,7 @@ class CalendarActivity : AppCompatActivity(), MyAdapterCalendar.OnItemClickListe
             if (error != null) {
                 incomeLoaded = true
                 updateSelectedDateEntries()
-                Toast.makeText(this, "Error loading income: ${error.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.load_income_failed, error.message.orEmpty()), Toast.LENGTH_SHORT).show()
                 return@addSnapshotListener
             }
             incomeList.clear()
@@ -306,7 +306,7 @@ class CalendarActivity : AppCompatActivity(), MyAdapterCalendar.OnItemClickListe
         val billDateString = bill.date?.let { dateFormat.format(it.toDate()) } ?: ""
 
         edtTitleDialog.setText(bill.name.orEmpty())
-        edtAmountDialog.setText(String.format(Locale.getDefault(), "%.2f", bill.amount))
+        edtAmountDialog.setText(CurrencyPreferences.formatPlain(bill.amount))
         edtAmountDialog.setTextColor(
             ContextCompat.getColor(
                 this,
@@ -350,7 +350,7 @@ class CalendarActivity : AppCompatActivity(), MyAdapterCalendar.OnItemClickListe
         val spendingDateString = spending.date?.let { dateFormat.format(it.toDate()) } ?: ""
 
         edtTitleDialog.setText(spending.name.orEmpty())
-        edtAmountDialog.setText(String.format(Locale.getDefault(), "%.2f", spending.amount))
+        edtAmountDialog.setText(CurrencyPreferences.formatPlain(spending.amount))
 
         edtCategoryDialog.setText(FinancialEntryOptions.displayCategory(this, spending.category))
         edtSubcategoryDialog.setText(
@@ -385,7 +385,7 @@ class CalendarActivity : AppCompatActivity(), MyAdapterCalendar.OnItemClickListe
         val incomeDateString = income.date?.let { dateFormat.format(it.toDate()) } ?: ""
 
         edtTitleDialog.setText(income.name.orEmpty())
-        edtAmountDialog.setText(String.format(Locale.getDefault(), "%.2f", income.amount))
+        edtAmountDialog.setText(CurrencyPreferences.formatPlain(income.amount))
 
         edtCategoryDialog.setText(FinancialEntryOptions.displayCategory(this, income.category))
         edtSubcategoryDialog.setText(
@@ -412,7 +412,7 @@ class CalendarActivity : AppCompatActivity(), MyAdapterCalendar.OnItemClickListe
             is Bills -> showBillDetailsDialog(item)
             is Spendings -> showSpendingsDetailsDialog(item)
             is Income -> showIncomeDetailsDialog(item)
-            else -> Toast.makeText(this, "Unknown item clicked", Toast.LENGTH_SHORT).show()
+            else -> Toast.makeText(this, R.string.unknown_item_clicked, Toast.LENGTH_SHORT).show()
         }
     }
 

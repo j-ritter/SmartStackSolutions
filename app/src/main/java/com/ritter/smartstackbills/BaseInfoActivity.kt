@@ -2,10 +2,13 @@ package com.ritter.smartstackbills
 
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.text.util.Linkify
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
+import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
@@ -17,6 +20,13 @@ import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.appbar.MaterialToolbar
 
 abstract class BaseInfoActivity : AppCompatActivity() {
+    private val accordionItems = mutableListOf<AccordionItem>()
+
+    private data class AccordionItem(
+        val root: View,
+        val question: TextView,
+        val answer: TextView
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,6 +80,8 @@ abstract class BaseInfoActivity : AppCompatActivity() {
     ) {
         val container = findViewById<LinearLayout>(R.id.infoAccordionContainer)
         container.visibility = View.VISIBLE
+        container.removeAllViews()
+        accordionItems.clear()
 
         repeat(count) { index ->
             val number = index + 1
@@ -102,6 +114,27 @@ abstract class BaseInfoActivity : AppCompatActivity() {
                 arrow.animate().rotation(if (expand) 180f else 0f).setDuration(180L).start()
             }
             container.addView(item)
+            accordionItems += AccordionItem(item, question, answer)
         }
+    }
+
+    protected fun enableAccordionSearch() {
+        val search = findViewById<EditText>(R.id.infoSearchInput)
+        search.visibility = View.VISIBLE
+        search.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
+            override fun afterTextChanged(s: Editable?) = Unit
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val query = s?.toString()?.trim()?.lowercase().orEmpty()
+                accordionItems.forEach { item ->
+                    val text = "${item.question.text} ${item.answer.text}".lowercase()
+                    item.root.visibility = if (query.isBlank() || text.contains(query)) {
+                        View.VISIBLE
+                    } else {
+                        View.GONE
+                    }
+                }
+            }
+        })
     }
 }

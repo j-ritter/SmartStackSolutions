@@ -10,6 +10,10 @@ object DocumentTextParser {
     private val numericDatePattern = Regex(
         """\b(\d{1,4}[-/.]\d{1,2}[-/.]\d{1,4})\b"""
     )
+    private val currencyCodePattern = Regex(
+        """\b(USD|EUR|GBP|JPY|CNY|CAD|AUD|CHF|INR|MXN|BRL|KRW|SGD|SEK|PLN)\b""",
+        RegexOption.IGNORE_CASE
+    )
     private val amountPriority = listOf(
         "amount due", "balance due", "total due", "grand total", "net pay", "net amount",
         "zahlbetrag", "gesamtbetrag", "fällig", "importe total", "total a pagar",
@@ -37,14 +41,27 @@ object DocumentTextParser {
         val amount = findAmount(lines, type)
         val date = findDate(lines, type)
         val party = findParty(lines)
+        val currency = findCurrency(text)
         return ScanPrefill(
             title = party,
-            amount = amount?.let { String.format(Locale.US, "%.2f", it) },
+            amount = amount?.let { CurrencyPreferences.formatPlain(it) },
             date = date,
             party = party,
             attachmentUri = null,
-            rawText = text.take(12_000)
+            rawText = text.take(12_000),
+            currency = currency
         )
+    }
+
+    private fun findCurrency(text: String): String? {
+        currencyCodePattern.find(text)?.value?.uppercase(Locale.ROOT)?.let { return it }
+        return when {
+            text.contains('$') -> "USD"
+            text.contains('€') || text.contains("â‚¬") -> "EUR"
+            text.contains('£') || text.contains("Â£") -> "GBP"
+            text.contains('¥') || text.contains("Â¥") -> "JPY"
+            else -> null
+        }
     }
 
     private fun findAmount(lines: List<String>, type: EntryType): Double? {
@@ -114,7 +131,9 @@ object DocumentTextParser {
         formats.forEach { pattern ->
             val parser = SimpleDateFormat(pattern, Locale.US).apply { isLenient = false }
             runCatching { parser.parse(raw) }.getOrNull()?.let {
-                return SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(it)
+                if (ScanDateValidator.isReasonable(it.time)) {
+                    return SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(it)
+                }
             }
         }
         return null

@@ -9,10 +9,10 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.appbar.MaterialToolbar
-import com.google.android.material.card.MaterialCardView
 
 class Help : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,16 +27,16 @@ class Help : AppCompatActivity() {
         }
 
         findViewById<MaterialToolbar>(R.id.helpToolbar).setNavigationOnClickListener { finish() }
-        findViewById<MaterialCardView>(R.id.helpFaqCard).setOnClickListener {
+        findViewById<CardView>(R.id.helpFaqCard).setOnClickListener {
             startActivity(Intent(this, FAQs::class.java))
         }
-        findViewById<MaterialCardView>(R.id.helpGettingStartedCard).setOnClickListener {
+        findViewById<CardView>(R.id.helpGettingStartedCard).setOnClickListener {
             startActivity(Intent(this, GettingStartedActivity::class.java))
         }
-        findViewById<MaterialCardView>(R.id.helpDataCard).setOnClickListener {
+        findViewById<CardView>(R.id.helpDataCard).setOnClickListener {
             startActivity(Intent(this, DataAccountActivity::class.java))
         }
-        findViewById<MaterialCardView>(R.id.helpEmailCard).setOnClickListener {
+        findViewById<CardView>(R.id.helpEmailCard).setOnClickListener {
             openSupportEmail()
         }
     }
@@ -66,6 +66,6 @@ class Help : AppCompatActivity() {
     }
 
     companion object {
-        private const val SUPPORT_EMAIL = "service@smartstack-solutions.com"
+        private const val SUPPORT_EMAIL = "appdev.jr2024@gmail.com"
     }
 }

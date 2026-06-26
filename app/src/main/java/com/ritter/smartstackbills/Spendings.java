@@ -5,7 +5,7 @@ import com.google.firebase.Timestamp;
 public class Spendings {
 
     String spendingId;
-    String name, comment, category, vendor, subcategory, attachment;
+    String name, comment, category, vendor, subcategory, attachment, importHash, currency;
     double amount;
     Timestamp date;
     boolean paid;
@@ -164,5 +164,21 @@ public class Spendings {
 
     public void setRecurrenceInterval(String recurrenceInterval) {
         this.recurrenceInterval = recurrenceInterval;
+    }
+
+    public String getImportHash() {
+        return importHash;
+    }
+
+    public void setImportHash(String importHash) {
+        this.importHash = importHash;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 }

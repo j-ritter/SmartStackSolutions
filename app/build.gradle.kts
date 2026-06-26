@@ -6,14 +6,14 @@ plugins {
 
 android {
     namespace = "com.ritter.smartstackbills"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.ritter.smartstackbills"
         minSdk = 24
-        targetSdk = 34
-        versionCode = 12
-        versionName = "1.5"
+        targetSdk = 35
+        versionCode = 21
+        versionName = "1.14"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

@@ -24,19 +24,6 @@ object EntryCreationFlow {
         type: EntryType,
         userEmail: String? = AuthUtils.currentUserEmail()
     ) {
-        if (type != EntryType.OPEN_PAYMENT && !PremiumAccess.isPremiumUser(activity)) {
-            PremiumUpgradeDialog.show(
-                activity,
-                if (type == EntryType.INCOME) {
-                    R.string.premium_preview_income
-                } else {
-                    R.string.premium_preview_closed_payments
-                },
-                userEmail
-            )
-            return
-        }
-
         val dialog = BottomSheetDialog(activity)
         val content = LayoutInflater.from(activity)
             .inflate(R.layout.bottom_sheet_entry_method, null, false)
@@ -49,17 +36,50 @@ object EntryCreationFlow {
         )
         content.findViewById<View>(R.id.entryMethodScan).setOnClickListener {
             dialog.dismiss()
-            activity.startActivity(Intent(activity, DocumentScanActivity::class.java).apply {
-                putExtra(DocumentScanActivity.EXTRA_ENTRY_TYPE, type.wireValue)
-                putExtra(AuthUtils.EXTRA_USER_EMAIL, userEmail)
-            })
+            if (requiresPremiumUpgrade(activity, type)) {
+                showPremiumUpgrade(activity, type, userEmail)
+            } else {
+                activity.startActivity(Intent(activity, DocumentScanActivity::class.java).apply {
+                    putExtra(DocumentScanActivity.EXTRA_ENTRY_TYPE, type.wireValue)
+                    putExtra(AuthUtils.EXTRA_USER_EMAIL, userEmail)
+                })
+            }
         }
         content.findViewById<View>(R.id.entryMethodManual).setOnClickListener {
             dialog.dismiss()
-            launchForm(activity, type, userEmail)
+            if (requiresPremiumUpgrade(activity, type)) {
+                showPremiumUpgrade(activity, type, userEmail)
+            } else {
+                launchForm(activity, type, userEmail)
+            }
+        }
+        content.findViewById<View>(R.id.entryMethodImport).setOnClickListener {
+            dialog.dismiss()
+            activity.startActivity(Intent(activity, ImportTransactionsActivity::class.java).apply {
+                putExtra(AuthUtils.EXTRA_USER_EMAIL, userEmail)
+            })
         }
         dialog.setContentView(content)
         dialog.show()
+    }
+
+    private fun requiresPremiumUpgrade(activity: AppCompatActivity, type: EntryType): Boolean =
+        type != EntryType.OPEN_PAYMENT && !PremiumAccess.isPremiumUser(activity)
+
+    private fun showPremiumUpgrade(
+        activity: AppCompatActivity,
+        type: EntryType,
+        userEmail: String?
+    ) {
+        PremiumUpgradeDialog.show(
+            activity,
+            if (type == EntryType.INCOME) {
+                R.string.premium_preview_income
+            } else {
+                R.string.premium_preview_closed_payments
+            },
+            userEmail
+        )
     }
 
     fun launchForm(
@@ -86,7 +106,8 @@ data class ScanPrefill(
     val date: String?,
     val party: String?,
     val attachmentUri: String?,
-    val rawText: String?
+    val rawText: String?,
+    val currency: String? = null
 ) {
     fun writeTo(intent: Intent) {
         intent.putExtra(EXTRA_SCAN_TITLE, title)
@@ -95,6 +116,7 @@ data class ScanPrefill(
         intent.putExtra(EXTRA_SCAN_PARTY, party)
         intent.putExtra(EXTRA_SCAN_ATTACHMENT, attachmentUri)
         intent.putExtra(EXTRA_SCAN_RAW_TEXT, rawText)
+        intent.putExtra(EXTRA_SCAN_CURRENCY, currency)
     }
 
     companion object {
@@ -104,5 +126,6 @@ data class ScanPrefill(
         const val EXTRA_SCAN_PARTY = "scan_prefill_party"
         const val EXTRA_SCAN_ATTACHMENT = "scan_prefill_attachment"
         const val EXTRA_SCAN_RAW_TEXT = "scan_prefill_raw_text"
+        const val EXTRA_SCAN_CURRENCY = "scan_prefill_currency"
     }
 }

@@ -1,0 +1,1101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="notification_details">Meldingsdetails</string>
+    <string name="main">Startpagina</string>
+    <string name="target_name">Naam van spaardoel</string>
+
+    <string name="log_in">Inloggen</string>
+    <string name="email">E-mailadres</string>
+    <string name="password">Wachtwoord</string>
+    <string name="don_t_have_an_account">Heb je nog geen account?</string>
+    <string name="sign_up">Registreren</string>
+    <string name="forgot_password">Wachtwoord vergeten?</string>
+    <string name="already_have_an_account">Heb je al een account?</string>
+
+    <string name="log_in_with_google">Inloggen met Google</string>
+    <string name="sign_up_with_google">Registreren met Google</string>
+
+    <string name="login_title">Welkom terug</string>
+    <string name="login_subtitle">Log in om je open betalingen, uitgaven en inkomsten te beheren.</string>
+
+    <string name="signup_title">Maak je account aan</string>
+    <string name="signup_subtitle">Begin met het beheren van je financiën met een veilig SmartStack-account.</string>
+
+    <string name="continue_with_email">Doorgaan met e-mail</string>
+
+    <string name="email_required">Voer je e-mailadres in.</string>
+    <string name="email_invalid">Voer een geldig e-mailadres in.</string>
+    <string name="password_required">Voer je wachtwoord in.</string>
+    <string name="password_too_short">Gebruik minimaal 6 tekens.</string>
+
+    <string name="auth_generic_error">Inloggen is niet gelukt. Controleer je gegevens en probeer het opnieuw.</string>
+    <string name="auth_network_error">Verbindingsprobleem. Controleer je internetverbinding en probeer het opnieuw.</string>
+    <string name="account_exists_error">Er bestaat al een account met dit e-mailadres.</string>
+
+    <string name="password_reset_sent">E-mail voor wachtwoordherstel verzonden. Controleer je inbox.</string>
+    <string name="password_reset_failed">De herstelmail kon niet worden verzonden. Controleer het adres en probeer het opnieuw.</string>
+
+    <string name="or">of</string>
+    <string name="all">Alle</string>
+
+    <string name="you_still_do_not_have_any_bill_registered">Je hebt nog geen betalingen geregistreerd.</string>
+
+    <string name="my_bills">Mijn betalingen</string>
+    <string name="my_spendings">Mijn uitgaven</string>
+    <string name="income">Inkomsten</string>
+    <string name="calendar">Kalender</string>
+    <string name="account">Account</string>
+
+    <string name="incoming">Aankomend</string>
+    <string name="overdue">Achterstallig</string>
+    <string name="recurring">Terugkerend</string>
+    <string name="paid">Betaald</string>
+
+    <string name="select_date">Datum selecteren</string>
+    <string name="amount">Bedrag</string>
+    <string name="vendor">Leverancier</string>
+    <string name="category">Categorie</string>
+
+    <string name="write_your_title">Voer een titel in</string>
+    <string name="write_your_comments">Voer opmerkingen in</string>
+
+    <string name="cancel">Annuleren</string>
+
+    <string name="unsaved_changes_title">Niet-opgeslagen wijzigingen</string>
+    <string name="unsaved_changes_message">Je hebt niet-opgeslagen wijzigingen. Wil je deze verwerpen?</string>
+    <string name="unsaved_import_message">Je hebt importsuggesties bekeken die nog niet zijn opgeslagen. Wil je deze verwerpen?</string>
+
+    <string name="keep_editing">Doorgaan met bewerken</string>
+    <string name="discard_changes">Verwerpen</string>
+    <string name="save">Opslaan</string>
+
+    <string name="attachment">Bijlage</string>
+
+    <string name="create_new_open_payment">Nieuwe open betaling aanmaken</string>
+    <string name="open_payments">Open betalingen</string>
+    <string name="open_payments_hint">Aankomende en achterstallige betalingen die nog aandacht vereisen.</string>
+    <string name="no_open_payments">Er zijn geen open betalingen die overeenkomen met deze weergave.</string>
+
+    <string name="mark_paid">Markeren als betaald</string>
+
+    <string name="bill_details">Details van open betaling</string>
+    <string name="untitled_payment">Betaling zonder titel</string>
+    <string name="uncategorized">Geen categorie</string>
+
+    <string name="delete_open_payment">Open betaling verwijderen</string>
+    <string name="delete_open_payment_confirmation">Deze open betaling verwijderen?</string>
+
+    <string name="delete_recurring_payment">Terugkerende betaling verwijderen</string>
+    <string name="delete_this_occurrence">Alleen deze betaling verwijderen</string>
+    <string name="delete_this_and_future">Deze en toekomstige betalingen verwijderen</string>
+
+    <string name="open_payment_deleted">Open betaling verwijderd.</string>
+    <string name="future_open_payments_deleted">Deze en toekomstige betalingen zijn verwijderd.</string>
+    <string name="open_payment_delete_failed">De betaling kon niet worden verwijderd.</string>
+
+    <string name="add_attachment">Bijlage toevoegen</string>
+    <string name="take_photo">Foto maken</string>
+    <string name="choose_from_gallery">Kiezen uit galerij</string>
+
+    <string name="attachment_added">Bijlage toegevoegd</string>
+    <string name="attachment_failed">De bijlage kon niet worden toegevoegd.</string>
+
+    <string name="edit_open_payment">Open betaling bewerken</string>
+    <string name="open_payment_attachment">Bijlage van open betaling</string>
+
+    <string name="create_new_closed_payment">Nieuwe afgesloten betaling aanmaken</string>
+    <string name="closed_payments">Afgesloten betalingen</string>
+
+    <string name="closed_payment_details">Details van afgesloten betaling</string>
+    <string name="edit_closed_payment">Afgesloten betaling bewerken</string>
+    <string name="delete_closed_payment">Afgesloten betaling verwijderen</string>
+    <string name="closed_payment_attachment">Bijlage van afgesloten betaling</string>
+
+    <string name="create_new_income">Nieuwe inkomsten toevoegen</string>
+    <string name="create_new_spending">Nieuwe uitgave toevoegen</string>
+
+    <string name="date">Datum</string>
+    <string name="type">Type</string>
+    <string name="date_header">Datakop</string>
+    <string name="due_date">Vervaldatum</string>
+
+    <string name="comments">Opmerkingen</string>
+    <string name="close">Sluiten</string>
+
+    <string name="set_savings_target">Spaardoel instellen</string>
+    <string name="delete_target">Spaardoel verwijderen</string>
+    <string name="delete">Verwijderen</string>
+
+    <string name="delete_savings_target_confirmation">Dit spaardoel verwijderen? De voortgangsgeschiedenis wordt ook verwijderd.</string>
+
+    <string name="edit_target">Spaardoel bewerken</string>
+    <string name="name_target">Naam van spaardoel</string>
+    <string name="target_amount">Doelbedrag</string>
+    <string name="start_date">Startdatum</string>
+    <string name="end_date">Einddatum</string>
+    <string name="monthly_savings">Maandelijkse besparing</string>
+    <string name="savings_goal_image">Afbeelding van spaardoel</string>
+
+    <string name="search_vendor">Leverancier zoeken</string>
+
+    <string name="welcome_title">Welkom bij SmartStack Solutions!</string>
+    <string name="welcome_icon_description">Welkomstpictogram</string>
+    <string name="welcome_body_message">Jouw hulpmiddel om je financiën te organiseren en je leven eenvoudiger te maken!</string>
+
+    <string name="get_started">Aan de slag</string>
+
+    <string name="unlock_premium">Premium-functies ontgrendelen &#9733;</string>
+
+    <string name="about_us">Over ons</string>
+    <string name="faqs">Veelgestelde vragen</string>
+    <string name="search_faqs">Zoek in veelgestelde vragen</string>
+
+    <string name="data_security">Gegevensbeveiliging</string>
+    <string name="help_support">Hulp en ondersteuning</string>
+    <string name="terms_conditions">Algemene voorwaarden</string>
+
+    <string name="logout">Uitloggen</string>
+    <string name="logout_confirmation">Uitloggen bij SmartStack Solutions op dit apparaat?</string>
+
+    <string name="about_us_subtitle">Waarom SmartStack bestaat en hoe het duidelijkere financiële beslissingen ondersteunt.</string>
+
+    <string name="faqs_subtitle">Snelle antwoorden over betalingen, inkomsten, spaardoelen, Premium en meldingen.</string>
+
+    <string name="data_security_subtitle">Hoe accounttoegang en je financiële gegevens worden beheerd.</string>
+
+    <string name="help_subtitle">Vind antwoorden of neem contact op met het SmartStack-supportteam.</string>
+
+    <string name="terms_subtitle">Belangrijke voorwaarden die van toepassing zijn bij het gebruik van SmartStack Solutions.</string>
+
+    <string name="about_us_image_description">Overzicht van SmartStack Solutions</string>
+
+    <string name="income_date">Datum van inkomsten</string>
+
+    <string name="repeat">Herhalen</string>
+
+    <string name="purchase_date">Aankoopdatum</string>
+
+    <string name="details">Details</string>
+
+    <string name="upload">Uploaden</string>
+
+    <string name="alarm">Alarm</string>
+
+    <string name="categorydbx">Categorie</string>
+
+    <string name="essential">Essentieel</string>
+    <string name="non_essential">Niet-essentieel</string>
+
+    <string name="one_time">Eenmalig</string>
+
+    <string name="delete_income">Inkomsten verwijderen</string>
+    <string name="edit_income">Inkomsten bewerken</string>
+    <string name="income_details">Details van inkomsten</string>
+
+    <string name="previous_month">Vorige maand</string>
+    <string name="next_month">Volgende maand</string>
+
+    <string name="mark_as_paid">Markeren als betaald</string>
+
+    <string name="calendar_title">Kalender</string>
+
+    <string name="content_description_navigation_menu">Navigatiemenu openen</string>
+
+    <string name="search_or_select_vendor">Leverancier zoeken of selecteren</string>
+
+    <string name="enter_custom_vendor">Aangepaste leverancier invoeren</string>
+
+    <string name="subcategory">Subcategorie</string>
+
+    <string name="image_added">Afbeelding toegevoegd</string>
+
+    <string name="title">Titel</string>
+
+    <string name="select_a_category">Selecteer een categorie</string>
+
+    <string name="data_security_title">Gegevensbeveiliging</string>
+
+    <string name="data_security_question_1">1. Hoe beschermt SmartStack Solutions mijn gegevens?</string>
+
+    <string name="data_security_answer_1">Antwoord: SmartStack Solutions gebruikt beveiligingsmaatregelen om je gegevens te beschermen. Dit omvat veilige inlogprotocollen en basiscontroles voor toegang. We vertrouwen op betrouwbare cloudservices om gegevens veilig op te slaan en te beheren.</string>
+
+    <string name="data_security_question_2">2. Worden mijn betalingsgegevens veilig opgeslagen?</string>
+
+    <string name="data_security_answer_2">Antwoord: SmartStack Solutions is ontworpen voor gebruikers die financiële gegevens handmatig invoeren, zonder dat betalingstransacties nodig zijn.</string>
+
+    <string name="data_security_question_3">3. Hoe wordt mijn persoonlijke informatie behandeld?</string>
+
+    <string name="data_security_answer_3">Antwoord: Persoonlijke informatie wordt minimaal verzameld en uitsluitend gebruikt om onze diensten te leveren. Deze wordt veilig opgeslagen in de cloud. Lees voor meer informatie ons privacybeleid.</string>
+
+    <string name="data_security_question_4">4. Welke maatregelen zijn er om ongeautoriseerde toegang te voorkomen?</string>
+
+    <string name="data_security_answer_4">Antwoord: Om ongeautoriseerde toegang te voorkomen gebruikt SmartStack Solutions sterke wachtwoordvereisten en sessiebeheer. We raden gebruikers ook aan hun wachtwoorden regelmatig bij te werken en hun inloggegevens niet te delen.</string>
+
+    <string name="data_security_question_5">5. Hoe waarborgt SmartStack Solutions de integriteit van mijn gegevens?</string>
+
+    <string name="data_security_answer_5">Antwoord: Financiële gegevens worden gesynchroniseerd met Firebase wanneer er een verbinding beschikbaar is. Controleer belangrijke gegevens regelmatig en bewaar kopieën van essentiële bijlagen.</string>
+
+    <string name="data_security_question_6">6. Wat moet ik doen als ik een beveiligingsprobleem vermoed?</string>
+
+    <string name="data_security_answer_6">Antwoord: Als je een beveiligingsprobleem vermoedt, neem dan onmiddellijk contact op met ons supportteam via de sectie Hulp en ondersteuning in de app. Wij zullen het probleem onderzoeken en de nodige maatregelen nemen om je account te beveiligen.</string>
+
+    <string name="data_security_question_7">7. Hoe kan ik mijn eigen beveiliging verbeteren tijdens het gebruik van SmartStack Solutions?</string>
+
+    <string name="data_security_answer_7">Antwoord: Verhoog je beveiliging door een sterk en uniek wachtwoord voor je SmartStack-account te gebruiken. Zorg ervoor dat je apparaat beschermd is met een wachtwoord of biometrische vergrendeling en vermijd openbare wifi-netwerken bij het gebruik van de app.</string>
+
+    <string name="data_security_question_8">8. Voldoet SmartStack Solutions aan regelgeving voor gegevensbescherming?</string>
+
+    <string name="data_security_answer_8">Antwoord: SmartStack Solutions is ontworpen om alleen de gegevens te verzamelen die nodig zijn voor de dienstverlening. Toepasselijke privacyrechten kunnen per locatie verschillen; neem contact op met ondersteuning voor vragen of gegevensverzoeken.</string>
+
+    <string name="data_security_question_9">9. Welke versleuteling gebruikt SmartStack Solutions?</string>
+
+    <string name="data_security_answer_9">Antwoord: SmartStack Solutions gebruikt versleuteling volgens industriestandaarden voor gegevens tijdens overdracht om je informatie te beschermen tegen ongeautoriseerde toegang.</string>
+
+    <string name="data_security_question_10">10. Hoe vaak worden beveiligingscontroles uitgevoerd?</string>
+
+    <string name="data_security_answer_10">Antwoord: Beveiligingspraktijken en afhankelijkheden worden geëvalueerd naarmate de app zich ontwikkelt. Geen enkele applicatie kan volledige bescherming garanderen, daarom moeten gebruikers ook hun account en apparaat beveiligen.</string>
+
+    <string name="data_security_question_11">11. Wat gebeurt er met mijn gegevens als ik mijn account verwijder?</string>
+
+    <string name="data_security_answer_11">Antwoord: Verzoeken om accountverwijdering zijn bedoeld om de bijbehorende app-gegevens te verwijderen. Sommige informatie kan tijdelijk worden bewaard wanneer dit nodig is voor beveiliging, facturering of wettelijke verplichtingen.</string>
+
+    <string name="data_security_question_12">12. Hoe kan ik contact opnemen met SmartStack Solutions over zorgen rond gegevensbeveiliging?</string>
+
+    <string name="data_security_answer_12">Antwoord: Als je vragen hebt over gegevensbeveiliging, kun je contact opnemen met ons supportteam via de sectie Hulp en ondersteuning in de app. Ons team staat klaar om je vragen te beantwoorden en ervoor te zorgen dat je gegevens veilig zijn.</string>
+
+    <string name="data_security_question_13">13. Welke maatregelen zijn er om gegevensverlies te voorkomen?</string>
+
+    <string name="data_security_answer_13">Antwoord: Gegevens worden opgeslagen via Firebase-cloudservices. Beschikbaarheid en herstel kunnen nog steeds worden beïnvloed door service-, netwerk- of apparaatproblemen, daarom moeten belangrijke documenten ook elders worden bewaard.</string>
+    <string name="data_security_question_14">14. Bieden jullie tweefactorauthenticatie (2FA) aan?</string>
+
+    <string name="data_security_answer_14">Antwoord: Momenteel bieden wij geen tweefactorauthenticatie (2FA) aan, maar we onderzoeken de mogelijkheid om dit in de toekomst toe te voegen om de accountbeveiliging verder te verbeteren. Het gebruik van een sterk, uniek wachtwoord en het beveiligen van je apparaat biedt echter al aanzienlijke bescherming.</string>
+
+    <string name="faqs_question_1">1. Wat is SmartStack Solutions?</string>
+
+    <string name="faqs_answer_1">Antwoord: SmartStack Solutions is een uitgebreide app voor financieel beheer waarmee gebruikers hun betalingen en inkomsten kunnen bijhouden. De app maakt het mogelijk transacties te categoriseren, herinneringen in te stellen en financiële gegevens op verschillende manieren te bekijken om budgettering en financiële planning te ondersteunen.</string>
+
+    <string name="faqs_question_2">2. Hoe voeg ik een nieuwe open betaling toe?</string>
+
+    <string name="faqs_answer_2">Antwoord: Ga naar de sectie Open betalingen, tik op de plusknop en vul de benodigde gegevens in, zoals titel, bedrag en datum. Je kunt ook een document of andere relevante informatie toevoegen.</string>
+
+    <string name="faqs_question_3">3. Kan ik mijn betalingen en uitgaven categoriseren?</string>
+
+    <string name="faqs_answer_3">Antwoord: Ja. SmartStack Solutions stelt je in staat betalingen en uitgaven onder te brengen in vooraf gedefinieerde categorieën en subcategorieën.</string>
+
+    <string name="faqs_question_4">4. Hoe kan ik mijn betalingen bekijken op status (aankomend, achterstallig, terugkerend)?</string>
+
+    <string name="faqs_answer_4">Antwoord: In de sectie Open betalingen kun je filteren op status. Betaalde betalingen worden verplaatst naar Afgesloten betalingen. Achterstallige betalingen verschijnen onder Achterstallig, aankomende betalingen onder Aankomend en terugkerende betalingen onder Terugkerend.</string>
+
+    <string name="faqs_question_5">5. Wat zijn essentiële en niet-essentiële uitgaven en wat is het verschil?</string>
+
+    <string name="faqs_answer_5">Antwoord: Essentiële uitgaven omvatten noodzakelijke kosten zoals huur, basisboodschappen, gezondheidszorg en noodzakelijk vervoer. Niet-essentiële uitgaven omvatten optionele aankopen zoals streamingdiensten of luxeartikelen. SmartStack classificeert ondersteunde subcategorieën automatisch. Niet-classificeerbare items blijven wel opgenomen in het totaalbedrag.</string>
+
+    <string name="faqs_question_6">6. Is het mogelijk om betalingen te scannen?</string>
+
+    <string name="faqs_answer_6">Antwoord: Ja. Bij het aanmaken van een open betaling, afgesloten uitgave of inkomstenpost kun je Document scannen kiezen. SmartStack snijdt het document bij, herkent tekst op het apparaat en stelt velden voor zoals titel, bedrag, datum, leverancier of betaler. Controleer alle suggesties voordat je opslaat.</string>
+
+    <string name="faqs_question_7">7. Kan ik mijn inkomsten bijhouden met SmartStack Solutions?</string>
+
+    <string name="faqs_answer_7">Antwoord: Ja. Voeg inkomsten toe in de sectie Inkomsten van de app. Vul gegevens in zoals titel, bedrag en ontvangstdatum om een nauwkeurig overzicht van je inkomsten te behouden.</string>
+
+    <string name="faqs_question_8">8. Welke beveiligingsmaatregelen gebruikt SmartStack Solutions om mijn gegevens te beschermen?</string>
+
+    <string name="faqs_answer_8">Antwoord: SmartStack Solutions gebruikt sterke beveiligingsmaatregelen zoals gegevensversleuteling, veilige inlogprotocollen en regelmatige back-ups om je financiële gegevens te beschermen. Daarnaast slaat de app geen gevoelige betaalgegevens op.</string>
+
+    <string name="faqs_question_9">9. Wat is een Premium-account en welke voordelen biedt het?</string>
+
+    <string name="faqs_answer_9">Antwoord: Premium verwijdert advertenties en ontgrendelt beheer van afgesloten betalingen, inkomstenbeheer, spaardoelen en financiële analyses over zes en twaalf maanden, waaronder kasstroomtrends, categorieveranderingen, terugkerende verplichtingen en spaarconsistentie. Open betalingen, herinneringen, maandelijkse inzichten, export en de kalender blijven beschikbaar in de gratis versie.</string>
+
+    <string name="faqs_question_10">10. Hoe kan ik upgraden naar een Premium-account?</string>
+
+    <string name="faqs_answer_10">Antwoord: Ga naar het menu en kies Premium-functies ontgrendelen. Volg vervolgens de instructies om de aankoop af te ronden en alle functies vrij te schakelen.</string>
+
+    <string name="faqs_question_11">11. Wat is het verschil tussen open en afgesloten betalingen?</string>
+
+    <string name="faqs_answer_11">Antwoord: Open betalingen zijn transacties waarvoor je al een product of dienst hebt ontvangen maar nog moet betalen. Afgesloten betalingen zijn geregistreerde uitgaven die al zijn betaald. De app helpt je beide soorten betalingen te beheren voor een beter financieel overzicht.</string>
+
+    <string name="faqs_question_12">12. Hoe stel ik een spaardoel in?</string>
+
+    <string name="faqs_answer_12">Antwoord: Tik op de sectie Spaardoel in het hoofdmenu. Voer de doelnaam, het doelbedrag, de startdatum en einddatum in. Het dashboard toont vervolgens het benodigde maandbedrag en je voortgang voor de geselecteerde maand.</string>
+
+    <string name="faqs_question_13">13. Kan ik meerdere spaardoelen instellen?</string>
+
+    <string name="faqs_answer_13">Antwoord: Ja. Je kunt meerdere spaardoelen instellen voor verschillende perioden. Elk doel wordt afzonderlijk bijgehouden. Let op dat overlappende periodes niet mogelijk zijn; kies daarom voor niet-overlappende tijdvakken.</string>
+
+    <string name="faqs_question_14">14. Wat moet ik doen als ik een probleem tegenkom in de app?</string>
+
+    <string name="faqs_answer_14">Antwoord: Open Hulp en ondersteuning en geef een duidelijke beschrijving van het probleem, inclusief wat er gebeurde en welke stappen het probleem reproduceren.</string>
+
+    <string name="faqs_question_15">15. Hoe werkt het meldingssysteem in SmartStack Solutions en welke functies bevat het?</string>
+
+    <string name="faqs_answer_15">Antwoord: Meldingen worden automatisch aangemaakt drie dagen vóór de vervaldatum van een open betaling, zodat je tijdig wordt herinnerd. Meldingen verschijnen in de app. Gebruikers kunnen meldingen bekijken, als gelezen markeren of verwijderen. Meldingen ouder dan 30 dagen worden automatisch verwijderd. Zo blijf je op de hoogte van aankomende betalingen zonder handmatige instellingen aan te passen.</string>
+
+    <string name="help_title">Hulp en ondersteuning</string>
+
+    <string name="help_content">Als je hulp of ondersteuning nodig hebt bij het gebruik van SmartStack Solutions, kun je contact opnemen met ons serviceteam.\n\nNeem contact met ons op\n\nVoor problemen, vragen of feedback kun je een e-mail sturen naar appdev.jr2024@gmail.com. Ons team zal zo snel mogelijk reageren.\n\nVeelgestelde vragen (FAQ)\n\nVoordat je contact opneemt, kun je onze FAQ-sectie bekijken. Daar vind je antwoorden op veelvoorkomende vragen over het gebruik van SmartStack Solutions, zoals het aanmaken van items, accountbeheer en het effectief gebruiken van functies.\n\nVoor alle andere vragen of ondersteuning kun je gerust contact met ons opnemen via e-mail. Wij helpen je graag het maximale uit SmartStack Solutions te halen!</string>
+
+    <string name="main_tagline">Organiseer je financiën\n\nen vereenvoudig je leven!</string>
+
+    <string name="content_description_logo">App-logo</string>
+
+    <string name="app_title">SmartStack Solutions</string>
+
+    <string name="total_net_savings">Verwacht maandelijks saldo</string>
+
+    <string name="monthly_overview">Maandoverzicht</string>
+
+    <string name="dashboard_hint">Bekijk aankomende verplichtingen, betaalde uitgaven, inkomsten en je voortgang richting je doel.</string>
+
+    <string name="savings_target_progress">Voortgang spaardoel</string>
+
+    <string name="set_saving_target">Spaardoel instellen</string>
+
+    <string name="target_achieved">Doel bereikt</string>
+
+    <string name="savings_target_reached_message">Gefeliciteerd. Je hebt 100%% van je spaardoel bereikt.</string>
+
+    <string name="goal_summary">Je moet %1$s per maand sparen om je doel tegen %2$s te bereiken.</string>
+
+    <string name="add_new_entry">Nieuwe invoer toevoegen</string>
+
+    <string name="notifications">Meldingen</string>
+    <string name="content_description_back_arrow">Terug naar vorig scherm</string>
+    <string name="content_description_notifications_list">Lijst met meldingen</string>
+
+    <string name="unlock_premium_features">Premium-functies ontgrendelen</string>
+
+    <string name="premium_intro_text">Houd de basis gratis. Upgrade wanneer je een complete financiële werkruimte wilt met uitgebreidere geschiedenis, inkomstenbeheer, doelen en zonder advertenties.</string>
+
+    <string name="premium_feature_closed_payments">Maak, bewerk en organiseer je gedetailleerde betalingsgeschiedenis.</string>
+    <string name="premium_feature_income_management">Maak, bewerk en organiseer terugkerende en eenmalige inkomsten.</string>
+    <string name="premium_feature_saving_target">Stel spaardoelen in en volg je maandelijkse voortgang.</string>
+    <string name="premium_feature_financial_insights">Ontdek financiële trends over zes en twaalf maanden.</string>
+
+    <string name="premium_closing_text">Open betalingen, herinneringen, de kalender, gegevensexport en het markeren van betalingen als betaald blijven beschikbaar in de gratis versie.</string>
+
+    <string name="premium_compare_title">Gratis versus Premium</string>
+    <string name="premium_compare_subtitle">Begin gratis. Upgrade wanneer je uitgebreidere geschiedenis, inkomstenbeheer, doelen, trends en minder beperkingen wilt.</string>
+
+    <string name="premium_compare_feature">Functie</string>
+    <string name="premium_compare_free">Gratis</string>
+    <string name="premium_compare_premium">Premium</string>
+
+    <string name="premium_compare_open_payments">Open betalingen</string>
+    <string name="premium_compare_open_payments_free">30 actieve eenmalige open betalingen</string>
+    <string name="premium_compare_open_payments_premium">Tot 2.000 gecombineerde toekomstige items</string>
+
+    <string name="premium_compare_recurring">Toekomstige terugkerende items</string>
+    <string name="premium_compare_recurring_free">Tot 250 toekomstige betalingen</string>
+    <string name="premium_compare_recurring_premium">Tot 2.000 toekomstige items</string>
+
+    <string name="premium_compare_closed">Afgesloten betalingen</string>
+    <string name="premium_compare_closed_free">Tot 100 betaalde betalingen</string>
+    <string name="premium_compare_closed_premium">Volledige geschiedenisfuncties</string>
+
+    <string name="premium_compare_income">Inkomstenbeheer</string>
+    <string name="premium_compare_income_free">Alleen importeren</string>
+    <string name="premium_compare_income_premium">Inkomsten aanmaken en beheren</string>
+
+    <string name="premium_compare_import">CSV/PDF-import</string>
+    <string name="premium_compare_import_free">50 per bestand · 100 totaal</string>
+    <string name="premium_compare_import_premium">200 per bestand</string>
+
+    <string name="premium_compare_insights">Financiële inzichten</string>
+    <string name="premium_compare_insights_free">Maandelijkse basisinzichten</string>
+    <string name="premium_compare_insights_premium">Trends over 6/12 maanden</string>
+
+    <string name="premium_compare_ads">Advertenties</string>
+    <string name="premium_compare_ads_free">Getoond</string>
+    <string name="premium_compare_ads_premium">Verwijderd</string>
+
+    <string name="premium_preview_closed_payments">Voorbeeldmodus: je kunt afgesloten betalingen bekijken. Upgrade naar Premium om afgesloten betalingen aan te maken, te bewerken of te verwijderen.</string>
+
+    <string name="premium_preview_income">Voorbeeldmodus: je kunt inkomsten bekijken. Upgrade naar Premium om inkomsten aan te maken, te bewerken of te verwijderen.</string>
+
+    <string name="premium_upgrade_required">Upgrade naar Premium om afgesloten betalingen, inkomsten en spaardoelen aan te maken.</string>
+
+    <string name="features">Functies</string>
+
+    <string name="feature_open_payments_title">Open betalingen</string>
+    <string name="feature_open_payments_desc">Beheer open betalingen en houd aankomende rekeningen onder controle.</string>
+    <string name="feature_open_payments_expandable">Gratis bevat tot 30 zelfstandige actieve open betalingen plus terugkerende schema\'s binnen de fair-use-limiet. Premium biedt een aanzienlijk hogere limiet voor actieve en toekomstige items.</string>
+
+    <string name="feature_closed_payments_title">Afgesloten betalingen</string>
+    <string name="feature_closed_payments_desc">Houd betaalde rekeningen bij en beheer je transactiegeschiedenis.</string>
+    <string name="feature_closed_payments_expandable">Iedereen kan een open betaling als betaald markeren. Premium ontgrendelt daarnaast direct aanmaken, bewerken, verwijderen en volledig geschiedenisbeheer.</string>
+
+    <string name="feature_income_management_title">Inkomstenbeheer</string>
+    <string name="feature_income_management_desc">Houd je inkomstenbronnen bij en categoriseer ze.</string>
+    <string name="feature_income_management_expandable">Volg salaris, freelancewerk, uitkeringen, investeringen en terugkerende inkomsten naast je uitgaven en verwachte saldo.</string>
+
+    <string name="feature_notifications_title">Meldingen</string>
+    <string name="feature_notifications_desc">Ontvang tijdige herinneringen voor je open betalingen.</string>
+    <string name="feature_notifications_expandable">Configureer herinneringen vooraf, op de vervaldag en na de vervaldatum. Markeer een betaling direct vanuit een melding als betaald.</string>
+
+    <string name="feature_calendar_title">Kalender</string>
+    <string name="feature_calendar_desc">Krijg een overzicht van al je transacties in een kalenderweergave.</string>
+    <string name="feature_calendar_expandable">De kalender blijft beschikbaar in de gratis versie en combineert open betalingen, betaalde uitgaven en inkomsten per datum.</string>
+
+    <string name="feature_saving_target_title">Spaardoel</string>
+    <string name="feature_saving_target_desc">Stel een spaardoel in en volg je voortgang.</string>
+    <string name="feature_saving_target_expandable">Definieer een doelbedrag en periode en vergelijk vervolgens het vereiste maandbedrag met je werkelijke verwachte saldo.</string>
+
+    <string name="feature_financial_insights_title">Geavanceerde financiële inzichten</string>
+    <string name="feature_financial_insights_desc">Zet je geschiedenis om in betekenisvolle trends.</string>
+    <string name="feature_financial_insights_expandable">Vergelijk kasstromen over zes en twaalf maanden, identificeer veranderende uitgavencategorieën, volg terugkerende verplichtingen en bekijk de consistentie van je spaargedrag. De analyse volgt de geselecteerde maand op je dashboard.</string>
+
+    <string name="unlock_button_text">SmartStack Solutions Premium ontgrendelen</string>
+    <string name="unlock_button_with_price">Premium ontgrendelen · %1$s</string>
+
+    <string name="more_information">Meer informatie</string>
+    <string name="premium_still_loading">Premium wordt nog geladen. Probeer het opnieuw.</string>
+    <string name="billing_not_ready">Facturering is nog niet beschikbaar. Probeer het opnieuw.</string>
+
+    <string name="premium_activated">Premium geactiveerd</string>
+    <string name="premium_active">Premium actief</string>
+
+    <string name="premium_unavailable">Premium is momenteel niet beschikbaar. Tik om opnieuw te proberen.</string>
+    <string name="premium_loading">Premium-opties laden...</string>
+
+    <string name="less_information">Minder informatie</string>
+    <string name="show_details">Details tonen</string>
+    <string name="hide_details">Details verbergen</string>
+
+    <string name="quick_entry_hint">Alleen het bedrag is verplicht. De datum wordt vooraf ingevuld en details kunnen later worden toegevoegd.</string>
+
+    <string name="optional_details">Optionele details</string>
+
+    <string name="savings_quick_entry_hint">Voer je doelbedrag en einddatum in. De startdatum wordt automatisch op vandaag ingesteld.</string>
+
+    <string name="title_optional">Titel (optioneel)</string>
+
+    <string name="free_open_payment_limit_reached">Je hebt de gratis limiet van 30 zelfstandige actieve open betalingen bereikt. Markeer afgeronde items als betaald of upgrade naar Premium.</string>
+
+    <string name="free_closed_payment_limit_reached">Je hebt de gratis limiet van 100 afgesloten betalingen bereikt. Verwijder oudere geschiedenis of upgrade naar Premium.</string>
+
+    <string name="free_recurring_limit_reached">Dit terugkerende schema overschrijdt de gratis limiet van 250 toekomstige terugkerende betalingen. Verwijder een ongebruikt schema of upgrade naar Premium.</string>
+
+    <string name="premium_usage_limit_reached">Dit item zou de Premium fair-use-limiet van 2.000 gecombineerde toekomstige betalingen en inkomsten overschrijden. Verwijder verouderde toekomstige items of neem contact op met ondersteuning.</string>
+
+    <string name="usage_limit_check_failed">SmartStack kon de beschikbare itemlimiet niet controleren. Controleer je verbinding en probeer het opnieuw.</string>
+
+    <string name="terms_and_conditions_title">Algemene voorwaarden</string>
+
+    <string name="help_hub_title">Hoe kunnen we helpen?</string>
+    <string name="help_hub_intro">Vind snel een antwoord, beheer je accountgegevens of neem direct contact met ons op.</string>
+    <string name="help_choose_option">Kies een ondersteuningsoptie</string>
+
+    <string name="help_faq_title">Veelgestelde vragen bekijken</string>
+    <string name="help_faq_description">Ontvang antwoorden over betalingen, herinneringen, Premium, limieten en accountgebruik.</string>
+
+    <string name="help_contact_title">E-mail SmartStack Support</string>
+    <string name="help_contact_description">Open een voorbereide e-mail naar appdev.jr2024@gmail.com.</string>
+
+    <string name="help_data_title">Hulp bij gegevens en account</string>
+    <string name="help_data_description">Exporteer je gegevens of bekijk de opties voor accountverwijdering.</string>
+
+    <string name="help_message_title">Voor een sneller antwoord</string>
+
+    <string name="help_message_checklist">Vermeld alstublieft:\n• Wat je probeerde te doen\n• Wat er in plaats daarvan gebeurde\n• Stappen om het probleem te reproduceren\n• Een screenshot, zolang deze geen gevoelige financiële informatie bevat</string>
+
+    <string name="help_response_note">Verstuur nooit wachtwoorden, aankooptokens of volledige financiële gegevens via e-mail.</string>
+
+    <string name="support_email_subject">SmartStack Solutions ondersteuningsverzoek</string>
+
+    <string name="support_email_template">Hallo SmartStack Support,\n\nIk heb hulp nodig met:\n\nWat ik verwachtte:\n\nWat er gebeurde:\n\nStappen om het probleem te reproduceren:\n\nApp-versie: %1$s\n\nVoeg geen wachtwoorden of gevoelige financiële gegevens toe.</string>
+
+    <string name="support_email_copied">Geen e-mailapp gevonden. Het ondersteuningsadres is naar je klembord gekopieerd.</string>
+
+    <string name="terms_section_title_1">1. Acceptatie en toepassingsgebied</string>
+    <string name="terms_section_body_1">Door een account aan te maken of SmartStack Solutions te gebruiken, ga je akkoord met deze voorwaarden. Als je niet akkoord gaat, gebruik de applicatie dan niet.</string>
+
+    <string name="terms_section_title_2">2. Doel van de dienst</string>
+    <string name="terms_section_body_2">SmartStack biedt organisatorische hulpmiddelen voor betalingen, uitgaven, inkomsten, herinneringen en spaardoelen. Het biedt geen financieel, fiscaal, juridisch of beleggingsadvies.</string>
+
+    <string name="terms_section_title_3">3. Verantwoordelijkheid voor het account</string>
+    <string name="terms_section_body_3">Je bent verantwoordelijk voor het beschermen van je account, het bijhouden van correcte informatie en het controleren van invoeren en herinneringen. Gebruik de dienst niet onrechtmatig en probeer de technische beveiligingen niet te verstoren, misbruiken of te omzeilen.</string>
+
+    <string name="terms_section_title_4">4. Gratis dienst en advertenties</string>
+    <string name="terms_section_body_4">De gratis versie wordt ondersteund door advertenties en bevat de belangrijkste functies voor open betalingen, herinneringen, kalender, export en het afronden van betalingen. Sommige functies voor aanmaken, bewerken, geschiedenis, inkomsten, doelen en analyses vereisen Premium.</string>
+
+    <string name="terms_section_title_5">5. Fair-use-limieten</string>
+    <string name="terms_section_body_5">Om een betrouwbare en duurzame dienst te garanderen ondersteunen gratis accounts maximaal 30 zelfstandige actieve open betalingen, 100 afgesloten betalingen en 250 toekomstige terugkerende betalingsitems. Premium-accounts ondersteunen hogere fair-use-limieten, waaronder maximaal 2.000 gecombineerde toekomstige betalings- en inkomstenitems. Limieten kunnen in de toekomst worden aangepast voor beveiliging, betrouwbaarheid of duurzaamheid van de dienst.</string>
+
+    <string name="terms_section_title_6">6. Premium-abonnement</string>
+    <string name="terms_section_body_6">Premium-functies en de actuele prijs worden vóór aankoop getoond. Facturering, verlenging, annulering en eventuele terugbetalingen worden verwerkt via Google Play volgens diens voorwaarden en toepasselijke wetgeving.</string>
+
+    <string name="terms_section_title_7">7. Beschikbaarheid van gegevens en export</string>
+    <string name="terms_section_body_7">Wij streven ernaar accountgegevens beschikbaar te houden, maar geen enkele online dienst kan permanente of ononderbroken opslag garanderen. Gebruik regelmatig de exportfunctie voor gegevens die je wilt bewaren.</string>
+
+    <string name="terms_section_title_8">8. Beschikbaarheid en aansprakelijkheid</string>
+    <string name="terms_section_body_8">De dienst wordt geleverd zoals beschikbaar. Voor zover wettelijk toegestaan is SmartStack Solutions niet aansprakelijk voor indirecte schade veroorzaakt door storingen, onjuiste gebruikersinvoer, gemiste herinneringen, apparaatproblemen of vertrouwen op de applicatie als professioneel advies.</string>
+
+    <string name="terms_section_title_9">9. Wijzigingen en beëindiging</string>
+    <string name="terms_section_body_9">Functies en deze voorwaarden kunnen veranderen naarmate de dienst zich ontwikkelt. Belangrijke wijzigingen worden waar redelijk mogelijk gecommuniceerd. Toegang kan worden beperkt bij fraude, misbruik, onrechtmatig gebruik of ernstige schendingen van deze voorwaarden.</string>
+
+    <string name="terms_section_title_10">10. Contact</string>
+    <string name="terms_section_body_10">Vragen over deze voorwaarden of de dienst kunnen worden gestuurd naar appdev.jr2024@gmail.com.</string>
+
+    <string name="faqs_question_16">16. Welke gebruikslimieten gelden voor gratis en Premium-accounts?</string>
+
+    <string name="faqs_answer_16">Gratis accounts kunnen maximaal 30 actieve open betalingen, 100 afgesloten betalingen en 250 toekomstige terugkerende betalingsitems bevatten. Premium verhoogt deze limieten en ondersteunt tot 2.000 gecombineerde toekomstige betalings- en inkomstenitems.</string>
+
+    <string name="faqs_question_17">17. Kunnen gratis gebruikers betalingen nog steeds als betaald markeren?</string>
+
+    <string name="faqs_answer_17">Ja. Het normale proces van open naar afgesloten betaling wordt nooit geblokkeerd door de gratis limieten. Het rechtstreeks aanmaken, bewerken en verwijderen van afgesloten betalingen zijn Premium-functies.</string>
+
+    <string name="faqs_question_18">18. Verwijdert SmartStack automatisch mijn financiële geschiedenis?</string>
+
+    <string name="faqs_answer_18">Momenteel past SmartStack geen automatische verwijderingsperiode toe op betalingsgeschiedenis. Je kunt je accountgegevens op elk moment exporteren.</string>
+
+    <string name="faqs_question_19">19. Welke financiële inzichten zijn inbegrepen?</string>
+
+    <string name="faqs_answer_19">De gratis versie bevat geldstroom voor de geselecteerde maand, urgentie van open betalingen en uitgavensamenstelling. Premium voegt kasstroomtrends over zes en twaalf maanden, categorieveranderingen, trends in terugkerende verplichtingen en spaarconsistentie toe.</string>
+
+    <string name="back">Terug</string>
+
+    <string name="content_description_back">Terug</string>
+
+    <string name="about_us_title">Over ons</string>
+
+    <string name="about_us_content">SmartStack Solutions is ontwikkeld om dagelijkse financiën eenvoudiger te begrijpen. De app brengt aankomende betalingen, betaalde uitgaven, inkomsten, spaardoelen, herinneringen en kalenderactiviteiten samen in één overzichtelijke weergave.\n\nOnze focus ligt op praktische financiële organisatie: duidelijke informatie, nuttige categorieën en hulpmiddelen die helpen te zien wat nog betaald moet worden, wat al betaald is en wat er maandelijks beschikbaar blijft. SmartStack is een organisatorisch hulpmiddel en biedt geen financieel, fiscaal of beleggingsadvies.\n\nVragen en feedback zijn welkom via appdev.jr2024@gmail.com.</string>
+
+    <string name="delete_recurring_income">Terugkerende inkomsten verwijderen</string>
+    <string name="delete_this_income_entry">Alleen deze inkomstenpost verwijderen</string>
+    <string name="delete_this_and_future_income">Deze en toekomstige inkomsten verwijderen</string>
+    <string name="delete_all_recurring_income">Alle terugkerende inkomsten verwijderen</string>
+    <string name="delete_income_entry">Inkomstenpost verwijderen</string>
+    <string name="delete_income_confirmation">Deze inkomstenpost verwijderen?</string>
+
+    <string name="income_deleted">Inkomstenpost verwijderd.</string>
+    <string name="future_income_deleted">Deze en toekomstige inkomstenposten zijn verwijderd.</string>
+    <string name="all_recurring_income_deleted">Alle posten in deze terugkerende inkomstenreeks zijn verwijderd.</string>
+    <string name="income_delete_failed">De inkomstenpost kon niet worden verwijderd.</string>
+
+    <string name="empty_open_payments_title">Blijf voor op aankomende betalingen</string>
+    <string name="empty_open_payments_message">Voeg rekeningen en andere betalingen toe die nog openstaan. SmartStack organiseert aankomende en achterstallige betalingen en herinnert je vóór de vervaldatum.</string>
+
+    <string name="empty_closed_payments_title">Bouw je uitgavenhistorie op</string>
+    <string name="empty_closed_payments_message">Afgesloten betalingen zijn uitgaven die je al hebt betaald. Voeg ze direct toe of markeer een open betaling als betaald om deze hierheen te verplaatsen.</string>
+
+    <string name="empty_income_title">Zie waar je geld vandaan komt</string>
+    <string name="empty_income_message">Voeg salaris, freelancewerk, uitkeringen of andere inkomsten toe. Markeer terugkerende inkomsten zodat SmartStack automatisch toekomstige posten kan opnemen.</string>
+
+    <string name="add_open_payment">Open betaling toevoegen</string>
+    <string name="add_closed_payment">Afgesloten betaling toevoegen</string>
+    <string name="add_income">Inkomsten toevoegen</string>
+
+    <string name="explore_premium">Ontdek Premium</string>
+    <string name="not_now">Niet nu</string>
+
+    <string name="no_entries_match_filter">Geen items komen overeen met dit filter</string>
+
+    <string name="show_tutorial_again">Sectietutorial tonen</string>
+
+    <string name="payment_reminders">Betalingsherinneringen</string>
+    <string name="payment_reminders_channel_description">Herinneringen voor aankomende, vervallende en achterstallige open betalingen.</string>
+
+    <string name="notification_settings">Meldingsinstellingen</string>
+    <string name="payment_notifications">Betalingsmeldingen</string>
+
+    <string name="advance_reminder">Voorafgaande herinnering</string>
+    <string name="due_today_reminder">Herinnering voor vandaag</string>
+    <string name="overdue_reminder">Herinnering voor achterstallige betaling</string>
+
+    <string name="weekly_overdue_reminder">Herhaal achterstallige herinnering wekelijks</string>
+
+    <string name="reminder_off">Uit</string>
+    <string name="reminder_one_day">1 dag van tevoren</string>
+    <string name="reminder_three_days">3 dagen van tevoren</string>
+    <string name="reminder_seven_days">7 dagen van tevoren</string>
+
+    <string name="notification_settings_saved">Meldingsinstellingen opgeslagen.</string>
+    <string name="notifications_load_failed">Meldingen konden niet worden geladen.</string>
+
+    <string name="notification_due_soon_title">Betaling binnenkort vervallen</string>
+    <string name="notification_due_soon_text">%1$s · %2$s · Vervalt op %3$s</string>
+
+    <string name="notification_due_today_title">Betaling vervalt vandaag</string>
+    <string name="notification_due_today_text">%1$s · %2$s · Vervalt vandaag</string>
+
+    <string name="notification_overdue_title">Betaling achterstallig</string>
+
+    <string name="view_payment">Betaling bekijken</string>
+
+    <string name="notification_due_date_short">Vervalt %1$s</string>
+
+    <string name="empty_notifications_title">Mis nooit een belangrijke betaling</string>
+
+    <string name="empty_notifications_message">SmartStack herinnert je wanneer een open betaling de vervaldatum nadert, vandaag vervalt of achterstallig wordt. Herinneringen stoppen zodra de betaling als betaald is gemarkeerd.</string>
+
+    <string name="notifications_all_caught_up_title">Je bent helemaal bijgewerkt</string>
+    <string name="notifications_all_caught_up_message">Er zijn momenteel geen betalingsherinneringen. Nieuwe meldingen verschijnen hier wanneer een betaling binnenkort vervalt of achterstallig wordt.</string>
+
+    <string name="notifications_turned_off_title">Meldingen zijn uitgeschakeld</string>
+    <string name="notifications_turned_off_message">Schakel meldingen in zodat SmartStack je kan herinneren aan aankomende en achterstallige betalingen.</string>
+
+    <string name="enable_notifications">Meldingen inschakelen</string>
+
+    <string name="payment_reminders_paused_title">Betalingsherinneringen zijn gepauzeerd</string>
+    <string name="payment_reminders_paused_message">Schakel betalingsmeldingen opnieuw in wanneer je wilt dat SmartStack weer herinneringen plant.</string>
+
+    <plurals name="notification_overdue_text">
+        <item quantity="one">%1$s · %2$s · %3$d dag achterstallig</item>
+        <item quantity="other">%1$s · %2$s · %3$d dagen achterstallig</item>
+    </plurals>
+
+    <string name="open_payment">Open betaling</string>
+    <string name="closed_payment">Afgesloten betaling</string>
+    <string name="overdue_open_payment">Achterstallige open betaling</string>
+
+    <string name="untitled_entry">Item zonder titel</string>
+    <string name="no_category">Geen categorie</string>
+
+    <string name="no_entries_for_date">Geen items voor deze datum</string>
+    <string name="no_entries_for_date_explanation">Open betalingen, afgesloten betalingen en inkomsten die voor de geselecteerde datum gepland zijn, verschijnen hier.</string>
+
+    <string name="payment_date">Betalingsdatum</string>
+
+    <string name="source_payer">Bron / betaler</string>
+    <string name="source_payer_hint">Werkgever, klant, huurder, instelling…</string>
+
+    <string name="recurrence_one_year_explanation">SmartStack maakt terugkerende items voor de komende 12 maanden aan, zodat je overzicht van toekomstige betalingen actueel en beheersbaar blijft.</string>
+
+    <string name="open_payment_saved">Reeks open betalingen succesvol opgeslagen.</string>
+    <string name="open_payment_save_failed">De open betaling kon niet worden opgeslagen: %1$s</string>
+
+    <string name="income_saved">Inkomstenreeks succesvol opgeslagen.</string>
+    <string name="income_save_failed">De inkomsten konden niet worden opgeslagen: %1$s</string>
+
+    <string name="payment_moved_to_closed">Betaling verplaatst naar Afgesloten betalingen.</string>
+    <string name="payment_moved_to_open">Betaling terug verplaatst naar Open betalingen.</string>
+    <string name="payment_move_failed">De betaling kon niet worden verplaatst: %1$s</string>
+
+    <string name="data_account">Gegevens &amp; account</string>
+
+    <string name="export_data_title">Je gegevens exporteren</string>
+    <string name="export_data_explanation">Download je SmartStack-betalingen, inkomsten, spaardoelen en meldingen als een JSON-bestand.</string>
+    <string name="export_my_data">Mijn gegevens exporteren</string>
+
+    <string name="export_complete">Je gegevens zijn geëxporteerd.</string>
+    <string name="export_failed">Je gegevens konden niet worden geëxporteerd.</string>
+
+    <string name="delete_account_title">Account en gegevens verwijderen</string>
+    <string name="delete_account_explanation">Verwijder permanent je SmartStack-account en alle opgeslagen financiële gegevens. Dit kan niet ongedaan worden gemaakt.</string>
+    <string name="delete_my_account">Mijn account verwijderen</string>
+
+    <string name="delete_account_confirmation">Je account, betalingen, inkomsten, spaardoelen en meldingen permanent verwijderen?</string>
+
+    <string name="delete_account_relogin">Meld je voor de veiligheid opnieuw aan en keer daarna terug om je account te verwijderen.</string>
+
+    <string name="delete_account_failed">Het account kon niet worden verwijderd. Probeer het opnieuw.</string>
+
+    <string name="enter_open_payment_name">Voer een naam in voor de open betaling.</string>
+    <string name="enter_valid_amount">Voer een geldig bedrag in.</string>
+    <string name="select_valid_due_date">Selecteer een geldige vervaldatum.</string>
+
+    <string name="title_required">Titel is verplicht.</string>
+    <string name="date_required">Datum is verplicht.</string>
+    <string name="invalid_date_format">Voer een geldige datum in.</string>
+
+    <string name="currency">Valuta</string>
+    <string name="currency_menu_title">Valuta (%1$s)</string>
+    <string name="select_currency">Valuta selecteren</string>
+
+    <string name="billing_insufficient_funds">De betaling is geweigerd wegens onvoldoende saldo.</string>
+    <string name="billing_user_ineligible">Deze abonnementsaanbieding is niet beschikbaar voor dit account.</string>
+
+    <string name="financial_insights">Financiële inzichten</string>
+    <string name="financial_insights_subtitle">Begrijp de geselecteerde maand in één oogopslag</string>
+
+    <string name="monthly_money_map">Maandelijkse geldkaart</string>
+    <string name="monthly_money_map_description">Zie hoe inkomsten, betaalde uitgaven, aankomende verplichtingen en je spaardoel samenhangen.</string>
+
+    <string name="open_payment_risk_timeline">Risicotijdlijn open betalingen</string>
+    <string name="open_payment_risk_description">Richt je eerst op achterstallige en bijna vervallende verplichtingen.</string>
+
+    <string name="spending_composition">Uitgavensamenstelling</string>
+    <string name="spending_composition_description">Zie welke categorieën verantwoordelijk zijn voor de betaalde uitgaven van deze maand.</string>
+
+    <string name="available_after_commitments">Beschikbaar</string>
+    <string name="paid_expenses_short">Betaald</string>
+    <string name="still_due_short">Nog verschuldigd</string>
+
+    <string name="savings_target">Spaardoel</string>
+
+    <string name="no_savings_target_insight">Er is geen actief spaardoel voor deze maand.</string>
+
+    <string name="savings_target_cushion">%1$s blijft over na het spaardoel.</string>
+    <string name="savings_target_shortfall">Er is nog %1$s nodig om het spaardoel te bereiken.</string>
+
+    <string name="due_next_seven_days">Volgende 7 dagen</string>
+    <string name="later_this_month">Later</string>
+    <string name="other">Overig</string>
+
+    <string name="no_closed_payments_for_month">Geen betaalde uitgaven voor deze maand.</string>
+
+    <plurals name="payment_count">
+        <item quantity="one">%1$d betaling</item>
+        <item quantity="other">%1$d betalingen</item>
+    </plurals>
+
+    <string name="positive_balance_status">Positief saldo</string>
+    <string name="balance">Saldo</string>
+    <string name="shortfall_status">Tekort</string>
+    <string name="no_activity_status">Geen activiteit</string>
+    <string name="balanced_status">In balans</string>
+
+    <string name="selected_month">Deze maand</string>
+    <string name="six_months">6 maanden</string>
+    <string name="twelve_months">12 maanden</string>
+
+    <string name="premium_insights_teaser_title">Je cijfers vertellen een langer verhaal</string>
+
+    <string name="premium_insights_teaser_message">Premium onthult trends, verschuivingen tussen categorieën, terugkerende verplichtingen en hoe consistent je spaardoelen worden gehaald.</string>
+
+    <string name="unlock_deeper_insights">Diepere inzichten ontgrendelen →</string>
+
+    <string name="premium_insights_upgrade">Upgrade naar Premium om financiële trends over zes en twaalf maanden te bekijken.</string>
+
+    <string name="cash_flow_trend">Kasstroomtrend</string>
+    <string name="cash_flow_trend_description">Vergelijk inkomsten en totale verplichtingen; groene en rode balken tonen het saldo van elke maand.</string>
+
+    <string name="category_changes">Categorieveranderingen</string>
+    <string name="category_changes_description">Bekijk welke uitgavencategorieën zijn gestegen of gedaald ten opzichte van eerdere maanden in deze periode.</string>
+
+    <string name="category_changes_info_title">Hoe categorieveranderingen worden berekend</string>
+
+    <string name="category_changes_info_message">De geselecteerde maand wordt vergeleken met het maandelijkse gemiddelde van de eerdere maanden binnen de gekozen periode van zes of twaalf maanden.\n\nVerandering = bedrag van de geselecteerde maand minus het eerdere maandgemiddelde, gedeeld door dat eerdere gemiddelde.\n\nEen pijl omhoog betekent dat de uitgaven zijn gestegen; een pijl omlaag betekent dat ze zijn gedaald. Een streepje betekent dat er geen eerdere uitgaven waren om een percentage te berekenen. De vier grootste categorieën van de geselecteerde maand worden weergegeven.</string>
+
+    <string name="category_changes_info_content_description">Uitleg categorieveranderingen</string>
+
+    <string name="recurring_commitment_trend">Trend van terugkerende verplichtingen</string>
+
+    <string name="recurring_commitment_trend_description">Volg hoe geplande terugkerende verplichtingen zich in de tijd ontwikkelen.</string>
+
+    <string name="savings_consistency">Spaarconsistentie</string>
+
+    <string name="savings_consistency_description">Zie hoe vaak het verwachte maandsaldo voldeed aan een actief spaardoel.</string>
+
+    <string name="total_obligations">Verplichtingen</string>
+
+    <string name="not_enough_category_data">Voeg betaalde uitgaven toe over meerdere maanden om categorieën te vergelijken.</string>
+
+    <string name="commitments_increased">Terugkerende verplichtingen zijn met %1$s gestegen.</string>
+    <string name="commitments_decreased">Terugkerende verplichtingen zijn met %1$s afgenomen.</string>
+
+    <string name="commitments_steady">Terugkerende verplichtingen zijn stabiel gebleven.</string>
+
+    <string name="no_savings_goals_in_period">Er waren geen actieve spaardoelen in deze periode.</string>
+
+    <string name="savings_goals_achieved">%1$d van %2$d doelmaanden behaald</string>
+
+    <string name="dashboard_welcome_title">Bouw je eerste financiële overzicht op</string>
+
+    <string name="dashboard_welcome_message">Begin met één aankomende betaling. SmartStack wordt nuttiger naarmate inkomsten en betaalde uitgaven je maandelijkse overzicht opbouwen.</string>
+
+    <string name="dashboard_welcome_steps">1. Voeg een aankomende betaling toe\n2. Voeg inkomsten toe om je saldo te berekenen\n3. Markeer betalingen als betaald om uitgaveninzichten te ontgrendelen</string>
+
+    <string name="add_first_payment">Eerste betaling toevoegen</string>
+
+    <string name="how_smartstack_works">Hoe SmartStack werkt</string>
+
+    <string name="dashboard_tutorial_title">Je SmartStack-werkstroom</string>
+
+    <string name="dashboard_tutorial_message">Open betalingen tonen wat nog verschuldigd is. Wanneer je een betaling als betaald markeert, wordt deze onderdeel van je geschiedenis van betaalde uitgaven. Inkomsten en spaardoelen maken het maandelijkse overzicht compleet, terwijl herinneringen en inzichten je helpen aandachtspunten te herkennen.</string>
+
+    <string name="about_us_hero_title">Duidelijkheid voor dagelijkse financiën</string>
+
+    <string name="about_why_title">Waarom SmartStack bestaat</string>
+
+    <string name="about_why_body">Financiële organisatie moet begrijpelijk zijn, niet overweldigend. SmartStack is ontwikkeld om aankomende betalingen, betaalde uitgaven, inkomsten, spaardoelen en herinneringen samen te brengen in één duidelijk maandoverzicht.</string>
+
+    <string name="about_manage_title">Wat SmartStack je helpt beheren</string>
+
+    <string name="about_manage_body">Houd bij wat verschuldigd is, herken achterstallige betalingen, organiseer terugkerende verplichtingen, analyseer uitgavencategorieën en begrijp wat er elke maand beschikbaar blijft.</string>
+
+    <string name="about_privacy_title">Privacyvriendelijk ontworpen</string>
+
+    <string name="about_privacy_body">De app verzamelt alleen de informatie die nodig is om de functies te leveren. Financiële gegevens zijn gekoppeld aan je geverifieerde account. Afbeeldingen van bijlagen blijven opgeslagen in de privé-opslag van de app op dit apparaat en worden niet geüpload naar Firebase.</string>
+
+    <string name="about_independent_title">Onafhankelijk ontwikkeld</string>
+
+    <string name="about_independent_body">SmartStack wordt onafhankelijk ontwikkeld met focus op praktisch nut, eerlijke limieten en voortdurende verbetering. Het is een organisatorisch hulpmiddel en biedt geen financieel, fiscaal of beleggingsadvies.</string>
+
+    <string name="about_contact_title">Vragen en feedback</string>
+
+    <string name="about_contact_body">Jouw feedback helpt SmartStack verder te ontwikkelen. Neem contact op via appdev.jr2024@gmail.com.</string>
+
+    <string name="about_version">App-versie %1$s</string>
+
+    <string name="income_attachment">Bijlage bij inkomsten</string>
+
+    <string name="data_security_question_15">15. Waar worden afbeeldingen van bijlagen opgeslagen?</string>
+
+    <string name="data_security_answer_15">Antwoord: Afbeeldingen die zijn gekoppeld aan open betalingen, betaalde uitgaven of inkomsten worden gekopieerd naar de privé-opslag van de app op dit apparaat. Firebase slaat de financiële gegevens en de lokale verwijzing naar de bijlage op, maar de afbeelding zelf wordt niet geüpload of gesynchroniseerd. Het verwijderen van de app of de lokale gegevens kan deze afbeeldingen verwijderen, dus belangrijke documenten moeten ook elders worden bewaard.</string>
+
+    <string name="getting_started_title">Aan de slag</string>
+
+    <string name="getting_started_hero_title">Je eerste maand met SmartStack</string>
+
+    <string name="getting_started_intro">Volg deze eenvoudige werkstroom om losse invoeren om te zetten in een nuttig maandoverzicht.</string>
+
+    <string name="guide_step_1_title">Voeg toe wat nog verschuldigd is</string>
+
+    <string name="guide_step_1_description">Kies handmatige invoer of scan een document. Voeg de vervaldatum en herhaling toe en controleer vervolgens alle gescande suggesties voordat je opslaat.</string>
+
+    <string name="guide_step_2_title">Registreer je inkomsten</string>
+
+    <string name="guide_step_2_description">Voeg terugkerende of eenmalige inkomsten toe zodat het dashboard je verwachte maandsaldo kan berekenen.</string>
+
+    <string name="guide_step_3_title">Markeer betalingen als betaald</string>
+
+    <string name="guide_step_3_description">Gebruik het selectievakje betaald wanneer een betaling is afgerond. Deze wordt dan automatisch toegevoegd aan je geschiedenis van betaalde uitgaven.</string>
+
+    <string name="guide_step_4_title">Begrijp je maand</string>
+
+    <string name="guide_step_4_description">Bekijk open en betaalde betalingen, inkomsten, spaardoelvoortgang, categorieverdeling en financiële inzichten via het dashboard.</string>
+
+    <string name="guide_step_5_title">Blijf op koers</string>
+
+    <string name="guide_step_5_description">Gebruik herinneringen, terugkerende invoeren en de kalender om naderende datums op te merken en herhalend werk te verminderen.</string>
+
+    <string name="getting_started_open_faq">Nog vragen? Open de veelgestelde vragen</string>
+
+    <string name="help_getting_started_title">Handleiding voor beginners</string>
+
+    <string name="help_getting_started_description">Leer de aanbevolen werkstroom voor betalingen, inkomsten, herinneringen en maandelijkse inzichten.</string>
+
+    <string name="entry_method_subtitle">Kies de snelste optie voor deze invoer.</string>
+
+    <string name="entry_method_open_payment">Hoe wil je deze open betaling toevoegen?</string>
+
+    <string name="entry_method_closed_payment">Hoe wil je deze betaalde uitgave toevoegen?</string>
+
+    <string name="entry_method_income">Hoe wil je deze inkomsten toevoegen?</string>
+
+    <string name="scan_document">Document scannen</string>
+
+    <string name="scan_document_description">Eén invoer: scan een rekening, bon of inkomensdocument.</string>
+
+    <string name="scan_review_disclaimer">Gescande gegevens zijn slechts suggesties. Controleer titel, bedrag, datum, categorie en bijlage voordat je opslaat.</string>
+
+    <string name="enter_manually">Handmatig invoeren</string>
+
+    <string name="enter_manually_description">Eén invoer: voer de gegevens zelf in.</string>
+
+    <string name="scan_and_prefill">Scannen en velden automatisch invullen</string>
+
+    <string name="preparing_document_scanner">Documentscanner voorbereiden…</string>
+
+    <string name="reading_document">Document lezen en suggesties voorbereiden…</string>
+
+    <string name="document_text_not_recognized">Het document is toegevoegd, maar de tekst kon niet worden herkend. Voer de gegevens handmatig in.</string>
+
+    <string name="document_scan_failed_title">Document kon niet worden gescand</string>
+
+    <string name="document_scan_failed_message">Probeer opnieuw met een duidelijk en goed verlicht document of ga verder met handmatige invoer.</string>
+
+    <string name="try_again">Opnieuw proberen</string>
+
+    <string name="faqs_question_20">20. Hoe nauwkeurig is het scannen van documenten?</string>
+
+    <string name="faqs_answer_20">Antwoord: Scannen is bedoeld om typen te verminderen, niet om je controle te vervangen. Resultaten zijn afhankelijk van beeldkwaliteit, documentindeling, taal en het aantal datums of bedragen op het document. SmartStack kan een verkeerd totaalbedrag, datum, leverancier of betaler selecteren. Controleer altijd elk voorgesteld veld voordat je opslaat. De scan wordt lokaal op het apparaat verwerkt; het document wordt niet door de scanfunctie naar Firebase geüpload. Google Play-services kunnen scanner- en tekstherkenningscomponenten downloaden en prestatiegegevens verzamelen, maar ML Kit verzendt het document of de herkende tekst niet naar Google-servers.</string>
+
+    <string name="import_transactions">Transacties importeren</string>
+
+    <string name="import_transactions_description">Voeg meerdere afgesloten betalingen en inkomstenposten toe vanuit een CSV- of PDF-overzicht.</string>
+
+    <string name="closed_payments_expenses">Afgesloten betalingen</string>
+
+    <string name="ignore_transaction">Negeren</string>
+
+    <string name="possible_duplicate">Mogelijk duplicaat. Deze rij is uitgevinkt; selecteer deze alleen als je deze opnieuw wilt importeren.</string>
+
+    <string name="import_row_needs_review">Controleer deze rij zorgvuldig. Het kan een overboeking of terugbetaling zijn, of de waarden konden niet volledig worden geverifieerd.</string>
+
+    <string name="reading_statement">Overzicht wordt gelezen…</string>
+
+    <string name="reading_statement_page">Pagina %1$d van %2$d wordt gelezen…</string>
+
+    <string name="no_transactions_detected">Er zijn geen ondersteunde transacties gevonden. Probeer een CSV-export of een duidelijkere PDF.</string>
+
+    <string name="checking_duplicates">Controleren op mogelijke duplicaten…</string>
+
+    <string name="import_summary">%1$d afgesloten betalingen · %2$d inkomsten · %3$d uitgesloten</string>
+
+    <string name="import_currency_mismatch">Valuta van overzicht: %1$s · App-valuta: %2$s. Geïmporteerde rijen gebruiken de app-valuta. Houd rekening met de wisselkoers en pas bedragen indien nodig aan vóór het importeren.</string>
+
+    <string name="import_currency_detected">Valuta van overzicht: %1$s. Geïmporteerde rijen gebruiken je app-valuta.</string>
+
+    <string name="import_currency_not_detected">De valuta van het overzicht kon niet worden vastgesteld. Geïmporteerde waarden gebruiken de app-valuta: %1$s.</string>
+
+    <string name="scan_currency_mismatch">Gedetecteerde documentvaluta: %1$s · App-valuta: %2$s. Deze invoer gebruikt de app-valuta. Houd rekening met de wisselkoers en pas het bedrag aan vóór het opslaan.</string>
+
+    <string name="closed_payment_saved">Afgesloten betaling succesvol opgeslagen.</string>
+
+    <string name="closed_payment_save_failed">Afgesloten betaling kon niet worden opgeslagen: %1$s</string>
+
+    <string name="user_session_unavailable">Je sessie kon niet worden geverifieerd. Meld je opnieuw aan.</string>
+
+    <string name="user_not_authenticated">Meld je opnieuw aan.</string>
+
+    <string name="unknown_item_clicked">Dit item kon niet worden geopend.</string>
+
+    <string name="load_open_payments_failed">Open betalingen konden niet worden geladen: %1$s</string>
+
+    <string name="load_closed_payments_failed">Afgesloten betalingen konden niet worden geladen: %1$s</string>
+
+    <string name="load_income_failed">Inkomsten konden niet worden geladen: %1$s</string>
+
+    <string name="load_savings_target_failed">Spaardoel kon niet worden geladen: %1$s</string>
+
+    <string name="invalid_target_amount">Voer een geldig doelbedrag in.</string>
+
+    <string name="invalid_end_date">Selecteer een geldige einddatum.</string>
+
+    <string name="start_date_before_end_date">De startdatum moet vóór de einddatum liggen.</string>
+
+    <string name="invalid_target_date_range">Ongeldige datumbereik voor spaardoel.</string>
+
+    <string name="savings_target_not_found">Spaardoel niet gevonden.</string>
+
+    <string name="savings_target_updated">Spaardoel bijgewerkt.</string>
+
+    <string name="savings_target_update_failed">Spaardoel kon niet worden bijgewerkt: %1$s</string>
+
+    <string name="savings_target_deleted">Spaardoel succesvol verwijderd.</string>
+
+    <string name="savings_target_delete_failed">Spaardoel kon niet worden verwijderd: %1$s</string>
+
+    <string name="valid_inputs_required">Voer geldige waarden in.</string>
+
+    <string name="monthly_savings_clear_failed">Maandelijkse besparing kon niet worden verwijderd: %1$s</string>
+
+    <string name="associated_data_failed">Gerelateerde gegevens konden niet worden opgehaald: %1$s</string>
+
+    <string name="bill_not_found">Open betaling niet gevonden.</string>
+
+    <string name="open_payment_updated">Open betaling succesvol bijgewerkt.</string>
+
+    <string name="open_payment_update_failed">Open betaling kon niet worden bijgewerkt: %1$s</string>
+
+    <string name="open_payment_update_unavailable">Open betaling kon niet worden bijgewerkt.</string>
+    <string name="closed_payment_updated">Afgesloten betaling succesvol bijgewerkt.</string>
+
+    <string name="closed_payment_update_failed">Afgesloten betaling kon niet worden bijgewerkt: %1$s</string>
+
+    <string name="closed_payment_update_unavailable">Afgesloten betaling kon niet worden bijgewerkt.</string>
+
+    <string name="closed_payment_deleted">Afgesloten betaling succesvol verwijderd.</string>
+
+    <string name="closed_payment_delete_failed">Afgesloten betaling kon niet worden verwijderd.</string>
+
+    <string name="image_permission_denied">Opslagtoegang geweigerd. De afbeelding kan niet worden weergegeven.</string>
+
+    <string name="image_display_failed">Afbeelding kon niet worden weergegeven: %1$s</string>
+
+    <string name="income_updated">Inkomsten succesvol bijgewerkt.</string>
+
+    <string name="income_update_failed">Inkomsten konden niet worden bijgewerkt: %1$s</string>
+
+    <string name="income_update_unavailable">Inkomsten konden niet worden bijgewerkt.</string>
+
+    <string name="payment_login_required">Meld je opnieuw aan om deze betaling bij te werken.</string>
+
+    <string name="payment_id_missing">Deze betaling kan niet worden verplaatst omdat de ID ontbreekt.</string>
+
+    <plurals name="import_selected_transactions">
+        <item quantity="one">%d transactie importeren</item>
+        <item quantity="other">%d transacties importeren</item>
+    </plurals>
+
+    <string name="premium_preview_import_transactions">Importeer meerdere afgesloten betalingen en inkomstenposten uit CSV- of PDF-overzichten.</string>
+
+    <string name="imported_from_statement">Geïmporteerd uit een bankafschrift</string>
+
+    <string name="importing_transactions">Geselecteerde transacties worden opgeslagen…</string>
+
+    <string name="import_complete">Import voltooid</string>
+
+    <plurals name="transactions_imported">
+        <item quantity="one">%d transactie is geïmporteerd.</item>
+        <item quantity="other">%d transacties zijn geïmporteerd.</item>
+    </plurals>
+
+    <string name="import_failed">De transacties konden niet worden geïmporteerd. Probeer het opnieuw.</string>
+
+    <string name="statement_read_failed">Het afschrift kon niet worden gelezen.</string>
+
+    <string name="import_review_explanation">Controleer elke suggestie vóór het importeren. Deselecteer overboekingen, duplicaten of transacties die geen invloed mogen hebben op SmartStack.</string>
+
+    <string name="choose_another_file">Ander bestand kiezen</string>
+
+    <string name="choose_file">Bestand kiezen</string>
+
+    <string name="change_file">Bestand wijzigen</string>
+
+    <string name="selected_file">Geselecteerd bestand: %1$s</string>
+
+    <string name="include_in_import">Importeren</string>
+
+    <string name="import_blocked_no_selection">Selecteer ten minste één transactie om te importeren.</string>
+
+    <string name="import_blocked_currency">De valuta van het afschrift komt niet overeen met de app-valuta.</string>
+
+    <string name="import_blocked_invalid_entry">Een geselecteerde transactie mist een titel of een geldig bedrag.</string>
+
+    <string name="import_blocked_free_per_file">Gratis accounts kunnen maximaal %1$d geselecteerde transacties tegelijk importeren. Deselecteer extra regels of upgrade naar Premium.</string>
+
+    <string name="import_blocked_free_total">Het gratis tegoed bedraagt in totaal %1$d geïmporteerde transacties. Je kunt momenteel nog %2$d transacties importeren.</string>
+
+    <string name="import_blocked_limit_check">SmartStack kon je resterende gratis importtegoed niet controleren. Controleer je verbinding en probeer het opnieuw.</string>
+
+    <string name="import_free_allowance">Gratis tegoed: %1$d per bestand, %2$d totaal · %3$d resterend</string>
+
+    <string name="import_free_allowance_pending">Gratis tegoed: %1$d per bestand, %2$d totaal · resterend tegoed controleren…</string>
+
+    <string name="import_premium_allowance">Premium-tegoed: maximaal %1$d transacties per bestand</string>
+
+    <string name="faqs_question_21">21. Hoe werkt het importeren van bankafschriften en hoe nauwkeurig is het?</string>
+
+    <string name="faqs_answer_21">Antwoord: SmartStack kan ondersteunde CSV- en PDF-afschriften lezen en voorstellen doen voor afgesloten betalingen en inkomstenposten. PDF-herkenning gebruikt OCR op het apparaat en kan datums, beschrijvingen of bedragen verkeerd interpreteren. Controleer altijd elke rij vóór het importeren en deselecteer overboekingen, duplicaten of transacties die geen invloed mogen hebben op je totalen. Gratis accounts kunnen maximaal 50 transacties tegelijk en 100 transacties in totaal importeren; Premium ondersteunt maximaal 200 transacties per bestand. Het afschrift wordt tijdelijk op het apparaat verwerkt en niet naar Firebase geüpload; alleen geselecteerde invoeren worden opgeslagen.</string>
+    <string name="export_monthly_overview">Maandoverzicht exporteren</string>
+    <string name="export_monthly_title">Maandoverzicht exporteren</string>
+    <string name="export_scope_info_title">Wat wordt geëxporteerd?</string>
+    <string name="export_scope_info_content_description">Exportinformatie tonen</string>
+    <string name="export_scope_info_bullets">• Geselecteerde maand&#10;• Totaal inkomsten&#10;• Totaal open betalingen&#10;• Totaal afgeronde betalingen&#10;• Saldo&#10;• Categorietotalen van afgeronde betalingen&#10;• Gegevens van de geselecteerde maand</string>
+    <string name="export_pdf_summary">PDF-samenvatting</string>
+    <string name="export_csv_data">CSV-gegevens</string>
+    <string name="export_share_chooser">Maandoverzicht delen</string>
+    <string name="premium_compare_convenience">Gemakstools</string>
+    <string name="premium_compare_convenience_free">Sjablonen, invoer via scannen en maandelijkse export</string>
+    <string name="premium_compare_convenience_premium">Inbegrepen, met hogere importlimieten</string>
+    <string name="export_report_title">SmartStack maandoverzicht</string>
+    <string name="export_summary">Samenvatting</string>
+    <string name="export_category_totals">Categorietotalen</string>
+    <string name="export_entries">Items</string>
+    <string name="export_open_payments">Open betalingen</string>
+    <string name="export_closed_payments">Afgeronde betalingen</string>
+    <string name="export_income">Inkomsten</string>
+    <string name="export_balance">Saldo</string>
+    <string name="export_no_entries">Geen items voor deze maand.</string>
+    <string name="use_template">Sjabloon gebruiken</string>
+    <string name="hide_templates">Sjablonen verbergen</string>
+    <string name="save_as_template">Opslaan als sjabloon</string>
+    <string name="template_name">Sjabloonnaam</string>
+    <string name="template_name_hint">bijv. Boodschappen, Tankstation, Dividend</string>
+    <string name="template_saved">Sjabloon opgeslagen.</string>
+    <string name="template_name_required">Voer een naam voor het sjabloon in.</string>
+    <string name="terms_and_conditions_content">
+    1. Acceptatie van de voorwaarden&#10;&#10;Door de SmartStack Solutions-applicatie te gebruiken, gaat u akkoord met deze algemene voorwaarden. Als u hier niet mee akkoord gaat, gebruik de applicatie dan niet.&#10;&#10;
+    2. Wijzigingen in de voorwaarden&#10;&#10;SmartStack Solutions behoudt zich het recht voor deze voorwaarden op elk moment te wijzigen. Wij zullen gebruikers informeren over eventuele wijzigingen via de applicatie of per e-mail. Voortgezet gebruik van de applicatie nadat wijzigingen zijn gepubliceerd, betekent dat u de nieuwe voorwaarden accepteert.&#10;&#10;
+    3. Verantwoordelijkheden van de gebruiker&#10;&#10;Accountbeveiliging: Gebruikers zijn verantwoordelijk voor het vertrouwelijk houden van hun accountgegevens en voor alle activiteiten die via hun account plaatsvinden.&#10;&#10;Juiste informatie: Gebruikers moeten correcte en volledige informatie verstrekken bij het aanmaken en beheren van hun account.\nVerboden handelingen: Gebruikers mogen de applicatie niet gebruiken voor onwettige doeleinden of activiteiten die de applicatie of andere gebruikers kunnen schaden.&#10;&#10;
+    4. Privacybeleid&#10;&#10;Uw privacy is belangrijk voor ons. Raadpleeg ons Privacybeleid voor informatie over hoe wij uw persoonsgegevens verzamelen, gebruiken en beschermen.&#10;&#10;
+    5. Gebruik van de applicatie&#10;&#10;Functies: SmartStack Solutions biedt hulpmiddelen voor het beheren van financiële inkomsten en uitgaven. De applicatie stelt gebruikers in staat hun financiële gegevens in te voeren, te organiseren en te bekijken.\nBeperkingen: Hoewel wij streven naar nauwkeurige en betrouwbare functies, kan SmartStack Solutions niet garanderen dat alle functies foutloos of ononderbroken beschikbaar zullen zijn.&#10;&#10;
+    6. Premium-account&#10;&#10;Functies: Premium biedt toegang tot de functies die op het Premium-scherm worden weergegeven. Beschikbare functies en prijzen kunnen veranderen naarmate de dienst zich ontwikkelt.&#10;&#10;Betalingen: Premium-kosten worden via Google Play in rekening gebracht volgens het aanbod dat vóór aankoop wordt weergegeven. Terugbetalingen en annuleringen worden afgehandeld volgens de toepasselijke voorwaarden van Google Play en de lokale wetgeving.&#10;&#10;
+    7. Aansprakelijkheid&#10;&#10;Geen garantie: De applicatie wordt geleverd "zoals deze is", zonder enige vorm van garantie. SmartStack Solutions garandeert niet de nauwkeurigheid, volledigheid of betrouwbaarheid van de applicatie.&#10;&#10;Beperking van aansprakelijkheid: SmartStack Solutions is niet aansprakelijk voor enige schade die voortvloeit uit het gebruik van of het niet kunnen gebruiken van de applicatie.&#10;&#10;
+    8. Beëindiging&#10;&#10;SmartStack Solutions behoudt zich het recht voor de toegang tot de applicatie te beëindigen of op te schorten voor gebruikers die deze algemene voorwaarden overtreden.&#10;&#10;
+    9. Contactinformatie&#10;&#10;Voor vragen of opmerkingen over deze algemene voorwaarden kunt u contact opnemen via appdev.jr2024@gmail.com.
+</string>
+</resources>

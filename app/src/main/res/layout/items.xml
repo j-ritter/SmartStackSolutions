@@ -5,58 +5,95 @@
     android:id="@+id/cardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="4dp"
-    android:layout_marginTop="6dp"
-    android:layout_marginEnd="4dp"
-    android:layout_marginBottom="6dp"
+    android:layout_margin="12dp"
     app:cardBackgroundColor="@color/white"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="2dp">
+    app:cardCornerRadius="6dp"
+    app:cardElevation="6dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="112dp"
-        android:padding="14dp">
+        android:padding="12dp">
+
+        <TextView
+            android:id="@+id/labelTitleItemsBills"
+            android:layout_width="120dp"
+            android:layout_height="18dp"
+            android:text="@string/title"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/textviewTitleItemsBills"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
             android:ellipsize="end"
             android:maxLines="2"
-            android:textColor="@color/colorSecondary"
-            android:textSize="17sp"
+            android:textColor="@color/black"
+            android:textSize="12sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/textviewAmountItemsBills"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/paidStatusGroupItemsBills"
+            app:layout_constraintStart_toEndOf="@id/labelTitleItemsBills"
+            app:layout_constraintTop_toTopOf="@id/labelTitleItemsBills"
             tools:text="Electricity bill" />
 
-        <TextView
-            android:id="@+id/textviewAmountItemsBills"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/paidStatusGroupItemsBills"
+            android:layout_width="58dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:textColor="@color/bill_color"
-            android:textSize="17sp"
-            android:textStyle="bold"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/textviewTitleItemsBills"
-            tools:text="$120.00" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <CheckBox
+                android:id="@+id/imgCheckBoxItemsBills"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/checkbox_color_selector"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:padding="0dp" />
+
+            <TextView
+                android:id="@+id/imgCheckBoxItemsBillsLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/mark_paid"
+                android:textColor="@color/colorSecondary"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/labelCategoryItemsBills"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/category"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/labelTitleItemsBills" />
 
         <TextView
             android:id="@+id/textviewCategoryItemsBills"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_height="18dp"
+            android:layout_marginStart="12dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textColor="#647383"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toStartOf="@+id/imgRecurringIcon"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textviewTitleItemsBills"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@id/imgRecurringIcon"
+            app:layout_constraintStart_toEndOf="@id/labelCategoryItemsBills"
+            app:layout_constraintTop_toTopOf="@id/labelCategoryItemsBills"
             tools:text="Utilities" />
 
         <ImageView
@@ -68,46 +105,57 @@
             android:src="@drawable/ic_recurring1"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/textviewCategoryItemsBills"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/paidStatusGroupItemsBills"
             app:layout_constraintTop_toTopOf="@id/textviewCategoryItemsBills"
             app:tint="@color/colorSecondary" />
 
         <TextView
-            android:id="@+id/labelDateItemsBills"
-            android:layout_width="wrap_content"
+            android:id="@+id/labelAmountItemsBills"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/due_date"
-            android:textColor="#647383"
+            android:layout_marginTop="8dp"
+            android:text="@string/amount"
+            android:textColor="@color/black"
             android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textviewCategoryItemsBills" />
+            app:layout_constraintTop_toBottomOf="@id/labelCategoryItemsBills" />
+
+        <TextView
+            android:id="@+id/textviewAmountItemsBills"
+            android:layout_width="0dp"
+            android:layout_height="18dp"
+            android:layout_marginStart="12dp"
+            android:textColor="@color/bill_color"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@id/paidStatusGroupItemsBills"
+            app:layout_constraintStart_toEndOf="@id/labelAmountItemsBills"
+            app:layout_constraintTop_toTopOf="@id/labelAmountItemsBills"
+            tools:text="$120.00" />
+
+        <TextView
+            android:id="@+id/labelDateItemsBills"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/due_date"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/labelAmountItemsBills" />
 
         <TextView
             android:id="@+id/textviewDateItemsBills"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:textColor="@color/colorSecondary"
-            android:textSize="14sp"
+            android:layout_width="0dp"
+            android:layout_height="18dp"
+            android:layout_marginStart="12dp"
+            android:textColor="@color/black"
+            android:textSize="12sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/labelDateItemsBills"
+            app:layout_constraintEnd_toStartOf="@id/paidStatusGroupItemsBills"
+            app:layout_constraintStart_toEndOf="@id/labelDateItemsBills"
+            app:layout_constraintTop_toTopOf="@id/labelDateItemsBills"
             tools:text="12/06/2026" />
-
-        <CheckBox
-            android:id="@+id/imgCheckBoxItemsBills"
-            android:layout_width="wrap_content"
-            android:layout_height="44dp"
-            android:buttonTint="@color/checkbox_color_selector"
-            android:minWidth="0dp"
-            android:paddingStart="8dp"
-            android:text="@string/mark_paid"
-            android:textColor="@color/colorSecondary"
-            android:textSize="13sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@id/textviewDateItemsBills"
-            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

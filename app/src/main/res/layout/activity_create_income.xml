@@ -55,12 +55,90 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="8dp" />
 
+            <TextView
+                android:id="@+id/tvQuickEntryHintIncome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/quick_entry_hint"
+                android:textColor="#647383"
+                android:textSize="12sp" />
+
+            <LinearLayout
+                android:id="@+id/layoutTemplatesIncome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="vertical"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <LinearLayout
+                    android:id="@+id/templateToggleIncome"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvUseTemplateIncome"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/use_template"
+                        android:textColor="@color/colorSecondary"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/templateArrowIncome"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:layout_marginStart="4dp"
+                        android:contentDescription="@string/use_template"
+                        android:src="@drawable/ic_arrow_down"
+                        app:tint="@color/colorPrimary" />
+                </LinearLayout>
+
+                <HorizontalScrollView
+                    android:id="@+id/templateScrollIncome"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:overScrollMode="never"
+                    android:scrollbars="none"
+                    android:visibility="gone"
+                    tools:visibility="visible">
+
+                    <LinearLayout
+                        android:id="@+id/templateChipsIncome"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal" />
+                </HorizontalScrollView>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvScanReviewHintIncome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/rounded_frame_background_blue"
+                android:paddingStart="14dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="14dp"
+                android:paddingBottom="10dp"
+                android:text="@string/scan_review_disclaimer"
+                android:textColor="#647383"
+                android:textSize="12sp"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
             <!-- Title Section -->
             <TextView
                 android:id="@+id/txtLabelTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/title"
+                android:text="@string/title_optional"
                 android:textSize="13sp"
                 android:textStyle="bold"
                 android:textColor="@color/colorSecondary"
@@ -106,6 +184,18 @@
                 android:textSize="15sp" />
 
             <TextView
+                android:id="@+id/tvMoreDetailsIncome"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginTop="12dp"
+                android:gravity="center_vertical"
+                android:text="@string/show_details"
+                android:textColor="@color/colorPrimary"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtSourceIncome"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -208,6 +298,7 @@
                 android:background="@drawable/rounded_frame_background_blue" />
 
             <TextView
+                android:id="@+id/tvRecurrenceNoteIncome"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
@@ -241,6 +332,7 @@
                 android:textSize="15sp" />
 
             <LinearLayout
+                android:id="@+id/layoutAttachmentIncome"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -279,6 +371,32 @@
                     android:textStyle="bold"
                     android:visibility="gone" />
             </LinearLayout>
+
+            <CheckBox
+                android:id="@+id/checkSaveTemplateIncome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:text="@string/save_as_template"
+                android:textColor="@color/colorSecondary"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/edtTemplateNameIncome"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/rounded_frame_background_blue"
+                android:hint="@string/template_name_hint"
+                android:maxLength="30"
+                android:paddingStart="15dp"
+                android:paddingEnd="15dp"
+                android:textColor="@color/textPrimary"
+                android:textColorHint="#8A96A3"
+                android:textSize="15sp"
+                android:visibility="gone"
+                tools:visibility="visible" />
 
         </LinearLayout>
     </ScrollView>

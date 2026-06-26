@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="notification_details">Detalles de la Notificación</string>
-    <string name="main">Principal</string>
+    <string name="main">Menú principal</string>
     <string name="app_name">Soluciones SmartStack</string>
     <string name="target_name">Nombre del objetivo</string>
     <string name="log_in">Iniciar sesión</string>
@@ -32,6 +32,11 @@
     <string name="write_your_title">Escribe tu título</string>
     <string name="write_your_comments">Escribe tus comentarios</string>
     <string name="cancel">Cancelar</string>
+    <string name="unsaved_changes_title">Cambios sin guardar</string>
+    <string name="unsaved_changes_message">Tienes cambios sin guardar. ¿Quieres descartarlos?</string>
+    <string name="unsaved_import_message">Has revisado sugerencias de importación que aún no se han guardado. ¿Quieres descartarlas?</string>
+    <string name="keep_editing">Seguir editando</string>
+    <string name="discard_changes">Descartar</string>
     <string name="save">Guardar</string>
     <string name="attachment">Adjunto</string>
     <string name="delete_open_payment_confirmation">¿Eliminar este pago pendiente?</string>
@@ -82,6 +87,7 @@
     <string name="unlock_premium">Desbloquear funciones premium &#9733;</string>
     <string name="about_us">Sobre nosotros</string>
     <string name="faqs">Preguntas frecuentes</string>
+    <string name="search_faqs">Buscar en preguntas frecuentes</string>
     <string name="data_security">Seguridad de datos</string>
     <string name="help_support">Ayuda y soporte</string>
     <string name="terms_conditions">Términos y condiciones</string>
@@ -193,7 +199,7 @@
 
     <string name="faqs_question_4">4. ¿Cómo puedo ver mis pagos/gastos por estado (entrantes, atrasados, recurrentes)?</string>
     <string name="faqs_answer_4">
-    Respuesta: En la sección Pagos Pendientes, puedes filtrar tus pagos según su estado. Los pagos realizados se mueven a Pagos Cerrados. Los pagos atrasados aparecen en Atrasados y los próximos pagos se enumeran en Entrantes. Los pagos recurrentes se mostrarán en Recurrentes.
+    Respuesta: En la sección Pagos Pendientes, puedes filtrar tus pagos según su estado. Los pagos marcados como pagados se mueven automáticamente a Pagos Cerrados. Los pagos atrasados aparecen en Atrasados y los próximos pagos se enumeran en Entrantes. Los pagos recurrentes se mostrarán en Recurrentes.
 </string>
 
     <string name="faqs_question_5">5. ¿Qué son los pagos esenciales y no esenciales, y cuáles son las diferencias?</string>
@@ -203,7 +209,7 @@
 
     <string name="faqs_question_6">6. ¿Es posible escanear pagos?</string>
     <string name="faqs_answer_6">
-    Respuesta: Sí. Al crear un pago abierto, gasto completado o ingreso, elige Escanear documento. SmartStack recorta el documento, reconoce el texto impreso en el dispositivo y sugiere título, importe, fecha, proveedor o pagador. Revisa todas las sugerencias antes de guardar.
+    Respuesta: Sí. Al crear un pago pendiente, gasto completado o ingreso, elige Escanear documento. SmartStack recorta el documento, reconoce el texto impreso en el dispositivo y sugiere título, importe, fecha, proveedor o pagador. Revisa todas las sugerencias antes de guardar.
 </string>
 
     <string name="faqs_question_7">7. ¿Puedo hacer un seguimiento de mis ingresos con SmartStack Solutions?</string>
@@ -243,7 +249,7 @@
 
     <string name="faqs_question_14">14. ¿Qué debo hacer si encuentro un problema con la aplicación?</string>
     <string name="faqs_answer_14">
-    Respuesta: Si encuentras algún problema con la aplicación, puedes contactar a nuestro equipo de soporte a través de service@smartstack-solutions.com. Proporciona una descripción detallada del problema y nuestro equipo te ayudará rápidamente.
+    Respuesta: Si encuentras algún problema con la aplicación, abre Ayuda y soporte y describe claramente qué ocurrió y los pasos para reproducirlo.
 </string>
 
     <string name="faqs_question_15">15. ¿Cómo funciona el sistema de notificaciones en SmartStack Solutions y qué características incluye?</string>
@@ -254,7 +260,7 @@
     <string name="help_content">
     Si necesitas asistencia o soporte mientras utilizas SmartStack Solutions, puedes comunicarte con nuestro equipo de servicio para obtener ayuda.\n\n
     Contáctanos\n\n
-    Para cualquier problema, pregunta o comentario, comunícate con nuestro equipo de soporte a través del correo electrónico service@smartstack-solutions.com. Nuestro equipo responderá a tus consultas lo antes posible.\n\n
+    Para cualquier problema, pregunta o comentario, comunícate con nuestro equipo de soporte a través del correo electrónico appdev.jr2024@gmail.com. Nuestro equipo responderá a tus consultas lo antes posible.\n\n
     Preguntas Frecuentes (FAQs)\n\n
     Antes de contactarnos, puedes consultar nuestra sección de preguntas frecuentes, donde hemos recopilado respuestas a preguntas comunes sobre el uso de SmartStack Solutions. Esta sección cubre temas como la creación de entradas, la gestión de tu cuenta y el uso efectivo de las funciones.\n\n
     Para cualquier otra necesidad de ayuda o soporte, no dudes en contactarnos por correo electrónico. ¡Estamos aquí para ayudarte a sacar el máximo provecho de SmartStack Solutions!
@@ -264,18 +270,46 @@
     <string name="total_net_savings">Saldo mensual previsto</string>
     <string name="set_saving_target">Meta de ahorro</string>
     <string name="target_achieved">Meta alcanzada</string>
-    <string name="savings_target_reached_message">Felicidades. Alcanzaste el 100 % de tu meta de ahorro.</string>
-    <string name="goal_summary">Necesitas ahorrar %s por mes para alcanzar tu meta para %s.</string>
+    <string name="monthly_overview">Resumen mensual</string>
+    <string name="dashboard_hint">Consulta pagos pendientes, gastos pagados, ingresos y tu progreso de ahorro.</string>
+    <string name="savings_target_reached_message">Felicidades. Alcanzaste el 100 %% de tu meta de ahorro.</string>
+    <string name="goal_summary">Necesitas ahorrar %1$s por mes para alcanzar tu meta para %2$s.</string>
 
     <string name="content_description_back_arrow">Volver a la pantalla anterior</string>
     <string name="content_description_notifications_list">Lista de notificaciones</string>
 
     <string name="unlock_premium_features">Desbloquear funciones premium</string>
-    <string name="premium_intro_text">¡Gracias por elegir Soluciones SmartStack!\n\nCon la versión básica, puedes gestionar tus pagos pendientes y mantenerte al tanto de tus facturas próximas.\n\nActualiza a Premium para desbloquear:</string>
+    <string name="premium_intro_text">¡Mantén gratis las funciones esenciales. Actualiza a Premium cuando quieras un espacio financiero completo con más historial, gestión de ingresos, metas de ahorro y sin publicidad.</string>
     <string name="premium_feature_closed_payments">Pagos cerrados: Haz un seguimiento de las facturas pagadas.</string>
     <string name="premium_feature_income_management">Gestión de ingresos: Administra tus fuentes de ingresos.</string>
     <string name="premium_feature_saving_target">Meta de ahorro: Establece una meta de ahorro y sigue el progreso.</string>
-    <string name="premium_closing_text">Desbloquea Premium para disfrutar de una visión financiera completa.</string>
+    <string name="premium_closing_text">Los pagos pendientes, recordatorios, calendario, exportación de datos y el marcado de pagos como pagados siguen disponibles en la versión gratuita.</string>
+    <string name="premium_compare_title">Gratis vs. Premium</string>
+    <string name="premium_compare_subtitle">Empieza gratis. Actualiza cuando quieras más historial, herramientas de ingresos, metas, tendencias y menos límites.</string>
+    <string name="premium_compare_feature">Función</string>
+    <string name="premium_compare_free">Gratis</string>
+    <string name="premium_compare_premium">Premium</string>
+    <string name="premium_compare_open_payments">Pagos pendientes</string>
+    <string name="premium_compare_open_payments_free">30 pagos pendientes únicos activos</string>
+    <string name="premium_compare_open_payments_premium">Hasta 2.000 entradas futuras combinadas</string>
+    <string name="premium_compare_recurring">Entradas futuras recurrentes</string>
+    <string name="premium_compare_recurring_free">Hasta 250 pagos futuros</string>
+    <string name="premium_compare_recurring_premium">Hasta 2.000 entradas futuras</string>
+    <string name="premium_compare_closed">Pagos cerrados</string>
+    <string name="premium_compare_closed_free">Hasta 100 pagos cerrados</string>
+    <string name="premium_compare_closed_premium">Historial completo</string>
+    <string name="premium_compare_income">Gestión de ingresos</string>
+    <string name="premium_compare_income_free">Solo importación</string>
+    <string name="premium_compare_income_premium">Crear y gestionar ingresos</string>
+    <string name="premium_compare_import">Importación CSV/PDF</string>
+    <string name="premium_compare_import_free">50/archivo · 100 total</string>
+    <string name="premium_compare_import_premium">200/archivo</string>
+    <string name="premium_compare_insights">Análisis financieros</string>
+    <string name="premium_compare_insights_free">Básicos mensuales</string>
+    <string name="premium_compare_insights_premium">Tendencias de 6/12 meses</string>
+    <string name="premium_compare_ads">Anuncios</string>
+    <string name="premium_compare_ads_free">Se muestran</string>
+    <string name="premium_compare_ads_premium">Eliminados</string>
     <string name="premium_upgrade_required">Actualiza a Premium para crear pagos cerrados, ingresos y metas de ahorro.</string>
     <string name="features">Características</string>
     <string name="feature_open_payments_title">Pagos pendientes</string>
@@ -315,7 +349,7 @@
         6. Cuenta Premium&#10;&#10;Funciones: Los usuarios de la Cuenta Premium tienen acceso a funcionalidades adicionales y la capacidad de crear más de tres entradas.&#10;&#10;Pagos: Las tarifas de la Cuenta Premium se cobran según el plan de precios seleccionado por el usuario. Las tarifas no son reembolsables.&#10;&#10;
         7. Responsabilidad&#10;&#10;Sin garantía: La aplicación se proporciona tal cual sin garantías de ningún tipo. Soluciones SmartStack no garantiza la exactitud, integridad o fiabilidad de la aplicación.&#10;&#10;Limitación de responsabilidad: Soluciones SmartStack no será responsable de ningún daño derivado del uso o la imposibilidad de usar la aplicación.&#10;&#10;
         8. Terminación&#10;&#10;Soluciones SmartStack se reserva el derecho de terminar o suspender el acceso a la aplicación para cualquier usuario que viole estos términos y condiciones.&#10;&#10;
-        9. Información de contacto&#10;&#10;Para cualquier pregunta o inquietud relacionada con estos términos y condiciones, por favor contáctanos en service@smartstacksolution.info.
+        9. Información de contacto&#10;&#10;Para cualquier pregunta o inquietud relacionada con estos términos y condiciones, por favor contáctanos en appdev.jr2024@gmail.com.
     </string>
     <string name="back">Volver</string>
     <string name="content_description_back">Volver</string>
@@ -325,7 +359,7 @@
 
         Nuestro equipo se dedica a crear soluciones fáciles de usar que se adapten a las necesidades de las personas que buscan una mejor gestión y organización financiera. Creemos que con las herramientas adecuadas, todos pueden tomar el control de sus finanzas y mejorar su bienestar financiero.\n\n
 
-        Si tienes alguna pregunta o necesitas más información sobre nuestra misión y servicios, no dudes en contactarnos. Correo electrónico: service@smartstack-solutions.com. ¡Estamos aquí para ayudarte a aprovechar al máximo Soluciones SmartStack!
+        Si tienes alguna pregunta o necesitas más información sobre nuestra misión y servicios, no dudes en contactarnos. Correo electrónico: appdev.jr2024@gmail.com. ¡Estamos aquí para ayudarte a aprovechar al máximo Soluciones SmartStack!
     </string>
     <string name="delete_recurring_income">Eliminar ingreso recurrente</string>
     <string name="delete_this_income_entry">Eliminar solo este ingreso</string>
@@ -406,7 +440,7 @@
     <string name="add_first_payment">Añadir primer pago</string>
     <string name="how_smartstack_works">Cómo funciona SmartStack</string>
     <string name="dashboard_tutorial_title">Tu flujo de SmartStack</string>
-    <string name="dashboard_tutorial_message">Los pagos abiertos muestran lo que aún está pendiente. Al marcar uno como pagado, pasa al historial de gastos completados. Los ingresos y objetivos de ahorro completan el resumen mensual, mientras los recordatorios y análisis señalan lo que requiere atención.</string>
+    <string name="dashboard_tutorial_message">Los pagos pendientes muestran lo que aún está pendiente. Al marcar uno como pagado, pasa al historial de gastos completados. Los ingresos y objetivos de ahorro completan el resumen mensual, mientras los recordatorios y análisis señalan lo que requiere atención.</string>
     <string name="about_us_hero_title">Claridad para tus finanzas diarias</string>
     <string name="about_why_title">Por qué existe SmartStack</string>
     <string name="about_why_body">Organizar las finanzas debe ser comprensible, no abrumador. SmartStack reúne pagos, gastos, ingresos, objetivos de ahorro y recordatorios en una vista mensual clara.</string>
@@ -417,7 +451,7 @@
     <string name="about_independent_title">Desarrollado de forma independiente</string>
     <string name="about_independent_body">SmartStack se desarrolla de forma independiente, con atención a la utilidad, límites justos y mejoras continuas. Es una herramienta de organización y no ofrece asesoramiento financiero, fiscal ni de inversión.</string>
     <string name="about_contact_title">Preguntas y comentarios</string>
-    <string name="about_contact_body">Tus comentarios ayudan a mejorar SmartStack. Contacto: service@smartstack-solutions.com.</string>
+    <string name="about_contact_body">Tus comentarios ayudan a mejorar SmartStack. Contacto: appdev.jr2024@gmail.com.</string>
     <string name="about_version">Versión de la aplicación %1$s</string>
     <string name="income_attachment">Adjunto de ingreso</string>
     <string name="data_security_question_15">15. ¿Dónde se almacenan las imágenes adjuntas?</string>
@@ -439,13 +473,14 @@
     <string name="help_getting_started_title">Guía de primeros pasos</string>
     <string name="help_getting_started_description">Aprende el flujo recomendado para pagos, ingresos, recordatorios y análisis mensuales.</string>
     <string name="entry_method_subtitle">Elige la opción más rápida para esta entrada.</string>
-    <string name="entry_method_open_payment">¿Cómo quieres añadir este pago abierto?</string>
-    <string name="entry_method_closed_payment">¿Cómo quieres añadir este gasto completado?</string>
+    <string name="entry_method_open_payment">¿Cómo quieres añadir este pago pendiente?</string>
+    <string name="entry_method_closed_payment">¿Cómo quieres añadir este pago cerrado?</string>
     <string name="entry_method_income">¿Cómo quieres añadir este ingreso?</string>
     <string name="scan_document">Escanear documento</string>
-    <string name="scan_document_description">Toma una foto o selecciona una imagen y revisa los datos sugeridos.</string>
+    <string name="scan_document_description">Una entrada: escanea una factura, recibo o documento de ingreso.</string>
+    <string name="scan_review_disclaimer">Los datos escaneados son sugerencias. Revisa el título, el importe, la fecha, la categoría y el adjunto antes de guardar.</string>
     <string name="enter_manually">Introducir manualmente</string>
-    <string name="enter_manually_description">Abre un formulario vacío e introduce los datos.</string>
+    <string name="enter_manually_description">Una entrada: escribe los datos manualmente.</string>
     <string name="scan_and_prefill">Escanear y completar campos</string>
     <string name="preparing_document_scanner">Preparando el escáner de documentos…</string>
     <string name="reading_document">Leyendo el documento y preparando sugerencias…</string>
@@ -455,4 +490,293 @@
     <string name="try_again">Intentar de nuevo</string>
     <string name="faqs_question_20">20. ¿Qué precisión tiene el escaneo de documentos?</string>
     <string name="faqs_answer_20">Respuesta: El escaneo reduce la escritura, pero no sustituye tu revisión. El resultado depende de la calidad de imagen, diseño, idioma y presencia de varias fechas o importes. SmartStack puede elegir un total, fecha, proveedor o pagador incorrecto. Verifica cada campo antes de guardar. El procesamiento se realiza en el dispositivo y el documento no se sube a Firebase mediante esta función.</string>
+    <string name="import_transactions">Importar transacciones</string>
+    <string name="import_transactions_description">Añade varios pagos cerrados e ingresos desde un estado de cuenta CSV o PDF.</string>
+    <string name="closed_payments_expenses">Pagos cerrados</string>
+    <string name="ignore_transaction">Ignorar</string>
+    <string name="possible_duplicate">Posible duplicado. Esta fila se desmarcó; selecciónala solo si quieres importarla de nuevo.</string>
+    <string name="import_row_needs_review">Revisa cuidadosamente esta fila. Puede ser una transferencia o reembolso, o sus valores no pudieron verificarse por completo.</string>
+    <string name="reading_statement">Leyendo el estado de cuenta…</string>
+    <string name="reading_statement_page">Leyendo página %1$d de %2$d…</string>
+    <string name="no_transactions_detected">No se detectaron transacciones compatibles. Prueba una exportación CSV o un PDF más claro.</string>
+    <string name="checking_duplicates">Buscando posibles duplicados…</string>
+    <string name="import_summary">%1$d pagos cerrados · %2$d ingresos · %3$d excluidos</string>
+    <string name="import_currency_mismatch">Moneda del estado: %1$s · Moneda de la app: %2$s. Las filas importadas usan la moneda de la app. Ten en cuenta el tipo de cambio y ajusta los importes antes de importar.</string>
+    <string name="import_currency_detected">Moneda del estado: %1$s. Las filas importadas usan la moneda de la app.</string>
+    <string name="import_currency_not_detected">No se detectó la moneda del estado. Los valores importados usarán la moneda de la app: %1$s.</string>
+    <string name="scan_currency_mismatch">Moneda detectada del documento: %1$s · Moneda de la app: %2$s. La entrada usará la moneda de la app. Ten en cuenta el tipo de cambio y ajusta el importe antes de guardar.</string>
+    <string name="closed_payment_saved">Pago cerrado guardado correctamente.</string>
+    <string name="closed_payment_save_failed">No se pudo guardar el pago cerrado: %1$s</string>
+    <string name="user_session_unavailable">No se pudo verificar tu sesión. Inicia sesión de nuevo.</string>
+    <plurals name="import_selected_transactions">
+        <item quantity="one">Importar %d transacción</item>
+        <item quantity="other">Importar %d transacciones</item>
+    </plurals>
+    <string name="premium_preview_import_transactions">Importa varios pagos cerrados e ingresos desde estados CSV o PDF.</string>
+    <string name="imported_from_statement">Importado desde un estado de cuenta bancario</string>
+    <string name="importing_transactions">Guardando las transacciones seleccionadas…</string>
+    <string name="import_complete">Importación completada</string>
+    <plurals name="transactions_imported">
+        <item quantity="one">Se importó %d transacción.</item>
+        <item quantity="other">Se importaron %d transacciones.</item>
+    </plurals>
+    <string name="import_failed">No se pudieron importar las transacciones. Inténtalo de nuevo.</string>
+    <string name="statement_read_failed">No se pudo leer el estado de cuenta.</string>
+    <string name="import_review_explanation">Revisa cada sugerencia antes de importar. Desmarca transferencias, duplicados o movimientos que no deban afectar SmartStack.</string>
+    <string name="choose_another_file">Elegir archivo</string>
+    <string name="choose_file">Elegir archivo</string>
+    <string name="change_file">Cambiar archivo</string>
+    <string name="selected_file">Archivo seleccionado: %1$s</string>
+    <string name="include_in_import">Importar</string>
+    <string name="import_blocked_no_selection">Selecciona al menos una transacción para importar.</string>
+    <string name="import_blocked_currency">Las monedas del estado y de la app no coinciden.</string>
+    <string name="import_blocked_invalid_entry">A una transacción seleccionada le falta un título o importe válido.</string>
+    <string name="import_blocked_free_per_file">Las cuentas gratuitas pueden importar hasta %1$d transacciones seleccionadas a la vez. Desmarca filas adicionales o mejora a Premium.</string>
+    <string name="import_blocked_free_total">El límite gratuito es de %1$d transacciones importadas en total. Actualmente puedes importar %2$d más.</string>
+    <string name="import_blocked_limit_check">SmartStack no pudo verificar tu límite gratuito restante. Comprueba la conexión e inténtalo de nuevo.</string>
+    <string name="import_free_allowance">Límite gratuito: %1$d por archivo, %2$d en total · %3$d restantes</string>
+    <string name="import_free_allowance_pending">Límite gratuito: %1$d por archivo, %2$d en total · comprobando disponibilidad…</string>
+    <string name="import_premium_allowance">Límite Premium: hasta %1$d transacciones por archivo</string>
+    <string name="faqs_question_21">21. ¿Cómo funciona la importación de estados de cuenta y qué precisión tiene?</string>
+    <string name="faqs_answer_21">Respuesta: SmartStack puede leer estados CSV y PDF compatibles y sugerir pagos cerrados e ingresos. El OCR puede interpretar incorrectamente fechas, descripciones o importes. Revisa cada fila y desmarca transferencias, duplicados o movimientos no deseados. Las cuentas gratuitas pueden importar 50 transacciones a la vez y 100 en total; Premium admite hasta 200 por archivo. El estado se procesa temporalmente en el dispositivo y no se sube a Firebase; solo se guardan las entradas seleccionadas.</string>
+    <string name="free_closed_payment_limit_reached">Has alcanzado el límite gratuito de 100 pagos cerrados. Elimina historial antiguo o actualiza a Premium.</string>
+    <string name="log_in_with_google">Iniciar sesión con Google</string>
+    <string name="login_title">Bienvenido de nuevo</string>
+    <string name="login_subtitle">Inicia sesión para seguir gestionando tus pagos, gastos e ingresos.</string>
+    <string name="signup_title">Crea tu cuenta</string>
+    <string name="signup_subtitle">Empieza a organizar tus finanzas con una cuenta segura de SmartStack.</string>
+    <string name="continue_with_email">Continuar con correo electrónico</string>
+    <string name="email_required">Introduce tu correo electrónico.</string>
+    <string name="email_invalid">Introduce un correo electrónico válido.</string>
+    <string name="password_required">Introduce tu contraseña.</string>
+    <string name="password_too_short">Usa al menos 6 caracteres.</string>
+    <string name="auth_generic_error">No pudimos iniciar sesión. Revisa tus datos e inténtalo de nuevo.</string>
+    <string name="auth_network_error">Problema de conexión. Revisa tu internet e inténtalo de nuevo.</string>
+    <string name="account_exists_error">Ya existe una cuenta con este correo electrónico.</string>
+    <string name="password_reset_sent">Correo para restablecer la contraseña enviado. Revisa tu bandeja de entrada.</string>
+    <string name="password_reset_failed">No pudimos enviar el correo de restablecimiento. Revisa la dirección e inténtalo de nuevo.</string>
+
+    <string name="open_payments_hint">Pagos próximos y atrasados que aún requieren atención.</string>
+    <string name="no_open_payments">No hay pagos pendientes que coincidan con esta vista.</string>
+    <string name="mark_paid">Marcar como pagado</string>
+    <string name="bill_details">Detalles del pago pendiente</string>
+    <string name="untitled_payment">Pago sin título</string>
+    <string name="uncategorized">Sin categoría</string>
+    <string name="delete_open_payment">Eliminar pago pendiente</string>
+    <string name="edit_open_payment">Editar pago pendiente</string>
+    <string name="open_payment_attachment">Adjunto del pago pendiente</string>
+    <string name="type">Tipo</string>
+    <string name="savings_target_progress">Progreso de la meta de ahorro</string>
+
+    <string name="premium_feature_financial_insights">Explora tendencias financieras de seis y doce meses.</string>
+    <string name="premium_preview_closed_payments">Modo de vista previa: puedes revisar pagos cerrados. Actualiza a Premium para crear, editar o eliminar pagos cerrados.</string>
+    <string name="premium_preview_income">Modo de vista previa: puedes revisar ingresos. Actualiza a Premium para crear, editar o eliminar ingresos.</string>
+    <string name="feature_financial_insights_title">Análisis financieros avanzados</string>
+    <string name="feature_financial_insights_desc">Convierte tu historial en tendencias útiles.</string>
+    <string name="feature_financial_insights_expandable">Compara el flujo de caja de seis y doce meses, identifica cambios en categorías de gasto, sigue compromisos recurrentes y revisa la constancia de ahorro. El análisis sigue el mes seleccionado en el panel.</string>
+    <string name="unlock_button_with_price">Desbloquear Premium · %1$s</string>
+    <string name="show_details">Mostrar detalles</string>
+    <string name="hide_details">Ocultar detalles</string>
+    <string name="quick_entry_hint">Solo se requiere el importe. La fecha está prellenada y los detalles pueden añadirse más tarde.</string>
+    <string name="optional_details">Detalles opcionales</string>
+    <string name="savings_quick_entry_hint">Introduce el importe objetivo y la fecha final. La fecha de inicio se rellena con la fecha de hoy.</string>
+    <string name="title_optional">Título opcional</string>
+
+    <string name="free_open_payment_limit_reached">Has alcanzado el límite gratuito de 30 pagos pendientes activos únicos. Marca elementos completados como pagados o actualiza a Premium.</string>
+    <string name="free_recurring_limit_reached">Esta programación recurrente superaría el límite gratuito de 250 pagos futuros recurrentes. Elimina una programación que ya no uses o actualiza a Premium.</string>
+    <string name="premium_usage_limit_reached">Esta entrada superaría el límite de uso justo de Premium de 2.000 entradas futuras combinadas de pagos e ingresos. Elimina entradas futuras obsoletas o contacta al soporte.</string>
+    <string name="usage_limit_check_failed">SmartStack no pudo verificar el límite disponible de entradas. Revisa tu conexión e inténtalo de nuevo.</string>
+
+    <string name="help_hub_title">¿Cómo podemos ayudarte?</string>
+    <string name="help_hub_intro">Encuentra una respuesta rápida, gestiona los datos de tu cuenta o contáctanos directamente.</string>
+    <string name="help_choose_option">Elige una opción de soporte</string>
+    <string name="help_faq_title">Consultar preguntas frecuentes</string>
+    <string name="help_faq_description">Obtén respuestas sobre pagos, recordatorios, Premium, límites y uso de la cuenta.</string>
+    <string name="help_contact_title">Enviar correo al soporte de SmartStack</string>
+    <string name="help_contact_description">Abre un correo preparado para appdev.jr2024@gmail.com.</string>
+    <string name="help_data_title">Ayuda con datos y cuenta</string>
+    <string name="help_data_description">Exporta tu información o revisa las opciones de eliminación de cuenta.</string>
+    <string name="help_message_title">Para recibir una respuesta más rápida</string>
+    <string name="help_message_checklist">Incluye:\n• Qué intentabas hacer\n• Qué ocurrió en su lugar\n• Pasos para reproducir el problema\n• Una captura de pantalla, si no contiene información financiera sensible</string>
+    <string name="help_response_note">Nunca envíes contraseñas, tokens de compra ni registros financieros completos por correo electrónico.</string>
+    <string name="support_email_subject">Solicitud de soporte de SmartStack Solutions</string>
+    <string name="support_email_template">Hola soporte de SmartStack,\n\nNecesito ayuda con:\n\nLo que esperaba:\n\nLo que ocurrió:\n\nPasos para reproducirlo:\n\nVersión de la app: %1$s\n\nPor favor, no incluyas contraseñas ni registros financieros sensibles.</string>
+    <string name="support_email_copied">No se encontró una app de correo. La dirección de soporte se copió al portapapeles.</string>
+
+    <string name="terms_section_title_1">1. Aceptación y alcance</string>
+    <string name="terms_section_body_1">Al crear una cuenta o usar SmartStack Solutions, aceptas estos términos. Si no estás de acuerdo, no uses la aplicación.</string>
+    <string name="terms_section_title_2">2. Finalidad del servicio</string>
+    <string name="terms_section_body_2">SmartStack ofrece herramientas de organización para pagos, gastos, ingresos, recordatorios y metas de ahorro. No ofrece asesoría financiera, fiscal, legal ni de inversión.</string>
+    <string name="terms_section_title_3">3. Responsabilidad de la cuenta</string>
+    <string name="terms_section_body_3">Eres responsable de proteger tu cuenta, mantener información precisa y revisar tus entradas y recordatorios. No uses el servicio de forma ilegal ni intentes interrumpirlo, abusar de él automáticamente o eludir sus protecciones técnicas.</string>
+    <string name="terms_section_title_4">4. Servicio gratuito y publicidad</string>
+    <string name="terms_section_body_4">La versión gratuita se financia con publicidad e incluye funciones básicas de pagos pendientes, recordatorios, calendario, exportación y finalización de pagos. Algunas funciones de creación, edición, historial, ingresos, metas y análisis requieren Premium.</string>
+    <string name="terms_section_title_5">5. Límites de uso justo</string>
+    <string name="terms_section_body_5">Para mantener un servicio fiable y sostenible, las cuentas gratuitas admiten hasta 30 pagos pendientes activos únicos, 100 pagos cerrados y 250 entradas futuras de pagos recurrentes. Las cuentas Premium admiten límites de uso justo más altos, incluido un máximo de 2.000 entradas futuras combinadas de pagos e ingresos. Los límites pueden ajustarse en el futuro por seguridad, fiabilidad o sostenibilidad del servicio, con aviso razonable cuando sea posible.</string>
+    <string name="terms_section_title_6">6. Suscripción Premium</string>
+    <string name="terms_section_body_6">Las funciones Premium y el precio vigente se muestran antes de la compra. La facturación, renovación, cancelación y reembolsos elegibles se gestionan a través de Google Play según sus términos y la ley aplicable. Premium elimina la publicidad y desbloquea las funciones descritas en la pantalla Premium, sujetas a límites de uso justo.</string>
+    <string name="terms_section_title_7">7. Disponibilidad y exportación de datos</string>
+    <string name="terms_section_body_7">Intentamos mantener los datos de la cuenta disponibles, pero ningún servicio en línea puede garantizar almacenamiento permanente o ininterrumpido. Debes usar periódicamente la función de exportación para conservar registros importantes. Avisaremos antes de introducir políticas materiales de retención o eliminación automática, salvo que la eliminación sea necesaria por seguridad, ley o solicitud de eliminación de cuenta.</string>
+    <string name="terms_section_title_8">8. Disponibilidad y responsabilidad</string>
+    <string name="terms_section_body_8">El servicio se proporciona según disponibilidad. En la medida permitida por la ley, SmartStack Solutions no se responsabiliza por pérdidas indirectas causadas por interrupciones, entradas incorrectas del usuario, recordatorios perdidos, fallos del dispositivo o confianza en la aplicación como asesoría profesional. Los derechos legales del consumidor no se ven afectados.</string>
+    <string name="terms_section_title_9">9. Cambios y terminación</string>
+    <string name="terms_section_body_9">Las funciones y estos términos pueden cambiar a medida que el servicio evoluciona. Los cambios importantes se comunicarán cuando sea razonablemente posible. El acceso puede restringirse por fraude, abuso, uso ilegal, riesgos de seguridad o incumplimientos graves de estos términos.</string>
+    <string name="terms_section_title_10">10. Contacto</string>
+    <string name="terms_section_body_10">Las preguntas sobre estos términos o el servicio pueden enviarse a appdev.jr2024@gmail.com.</string>
+
+    <string name="faqs_question_16">16. ¿Qué límites de uso aplican a las cuentas gratuitas y Premium?</string>
+    <string name="faqs_answer_16">Las cuentas gratuitas pueden mantener hasta 30 pagos pendientes activos, 100 pagos cerrados y 250 entradas futuras de pagos recurrentes. Premium aumenta estos límites y admite hasta 2.000 entradas futuras combinadas de pagos e ingresos. Estos límites de seguridad protegen la fiabilidad del servicio y evitan creaciones accidentales masivas de entradas.</string>
+    <string name="faqs_question_17">17. ¿Los usuarios gratuitos pueden seguir marcando pagos como pagados?</string>
+    <string name="faqs_answer_17">Sí. Completar el flujo normal de pago pendiente a pago cerrado nunca está bloqueado por el límite gratuito. La creación, edición y eliminación directa de pagos cerrados son funciones de gestión Premium.</string>
+    <string name="faqs_question_18">18. ¿SmartStack eliminará automáticamente mi historial financiero?</string>
+    <string name="faqs_answer_18">SmartStack actualmente no aplica un período de eliminación automática al historial de pagos. Puedes exportar los datos de tu cuenta en cualquier momento. Si se introduce una política material de retención más adelante, la app proporcionará información previa cuando sea razonablemente posible.</string>
+    <string name="faqs_question_19">19. ¿Qué análisis financieros están incluidos?</string>
+    <string name="faqs_answer_19">La versión gratuita incluye flujo de dinero del mes seleccionado, urgencia de pagos pendientes y composición de gastos. Premium añade tendencias de flujo de caja de seis y doce meses, cambios por categoría, tendencias de compromisos recurrentes y constancia de ahorro. Los periodos de varios meses terminan en el mes seleccionado en el panel.</string>
+
+    <string name="open_payment_saved">Serie de pagos pendientes guardada correctamente.</string>
+    <string name="open_payment_save_failed">No se pudo guardar el pago pendiente: %1$s</string>
+    <string name="income_saved">Serie de ingresos guardada correctamente.</string>
+    <string name="income_save_failed">No se pudo guardar el ingreso: %1$s</string>
+    <string name="payment_moved_to_closed">Pago movido a Pagos cerrados.</string>
+    <string name="payment_moved_to_open">Pago devuelto a Pagos pendientes.</string>
+    <string name="payment_move_failed">No se pudo mover el pago: %1$s</string>
+
+    <string name="data_account">Datos y cuenta</string>
+    <string name="export_data_title">Exportar tus datos</string>
+    <string name="export_data_explanation">Descarga tus pagos, ingresos, metas de ahorro y notificaciones de SmartStack como archivo JSON.</string>
+    <string name="export_my_data">Exportar mis datos</string>
+    <string name="export_complete">Tu exportación de datos se guardó.</string>
+    <string name="export_failed">No se pudieron exportar tus datos.</string>
+    <string name="delete_account_title">Eliminar cuenta y datos</string>
+    <string name="delete_account_explanation">Elimina permanentemente tu cuenta de SmartStack y sus datos financieros almacenados. Esta acción no se puede deshacer.</string>
+    <string name="delete_my_account">Eliminar mi cuenta</string>
+    <string name="delete_account_confirmation">¿Eliminar permanentemente tu cuenta, pagos, ingresos, metas de ahorro y notificaciones?</string>
+    <string name="delete_account_relogin">Por seguridad, inicia sesión de nuevo y vuelve aquí para eliminar tu cuenta.</string>
+    <string name="delete_account_failed">No se pudo eliminar la cuenta. Inténtalo de nuevo.</string>
+
+    <string name="enter_open_payment_name">Introduce un nombre para el pago pendiente.</string>
+    <string name="enter_valid_amount">Introduce un importe válido.</string>
+    <string name="select_valid_due_date">Selecciona una fecha de vencimiento válida.</string>
+    <string name="title_required">El título es obligatorio.</string>
+    <string name="date_required">La fecha es obligatoria.</string>
+    <string name="invalid_date_format">Introduce una fecha válida.</string>
+    <string name="currency">Moneda</string>
+    <string name="currency_menu_title">Moneda (%1$s)</string>
+    <string name="select_currency">Seleccionar moneda</string>
+    <string name="billing_insufficient_funds">El pago fue rechazado porque no hay fondos suficientes.</string>
+    <string name="billing_user_ineligible">Esta oferta de suscripción no está disponible para esta cuenta.</string>
+
+    <string name="financial_insights">Análisis financieros</string>
+    <string name="financial_insights_subtitle">Comprende el mes seleccionado de un vistazo</string>
+    <string name="monthly_money_map">Mapa mensual del dinero</string>
+    <string name="monthly_money_map_description">Ve cómo encajan ingresos, gastos completados, obligaciones próximas y tu meta de ahorro.</string>
+    <string name="open_payment_risk_timeline">Línea de riesgo de pagos pendientes</string>
+    <string name="open_payment_risk_description">Prioriza primero los pagos atrasados y las obligaciones cercanas.</string>
+    <string name="spending_composition">Composición del gasto</string>
+    <string name="spending_composition_description">Ve qué categorías representan los gastos completados de este mes.</string>
+    <string name="available_after_commitments">Disponible</string>
+    <string name="paid_expenses_short">Pagado</string>
+    <string name="still_due_short">Pendiente</string>
+    <string name="savings_target">Meta de ahorro</string>
+    <string name="no_savings_target_insight">No hay una meta de ahorro activa para este mes.</string>
+    <string name="savings_target_cushion">Quedan %1$s después de la meta de ahorro.</string>
+    <string name="savings_target_shortfall">Faltan %1$s para alcanzar la meta de ahorro.</string>
+    <string name="due_next_seven_days">Próximos 7 días</string>
+    <string name="later_this_month">Más adelante</string>
+    <string name="other">Otros</string>
+    <string name="no_closed_payments_for_month">No hay gastos completados para este mes.</string>
+
+    <plurals name="payment_count">
+        <item quantity="one">%1$d pago</item>
+        <item quantity="other">%1$d pagos</item>
+    </plurals>
+
+    <string name="positive_balance_status">Saldo positivo</string>
+    <string name="shortfall_status">Déficit</string>
+    <string name="no_activity_status">Sin actividad</string>
+    <string name="balanced_status">Equilibrado</string>
+    <string name="selected_month">Este mes</string>
+    <string name="six_months">6 meses</string>
+    <string name="twelve_months">12 meses</string>
+    <string name="premium_insights_teaser_title">Tus números cuentan una historia más larga</string>
+    <string name="premium_insights_teaser_message">Premium revela tendencias, cambios de categoría, compromisos recurrentes y qué tan constantes son tus planes de ahorro.</string>
+    <string name="unlock_deeper_insights">Desbloquear análisis más profundos →</string>
+    <string name="premium_insights_upgrade">Actualiza a Premium para explorar tendencias financieras de seis y doce meses.</string>
+    <string name="cash_flow_trend">Tendencia de flujo de caja</string>
+    <string name="cash_flow_trend_description">Compara ingresos y obligaciones totales; las barras verdes y rojas muestran el saldo de cada mes.</string>
+    <string name="category_changes">Cambios por categoría</string>
+    <string name="category_changes_description">Ve qué categorías de gasto aumentaron o disminuyeron frente a los meses anteriores de este periodo.</string>
+    <string name="recurring_commitment_trend">Tendencia de compromisos recurrentes</string>
+    <string name="recurring_commitment_trend_description">Sigue cómo evolucionan las obligaciones recurrentes programadas con el tiempo.</string>
+    <string name="savings_consistency">Constancia de ahorro</string>
+    <string name="savings_consistency_description">Ve con qué frecuencia el saldo mensual previsto alcanzó una meta de ahorro activa.</string>
+    <string name="total_obligations">Obligaciones</string>
+    <string name="not_enough_category_data">Añade gastos completados en más meses para comparar categorías.</string>
+    <string name="commitments_increased">Los compromisos recurrentes aumentaron en %1$s.</string>
+    <string name="commitments_decreased">Los compromisos recurrentes disminuyeron en %1$s.</string>
+    <string name="commitments_steady">Los compromisos recurrentes se mantuvieron estables.</string>
+    <string name="no_savings_goals_in_period">No hubo metas de ahorro activas en este periodo.</string>
+    <string name="savings_goals_achieved">%1$d de %2$d meses con meta alcanzados</string>
+
+    <string name="user_not_authenticated">Inicia sesión de nuevo.</string>
+    <string name="unknown_item_clicked">No se pudo abrir este elemento.</string>
+    <string name="load_open_payments_failed">No se pudieron cargar los pagos pendientes: %1$s</string>
+    <string name="load_closed_payments_failed">No se pudieron cargar los pagos cerrados: %1$s</string>
+    <string name="load_income_failed">No se pudieron cargar los ingresos: %1$s</string>
+    <string name="load_savings_target_failed">No se pudo cargar la meta de ahorro: %1$s</string>
+    <string name="invalid_target_amount">Introduce un importe objetivo válido.</string>
+    <string name="invalid_end_date">Selecciona una fecha final válida.</string>
+    <string name="start_date_before_end_date">La fecha de inicio debe ser anterior a la fecha final.</string>
+    <string name="invalid_target_date_range">Rango de fechas de la meta no válido.</string>
+    <string name="savings_target_not_found">Meta de ahorro no encontrada.</string>
+    <string name="savings_target_updated">Meta de ahorro actualizada.</string>
+    <string name="savings_target_update_failed">No se pudo actualizar la meta de ahorro: %1$s</string>
+    <string name="savings_target_deleted">Meta de ahorro eliminada correctamente.</string>
+    <string name="savings_target_delete_failed">No se pudo eliminar la meta de ahorro: %1$s</string>
+    <string name="valid_inputs_required">Introduce valores válidos.</string>
+    <string name="monthly_savings_clear_failed">No se pudo borrar el ahorro mensual: %1$s</string>
+    <string name="associated_data_failed">No se pudieron recuperar los datos relacionados: %1$s</string>
+    <string name="bill_not_found">Pago pendiente no encontrado.</string>
+    <string name="open_payment_updated">Pago pendiente actualizado correctamente.</string>
+    <string name="open_payment_update_failed">No se pudo actualizar el pago pendiente: %1$s</string>
+    <string name="open_payment_update_unavailable">No se pudo actualizar el pago pendiente.</string>
+    <string name="closed_payment_updated">Pago cerrado actualizado correctamente.</string>
+    <string name="closed_payment_update_failed">No se pudo actualizar el pago cerrado: %1$s</string>
+    <string name="closed_payment_update_unavailable">No se pudo actualizar el pago cerrado.</string>
+    <string name="closed_payment_deleted">Pago cerrado eliminado correctamente.</string>
+    <string name="closed_payment_delete_failed">No se pudo eliminar el pago cerrado.</string>
+    <string name="image_permission_denied">Permiso de almacenamiento denegado. No se puede mostrar la imagen.</string>
+    <string name="image_display_failed">No se pudo mostrar la imagen: %1$s</string>
+    <string name="income_updated">Ingreso actualizado correctamente.</string>
+    <string name="income_update_failed">No se pudo actualizar el ingreso: %1$s</string>
+    <string name="income_update_unavailable">No se pudo actualizar el ingreso.</string>
+    <string name="payment_login_required">Inicia sesión de nuevo para actualizar este pago.</string>
+    <string name="payment_id_missing">Este pago no se puede mover porque falta su ID.</string>
+    <string name="export_monthly_overview">Exportar resumen mensual</string>
+    <string name="export_monthly_title">Exportar resumen mensual</string>
+    <string name="export_scope_info_title">¿Qué se exportará?</string>
+    <string name="export_scope_info_content_description">Mostrar información de exportación</string>
+    <string name="export_scope_info_bullets">• Mes seleccionado&#10;• Total de ingresos&#10;• Total de pagos abiertos&#10;• Total de pagos cerrados&#10;• Saldo&#10;• Totales por categoría de pagos cerrados&#10;• Registros del mes seleccionado</string>
+    <string name="export_pdf_summary">Resumen en PDF</string>
+    <string name="export_csv_data">Datos CSV</string>
+    <string name="export_share_chooser">Compartir resumen mensual</string>
+    <string name="premium_compare_convenience">Herramientas de comodidad</string>
+    <string name="premium_compare_convenience_free">Plantillas, entrada mediante escaneo y exportación mensual</string>
+    <string name="premium_compare_convenience_premium">Incluidas, con límites de importación más altos</string>
+    <string name="export_report_title">Resumen mensual de SmartStack</string>
+    <string name="export_summary">Resumen</string>
+    <string name="export_category_totals">Totales por categoría</string>
+    <string name="export_entries">Registros</string>
+    <string name="export_open_payments">Pagos abiertos</string>
+    <string name="export_closed_payments">Pagos cerrados</string>
+    <string name="export_income">Ingresos</string>
+    <string name="export_balance">Saldo</string>
+    <string name="export_no_entries">No hay registros para este mes.</string>
+    <string name="use_template">Usar plantilla</string>
+    <string name="hide_templates">Ocultar plantillas</string>
+    <string name="save_as_template">Guardar como plantilla</string>
+    <string name="template_name">Nombre de la plantilla</string>
+    <string name="template_name_hint">p. ej. Supermercado, Gasolinera, Dividendos</string>
+    <string name="template_saved">Plantilla guardada.</string>
+    <string name="template_name_required">Introduce un nombre para la plantilla.</string>
 </resources>

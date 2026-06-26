@@ -176,7 +176,7 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
         }
 
         imgDeleteIncome.setOnClickListener {
-            if (hasPremiumAccess) {
+            if (hasPremiumAccess || !selectedIncome?.importHash.isNullOrBlank()) {
                 deleteIncome()
             } else {
                 showUpgradeDialog()
@@ -190,7 +190,7 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
             listenerRegistration = db.collection("users").document(userUid).collection("income")
                 .addSnapshotListener { snapshots, e ->
                     if (e != null) {
-                        Toast.makeText(this, "Error loading income: ${e.message}", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, getString(R.string.load_income_failed, e.message.orEmpty()), Toast.LENGTH_SHORT).show()
                         Log.e("Firestore Error", e.message.toString())
                         return@addSnapshotListener
                     }
@@ -237,7 +237,7 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
                     }
                 }
         } else {
-            Toast.makeText(this, "Error: User not authenticated", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.user_not_authenticated, Toast.LENGTH_SHORT).show()
             Log.e("Authentication Error", "User not authenticated")
         }
     }
@@ -255,6 +255,10 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
         if (income.subcategory == null) {
             income.subcategory = "-"
             updates["subcategory"] = "-"
+        }
+        if (income.currency.isNullOrBlank()) {
+            income.currency = CurrencyPreferences.selectedCode(this)
+            updates["currency"] = income.currency
         }
         if (updates.isNotEmpty()) {
             db.collection("users").document(userUid)
@@ -316,7 +320,7 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
         val incomeDateString = if (income.date != null) dateFormat.format(income.date.toDate()) else ""
 
         edtTitleDialog.setText(income.name)
-        edtAmountDialog.setText(String.format(Locale.getDefault(), "%.2f", income.amount))
+        edtAmountDialog.setText(CurrencyPreferences.formatPlain(income.amount))
         edtCategoryDialog.setText(FinancialEntryOptions.displayCategory(this, income.category))
         edtSubcategoryDialog.setText(
             FinancialEntryOptions.displaySubcategory(this, income.category, income.subcategory)
@@ -340,7 +344,8 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
 
         btnSaveChanges.visibility = View.GONE
         btnEditChanges.visibility = View.VISIBLE
-        btnDelete.visibility = View.VISIBLE
+        btnDelete.visibility =
+            if (hasPremiumAccess || !income.importHash.isNullOrBlank()) View.VISIBLE else View.GONE
 
         dialog.show()
         styleDetailsDialogWindow(dialog)
@@ -368,7 +373,7 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
             val income = selectedIncome
             if (userUid != null && income != null) {
                 income.name = edtTitleDialog.text.toString()
-                income.amount = edtAmountDialog.text.toString().toDoubleOrNull() ?: 0.0
+                income.amount = CurrencyPreferences.roundToTwoDecimals(edtAmountDialog.text.toString().toDoubleOrNull() ?: 0.0)
                 income.comment = edtCommentDialog.text.toString()
                 income.source = edtSourceDialog.text.toString()
 
@@ -381,15 +386,15 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
                             incomeArrayList[index] = income
                             myAdapterIncome.notifyItemChanged(index)
                         }
-                        Toast.makeText(this, "Income updated successfully", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, R.string.income_updated, Toast.LENGTH_SHORT).show()
                         btnCloseDialog.text = getString(R.string.close)
                         dialog.dismiss()
                     }
                     .addOnFailureListener { e ->
-                        Toast.makeText(this, "Failed to update income: ${e.message}", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, getString(R.string.income_update_failed, e.message.orEmpty()), Toast.LENGTH_SHORT).show()
                     }
             } else {
-                Toast.makeText(this, "Error: Unable to update income", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.income_update_unavailable, Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -422,9 +427,24 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
 
     private fun deleteSingleIncome(income: Income) {
         val userUid = FirebaseAuth.getInstance().currentUser?.uid ?: return
-        db.collection("users").document(userUid).collection("income")
-            .document(income.incomeId)
-            .delete()
+        val userRef = db.collection("users").document(userUid)
+        val incomeRef = userRef.collection("income").document(income.incomeId)
+        val usageRef = userRef.collection("usage").document("statement_imports")
+        db.runTransaction { transaction ->
+            val incomeDocument = transaction.get(incomeRef)
+            val usageDocument = transaction.get(usageRef)
+            transaction.delete(incomeRef)
+            if (!incomeDocument.getString("importHash").isNullOrBlank()) {
+                val current = usageDocument.getLong("count") ?: 0L
+                transaction.set(
+                    usageRef,
+                    mapOf(
+                        "count" to (current - 1L).coerceAtLeast(0L),
+                        "updatedAt" to com.google.firebase.Timestamp.now()
+                    )
+                )
+            }
+        }
             .addOnSuccessListener {
                 deleteLocalAttachmentIfUnused(userUid, income.attachment)
                 Toast.makeText(this, R.string.income_deleted, Toast.LENGTH_SHORT).show()
@@ -581,7 +601,7 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
     }
 
     private fun handleAddIncome() {
-        if (hasPremiumAccess) openCreateIncome() else showUpgradeDialog()
+        openCreateIncome()
     }
 
     private fun openCreateIncome() {

@@ -1,0 +1,1080 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="notification_details">Értesítés részletei</string>
+    <string name="main">Főoldal</string>
+    <string name="app_name">SmartStack Solutions</string>
+    <string name="target_name">Cél neve</string>
+    <string name="log_in">Bejelentkezés</string>
+    <string name="email">E-mail</string>
+    <string name="password">Jelszó</string>
+    <string name="don_t_have_an_account">Még nincs fiókja?</string>
+    <string name="sign_up">Regisztráció</string>
+    <string name="forgot_password">Elfelejtette a jelszavát?</string>
+    <string name="already_have_an_account">Már van fiókja?</string>
+    <string name="log_in_with_google">Bejelentkezés Google-fiókkal</string>
+    <string name="sign_up_with_google">Regisztráció Google-fiókkal</string>
+
+    <string name="login_title">Üdv újra!</string>
+    <string name="login_subtitle">Jelentkezzen be a nyitott számlák, kiadások és bevételek kezelésének folytatásához.</string>
+
+    <string name="signup_title">Fiók létrehozása</string>
+    <string name="signup_subtitle">Kezdje el pénzügyei nyomon követését egy biztonságos SmartStack-fiókkal.</string>
+
+    <string name="continue_with_email">Folytatás e-mail-címmel</string>
+
+    <string name="email_required">Adja meg az e-mail-címét.</string>
+    <string name="email_invalid">Adjon meg érvényes e-mail-címet.</string>
+
+    <string name="password_required">Adja meg a jelszavát.</string>
+    <string name="password_too_short">Legalább 6 karaktert használjon.</string>
+
+    <string name="auth_generic_error">Nem sikerült bejelentkezni. Ellenőrizze adatait, majd próbálja újra.</string>
+    <string name="auth_network_error">Kapcsolati probléma. Ellenőrizze internetkapcsolatát, majd próbálja újra.</string>
+    <string name="account_exists_error">Ezzel az e-mail-címmel már létezik fiók.</string>
+
+    <string name="password_reset_sent">A jelszó-visszaállító e-mail elküldve. Ellenőrizze a postaládáját.</string>
+    <string name="password_reset_failed">Nem sikerült elküldeni a jelszó-visszaállító e-mailt. Ellenőrizze a címet, majd próbálja újra.</string>
+
+    <string name="default_web_client_id">335330685775-busm9leph5emh7ifp13925ncer4vrq4q.apps.googleusercontent.com</string>
+
+    <string name="or">vagy</string>
+
+    <string name="all">Összes</string>
+
+    <string name="you_still_do_not_have_any_bill_registered">Még nincs rögzített számlája</string>
+
+    <string name="my_bills">Számláim</string>
+    <string name="my_spendings">Kiadásaim</string>
+    <string name="income">Bevételek</string>
+    <string name="calendar">Naptár</string>
+    <string name="account">Fiók</string>
+
+    <string name="incoming">Közelgő</string>
+    <string name="overdue">Lejárt</string>
+    <string name="recurring">Ismétlődő</string>
+    <string name="paid">Kifizetett</string>
+
+    <string name="select_date">Dátum kiválasztása</string>
+
+    <string name="amount">Összeg</string>
+    <string name="vendor">Szállító</string>
+    <string name="category">Kategória</string>
+
+    <string name="write_your_title">Írjon címet</string>
+    <string name="write_your_comments">Írja meg megjegyzéseit</string>
+
+    <string name="cancel">Mégse</string>
+
+    <string name="unsaved_changes_title">Nem mentett módosítások</string>
+    <string name="unsaved_changes_message">Nem mentett módosításai vannak. Elveti őket?</string>
+    <string name="unsaved_import_message">Átnézett importálási javaslatok vannak, amelyek még nincsenek mentve. Elveti őket?</string>
+
+    <string name="keep_editing">Szerkesztés folytatása</string>
+    <string name="discard_changes">Elvetés</string>
+
+    <string name="save">Mentés</string>
+
+    <string name="attachment">Melléklet</string>
+
+    <string name="create_new_open_payment">Új nyitott fizetés létrehozása</string>
+    <string name="open_payments">Nyitott fizetések</string>
+    <string name="open_payments_hint">Közelgő és lejárt fizetések, amelyek még intézkedést igényelnek.</string>
+    <string name="no_open_payments">Nincs a nézetnek megfelelő nyitott fizetés.</string>
+
+    <string name="mark_paid">Megjelölés kifizetettként</string>
+
+    <string name="bill_details">Nyitott fizetés részletei</string>
+
+    <string name="untitled_payment">Névtelen fizetés</string>
+    <string name="uncategorized">Kategorizálatlan</string>
+
+    <string name="delete_open_payment">Nyitott fizetés törlése</string>
+    <string name="delete_open_payment_confirmation">Törli ezt a nyitott fizetést?</string>
+
+    <string name="delete_recurring_payment">Ismétlődő fizetés törlése</string>
+    <string name="delete_this_occurrence">Csak ezt a fizetést törli</string>
+    <string name="delete_this_and_future">Ennek és a jövőbeli fizetéseknek a törlése</string>
+
+    <string name="open_payment_deleted">Nyitott fizetés törölve.</string>
+    <string name="future_open_payments_deleted">Ez és a jövőbeli fizetések törölve.</string>
+    <string name="open_payment_delete_failed">A fizetést nem sikerült törölni.</string>
+
+    <string name="add_attachment">Melléklet hozzáadása</string>
+    <string name="take_photo">Fénykép készítése</string>
+    <string name="choose_from_gallery">Kiválasztás a galériából</string>
+
+    <string name="attachment_added">Melléklet hozzáadva</string>
+    <string name="attachment_failed">A mellékletet nem sikerült hozzáadni</string>
+
+    <string name="edit_open_payment">Nyitott fizetés szerkesztése</string>
+    <string name="open_payment_attachment">Nyitott fizetés melléklete</string>
+
+    <string name="create_new_closed_payment">Új lezárt fizetés létrehozása</string>
+    <string name="closed_payments">Lezárt fizetések</string>
+    <string name="closed_payment_details">Lezárt fizetés részletei</string>
+    <string name="edit_closed_payment">Lezárt fizetés szerkesztése</string>
+    <string name="delete_closed_payment">Lezárt fizetés törlése</string>
+    <string name="closed_payment_attachment">Lezárt fizetés melléklete</string>
+
+    <string name="create_new_income">Új bevétel létrehozása</string>
+    <string name="create_new_spending">Új kiadás létrehozása</string>
+
+    <string name="date">Dátum</string>
+    <string name="type">Típus</string>
+    <string name="date_header">Dátumfejléc</string>
+    <string name="due_date">Esedékesség dátuma</string>
+
+    <string name="comments">Megjegyzések</string>
+
+    <string name="close">Bezárás</string>
+
+    <string name="set_savings_target">Megtakarítási cél beállítása</string>
+
+    <string name="delete_target">Cél törlése</string>
+    <string name="delete">Törlés</string>
+
+    <string name="delete_savings_target_confirmation">Törli ezt a megtakarítási célt? Az előrehaladási előzményei is törlődnek.</string>
+
+    <string name="edit_target">Cél szerkesztése</string>
+    <string name="name_target">Cél neve</string>
+    <string name="target_amount">Célösszeg</string>
+
+    <string name="start_date">Kezdő dátum</string>
+    <string name="end_date">Befejezés dátuma</string>
+
+    <string name="monthly_savings">Havi megtakarítás</string>
+
+    <string name="savings_goal_image">Megtakarítási cél képe</string>
+
+    <string name="search_vendor">Szállító keresése</string>
+
+    <string name="welcome_title">Üdvözli a SmartStack Solutions!</string>
+    <string name="welcome_icon_description">Üdvözlő ikon</string>
+    <string name="welcome_body_message">Az eszköz, amely segít rendszerezni pénzügyeit és egyszerűbbé tenni az életét!</string>
+
+    <string name="get_started">Kezdés</string>
+
+    <string name="unlock_premium">Premium funkciók feloldása &#9733;</string>
+
+    <string name="about_us">Rólunk</string>
+    <string name="faqs">GYIK</string>
+    <string name="search_faqs">GYIK keresése</string>
+    <string name="data_security">Adatbiztonság</string>
+    <string name="help_support">Súgó és támogatás</string>
+    <string name="terms_conditions">Felhasználási feltételek</string>
+
+    <string name="logout">Kijelentkezés</string>
+    <string name="logout_confirmation">Kijelentkezik a SmartStack Solutions alkalmazásból ezen az eszközön?</string>
+
+    <string name="about_us_subtitle">Miért jött létre a SmartStack, és hogyan segít az átláthatóbb pénzügyi döntésekben.</string>
+    <string name="faqs_subtitle">Gyors válaszok a fizetésekről, bevételekről, megtakarítási célokról, Premiumról és értesítésekről.</string>
+    <string name="data_security_subtitle">Hogyan kezeljük a fiókhozzáférést és pénzügyi nyilvántartásait.</string>
+    <string name="help_subtitle">Keressen válaszokat, vagy lépjen kapcsolatba a SmartStack ügyfélszolgálatával.</string>
+    <string name="terms_subtitle">A SmartStack Solutions használatára vonatkozó fontos feltételek.</string>
+
+    <string name="about_us_image_description">SmartStack Solutions áttekintése</string>
+
+    <string name="income_date">Bevétel dátuma</string>
+
+    <string name="repeat">Ismétlés</string>
+
+    <string name="purchase_date">Vásárlás dátuma</string>
+
+    <string name="details">Részletek</string>
+
+    <string name="upload">Feltöltés</string>
+
+    <string name="alarm">Emlékeztető</string>
+    <string name="categorydbx">Kategória</string>
+    <string name="essential">Alapvető</string>
+    <string name="non_essential">Nem alapvető</string>
+    <string name="one_time">Egyszeri</string>
+
+    <string name="delete_income">Bevétel törlése</string>
+    <string name="edit_income">Bevétel szerkesztése</string>
+    <string name="income_details">Bevétel részletei</string>
+
+    <string name="previous_month">Előző hónap</string>
+    <string name="next_month">Következő hónap</string>
+
+    <string name="mark_as_paid">Megjelölés kifizetettként</string>
+
+    <string name="calendar_title">Naptár</string>
+
+    <string name="content_description_navigation_menu">Navigációs menü megnyitása</string>
+
+    <string name="search_or_select_vendor">Szállító keresése vagy kiválasztása</string>
+    <string name="enter_custom_vendor">Egyéni szállító megadása</string>
+
+    <string name="subcategory">Alkategória</string>
+
+    <string name="image_added">Kép hozzáadva</string>
+
+    <string name="title">Cím</string>
+
+    <string name="select_a_category">Válasszon kategóriát</string>
+
+    <string name="data_security_title">Adatbiztonság</string>
+
+    <string name="data_security_question_1">1. Hogyan védi a SmartStack Solutions az adataimat?</string>
+    <string name="data_security_answer_1">
+  Válasz: A SmartStack Solutions biztonsági intézkedéseket alkalmaz az adatok védelmére. Ezek közé tartoznak a biztonságos bejelentkezési protokollok és az alapvető hozzáférés-szabályozás. Megbízható felhőszolgáltatásokra támaszkodunk az adatok biztonságos tárolása és kezelése érdekében.
+</string>
+
+    <string name="data_security_question_2">2. Biztonságosan vannak tárolva a fizetési adataim?</string>
+    <string name="data_security_answer_2">
+  Válasz: A SmartStack Solutions olyan alkalmazás, amelyben a felhasználók manuálisan adhatják meg pénzügyi adataikat, fizetési tranzakciók feldolgozása nélkül.
+</string>
+
+    <string name="data_security_question_3">3. Hogyan kezelik a személyes adataimat?</string>
+    <string name="data_security_answer_3">
+  Válasz: A személyes adatokat csak a szükséges mértékben gyűjtjük, kizárólag szolgáltatásaink biztosítása érdekében. Az adatokat biztonságosan tároljuk a felhőben. További részletekért olvassa el a PrivacyPolicies által biztosított Adatvédelmi szabályzatot.
+</string>
+
+    <string name="data_security_question_4">4. Milyen intézkedések védik az illetéktelen hozzáférés ellen?</string>
+    <string name="data_security_answer_4">
+  Válasz: Az illetéktelen hozzáférés megelőzése érdekében a SmartStack Solutions erős jelszókövetelményeket és munkamenet-kezelési protokollokat alkalmaz. Azt is javasoljuk, hogy rendszeresen frissítse jelszavát, és ne ossza meg bejelentkezési adatait másokkal.
+</string>
+
+    <string name="data_security_question_5">5. Hogyan biztosítja a SmartStack Solutions az adataim sértetlenségét?</string>
+    <string name="data_security_answer_5">
+  Válasz: A pénzügyi nyilvántartások internetkapcsolat esetén szinkronizálódnak a Firebase szolgáltatással. Ennek ellenére fontos bejegyzéseit mindig ellenőrizze, és a lényeges mellékletekről tartson saját másolatot.
+</string>
+
+    <string name="data_security_question_6">6. Mit tegyek, ha biztonsági incidensre gyanakszom?</string>
+    <string name="data_security_answer_6">
+  Válasz: Ha biztonsági incidensre gyanakszik, azonnal lépjen kapcsolatba ügyfélszolgálatunkkal az alkalmazás Súgó és támogatás részén keresztül. Haladéktalanul kivizsgáljuk az esetet, és megtesszük a szükséges intézkedéseket fiókja védelme érdekében.
+</string>
+
+    <string name="data_security_question_7">7. Hogyan növelhetem saját biztonságomat a SmartStack Solutions használata során?</string>
+    <string name="data_security_answer_7">
+  Válasz: Használjon erős, egyedi jelszót SmartStack Solutions fiókjához. Védje készülékét jelszóval vagy biometrikus zárral, és lehetőleg ne használjon nyilvános Wi-Fi-hálózatot az alkalmazás eléréséhez.
+</string>
+
+    <string name="data_security_question_8">8. Megfelel a SmartStack Solutions az adatvédelmi előírásoknak?</string>
+    <string name="data_security_answer_8">
+  Válasz: A SmartStack Solutions csak a szolgáltatás működéséhez szükséges adatokat gyűjti. Az alkalmazandó adatvédelmi jogok tartózkodási helytől függően eltérhetnek; kérdések vagy adatkezelési kérelmek esetén forduljon ügyfélszolgálatunkhoz.
+</string>
+
+    <string name="data_security_question_9">9. Milyen titkosítást használ a SmartStack Solutions?</string>
+    <string name="data_security_answer_9">
+  Válasz: A SmartStack Solutions iparági szabványnak megfelelő titkosítási módszereket alkalmaz az adatátvitel során, hogy megvédje adatait a jogosulatlan hozzáféréstől.
+</string>
+
+    <string name="data_security_question_10">10. Milyen gyakran történnek biztonsági felülvizsgálatok?</string>
+    <string name="data_security_answer_10">
+  Válasz: A biztonsági gyakorlatokat és a függőségeket az alkalmazás fejlődésével együtt rendszeresen felülvizsgáljuk. Egyetlen alkalmazás sem garantálhat teljes védelmet, ezért a felhasználóknak is gondoskodniuk kell fiókjuk és eszközeik biztonságáról.
+</string>
+    <string name="data_security_question_11">11. Mi történik az adataimmal, ha törlöm a fiókomat?</string>
+    <string name="data_security_answer_11">
+  Válasz: A fióktörlési kérelem célja az alkalmazáshoz kapcsolódó adatok eltávolítása. Bizonyos információkat biztonsági, számlázási vagy jogi kötelezettségek miatt ideiglenesen megőrizhetünk.
+</string>
+
+    <string name="data_security_question_12">12. Hogyan léphetek kapcsolatba a SmartStack Solutions csapatával adatbiztonsági kérdések esetén?</string>
+    <string name="data_security_answer_12">
+  Válasz: Ha adatbiztonsággal kapcsolatos kérdése vagy aggálya van, vegye fel a kapcsolatot ügyfélszolgálatunkkal az alkalmazás Súgó és támogatás részén keresztül. Csapatunk készséggel válaszol kérdéseire, és segít adatai biztonságának biztosításában.
+</string>
+
+    <string name="data_security_question_13">13. Milyen intézkedések védik az adatokat az elvesztéstől?</string>
+    <string name="data_security_answer_13">
+  Válasz: A nyilvántartások a Firebase felhőszolgáltatásában kerülnek tárolásra. Az elérhetőséget és a helyreállítást azonban szolgáltatási, hálózati vagy eszközproblémák is befolyásolhatják, ezért a fontos dokumentumokat érdemes máshol is megőrizni.
+</string>
+
+    <string name="data_security_question_14">14. Kínálnak kétlépcsős hitelesítést (2FA)?</string>
+    <string name="data_security_answer_14">
+  Válasz: Jelenleg még nem kínálunk kétlépcsős hitelesítést (2FA), de fontolóra vettük annak bevezetését a fiókok biztonságának további növelése érdekében. Addig is egy erős, egyedi jelszó használata és az eszköz megfelelő védelme jelentős biztonságot nyújt.
+</string>
+
+    <string name="faqs_question_1">1. Mi a SmartStack Solutions?</string>
+    <string name="faqs_answer_1">
+  Válasz: A SmartStack Solutions egy átfogó pénzügyi alkalmazás, amely segít nyomon követni a fizetéseket és a bevételeket. Lehetővé teszi a tranzakciók kategorizálását, emlékeztetők beállítását és a pénzügyi adatok különböző nézetekben történő megjelenítését, hogy megkönnyítse a költségvetés tervezését és a pénzügyi tervezést.
+</string>
+
+    <string name="faqs_question_2">2. Hogyan adhatok hozzá új nyitott fizetést?</string>
+    <string name="faqs_answer_2">
+  Válasz: Új nyitott fizetés hozzáadásához nyissa meg a Nyitott fizetések részt, koppintson a Plusz gombra, majd töltse ki a szükséges adatokat, például a címet, az összeget és a dátumot. Dokumentumot vagy egyéb kapcsolódó információt is hozzáadhat.
+</string>
+
+    <string name="faqs_question_3">3. Kategorizálhatom a fizetéseimet és kiadásaimat?</string>
+    <string name="faqs_answer_3">
+  Válasz: Igen. A SmartStack Solutions lehetővé teszi a fizetések és kiadások előre meghatározott kategóriákba és alkategóriákba sorolását.
+</string>
+
+    <string name="faqs_question_4">4. Hogyan tekinthetem meg a fizetéseimet és kiadásaimat állapot szerint (közelgő, lejárt, ismétlődő)?</string>
+    <string name="faqs_answer_4">
+  Válasz: A Nyitott fizetések részben szűrheti a fizetéseket állapotuk alapján. A kifizetett tételek az Elvégzett fizetések közé kerülnek. A lejárt fizetések a Lejárt, a közelgők pedig a Közelgő szűrő alatt jelennek meg. Az ismétlődő fizetések az Ismétlődő nézetben találhatók.
+</string>
+
+    <string name="faqs_question_5">5. Mik azok az alapvető és nem alapvető kiadások, és mi a különbség közöttük?</string>
+    <string name="faqs_answer_5">
+  Válasz: Az alapvető kiadások olyan szükségleteket fedeznek, mint a lakbér, az alapvető élelmiszerek, az egészségügyi ellátás és a szükséges közlekedés. A nem alapvető kiadások opcionális vásárlásokat jelentenek, például streaming-előfizetéseket vagy luxuscikkeket. A SmartStack következetesen besorolja a támogatott alkategóriákat; a nem besorolható tételek beleszámítanak az összesítésbe, de egyik részösszegbe sem.
+</string>
+
+    <string name="faqs_question_6">6. Lehetséges a fizetések beolvasása?</string>
+    <string name="faqs_answer_6">
+  Válasz: Igen. Nyitott fizetés, lezárt kiadás vagy bevétel létrehozásakor válassza a Dokumentum beolvasása lehetőséget. A SmartStack levágja a dokumentumot, felismeri a nyomtatott szöveget az eszközön, és olyan mezőket javasol, mint a cím, összeg, dátum, szállító vagy fizető. Mentés előtt mindig ellenőrizze az összes javaslatot.
+</string>
+
+    <string name="faqs_question_7">7. Nyomon követhetem a bevételeimet a SmartStack Solutions segítségével?</string>
+    <string name="faqs_answer_7">
+  Válasz: Igen. A Bevételek részben új bevételi tételeket adhat hozzá. Adja meg a címet, az összeget és a beérkezés dátumát, hogy pontos nyilvántartást vezethessen bevételeiről.
+</string>
+
+    <string name="faqs_question_8">8. Milyen biztonsági intézkedéseket alkalmaz a SmartStack Solutions az adataim védelmére?</string>
+    <string name="faqs_answer_8">
+  Válasz: A SmartStack Solutions erős biztonsági intézkedéseket alkalmaz, például adattitkosítást, biztonságos bejelentkezési protokollokat és rendszeres biztonsági mentéseket pénzügyi adatai védelme érdekében. Ezenkívül az alkalmazás nem tárol érzékeny fizetési adatokat.
+</string>
+
+    <string name="faqs_question_9">9. Mi a Premium fiók, és milyen előnyöket kínál?</string>
+    <string name="faqs_answer_9">
+  Válasz: A Premium eltávolítja a hirdetéseket, és feloldja a lezárt fizetések kezelését, a bevételkezelést, a megtakarítási célokat, valamint a hat- és tizenkét havi pénzügyi elemzéseket, beleértve a pénzforgalmi trendeket, kategóriaváltozásokat, ismétlődő kötelezettségeket és a megtakarítások következetességét. A nyitott fizetések, emlékeztetők, havi elemzések, adatexport és a naptár az ingyenes verzióban is elérhetők.
+</string>
+
+    <string name="faqs_question_10">10. Hogyan válthatok Premium fiókra?</string>
+    <string name="faqs_answer_10">
+  Válasz: Premium fiókra váltáshoz nyissa meg a Menü részt, és válassza a Premium funkciók feloldása lehetőséget. Kövesse az utasításokat a vásárlás befejezéséhez és az összes funkció feloldásához.
+</string>
+    <string name="faqs_question_11">11. Mi a különbség a nyitott és a lezárt fizetések között?</string>
+    <string name="faqs_answer_11">
+  Válasz: A nyitott fizetések olyan tranzakciók nyilvántartásai, amelyeknél már megkapta a szolgáltatást vagy terméket, de a fizetés még hátravan. A lezárt fizetések ezzel szemben a korábbi kiadásainak nyilvántartásai. Az alkalmazás mindkettő nyomon követését lehetővé teszi, hogy könnyebben kezelhesse pénzügyeit.
+</string>
+
+    <string name="faqs_question_12">12. Hogyan állíthatok be megtakarítási célt?</string>
+    <string name="faqs_answer_12">
+  Válasz: Koppintson a főmenüben a Megtakarítási cél részre. Adja meg a cél nevét, a célösszeget, a kezdő- és a befejező dátumot. Az irányítópult ezután megjeleníti a havi megtakarítási összeget és az előrehaladást a kiválasztott hónapra.
+</string>
+
+    <string name="faqs_question_13">13. Beállíthatok több megtakarítási célt?</string>
+    <string name="faqs_answer_13">
+  Válasz: Igen, különböző időszakokra több megtakarítási célt is létrehozhat. Minden cél külön kerül nyomon követésre a főmenüben, ahol megtekintheti az előrehaladását. Az időszakok azonban nem fedhetik át egymást, ezért válasszon egymást nem átfedő időtartamokat.
+</string>
+
+    <string name="faqs_question_14">14. Mit tegyek, ha problémát tapasztalok az alkalmazással?</string>
+    <string name="faqs_answer_14">
+  Válasz: Ha bármilyen problémát tapasztal az alkalmazással kapcsolatban, nyissa meg a Súgó és támogatás részt, és küldjön részletes leírást a hibáról, beleértve azt is, hogy mi történt, és hogyan lehet reprodukálni a problémát.
+</string>
+
+    <string name="faqs_question_15">15. Hogyan működik a SmartStack Solutions értesítési rendszere, és milyen funkciókat tartalmaz?</string>
+    <string name="faqs_answer_15">
+  Válasz: A SmartStack Solutions automatikusan értesítéseket hoz létre három nappal a nyitott fizetés esedékessége előtt, hogy időben emlékeztesse Önt. Az értesítések az alkalmazáson belül jelennek meg, így mindig naprakész maradhat. Az értesítéseket közvetlenül az alkalmazásban megtekintheti, olvasottként megjelölheti vagy törölheti. A 30 napnál régebbi értesítések automatikusan törlődnek. Így mindig emlékeztetést kap a közelgő fizetésekről anélkül, hogy manuálisan kellene módosítania a beállításokat.
+</string>
+
+    <string name="help_title">Súgó és támogatás</string>
+    <string name="help_content">
+    Ha segítségre vagy támogatásra van szüksége a SmartStack Solutions használata során, forduljon ügyfélszolgálatunkhoz.\n\n
+
+    Kapcsolat\n\n
+
+    Kérdések, hibák vagy visszajelzések esetén írjon nekünk az appdev.jr2024@gmail.com e-mail-címre. Csapatunk a lehető leghamarabb válaszol.\n\n
+
+    Gyakran Ismételt Kérdések (GYIK)\n\n
+
+    Mielőtt kapcsolatba lépne velünk, érdemes átnéznie a GYIK részt, ahol összegyűjtöttük a SmartStack Solutions használatával kapcsolatos leggyakoribb kérdésekre adott válaszokat. Itt többek között a bejegyzések létrehozásáról, a fiók kezeléséről és az alkalmazás funkcióinak használatáról talál információkat.\n\n
+
+    Ha további segítségre van szüksége, bátran vegye fel velünk a kapcsolatot e-mailben. Szívesen segítünk, hogy a lehető legtöbbet hozhassa ki a SmartStack Solutions alkalmazásból!
+</string>
+
+    <string name="main_tagline">Rendezze pénzügyeit\n\nés egyszerűsítse életét!</string>
+    <string name="content_description_logo">Alkalmazás logója</string>
+    <string name="app_title">SmartStack Solutions</string>
+    <string name="total_net_savings">Várható havi egyenleg</string>
+    <string name="monthly_overview">Havi áttekintés</string>
+    <string name="dashboard_hint">Tekintse meg a közelgő kötelezettségeket, a kifizetett kiadásokat, a bevételeket és a célja felé tett előrehaladást.</string>
+    <string name="savings_target_progress">Megtakarítási cél előrehaladása</string>
+    <string name="set_saving_target">Megtakarítási cél beállítása</string>
+    <string name="target_achieved">Cél elérve</string>
+    <string name="savings_target_reached_message">Gratulálunk! Elérte megtakarítási céljának 100%%-át.</string>
+    <string name="goal_summary">A cél %2$s dátumig történő eléréséhez havonta %1$s összeget kell megtakarítania.</string>
+    <string name="add_new_entry">Új bejegyzés hozzáadása</string>
+    <string name="notifications">Értesítések</string>
+    <string name="content_description_back_arrow">Vissza az előző képernyőre</string>
+    <string name="content_description_notifications_list">Értesítések listája</string>
+
+    <string name="unlock_premium_features">Premium funkciók feloldása</string>
+    <string name="premium_intro_text">Az alapfunkciók ingyenesek maradnak. Váltson Premiumra, ha teljes pénzügyi munkaterületet szeretne részletesebb előzményekkel, bevételkezeléssel, célokkal és reklámok nélkül.</string>
+    <string name="premium_feature_closed_payments">Részletes fizetési előzményeinek létrehozása, szerkesztése és rendszerezése.</string>
+    <string name="premium_feature_income_management">Ismétlődő és egyszeri bevételek létrehozása, szerkesztése és kezelése.</string>
+    <string name="premium_feature_saving_target">Megtakarítási célok beállítása és havi előrehaladásuk követése.</string>
+    <string name="premium_feature_financial_insights">Hat- és tizenkét havi pénzügyi trendek elemzése.</string>
+    <string name="premium_closing_text">A nyitott fizetések, emlékeztetők, a naptár, az adatexport és a fizetések kifizetettként való megjelölése az ingyenes verzióban is elérhető.</string>
+
+    <string name="premium_compare_title">Ingyenes vs Premium</string>
+    <string name="premium_compare_subtitle">Kezdje ingyenesen. Váltson Premiumra, ha részletesebb előzményeket, bevételkezelést, célokat, trendeket és kevesebb korlátozást szeretne.</string>
+    <string name="premium_compare_feature">Funkció</string>
+    <string name="premium_compare_free">Ingyenes</string>
+    <string name="premium_compare_premium">Premium</string>
+
+    <string name="premium_compare_open_payments">Nyitott fizetések</string>
+    <string name="premium_compare_open_payments_free">30 aktív egyszeri nyitott fizetés</string>
+    <string name="premium_compare_open_payments_premium">Legfeljebb 2 000 jövőbeli bejegyzés összesen</string>
+
+    <string name="premium_compare_recurring">Jövőbeli ismétlődő bejegyzések</string>
+    <string name="premium_compare_recurring_free">Legfeljebb 250 jövőbeli fizetés</string>
+    <string name="premium_compare_recurring_premium">Legfeljebb 2 000 jövőbeli bejegyzés</string>
+
+    <string name="premium_compare_closed">Lezárt fizetések</string>
+    <string name="premium_compare_closed_free">Legfeljebb 100 kifizetett fizetés</string>
+    <string name="premium_compare_closed_premium">Teljes előzménykezelés</string>
+
+    <string name="premium_compare_income">Bevételkezelés</string>
+    <string name="premium_compare_income_free">Csak importálás</string>
+    <string name="premium_compare_income_premium">Bevételek létrehozása és kezelése</string>
+
+    <string name="premium_compare_import">CSV/PDF importálás</string>
+    <string name="premium_compare_import_free">50/fájl · összesen 100</string>
+    <string name="premium_compare_import_premium">200/fájl</string>
+
+    <string name="premium_compare_insights">Pénzügyi elemzések</string>
+    <string name="premium_compare_insights_free">Havi alapadatok</string>
+    <string name="premium_compare_insights_premium">6/12 havi trendek</string>
+
+    <string name="premium_compare_ads">Hirdetések</string>
+    <string name="premium_compare_ads_free">Megjelennek</string>
+    <string name="premium_compare_ads_premium">Eltávolítva</string>
+    <string name="premium_preview_closed_payments">Előnézeti mód: megtekintheti a lezárt fizetéseket. A lezárt fizetések létrehozásához, szerkesztéséhez vagy törléséhez váltson Premiumra.</string>
+    <string name="premium_preview_income">Előnézeti mód: megtekintheti a bevételi bejegyzéseket. A bevételek létrehozásához, szerkesztéséhez vagy törléséhez váltson Premiumra.</string>
+    <string name="premium_upgrade_required">A lezárt fizetések, bevételi bejegyzések és megtakarítási célok létrehozásához váltson Premiumra.</string>
+
+    <string name="features">Funkciók</string>
+
+    <string name="feature_open_payments_title">Nyitott fizetések</string>
+    <string name="feature_open_payments_desc">Kezelje nyitott fizetéseit, és tartsa kézben a közelgő számlákat.</string>
+    <string name="feature_open_payments_expandable">Az ingyenes verzió legfeljebb 30 önálló aktív nyitott fizetést, valamint ismétlődő ütemezéseket tartalmaz a méltányos használati korlátokon belül. A Premium lényegesen magasabb korlátot biztosít az aktív és jövőbeli bejegyzésekhez.</string>
+
+    <string name="feature_closed_payments_title">Lezárt fizetések</string>
+    <string name="feature_closed_payments_desc">Kövesse nyomon a már kifizetett számlákat, és kezelje tranzakciós előzményeit.</string>
+    <string name="feature_closed_payments_expandable">Mindenki megjelölhet egy nyitott fizetést kifizetettként. A Premium emellett lehetővé teszi a közvetlen létrehozást, szerkesztést, törlést és a teljes részletes előzménykezelést.</string>
+
+    <string name="feature_income_management_title">Bevételkezelés</string>
+    <string name="feature_income_management_desc">Kövesse nyomon és kategorizálja bevételi forrásait.</string>
+    <string name="feature_income_management_expandable">Kezelje fizetését, szabadúszó munkából származó bevételeit, juttatásait, befektetéseit és ismétlődő bevételeit kiadásaival és várható egyenlegével együtt.</string>
+
+    <string name="feature_notifications_title">Értesítések</string>
+    <string name="feature_notifications_desc">Kapjon időben emlékeztetőket nyitott fizetéseiről.</string>
+    <string name="feature_notifications_expandable">Állítson be előzetes, esedékesség napi és késedelmes emlékeztetőket. Jelölje a fizetést közvetlenül az értesítésből kifizetettként.</string>
+
+    <string name="feature_calendar_title">Naptár</string>
+    <string name="feature_calendar_desc">Tekintse át összes tranzakcióját naptárnézetben.</string>
+    <string name="feature_calendar_expandable">A naptár az ingyenes verzióban is elérhető, és dátum szerint egyesíti a nyitott fizetéseket, a lezárt kiadásokat és a bevételeket.</string>
+
+    <string name="feature_saving_target_title">Megtakarítási cél</string>
+    <string name="feature_saving_target_desc">Állítson be megtakarítási célt, és kövesse az előrehaladását.</string>
+    <string name="feature_saving_target_expandable">Adjon meg egy célösszeget és időszakot, majd hasonlítsa össze a szükséges havi megtakarítást a tényleges várható egyenlegével.</string>
+
+    <string name="feature_financial_insights_title">Speciális pénzügyi elemzések</string>
+    <string name="feature_financial_insights_desc">Alakítsa előzményeit hasznos trendekké.</string>
+    <string name="feature_financial_insights_expandable">Hasonlítsa össze a 6 és 12 hónapos pénzforgalmat, azonosítsa a változó kiadási kategóriákat, kövesse az ismétlődő kötelezettségeket, és tekintse át megtakarításai következetességét. Az elemzés az irányítópulton kiválasztott hónapot követi.</string>
+
+    <string name="unlock_button_text">SmartStack Solutions Premium feloldása</string>
+    <string name="unlock_button_with_price">Premium feloldása · %1$s</string>
+
+    <string name="more_information">További információ</string>
+    <string name="premium_still_loading">A Premium még betöltés alatt áll. Próbálja újra.</string>
+    <string name="billing_not_ready">A számlázás még nem áll készen. Próbálja újra.</string>
+    <string name="premium_activated">Premium aktiválva</string>
+    <string name="premium_active">Premium aktív</string>
+    <string name="premium_unavailable">A Premium jelenleg nem érhető el. Koppintson az újrapróbálkozáshoz.</string>
+    <string name="premium_loading">Premium lehetőségek betöltése…</string>
+
+    <string name="less_information">Kevesebb információ</string>
+    <string name="show_details">Részletek megjelenítése</string>
+    <string name="hide_details">Részletek elrejtése</string>
+
+    <string name="quick_entry_hint">Csak az összeg megadása kötelező. A dátum előre ki van töltve, a részletek később is hozzáadhatók.</string>
+    <string name="optional_details">Opcionális részletek</string>
+    <string name="savings_quick_entry_hint">Adja meg a célösszeget és a befejező dátumot. A kezdő dátum automatikusan a mai nap.</string>
+    <string name="title_optional">Cím (opcionális)</string>
+
+    <string name="free_open_payment_limit_reached">Elérte az ingyenes verzió 30 önálló aktív nyitott fizetésre vonatkozó korlátját. Jelölje a teljesített tételeket kifizetettként, vagy váltson Premiumra.</string>
+
+    <string name="free_closed_payment_limit_reached">Elérte az ingyenes verzió 100 lezárt fizetésre vonatkozó korlátját. Törölje a régebbi előzményeket, vagy váltson Premiumra.</string>
+
+    <string name="free_recurring_limit_reached">Ez az ismétlődő ütemezés túllépné az ingyenes verzió 250 jövőbeli ismétlődő fizetésre vonatkozó korlátját. Távolítson el egy már nem használt ütemezést, vagy váltson Premiumra.</string>
+
+    <string name="premium_usage_limit_reached">Ez a bejegyzés túllépné a Premium méltányos használati korlátját, amely legfeljebb 2 000 jövőbeli fizetési és bevételi bejegyzést engedélyez. Távolítsa el a már elavult jövőbeli bejegyzéseket, vagy lépjen kapcsolatba az ügyfélszolgálattal.</string>
+
+    <string name="usage_limit_check_failed">A SmartStack nem tudta ellenőrizni a rendelkezésre álló bejegyzési keretet. Ellenőrizze internetkapcsolatát, és próbálja újra.</string>
+
+    <string name="terms_and_conditions_title">Felhasználási feltételek</string>
+
+    <string name="terms_and_conditions_content">
+    1. A feltételek elfogadása&#10;&#10;A SmartStack Solutions alkalmazás használatával elfogadja a jelen felhasználási feltételeket. Ha nem ért egyet velük, kérjük, ne használja az alkalmazást.&#10;&#10;
+    2. A feltételek módosítása&#10;&#10;A SmartStack Solutions fenntartja a jogot a feltételek bármikori módosítására. A módosításokról az alkalmazáson vagy e-mailben értesítjük a felhasználókat. Az alkalmazás további használata a módosítások közzététele után az új feltételek elfogadását jelenti.&#10;&#10;
+    3. A felhasználó felelőssége&#10;&#10;Fiókbiztonság: A felhasználó felelős fiókadatai bizalmas kezeléséért és a fiókjában végzett minden tevékenységért.&#10;&#10;Pontos adatok: A felhasználóknak pontos és teljes adatokat kell megadniuk fiókjuk létrehozásakor és kezelésekor.\nTiltott tevékenységek: Az alkalmazás nem használható jogellenes célokra vagy olyan tevékenységekre, amelyek károsíthatják az alkalmazást vagy más felhasználókat.&#10;&#10;
+    4. Adatvédelmi szabályzat&#10;&#10;Az Ön adatainak védelme fontos számunkra. Kérjük, tekintse meg Adatvédelmi szabályzatunkat, amely ismerteti, hogyan gyűjtjük, használjuk és védjük személyes adatait.&#10;&#10;
+    5. Az alkalmazás használata&#10;&#10;Funkciók: A SmartStack Solutions eszközöket biztosít pénzügyi bevételek és kiadások kezelésére. Az alkalmazás lehetővé teszi pénzügyi adatainak rögzítését, rendszerezését és áttekintését.\nKorlátozások: Bár törekszünk pontos és megbízható funkciókat biztosítani, a SmartStack Solutions nem garantálja, hogy minden funkció hibamentes vagy megszakítás nélküli lesz.&#10;&#10;
+    6. Premium fiók&#10;&#10;Funkciók: A Premium hozzáférést biztosít a Premium képernyőn bemutatott funkciókhoz. Az elérhető funkciók és árak a szolgáltatás fejlődésével változhatnak.&#10;&#10;Fizetés: A Premium díjait a Google Play számítja fel a vásárlás előtt megjelenített ajánlat szerint. A visszatérítésekre és lemondásokra a Google Play vonatkozó feltételei és a helyi jogszabályok irányadók.&#10;&#10;
+    7. Felelősség&#10;&#10;Garancia kizárása: Az alkalmazás "ahogy van" állapotban kerül biztosításra, mindenféle garancia nélkül. A SmartStack Solutions nem garantálja az alkalmazás pontosságát, teljességét vagy megbízhatóságát.&#10;&#10;Felelősség korlátozása: A SmartStack Solutions nem vállal felelősséget az alkalmazás használatából vagy használhatatlanságából eredő károkért.&#10;&#10;
+    8. Megszüntetés&#10;&#10;A SmartStack Solutions fenntartja a jogot, hogy megszüntesse vagy felfüggessze azon felhasználók hozzáférését, akik megsértik a jelen feltételeket.&#10;&#10;
+    9. Kapcsolat&#10;&#10;Ha kérdése vagy észrevétele van a jelen feltételekkel kapcsolatban, írjon az appdev.jr2024@gmail.com címre.
+</string>
+
+    <string name="help_hub_title">Miben segíthetünk?</string>
+    <string name="help_hub_intro">Találjon gyors választ, kezelje fiókadatait, vagy lépjen kapcsolatba velünk közvetlenül.</string>
+    <string name="help_choose_option">Válasszon támogatási lehetőséget</string>
+    <string name="help_faq_title">Gyakran ismételt kérdések böngészése</string>
+    <string name="help_faq_description">Kapjon választ a fizetésekkel, emlékeztetőkkel, Premium szolgáltatással, korlátokkal és a fiók használatával kapcsolatos kérdésekre.</string>
+    <string name="help_contact_title">E-mail küldése a SmartStack ügyfélszolgálatnak</string>
+    <string name="help_contact_description">Nyisson meg egy előkészített e-mailt az appdev.jr2024@gmail.com címre.</string>
+    <string name="help_data_title">Adatok és fiók kezelése</string>
+    <string name="help_data_description">Exportálja adatait, vagy tekintse át a fióktörlési lehetőségeket.</string>
+    <string name="help_message_title">A gyorsabb válasz érdekében</string>
+    <string name="help_message_checklist">Kérjük, adja meg:\n• Mit próbált tenni\n• Mi történt helyette\n• A hiba reprodukálásának lépéseit\n• Képernyőképet, ha az nem tartalmaz érzékeny pénzügyi adatokat</string>
+    <string name="help_response_note">Soha ne küldjön jelszavakat, vásárlási tokeneket vagy teljes pénzügyi nyilvántartásokat e-mailben.</string>
+    <string name="support_email_subject">SmartStack Solutions támogatási kérés</string>
+    <string name="support_email_template">Kedves SmartStack ügyfélszolgálat!\n\nSegítséget szeretnék kérni a következővel kapcsolatban:\n\nEzt vártam:\n\nEz történt:\n\nA hiba reprodukálásának lépései:\n\nAlkalmazás verziója: %1$s\n\nKérjük, ne adjon meg jelszavakat vagy érzékeny pénzügyi adatokat.</string>
+    <string name="support_email_copied">Nem található e-mail alkalmazás. A támogatási e-mail cím a vágólapra lett másolva.</string>
+
+    <string name="terms_section_title_1">1. Elfogadás és hatály</string>
+    <string name="terms_section_body_1">Fiók létrehozásával vagy a SmartStack Solutions használatával elfogadja ezeket a feltételeket. Ha nem ért egyet velük, kérjük, ne használja az alkalmazást.</string>
+
+    <string name="terms_section_title_2">2. A szolgáltatás célja</string>
+    <string name="terms_section_body_2">A SmartStack szervezési eszközöket biztosít fizetések, kiadások, bevételek, emlékeztetők és megtakarítási célok kezeléséhez. Nem nyújt pénzügyi, adózási, jogi vagy befektetési tanácsadást.</string>
+
+    <string name="terms_section_title_3">3. Fiókhasználati felelősség</string>
+    <string name="terms_section_body_3">Ön felelős fiókja biztonságáért, az adatok pontosságáért, valamint a bejegyzések és emlékeztetők ellenőrzéséért. Ne használja a szolgáltatást jogellenes célokra, és ne próbálja meg kijátszani, automatizált módon visszaélni vele vagy megkerülni annak technikai védelmét.</string>
+
+    <string name="terms_section_title_4">4. Ingyenes szolgáltatás és hirdetések</string>
+    <string name="terms_section_body_4">Az ingyenes verziót hirdetések támogatják, és tartalmazza a nyitott fizetések, emlékeztetők, naptár, exportálás és fizetések lezárásának alapfunkcióit. Egyes létrehozási, szerkesztési, előzménykezelési, bevételkezelési, célkezelési és elemzési funkciók Premium előfizetést igényelnek.</string>
+
+    <string name="terms_section_title_5">5. Méltányos használati korlátok</string>
+    <string name="terms_section_body_5">A megbízható és fenntartható szolgáltatás érdekében az ingyenes fiókok legfeljebb 30 önálló aktív nyitott fizetést, 100 lezárt fizetést és 250 jövőbeli ismétlődő fizetési bejegyzést támogatnak. A Premium fiókok magasabb használati korlátokat kínálnak, beleértve akár 2000 együttes jövőbeli fizetési és bevételi bejegyzést. Ezek a korlátok a biztonság, a megbízhatóság vagy a szolgáltatás fenntarthatósága érdekében előzetes értesítés mellett módosíthatók, ahol ez ésszerűen lehetséges.</string>
+
+    <string name="terms_section_title_6">6. Premium előfizetés</string>
+    <string name="terms_section_body_6">A Premium funkciók és az aktuális ár a vásárlás előtt jelennek meg. A számlázást, megújítást, lemondást és az esetleges visszatérítéseket a Google Play kezeli saját feltételei és a vonatkozó jogszabályok szerint. A Premium eltávolítja a hirdetéseket, és feloldja a Premium képernyőn ismertetett funkciókat, a méltányos használati korlátok betartása mellett.</string>
+
+    <string name="terms_section_title_7">7. Adatelérhetőség és exportálás</string>
+    <string name="terms_section_body_7">Arra törekszünk, hogy a fiókadatok folyamatosan elérhetők legyenek, azonban egyetlen online szolgáltatás sem garantálhatja az adatok állandó vagy megszakítás nélküli tárolását. Javasoljuk, hogy rendszeresen exportálja a megőrizni kívánt adatokat. Jelentős automatikus adatmegőrzési vagy törlési szabályok bevezetése előtt előzetes értesítést adunk, kivéve, ha a törlést biztonsági okok, jogszabályok vagy fióktörlési kérelem teszi szükségessé.</string>
+
+    <string name="terms_section_title_8">8. Elérhetőség és felelősség</string>
+    <string name="terms_section_body_8">A szolgáltatás az aktuális rendelkezésre állás szerint működik. A jogszabályok által megengedett mértékben a SmartStack Solutions nem vállal felelősséget a szolgáltatáskimaradásokból, pontatlan felhasználói adatokból, elmulasztott emlékeztetőkből, eszközhibákból vagy az alkalmazás szakmai tanácsként való használatából eredő közvetett károkért. A törvényben biztosított fogyasztói jogok változatlanul érvényesek.</string>
+
+    <string name="terms_section_title_9">9. Módosítások és megszüntetés</string>
+    <string name="terms_section_body_9">A funkciók és a jelen feltételek a szolgáltatás fejlődésével változhatnak. A lényeges módosításokról lehetőség szerint előzetesen tájékoztatjuk a felhasználókat. A hozzáférés korlátozható csalás, visszaélés, jogellenes használat, biztonsági kockázat vagy a jelen feltételek súlyos megsértése esetén.</string>
+
+    <string name="terms_section_title_10">10. Kapcsolat</string>
+    <string name="terms_section_body_10">A jelen feltételekkel vagy a szolgáltatással kapcsolatos kérdéseit az appdev.jr2024@gmail.com címre küldheti.</string>
+
+    <string name="faqs_question_16">16. Milyen használati korlátok vonatkoznak az ingyenes és a Premium fiókokra?</string>
+    <string name="faqs_answer_16">Válasz: Az ingyenes fiókok legfeljebb 30 aktív nyitott fizetést, 100 lezárt fizetést és 250 jövőbeli ismétlődő fizetési bejegyzést kezelhetnek. A Premium magasabb korlátokat biztosít, és akár 2000 együttes jövőbeli fizetési és bevételi bejegyzést támogat. Ezek a biztonsági korlátok a szolgáltatás megbízhatóságát szolgálják, és segítenek megelőzni a véletlenül létrehozott túl nagy mennyiségű bejegyzést.</string>
+
+    <string name="faqs_question_17">17. Az ingyenes felhasználók továbbra is megjelölhetik a fizetéseket kifizetettként?</string>
+    <string name="faqs_answer_17">Válasz: Igen. A nyitott fizetés lezárt fizetéssé alakításának normál folyamata soha nincs korlátozva az ingyenes csomagban. A lezárt fizetések közvetlen létrehozása, szerkesztése és törlése Premium funkció.</string>
+
+    <string name="faqs_question_18">18. A SmartStack automatikusan törli a pénzügyi előzményeimet?</string>
+    <string name="faqs_answer_18">Válasz: A SmartStack jelenleg nem alkalmaz automatikus törlési időszakot a fizetési előzményekre. Fiókadatait bármikor exportálhatja. Ha a jövőben jelentős adatmegőrzési szabály kerül bevezetésre, az alkalmazás erről előzetesen tájékoztatja Önt, amennyiben ez ésszerűen lehetséges.</string>
+
+    <string name="faqs_question_19">19. Milyen pénzügyi elemzések érhetők el?</string>
+    <string name="faqs_answer_19">Válasz: Az ingyenes verzió tartalmazza a kiválasztott hónap pénzáramlását, a nyitott fizetések sürgősségét és a kiadások összetételét. A Premium emellett hat- és tizenkét hónapos pénzforgalmi trendeket, kategóriaváltozásokat, ismétlődő kötelezettségek alakulását és a megtakarítások következetességét is megjeleníti. A több hónapos időszakok mindig a vezérlőpulton kiválasztott hónappal zárulnak.</string>
+
+    <string name="back">Vissza</string>
+
+    <string name="content_description_back">Vissza</string>
+
+    <string name="about_us_title">Rólunk</string>
+
+    <string name="about_us_content">
+A SmartStack Solutions azért jött létre, hogy a mindennapi pénzügyek könnyebben átláthatók legyenek. Az alkalmazás egyetlen rendezett nézetben jeleníti meg a közelgő fizetéseket, a teljesített kiadásokat, a bevételeket, a megtakarítási célokat, az emlékeztetőket és a naptári eseményeket.\n\n
+Fő célunk a gyakorlati pénzügyi rendszerezés: átlátható információk, hasznos kategóriák és olyan eszközök biztosítása, amelyek segítenek nyomon követni a még esedékes, a már kifizetett és a hónapban még rendelkezésre álló összegeket. A SmartStack szervezési segédeszköz, nem nyújt pénzügyi, adózási vagy befektetési tanácsadást.\n\n
+Kérdéseit és visszajelzéseit örömmel fogadjuk az appdev.jr2024@gmail.com címen.
+</string>
+
+    <string name="delete_recurring_income">Ismétlődő bevétel törlése</string>
+    <string name="delete_this_income_entry">Csak ezt a bevételi bejegyzést törölje</string>
+    <string name="delete_this_and_future_income">Ennek és a jövőbeli bevételeknek a törlése</string>
+    <string name="delete_all_recurring_income">Az összes ismétlődő bevételi bejegyzés törlése</string>
+    <string name="delete_income_entry">Bevételi bejegyzés törlése</string>
+    <string name="delete_income_confirmation">Törli ezt a bevételi bejegyzést?</string>
+    <string name="income_deleted">A bevételi bejegyzés törölve.</string>
+    <string name="future_income_deleted">Ez és a jövőbeli bevételi bejegyzések törölve.</string>
+    <string name="all_recurring_income_deleted">Az ismétlődő bevételsorozat összes bejegyzése törölve.</string>
+    <string name="income_delete_failed">A bevételi bejegyzést nem sikerült törölni.</string>
+
+    <string name="empty_open_payments_title">Maradjon a közelgő fizetések előtt</string>
+    <string name="empty_open_payments_message">Adjon hozzá számlákat és egyéb esedékes fizetéseket. A SmartStack rendszerezi a közelgő és lejárt tételeket, és emlékezteti Önt a fizetési határidő előtt.</string>
+
+    <string name="empty_closed_payments_title">Építse fel kiadási előzményeit</string>
+    <string name="empty_closed_payments_message">A lezárt fizetések a már kifizetett kiadásokat jelentik. Adja hozzá őket közvetlenül, vagy jelölje a nyitott fizetést kifizetettként, hogy ide kerüljön.</string>
+
+    <string name="empty_income_title">Lássa, honnan származik a pénze</string>
+    <string name="empty_income_message">Adjon hozzá fizetést, szabadúszó bevételt, juttatásokat vagy egyéb bevételeket. Jelölje ismétlődőként a rendszeres bevételeket, hogy a SmartStack automatikusan létrehozza a jövőbeli bejegyzéseket.</string>
+
+    <string name="add_open_payment">Nyitott fizetés hozzáadása</string>
+    <string name="add_closed_payment">Lezárt fizetés hozzáadása</string>
+    <string name="add_income">Bevétel hozzáadása</string>
+    <string name="explore_premium">Premium megtekintése</string>
+    <string name="not_now">Most nem</string>
+    <string name="no_entries_match_filter">Nincs a szűrőnek megfelelő bejegyzés</string>
+    <string name="show_tutorial_again">Szakasz ismertetőjének megjelenítése</string>
+
+    <string name="payment_reminders">Fizetési emlékeztetők</string>
+    <string name="payment_reminders_channel_description">Emlékeztetők a közelgő, esedékes és lejárt nyitott fizetésekhez.</string>
+
+    <string name="notification_settings">Értesítési beállítások</string>
+    <string name="payment_notifications">Fizetési értesítések</string>
+    <string name="advance_reminder">Előzetes emlékeztető</string>
+    <string name="due_today_reminder">Ma esedékes emlékeztető</string>
+    <string name="overdue_reminder">Lejárt fizetés emlékeztető</string>
+    <string name="weekly_overdue_reminder">A lejárt fizetés emlékeztetőjének heti ismétlése</string>
+    <string name="reminder_off">Ki</string>
+    <string name="reminder_one_day">1 nappal előtte</string>
+    <string name="reminder_three_days">3 nappal előtte</string>
+    <string name="reminder_seven_days">7 nappal előtte</string>
+
+    <string name="notification_settings_saved">Az értesítési beállítások mentve.</string>
+    <string name="notifications_load_failed">Az értesítéseket nem sikerült betölteni.</string>
+
+    <string name="notification_due_soon_title">Hamarosan esedékes fizetés</string>
+    <string name="notification_due_soon_text">%1$s · %2$s · Esedékes: %3$s</string>
+
+    <string name="notification_due_today_title">Ma esedékes fizetés</string>
+    <string name="notification_due_today_text">%1$s · %2$s · Ma esedékes</string>
+
+    <string name="notification_overdue_title">Lejárt fizetés</string>
+
+    <string name="view_payment">Fizetés megtekintése</string>
+
+    <string name="notification_due_date_short">Esedékes: %1$s</string>
+
+    <string name="empty_notifications_title">Soha ne maradjon le egy fontos fizetésről</string>
+    <string name="empty_notifications_message">A SmartStack emlékezteti, amikor egy nyitott fizetés közeledik a határidejéhez, ma esedékes vagy lejárttá válik. Az emlékeztetők leállnak, amikor a fizetést kifizetettként jelöli.</string>
+
+    <string name="notifications_all_caught_up_title">Minden naprakész</string>
+    <string name="notifications_all_caught_up_message">Jelenleg nincsenek fizetési emlékeztetők. Új értesítések akkor jelennek meg itt, amikor egy fizetés közeledik vagy lejár.</string>
+
+    <string name="notifications_turned_off_title">Az értesítések ki vannak kapcsolva</string>
+    <string name="notifications_turned_off_message">Kapcsolja be az értesítéseket, hogy a SmartStack emlékeztethesse a közelgő és lejárt fizetésekre.</string>
+
+    <string name="enable_notifications">Értesítések engedélyezése</string>
+
+    <string name="payment_reminders_paused_title">A fizetési emlékeztetők szünetelnek</string>
+    <string name="payment_reminders_paused_message">Kapcsolja vissza a fizetési értesítéseket, amikor szeretné, hogy a SmartStack ismét emlékeztetőket ütemezzen.</string>
+
+    <plurals name="notification_overdue_text">
+        <item quantity="one">%1$s · %2$s · %3$d napja lejárt</item>
+        <item quantity="other">%1$s · %2$s · %3$d napja lejárt</item>
+    </plurals>
+
+    <string name="open_payment">Nyitott fizetés</string>
+    <string name="closed_payment">Lezárt fizetés</string>
+    <string name="overdue_open_payment">Lejárt nyitott fizetés</string>
+    <string name="untitled_entry">Névtelen bejegyzés</string>
+    <string name="no_category">Nincs kategória</string>
+    <string name="no_entries_for_date">Nincsenek bejegyzések erre a dátumra</string>
+    <string name="no_entries_for_date_explanation">A kiválasztott dátumra ütemezett nyitott fizetések, lezárt fizetések és bevételek itt jelennek meg.</string>
+    <string name="payment_date">Fizetés dátuma</string>
+    <string name="source_payer">Forrás / fizető</string>
+    <string name="source_payer_hint">Munkáltató, ügyfél, bérlő, intézmény…</string>
+    <string name="recurrence_one_year_explanation">A SmartStack a következő 12 hónapra előkészíti az ismétlődő bejegyzéseket, hogy az áttekintés mindig naprakész és kezelhető maradjon.</string>
+
+    <string name="open_payment_saved">A nyitott fizetéssorozat sikeresen mentve.</string>
+    <string name="open_payment_save_failed">A nyitott fizetést nem sikerült menteni: %1$s</string>
+    <string name="income_saved">A bevételsorozat sikeresen mentve.</string>
+    <string name="income_save_failed">A bevételt nem sikerült menteni: %1$s</string>
+
+    <string name="payment_moved_to_closed">A fizetés átkerült a Lezárt fizetések közé.</string>
+    <string name="payment_moved_to_open">A fizetés visszakerült a Nyitott fizetések közé.</string>
+    <string name="payment_move_failed">A fizetést nem sikerült áthelyezni: %1$s</string>
+
+    <string name="data_account">Adatok és fiók</string>
+
+    <string name="export_data_title">Adatok exportálása</string>
+    <string name="export_data_explanation">Töltse le SmartStack fizetéseit, bevételeit, megtakarítási céljait és értesítéseit JSON-fájlként.</string>
+    <string name="export_my_data">Adataim exportálása</string>
+    <string name="export_complete">Az adatexport sikeresen mentve.</string>
+    <string name="export_failed">Az adatexport nem sikerült.</string>
+
+    <string name="delete_account_title">Fiók és adatok törlése</string>
+    <string name="delete_account_explanation">Véglegesen törli SmartStack-fiókját és a tárolt pénzügyi adatait. Ez a művelet nem vonható vissza.</string>
+    <string name="delete_my_account">Fiókom törlése</string>
+    <string name="delete_account_confirmation">Véglegesen törli fiókját, fizetéseit, bevételeit, megtakarítási céljait és értesítéseit?</string>
+    <string name="delete_account_relogin">Biztonsági okokból jelentkezzen be újra, majd térjen vissza ide a fiók törléséhez.</string>
+    <string name="delete_account_failed">A fiókot nem sikerült törölni. Kérjük, próbálja újra.</string>
+
+    <string name="enter_open_payment_name">Adjon nevet a nyitott fizetésnek.</string>
+    <string name="enter_valid_amount">Adjon meg érvényes összeget.</string>
+    <string name="select_valid_due_date">Válasszon érvényes esedékességi dátumot.</string>
+    <string name="title_required">A cím megadása kötelező.</string>
+    <string name="date_required">A dátum megadása kötelező.</string>
+    <string name="invalid_date_format">Adjon meg érvényes dátumot.</string>
+
+    <string name="currency">Pénznem</string>
+    <string name="currency_menu_title">Pénznem (%1$s)</string>
+    <string name="select_currency">Pénznem kiválasztása</string>
+
+    <string name="billing_insufficient_funds">A fizetés elutasításra került, mert nincs elegendő fedezet.</string>
+    <string name="billing_user_ineligible">Ez az előfizetési ajánlat nem érhető el ehhez a fiókhoz.</string>
+
+    <string name="financial_insights">Pénzügyi elemzések</string>
+    <string name="financial_insights_subtitle">A kiválasztott hónap áttekintése egy pillantással</string>
+
+    <string name="monthly_money_map">Havi pénzügyi áttekintés</string>
+    <string name="monthly_money_map_description">Nézze meg, hogyan illeszkedik egymáshoz a bevétel, a teljesített kiadások, a közelgő kötelezettségek és a megtakarítási cél.</string>
+
+    <string name="open_payment_risk_timeline">Nyitott fizetések kockázati idővonala</string>
+    <string name="open_payment_risk_description">Először a lejárt és a hamarosan esedékes kötelezettségekre összpontosítson.</string>
+
+    <string name="spending_composition">Kiadások összetétele</string>
+    <string name="spending_composition_description">Tekintse meg, mely kategóriák teszik ki az adott hónap teljesített kiadásait.</string>
+
+    <string name="available_after_commitments">Elérhető</string>
+    <string name="paid_expenses_short">Kifizetve</string>
+    <string name="still_due_short">Még esedékes</string>
+
+    <string name="savings_target">Megtakarítási cél</string>
+    <string name="no_savings_target_insight">Ebben a hónapban nincs aktív megtakarítási cél.</string>
+    <string name="savings_target_cushion">%1$s marad a megtakarítási cél teljesítése után.</string>
+    <string name="savings_target_shortfall">Még %1$s szükséges a megtakarítási cél eléréséhez.</string>
+
+    <string name="due_next_seven_days">Következő 7 nap</string>
+    <string name="later_this_month">Később</string>
+    <string name="other">Egyéb</string>
+
+    <string name="no_closed_payments_for_month">Ebben a hónapban nincsenek teljesített kiadások.</string>
+
+    <plurals name="payment_count">
+        <item quantity="one">%1$d fizetés</item>
+        <item quantity="other">%1$d fizetés</item>
+    </plurals>
+
+    <string name="positive_balance_status">Pozitív egyenleg</string>
+    <string name="balance">Egyenleg</string>
+    <string name="shortfall_status">Hiány</string>
+    <string name="no_activity_status">Nincs aktivitás</string>
+    <string name="balanced_status">Kiegyensúlyozott</string>
+
+    <string name="selected_month">Ez a hónap</string>
+    <string name="six_months">6 hónap</string>
+    <string name="twelve_months">12 hónap</string>
+
+    <string name="premium_insights_teaser_title">A számai mögött hosszabb történet áll</string>
+    <string name="premium_insights_teaser_message">A Premium megmutatja a trendeket, a kategóriák változásait, az ismétlődő kötelezettségeket és azt, milyen következetesen teljesülnek megtakarítási tervei.</string>
+
+    <string name="unlock_deeper_insights">Részletesebb elemzések feloldása →</string>
+    <string name="premium_insights_upgrade">Frissítsen Premiumra a hat- és tizenkét hónapos pénzügyi trendek megtekintéséhez.</string>
+
+    <string name="cash_flow_trend">Pénzforgalmi trend</string>
+    <string name="cash_flow_trend_description">Hasonlítsa össze a bevételeket és az összes kötelezettséget; a zöld és piros oszlopok az egyes hónapok egyenlegét mutatják.</string>
+
+    <string name="category_changes">Kategóriaváltozások</string>
+    <string name="category_changes_description">Tekintse meg, mely kiadási kategóriák növekedtek vagy csökkentek az időszak korábbi hónapjaihoz képest.</string>
+
+    <string name="category_changes_info_title">A kategóriaváltozások számítása</string>
+    <string name="category_changes_info_message">A kiválasztott hónapot összehasonlítjuk a kiválasztott hat- vagy tizenkét hónapos időszak korábbi hónapjainak havi átlagával.\n\nVáltozás = a kiválasztott hónap összege mínusz a korábbi havi átlag, osztva ezzel a korábbi átlaggal.\n\nA felfelé mutató nyíl a kiadások növekedését, a lefelé mutató nyíl a csökkenését jelzi. A kötőjel azt jelenti, hogy nem volt korábbi kiadás, amely alapján százalékos változás számítható lenne. A kiválasztott hónap négy legnagyobb kategóriája jelenik meg.</string>
+
+    <string name="category_changes_info_content_description">Kategóriaváltozások magyarázata</string>
+
+    <string name="recurring_commitment_trend">Ismétlődő kötelezettségek trendje</string>
+    <string name="recurring_commitment_trend_description">Kövesse nyomon, hogyan változnak az ütemezett ismétlődő kötelezettségek az idő múlásával.</string>
+
+    <string name="savings_consistency">Megtakarítások következetessége</string>
+    <string name="savings_consistency_description">Tekintse meg, milyen gyakran érte el a várható havi egyenleg az aktív megtakarítási célt.</string>
+
+    <string name="total_obligations">Kötelezettségek</string>
+
+    <string name="not_enough_category_data">Adjon hozzá több hónapból teljesített kiadásokat a kategóriák összehasonlításához.</string>
+
+    <string name="commitments_increased">Az ismétlődő kötelezettségek %1$s értékkel növekedtek.</string>
+    <string name="commitments_decreased">Az ismétlődő kötelezettségek %1$s értékkel csökkentek.</string>
+    <string name="commitments_steady">Az ismétlődő kötelezettségek változatlanok maradtak.</string>
+
+    <string name="no_savings_goals_in_period">Ebben az időszakban nem volt aktív megtakarítási cél.</string>
+    <string name="savings_goals_achieved">%1$d / %2$d célhónap teljesült</string>
+
+    <string name="dashboard_welcome_title">Készítse el első pénzügyi áttekintését</string>
+    <string name="dashboard_welcome_message">Kezdje egy közelgő fizetéssel. A SmartStack annál hasznosabbá válik, minél több bevétel és teljesített kiadás építi fel a havi pénzügyi képet.</string>
+
+    <string name="dashboard_welcome_steps">1. Adjon hozzá egy közelgő fizetést\n2. Adjon hozzá bevételt az egyenleg kiszámításához\n3. Jelölje a fizetéseket kifizetettként a kiadási elemzések feloldásához</string>
+
+    <string name="add_first_payment">Első fizetés hozzáadása</string>
+
+    <string name="how_smartstack_works">Hogyan működik a SmartStack?</string>
+
+    <string name="dashboard_tutorial_title">Az Ön SmartStack munkafolyamata</string>
+
+    <string name="dashboard_tutorial_message">A nyitott fizetések megmutatják, mi van még hátra. Amikor egy fizetést kifizetettként jelöl, az bekerül a teljesített kiadási előzmények közé. A bevételek és megtakarítási célok teljessé teszik a havi áttekintést, míg az emlékeztetők és elemzések segítenek észrevenni, mire kell figyelni.</string>
+
+    <string name="about_us_hero_title">Átláthatóság a mindennapi pénzügyekben</string>
+
+    <string name="about_why_title">Miért létezik a SmartStack?</string>
+
+    <string name="about_why_body">A pénzügyi rendszerezésnek érthetőnek kell lennie, nem túlterhelőnek. A SmartStack azért jött létre, hogy a közelgő fizetéseket, a teljesített kiadásokat, a bevételeket, a megtakarítási célokat és az emlékeztetőket egyetlen átlátható havi nézetbe rendezze.</string>
+
+    <string name="about_manage_title">Miben segít a SmartStack?</string>
+
+    <string name="about_manage_body">Kövesse nyomon az esedékes tételeket, ismerje fel a lejárt fizetéseket, rendszerezze az ismétlődő kötelezettségeket, tekintse át a kiadási kategóriákat, és értse meg, mennyi marad rendelkezésre havonta.</string>
+
+    <string name="about_privacy_title">Adatvédelemre figyelő kialakítás</string>
+
+    <string name="about_privacy_body">Az alkalmazás csak a funkciók biztosításához szükséges adatokat gyűjti. A pénzügyi nyilvántartások az Ön hitelesített fiókjához kapcsolódnak. A mellékletként hozzáadott képek az alkalmazás privát tárhelyén maradnak ezen az eszközön, és nem kerülnek feltöltésre a Firebase-be.</string>
+
+    <string name="about_independent_title">Független fejlesztés</string>
+
+    <string name="about_independent_body">A SmartStack független fejlesztésű alkalmazás, amely a gyakorlati hasznosságra, a méltányos korlátokra és a folyamatos fejlesztésre összpontosít. Ez egy rendszerezést segítő eszköz, és nem nyújt pénzügyi, adózási vagy befektetési tanácsadást.</string>
+
+    <string name="about_contact_title">Kérdések és visszajelzés</string>
+
+    <string name="about_contact_body">Visszajelzése segít a SmartStack alakításában. Kapcsolat: appdev.jr2024@gmail.com.</string>
+
+    <string name="about_version">Alkalmazás verziója: %1$s</string>
+
+    <string name="income_attachment">Bevétel melléklete</string>
+
+    <string name="data_security_question_15">15. Hol tárolódnak a mellékletként hozzáadott képek?</string>
+
+    <string name="data_security_answer_15">Válasz: A nyitott fizetésekhez, teljesített kiadásokhoz vagy bevételekhez csatolt képek az alkalmazás privát tárhelyére kerülnek ezen az eszközön. A Firebase a pénzügyi bejegyzést és a helyi mellékletre mutató hivatkozást tárolja, de magát a képet nem tölti fel és nem szinkronizálja. Az alkalmazás vagy a helyi adatainak eltávolítása ezeket a képeket is törölheti, ezért a fontos dokumentumokat máshol is érdemes megőrizni.</string>
+
+    <string name="getting_started_title">Első lépések</string>
+
+    <string name="getting_started_hero_title">Az első hónapja a SmartStackkel</string>
+
+    <string name="getting_started_intro">Kövesse ezt az egyszerű munkafolyamatot, hogy az egyes bejegyzésekből hasznos havi áttekintés készüljön.</string>
+
+    <string name="guide_step_1_title">Adja hozzá, ami még esedékes</string>
+
+    <string name="guide_step_1_description">Válasszon manuális bevitelt vagy dokumentumbeolvasást. Adja meg az esedékességi dátumot és az ismétlődést, majd mentés előtt ellenőrizze az összes beolvasott javaslatot.</string>
+
+    <string name="guide_step_2_title">Rögzítse bevételeit</string>
+
+    <string name="guide_step_2_description">Adjon hozzá ismétlődő vagy egyszeri bevételt, hogy az irányítópult kiszámíthassa a várható havi egyenleget.</string>
+
+    <string name="guide_step_3_title">Jelölje a fizetéseket kifizetettként</string>
+
+    <string name="guide_step_3_description">Használja a kifizetve jelölőnégyzetet, amikor egy fizetés teljesült. Ez automatikusan átkerül a teljesített kiadási előzmények közé.</string>
+
+    <string name="guide_step_4_title">Értse meg a hónapját</string>
+
+    <string name="guide_step_4_description">Tekintse át az irányítópulton a nyitott és teljesített fizetéseket, bevételeket, megtakarítási előrehaladást, kategóriaösszetételt és pénzügyi elemzéseket.</string>
+
+    <string name="guide_step_5_title">Maradjon naprakész</string>
+
+    <string name="guide_step_5_description">Használjon emlékeztetőket, ismétlődő bejegyzéseket és naptárt a közelgő dátumok észleléséhez és az ismétlődő munka csökkentéséhez.</string>
+
+    <string name="getting_started_open_faq">Van még kérdése? Nyissa meg a GYIK-et</string>
+
+    <string name="help_getting_started_title">Első lépések útmutató</string>
+
+    <string name="help_getting_started_description">Ismerje meg az ajánlott munkafolyamatot a fizetésekhez, bevételekhez, emlékeztetőkhöz és havi elemzésekhez.</string>
+
+    <string name="entry_method_subtitle">Válassza ki a leggyorsabb lehetőséget ehhez a bejegyzéshez.</string>
+
+    <string name="entry_method_open_payment">Hogyan szeretné hozzáadni ezt a nyitott fizetést?</string>
+
+    <string name="entry_method_closed_payment">Hogyan szeretné hozzáadni ezt a teljesített kiadást?</string>
+
+    <string name="entry_method_income">Hogyan szeretné hozzáadni ezt a bevételt?</string>
+
+    <string name="scan_document">Dokumentum beolvasása</string>
+
+    <string name="scan_document_description">Egy bejegyzés: számla, nyugta vagy bevételi dokumentum beolvasása.</string>
+
+    <string name="scan_review_disclaimer">A beolvasott adatok csak javaslatok. Mentés előtt ellenőrizze a címet, összeget, dátumot, kategóriát és mellékletet.</string>
+
+    <string name="enter_manually">Manuális megadás</string>
+
+    <string name="enter_manually_description">Egy bejegyzés: írja be az adatokat saját maga.</string>
+
+    <string name="scan_and_prefill">Beolvasás és mezők előkitöltése</string>
+
+    <string name="preparing_document_scanner">Dokumentumbeolvasó előkészítése…</string>
+
+    <string name="reading_document">Dokumentum olvasása és javaslatok előkészítése…</string>
+
+    <string name="document_text_not_recognized">A dokumentum csatolva lett, de a szövege nem volt felismerhető. Kérjük, adja meg az adatokat manuálisan.</string>
+
+    <string name="document_scan_failed_title">A dokumentum nem volt beolvasható</string>
+
+    <string name="document_scan_failed_message">Próbálja újra egy tiszta, jól megvilágított dokumentummal, vagy folytassa manuális bevitellel.</string>
+
+    <string name="try_again">Próbálja újra</string>
+
+    <string name="faqs_question_20">20. Mennyire pontos a dokumentumbeolvasás?</string>
+
+    <string name="faqs_answer_20">Válasz: A beolvasás célja a gépelés csökkentése, nem az Ön ellenőrzésének helyettesítése. Az eredmények a képminőségtől, a dokumentum elrendezésétől, a nyelvtől, valamint attól függnek, hogy több dátum vagy összeg szerepel-e rajta. A SmartStack rossz végösszeget, dátumot, szállítót vagy fizetőt is kiválaszthat. Mentés előtt mindig ellenőrizzen minden javasolt mezőt. A beolvasás az eszközön történik; a beolvasási funkció nem tölti fel a dokumentumot a Firebase-be. A Google Play-szolgáltatások letölthetnek beolvasó- és szövegfelismerő-összetevőket, valamint működési teljesítménymutatókat gyűjthetnek, de az ML Kit nem küldi el a dokumentumot vagy a felismert szöveget a Google szervereire.</string>
+
+    <string name="import_transactions">Tranzakciók importálása</string>
+
+    <string name="import_transactions_description">Több lezárt fizetés és bevételi bejegyzés hozzáadása CSV- vagy PDF-kivonatból.</string>
+
+    <string name="closed_payments_expenses">Lezárt fizetések</string>
+
+    <string name="ignore_transaction">Figyelmen kívül hagyás</string>
+    <string name="possible_duplicate">Lehetséges ismétlődés. Ez a sor ki lett jelölésből véve; csak akkor jelölje be újra, ha ismét importálni szeretné.</string>
+
+    <string name="import_row_needs_review">Kérjük, alaposan ellenőrizze ezt a sort. Lehet átutalás vagy visszatérítés, illetve előfordulhat, hogy az értékek nem ellenőrizhetők teljes mértékben.</string>
+
+    <string name="reading_statement">Kivonat olvasása…</string>
+
+    <string name="reading_statement_page">%1$d/%2$d oldal olvasása…</string>
+
+    <string name="no_transactions_detected">Nem találhatók támogatott tranzakciók. Próbáljon CSV-exportot vagy jobb minőségű PDF-et használni.</string>
+
+    <string name="checking_duplicates">Lehetséges ismétlődések ellenőrzése…</string>
+
+    <string name="import_summary">%1$d lezárt fizetés · %2$d bevétel · %3$d kizárva</string>
+
+    <string name="import_currency_mismatch">Kivonat pénzneme: %1$s · Alkalmazás pénzneme: %2$s. Az importált sorok az alkalmazás pénznemét használják. Importálás előtt vegye figyelembe az árfolyamot, és szükség esetén módosítsa az összegeket.</string>
+
+    <string name="import_currency_detected">Kivonat pénzneme: %1$s. Az importált sorok az alkalmazás pénznemét használják.</string>
+
+    <string name="import_currency_not_detected">A kivonat pénzneme nem volt felismerhető. Az importált értékek az alkalmazás pénznemét használják: %1$s.</string>
+
+    <string name="scan_currency_mismatch">Felismerett dokumentumpénznem: %1$s · Alkalmazás pénzneme: %2$s. A bejegyzés az alkalmazás pénznemét fogja használni. Mentés előtt vegye figyelembe az árfolyamot, és szükség esetén módosítsa az összeget.</string>
+
+    <string name="closed_payment_saved">A lezárt fizetés sikeresen mentve.</string>
+
+    <string name="closed_payment_save_failed">A lezárt fizetés mentése sikertelen: %1$s</string>
+
+    <string name="user_session_unavailable">A munkamenet nem ellenőrizhető. Kérjük, jelentkezzen be újra.</string>
+
+    <string name="user_not_authenticated">Kérjük, jelentkezzen be újra.</string>
+
+    <string name="unknown_item_clicked">Ez az elem nem nyitható meg.</string>
+
+    <string name="load_open_payments_failed">A nyitott fizetések betöltése sikertelen: %1$s</string>
+
+    <string name="load_closed_payments_failed">A lezárt fizetések betöltése sikertelen: %1$s</string>
+
+    <string name="load_income_failed">A bevételek betöltése sikertelen: %1$s</string>
+
+    <string name="load_savings_target_failed">A megtakarítási cél betöltése sikertelen: %1$s</string>
+
+    <string name="invalid_target_amount">Kérjük, adjon meg érvényes célösszeget.</string>
+
+    <string name="invalid_end_date">Kérjük, válasszon érvényes befejezési dátumot.</string>
+
+    <string name="start_date_before_end_date">A kezdő dátumnak meg kell előznie a befejezési dátumot.</string>
+
+    <string name="invalid_target_date_range">Érvénytelen céldátum-időszak.</string>
+
+    <string name="savings_target_not_found">A megtakarítási cél nem található.</string>
+
+    <string name="savings_target_updated">A megtakarítási cél frissítve.</string>
+
+    <string name="savings_target_update_failed">A megtakarítási cél frissítése sikertelen: %1$s</string>
+
+    <string name="savings_target_deleted">A megtakarítási cél sikeresen törölve.</string>
+
+    <string name="savings_target_delete_failed">A megtakarítási cél törlése sikertelen: %1$s</string>
+
+    <string name="valid_inputs_required">Kérjük, adjon meg érvényes értékeket.</string>
+
+    <string name="monthly_savings_clear_failed">A havi megtakarítás törlése sikertelen: %1$s</string>
+
+    <string name="associated_data_failed">A kapcsolódó adatok lekérése sikertelen: %1$s</string>
+
+    <string name="bill_not_found">A nyitott fizetés nem található.</string>
+
+    <string name="open_payment_updated">A nyitott fizetés sikeresen frissítve.</string>
+
+    <string name="open_payment_update_failed">A nyitott fizetés frissítése sikertelen: %1$s</string>
+
+    <string name="open_payment_update_unavailable">A nyitott fizetés nem frissíthető.</string>
+
+    <string name="closed_payment_updated">A lezárt fizetés sikeresen frissítve.</string>
+
+    <string name="closed_payment_update_failed">A lezárt fizetés frissítése sikertelen: %1$s</string>
+
+    <string name="closed_payment_update_unavailable">A lezárt fizetés nem frissíthető.</string>
+
+    <string name="closed_payment_deleted">A lezárt fizetés sikeresen törölve.</string>
+
+    <string name="closed_payment_delete_failed">A lezárt fizetés törlése sikertelen.</string>
+
+    <string name="image_permission_denied">A tárhely-hozzáférés megtagadva. A kép nem jeleníthető meg.</string>
+
+    <string name="image_display_failed">A kép nem jeleníthető meg: %1$s</string>
+
+    <string name="income_updated">A bevétel sikeresen frissítve.</string>
+
+    <string name="income_update_failed">A bevétel frissítése sikertelen: %1$s</string>
+
+    <string name="income_update_unavailable">A bevétel nem frissíthető.</string>
+
+    <string name="payment_login_required">A fizetés frissítéséhez kérjük, jelentkezzen be újra.</string>
+
+    <string name="payment_id_missing">Ez a fizetés nem mozgatható, mert hiányzik az azonosítója.</string>
+
+    <plurals name="import_selected_transactions">
+        <item quantity="one">%d tranzakció importálása</item>
+        <item quantity="other">%d tranzakció importálása</item>
+    </plurals>
+
+    <string name="premium_preview_import_transactions">Több lezárt fizetés és bevételi bejegyzés importálása CSV- vagy PDF-kivonatokból.</string>
+
+    <string name="imported_from_statement">Bankkivonatból importálva</string>
+
+    <string name="importing_transactions">A kiválasztott tranzakciók mentése…</string>
+
+    <string name="import_complete">Importálás befejezve</string>
+
+    <plurals name="transactions_imported">
+        <item quantity="one">%d tranzakció importálva.</item>
+        <item quantity="other">%d tranzakció importálva.</item>
+    </plurals>
+
+    <string name="import_failed">A tranzakciók importálása sikertelen. Kérjük, próbálja újra.</string>
+
+    <string name="statement_read_failed">A kivonat nem olvasható.</string>
+
+    <string name="import_review_explanation">Importálás előtt ellenőrizzen minden javaslatot. Vegye ki a jelölést az átutalások, ismétlődések vagy olyan tranzakciók mellől, amelyek nem befolyásolhatják a SmartStack összesítéseit.</string>
+
+    <string name="choose_another_file">Másik fájl kiválasztása</string>
+
+    <string name="choose_file">Fájl kiválasztása</string>
+
+    <string name="change_file">Fájl módosítása</string>
+
+    <string name="selected_file">Kiválasztott fájl: %1$s</string>
+
+    <string name="include_in_import">Importálás</string>
+
+    <string name="import_blocked_no_selection">Legalább egy tranzakciót válasszon ki importálásra.</string>
+
+    <string name="import_blocked_currency">A kivonat és az alkalmazás pénzneme nem egyezik.</string>
+
+    <string name="import_blocked_invalid_entry">Egy kiválasztott tranzakcióból hiányzik a cím vagy az érvényes összeg.</string>
+
+    <string name="import_blocked_free_per_file">Az ingyenes fiókok egyszerre legfeljebb %1$d kiválasztott tranzakciót importálhatnak. Vegye ki a jelölést a további sorokból, vagy frissítsen Premiumra.</string>
+
+    <string name="import_blocked_free_total">Az ingyenes keret összesen %1$d importált tranzakció. Jelenleg még %2$d tranzakció importálható.</string>
+
+    <string name="import_blocked_limit_check">A SmartStack nem tudta ellenőrizni a fennmaradó ingyenes importkeretet. Ellenőrizze az internetkapcsolatot, és próbálja újra.</string>
+
+    <string name="import_free_allowance">Ingyenes keret: %1$d/fájl, %2$d összesen · %3$d maradt</string>
+
+    <string name="import_free_allowance_pending">Ingyenes keret: %1$d/fájl, %2$d összesen · fennmaradó keret ellenőrzése…</string>
+
+    <string name="import_premium_allowance">Premium keret: fájlonként legfeljebb %1$d tranzakció</string>
+
+    <string name="faqs_question_21">21. Hogyan működik a bankkivonatok importálása, és mennyire pontos?</string>
+
+    <string name="faqs_answer_21">Válasz: A SmartStack képes támogatott CSV- és PDF-bankkivonatok beolvasására, és lezárt fizetéseket, illetve bevételi bejegyzéseket javasol. A PDF-felismerés az eszközön futó OCR-t használ, ezért előfordulhat, hogy hibásan olvassa a dátumokat, leírásokat vagy összegeket. Importálás előtt mindig ellenőrizzen minden sort, és vegye ki a jelölést az átutalások, ismétlődések vagy olyan tranzakciók mellől, amelyek nem befolyásolhatják az összesítéseit. Az ingyenes fiókok egyszerre legfeljebb 50, összesen 100 tranzakciót importálhatnak; a Premium fájlonként legfeljebb 200 tranzakciót támogat. A kivonat feldolgozása ideiglenesen az eszközön történik, és nem kerül feltöltésre a Firebase-be; csak a kiválasztott bejegyzések kerülnek mentésre.</string>
+    <string name="export_monthly_overview">Havi áttekintés exportálása</string>
+    <string name="export_monthly_title">Havi áttekintés exportálása</string>
+    <string name="export_scope_info_title">Mi kerül exportálásra?</string>
+    <string name="export_scope_info_content_description">Exportálási információk megjelenítése</string>
+    <string name="export_scope_info_bullets">• Kiválasztott hónap&#10;• Bevételek összesen&#10;• Nyitott kifizetések összesen&#10;• Lezárt kifizetések összesen&#10;• Egyenleg&#10;• Lezárt kifizetések kategóriaösszesítői&#10;• A kiválasztott hónap bejegyzései</string>
+    <string name="export_pdf_summary">PDF-összefoglaló</string>
+    <string name="export_csv_data">CSV-adatok</string>
+    <string name="export_share_chooser">Havi áttekintés megosztása</string>
+    <string name="premium_compare_convenience">Kényelmi eszközök</string>
+    <string name="premium_compare_convenience_free">Sablonok, beolvasásos rögzítés és havi exportálás</string>
+    <string name="premium_compare_convenience_premium">Tartalmazza, magasabb importálási korlátokkal</string>
+    <string name="export_report_title">SmartStack havi áttekintés</string>
+    <string name="export_summary">Összefoglaló</string>
+    <string name="export_category_totals">Kategóriaösszesítők</string>
+    <string name="export_entries">Bejegyzések</string>
+    <string name="export_open_payments">Nyitott kifizetések</string>
+    <string name="export_closed_payments">Lezárt kifizetések</string>
+    <string name="export_income">Bevétel</string>
+    <string name="export_balance">Egyenleg</string>
+    <string name="export_no_entries">Ebben a hónapban nincsenek bejegyzések.</string>
+    <string name="use_template">Sablon használata</string>
+    <string name="hide_templates">Sablonok elrejtése</string>
+    <string name="save_as_template">Mentés sablonként</string>
+    <string name="template_name">Sablon neve</string>
+    <string name="template_name_hint">pl. Élelmiszer, Benzinkút, Osztalék</string>
+    <string name="template_saved">A sablon elmentve.</string>
+    <string name="template_name_required">Kérjük, adjon meg egy sablonnevet.</string>
+</resources>

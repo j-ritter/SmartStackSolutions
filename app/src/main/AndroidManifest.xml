@@ -59,6 +59,9 @@
             android:name=".DocumentScanActivity"
             android:exported="false" />
         <activity
+            android:name=".ImportTransactionsActivity"
+            android:exported="false" />
+        <activity
             android:name=".Datasecurity"
             android:exported="false" />
         <activity

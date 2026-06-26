@@ -67,7 +67,7 @@ public class MyAdapterSpendings extends RecyclerView.Adapter<RecyclerView.ViewHo
             Spendings spending = (Spendings) itemsArrayList.get(position);
 
             spendingHolder.title.setText(spending.getName());
-            spendingHolder.amount.setText(CurrencyPreferences.format(context, spending.getAmount()));
+            spendingHolder.amount.setText(CurrencyPreferences.format(context, spending.getAmount(), spending.getCurrency()));
 
             spendingHolder.category.setText(
                     FinancialEntryOptions.displayCategory(context, spending.getCategory())
@@ -128,6 +128,7 @@ public class MyAdapterSpendings extends RecyclerView.Adapter<RecyclerView.ViewHo
             bill.setBillId(spendingId);
             bill.setName(spending.getName());
             bill.setAmount(spending.getAmount());
+            bill.setCurrency(spending.getCurrency());
             bill.setCategory(spending.getCategory());
             bill.setSubcategory(spending.getSubcategory());
             bill.setVendor(spending.getVendor());

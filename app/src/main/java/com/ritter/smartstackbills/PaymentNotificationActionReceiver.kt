@@ -15,27 +15,33 @@ class PaymentNotificationActionReceiver : BroadcastReceiver() {
         val db = FirebaseFirestore.getInstance()
         val billRef = db.collection("users").document(userUid).collection("bills").document(billId)
 
-        billRef.get()
-            .addOnSuccessListener { document ->
-                if (!document.exists()) {
-                    finish(context, billId, pendingResult)
-                    return@addOnSuccessListener
-                }
-                val closedPayment = document.data.orEmpty().toMutableMap().apply {
-                    put("spendingId", billId)
-                    put("billId", billId)
-                    put("paid", true)
-                }
-                val spendingRef = db.collection("users").document(userUid)
-                    .collection("spendings").document(billId)
-                db.runBatch { batch ->
-                    batch.set(spendingRef, closedPayment)
-                    batch.delete(billRef)
-                }
-                    .addOnSuccessListener { finish(context, billId, pendingResult) }
-                    .addOnFailureListener { pendingResult.finish() }
+        UsageLimits.checkClosedPaymentCreation(context, userUid, 1L) { allowed, _ ->
+            if (!allowed) {
+                pendingResult.finish()
+                return@checkClosedPaymentCreation
             }
-            .addOnFailureListener { pendingResult.finish() }
+            billRef.get()
+                .addOnSuccessListener { document ->
+                    if (!document.exists()) {
+                        finish(context, billId, pendingResult)
+                        return@addOnSuccessListener
+                    }
+                    val closedPayment = document.data.orEmpty().toMutableMap().apply {
+                        put("spendingId", billId)
+                        put("billId", billId)
+                        put("paid", true)
+                    }
+                    val spendingRef = db.collection("users").document(userUid)
+                        .collection("spendings").document(billId)
+                    db.runBatch { batch ->
+                        batch.set(spendingRef, closedPayment)
+                        batch.delete(billRef)
+                    }
+                        .addOnSuccessListener { finish(context, billId, pendingResult) }
+                        .addOnFailureListener { pendingResult.finish() }
+                }
+                .addOnFailureListener { pendingResult.finish() }
+        }
     }
 
     private fun finish(

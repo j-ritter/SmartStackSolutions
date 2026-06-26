@@ -27,6 +27,16 @@ object DrawerNavigation {
                 R.string.currency_menu_title,
                 CurrencyPreferences.selectedCode(activity)
             )
+        navView.menu.findItem(R.id.nav_item_amount_decimals)?.title =
+            activity.getString(
+                R.string.amount_display_menu_title,
+                activity.getString(
+                    when (CurrencyPreferences.selectedDecimalMode(activity)) {
+                        CurrencyPreferences.AmountDecimalMode.TWO_DECIMALS -> R.string.amount_display_two_decimals_short
+                        CurrencyPreferences.AmountDecimalMode.NO_DECIMALS -> R.string.amount_display_no_decimals_short
+                    }
+                )
+            )
 
         val header = navView.getHeaderView(0)
         header.findViewById<TextView>(R.id.navHeaderAccountText)?.text =
@@ -47,6 +57,7 @@ object DrawerNavigation {
                 R.id.nav_item_terms -> activity.startActivity(Intent(activity, Terms::class.java))
                 R.id.nav_item_data_account -> activity.startActivity(Intent(activity, DataAccountActivity::class.java))
                 R.id.nav_item_currency -> showCurrencyDialog(activity)
+                R.id.nav_item_amount_decimals -> showAmountDisplayDialog(activity)
                 R.id.nav_item_logout -> {
                     showLogoutConfirmation(activity)
                 }
@@ -69,6 +80,28 @@ object DrawerNavigation {
             .setTitle(R.string.select_currency)
             .setSingleChoiceItems(labels, selectedIndex) { dialog, which ->
                 CurrencyPreferences.setSelectedCode(activity, currencies[which].currencyCode)
+                dialog.dismiss()
+                activity.recreate()
+            }
+            .setNegativeButton(R.string.cancel, null)
+            .show()
+    }
+
+    private fun showAmountDisplayDialog(activity: AppCompatActivity) {
+        val modes = arrayOf(
+            CurrencyPreferences.AmountDecimalMode.TWO_DECIMALS,
+            CurrencyPreferences.AmountDecimalMode.NO_DECIMALS
+        )
+        val labels = arrayOf(
+            activity.getString(R.string.amount_display_two_decimals),
+            activity.getString(R.string.amount_display_no_decimals)
+        )
+        val selectedIndex = modes.indexOf(CurrencyPreferences.selectedDecimalMode(activity))
+
+        AlertDialog.Builder(activity)
+            .setTitle(R.string.select_amount_display)
+            .setSingleChoiceItems(labels, selectedIndex) { dialog, which ->
+                CurrencyPreferences.setDecimalMode(activity, modes[which])
                 dialog.dismiss()
                 activity.recreate()
             }

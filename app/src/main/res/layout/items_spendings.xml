@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-
-    app:cardElevation="6dp"
-    app:cardCornerRadius="6dp"
     android:layout_margin="12dp"
-    android:id="@+id/cardView">
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="6dp"
+    app:cardElevation="6dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="12dp">
 
-        <!-- Title Label -->
         <TextView
             android:id="@+id/labelTitleItemsSpendings"
             android:layout_width="120dp"
@@ -25,37 +25,50 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- Title Value -->
-
-        <ImageView
-            android:id="@+id/imgRecurringIconSpendings"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/textviewTitleItemsSpendings"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="20dp"
-            android:contentDescription="@string/recurring"
-            android:visibility="gone"
-            android:src="@drawable/ic_recurring1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/imgCheckBoxItemsSpendings" />
-
-        <!-- Checkbox for marking as paid -->
-
-        <!-- Category Label -->
-
-        <CheckBox
-            android:id="@+id/imgCheckBoxItemsSpendings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:buttonTint="@color/checkbox_color_selector"
-            android:text="@string/paid"
-            android:textStyle="bold"
+            android:layout_marginStart="12dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textColor="@color/black"
             android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="@id/textviewCategoryItemsSpendings"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@id/paidStatusGroupItemsSpendings"
+            app:layout_constraintStart_toEndOf="@id/labelTitleItemsSpendings"
+            app:layout_constraintTop_toTopOf="@id/labelTitleItemsSpendings"
+            tools:text="Electricity bill" />
+
+        <LinearLayout
+            android:id="@+id/paidStatusGroupItemsSpendings"
+            android:layout_width="58dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/textviewCategoryItemsSpendings"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <CheckBox
+                android:id="@+id/imgCheckBoxItemsSpendings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/checkbox_color_selector"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:padding="0dp" />
+
+            <TextView
+                android:id="@+id/imgCheckBoxItemsSpendingsLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/paid"
+                android:textColor="@color/colorSecondary"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/labelCategoryItemsSpendings"
@@ -68,9 +81,34 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/labelTitleItemsSpendings" />
 
-        <!-- Category Value -->
+        <TextView
+            android:id="@+id/textviewCategoryItemsSpendings"
+            android:layout_width="0dp"
+            android:layout_height="18dp"
+            android:layout_marginStart="12dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@id/imgRecurringIconSpendings"
+            app:layout_constraintStart_toEndOf="@id/labelCategoryItemsSpendings"
+            app:layout_constraintTop_toTopOf="@id/labelCategoryItemsSpendings"
+            tools:text="Utilities" />
 
-        <!-- Amount Label -->
+        <ImageView
+            android:id="@+id/imgRecurringIconSpendings"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_marginStart="8dp"
+            android:contentDescription="@string/recurring"
+            android:src="@drawable/ic_recurring1"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/textviewCategoryItemsSpendings"
+            app:layout_constraintEnd_toStartOf="@id/paidStatusGroupItemsSpendings"
+            app:layout_constraintTop_toTopOf="@id/textviewCategoryItemsSpendings"
+            app:tint="@color/colorSecondary" />
+
         <TextView
             android:id="@+id/labelAmountItemsSpendings"
             android:layout_width="120dp"
@@ -82,59 +120,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/labelCategoryItemsSpendings" />
 
-        <!-- Amount Value -->
-
-        <!-- Purchase Date Label -->
         <TextView
             android:id="@+id/textviewAmountItemsSpendings"
-            android:layout_width="150dp"
+            android:layout_width="0dp"
             android:layout_height="18dp"
-            android:text="$1200"
+            android:layout_marginStart="12dp"
             android:textColor="@color/spending_color"
             android:textSize="12sp"
             android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@id/paidStatusGroupItemsSpendings"
             app:layout_constraintStart_toEndOf="@id/labelAmountItemsSpendings"
-            app:layout_constraintStart_toStartOf="@+id/textviewDateItemsSpendings"
-            app:layout_constraintTop_toTopOf="@id/labelAmountItemsSpendings" />
-
-        <TextView
-            android:id="@+id/textviewTitleItemsSpendings"
-            android:layout_width="220dp"
-            android:layout_height="18dp"
-            android:layout_marginTop="8dp"
-            android:text="Arya"
-            android:textColor="@color/black"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@id/labelTitleItemsSpendings"
-            app:layout_constraintStart_toStartOf="@+id/textviewCategoryItemsSpendings"
-
-            app:layout_constrainedWidth="true" />
-
-        <TextView
-            android:id="@+id/textviewCategoryItemsSpendings"
-            android:layout_width="150dp"
-            android:layout_height="18dp"
-            android:text="Education"
-            android:textColor="@color/black"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/labelCategoryItemsSpendings"
-            app:layout_constraintStart_toStartOf="@+id/textviewAmountItemsSpendings"
-            app:layout_constraintTop_toTopOf="@id/labelCategoryItemsSpendings" />
-
-        <TextView
-            android:id="@+id/textviewDateItemsSpendings"
-            android:layout_width="150dp"
-            android:layout_height="18dp"
-            android:layout_marginStart="12dp"
-            android:text="1/6/2024"
-            android:textColor="@color/black"
-            android:textSize="12sp"
-
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@id/labelDateItemsSpendings"
-            app:layout_constraintTop_toTopOf="@id/labelDateItemsSpendings" />
+            app:layout_constraintTop_toTopOf="@id/labelAmountItemsSpendings"
+            tools:text="$120.00" />
 
         <TextView
             android:id="@+id/labelDateItemsSpendings"
@@ -147,6 +144,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/labelAmountItemsSpendings" />
 
-        <!-- Purchase Date Value -->
+        <TextView
+            android:id="@+id/textviewDateItemsSpendings"
+            android:layout_width="0dp"
+            android:layout_height="18dp"
+            android:layout_marginStart="12dp"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@id/paidStatusGroupItemsSpendings"
+            app:layout_constraintStart_toEndOf="@id/labelDateItemsSpendings"
+            app:layout_constraintTop_toTopOf="@id/labelDateItemsSpendings"
+            tools:text="12/06/2026" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

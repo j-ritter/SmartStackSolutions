@@ -1,0 +1,1022 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="notification_details">Chi tiết thông báo</string>
+    <string name="main">Chính</string>
+    <string name="app_name">SmartStack Solutions</string>
+    <string name="target_name">Tên mục tiêu</string>
+    <string name="log_in">Đăng nhập</string>
+    <string name="email">Email</string>
+    <string name="password">Mật khẩu</string>
+    <string name="don_t_have_an_account">Chưa có tài khoản?</string>
+    <string name="sign_up">Đăng ký</string>
+    <string name="forgot_password">Quên mật khẩu?</string>
+    <string name="already_have_an_account">Đã có tài khoản?</string>
+    <string name="log_in_with_google">Đăng nhập bằng Google</string>
+    <string name="sign_up_with_google">Đăng ký bằng Google</string>
+    <string name="login_title">Chào mừng trở lại</string>
+    <string name="login_subtitle">Đăng nhập để tiếp tục quản lý các khoản thanh toán đang chờ, chi tiêu và thu nhập của bạn.</string>
+    <string name="signup_title">Tạo tài khoản</string>
+    <string name="signup_subtitle">Bắt đầu quản lý tài chính của bạn với tài khoản SmartStack an toàn.</string>
+    <string name="continue_with_email">Tiếp tục bằng email</string>
+    <string name="email_required">Vui lòng nhập địa chỉ email.</string>
+    <string name="email_invalid">Vui lòng nhập địa chỉ email hợp lệ.</string>
+    <string name="password_required">Vui lòng nhập mật khẩu.</string>
+    <string name="password_too_short">Sử dụng ít nhất 6 ký tự.</string>
+    <string name="auth_generic_error">Không thể đăng nhập. Vui lòng kiểm tra thông tin và thử lại.</string>
+    <string name="auth_network_error">Có sự cố kết nối. Vui lòng kiểm tra Internet và thử lại.</string>
+    <string name="account_exists_error">Đã tồn tại tài khoản với địa chỉ email này.</string>
+    <string name="password_reset_sent">Email đặt lại mật khẩu đã được gửi. Vui lòng kiểm tra hộp thư của bạn.</string>
+    <string name="password_reset_failed">Không thể gửi email đặt lại mật khẩu. Vui lòng kiểm tra địa chỉ và thử lại.</string>
+    <string name="default_web_client_id">335330685775-busm9leph5emh7ifp13925ncer4vrq4q.apps.googleusercontent.com</string>
+    <string name="or">hoặc</string>
+    <string name="all">Tất cả</string>
+    <string name="you_still_do_not_have_any_bill_registered">Bạn vẫn chưa có khoản thanh toán nào được đăng ký</string>
+    <string name="my_bills">Các khoản thanh toán của tôi</string>
+    <string name="my_spendings">Chi tiêu của tôi</string>
+    <string name="income">Thu nhập</string>
+    <string name="calendar">Lịch</string>
+    <string name="account">Tài khoản</string>
+    <string name="incoming">Sắp đến hạn</string>
+    <string name="overdue">Quá hạn</string>
+    <string name="recurring">Định kỳ</string>
+    <string name="paid">Đã thanh toán</string>
+    <string name="select_date">Chọn ngày</string>
+    <string name="amount">Số tiền</string>
+    <string name="vendor">Nhà cung cấp</string>
+    <string name="category">Danh mục</string>
+    <string name="write_your_title">Nhập tiêu đề</string>
+    <string name="write_your_comments">Nhập ghi chú của bạn</string>
+    <string name="cancel">Hủy</string>
+    <string name="unsaved_changes_title">Thay đổi chưa được lưu</string>
+    <string name="unsaved_changes_message">Bạn có các thay đổi chưa được lưu. Bạn có muốn hủy chúng không?</string>
+    <string name="unsaved_import_message">Bạn đã xem các đề xuất nhập dữ liệu nhưng chưa lưu. Bạn có muốn hủy chúng không?</string>
+    <string name="keep_editing">Tiếp tục chỉnh sửa</string>
+    <string name="discard_changes">Hủy thay đổi</string>
+    <string name="save">Lưu</string>
+    <string name="attachment">Tệp đính kèm</string>
+    <string name="create_new_open_payment">Tạo khoản thanh toán đang chờ mới</string>
+    <string name="open_payments">Các khoản thanh toán đang chờ</string>
+    <string name="open_payments_hint">Các khoản thanh toán sắp đến hạn và quá hạn cần được xử lý.</string>
+    <string name="no_open_payments">Không có khoản thanh toán nào phù hợp với chế độ xem này.</string>
+    <string name="mark_paid">Đánh dấu đã thanh toán</string>
+    <string name="bill_details">Chi tiết khoản thanh toán đang chờ</string>
+    <string name="untitled_payment">Khoản thanh toán chưa có tiêu đề</string>
+    <string name="uncategorized">Chưa phân loại</string>
+    <string name="delete_open_payment">Xóa khoản thanh toán đang chờ</string>
+    <string name="delete_open_payment_confirmation">Xóa khoản thanh toán đang chờ này?</string>
+    <string name="delete_recurring_payment">Xóa khoản thanh toán định kỳ</string>
+    <string name="delete_this_occurrence">Chỉ xóa khoản thanh toán này</string>
+    <string name="delete_this_and_future">Xóa khoản thanh toán này và các khoản sau</string>
+    <string name="open_payment_deleted">Đã xóa khoản thanh toán đang chờ.</string>
+    <string name="future_open_payments_deleted">Đã xóa khoản thanh toán này và các khoản sau.</string>
+    <string name="open_payment_delete_failed">Không thể xóa khoản thanh toán.</string>
+    <string name="add_attachment">Thêm tệp đính kèm</string>
+    <string name="take_photo">Chụp ảnh</string>
+    <string name="choose_from_gallery">Chọn từ thư viện</string>
+    <string name="attachment_added">Đã thêm tệp đính kèm</string>
+    <string name="attachment_failed">Không thể thêm tệp đính kèm</string>
+    <string name="edit_open_payment">Chỉnh sửa khoản thanh toán đang chờ</string>
+    <string name="open_payment_attachment">Tệp đính kèm của khoản thanh toán đang chờ</string>
+    <string name="create_new_closed_payment">Tạo khoản thanh toán đã hoàn tất mới</string>
+    <string name="closed_payments">Các khoản thanh toán đã hoàn tất</string>
+    <string name="closed_payment_details">Chi tiết khoản thanh toán đã hoàn tất</string>
+    <string name="edit_closed_payment">Chỉnh sửa khoản thanh toán đã hoàn tất</string>
+    <string name="delete_closed_payment">Xóa khoản thanh toán đã hoàn tất</string>
+    <string name="closed_payment_attachment">Tệp đính kèm của khoản thanh toán đã hoàn tất</string>
+    <string name="create_new_income">Tạo khoản thu nhập mới</string>
+    <string name="create_new_spending">Tạo khoản chi mới</string>
+    <string name="date">Ngày</string>
+    <string name="type">Loại</string>
+    <string name="date_header">Tiêu đề ngày</string>
+    <string name="due_date">Ngày đến hạn</string>
+    <string name="comments">Ghi chú</string>
+    <string name="close">Đóng</string>
+    <string name="set_savings_target">Đặt mục tiêu tiết kiệm</string>
+    <string name="delete_target">Xóa mục tiêu</string>
+    <string name="delete">Xóa</string>
+    <string name="delete_savings_target_confirmation">Xóa mục tiêu tiết kiệm này? Lịch sử tiến độ của mục tiêu cũng sẽ bị xóa.</string>
+    <string name="edit_target">Chỉnh sửa mục tiêu</string>
+    <string name="name_target">Tên mục tiêu</string>
+    <string name="target_amount">Số tiền mục tiêu</string>
+    <string name="start_date">Ngày bắt đầu</string>
+    <string name="end_date">Ngày kết thúc</string>
+    <string name="monthly_savings">Tiết kiệm hàng tháng</string>
+    <string name="savings_goal_image">Hình ảnh mục tiêu tiết kiệm</string>
+    <string name="search_vendor">Tìm kiếm nhà cung cấp</string>
+    <string name="welcome_title">Chào mừng đến với SmartStack Solutions!</string>
+    <string name="welcome_icon_description">Biểu tượng chào mừng</string>
+    <string name="welcome_body_message">Công cụ giúp bạn quản lý tài chính và đơn giản hóa cuộc sống!</string>
+    <string name="get_started">Bắt đầu</string>
+    <string name="unlock_premium">Mở khóa tính năng Premium &#9733;</string>
+    <string name="about_us">Về chúng tôi</string>
+    <string name="faqs">Câu hỏi thường gặp</string>
+    <string name="search_faqs">Tìm kiếm câu hỏi thường gặp</string>
+    <string name="data_security">Bảo mật dữ liệu</string>
+    <string name="help_support">Trợ giúp và hỗ trợ</string>
+    <string name="terms_conditions">Điều khoản và điều kiện</string>
+    <string name="logout">Đăng xuất</string>
+    <string name="logout_confirmation">Đăng xuất khỏi SmartStack Solutions trên thiết bị này?</string>
+
+    <string name="about_us_subtitle">Vì sao SmartStack được tạo ra và cách ứng dụng hỗ trợ đưa ra các quyết định tài chính rõ ràng hơn.</string>
+    <string name="faqs_subtitle">Câu trả lời nhanh về thanh toán, thu nhập, mục tiêu tiết kiệm, Premium và thông báo.</string>
+    <string name="data_security_subtitle">Cách quản lý quyền truy cập tài khoản và dữ liệu tài chính của bạn.</string>
+    <string name="help_subtitle">Tìm câu trả lời hoặc liên hệ đội ngũ hỗ trợ SmartStack.</string>
+    <string name="terms_subtitle">Các điều khoản quan trọng áp dụng khi sử dụng SmartStack Solutions.</string>
+    <string name="about_us_image_description">Tổng quan SmartStack Solutions</string>
+
+    <string name="income_date">Ngày nhận thu nhập</string>
+    <string name="repeat">Lặp lại</string>
+    <string name="purchase_date">Ngày mua</string>
+    <string name="details">Chi tiết</string>
+    <string name="upload">Tải lên</string>
+    <string name="alarm">Nhắc nhở</string>
+    <string name="categorydbx">Danh mục</string>
+    <string name="essential">Thiết yếu</string>
+    <string name="non_essential">Không thiết yếu</string>
+    <string name="one_time">Một lần</string>
+    <string name="delete_income">Xóa thu nhập</string>
+    <string name="edit_income">Chỉnh sửa thu nhập</string>
+    <string name="income_details">Chi tiết thu nhập</string>
+    <string name="previous_month">Tháng trước</string>
+    <string name="next_month">Tháng sau</string>
+    <string name="mark_as_paid">Đánh dấu đã thanh toán</string>
+    <string name="calendar_title">Lịch</string>
+    <string name="content_description_navigation_menu">Mở menu điều hướng</string>
+    <string name="search_or_select_vendor">Tìm kiếm hoặc chọn nhà cung cấp</string>
+    <string name="enter_custom_vendor">Nhập nhà cung cấp tùy chỉnh</string>
+    <string name="subcategory">Danh mục phụ</string>
+    <string name="image_added">Đã thêm hình ảnh</string>
+    <string name="title">Tiêu đề</string>
+    <string name="select_a_category">Chọn danh mục</string>
+
+    <string name="data_security_title">Bảo mật dữ liệu</string>
+    <string name="faqs_question_5">5. Thanh toán thiết yếu và không thiết yếu là gì, và chúng khác nhau như thế nào?</string>
+    <string name="faqs_answer_5">
+  Trả lời: Chi phí thiết yếu bao gồm các nhu cầu như tiền thuê nhà, thực phẩm thiết yếu, chăm sóc sức khỏe và phương tiện đi lại cần thiết. Chi phí không thiết yếu bao gồm các khoản mua sắm tùy chọn như dịch vụ phát trực tuyến hoặc hàng xa xỉ. SmartStack phân loại các danh mục phụ được hỗ trợ một cách nhất quán; các khoản không thể phân loại vẫn được tính vào tổng chi tiêu nhưng không thuộc bất kỳ tổng phụ nào.
+</string>
+
+    <string name="faqs_question_6">6. Có thể quét các khoản thanh toán không?</string>
+    <string name="faqs_answer_6">
+  Trả lời: Có. Khi tạo một khoản thanh toán đang chờ, khoản chi đã hoàn tất hoặc mục thu nhập, hãy chọn Quét tài liệu. SmartStack sẽ cắt tài liệu, nhận dạng văn bản in trên thiết bị và đề xuất các trường như tiêu đề, số tiền, ngày, nhà cung cấp hoặc người thanh toán. Hãy xem lại mọi đề xuất trước khi lưu.
+</string>
+
+    <string name="faqs_question_7">7. Tôi có thể theo dõi thu nhập bằng SmartStack Solutions không?</string>
+    <string name="faqs_answer_7">
+  Trả lời: Có. Bạn có thể theo dõi thu nhập bằng cách thêm các mục thu nhập trong phần Thu nhập của ứng dụng. Điền các thông tin như tiêu đề, số tiền và ngày nhận để lưu giữ hồ sơ thu nhập chính xác.
+</string>
+
+    <string name="faqs_question_8">8. SmartStack Solutions áp dụng những biện pháp bảo mật nào để bảo vệ dữ liệu của tôi?</string>
+    <string name="faqs_answer_8">
+  Trả lời: SmartStack Solutions áp dụng các biện pháp bảo mật như mã hóa dữ liệu, giao thức đăng nhập an toàn và sao lưu định kỳ để bảo vệ dữ liệu tài chính của bạn. Ngoài ra, ứng dụng không lưu trữ thông tin thanh toán nhạy cảm.
+</string>
+
+    <string name="faqs_question_9">9. Tài khoản Premium là gì và mang lại những lợi ích gì?</string>
+    <string name="faqs_answer_9">
+  Trả lời: Premium loại bỏ quảng cáo và mở khóa tính năng quản lý các khoản thanh toán đã hoàn tất, quản lý thu nhập, mục tiêu tiết kiệm và phân tích tài chính trong 6 và 12 tháng, bao gồm xu hướng dòng tiền, thay đổi danh mục, các khoản cam kết định kỳ và tính nhất quán của việc tiết kiệm. Các khoản thanh toán đang chờ, lời nhắc, thông tin tổng quan hàng tháng, xuất dữ liệu và lịch vẫn có sẵn trong phiên bản miễn phí.
+</string>
+
+    <string name="faqs_question_10">10. Làm thế nào để nâng cấp lên tài khoản Premium?</string>
+    <string name="faqs_answer_10">
+  Trả lời: Để nâng cấp lên tài khoản Premium, hãy vào phần Menu và chọn Mở khóa tính năng Premium. Làm theo hướng dẫn để hoàn tất việc mua và mở khóa tất cả các tính năng.
+</string>
+
+    <string name="faqs_question_11">11. Sự khác biệt giữa khoản thanh toán đang chờ và khoản thanh toán đã hoàn tất là gì?</string>
+    <string name="faqs_answer_11">
+  Trả lời: Các khoản thanh toán đang chờ là những giao dịch mà bạn đã nhận sản phẩm hoặc dịch vụ nhưng vẫn cần thanh toán. Các khoản thanh toán đã hoàn tất là các khoản chi mà bạn đã thanh toán. Ứng dụng cho phép bạn theo dõi cả hai để quản lý tài chính hiệu quả hơn.
+</string>
+
+    <string name="faqs_question_12">12. Làm thế nào để thiết lập mục tiêu tiết kiệm?</string>
+    <string name="faqs_answer_12">
+  Trả lời: Chạm vào phần Mục tiêu tiết kiệm trong menu chính. Nhập mục tiêu, số tiền mục tiêu, ngày bắt đầu và ngày kết thúc. Sau đó bảng điều khiển sẽ hiển thị số tiền cần tiết kiệm mỗi tháng và tiến độ của tháng đã chọn.
+</string>
+
+    <string name="faqs_question_13">13. Tôi có thể đặt nhiều mục tiêu tiết kiệm không?</string>
+    <string name="faqs_answer_13">
+  Trả lời: Có. Bạn có thể đặt nhiều mục tiêu tiết kiệm cho các khoảng thời gian khác nhau. Mỗi mục tiêu được theo dõi riêng trong menu chính, nơi bạn có thể xem tiến độ của từng mục tiêu. Lưu ý rằng các khoảng thời gian không được chồng lấn, vì vậy hãy chọn các khoảng thời gian khác nhau cho từng mục tiêu.
+</string>
+
+    <string name="faqs_question_14">14. Tôi nên làm gì nếu gặp sự cố với ứng dụng?</string>
+    <string name="faqs_answer_14">
+  Trả lời: Nếu gặp bất kỳ sự cố nào với ứng dụng, hãy mở mục Trợ giúp và Hỗ trợ và cung cấp mô tả rõ ràng về vấn đề, bao gồm điều gì đã xảy ra và các bước để tái hiện sự cố.
+</string>
+
+    <string name="faqs_question_15">15. Hệ thống thông báo của SmartStack Solutions hoạt động như thế nào và bao gồm những tính năng gì?</string>
+    <string name="faqs_answer_15">
+  Trả lời: Trong SmartStack Solutions, thông báo được tạo tự động ba ngày trước ngày đến hạn của một khoản thanh toán đang chờ để nhắc nhở bạn đúng lúc. Thông báo xuất hiện ngay trong ứng dụng để giúp bạn luôn cập nhật. Người dùng có thể xem, đánh dấu là đã đọc hoặc xóa thông báo trực tiếp trong ứng dụng. Các thông báo cũ hơn 30 ngày sẽ tự động bị xóa. Cách thiết lập này giúp bạn luôn được nhắc về các khoản thanh toán sắp tới mà không cần tự điều chỉnh cài đặt.
+</string>
+
+    <string name="help_title">Trợ giúp và hỗ trợ</string>
+
+    <string name="help_content">
+Nếu bạn cần trợ giúp hoặc hỗ trợ khi sử dụng SmartStack Solutions, bạn có thể liên hệ với đội ngũ hỗ trợ của chúng tôi.\n\n
+
+Liên hệ với chúng tôi\n\n
+
+Nếu có bất kỳ vấn đề, câu hỏi hoặc phản hồi nào, vui lòng liên hệ đội ngũ hỗ trợ qua email appdev.jr2024@gmail.com. Chúng tôi sẽ phản hồi sớm nhất có thể.\n\n
+
+Câu hỏi thường gặp (FAQs)\n\n
+
+Trước khi liên hệ, bạn có thể xem phần Câu hỏi thường gặp, nơi chúng tôi đã tổng hợp câu trả lời cho các câu hỏi phổ biến về SmartStack Solutions. Phần này bao gồm các chủ đề như tạo mục nhập, quản lý tài khoản và sử dụng hiệu quả các tính năng.\n\n
+
+Nếu cần thêm hỗ trợ, đừng ngần ngại liên hệ với chúng tôi qua email. Chúng tôi luôn sẵn sàng giúp bạn tận dụng tối đa SmartStack Solutions!
+</string>
+
+    <string name="main_tagline">Quản lý tài chính của bạn\n\nvà đơn giản hóa cuộc sống!</string>
+    <string name="content_description_logo">Biểu tượng ứng dụng</string>
+    <string name="app_title">SmartStack Solutions</string>
+    <string name="total_net_savings">Số dư hàng tháng dự kiến</string>
+    <string name="monthly_overview">Tổng quan theo tháng</string>
+    <string name="dashboard_hint">Xem các nghĩa vụ sắp tới, các khoản chi đã thanh toán, thu nhập và tiến độ đạt mục tiêu.</string>
+    <string name="savings_target_progress">Tiến độ mục tiêu tiết kiệm</string>
+    <string name="set_saving_target">Đặt mục tiêu tiết kiệm</string>
+    <string name="target_achieved">Đã đạt mục tiêu</string>
+    <string name="savings_target_reached_message">Xin chúc mừng! Bạn đã đạt 100%% mục tiêu tiết kiệm của mình.</string>
+    <string name="goal_summary">Bạn cần tiết kiệm %1$s mỗi tháng để đạt mục tiêu trước %2$s.</string>
+    <string name="add_new_entry">Thêm mục mới</string>
+    <string name="notifications">Thông báo</string>
+    <string name="content_description_back_arrow">Quay lại màn hình trước</string>
+    <string name="content_description_notifications_list">Danh sách thông báo</string>
+
+    <string name="unlock_premium_features">Mở khóa tính năng Premium</string>
+    <string name="premium_intro_text">Giữ các tính năng thiết yếu miễn phí. Nâng cấp khi bạn muốn có không gian quản lý tài chính đầy đủ hơn với lịch sử chi tiết, quản lý thu nhập, mục tiêu tiết kiệm và không có quảng cáo.</string>
+
+    <string name="premium_feature_closed_payments">Tạo, chỉnh sửa và quản lý chi tiết lịch sử thanh toán của bạn.</string>
+    <string name="premium_feature_income_management">Tạo, chỉnh sửa và quản lý thu nhập định kỳ và một lần.</string>
+    <string name="premium_feature_saving_target">Đặt mục tiêu tiết kiệm và theo dõi tiến độ hàng tháng.</string>
+    <string name="premium_feature_financial_insights">Khám phá xu hướng tài chính trong 6 và 12 tháng.</string>
+
+    <string name="premium_closing_text">Các khoản thanh toán đang chờ, lời nhắc, lịch, xuất dữ liệu và đánh dấu thanh toán là đã trả vẫn có trong phiên bản miễn phí.</string>
+
+    <string name="premium_compare_title">Miễn phí và Premium</string>
+    <string name="premium_compare_subtitle">Bắt đầu miễn phí. Nâng cấp khi bạn muốn có lịch sử chi tiết hơn, công cụ quản lý thu nhập, mục tiêu, xu hướng và ít giới hạn hơn.</string>
+
+    <string name="premium_compare_feature">Tính năng</string>
+    <string name="premium_compare_free">Miễn phí</string>
+    <string name="premium_compare_premium">Premium</string>
+
+    <string name="premium_compare_open_payments">Khoản thanh toán đang chờ</string>
+    <string name="premium_compare_open_payments_free">30 khoản thanh toán một lần đang hoạt động</string>
+    <string name="premium_compare_open_payments_premium">Tối đa 2.000 mục trong tương lai</string>
+
+    <string name="premium_compare_recurring">Các mục định kỳ trong tương lai</string>
+    <string name="premium_compare_recurring_free">Tối đa 250 khoản thanh toán trong tương lai</string>
+    <string name="premium_compare_recurring_premium">Tối đa 2.000 mục trong tương lai</string>
+
+    <string name="premium_compare_closed">Khoản thanh toán đã hoàn tất</string>
+    <string name="premium_compare_closed_free">Tối đa 100 khoản thanh toán đã thanh toán</string>
+    <string name="premium_compare_closed_premium">Đầy đủ công cụ quản lý lịch sử</string>
+
+    <string name="premium_compare_income">Quản lý thu nhập</string>
+    <string name="premium_compare_income_free">Chỉ nhập dữ liệu</string>
+    <string name="premium_compare_income_premium">Tạo và quản lý thu nhập</string>
+
+    <string name="premium_compare_import">Nhập CSV/PDF</string>
+    <string name="premium_compare_import_free">50/tệp · 100 tổng cộng</string>
+    <string name="premium_compare_import_premium">200/tệp</string>
+
+    <string name="premium_compare_insights">Thông tin tài chính</string>
+    <string name="premium_compare_insights_free">Thông tin cơ bản theo tháng</string>
+    <string name="premium_compare_insights_premium">Xu hướng 6/12 tháng</string>
+
+    <string name="premium_compare_ads">Quảng cáo</string>
+    <string name="premium_compare_ads_free">Hiển thị</string>
+    <string name="premium_compare_ads_premium">Đã loại bỏ</string>
+    <string name="premium_preview_closed_payments">Chế độ xem trước: bạn có thể xem các khoản thanh toán đã hoàn tất. Nâng cấp lên Premium để tạo, chỉnh sửa hoặc xóa các khoản thanh toán đã hoàn tất.</string>
+
+    <string name="premium_preview_income">Chế độ xem trước: bạn có thể xem các khoản thu nhập. Nâng cấp lên Premium để tạo, chỉnh sửa hoặc xóa các khoản thu nhập.</string>
+
+    <string name="premium_upgrade_required">Nâng cấp lên Premium để tạo các khoản thanh toán đã hoàn tất, mục thu nhập và mục tiêu tiết kiệm.</string>
+
+    <string name="features">Tính năng</string>
+
+    <string name="feature_open_payments_title">Khoản thanh toán đang chờ</string>
+    <string name="feature_open_payments_desc">Quản lý các khoản thanh toán đang chờ và luôn theo dõi các hóa đơn sắp đến hạn.</string>
+    <string name="feature_open_payments_expandable">Phiên bản miễn phí bao gồm tối đa 30 khoản thanh toán một lần đang hoạt động cùng với các lịch thanh toán định kỳ trong giới hạn sử dụng hợp lý. Premium cung cấp giới hạn cao hơn đáng kể cho các mục hiện tại và trong tương lai.</string>
+
+    <string name="feature_closed_payments_title">Khoản thanh toán đã hoàn tất</string>
+    <string name="feature_closed_payments_desc">Theo dõi các hóa đơn đã thanh toán và quản lý lịch sử giao dịch của bạn.</string>
+    <string name="feature_closed_payments_expandable">Mọi người đều có thể đánh dấu một khoản thanh toán đang chờ là đã thanh toán. Premium còn mở khóa tính năng tạo trực tiếp, chỉnh sửa, xóa và quản lý đầy đủ lịch sử thanh toán.</string>
+
+    <string name="feature_income_management_title">Quản lý thu nhập</string>
+    <string name="feature_income_management_desc">Theo dõi và phân loại các nguồn thu nhập của bạn.</string>
+    <string name="feature_income_management_expandable">Theo dõi lương, công việc tự do, trợ cấp, đầu tư và thu nhập định kỳ cùng với chi phí và số dư dự kiến của bạn.</string>
+
+    <string name="feature_notifications_title">Thông báo</string>
+    <string name="feature_notifications_desc">Nhận lời nhắc kịp thời cho các khoản thanh toán đang chờ.</string>
+    <string name="feature_notifications_expandable">Cấu hình lời nhắc trước hạn, trong ngày đến hạn và sau khi quá hạn. Đánh dấu khoản thanh toán là đã thanh toán trực tiếp từ thông báo.</string>
+
+    <string name="feature_calendar_title">Lịch</string>
+    <string name="feature_calendar_desc">Xem tổng quan tất cả các giao dịch của bạn dưới dạng lịch.</string>
+    <string name="feature_calendar_expandable">Lịch vẫn khả dụng trong phiên bản miễn phí và kết hợp các khoản thanh toán đang chờ, các khoản chi đã hoàn tất và thu nhập theo ngày.</string>
+
+    <string name="feature_saving_target_title">Mục tiêu tiết kiệm</string>
+    <string name="feature_saving_target_desc">Đặt mục tiêu tiết kiệm và theo dõi tiến độ.</string>
+    <string name="feature_saving_target_expandable">Xác định số tiền mục tiêu và khoảng thời gian, sau đó so sánh số tiền cần tiết kiệm mỗi tháng với số dư dự kiến thực tế của bạn.</string>
+
+    <string name="feature_financial_insights_title">Phân tích tài chính nâng cao</string>
+    <string name="feature_financial_insights_desc">Biến lịch sử tài chính của bạn thành các xu hướng có ý nghĩa.</string>
+    <string name="feature_financial_insights_expandable">So sánh dòng tiền trong 6 và 12 tháng, xác định các danh mục chi tiêu thay đổi, theo dõi các cam kết định kỳ và đánh giá tính nhất quán của việc tiết kiệm. Phân tích dựa trên tháng đang được chọn trên bảng điều khiển.</string>
+
+    <string name="unlock_button_text">Mở khóa SmartStack Solutions Premium</string>
+    <string name="unlock_button_with_price">Mở khóa Premium · %1$s</string>
+
+    <string name="more_information">Thông tin thêm</string>
+    <string name="premium_still_loading">Premium vẫn đang tải. Vui lòng thử lại.</string>
+    <string name="billing_not_ready">Hệ thống thanh toán chưa sẵn sàng. Vui lòng thử lại.</string>
+    <string name="premium_activated">Đã kích hoạt Premium</string>
+    <string name="premium_active">Premium đang hoạt động</string>
+    <string name="premium_unavailable">Premium hiện không khả dụng. Nhấn để thử lại.</string>
+    <string name="premium_loading">Đang tải các tùy chọn Premium...</string>
+
+    <string name="less_information">Ít thông tin hơn</string>
+    <string name="show_details">Hiển thị chi tiết</string>
+    <string name="hide_details">Ẩn chi tiết</string>
+
+    <string name="quick_entry_hint">Chỉ cần nhập số tiền. Ngày đã được điền sẵn và bạn có thể thêm chi tiết sau.</string>
+    <string name="optional_details">Chi tiết tùy chọn</string>
+    <string name="savings_quick_entry_hint">Nhập số tiền mục tiêu và ngày kết thúc. Ngày bắt đầu sẽ được đặt là hôm nay.</string>
+    <string name="title_optional">Tiêu đề (tùy chọn)</string>
+
+    <string name="free_open_payment_limit_reached">Bạn đã đạt giới hạn miễn phí là 30 khoản thanh toán một lần đang hoạt động. Hãy đánh dấu các khoản đã hoàn thành là đã thanh toán hoặc nâng cấp lên Premium.</string>
+
+    <string name="free_closed_payment_limit_reached">Bạn đã đạt giới hạn miễn phí là 100 khoản thanh toán đã hoàn tất. Hãy xóa lịch sử cũ hoặc nâng cấp lên Premium.</string>
+
+    <string name="free_recurring_limit_reached">Lịch thanh toán định kỳ này sẽ vượt quá giới hạn miễn phí là 250 lần thanh toán định kỳ trong tương lai. Hãy xóa một lịch không còn sử dụng hoặc nâng cấp lên Premium.</string>
+
+    <string name="premium_usage_limit_reached">Mục này sẽ vượt quá giới hạn sử dụng hợp lý của Premium là 2.000 mục thanh toán và thu nhập trong tương lai. Vui lòng xóa các mục không còn cần thiết hoặc liên hệ bộ phận hỗ trợ.</string>
+
+    <string name="usage_limit_check_failed">SmartStack không thể xác minh giới hạn mục nhập còn lại. Vui lòng kiểm tra kết nối và thử lại.</string>
+    <string name="delete_recurring_income">Xóa thu nhập định kỳ</string>
+    <string name="delete_this_income_entry">Chỉ xóa khoản thu nhập này</string>
+    <string name="delete_this_and_future_income">Xóa khoản thu nhập này và các khoản sau</string>
+    <string name="delete_all_recurring_income">Xóa tất cả các khoản thu nhập định kỳ</string>
+    <string name="delete_income_entry">Xóa khoản thu nhập</string>
+    <string name="delete_income_confirmation">Xóa khoản thu nhập này?</string>
+    <string name="income_deleted">Đã xóa khoản thu nhập.</string>
+    <string name="future_income_deleted">Đã xóa khoản thu nhập này và các khoản sau.</string>
+    <string name="all_recurring_income_deleted">Đã xóa tất cả các khoản trong chuỗi thu nhập định kỳ này.</string>
+    <string name="income_delete_failed">Không thể xóa khoản thu nhập.</string>
+
+    <string name="empty_open_payments_title">Luôn đi trước các khoản thanh toán sắp đến</string>
+    <string name="empty_open_payments_message">Thêm hóa đơn và các khoản thanh toán còn phải trả. SmartStack sắp xếp các khoản sắp đến hạn và quá hạn, đồng thời nhắc bạn trước ngày đến hạn.</string>
+
+    <string name="empty_closed_payments_title">Xây dựng lịch sử chi tiêu của bạn</string>
+    <string name="empty_closed_payments_message">Các khoản thanh toán đã hoàn tất là những khoản chi bạn đã thanh toán. Thêm trực tiếp hoặc đánh dấu một khoản thanh toán đang chờ là đã thanh toán để chuyển nó vào đây.</string>
+
+    <string name="empty_income_title">Biết tiền của bạn đến từ đâu</string>
+    <string name="empty_income_message">Thêm lương, công việc tự do, trợ cấp hoặc các nguồn thu nhập khác. Đánh dấu thu nhập định kỳ để SmartStack tự động tạo các khoản trong tương lai.</string>
+
+    <string name="add_open_payment">Thêm khoản thanh toán đang chờ</string>
+    <string name="add_closed_payment">Thêm khoản thanh toán đã hoàn tất</string>
+    <string name="add_income">Thêm thu nhập</string>
+
+    <string name="explore_premium">Khám phá Premium</string>
+    <string name="not_now">Để sau</string>
+
+    <string name="no_entries_match_filter">Không có mục nào phù hợp với bộ lọc này</string>
+
+    <string name="show_tutorial_again">Hiển thị lại hướng dẫn của mục</string>
+
+    <string name="payment_reminders">Nhắc nhở thanh toán</string>
+    <string name="payment_reminders_channel_description">Nhắc nhở cho các khoản thanh toán đang chờ sắp đến hạn, đến hạn và quá hạn.</string>
+
+    <string name="notification_settings">Cài đặt thông báo</string>
+    <string name="payment_notifications">Thông báo thanh toán</string>
+    <string name="advance_reminder">Nhắc trước</string>
+    <string name="due_today_reminder">Nhắc trong ngày đến hạn</string>
+    <string name="overdue_reminder">Nhắc quá hạn</string>
+    <string name="weekly_overdue_reminder">Lặp lại nhắc nhở quá hạn hàng tuần</string>
+
+    <string name="reminder_off">Tắt</string>
+    <string name="reminder_one_day">1 ngày trước</string>
+    <string name="reminder_three_days">3 ngày trước</string>
+    <string name="reminder_seven_days">7 ngày trước</string>
+
+    <string name="notification_settings_saved">Đã lưu cài đặt thông báo.</string>
+    <string name="notifications_load_failed">Không thể tải thông báo.</string>
+
+    <string name="notification_due_soon_title">Sắp đến hạn thanh toán</string>
+    <string name="notification_due_soon_text">%1$s · %2$s · Đến hạn %3$s</string>
+
+    <string name="notification_due_today_title">Đến hạn thanh toán hôm nay</string>
+    <string name="notification_due_today_text">%1$s · %2$s · Đến hạn hôm nay</string>
+
+    <string name="notification_overdue_title">Thanh toán quá hạn</string>
+
+    <string name="view_payment">Xem khoản thanh toán</string>
+
+    <string name="notification_due_date_short">Đến hạn %1$s</string>
+
+    <string name="empty_notifications_title">Đừng bỏ lỡ bất kỳ khoản thanh toán quan trọng nào</string>
+    <string name="empty_notifications_message">SmartStack sẽ nhắc bạn khi một khoản thanh toán đang chờ sắp đến hạn, đến hạn hôm nay hoặc bị quá hạn. Lời nhắc sẽ dừng khi khoản thanh toán được đánh dấu là đã thanh toán.</string>
+
+    <string name="notifications_all_caught_up_title">Bạn đã xử lý xong mọi thứ</string>
+    <string name="notifications_all_caught_up_message">Hiện không có lời nhắc thanh toán nào. Thông báo mới sẽ xuất hiện khi một khoản thanh toán sắp đến hạn hoặc quá hạn.</string>
+
+    <string name="notifications_turned_off_title">Thông báo đã bị tắt</string>
+    <string name="notifications_turned_off_message">Bật thông báo để SmartStack có thể nhắc bạn về các khoản thanh toán sắp đến hạn và quá hạn.</string>
+
+    <string name="enable_notifications">Bật thông báo</string>
+
+    <string name="payment_reminders_paused_title">Đã tạm dừng nhắc nhở thanh toán</string>
+    <string name="payment_reminders_paused_message">Bật lại thông báo thanh toán bất cứ khi nào bạn muốn SmartStack tiếp tục lên lịch nhắc nhở.</string>
+
+    <plurals name="notification_overdue_text">
+        <item quantity="one">%1$s · %2$s · Quá hạn %3$d ngày</item>
+        <item quantity="other">%1$s · %2$s · Quá hạn %3$d ngày</item>
+    </plurals>
+
+    <string name="open_payment">Khoản thanh toán đang chờ</string>
+    <string name="closed_payment">Khoản thanh toán đã hoàn tất</string>
+    <string name="overdue_open_payment">Khoản thanh toán đang chờ quá hạn</string>
+
+    <string name="untitled_entry">Mục không có tiêu đề</string>
+    <string name="no_category">Không có danh mục</string>
+
+    <string name="no_entries_for_date">Không có mục nào cho ngày này</string>
+    <string name="no_entries_for_date_explanation">Các khoản thanh toán đang chờ, đã hoàn tất và thu nhập được lên lịch cho ngày đã chọn sẽ hiển thị tại đây.</string>
+
+    <string name="payment_date">Ngày thanh toán</string>
+
+    <string name="source_payer">Nguồn / Người thanh toán</string>
+    <string name="source_payer_hint">Nhà tuyển dụng, khách hàng, người thuê, tổ chức…</string>
+
+    <string name="recurrence_one_year_explanation">SmartStack chuẩn bị các mục định kỳ cho 12 tháng tiếp theo để danh sách các khoản sắp tới luôn được cập nhật và dễ quản lý.</string>
+
+    <string name="open_payment_saved">Đã lưu chuỗi khoản thanh toán đang chờ thành công.</string>
+    <string name="open_payment_save_failed">Không thể lưu khoản thanh toán đang chờ: %1$s</string>
+
+    <string name="income_saved">Đã lưu chuỗi thu nhập thành công.</string>
+    <string name="income_save_failed">Không thể lưu khoản thu nhập: %1$s</string>
+
+    <string name="payment_moved_to_closed">Đã chuyển khoản thanh toán sang Khoản thanh toán đã hoàn tất.</string>
+    <string name="payment_moved_to_open">Đã chuyển khoản thanh toán trở lại Khoản thanh toán đang chờ.</string>
+    <string name="payment_move_failed">Không thể chuyển khoản thanh toán: %1$s</string>
+
+    <string name="data_account">Dữ liệu &amp; tài khoản</string>
+
+    <string name="export_data_title">Xuất dữ liệu của bạn</string>
+    <string name="export_data_explanation">Tải xuống các khoản thanh toán, thu nhập, mục tiêu tiết kiệm và thông báo của SmartStack dưới dạng tệp JSON.</string>
+
+    <string name="export_my_data">Xuất dữ liệu của tôi</string>
+
+    <string name="export_complete">Đã lưu bản xuất dữ liệu của bạn.</string>
+    <string name="export_failed">Không thể xuất dữ liệu của bạn.</string>
+
+    <string name="delete_account_title">Xóa tài khoản và dữ liệu</string>
+    <string name="delete_account_explanation">Xóa vĩnh viễn tài khoản SmartStack và toàn bộ dữ liệu tài chính đã lưu. Hành động này không thể hoàn tác.</string>
+
+    <string name="delete_my_account">Xóa tài khoản của tôi</string>
+
+    <string name="delete_account_confirmation">Xóa vĩnh viễn tài khoản, các khoản thanh toán, thu nhập, mục tiêu tiết kiệm và thông báo?</string>
+
+    <string name="delete_account_relogin">Vì lý do bảo mật, vui lòng đăng nhập lại rồi quay lại đây để xóa tài khoản.</string>
+
+    <string name="delete_account_failed">Không thể xóa tài khoản. Vui lòng thử lại.</string>
+
+    <string name="enter_open_payment_name">Vui lòng nhập tên cho khoản thanh toán đang chờ.</string>
+    <string name="enter_valid_amount">Vui lòng nhập số tiền hợp lệ.</string>
+    <string name="select_valid_due_date">Vui lòng chọn ngày đến hạn hợp lệ.</string>
+
+    <string name="title_required">Tiêu đề là bắt buộc.</string>
+    <string name="date_required">Ngày là bắt buộc.</string>
+    <string name="invalid_date_format">Vui lòng nhập ngày hợp lệ.</string>
+
+    <string name="currency">Tiền tệ</string>
+    <string name="currency_menu_title">Tiền tệ (%1$s)</string>
+    <string name="select_currency">Chọn tiền tệ</string>
+
+    <string name="billing_insufficient_funds">Thanh toán đã bị từ chối do không đủ số dư.</string>
+
+    <string name="billing_user_ineligible">Ưu đãi đăng ký này không khả dụng cho tài khoản này.</string>
+
+    <string name="financial_insights">Phân tích tài chính</string>
+    <string name="financial_insights_subtitle">Hiểu nhanh về tháng đã chọn</string>
+
+    <string name="monthly_money_map">Tổng quan dòng tiền theo tháng</string>
+    <string name="monthly_money_map_description">Xem thu nhập, các khoản chi đã hoàn tất, các nghĩa vụ sắp đến và mục tiêu tiết kiệm của bạn liên kết với nhau như thế nào.</string>
+
+    <string name="open_payment_risk_timeline">Dòng thời gian rủi ro của các khoản thanh toán đang chờ</string>
+    <string name="open_payment_risk_description">Ưu tiên xử lý các khoản quá hạn và sắp đến hạn.</string>
+
+    <string name="spending_composition">Cơ cấu chi tiêu</string>
+    <string name="spending_composition_description">Xem những danh mục nào chiếm phần lớn các khoản chi đã hoàn tất trong tháng này.</string>
+
+    <string name="available_after_commitments">Còn lại</string>
+    <string name="paid_expenses_short">Đã thanh toán</string>
+    <string name="still_due_short">Còn phải trả</string>
+
+    <string name="savings_target">Mục tiêu tiết kiệm</string>
+    <string name="no_savings_target_insight">Không có mục tiêu tiết kiệm nào đang hoạt động trong tháng này.</string>
+    <string name="savings_target_cushion">Còn lại %1$s sau khi đạt mục tiêu tiết kiệm.</string>
+    <string name="savings_target_shortfall">Cần thêm %1$s để đạt mục tiêu tiết kiệm.</string>
+
+    <string name="due_next_seven_days">7 ngày tới</string>
+    <string name="later_this_month">Cuối tháng</string>
+    <string name="other">Khác</string>
+
+    <string name="no_closed_payments_for_month">Không có khoản chi đã hoàn tất nào trong tháng này.</string>
+
+    <plurals name="payment_count">
+        <item quantity="one">%1$d khoản thanh toán</item>
+        <item quantity="other">%1$d khoản thanh toán</item>
+    </plurals>
+
+    <string name="positive_balance_status">Số dư dương</string>
+    <string name="balance">Số dư</string>
+    <string name="shortfall_status">Thiếu hụt</string>
+    <string name="no_activity_status">Không có hoạt động</string>
+    <string name="balanced_status">Cân bằng</string>
+
+    <string name="selected_month">Tháng này</string>
+    <string name="six_months">6 tháng</string>
+    <string name="twelve_months">12 tháng</string>
+
+    <string name="premium_insights_teaser_title">Các con số của bạn còn kể nhiều điều hơn</string>
+    <string name="premium_insights_teaser_message">Premium giúp bạn khám phá xu hướng, thay đổi danh mục, các cam kết định kỳ và mức độ nhất quán của kế hoạch tiết kiệm.</string>
+
+    <string name="unlock_deeper_insights">Mở khóa phân tích chuyên sâu →</string>
+
+    <string name="premium_insights_upgrade">Nâng cấp lên Premium để khám phá xu hướng tài chính trong 6 và 12 tháng.</string>
+
+    <string name="cash_flow_trend">Xu hướng dòng tiền</string>
+    <string name="cash_flow_trend_description">So sánh thu nhập và tổng nghĩa vụ; các cột màu xanh và đỏ hiển thị số dư của từng tháng.</string>
+
+    <string name="category_changes">Thay đổi theo danh mục</string>
+    <string name="category_changes_description">Xem những danh mục chi tiêu nào tăng hoặc giảm so với các tháng trước trong giai đoạn này.</string>
+
+    <string name="category_changes_info_title">Cách tính thay đổi theo danh mục</string>
+
+    <string name="category_changes_info_message">Tháng được chọn sẽ được so sánh với mức trung bình hàng tháng của các tháng trước trong khoảng thời gian sáu hoặc mười hai tháng đã chọn.\n\nThay đổi = số tiền của tháng được chọn trừ đi mức trung bình hàng tháng trước đó, sau đó chia cho mức trung bình đó.\n\nMũi tên hướng lên nghĩa là chi tiêu tăng; mũi tên hướng xuống nghĩa là chi tiêu giảm. Dấu gạch ngang nghĩa là không có dữ liệu trước đó để tính phần trăm. Bốn danh mục lớn nhất trong tháng được chọn sẽ được hiển thị.</string>
+
+    <string name="category_changes_info_content_description">Giải thích thay đổi theo danh mục</string>
+
+    <string name="recurring_commitment_trend">Xu hướng các cam kết định kỳ</string>
+    <string name="recurring_commitment_trend_description">Theo dõi sự thay đổi của các nghĩa vụ định kỳ theo thời gian.</string>
+
+    <string name="savings_consistency">Tính nhất quán của việc tiết kiệm</string>
+    <string name="savings_consistency_description">Xem tần suất số dư dự kiến hàng tháng đạt được mục tiêu tiết kiệm đang hoạt động.</string>
+
+    <string name="total_obligations">Tổng nghĩa vụ</string>
+
+    <string name="not_enough_category_data">Hãy thêm các khoản chi đã hoàn tất của nhiều tháng hơn để so sánh các danh mục.</string>
+
+    <string name="commitments_increased">Các cam kết định kỳ đã tăng %1$s.</string>
+    <string name="commitments_decreased">Các cam kết định kỳ đã giảm %1$s.</string>
+    <string name="commitments_steady">Các cam kết định kỳ không thay đổi.</string>
+
+    <string name="no_savings_goals_in_period">Không có mục tiêu tiết kiệm nào hoạt động trong giai đoạn này.</string>
+
+    <string name="savings_goals_achieved">Đã đạt %1$d trên %2$d tháng mục tiêu</string>
+
+    <string name="dashboard_welcome_title">Tạo tổng quan tài chính đầu tiên của bạn</string>
+    <string name="dashboard_welcome_message">Hãy bắt đầu với một khoản thanh toán sắp đến. SmartStack sẽ ngày càng hữu ích khi bạn thêm thu nhập và các khoản chi đã hoàn tất để xây dựng bức tranh tài chính hàng tháng.</string>
+
+    <string name="dashboard_welcome_steps">1. Thêm một khoản thanh toán sắp đến\n2. Thêm thu nhập để tính số dư\n3. Đánh dấu các khoản thanh toán là đã thanh toán để mở khóa phân tích chi tiêu</string>
+
+    <string name="add_first_payment">Thêm khoản thanh toán đầu tiên</string>
+
+    <string name="how_smartstack_works">SmartStack hoạt động như thế nào</string>
+
+    <string name="dashboard_tutorial_title">Quy trình làm việc của SmartStack</string>
+    <string name="dashboard_tutorial_message">Các khoản thanh toán đang chờ cho biết những gì bạn vẫn cần thanh toán. Khi bạn đánh dấu một khoản là đã thanh toán, khoản đó sẽ trở thành một phần của lịch sử chi tiêu. Thu nhập và mục tiêu tiết kiệm sẽ hoàn thiện tổng quan hàng tháng, trong khi lời nhắc và phân tích giúp bạn nhận biết điều gì cần được chú ý.</string>
+
+    <string name="about_us_hero_title">Mang lại sự rõ ràng cho tài chính hằng ngày</string>
+
+    <string name="about_why_title">Tại sao SmartStack được tạo ra</string>
+    <string name="about_why_body">Việc quản lý tài chính nên dễ hiểu chứ không gây quá tải. SmartStack được tạo ra để tập hợp các khoản thanh toán sắp đến, chi phí đã hoàn tất, thu nhập, mục tiêu tiết kiệm và lời nhắc trong một tổng quan hàng tháng rõ ràng.</string>
+
+    <string name="about_manage_title">SmartStack giúp bạn quản lý điều gì</string>
+    <string name="about_manage_body">Theo dõi các khoản cần thanh toán, nhận biết các khoản quá hạn, quản lý các cam kết định kỳ, xem lại các danh mục chi tiêu và biết còn lại bao nhiêu mỗi tháng.</string>
+
+    <string name="about_privacy_title">Thiết kế chú trọng quyền riêng tư</string>
+    <string name="about_privacy_body">Ứng dụng chỉ thu thập những thông tin cần thiết để cung cấp các tính năng. Hồ sơ tài chính được liên kết với tài khoản đã xác thực của bạn. Hình ảnh đính kèm được lưu trong bộ nhớ riêng của ứng dụng trên thiết bị này và không được tải lên Firebase.</string>
+
+    <string name="about_independent_title">Được phát triển độc lập</string>
+    <string name="about_independent_body">SmartStack được phát triển độc lập với trọng tâm là tính hữu ích thực tế, giới hạn hợp lý và cải tiến liên tục. Đây là công cụ hỗ trợ quản lý tài chính, không cung cấp lời khuyên về tài chính, thuế hoặc đầu tư.</string>
+
+    <string name="about_contact_title">Câu hỏi và phản hồi</string>
+    <string name="about_contact_body">Phản hồi của bạn giúp SmartStack ngày càng tốt hơn. Liên hệ: appdev.jr2024@gmail.com.</string>
+
+    <string name="about_version">Phiên bản ứng dụng %1$s</string>
+
+    <string name="income_attachment">Tệp đính kèm của thu nhập</string>
+
+    <string name="data_security_question_15">15. Hình ảnh đính kèm được lưu ở đâu?</string>
+
+    <string name="data_security_answer_15">Trả lời: Hình ảnh được đính kèm vào các khoản thanh toán đang chờ, chi phí đã hoàn tất hoặc thu nhập sẽ được sao chép vào bộ nhớ riêng của ứng dụng trên thiết bị này. Firebase chỉ lưu hồ sơ tài chính và tham chiếu cục bộ đến tệp đính kèm, nhưng bản thân hình ảnh không được tải lên hoặc đồng bộ hóa. Nếu bạn xóa ứng dụng hoặc dữ liệu cục bộ của ứng dụng, các hình ảnh này cũng có thể bị xóa, vì vậy các tài liệu quan trọng nên được lưu ở nơi khác.</string>
+
+    <string name="getting_started_title">Bắt đầu</string>
+
+    <string name="getting_started_hero_title">Tháng đầu tiên của bạn với SmartStack</string>
+
+    <string name="getting_started_intro">Hãy làm theo quy trình đơn giản này để biến các mục riêng lẻ thành một tổng quan hàng tháng hữu ích.</string>
+
+    <string name="guide_step_1_title">Thêm các khoản còn phải thanh toán</string>
+    <string name="guide_step_1_description">Chọn nhập thủ công hoặc quét tài liệu. Thêm ngày đến hạn và chu kỳ lặp lại, sau đó xem lại tất cả các đề xuất trước khi lưu.</string>
+
+    <string name="guide_step_2_title">Ghi nhận thu nhập</string>
+    <string name="guide_step_2_description">Thêm thu nhập định kỳ hoặc một lần để bảng điều khiển có thể tính số dư dự kiến hàng tháng.</string>
+
+    <string name="guide_step_3_title">Đánh dấu các khoản thanh toán là đã thanh toán</string>
+    <string name="guide_step_3_description">Sử dụng ô chọn "đã thanh toán" khi khoản thanh toán được hoàn tất. Khoản đó sẽ tự động được chuyển vào lịch sử chi tiêu.</string>
+
+    <string name="guide_step_4_title">Hiểu rõ tháng của bạn</string>
+    <string name="guide_step_4_description">Xem lại các khoản thanh toán đang chờ và đã hoàn tất, thu nhập, tiến độ tiết kiệm, cơ cấu danh mục và các phân tích tài chính trên bảng điều khiển.</string>
+
+    <string name="guide_step_5_title">Luôn đi đúng hướng</string>
+    <string name="guide_step_5_description">Sử dụng lời nhắc, các mục định kỳ và lịch để theo dõi các ngày sắp đến và giảm công việc lặp lại.</string>
+
+    <string name="getting_started_open_faq">Vẫn còn câu hỏi? Mở mục Câu hỏi thường gặp</string>
+
+    <string name="help_getting_started_title">Hướng dẫn bắt đầu</string>
+    <string name="help_getting_started_description">Tìm hiểu quy trình được khuyến nghị để quản lý thanh toán, thu nhập, lời nhắc và tổng quan hàng tháng.</string>
+
+    <string name="entry_method_subtitle">Chọn cách nhanh nhất để tạo mục này.</string>
+
+    <string name="entry_method_open_payment">Bạn muốn thêm khoản thanh toán đang chờ này như thế nào?</string>
+    <string name="entry_method_closed_payment">Bạn muốn thêm khoản chi đã hoàn tất này như thế nào?</string>
+    <string name="entry_method_income">Bạn muốn thêm khoản thu nhập này như thế nào?</string>
+
+    <string name="scan_document">Quét tài liệu</string>
+    <string name="scan_document_description">Một mục: quét hóa đơn, biên lai hoặc tài liệu thu nhập.</string>
+
+    <string name="scan_review_disclaimer">Thông tin được quét chỉ là gợi ý. Vui lòng kiểm tra tiêu đề, số tiền, ngày, danh mục và tệp đính kèm trước khi lưu.</string>
+
+    <string name="enter_manually">Nhập thủ công</string>
+    <string name="enter_manually_description">Một mục: tự nhập thông tin.</string>
+
+    <string name="scan_and_prefill">Quét và điền sẵn các trường</string>
+
+    <string name="preparing_document_scanner">Đang chuẩn bị trình quét tài liệu…</string>
+
+    <string name="reading_document">Đang đọc tài liệu và chuẩn bị các đề xuất…</string>
+
+    <string name="document_text_not_recognized">Tài liệu đã được đính kèm nhưng không thể nhận dạng văn bản. Vui lòng nhập thông tin thủ công.</string>
+
+    <string name="document_scan_failed_title">Không thể quét tài liệu</string>
+
+    <string name="document_scan_failed_message">Hãy thử lại với tài liệu rõ nét và đủ sáng hoặc tiếp tục bằng cách nhập thủ công.</string>
+
+    <string name="try_again">Thử lại</string>
+    <string name="faqs_question_20">20. Độ chính xác của tính năng quét tài liệu như thế nào?</string>
+
+    <string name="faqs_answer_20">Trả lời: Tính năng quét được thiết kế để giảm việc nhập liệu thủ công, không phải để thay thế việc bạn kiểm tra lại. Kết quả phụ thuộc vào chất lượng hình ảnh, bố cục tài liệu, ngôn ngữ và việc tài liệu có chứa nhiều ngày hoặc nhiều tổng tiền hay không. SmartStack có thể chọn nhầm tổng tiền, ngày, nhà cung cấp hoặc người thanh toán. Luôn kiểm tra tất cả các trường được đề xuất trước khi lưu. Việc quét được xử lý trên thiết bị; tài liệu không được tải lên Firebase bởi tính năng quét. Dịch vụ Google Play có thể tải xuống các thành phần quét và nhận dạng văn bản cũng như thu thập các chỉ số hiệu suất hoạt động, nhưng ML Kit không gửi tài liệu hoặc văn bản đã nhận dạng đến máy chủ của Google.</string>
+
+    <string name="import_transactions">Nhập giao dịch</string>
+    <string name="import_transactions_description">Thêm nhiều khoản thanh toán đã hoàn tất và mục thu nhập từ tệp CSV hoặc PDF sao kê.</string>
+
+    <string name="closed_payments_expenses">Khoản thanh toán đã hoàn tất</string>
+
+    <string name="ignore_transaction">Bỏ qua</string>
+
+    <string name="possible_duplicate">Có thể là bản sao. Hàng này đã được bỏ chọn; chỉ chọn lại nếu bạn muốn nhập lần nữa.</string>
+
+    <string name="import_row_needs_review">Vui lòng kiểm tra kỹ hàng này. Đây có thể là giao dịch chuyển khoản hoặc hoàn tiền, hoặc các giá trị của nó chưa thể được xác minh đầy đủ.</string>
+
+    <string name="reading_statement">Đang đọc sao kê…</string>
+
+    <string name="reading_statement_page">Đang đọc trang %1$d trên %2$d…</string>
+
+    <string name="no_transactions_detected">Không phát hiện giao dịch được hỗ trợ. Hãy thử xuất tệp CSV hoặc sử dụng tệp PDF rõ hơn.</string>
+
+    <string name="checking_duplicates">Đang kiểm tra các giao dịch trùng lặp có thể có…</string>
+
+    <string name="import_summary">%1$d khoản thanh toán đã hoàn tất · %2$d mục thu nhập · %3$d đã loại trừ</string>
+
+    <string name="import_currency_mismatch">Tiền tệ của sao kê: %1$s · Tiền tệ của ứng dụng: %2$s. Các dòng được nhập sẽ sử dụng tiền tệ của ứng dụng. Vui lòng cân nhắc tỷ giá hối đoái và điều chỉnh số tiền trước khi nhập.</string>
+
+    <string name="import_currency_detected">Tiền tệ của sao kê: %1$s. Các dòng được nhập sẽ sử dụng tiền tệ của ứng dụng.</string>
+
+    <string name="import_currency_not_detected">Không phát hiện được tiền tệ của sao kê. Các giá trị được nhập sẽ sử dụng tiền tệ của ứng dụng: %1$s.</string>
+
+    <string name="scan_currency_mismatch">Tiền tệ phát hiện trong tài liệu: %1$s · Tiền tệ của ứng dụng: %2$s. Mục này sẽ sử dụng tiền tệ của ứng dụng. Vui lòng cân nhắc tỷ giá hối đoái và điều chỉnh số tiền trước khi lưu.</string>
+
+    <string name="closed_payment_saved">Đã lưu khoản thanh toán đã hoàn tất thành công.</string>
+
+    <string name="closed_payment_save_failed">Không thể lưu khoản thanh toán đã hoàn tất: %1$s</string>
+
+    <string name="user_session_unavailable">Không thể xác minh phiên đăng nhập của bạn. Vui lòng đăng nhập lại.</string>
+
+    <string name="user_not_authenticated">Vui lòng đăng nhập lại.</string>
+
+    <string name="unknown_item_clicked">Không thể mở mục này.</string>
+
+    <string name="load_open_payments_failed">Không thể tải các khoản thanh toán đang chờ: %1$s</string>
+
+    <string name="load_closed_payments_failed">Không thể tải các khoản thanh toán đã hoàn tất: %1$s</string>
+
+    <string name="load_income_failed">Không thể tải thu nhập: %1$s</string>
+
+    <string name="load_savings_target_failed">Không thể tải mục tiêu tiết kiệm: %1$s</string>
+
+    <string name="invalid_target_amount">Vui lòng nhập số tiền mục tiêu hợp lệ.</string>
+
+    <string name="invalid_end_date">Vui lòng chọn ngày kết thúc hợp lệ.</string>
+
+    <string name="start_date_before_end_date">Ngày bắt đầu phải trước ngày kết thúc.</string>
+
+    <string name="invalid_target_date_range">Khoảng thời gian của mục tiêu không hợp lệ.</string>
+
+    <string name="savings_target_not_found">Không tìm thấy mục tiêu tiết kiệm.</string>
+
+    <string name="savings_target_updated">Đã cập nhật mục tiêu tiết kiệm.</string>
+
+    <string name="savings_target_update_failed">Không thể cập nhật mục tiêu tiết kiệm: %1$s</string>
+
+    <string name="savings_target_deleted">Đã xóa mục tiêu tiết kiệm thành công.</string>
+
+    <string name="savings_target_delete_failed">Không thể xóa mục tiêu tiết kiệm: %1$s</string>
+
+    <string name="valid_inputs_required">Vui lòng nhập các giá trị hợp lệ.</string>
+
+    <string name="monthly_savings_clear_failed">Không thể xóa khoản tiết kiệm hàng tháng: %1$s</string>
+
+    <string name="associated_data_failed">Không thể truy xuất dữ liệu liên quan: %1$s</string>
+
+    <string name="bill_not_found">Không tìm thấy khoản thanh toán đang chờ.</string>
+
+    <string name="open_payment_updated">Đã cập nhật khoản thanh toán đang chờ thành công.</string>
+
+    <string name="open_payment_update_failed">Không thể cập nhật khoản thanh toán đang chờ: %1$s</string>
+
+    <string name="open_payment_update_unavailable">Không thể cập nhật khoản thanh toán đang chờ.</string>
+
+    <string name="closed_payment_updated">Đã cập nhật khoản thanh toán đã hoàn tất thành công.</string>
+
+    <string name="closed_payment_update_failed">Không thể cập nhật khoản thanh toán đã hoàn tất: %1$s</string>
+
+    <string name="closed_payment_update_unavailable">Không thể cập nhật khoản thanh toán đã hoàn tất.</string>
+
+    <string name="closed_payment_deleted">Đã xóa khoản thanh toán đã hoàn tất thành công.</string>
+
+    <string name="closed_payment_delete_failed">Không thể xóa khoản thanh toán đã hoàn tất.</string>
+
+    <string name="image_permission_denied">Quyền truy cập bộ nhớ bị từ chối. Không thể hiển thị hình ảnh.</string>
+
+    <string name="image_display_failed">Không thể hiển thị hình ảnh: %1$s</string>
+
+    <string name="income_updated">Đã cập nhật thu nhập thành công.</string>
+
+    <string name="income_update_failed">Không thể cập nhật thu nhập: %1$s</string>
+
+    <string name="income_update_unavailable">Không thể cập nhật thu nhập.</string>
+
+    <string name="payment_login_required">Vui lòng đăng nhập lại để cập nhật khoản thanh toán này.</string>
+
+    <string name="payment_id_missing">Không thể di chuyển khoản thanh toán này vì thiếu ID.</string>
+
+    <plurals name="import_selected_transactions">
+        <item quantity="one">Nhập %d giao dịch</item>
+        <item quantity="other">Nhập %d giao dịch</item>
+    </plurals>
+
+    <string name="premium_preview_import_transactions">Nhập nhiều khoản thanh toán đã hoàn tất và mục thu nhập từ tệp CSV hoặc PDF sao kê.</string>
+
+    <string name="imported_from_statement">Được nhập từ sao kê ngân hàng</string>
+
+    <string name="importing_transactions">Đang lưu các giao dịch đã chọn…</string>
+
+    <string name="import_complete">Hoàn tất nhập dữ liệu</string>
+
+    <plurals name="transactions_imported">
+        <item quantity="one">Đã nhập %d giao dịch.</item>
+        <item quantity="other">Đã nhập %d giao dịch.</item>
+    </plurals>
+
+    <string name="import_failed">Không thể nhập các giao dịch. Vui lòng thử lại.</string>
+
+    <string name="statement_read_failed">Không thể đọc sao kê.</string>
+
+    <string name="import_review_explanation">Hãy xem lại mọi đề xuất trước khi nhập. Bỏ chọn các giao dịch chuyển khoản, giao dịch trùng lặp hoặc các giao dịch không nên ảnh hưởng đến SmartStack.</string>
+
+    <string name="choose_another_file">Chọn tệp khác</string>
+
+    <string name="choose_file">Chọn tệp</string>
+
+    <string name="change_file">Đổi tệp</string>
+
+    <string name="selected_file">Tệp đã chọn: %1$s</string>
+
+    <string name="include_in_import">Nhập</string>
+
+    <string name="import_blocked_no_selection">Chọn ít nhất một giao dịch để nhập.</string>
+
+    <string name="import_blocked_currency">Tiền tệ của sao kê và ứng dụng không khớp.</string>
+
+    <string name="import_blocked_invalid_entry">Một giao dịch được chọn thiếu tiêu đề hoặc số tiền hợp lệ.</string>
+
+    <string name="import_blocked_free_per_file">Tài khoản miễn phí có thể nhập tối đa %1$d giao dịch đã chọn mỗi lần. Hãy bỏ chọn các dòng bổ sung hoặc nâng cấp lên Premium.</string>
+
+    <string name="import_blocked_free_total">Giới hạn miễn phí là tổng cộng %1$d giao dịch đã nhập. Hiện tại bạn còn có thể nhập %2$d giao dịch.</string>
+
+    <string name="import_blocked_limit_check">SmartStack không thể xác minh hạn mức nhập miễn phí còn lại của bạn. Vui lòng kiểm tra kết nối và thử lại.</string>
+
+    <string name="import_free_allowance">Giới hạn miễn phí: %1$d/tệp, %2$d tổng cộng · còn lại %3$d</string>
+
+    <string name="import_free_allowance_pending">Giới hạn miễn phí: %1$d/tệp, %2$d tổng cộng · đang kiểm tra hạn mức còn lại…</string>
+
+    <string name="import_premium_allowance">Giới hạn Premium: tối đa %1$d giao dịch mỗi tệp</string>
+
+    <string name="faqs_question_21">21. Tính năng nhập sao kê ngân hàng hoạt động như thế nào và chính xác đến mức nào?</string>
+
+    <string name="faqs_answer_21">Trả lời: SmartStack có thể đọc các tệp CSV và PDF sao kê được hỗ trợ và đề xuất các khoản thanh toán đã hoàn tất cũng như mục thu nhập. Việc nhận dạng PDF sử dụng OCR trên thiết bị và có thể đọc sai ngày tháng, mô tả hoặc số tiền. Luôn kiểm tra từng dòng trước khi nhập và bỏ chọn các giao dịch chuyển khoản, giao dịch trùng lặp hoặc các giao dịch không nên ảnh hưởng đến tổng số của bạn. Tài khoản miễn phí có thể nhập tối đa 50 giao dịch mỗi lần và 100 giao dịch tổng cộng; Premium hỗ trợ tối đa 200 giao dịch mỗi tệp. Sao kê chỉ được xử lý tạm thời trên thiết bị và không được tải lên Firebase; chỉ các mục đã chọn mới được lưu.</string>
+
+    <string name="data_security_question_1">1. SmartStack Solutions bảo vệ dữ liệu của tôi như thế nào?</string>
+    <string name="data_security_answer_1">
+  Trả lời: SmartStack Solutions áp dụng các biện pháp bảo mật để bảo vệ dữ liệu của bạn. Bao gồm các giao thức đăng nhập an toàn và các biện pháp kiểm soát truy cập cơ bản. Chúng tôi sử dụng các dịch vụ đám mây đáng tin cậy để lưu trữ và quản lý dữ liệu một cách an toàn.
+</string>
+
+    <string name="data_security_question_2">2. Thông tin thanh toán của tôi có được lưu trữ an toàn không?</string>
+    <string name="data_security_answer_2">
+  Trả lời: SmartStack Solutions được thiết kế để người dùng nhập dữ liệu tài chính thủ công mà không cần thực hiện giao dịch thanh toán.
+</string>
+
+    <string name="data_security_question_3">3. Thông tin cá nhân của tôi được xử lý như thế nào?</string>
+    <string name="data_security_answer_3">
+  Trả lời: Thông tin cá nhân chỉ được thu thập ở mức tối thiểu và chỉ được sử dụng để cung cấp dịch vụ của chúng tôi. Dữ liệu được lưu trữ an toàn trên đám mây. Để biết thêm chi tiết, vui lòng đọc Chính sách Quyền riêng tư của chúng tôi được lưu trữ bởi PrivacyPolicies.
+</string>
+
+    <string name="data_security_question_4">4. Có những biện pháp nào để ngăn chặn truy cập trái phép?</string>
+    <string name="data_security_answer_4">
+  Trả lời: Để ngăn chặn truy cập trái phép, SmartStack Solutions sử dụng các yêu cầu về mật khẩu mạnh và các giao thức quản lý phiên đăng nhập. Chúng tôi cũng khuyến nghị người dùng thường xuyên cập nhật mật khẩu và không chia sẻ thông tin đăng nhập của mình.
+</string>
+
+    <string name="data_security_question_5">5. SmartStack Solutions đảm bảo tính toàn vẹn của dữ liệu như thế nào?</string>
+    <string name="data_security_answer_5">
+  Trả lời: Hồ sơ tài chính được đồng bộ với Firebase khi có kết nối. Tuy nhiên, bạn vẫn nên kiểm tra các mục quan trọng và lưu giữ bản sao của các tệp đính kèm quan trọng.
+</string>
+
+    <string name="data_security_question_6">6. Tôi nên làm gì nếu nghi ngờ có vi phạm bảo mật?</string>
+    <string name="data_security_answer_6">
+  Trả lời: Nếu bạn nghi ngờ có vi phạm bảo mật, vui lòng liên hệ ngay với nhóm hỗ trợ của chúng tôi thông qua mục Trợ giúp và Hỗ trợ trong ứng dụng. Chúng tôi sẽ nhanh chóng điều tra và thực hiện các biện pháp cần thiết để bảo vệ tài khoản của bạn.
+</string>
+
+    <string name="data_security_question_7">7. Làm thế nào để tăng cường bảo mật khi sử dụng SmartStack Solutions?</string>
+    <string name="data_security_answer_7">
+  Trả lời: Hãy sử dụng mật khẩu mạnh và duy nhất cho tài khoản SmartStack Solutions của bạn. Đảm bảo thiết bị của bạn được bảo vệ bằng mật khẩu hoặc khóa sinh trắc học, đồng thời tránh sử dụng Wi-Fi công cộng khi truy cập ứng dụng.
+</string>
+
+    <string name="data_security_question_8">8. SmartStack Solutions có tuân thủ các quy định về bảo vệ dữ liệu không?</string>
+    <string name="data_security_answer_8">
+  Trả lời: SmartStack Solutions được thiết kế để chỉ thu thập dữ liệu cần thiết nhằm cung cấp dịch vụ. Quyền riêng tư áp dụng có thể khác nhau tùy theo khu vực; vui lòng liên hệ bộ phận hỗ trợ nếu có câu hỏi hoặc yêu cầu liên quan đến dữ liệu.
+</string>
+
+    <string name="data_security_question_9">9. SmartStack Solutions sử dụng loại mã hóa nào?</string>
+    <string name="data_security_answer_9">
+  Trả lời: SmartStack Solutions sử dụng các phương pháp mã hóa đạt tiêu chuẩn ngành cho dữ liệu đang truyền nhằm bảo vệ thông tin của bạn khỏi truy cập trái phép trong quá trình truyền tải.
+</string>
+
+    <string name="data_security_question_10">10. Việc kiểm tra bảo mật được thực hiện thường xuyên như thế nào?</string>
+    <string name="data_security_answer_10">
+  Trả lời: Các biện pháp bảo mật và các thành phần liên quan được xem xét khi ứng dụng phát triển. Không có ứng dụng nào có thể đảm bảo bảo vệ tuyệt đối, vì vậy người dùng cũng nên bảo vệ tài khoản và thiết bị của mình.
+</string>
+
+    <string name="data_security_question_11">11. Điều gì xảy ra với dữ liệu của tôi nếu tôi xóa tài khoản?</string>
+    <string name="data_security_answer_11">
+  Trả lời: Khi yêu cầu xóa tài khoản, dữ liệu ứng dụng liên quan sẽ được xóa. Tuy nhiên, một số thông tin có thể được lưu giữ tạm thời nếu cần cho mục đích bảo mật, thanh toán hoặc nghĩa vụ pháp lý.
+</string>
+
+    <string name="data_security_question_12">12. Làm thế nào để liên hệ với SmartStack Solutions về các vấn đề bảo mật dữ liệu?</string>
+    <string name="data_security_answer_12">
+  Trả lời: Nếu bạn có bất kỳ thắc mắc nào về bảo mật dữ liệu, vui lòng liên hệ với nhóm hỗ trợ của chúng tôi thông qua mục Trợ giúp và Hỗ trợ trong ứng dụng. Đội ngũ của chúng tôi luôn sẵn sàng giải đáp và đảm bảo dữ liệu của bạn được bảo vệ.
+</string>
+
+    <string name="data_security_question_13">13. Có những biện pháp nào để bảo vệ khỏi mất dữ liệu?</string>
+    <string name="data_security_answer_13">
+  Trả lời: Dữ liệu được lưu trữ thông qua các dịch vụ đám mây Firebase. Tuy nhiên, khả năng truy cập và khôi phục vẫn có thể bị ảnh hưởng bởi các sự cố về dịch vụ, mạng hoặc thiết bị, vì vậy các tài liệu quan trọng cũng nên được lưu giữ ở nơi khác.
+</string>
+
+    <string name="data_security_question_14">14. Bạn có cung cấp Xác thực Hai Yếu tố (2FA) không?</string>
+    <string name="data_security_answer_14">
+  Trả lời: Hiện tại chúng tôi chưa hỗ trợ 2FA, nhưng đang xem xét triển khai để tăng cường bảo mật tài khoản. Trong thời gian này, việc sử dụng mật khẩu mạnh, duy nhất và bảo vệ thiết bị của bạn vẫn mang lại mức độ an toàn đáng kể.
+</string>
+
+    <string name="faqs_question_1">1. SmartStack Solutions là gì?</string>
+    <string name="faqs_answer_1">
+  Trả lời: SmartStack Solutions là một ứng dụng quản lý tài chính toàn diện được thiết kế để giúp người dùng theo dõi các khoản thanh toán và thu nhập. Ứng dụng cho phép phân loại giao dịch, đặt lời nhắc và xem dữ liệu tài chính dưới nhiều định dạng khác nhau nhằm hỗ trợ lập ngân sách và kế hoạch tài chính.
+</string>
+
+    <string name="faqs_question_2">2. Làm thế nào để thêm một khoản thanh toán mở mới?</string>
+    <string name="faqs_answer_2">
+  Trả lời: Để thêm một khoản thanh toán mở mới, hãy vào mục Khoản thanh toán mở trong ứng dụng, nhấn nút dấu cộng và điền các thông tin cần thiết như tiêu đề, số tiền và ngày. Bạn cũng có thể thêm tài liệu hoặc các thông tin liên quan khác.
+</string>
+
+    <string name="faqs_question_3">3. Tôi có thể phân loại các khoản thanh toán/chi phí của mình không?</string>
+    <string name="faqs_answer_3">
+  Trả lời: Có. SmartStack Solutions cho phép bạn phân loại các khoản thanh toán và chi phí vào các danh mục và danh mục con được định nghĩa sẵn.
+</string>
+
+    <string name="faqs_question_4">4. Làm thế nào để xem các khoản thanh toán/chi phí theo trạng thái (sắp đến hạn, quá hạn, định kỳ)?</string>
+    <string name="faqs_answer_4">
+  Trả lời: Trong mục Khoản thanh toán mở, bạn có thể lọc các khoản thanh toán theo trạng thái. Các khoản đã thanh toán sẽ được chuyển sang Khoản thanh toán đã hoàn tất. Các khoản quá hạn sẽ xuất hiện trong mục Quá hạn, còn các khoản sắp đến hạn sẽ được liệt kê trong mục Sắp đến. Các khoản thanh toán định kỳ sẽ hiển thị trong mục Định kỳ.
+</string>
+    <string name="export_monthly_overview">Xuất tổng quan hàng tháng</string>
+    <string name="export_monthly_title">Xuất tổng quan hàng tháng</string>
+    <string name="export_scope_info_title">Những gì sẽ được xuất?</string>
+    <string name="export_scope_info_content_description">Hiển thị thông tin xuất</string>
+    <string name="export_scope_info_bullets">• Tháng đã chọn&#10;• Tổng thu nhập&#10;• Tổng các khoản thanh toán đang mở&#10;• Tổng các khoản thanh toán đã hoàn thành&#10;• Số dư&#10;• Tổng theo danh mục của các khoản thanh toán đã hoàn thành&#10;• Các mục của tháng đã chọn</string>
+    <string name="export_pdf_summary">Tóm tắt PDF</string>
+    <string name="export_csv_data">Dữ liệu CSV</string>
+    <string name="export_share_chooser">Chia sẻ tổng quan hàng tháng</string>
+    <string name="premium_compare_convenience">Công cụ tiện ích</string>
+    <string name="premium_compare_convenience_free">Mẫu, nhập bằng quét và xuất dữ liệu hằng tháng</string>
+    <string name="premium_compare_convenience_premium">Đã bao gồm, với giới hạn nhập cao hơn</string>
+    <string name="export_report_title">Tổng quan hàng tháng SmartStack</string>
+    <string name="export_summary">Tóm tắt</string>
+    <string name="export_category_totals">Tổng theo danh mục</string>
+    <string name="export_entries">Các mục</string>
+    <string name="export_open_payments">Các khoản thanh toán đang mở</string>
+    <string name="export_closed_payments">Các khoản thanh toán đã hoàn thành</string>
+    <string name="export_income">Thu nhập</string>
+    <string name="export_balance">Số dư</string>
+    <string name="export_no_entries">Không có mục nào trong tháng này.</string>
+    <string name="use_template">Sử dụng mẫu</string>
+    <string name="hide_templates">Ẩn mẫu</string>
+    <string name="save_as_template">Lưu dưới dạng mẫu</string>
+    <string name="template_name">Tên mẫu</string>
+    <string name="template_name_hint">ví dụ: Mua thực phẩm, Trạm xăng, Cổ tức</string>
+    <string name="template_saved">Đã lưu mẫu.</string>
+    <string name="template_name_required">Vui lòng nhập tên mẫu.</string>
+    <string name="terms_and_conditions_title">Điều khoản &amp; Điều kiện</string>
+    <string name="terms_and_conditions_content">
+    1. Chấp nhận Điều khoản&#10;&#10;Bằng việc sử dụng ứng dụng SmartStack Solutions, bạn đồng ý bị ràng buộc bởi các điều khoản và điều kiện này. Nếu bạn không đồng ý, vui lòng không sử dụng ứng dụng.&#10;&#10;
+    2. Thay đổi Điều khoản&#10;&#10;SmartStack Solutions có quyền sửa đổi các điều khoản này bất cứ lúc nào. Chúng tôi sẽ thông báo cho người dùng về mọi thay đổi thông qua ứng dụng hoặc email. Việc tiếp tục sử dụng ứng dụng sau khi các thay đổi được công bố đồng nghĩa với việc bạn chấp nhận các điều khoản mới.&#10;&#10;
+    3. Trách nhiệm của người dùng&#10;&#10;Bảo mật tài khoản: Người dùng có trách nhiệm bảo mật thông tin tài khoản của mình và chịu trách nhiệm đối với mọi hoạt động diễn ra dưới tài khoản đó.&#10;&#10;Thông tin chính xác: Người dùng phải cung cấp thông tin chính xác và đầy đủ khi tạo và quản lý tài khoản.\nHành vi bị cấm: Người dùng không được sử dụng ứng dụng cho bất kỳ mục đích bất hợp pháp nào hoặc thực hiện các hoạt động có thể gây hại cho ứng dụng hoặc người dùng khác.&#10;&#10;
+    4. Chính sách quyền riêng tư&#10;&#10;Quyền riêng tư của bạn rất quan trọng đối với chúng tôi. Vui lòng tham khảo Chính sách quyền riêng tư để biết cách chúng tôi thu thập, sử dụng và bảo vệ dữ liệu cá nhân của bạn.&#10;&#10;
+    5. Sử dụng ứng dụng&#10;&#10;Tính năng: SmartStack Solutions cung cấp các công cụ để quản lý các khoản thu và chi tài chính. Ứng dụng cho phép người dùng nhập, sắp xếp và xem lại dữ liệu tài chính của mình.\nGiới hạn: Mặc dù chúng tôi nỗ lực cung cấp các tính năng chính xác và đáng tin cậy, SmartStack Solutions không thể đảm bảo rằng tất cả các tính năng sẽ luôn không có lỗi hoặc hoạt động liên tục.&#10;&#10;
+    6. Tài khoản Premium&#10;&#10;Tính năng: Premium cung cấp quyền truy cập vào các tính năng được hiển thị trên màn hình Premium. Các tính năng và mức giá có thể thay đổi khi dịch vụ phát triển.&#10;&#10;Thanh toán: Phí Premium được tính thông qua Google Play theo ưu đãi được hiển thị trước khi mua. Việc hoàn tiền và hủy đăng ký được xử lý theo điều khoản của Google Play và luật pháp hiện hành.&#10;&#10;
+    7. Trách nhiệm pháp lý&#10;&#10;Không có bảo đảm: Ứng dụng được cung cấp theo hiện trạng mà không có bất kỳ bảo đảm nào. SmartStack Solutions không đảm bảo tính chính xác, đầy đủ hoặc độ tin cậy của ứng dụng.&#10;&#10;Giới hạn trách nhiệm: SmartStack Solutions sẽ không chịu trách nhiệm đối với bất kỳ thiệt hại nào phát sinh từ việc sử dụng hoặc không thể sử dụng ứng dụng.&#10;&#10;
+    8. Chấm dứt&#10;&#10;SmartStack Solutions có quyền chấm dứt hoặc tạm ngừng quyền truy cập vào ứng dụng của bất kỳ người dùng nào vi phạm các điều khoản và điều kiện này.&#10;&#10;
+    9. Thông tin liên hệ&#10;&#10;Nếu có câu hỏi hoặc thắc mắc về các điều khoản và điều kiện này, vui lòng liên hệ appdev.jr2024@gmail.com.
+</string>
+
+    <string name="help_hub_title">Chúng tôi có thể giúp gì cho bạn?</string>
+    <string name="help_hub_intro">Tìm câu trả lời nhanh, quản lý dữ liệu tài khoản hoặc liên hệ trực tiếp với chúng tôi.</string>
+    <string name="help_choose_option">Chọn một tùy chọn hỗ trợ</string>
+    <string name="help_faq_title">Xem các câu hỏi thường gặp</string>
+    <string name="help_faq_description">Nhận câu trả lời về thanh toán, nhắc nhở, Premium, giới hạn và việc sử dụng tài khoản.</string>
+    <string name="help_contact_title">Gửi email cho bộ phận hỗ trợ SmartStack</string>
+    <string name="help_contact_description">Mở email đã chuẩn bị sẵn gửi tới appdev.jr2024@gmail.com.</string>
+    <string name="help_data_title">Hỗ trợ dữ liệu và tài khoản</string>
+    <string name="help_data_description">Xuất dữ liệu của bạn hoặc xem các tùy chọn xóa tài khoản.</string>
+    <string name="help_message_title">Để nhận được phản hồi nhanh hơn</string>
+    <string name="help_message_checklist">Vui lòng bao gồm:\n• Bạn đang cố gắng thực hiện điều gì\n• Điều gì đã xảy ra thay thế\n• Các bước để tái hiện sự cố\n• Ảnh chụp màn hình, nếu không chứa thông tin tài chính nhạy cảm</string>
+    <string name="help_response_note">Không bao giờ gửi mật khẩu, mã thông báo mua hàng hoặc toàn bộ hồ sơ tài chính qua email.</string>
+    <string name="support_email_subject">Yêu cầu hỗ trợ SmartStack Solutions</string>
+    <string name="support_email_template">Xin chào bộ phận hỗ trợ SmartStack,\n\nTôi cần trợ giúp về:\n\nĐiều tôi mong đợi:\n\nĐiều đã xảy ra:\n\nCác bước để tái hiện:\n\nPhiên bản ứng dụng: %1$s\n\nVui lòng không bao gồm mật khẩu hoặc dữ liệu tài chính nhạy cảm.</string>
+    <string name="support_email_copied">Không tìm thấy ứng dụng email. Địa chỉ hỗ trợ đã được sao chép vào khay nhớ tạm.</string>
+
+    <string name="terms_section_title_1">1. Chấp nhận và phạm vi áp dụng</string>
+    <string name="terms_section_body_1">Bằng việc tạo tài khoản hoặc sử dụng SmartStack Solutions, bạn đồng ý với các điều khoản này. Nếu bạn không đồng ý, vui lòng không sử dụng ứng dụng.</string>
+
+    <string name="terms_section_title_2">2. Mục đích của dịch vụ</string>
+    <string name="terms_section_body_2">SmartStack cung cấp các công cụ tổ chức cho thanh toán, chi phí, thu nhập, nhắc nhở và mục tiêu tiết kiệm. Ứng dụng không cung cấp lời khuyên về tài chính, thuế, pháp lý hoặc đầu tư.</string>
+
+    <string name="terms_section_title_3">3. Trách nhiệm tài khoản</string>
+    <string name="terms_section_body_3">Bạn có trách nhiệm bảo vệ tài khoản của mình, duy trì thông tin chính xác và kiểm tra các mục nhập cũng như lời nhắc. Không được sử dụng dịch vụ cho mục đích bất hợp pháp hoặc cố gắng làm gián đoạn, tự động hóa việc lạm dụng hoặc vượt qua các biện pháp bảo vệ kỹ thuật của dịch vụ.</string>
+
+    <string name="terms_section_title_4">4. Dịch vụ miễn phí và quảng cáo</string>
+    <string name="terms_section_body_4">Phiên bản miễn phí được hỗ trợ bằng quảng cáo và bao gồm các chức năng cốt lõi như quản lý khoản thanh toán mở, lời nhắc, lịch, xuất dữ liệu và đánh dấu thanh toán đã hoàn tất. Một số chức năng tạo, chỉnh sửa, lịch sử, thu nhập, mục tiêu và phân tích yêu cầu Premium.</string>
+
+    <string name="terms_section_title_5">5. Giới hạn sử dụng hợp lý</string>
+    <string name="terms_section_body_5">Để duy trì dịch vụ ổn định và bền vững, tài khoản miễn phí hỗ trợ tối đa 30 khoản thanh toán mở độc lập đang hoạt động, 100 khoản thanh toán đã hoàn tất và 250 mục thanh toán định kỳ trong tương lai. Tài khoản Premium hỗ trợ giới hạn cao hơn, bao gồm tối đa 2.000 mục thanh toán và thu nhập kết hợp trong tương lai. Các giới hạn này có thể được điều chỉnh trong tương lai vì lý do bảo mật, độ tin cậy hoặc tính bền vững của dịch vụ với thông báo hợp lý khi có thể.</string>
+
+    <string name="terms_section_title_6">6. Đăng ký Premium</string>
+    <string name="terms_section_body_6">Các tính năng Premium và mức giá hiện tại được hiển thị trước khi mua. Việc thanh toán, gia hạn, hủy đăng ký và hoàn tiền đủ điều kiện được xử lý thông qua Google Play theo điều khoản của Google Play và pháp luật hiện hành. Premium loại bỏ quảng cáo và mở khóa các chức năng được mô tả trên màn hình Premium, tuân theo các giới hạn sử dụng hợp lý.</string>
+
+    <string name="terms_section_title_7">7. Khả năng truy cập dữ liệu và xuất dữ liệu</string>
+    <string name="terms_section_body_7">Chúng tôi cố gắng duy trì dữ liệu tài khoản luôn sẵn có, nhưng không có dịch vụ trực tuyến nào có thể đảm bảo việc lưu trữ vĩnh viễn hoặc không bị gián đoạn. Bạn nên định kỳ sử dụng chức năng xuất dữ liệu để lưu giữ các hồ sơ quan trọng. Chúng tôi sẽ thông báo trước khi áp dụng các chính sách lưu giữ hoặc xóa dữ liệu tự động quan trọng, ngoại trừ các trường hợp cần xóa vì lý do bảo mật, pháp luật hoặc theo yêu cầu xóa tài khoản.</string>
+
+    <string name="terms_section_title_8">8. Khả dụng và trách nhiệm pháp lý</string>
+    <string name="terms_section_body_8">Dịch vụ được cung cấp theo khả năng sẵn có. Trong phạm vi pháp luật cho phép, SmartStack Solutions không chịu trách nhiệm đối với các tổn thất gián tiếp do gián đoạn dịch vụ, dữ liệu người dùng không chính xác, bỏ lỡ lời nhắc, lỗi thiết bị hoặc việc sử dụng ứng dụng như một nguồn tư vấn chuyên môn. Các quyền hợp pháp của người tiêu dùng vẫn được giữ nguyên.</string>
+
+    <string name="terms_section_title_9">9. Thay đổi và chấm dứt</string>
+    <string name="terms_section_body_9">Các tính năng và điều khoản này có thể thay đổi khi dịch vụ phát triển. Những thay đổi quan trọng sẽ được thông báo khi có thể. Quyền truy cập có thể bị hạn chế trong trường hợp gian lận, lạm dụng, sử dụng trái phép, rủi ro bảo mật hoặc vi phạm nghiêm trọng các điều khoản này.</string>
+
+    <string name="terms_section_title_10">10. Liên hệ</string>
+    <string name="terms_section_body_10">Mọi câu hỏi về các điều khoản này hoặc dịch vụ có thể được gửi tới appdev.jr2024@gmail.com.</string>
+
+    <string name="faqs_question_16">16. Những giới hạn sử dụng nào áp dụng cho tài khoản miễn phí và Premium?</string>
+    <string name="faqs_answer_16">Trả lời: Tài khoản miễn phí có thể lưu tối đa 30 khoản thanh toán mở đang hoạt động, 100 khoản thanh toán đã hoàn tất và 250 mục thanh toán định kỳ trong tương lai. Premium tăng các giới hạn này và hỗ trợ tối đa 2.000 mục thanh toán và thu nhập kết hợp trong tương lai. Các giới hạn này giúp đảm bảo dịch vụ hoạt động ổn định và ngăn chặn việc tạo quá nhiều mục ngoài ý muốn.</string>
+
+    <string name="faqs_question_17">17. Người dùng miễn phí vẫn có thể đánh dấu thanh toán là đã thanh toán không?</string>
+    <string name="faqs_answer_17">Trả lời: Có. Quy trình thông thường từ khoản thanh toán mở sang khoản thanh toán đã hoàn tất sẽ không bao giờ bị chặn bởi giới hạn của tài khoản miễn phí. Việc tạo, chỉnh sửa và xóa trực tiếp các khoản thanh toán đã hoàn tất là tính năng quản lý của Premium.</string>
+
+    <string name="faqs_question_18">18. SmartStack có tự động xóa lịch sử tài chính của tôi không?</string>
+    <string name="faqs_answer_18">Trả lời: Hiện tại SmartStack không áp dụng thời hạn tự động xóa lịch sử thanh toán. Bạn có thể xuất dữ liệu tài khoản của mình bất cứ lúc nào. Nếu sau này áp dụng chính sách lưu giữ dữ liệu mới, ứng dụng sẽ thông báo trước khi có thể.</string>
+
+    <string name="faqs_question_19">19. Những phân tích tài chính nào được bao gồm?</string>
+    <string name="faqs_answer_19">Trả lời: Phiên bản miễn phí bao gồm dòng tiền của tháng đã chọn, mức độ ưu tiên của các khoản thanh toán mở, cơ cấu chi tiêu, Biggest Change (Thay đổi lớn nhất), mẫu, xuất dữ liệu hàng tháng và các thông tin chi tiết hàng tháng. Premium bổ sung xu hướng dòng tiền trong 6 và 12 tháng, thay đổi danh mục, xu hướng cam kết định kỳ và tính nhất quán của việc tiết kiệm. Các giai đoạn nhiều tháng kết thúc ở tháng được chọn trên bảng điều khiển.</string>
+
+    <string name="back">Quay lại</string>
+    <string name="content_description_back">Quay lại</string>
+
+    <string name="about_us_title">Về chúng tôi</string>
+    <string name="about_us_content">
+    SmartStack Solutions được tạo ra để giúp việc quản lý tài chính hằng ngày trở nên dễ hiểu hơn. Ứng dụng tập hợp các khoản thanh toán sắp tới, chi phí đã hoàn tất, thu nhập, mục tiêu tiết kiệm, lời nhắc và hoạt động trên lịch vào một giao diện được tổ chức rõ ràng.\n\n
+    Chúng tôi tập trung vào việc tổ chức tài chính một cách thực tế: thông tin rõ ràng, các danh mục hữu ích và các công cụ giúp bạn biết những gì sắp đến hạn, những gì đã được thanh toán và số tiền còn lại mỗi tháng. SmartStack là công cụ hỗ trợ tổ chức và không cung cấp lời khuyên về tài chính, thuế hoặc đầu tư.\n\n
+    Mọi câu hỏi và góp ý xin gửi đến appdev.jr2024@gmail.com.
+</string>
+
+</resources>

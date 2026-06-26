@@ -27,7 +27,7 @@
         android:textSize="13sp" />
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/entryMethodScan"
+        android:id="@+id/entryMethodManual"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -35,6 +35,64 @@
         android:focusable="true"
         android:foreground="?attr/selectableItemBackground"
         app:cardBackgroundColor="#F0F8FC"
+        app:cardCornerRadius="14dp"
+        app:cardElevation="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <ImageView
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:background="@drawable/savings_target_icon_bg"
+                android:contentDescription="@null"
+                android:padding="10dp"
+                android:src="@drawable/ic_edit"
+                app:tint="@color/colorPrimary" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/enter_manually"
+                    android:textColor="@color/colorSecondary"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:text="@string/enter_manually_description"
+                    android:textColor="#647383"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <ImageView
+                style="@style/SupportActionArrow"
+                android:contentDescription="@null" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/entryMethodScan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
+        app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="14dp"
         app:cardElevation="0dp">
 
@@ -85,7 +143,7 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/entryMethodManual"
+        android:id="@+id/entryMethodImport"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -109,7 +167,7 @@
                 android:background="@drawable/savings_target_icon_bg"
                 android:contentDescription="@null"
                 android:padding="10dp"
-                android:src="@drawable/ic_edit"
+                android:src="@drawable/ic_import_transactions"
                 app:tint="@color/colorPrimary" />
 
             <LinearLayout
@@ -122,7 +180,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/enter_manually"
+                    android:text="@string/import_transactions"
                     android:textColor="@color/colorSecondary"
                     android:textSize="15sp"
                     android:textStyle="bold" />
@@ -131,7 +189,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
-                    android:text="@string/enter_manually_description"
+                    android:text="@string/import_transactions_description"
                     android:textColor="#647383"
                     android:textSize="12sp" />
             </LinearLayout>

@@ -1,0 +1,1128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="notification_details">Podrobnosti oznámení</string>
+    <string name="main">Hlavní</string>
+    <string name="app_name">SmartStack Solutions</string>
+    <string name="target_name">Název cíle</string>
+    <string name="log_in">Přihlásit se</string>
+    <string name="email">E-mail</string>
+    <string name="password">Heslo</string>
+    <string name="don_t_have_an_account">Nemáte účet?</string>
+    <string name="sign_up">Registrovat se</string>
+    <string name="forgot_password">Zapomněli jste heslo?</string>
+    <string name="already_have_an_account">Už máte účet?</string>
+    <string name="log_in_with_google">Přihlásit se přes Google</string>
+    <string name="sign_up_with_google">Registrovat se přes Google</string>
+
+    <string name="login_title">Vítejte zpět</string>
+    <string name="login_subtitle">Přihlaste se a pokračujte ve správě otevřených plateb, výdajů a příjmů.</string>
+
+    <string name="signup_title">Vytvořte si účet</string>
+    <string name="signup_subtitle">Začněte sledovat své finance pomocí zabezpečeného účtu SmartStack.</string>
+
+    <string name="continue_with_email">Pokračovat pomocí e-mailu</string>
+
+    <string name="email_required">Zadejte svou e-mailovou adresu.</string>
+    <string name="email_invalid">Zadejte platnou e-mailovou adresu.</string>
+    <string name="password_required">Zadejte své heslo.</string>
+    <string name="password_too_short">Použijte alespoň 6 znaků.</string>
+
+    <string name="auth_generic_error">Nepodařilo se vás přihlásit. Zkontrolujte své údaje a zkuste to znovu.</string>
+    <string name="auth_network_error">Problém s připojením. Zkontrolujte internet a zkuste to znovu.</string>
+    <string name="account_exists_error">Účet s touto e-mailovou adresou již existuje.</string>
+
+    <string name="password_reset_sent">E-mail pro obnovení hesla byl odeslán. Zkontrolujte svou schránku.</string>
+    <string name="password_reset_failed">Nepodařilo se odeslat e-mail pro obnovení hesla. Zkontrolujte adresu a zkuste to znovu.</string>
+
+    <string name="or">nebo</string>
+    <string name="all">Vše</string>
+
+    <string name="you_still_do_not_have_any_bill_registered">Zatím nemáte zaregistrovanou žádnou platbu</string>
+
+    <string name="my_bills">Moje platby</string>
+    <string name="my_spendings">Moje výdaje</string>
+    <string name="income">Příjmy</string>
+    <string name="calendar">Kalendář</string>
+    <string name="account">Účet</string>
+
+    <string name="incoming">Nadcházející</string>
+    <string name="overdue">Po splatnosti</string>
+    <string name="recurring">Opakující se</string>
+    <string name="paid">Zaplaceno</string>
+
+    <string name="select_date">Vyberte datum</string>
+    <string name="amount">Částka</string>
+    <string name="vendor">Dodavatel</string>
+    <string name="category">Kategorie</string>
+
+    <string name="write_your_title">Zadejte název</string>
+    <string name="write_your_comments">Zadejte poznámky</string>
+
+    <string name="cancel">Zrušit</string>
+
+    <string name="unsaved_changes_title">Neuložené změny</string>
+    <string name="unsaved_changes_message">Máte neuložené změny. Chcete je zahodit?</string>
+    <string name="unsaved_import_message">Zkontrolovali jste návrhy importu, které ještě nebyly uloženy. Chcete je zahodit?</string>
+
+    <string name="keep_editing">Pokračovat v úpravách</string>
+    <string name="discard_changes">Zahodit</string>
+    <string name="save">Uložit</string>
+
+    <string name="attachment">Příloha</string>
+
+    <string name="create_new_open_payment">Vytvořit novou otevřenou platbu</string>
+    <string name="open_payments">Otevřené platby</string>
+    <string name="open_payments_hint">Nadcházející a po splatnosti platby, které stále vyžadují pozornost.</string>
+    <string name="no_open_payments">Žádné otevřené platby neodpovídají tomuto zobrazení.</string>
+
+    <string name="mark_paid">Označit jako zaplacené</string>
+
+    <string name="bill_details">Podrobnosti otevřené platby</string>
+    <string name="untitled_payment">Platba bez názvu</string>
+    <string name="uncategorized">Bez kategorie</string>
+
+    <string name="delete_open_payment">Smazat otevřenou platbu</string>
+    <string name="delete_open_payment_confirmation">Smazat tuto otevřenou platbu?</string>
+
+    <string name="delete_recurring_payment">Smazat opakující se platbu</string>
+    <string name="delete_this_occurrence">Smazat pouze tuto platbu</string>
+    <string name="delete_this_and_future">Smazat tuto i budoucí platby</string>
+
+    <string name="open_payment_deleted">Otevřená platba byla smazána.</string>
+    <string name="future_open_payments_deleted">Tato a budoucí platby byly smazány.</string>
+    <string name="open_payment_delete_failed">Platbu se nepodařilo smazat.</string>
+
+    <string name="add_attachment">Přidat přílohu</string>
+    <string name="take_photo">Pořídit fotografii</string>
+    <string name="choose_from_gallery">Vybrat z galerie</string>
+
+    <string name="attachment_added">Příloha byla přidána</string>
+    <string name="attachment_failed">Přílohu se nepodařilo přidat</string>
+
+    <string name="edit_open_payment">Upravit otevřenou platbu</string>
+    <string name="open_payment_attachment">Příloha otevřené platby</string>
+
+    <string name="create_new_closed_payment">Vytvořit novou uzavřenou platbu</string>
+    <string name="closed_payments">Uzavřené platby</string>
+
+    <string name="closed_payment_details">Podrobnosti uzavřené platby</string>
+    <string name="edit_closed_payment">Upravit uzavřenou platbu</string>
+    <string name="delete_closed_payment">Smazat uzavřenou platbu</string>
+    <string name="closed_payment_attachment">Příloha uzavřené platby</string>
+
+    <string name="create_new_income">Vytvořit nový příjem</string>
+    <string name="create_new_spending">Vytvořit nový výdaj</string>
+
+    <string name="date">Datum</string>
+    <string name="type">Typ</string>
+    <string name="date_header">Záhlaví data</string>
+    <string name="due_date">Datum splatnosti</string>
+
+    <string name="comments">Poznámky</string>
+    <string name="close">Zavřít</string>
+
+    <string name="set_savings_target">Nastavit cíl úspor</string>
+
+    <string name="delete_target">Smazat cíl</string>
+    <string name="delete">Smazat</string>
+
+    <string name="delete_savings_target_confirmation">Smazat tento cíl úspor? Historie jeho průběhu bude také odstraněna.</string>
+
+    <string name="edit_target">Upravit cíl</string>
+    <string name="name_target">Název cíle</string>
+    <string name="target_amount">Cílová částka</string>
+    <string name="start_date">Datum zahájení</string>
+    <string name="end_date">Datum ukončení</string>
+    <string name="monthly_savings">Měsíční úspory</string>
+    <string name="savings_goal_image">Obrázek cíle úspor</string>
+
+    <string name="search_vendor">Hledat dodavatele</string>
+
+    <string name="welcome_title">Vítejte ve SmartStack Solutions!</string>
+    <string name="welcome_icon_description">Uvítací ikona</string>
+    <string name="welcome_body_message">Váš nástroj pro organizaci financí a zjednodušení života!</string>
+
+    <string name="get_started">Začít</string>
+
+    <string name="unlock_premium">Odemknout Premium funkce &#9733;</string>
+
+    <string name="about_us">O nás</string>
+    <string name="faqs">Časté dotazy</string>
+    <string name="search_faqs">Hledat v častých dotazech</string>
+
+    <string name="data_security">Zabezpečení dat</string>
+    <string name="help_support">Nápověda a podpora</string>
+    <string name="terms_conditions">Obchodní podmínky</string>
+
+    <string name="logout">Odhlásit se</string>
+    <string name="logout_confirmation">Odhlásit se ze SmartStack Solutions na tomto zařízení?</string>
+
+    <string name="about_us_subtitle">Proč SmartStack existuje a jak podporuje lepší finanční rozhodování.</string>
+
+    <string name="faqs_subtitle">Rychlé odpovědi na otázky o platbách, příjmech, cílech úspor, Premium a oznámeních.</string>
+
+    <string name="data_security_subtitle">Jak je spravován přístup k účtu a vaše finanční záznamy.</string>
+
+    <string name="help_subtitle">Najděte odpovědi nebo kontaktujte tým podpory SmartStack.</string>
+
+    <string name="terms_subtitle">Důležité podmínky, které platí při používání SmartStack Solutions.</string>
+
+    <string name="about_us_image_description">Přehled SmartStack Solutions</string>
+
+    <string name="income_date">Datum příjmu</string>
+
+    <string name="repeat">Opakovat</string>
+
+    <string name="purchase_date">Datum nákupu</string>
+
+    <string name="details">Podrobnosti</string>
+
+    <string name="upload">Nahrát</string>
+
+    <string name="alarm">Upozornění</string>
+
+    <string name="categorydbx">Kategorie</string>
+
+    <string name="essential">Nezbytné</string>
+
+    <string name="non_essential">Volitelné</string>
+
+    <string name="one_time">Jednorázové</string>
+
+    <string name="delete_income">Smazat příjem</string>
+
+    <string name="edit_income">Upravit příjem</string>
+
+    <string name="income_details">Podrobnosti příjmu</string>
+
+    <string name="previous_month">Předchozí měsíc</string>
+
+    <string name="next_month">Další měsíc</string>
+
+    <string name="mark_as_paid">Označit jako zaplacené</string>
+
+    <string name="calendar_title">Kalendář</string>
+
+    <string name="content_description_navigation_menu">Otevřít navigační menu</string>
+
+    <string name="search_or_select_vendor">Vyhledat nebo vybrat dodavatele</string>
+
+    <string name="enter_custom_vendor">Zadat vlastního dodavatele</string>
+
+    <string name="subcategory">Podkategorie</string>
+
+    <string name="image_added">Obrázek přidán</string>
+
+    <string name="title">Název</string>
+
+    <string name="select_a_category">Vyberte kategorii</string>
+
+    <string name="data_security_title">Zabezpečení dat</string>
+
+    <string name="data_security_question_1">1. Jak SmartStack Solutions chrání moje data?</string>
+
+    <string name="data_security_answer_1">
+Odpověď: SmartStack Solutions používá bezpečnostní opatření k ochraně vašich dat. Patří sem zabezpečené přihlašovací protokoly a základní řízení přístupu. Pro bezpečné ukládání a správu dat využíváme důvěryhodné cloudové služby.
+</string>
+
+    <string name="data_security_question_2">2. Jsou moje platební údaje bezpečně uloženy?</string>
+
+    <string name="data_security_answer_2">
+Odpověď: SmartStack Solutions je navržen pro ruční zadávání finančních údajů uživateli bez potřeby zpracování platebních transakcí.
+</string>
+
+    <string name="data_security_question_3">3. Jak jsou zpracovávány mé osobní údaje?</string>
+
+    <string name="data_security_answer_3">
+Odpověď: Osobní údaje jsou shromažďovány v minimálním rozsahu a používány výhradně k poskytování našich služeb. Jsou bezpečně ukládány v cloudu. Další informace naleznete v našich Zásadách ochrany osobních údajů.
+</string>
+
+    <string name="data_security_question_4">4. Jaká opatření zabraňují neoprávněnému přístupu?</string>
+
+    <string name="data_security_answer_4">
+Odpověď: SmartStack Solutions používá silné požadavky na hesla a správu relací. Doporučujeme také pravidelně měnit heslo a nesdílet přihlašovací údaje.
+</string>
+
+    <string name="data_security_question_5">5. Jak SmartStack Solutions zajišťuje integritu mých dat?</string>
+
+    <string name="data_security_answer_5">
+Odpověď: Finanční záznamy jsou synchronizovány s Firebase, pokud je dostupné připojení. Přesto byste měli kontrolovat důležité záznamy a uchovávat kopie důležitých příloh.
+</string>
+
+    <string name="data_security_question_6">6. Co mám dělat, pokud mám podezření na bezpečnostní incident?</string>
+
+    <string name="data_security_answer_6">
+Odpověď: Pokud máte podezření na bezpečnostní problém, okamžitě kontaktujte náš tým podpory prostřednictvím sekce Nápověda a podpora. Situaci prověříme a podnikneme potřebné kroky k zabezpečení vašeho účtu.
+</string>
+
+    <string name="data_security_question_7">7. Jak mohu zvýšit vlastní bezpečnost při používání SmartStack Solutions?</string>
+
+    <string name="data_security_answer_7">
+Odpověď: Používejte silné a jedinečné heslo pro svůj účet SmartStack Solutions. Chraňte své zařízení heslem nebo biometrickým zámkem a vyhýbejte se používání veřejných Wi-Fi sítí.
+</string>
+
+    <string name="data_security_question_8">8. Dodržuje SmartStack Solutions předpisy o ochraně osobních údajů?</string>
+
+    <string name="data_security_answer_8">
+Odpověď: SmartStack Solutions shromažďuje pouze údaje nezbytné pro poskytování služby. Práva na ochranu soukromí se mohou lišit podle země. V případě dotazů nebo žádostí kontaktujte podporu.
+</string>
+
+    <string name="data_security_question_9">9. Jaký typ šifrování SmartStack Solutions používá?</string>
+
+    <string name="data_security_answer_9">
+Odpověď: SmartStack Solutions používá standardní šifrování dat během přenosu, aby chránil vaše informace před neoprávněným přístupem.
+</string>
+
+    <string name="data_security_question_10">10. Jak často jsou prováděny bezpečnostní kontroly?</string>
+
+    <string name="data_security_answer_10">
+Odpověď: Bezpečnostní postupy a závislosti jsou průběžně kontrolovány s vývojem aplikace. Žádná aplikace nemůže zaručit úplnou ochranu, proto by uživatelé měli chránit i svůj účet a zařízení.
+</string>
+
+    <string name="data_security_question_11">11. Co se stane s mými daty, pokud smažu svůj účet?</string>
+
+    <string name="data_security_answer_11">
+Odpověď: Žádosti o smazání účtu jsou určeny k odstranění souvisejících dat aplikace. Některé informace mohou být dočasně uchovány, pokud je to vyžadováno z bezpečnostních, účetních nebo právních důvodů.
+</string>
+
+    <string name="data_security_question_12">12. Jak mohu kontaktovat SmartStack Solutions ohledně bezpečnosti dat?</string>
+
+    <string name="data_security_answer_12">
+Odpověď: Pokud máte obavy týkající se bezpečnosti dat, můžete kontaktovat náš tým podpory prostřednictvím sekce Nápověda a podpora. Rádi vám pomůžeme.
+</string>
+
+    <string name="data_security_question_13">13. Jaká opatření chrání před ztrátou dat?</string>
+
+    <string name="data_security_answer_13">
+Odpověď: Záznamy jsou ukládány prostřednictvím cloudových služeb Firebase. Dostupnost a obnova dat však mohou být ovlivněny problémy se službou, sítí nebo zařízením, proto doporučujeme důležité dokumenty uchovávat také jinde.
+</string>
+    <string name="data_security_question_14">14. Nabízíte dvoufaktorové ověřování (2FA)?</string>
+
+    <string name="data_security_answer_14">
+Odpověď: V současné době dvoufaktorové ověřování (2FA) nenabízíme, ale zvažujeme jeho zavedení pro zvýšení bezpečnosti účtů. Používání silného a jedinečného hesla a zabezpečení vašeho zařízení však poskytuje významnou ochranu.
+</string>
+
+    <string name="faqs_question_1">1. Co je SmartStack Solutions?</string>
+
+    <string name="faqs_answer_1">
+Odpověď: SmartStack Solutions je komplexní aplikace pro správu financí navržená tak, aby uživatelům pomáhala sledovat platby a příjmy. Umožňuje kategorizovat transakce, nastavovat připomenutí a zobrazovat finanční údaje v různých formátech pro lepší rozpočtování a finanční plánování.
+</string>
+
+    <string name="faqs_question_2">2. Jak přidám novou otevřenou platbu?</string>
+
+    <string name="faqs_answer_2">
+Odpověď: Chcete-li přidat novou otevřenou platbu, přejděte do sekce Otevřené platby, klepněte na tlačítko Plus a vyplňte potřebné údaje, například název, částku a datum. Můžete také přidat dokument nebo další související informace.
+</string>
+
+    <string name="faqs_question_3">3. Mohu své platby a výdaje kategorizovat?</string>
+
+    <string name="faqs_answer_3">
+Odpověď: Ano. SmartStack Solutions umožňuje zařazovat platby a výdaje do předdefinovaných kategorií a podkategorií.
+</string>
+
+    <string name="faqs_question_4">4. Jak mohu zobrazit platby a výdaje podle stavu (nadcházející, po splatnosti, opakující se)?</string>
+
+    <string name="faqs_answer_4">
+Odpověď: V sekci Otevřené platby můžete filtrovat platby podle jejich stavu. Zaplacené platby se přesunou do sekce Uzavřené platby. Platby po splatnosti se zobrazují v kategorii Po splatnosti a nadcházející platby v kategorii Nadcházející. Opakující se platby najdete v kategorii Opakující se.
+</string>
+
+    <string name="faqs_question_5">5. Co jsou nezbytné a volitelné výdaje a jaký je mezi nimi rozdíl?</string>
+
+    <string name="faqs_answer_5">
+Odpověď: Nezbytné výdaje zahrnují potřeby, jako je nájem, základní potraviny, zdravotní péče nebo nutná doprava. Volitelné výdaje zahrnují nepovinné nákupy, například streamovací služby nebo luxusní zboží. SmartStack důsledně klasifikuje podporované podkategorie; položky, které nelze zařadit, zůstávají zahrnuty v celkové částce, ale ne v jednotlivých součtech.
+</string>
+
+    <string name="faqs_question_6">6. Je možné skenovat platby?</string>
+
+    <string name="faqs_answer_6">
+Odpověď: Ano. Při vytváření otevřené platby, dokončeného výdaje nebo příjmu zvolte možnost Skenovat dokument. SmartStack ořízne dokument, rozpozná vytištěný text v zařízení a navrhne pole, jako je název, částka, datum, dodavatel nebo plátce. Před uložením vždy zkontrolujte všechny návrhy.
+</string>
+
+    <string name="faqs_question_7">7. Mohu pomocí SmartStack Solutions sledovat své příjmy?</string>
+
+    <string name="faqs_answer_7">
+Odpověď: Ano. Příjmy můžete sledovat přidáváním záznamů v sekci Příjmy. Vyplňte údaje, jako je název, částka a datum přijetí, abyste měli přesný přehled o svých příjmech.
+</string>
+
+    <string name="faqs_question_8">8. Jaká bezpečnostní opatření SmartStack Solutions používá k ochraně mých dat?</string>
+
+    <string name="faqs_answer_8">
+Odpověď: SmartStack Solutions používá silná bezpečnostní opatření, například šifrování dat, zabezpečené přihlašovací protokoly a pravidelné zálohy, aby chránil vaše finanční údaje. Aplikace navíc neukládá citlivé platební informace.
+</string>
+
+    <string name="faqs_question_9">9. Co je účet Premium a jaké jsou jeho výhody?</string>
+
+    <string name="faqs_answer_9">
+Odpověď: Premium odstraňuje reklamy a odemyká správu uzavřených plateb, správu příjmů, cíle úspor a finanční analýzy za šest a dvanáct měsíců, včetně trendů peněžních toků, změn kategorií, opakujících se závazků a konzistence spoření. Otevřené platby, připomenutí, měsíční přehledy, export a kalendář zůstávají dostupné i v základní verzi.
+</string>
+
+    <string name="faqs_question_10">10. Jak mohu přejít na účet Premium?</string>
+
+    <string name="faqs_answer_10">
+Odpověď: Chcete-li přejít na účet Premium, otevřete nabídku a vyberte možnost Odemknout Premium funkce. Dokončete nákup podle pokynů a odemkněte všechny funkce.
+</string>
+
+    <string name="faqs_question_11">11. Jaký je rozdíl mezi otevřenými a uzavřenými platbami?</string>
+
+    <string name="faqs_answer_11">
+Odpověď: Otevřené platby představují transakce za služby nebo produkty, které jste již obdrželi, ale dosud za ně nezaplatili. Uzavřené platby naopak představují již zaplacené výdaje. Aplikace umožňuje sledovat obě skupiny a lépe spravovat vaše finance.
+</string>
+
+    <string name="faqs_question_12">12. Jak nastavím cíl úspor?</string>
+
+    <string name="faqs_answer_12">
+Odpověď: Klepněte na sekci Cíl úspor v hlavní nabídce. Zadejte název cíle, cílovou částku, datum zahájení a datum ukončení. Přehled následně zobrazí požadovanou měsíční částku a průběh pro vybraný měsíc.
+</string>
+
+    <string name="faqs_question_13">13. Mohu nastavit více cílů úspor?</string>
+
+    <string name="faqs_answer_13">
+Odpověď: Ano, můžete vytvořit více cílů úspor pro různá období. Každý cíl je sledován samostatně v hlavní nabídce, kde můžete vidět svůj pokrok. Překrývající se období však nejsou podporována, proto zvolte období, která se nepřekrývají.
+</string>
+
+    <string name="faqs_question_14">14. Co mám dělat, pokud narazím na problém s aplikací?</string>
+
+    <string name="faqs_answer_14">
+Odpověď: Pokud narazíte na problém, otevřete sekci Nápověda a podpora a uveďte jasný popis problému, včetně toho, co se stalo a jak problém reprodukovat.
+</string>
+
+    <string name="faqs_question_15">15. Jak funguje systém oznámení ve SmartStack Solutions a jaké funkce nabízí?</string>
+
+    <string name="faqs_answer_15">
+Odpověď: Ve SmartStack Solutions se oznámení vytvářejí automaticky tři dny před datem splatnosti otevřené platby, aby vám poskytla včasná připomenutí. Oznámení se zobrazují přímo v aplikaci. Uživatelé je mohou zobrazit, označit jako přečtená nebo odstranit. Oznámení starší než 30 dní jsou automaticky odstraněna. Díky tomu jste pravidelně upozorňováni na blížící se platby bez nutnosti ručního nastavování.
+</string>
+
+    <string name="help_title">Nápověda a podpora</string>
+
+    <string name="help_content">
+Pokud potřebujete pomoc nebo podporu při používání SmartStack Solutions, můžete se obrátit na náš tým podpory.\n\n
+
+Kontaktujte nás\n\n
+
+V případě problémů, dotazů nebo zpětné vazby nás kontaktujte e-mailem na adrese appdev.jr2024@gmail.com. Náš tým odpoví co nejdříve.\n\n
+
+Často kladené otázky (FAQ)\n\n
+
+Než nás kontaktujete, doporučujeme navštívit sekci Časté dotazy, kde jsme shromáždili odpovědi na nejběžnější otázky týkající se používání SmartStack Solutions. Najdete zde informace o vytváření záznamů, správě účtu a efektivním využívání funkcí aplikace.\n\n
+
+Pokud potřebujete další pomoc nebo podporu, neváhejte nás kontaktovat e-mailem. Jsme tu, abychom vám pomohli využít SmartStack Solutions naplno!
+</string>
+
+    <string name="main_tagline">Uspořádejte si finance\n\na zjednodušte si život!</string>
+
+    <string name="content_description_logo">Logo aplikace</string>
+
+    <string name="app_title">SmartStack Solutions</string>
+
+    <string name="total_net_savings">Očekávaný měsíční zůstatek</string>
+
+    <string name="monthly_overview">Měsíční přehled</string>
+
+    <string name="dashboard_hint">Sledujte nadcházející závazky, zaplacené výdaje, příjmy a postup směrem k vašemu cíli.</string>
+
+    <string name="savings_target_progress">Postup cíle úspor</string>
+
+    <string name="set_saving_target">Nastavit cíl úspor</string>
+
+    <string name="target_achieved">Cíl splněn</string>
+
+    <string name="savings_target_reached_message">Gratulujeme. Dosáhli jste 100 %% svého cíle úspor.</string>
+
+    <string name="goal_summary">Abyste dosáhli cíle do %2$s, musíte každý měsíc ušetřit %1$s.</string>
+
+    <string name="add_new_entry">Přidat novou položku</string>
+
+    <string name="notifications">Oznámení</string>
+
+    <string name="content_description_back_arrow">Zpět na předchozí obrazovku</string>
+    <string name="content_description_notifications_list">Seznam oznámení</string>
+
+    <string name="unlock_premium_features">Odemknout Premium funkce</string>
+
+    <string name="premium_intro_text">Základní funkce zůstávají zdarma. Upgradujte, pokud chcete kompletní finanční pracovní prostor s bohatší historií, správou příjmů, cíli úspor a bez reklam.</string>
+
+    <string name="premium_feature_closed_payments">Vytvářejte, upravujte a organizujte podrobnou historii plateb.</string>
+
+    <string name="premium_feature_income_management">Vytvářejte, upravujte a spravujte opakující se i jednorázové příjmy.</string>
+
+    <string name="premium_feature_saving_target">Nastavte cíle úspor a sledujte měsíční pokrok.</string>
+
+    <string name="premium_feature_financial_insights">Prozkoumejte finanční trendy za 6 a 12 měsíců.</string>
+
+    <string name="premium_closing_text">Otevřené platby, připomenutí, kalendář, export dat a označování plateb jako zaplacených zůstávají dostupné v bezplatné verzi.</string>
+
+    <string name="premium_compare_title">Free vs Premium</string>
+
+    <string name="premium_compare_subtitle">Začněte zdarma. Upgradujte, pokud chcete podrobnější historii, nástroje pro příjmy, cíle úspor, trendy a méně omezení.</string>
+
+    <string name="premium_compare_feature">Funkce</string>
+    <string name="premium_compare_free">Zdarma</string>
+    <string name="premium_compare_premium">Premium</string>
+
+    <string name="premium_compare_open_payments">Otevřené platby</string>
+    <string name="premium_compare_open_payments_free">30 aktivních jednorázových otevřených plateb</string>
+    <string name="premium_compare_open_payments_premium">Až 2 000 budoucích položek celkem</string>
+
+    <string name="premium_compare_recurring">Budoucí opakující se položky</string>
+    <string name="premium_compare_recurring_free">Až 250 budoucích plateb</string>
+    <string name="premium_compare_recurring_premium">Až 2 000 budoucích položek</string>
+
+    <string name="premium_compare_closed">Uzavřené platby</string>
+    <string name="premium_compare_closed_free">Až 100 zaplacených plateb</string>
+    <string name="premium_compare_closed_premium">Kompletní nástroje pro historii</string>
+
+    <string name="premium_compare_income">Správa příjmů</string>
+    <string name="premium_compare_income_free">Pouze import</string>
+    <string name="premium_compare_income_premium">Vytváření a správa příjmů</string>
+
+    <string name="premium_compare_import">Import CSV/PDF</string>
+    <string name="premium_compare_import_free">50/soubor · 100 celkem</string>
+    <string name="premium_compare_import_premium">200/soubor</string>
+
+    <string name="premium_compare_insights">Finanční analýzy</string>
+    <string name="premium_compare_insights_free">Základní měsíční přehled</string>
+    <string name="premium_compare_insights_premium">Trendy za 6/12 měsíců</string>
+
+    <string name="premium_compare_ads">Reklamy</string>
+    <string name="premium_compare_ads_free">Zobrazeny</string>
+    <string name="premium_compare_ads_premium">Odstraněny</string>
+
+    <string name="premium_preview_closed_payments">Režim náhledu: můžete prohlížet uzavřené platby. Pro vytváření, úpravy nebo mazání uzavřených plateb upgradujte na Premium.</string>
+
+    <string name="premium_preview_income">Režim náhledu: můžete prohlížet příjmy. Pro vytváření, úpravy nebo mazání příjmů upgradujte na Premium.</string>
+
+    <string name="premium_upgrade_required">Pro vytváření uzavřených plateb, příjmů a cílů úspor je vyžadováno Premium.</string>
+
+    <string name="features">Funkce</string>
+
+    <string name="feature_open_payments_title">Otevřené platby</string>
+    <string name="feature_open_payments_desc">Spravujte otevřené platby a mějte přehled o nadcházejících účtech.</string>
+    <string name="feature_open_payments_expandable">Bezplatná verze zahrnuje až 30 samostatných aktivních otevřených plateb plus opakující se plány v rámci povoleného limitu. Premium nabízí výrazně vyšší limit pro aktivní i budoucí položky.</string>
+
+    <string name="feature_closed_payments_title">Uzavřené platby</string>
+    <string name="feature_closed_payments_desc">Sledujte zaplacené účty a spravujte historii transakcí.</string>
+    <string name="feature_closed_payments_expandable">Každý může označit otevřenou platbu jako zaplacenou. Premium navíc odemyká přímé vytváření, úpravy, mazání a kompletní správu historie.</string>
+
+    <string name="feature_income_management_title">Správa příjmů</string>
+    <string name="feature_income_management_desc">Sledujte a kategorizujte své zdroje příjmů.</string>
+    <string name="feature_income_management_expandable">Sledujte mzdu, práci na volné noze, dávky, investice a opakující se příjmy vedle svých výdajů a očekávaného zůstatku.</string>
+
+    <string name="feature_notifications_title">Oznámení</string>
+    <string name="feature_notifications_desc">Dostávejte včasná připomenutí otevřených plateb.</string>
+    <string name="feature_notifications_expandable">Nastavte připomenutí před splatností, v den splatnosti a po splatnosti. Platbu můžete označit jako zaplacenou přímo z oznámení.</string>
+
+    <string name="feature_calendar_title">Kalendář</string>
+    <string name="feature_calendar_desc">Získejte přehled o všech transakcích v kalendářovém zobrazení.</string>
+    <string name="feature_calendar_expandable">Kalendář zůstává dostupný i v bezplatné verzi a kombinuje otevřené platby, dokončené výdaje a příjmy podle data.</string>
+
+    <string name="feature_saving_target_title">Cíl úspor</string>
+    <string name="feature_saving_target_desc">Stanovte si cíl úspor a sledujte svůj pokrok.</string>
+    <string name="feature_saving_target_expandable">Definujte cílovou částku a časové období a porovnejte požadovanou měsíční úsporu se skutečným očekávaným zůstatkem.</string>
+
+    <string name="feature_financial_insights_title">Pokročilé finanční analýzy</string>
+    <string name="feature_financial_insights_desc">Proměňte svou historii v užitečné trendy.</string>
+    <string name="feature_financial_insights_expandable">Porovnávejte peněžní toky za šest a dvanáct měsíců, sledujte změny kategorií výdajů, opakující se závazky a pravidelnost spoření. Analýza vychází z měsíce vybraného na hlavním panelu.</string>
+
+    <string name="unlock_button_text">Odemknout SmartStack Solutions Premium</string>
+
+    <string name="unlock_button_with_price">Odemknout Premium · %1$s</string>
+
+    <string name="more_information">Více informací</string>
+
+    <string name="premium_still_loading">Premium se stále načítá. Zkuste to prosím znovu.</string>
+
+    <string name="billing_not_ready">Fakturace ještě není připravena. Zkuste to prosím později.</string>
+
+    <string name="premium_activated">Premium aktivováno</string>
+
+    <string name="premium_active">Premium aktivní</string>
+
+    <string name="premium_unavailable">Premium je momentálně nedostupné. Klepněte pro opakování.</string>
+
+    <string name="premium_loading">Načítání možností Premium...</string>
+
+    <string name="less_information">Méně informací</string>
+
+    <string name="show_details">Zobrazit podrobnosti</string>
+
+    <string name="hide_details">Skrýt podrobnosti</string>
+
+    <string name="quick_entry_hint">Vyžadována je pouze částka. Datum je předvyplněno a podrobnosti lze doplnit později.</string>
+
+    <string name="optional_details">Volitelné podrobnosti</string>
+
+    <string name="savings_quick_entry_hint">Zadejte cílovou částku a datum ukončení. Datum zahájení je předvyplněno dnešním datem.</string>
+
+    <string name="title_optional">Název (volitelné)</string>
+
+    <string name="free_open_payment_limit_reached">Dosáhli jste bezplatného limitu 30 samostatných aktivních otevřených plateb. Označte dokončené položky jako zaplacené nebo přejděte na Premium.</string>
+
+    <string name="free_closed_payment_limit_reached">Dosáhli jste bezplatného limitu 100 uzavřených plateb. Odstraňte starší historii nebo přejděte na Premium.</string>
+
+    <string name="free_recurring_limit_reached">Tento opakující se plán by překročil bezplatný limit 250 budoucích opakujících se plateb. Odstraňte nepoužívaný plán nebo přejděte na Premium.</string>
+
+    <string name="premium_usage_limit_reached">Tato položka by překročila Premium limit spravedlivého používání 2 000 budoucích plateb a příjmů. Odstraňte zastaralé budoucí položky nebo kontaktujte podporu.</string>
+
+    <string name="usage_limit_check_failed">SmartStack nemohl ověřit dostupný limit položek. Zkontrolujte připojení a zkuste to znovu.</string>
+    <string name="help_contact_description">Otevřít připravený e-mail na appdev.jr2024@gmail.com.</string>
+
+    <string name="help_data_title">Pomoc s daty a účtem</string>
+    <string name="help_data_description">Exportujte své údaje nebo si zobrazte možnosti odstranění účtu.</string>
+
+    <string name="help_message_title">Pro rychlejší odpověď</string>
+
+    <string name="help_message_checklist">Uveďte prosím:\n• Co jste se snažili udělat\n• Co se stalo místo toho\n• Kroky k reprodukci problému\n• Snímek obrazovky, pokud neobsahuje citlivé finanční údaje</string>
+
+    <string name="help_response_note">Nikdy neposílejte hesla, nákupní tokeny ani kompletní finanční záznamy e-mailem.</string>
+
+    <string name="support_email_subject">Žádost o podporu SmartStack Solutions</string>
+
+    <string name="support_email_template">Dobrý den, podpora SmartStack,\n\nPotřebuji pomoc s:\n\nCo jsem očekával(a):\n\nCo se stalo:\n\nKroky k reprodukci:\n\nVerze aplikace: %1$s\n\nNeuvádějte prosím hesla ani citlivé finanční údaje.</string>
+
+    <string name="support_email_copied">Nebyla nalezena e-mailová aplikace. Adresa podpory byla zkopírována do schránky.</string>
+
+    <string name="terms_section_title_1">1. Přijetí a rozsah podmínek</string>
+    <string name="terms_section_body_1">Vytvořením účtu nebo používáním SmartStack Solutions souhlasíte s těmito podmínkami. Pokud nesouhlasíte, aplikaci nepoužívejte.</string>
+
+    <string name="terms_section_title_2">2. Účel služby</string>
+    <string name="terms_section_body_2">SmartStack poskytuje organizační nástroje pro platby, výdaje, příjmy, připomenutí a cíle úspor. Neposkytuje finanční, daňové, právní ani investiční poradenství.</string>
+
+    <string name="terms_section_title_3">3. Odpovědnost za účet</string>
+    <string name="terms_section_body_3">Jste odpovědní za zabezpečení svého účtu, udržování správných údajů a kontrolu záznamů a připomenutí. Nepoužívejte službu nezákonně ani se nepokoušejte narušovat její fungování nebo obcházet její technickou ochranu.</string>
+
+    <string name="terms_section_title_4">4. Bezplatná služba a reklama</string>
+    <string name="terms_section_body_4">Bezplatná verze je podporována reklamou a zahrnuje základní funkce otevřených plateb, připomenutí, kalendáře, exportu a označování plateb jako zaplacených. Některé funkce vytváření, úprav, historie, příjmů, cílů a analýz vyžadují Premium.</string>
+
+    <string name="terms_section_title_5">5. Limity spravedlivého používání</string>
+    <string name="terms_section_body_5">Pro zachování spolehlivé a udržitelné služby podporují bezplatné účty až 30 samostatných aktivních otevřených plateb, 100 uzavřených plateb a 250 budoucích opakujících se plateb. Účty Premium podporují vyšší limity, včetně až 2 000 budoucích plateb a příjmů dohromady. Tyto limity mohou být v budoucnu upraveny z důvodů bezpečnosti, spolehlivosti nebo udržitelnosti služby.</string>
+
+    <string name="terms_section_title_6">6. Předplatné Premium</string>
+    <string name="terms_section_body_6">Funkce Premium a aktuální cena jsou zobrazeny před nákupem. Fakturace, obnovení, zrušení a případné vrácení peněz se řídí podmínkami Google Play a platnými právními předpisy. Premium odstraňuje reklamy a odemyká funkce popsané na obrazovce Premium.</string>
+
+    <string name="terms_section_title_7">7. Dostupnost dat a export</string>
+    <string name="terms_section_body_7">Snažíme se zajistit dostupnost dat účtu, ale žádná online služba nemůže zaručit trvalé nebo nepřetržité ukládání. Doporučujeme pravidelně používat funkci exportu pro údaje, které chcete uchovat.</string>
+
+    <string name="terms_section_title_8">8. Dostupnost a odpovědnost</string>
+    <string name="terms_section_body_8">Služba je poskytována podle aktuální dostupnosti. V rozsahu povoleném zákonem SmartStack Solutions nenese odpovědnost za nepřímé škody způsobené výpadky, nesprávnými uživatelskými údaji, zmeškanými připomenutími, poruchami zařízení nebo spoléháním se na aplikaci jako na odborné poradenství.</string>
+
+    <string name="terms_section_title_9">9. Změny a ukončení</string>
+    <string name="terms_section_body_9">Funkce a tyto podmínky se mohou v průběhu vývoje služby měnit. Podstatné změny budou oznámeny, pokud to bude rozumně možné. Přístup může být omezen v případě podvodu, zneužití, nezákonného používání nebo závažného porušení těchto podmínek.</string>
+
+    <string name="terms_section_title_10">10. Kontakt</string>
+    <string name="terms_section_body_10">Dotazy týkající se těchto podmínek nebo služby můžete zaslat na adresu appdev.jr2024@gmail.com.</string>
+
+    <string name="faqs_question_16">16. Jaké limity používání platí pro bezplatné a Premium účty?</string>
+
+    <string name="faqs_answer_16">Bezplatné účty mohou mít až 30 aktivních otevřených plateb, 100 uzavřených plateb a 250 budoucích opakujících se plateb. Premium tyto limity zvyšuje a podporuje až 2 000 budoucích plateb a příjmů dohromady.</string>
+
+    <string name="faqs_question_17">17. Mohou uživatelé bezplatné verze stále označovat platby jako zaplacené?</string>
+
+    <string name="faqs_answer_17">Ano. Běžný proces přesunu otevřené platby mezi zaplacené není nikdy blokován limity bezplatné verze. Přímé vytváření, úpravy a mazání uzavřených plateb jsou funkcemi Premium.</string>
+
+    <string name="faqs_question_18">18. Bude SmartStack automaticky mazat moji finanční historii?</string>
+
+    <string name="faqs_answer_18">SmartStack v současnosti nepoužívá automatické mazání historie plateb. Data svého účtu můžete kdykoli exportovat.</string>
+
+    <string name="faqs_question_19">19. Jaké finanční analýzy jsou zahrnuty?</string>
+
+    <string name="faqs_answer_19">Bezplatná verze zahrnuje tok peněz za vybraný měsíc, naléhavost otevřených plateb a složení výdajů. Premium přidává trendy peněžních toků za šest a dvanáct měsíců, změny kategorií, trendy opakujících se závazků a pravidelnost spoření.</string>
+
+    <string name="back">Zpět</string>
+
+    <string name="content_description_back">Zpět</string>
+
+    <string name="about_us_title">O nás</string>
+
+    <string name="about_us_content">
+SmartStack Solutions byl vytvořen, aby usnadnil porozumění každodenním financím. Aplikace spojuje nadcházející platby, zaplacené výdaje, příjmy, cíle úspor, připomenutí a kalendář do jednoho přehledného zobrazení.\n\n
+
+Naším cílem je praktická organizace financí: jasné informace, užitečné kategorie a nástroje, které pomáhají sledovat, co je splatné, co již bylo zaplaceno a kolik prostředků zbývá každý měsíc. SmartStack je organizační pomůcka a neposkytuje finanční, daňové ani investiční poradenství.\n\n
+
+Dotazy a zpětnou vazbu můžete zasílat na appdev.jr2024@gmail.com.
+</string>
+
+    <string name="delete_recurring_income">Smazat opakující se příjem</string>
+    <string name="delete_this_income_entry">Smazat pouze tento příjem</string>
+    <string name="delete_this_and_future_income">Smazat tento a budoucí příjmy</string>
+    <string name="delete_all_recurring_income">Smazat všechny opakující se příjmy</string>
+    <string name="delete_income_entry">Smazat příjem</string>
+    <string name="delete_income_confirmation">Smazat tento příjem?</string>
+
+    <string name="income_deleted">Příjem byl smazán.</string>
+    <string name="future_income_deleted">Tento a budoucí příjmy byly smazány.</string>
+    <string name="all_recurring_income_deleted">Všechny položky této série opakujících se příjmů byly smazány.</string>
+    <string name="income_delete_failed">Příjem se nepodařilo smazat.</string>
+
+    <string name="empty_open_payments_title">Mějte přehled o nadcházejících platbách</string>
+    <string name="empty_open_payments_message">Přidejte účty a další platby, které ještě čekají na úhradu. SmartStack organizuje nadcházející i opožděné položky a připomíná je před splatností.</string>
+
+    <string name="empty_closed_payments_title">Vytvářejte historii výdajů</string>
+    <string name="empty_closed_payments_message">Uzavřené platby představují výdaje, které jste již zaplatili. Přidejte je přímo nebo označte otevřenou platbu jako zaplacenou.</string>
+
+    <string name="empty_income_title">Zjistěte, odkud pocházejí vaše peníze</string>
+    <string name="empty_income_message">Přidejte mzdu, práci na volné noze, dávky nebo jiné příjmy. Označte opakující se příjmy, aby SmartStack mohl automaticky vytvářet budoucí položky.</string>
+
+    <string name="add_open_payment">Přidat otevřenou platbu</string>
+    <string name="add_closed_payment">Přidat uzavřenou platbu</string>
+    <string name="add_income">Přidat příjem</string>
+
+    <string name="explore_premium">Prozkoumat Premium</string>
+    <string name="not_now">Nyní ne</string>
+
+    <string name="no_entries_match_filter">Žádné položky neodpovídají tomuto filtru</string>
+
+    <string name="show_tutorial_again">Zobrazit tutoriál sekce</string>
+
+    <string name="payment_reminders">Připomenutí plateb</string>
+    <string name="payment_reminders_channel_description">Připomenutí pro nadcházející, splatné a opožděné otevřené platby.</string>
+
+    <string name="notification_settings">Nastavení oznámení</string>
+    <string name="payment_notifications">Oznámení o platbách</string>
+
+    <string name="advance_reminder">Předběžné připomenutí</string>
+    <string name="due_today_reminder">Připomenutí v den splatnosti</string>
+    <string name="overdue_reminder">Připomenutí po splatnosti</string>
+
+    <string name="weekly_overdue_reminder">Opakovat připomenutí po splatnosti každý týden</string>
+
+    <string name="reminder_off">Vypnuto</string>
+    <string name="reminder_one_day">1 den předem</string>
+    <string name="reminder_three_days">3 dny předem</string>
+    <string name="reminder_seven_days">7 dní předem</string>
+
+    <string name="notification_settings_saved">Nastavení oznámení bylo uloženo.</string>
+
+    <string name="notifications_load_failed">Oznámení se nepodařilo načíst.</string>
+
+    <string name="notification_due_soon_title">Platba brzy splatná</string>
+    <string name="notification_due_soon_text">%1$s · %2$s · Splatnost %3$s</string>
+
+    <string name="notification_due_today_title">Platba splatná dnes</string>
+    <string name="notification_due_today_text">%1$s · %2$s · Splatná dnes</string>
+
+    <string name="notification_overdue_title">Platba po splatnosti</string>
+
+    <string name="view_payment">Zobrazit platbu</string>
+
+    <string name="notification_due_date_short">Splatnost %1$s</string>
+
+    <string name="empty_notifications_title">Nikdy nezmeškejte důležitou platbu</string>
+
+    <string name="empty_notifications_message">SmartStack vám připomene, když se blíží splatnost otevřené platby, je splatná dnes nebo je po splatnosti. Připomenutí se zastaví po označení platby jako zaplacené.</string>
+
+    <string name="notifications_all_caught_up_title">Vše je vyřízeno</string>
+    <string name="notifications_all_caught_up_message">Momentálně nejsou žádná připomenutí plateb. Nová oznámení se zde objeví, když se bude blížit splatnost platby nebo bude po splatnosti.</string>
+
+    <string name="notifications_turned_off_title">Oznámení jsou vypnuta</string>
+
+    <string name="notifications_turned_off_message">Povolte oznámení, aby vám SmartStack mohl připomínat blížící se a opožděné platby.</string>
+
+    <string name="enable_notifications">Povolit oznámení</string>
+
+    <string name="payment_reminders_paused_title">Připomenutí plateb jsou pozastavena</string>
+
+    <string name="payment_reminders_paused_message">Znovu zapněte oznámení o platbách, kdykoli budete chtít, aby SmartStack opět plánoval připomenutí.</string>
+
+    <plurals name="notification_overdue_text">
+        <item quantity="one">%1$s · %2$s · %3$d den po splatnosti</item>
+        <item quantity="other">%1$s · %2$s · %3$d dní po splatnosti</item>
+    </plurals>
+
+    <string name="open_payment">Otevřená platba</string>
+
+    <string name="closed_payment">Uzavřená platba</string>
+
+    <string name="overdue_open_payment">Otevřená platba po splatnosti</string>
+
+    <string name="untitled_entry">Položka bez názvu</string>
+
+    <string name="no_category">Bez kategorie</string>
+
+    <string name="no_entries_for_date">Pro toto datum nejsou žádné položky</string>
+
+    <string name="no_entries_for_date_explanation">Zde se zobrazí otevřené platby, uzavřené platby a příjmy naplánované na vybrané datum.</string>
+
+    <string name="payment_date">Datum platby</string>
+
+    <string name="source_payer">Zdroj / plátce</string>
+
+    <string name="source_payer_hint">Zaměstnavatel, klient, nájemník, instituce…</string>
+
+    <string name="recurrence_one_year_explanation">SmartStack připravuje opakující se položky na příštích 12 měsíců, aby váš přehled nadcházejících plateb zůstal aktuální a přehledný.</string>
+
+    <string name="open_payment_saved">Série otevřených plateb byla úspěšně uložena.</string>
+
+    <string name="open_payment_save_failed">Otevřenou platbu se nepodařilo uložit: %1$s</string>
+
+    <string name="income_saved">Série příjmů byla úspěšně uložena.</string>
+
+    <string name="income_save_failed">Příjem se nepodařilo uložit: %1$s</string>
+
+    <string name="payment_moved_to_closed">Platba byla přesunuta mezi uzavřené platby.</string>
+
+    <string name="payment_moved_to_open">Platba byla vrácena mezi otevřené platby.</string>
+
+    <string name="payment_move_failed">Platbu se nepodařilo přesunout: %1$s</string>
+
+    <string name="data_account">Data a účet</string>
+
+    <string name="export_data_title">Exportovat data</string>
+
+    <string name="export_data_explanation">Stáhněte si platby, příjmy, cíle úspor a oznámení SmartStack ve formátu JSON.</string>
+
+    <string name="export_my_data">Exportovat moje data</string>
+
+    <string name="export_complete">Export dat byl uložen.</string>
+
+    <string name="export_failed">Data se nepodařilo exportovat.</string>
+
+    <string name="delete_account_title">Smazat účet a data</string>
+
+    <string name="delete_account_explanation">Trvale smažte svůj účet SmartStack a všechna uložená finanční data. Tuto akci nelze vrátit zpět.</string>
+
+    <string name="delete_my_account">Smazat můj účet</string>
+
+    <string name="delete_account_confirmation">Trvale smazat účet, platby, příjmy, cíle úspor a oznámení?</string>
+
+    <string name="delete_account_relogin">Z bezpečnostních důvodů se prosím znovu přihlaste a poté se vraťte sem pro smazání účtu.</string>
+
+    <string name="delete_account_failed">Účet se nepodařilo smazat. Zkuste to prosím znovu.</string>
+
+    <string name="enter_open_payment_name">Zadejte název otevřené platby.</string>
+
+    <string name="enter_valid_amount">Zadejte platnou částku.</string>
+
+    <string name="select_valid_due_date">Vyberte platné datum splatnosti.</string>
+
+    <string name="title_required">Název je povinný.</string>
+
+    <string name="date_required">Datum je povinné.</string>
+
+    <string name="invalid_date_format">Zadejte platné datum.</string>
+
+    <string name="currency">Měna</string>
+
+    <string name="currency_menu_title">Měna (%1$s)</string>
+
+    <string name="select_currency">Vybrat měnu</string>
+
+    <string name="billing_insufficient_funds">Platba byla zamítnuta z důvodu nedostatku prostředků.</string>
+
+    <string name="billing_user_ineligible">Tato nabídka předplatného není pro tento účet dostupná.</string>
+
+    <string name="financial_insights">Finanční analýzy</string>
+
+    <string name="financial_insights_subtitle">Pochopte vybraný měsíc na první pohled</string>
+
+    <string name="monthly_money_map">Měsíční přehled financí</string>
+
+    <string name="monthly_money_map_description">Podívejte se, jak do sebe zapadají příjmy, dokončené výdaje, budoucí závazky a váš cíl úspor.</string>
+
+    <string name="open_payment_risk_timeline">Časová osa rizik otevřených plateb</string>
+
+    <string name="open_payment_risk_description">Nejprve se zaměřte na opožděné a brzy splatné závazky.</string>
+
+    <string name="spending_composition">Struktura výdajů</string>
+
+    <string name="spending_composition_description">Zjistěte, které kategorie tvoří výdaje tohoto měsíce.</string>
+
+    <string name="available_after_commitments">K dispozici</string>
+
+    <string name="paid_expenses_short">Zaplaceno</string>
+
+    <string name="still_due_short">Zbývá uhradit</string>
+
+    <string name="savings_target">Cíl úspor</string>
+
+    <string name="no_savings_target_insight">Pro tento měsíc není aktivní žádný cíl úspor.</string>
+
+    <string name="savings_target_cushion">Po dosažení cíle úspor zbývá %1$s.</string>
+
+    <string name="savings_target_shortfall">K dosažení cíle úspor chybí ještě %1$s.</string>
+
+    <string name="due_next_seven_days">Následujících 7 dní</string>
+
+    <string name="later_this_month">Později</string>
+
+    <string name="other">Ostatní</string>
+
+    <string name="no_closed_payments_for_month">Pro tento měsíc nejsou žádné dokončené výdaje.</string>
+
+    <plurals name="payment_count">
+        <item quantity="one">%1$d platba</item>
+        <item quantity="other">%1$d plateb</item>
+    </plurals>
+
+    <string name="positive_balance_status">Kladný zůstatek</string>
+
+    <string name="balance">Zůstatek</string>
+
+    <string name="shortfall_status">Nedostatek prostředků</string>
+
+    <string name="no_activity_status">Žádná aktivita</string>
+
+    <string name="balanced_status">Vyrovnané</string>
+
+    <string name="selected_month">Tento měsíc</string>
+
+    <string name="six_months">6 měsíců</string>
+
+    <string name="twelve_months">12 měsíců</string>
+
+    <string name="premium_insights_teaser_title">Vaše čísla vyprávějí delší příběh</string>
+
+    <string name="premium_insights_teaser_message">Premium odhalí trendy, změny kategorií, opakující se závazky a to, jak důsledně plníte své plány úspor.</string>
+
+    <string name="unlock_deeper_insights">Odemknout podrobnější analýzy →</string>
+
+    <string name="premium_insights_upgrade">Upgradujte na Premium a prozkoumejte finanční trendy za 6 a 12 měsíců.</string>
+
+    <string name="cash_flow_trend">Trend peněžních toků</string>
+
+    <string name="cash_flow_trend_description">Porovnejte příjmy a celkové závazky; zelené a červené sloupce ukazují měsíční zůstatek.</string>
+
+    <string name="category_changes">Změny kategorií</string>
+
+    <string name="category_changes_description">Zjistěte, které kategorie výdajů vzrostly nebo poklesly oproti předchozím měsícům.</string>
+
+    <string name="category_changes_info_title">Jak se počítají změny kategorií</string>
+
+    <string name="category_changes_info_message">Vybraný měsíc je porovnáván s měsíčním průměrem předchozích měsíců ve zvoleném šestiměsíčním nebo dvanáctiměsíčním období.\n\nZměna = částka ve vybraném měsíci minus dřívější měsíční průměr, děleno tímto průměrem.\n\nŠipka nahoru znamená nárůst výdajů, šipka dolů jejich pokles. Pomlčka znamená, že neexistoval žádný předchozí výdaj pro výpočet procentní změny. Zobrazeny jsou čtyři největší kategorie ve vybraném měsíci.</string>
+
+    <string name="category_changes_info_content_description">Vysvětlení změn kategorií</string>
+
+    <string name="recurring_commitment_trend">Trend opakujících se závazků</string>
+
+    <string name="recurring_commitment_trend_description">Sledujte vývoj pravidelných plánovaných závazků v průběhu času.</string>
+
+    <string name="savings_consistency">Pravidelnost spoření</string>
+
+    <string name="savings_consistency_description">Zjistěte, jak často očekávaný měsíční zůstatek splnil aktivní cíl úspor.</string>
+
+    <string name="total_obligations">Závazky</string>
+
+    <string name="not_enough_category_data">Přidejte dokončené výdaje z více měsíců, abyste mohli porovnávat kategorie.</string>
+
+    <string name="commitments_increased">Opakující se závazky vzrostly o %1$s.</string>
+    <string name="commitments_decreased">Pravidelné závazky se snížily o %1$s.</string>
+
+    <string name="commitments_steady">Pravidelné závazky zůstaly beze změny.</string>
+
+    <string name="no_savings_goals_in_period">V tomto období nebyly aktivní žádné cíle úspor.</string>
+
+    <string name="savings_goals_achieved">%1$d z %2$d měsíců s dosaženým cílem</string>
+
+    <string name="dashboard_welcome_title">Vytvořte si svůj první finanční přehled</string>
+
+    <string name="dashboard_welcome_message">Začněte jednou nadcházející platbou. SmartStack bude užitečnější, jakmile přidáte příjmy a dokončené výdaje pro vytvoření měsíčního přehledu.</string>
+
+    <string name="dashboard_welcome_steps">1. Přidejte nadcházející platbu\n2. Přidejte příjem pro výpočet zůstatku\n3. Označte platby jako zaplacené pro odemknutí analýzy výdajů</string>
+
+    <string name="add_first_payment">Přidat první platbu</string>
+
+    <string name="how_smartstack_works">Jak SmartStack funguje</string>
+
+    <string name="dashboard_tutorial_title">Váš pracovní postup ve SmartStacku</string>
+
+    <string name="dashboard_tutorial_message">Otevřené platby ukazují, co ještě zbývá zaplatit. Když platbu označíte jako zaplacenou, stane se součástí historie dokončených výdajů. Příjmy a cíle úspor doplňují měsíční přehled, zatímco připomenutí a analýzy vám pomáhají zaměřit se na důležité věci.</string>
+
+    <string name="about_us_hero_title">Přehlednost pro každodenní finance</string>
+
+    <string name="about_why_title">Proč SmartStack vznikl</string>
+
+    <string name="about_why_body">Finanční organizace by měla být srozumitelná, ne zahlcující. SmartStack byl vytvořen, aby spojil nadcházející platby, dokončené výdaje, příjmy, cíle úspor a připomenutí do jednoho přehledného měsíčního pohledu.</string>
+
+    <string name="about_manage_title">Co vám SmartStack pomáhá spravovat</string>
+
+    <string name="about_manage_body">Sledujte splatné platby, rozpoznávejte opožděné platby, organizujte pravidelné závazky, analyzujte kategorie výdajů a zjistěte, kolik vám každý měsíc zbývá k dispozici.</string>
+
+    <string name="about_privacy_title">Ochrana soukromí od návrhu</string>
+
+    <string name="about_privacy_body">Aplikace shromažďuje pouze informace potřebné k poskytování funkcí. Finanční záznamy jsou spojeny s vaším ověřeným účtem. Obrázky příloh zůstávají v soukromém úložišti aplikace na tomto zařízení a nejsou nahrávány do Firebase.</string>
+
+    <string name="about_independent_title">Nezávisle vyvinuto</string>
+
+    <string name="about_independent_body">SmartStack je vyvíjen nezávisle se zaměřením na praktičnost, férová omezení a průběžné zlepšování. Jedná se o organizační nástroj a neposkytuje finanční, daňové ani investiční poradenství.</string>
+
+    <string name="about_contact_title">Dotazy a zpětná vazba</string>
+
+    <string name="about_contact_body">Vaše zpětná vazba pomáhá utvářet SmartStack. Kontaktujte nás na appdev.jr2024@gmail.com.</string>
+
+    <string name="about_version">Verze aplikace %1$s</string>
+
+    <string name="income_attachment">Příloha příjmu</string>
+
+    <string name="data_security_question_15">15. Kde jsou ukládány obrázky příloh?</string>
+
+    <string name="data_security_answer_15">Odpověď: Obrázky připojené k otevřeným platbám, dokončeným výdajům nebo příjmům jsou kopírovány do soukromého úložiště aplikace v tomto zařízení. Firebase ukládá finanční záznam a odkaz na místní přílohu, ale samotný obrázek není nahráván ani synchronizován. Odstranění aplikace nebo jejích místních dat může tyto obrázky smazat, proto by důležité dokumenty měly být uchovávány i jinde.</string>
+
+    <string name="getting_started_title">Začínáme</string>
+
+    <string name="getting_started_hero_title">Váš první měsíc se SmartStackem</string>
+
+    <string name="getting_started_intro">Postupujte podle tohoto jednoduchého procesu a proměňte jednotlivé záznamy v užitečný měsíční přehled.</string>
+
+    <string name="guide_step_1_title">Přidejte, co je ještě třeba zaplatit</string>
+
+    <string name="guide_step_1_description">Zvolte ruční zadání nebo naskenování dokumentu. Přidejte datum splatnosti a opakování a před uložením zkontrolujte všechny navržené údaje.</string>
+
+    <string name="guide_step_2_title">Zaznamenejte své příjmy</string>
+
+    <string name="guide_step_2_description">Přidejte pravidelné nebo jednorázové příjmy, aby panel mohl vypočítat váš očekávaný měsíční zůstatek.</string>
+
+    <string name="guide_step_3_title">Označte platby jako zaplacené</string>
+
+    <string name="guide_step_3_description">Použijte zaškrtávací políčko „zaplaceno“, jakmile je platba dokončena. Automaticky se přesune do historie dokončených výdajů.</string>
+
+    <string name="guide_step_4_title">Porozumějte svému měsíci</string>
+
+    <string name="guide_step_4_description">Na hlavním panelu si prohlédněte otevřené a dokončené platby, příjmy, postup spoření, strukturu kategorií a finanční analýzy.</string>
+
+    <string name="guide_step_5_title">Zůstaňte na správné cestě</string>
+
+    <string name="guide_step_5_description">Používejte připomenutí, opakující se záznamy a kalendář, abyste nezapomněli na důležitá data a omezili opakovanou práci.</string>
+
+    <string name="getting_started_open_faq">Máte stále otázky? Otevřete FAQ</string>
+
+    <string name="help_getting_started_title">Průvodce začátkem</string>
+
+    <string name="help_getting_started_description">Naučte se doporučený postup pro platby, příjmy, připomenutí a měsíční přehledy.</string>
+
+    <string name="entry_method_subtitle">Vyberte nejrychlejší možnost pro tento záznam.</string>
+
+    <string name="entry_method_open_payment">Jak chcete přidat tuto otevřenou platbu?</string>
+
+    <string name="entry_method_closed_payment">Jak chcete přidat tento dokončený výdaj?</string>
+
+    <string name="entry_method_income">Jak chcete přidat tento příjem?</string>
+
+    <string name="scan_document">Naskenovat dokument</string>
+
+    <string name="scan_document_description">Jeden záznam: naskenujte fakturu, účtenku nebo dokument o příjmu.</string>
+
+    <string name="scan_review_disclaimer">Naskenované údaje jsou pouze návrhy. Před uložením zkontrolujte název, částku, datum, kategorii a přílohu.</string>
+
+    <string name="enter_manually">Zadat ručně</string>
+
+    <string name="enter_manually_description">Jeden záznam: zadejte údaje sami.</string>
+
+    <string name="scan_and_prefill">Naskenovat a předvyplnit pole</string>
+
+    <string name="preparing_document_scanner">Připravuji skener dokumentů…</string>
+
+    <string name="reading_document">Čtu dokument a připravuji návrhy…</string>
+
+    <string name="document_text_not_recognized">Dokument byl připojen, ale text nebyl rozpoznán. Zadejte údaje ručně.</string>
+
+    <string name="document_scan_failed_title">Dokument se nepodařilo naskenovat</string>
+
+    <string name="document_scan_failed_message">Zkuste to znovu s dobře osvětleným a čitelným dokumentem nebo pokračujte ručním zadáním.</string>
+
+    <string name="try_again">Zkusit znovu</string>
+
+    <string name="faqs_question_20">20. Jak přesné je skenování dokumentů?</string>
+
+    <string name="faqs_answer_20">Odpověď: Skenování je navrženo tak, aby snížilo množství psaní, nikoli aby nahradilo vaši kontrolu. Výsledky závisí na kvalitě obrázku, rozložení dokumentu, jazyce a na tom, zda obsahuje více dat nebo částek. SmartStack může vybrat nesprávnou částku, datum, dodavatele nebo plátce. Před uložením vždy ověřte všechny navržené údaje. Skenování probíhá v zařízení; dokument není touto funkcí nahráván do Firebase. Služby Google Play mohou stahovat komponenty skeneru a rozpoznávání textu a shromažďovat provozní metriky, ale ML Kit neposílá dokument ani rozpoznaný text na servery Google.</string>
+
+    <string name="default_web_client_id">335330685775-busm9leph5emh7ifp13925ncer4vrq4q.apps.googleusercontent.com</string>
+
+    <string name="export_monthly_overview">Exportovat měsíční přehled</string>
+    <string name="export_monthly_title">Exportovat měsíční přehled</string>
+    <string name="export_pdf_summary">Souhrn PDF</string>
+    <string name="export_csv_data">Data CSV</string>
+    <string name="export_share_chooser">Sdílet měsíční přehled</string>
+    <string name="export_report_title">Měsíční přehled SmartStack</string>
+    <string name="export_summary">Souhrn</string>
+    <string name="export_category_totals">Součty kategorií</string>
+    <string name="export_entries">Položky</string>
+    <string name="export_open_payments">Otevřené platby</string>
+    <string name="export_closed_payments">Uzavřené platby</string>
+    <string name="export_income">Příjmy</string>
+    <string name="export_balance">Zůstatek</string>
+    <string name="export_no_entries">Pro tento měsíc nejsou žádné položky.</string>
+
+    <string name="premium_compare_convenience">Praktické nástroje</string>
+    <string name="premium_compare_convenience_free">Šablony, skenování položek a měsíční export</string>
+    <string name="premium_compare_convenience_premium">Zahrnuto, s vyššími limity importu</string>
+
+    <string name="use_template">Použít šablonu</string>
+    <string name="save_as_template">Uložit jako šablonu</string>
+    <string name="template_name">Název šablony</string>
+    <string name="template_name_hint">např. Nájem, Netflix, Mzda</string>
+    <string name="template_saved">Šablona uložena.</string>
+    <string name="template_name_required">Zadejte název šablony.</string>
+
+    <string name="terms_and_conditions_title">Obchodní podmínky</string>
+
+    <string name="terms_and_conditions_content">
+    1. Přijetí podmínek&#10;&#10;Používáním aplikace SmartStack Solutions souhlasíte s těmito obchodními podmínkami. Pokud s nimi nesouhlasíte, aplikaci nepoužívejte.&#10;&#10;
+    2. Změny podmínek&#10;&#10;SmartStack Solutions si vyhrazuje právo tyto podmínky kdykoli upravit. O změnách budeme uživatele informovat prostřednictvím aplikace nebo e-mailem. Další používání aplikace po zveřejnění změn znamená přijetí nových podmínek.&#10;&#10;
+    3. Odpovědnosti uživatele&#10;&#10;Zabezpečení účtu: Uživatelé odpovídají za důvěrnost údajů svého účtu a za veškeré aktivity prováděné pod jejich účtem.&#10;&#10;Přesné informace: Uživatelé musí při vytváření a správě účtu poskytovat přesné a úplné informace.\nZakázané činnosti: Uživatelé nesmí aplikaci používat k nezákonným účelům ani k činnostem, které by mohly poškodit aplikaci nebo jiné uživatele.&#10;&#10;
+    4. Zásady ochrany osobních údajů&#10;&#10;Vaše soukromí je pro nás důležité. Informace o tom, jak shromažďujeme, používáme a chráníme vaše osobní údaje, najdete v našich Zásadách ochrany osobních údajů.&#10;&#10;
+    5. Používání aplikace&#10;&#10;Funkce: SmartStack Solutions poskytuje nástroje pro správu finančních příjmů a výdajů. Aplikace umožňuje uživatelům zadávat, organizovat a kontrolovat finanční údaje.\nOmezení: Přestože se snažíme poskytovat přesné a spolehlivé funkce, SmartStack Solutions nemůže zaručit, že všechny funkce budou bez chyb nebo bez přerušení.&#10;&#10;
+    6. Účet Premium&#10;&#10;Funkce: Premium poskytuje přístup k funkcím zobrazeným na obrazovce Premium. Dostupné funkce a ceny se mohou s vývojem služby měnit.&#10;&#10;Platby: Poplatky Premium jsou účtovány prostřednictvím Google Play podle nabídky zobrazené před nákupem. Vrácení peněz a zrušení se řídí příslušnými podmínkami Google Play a místními právními předpisy.&#10;&#10;
+    7. Odpovědnost&#10;&#10;Bez záruky: Aplikace je poskytována tak, jak je, bez jakýchkoli záruk. SmartStack Solutions nezaručuje přesnost, úplnost ani spolehlivost aplikace.&#10;&#10;Omezení odpovědnosti: SmartStack Solutions nenese odpovědnost za škody vzniklé používáním aplikace nebo nemožností ji používat.&#10;&#10;
+    8. Ukončení&#10;&#10;SmartStack Solutions si vyhrazuje právo ukončit nebo pozastavit přístup k aplikaci uživateli, který poruší tyto obchodní podmínky.&#10;&#10;
+    9. Kontaktní údaje&#10;&#10;V případě dotazů nebo připomínek k těmto obchodním podmínkám kontaktujte appdev.jr2024@gmail.com.
+</string>
+
+    <string name="help_hub_title">Jak vám můžeme pomoci?</string>
+    <string name="help_hub_intro">Najděte rychlou odpověď, spravujte data svého účtu nebo nás kontaktujte přímo.</string>
+    <string name="help_choose_option">Vyberte možnost podpory</string>
+    <string name="help_faq_title">Procházet často kladené otázky</string>
+    <string name="help_faq_description">Získejte odpovědi týkající se plateb, připomenutí, Premium, limitů a používání účtu.</string>
+    <string name="help_contact_title">Napsat podpoře SmartStack</string>
+
+    <string name="biggest_change">Největší změna</string>
+    <string name="biggest_change_description">Nejvýraznější pohyb v příjmech, výdajích, otevřených platbách nebo opakujících se závazcích.</string>
+    <string name="biggest_change_no_data">Přidejte další měsíc, abyste viděli smysluplné změny.</string>
+    <string name="biggest_change_stable">V tomto období nebyla zjištěna žádná výrazná změna.</string>
+    <string name="biggest_change_increased">%1$s vzrostlo o %2$s ve srovnání s %3$s.</string>
+    <string name="biggest_change_decreased">%1$s kleslo o %2$s ve srovnání s %3$s.</string>
+    <string name="biggest_change_previous_month">předchozím měsícem</string>
+    <string name="biggest_change_period_average">průměrem za předchozích %1$d měsíců</string>
+    <string name="biggest_change_open_payments">Otevřené platby</string>
+    <string name="biggest_change_income">Příjmy</string>
+    <string name="biggest_change_recurring_commitments">Opakující se závazky</string>
+    <string name="export_scope_info_title">Co bude exportováno?</string>
+    <string name="export_scope_info_content_description">Zobrazit informace o exportu</string>
+    <string name="export_scope_info_bullets">• Vybraný měsíc&#10;• Celkové příjmy&#10;• Celková hodnota otevřených plateb&#10;• Celková hodnota uzavřených plateb&#10;• Zůstatek&#10;• Součty kategorií uzavřených plateb&#10;• Záznamy za vybraný měsíc</string>
+    <string name="import_transactions">Importovat transakce</string>
+    <string name="import_transactions_description">Přidejte více uzavřených plateb a příjmů z výpisu ve formátu CSV nebo PDF.</string>
+    <string name="closed_payments_expenses">Uzavřené platby</string>
+    <string name="ignore_transaction">Ignorovat</string>
+    <string name="possible_duplicate">Možný duplikát. Tento řádek byl odškrtnut; vyberte jej pouze v případě, že jej chcete znovu importovat.</string>
+    <string name="import_row_needs_review">Tento řádek pečlivě zkontrolujte. Může se jednat o převod nebo vrácení platby, případně hodnoty nebylo možné plně ověřit.</string>
+    <string name="reading_statement">Čtení výpisu…</string>
+    <string name="reading_statement_page">Čtení stránky %1$d z %2$d…</string>
+    <string name="no_transactions_detected">Nebyly nalezeny žádné podporované transakce. Zkuste export CSV nebo kvalitnější PDF.</string>
+    <string name="checking_duplicates">Kontrola možných duplicit…</string>
+    <string name="import_summary">%1$d uzavřených plateb · %2$d příjmů · %3$d vyloučeno</string>
+    <string name="import_currency_mismatch">Měna výpisu: %1$s · Měna aplikace: %2$s. Importované položky budou používat měnu aplikace. Před importem zohledněte směnný kurz a případně upravte částky.</string>
+    <string name="import_currency_detected">Měna výpisu: %1$s. Importované položky budou používat měnu aplikace.</string>
+    <string name="import_currency_not_detected">Měna výpisu nebyla rozpoznána. Importované hodnoty budou používat měnu aplikace: %1$s.</string>
+    <string name="scan_currency_mismatch">Rozpoznaná měna dokumentu: %1$s · Měna aplikace: %2$s. Položka bude používat měnu aplikace. Před uložením zohledněte směnný kurz a případně upravte částku.</string>
+    <string name="closed_payment_saved">Uzavřená platba byla úspěšně uložena.</string>
+    <string name="closed_payment_save_failed">Uzavřenou platbu se nepodařilo uložit: %1$s</string>
+    <string name="user_session_unavailable">Vaši relaci se nepodařilo ověřit. Přihlaste se prosím znovu.</string>
+    <string name="user_not_authenticated">Přihlaste se prosím znovu.</string>
+    <string name="unknown_item_clicked">Tuto položku nebylo možné otevřít.</string>
+    <string name="load_open_payments_failed">Nepodařilo se načíst otevřené platby: %1$s</string>
+    <string name="load_closed_payments_failed">Nepodařilo se načíst uzavřené platby: %1$s</string>
+    <string name="load_income_failed">Nepodařilo se načíst příjmy: %1$s</string>
+    <string name="load_savings_target_failed">Nepodařilo se načíst cíl úspor: %1$s</string>
+    <string name="invalid_target_amount">Zadejte platnou cílovou částku.</string>
+    <string name="invalid_end_date">Vyberte platné datum ukončení.</string>
+    <string name="start_date_before_end_date">Datum zahájení musí být před datem ukončení.</string>
+    <string name="invalid_target_date_range">Neplatný rozsah dat cíle.</string>
+    <string name="savings_target_not_found">Cíl úspor nebyl nalezen.</string>
+    <string name="savings_target_updated">Cíl úspor byl aktualizován.</string>
+    <string name="savings_target_update_failed">Cíl úspor se nepodařilo aktualizovat: %1$s</string>
+    <string name="savings_target_deleted">Cíl úspor byl úspěšně odstraněn.</string>
+    <string name="savings_target_delete_failed">Cíl úspor se nepodařilo odstranit: %1$s</string>
+    <string name="valid_inputs_required">Zadejte platné hodnoty.</string>
+    <string name="monthly_savings_clear_failed">Měsíční úspory se nepodařilo vymazat: %1$s</string>
+    <string name="associated_data_failed">Nepodařilo se načíst související data: %1$s</string>
+    <string name="bill_not_found">Otevřená platba nebyla nalezena.</string>
+
+</resources>

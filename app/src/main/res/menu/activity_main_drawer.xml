@@ -34,6 +34,10 @@
             android:id="@+id/nav_item_currency"
             android:icon="@drawable/baseline_attach_money_24"
             android:title="@string/currency" />
+        <item
+            android:id="@+id/nav_item_amount_decimals"
+            android:icon="@drawable/baseline_attach_money_24"
+            android:title="@string/amount_display" />
     </group>
 
     <group

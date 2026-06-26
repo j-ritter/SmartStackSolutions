@@ -2,12 +2,17 @@ package com.ritter.smartstackbills
 
 import android.app.DatePickerDialog
 import android.app.Dialog
+import android.content.ClipData
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.Paint
 import android.graphics.drawable.ColorDrawable
+import android.graphics.pdf.PdfDocument
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.Gravity
+import android.view.KeyEvent
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
@@ -29,6 +34,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
@@ -39,6 +45,8 @@ import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
+import java.io.File
+import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -136,6 +144,8 @@ class MainMenu : AppCompatActivity() {
         etMonthlySavingsMain = findViewById(R.id.etMonthlySavings)
 
         setupFinancialInsights()
+        setupSavingsTargetCollapse()
+        setupMonthlyExport()
         setupMonthNavigation()
         setupDashboardNavigation()
         setupDashboardWelcome()
@@ -225,7 +235,7 @@ class MainMenu : AppCompatActivity() {
         findViewById<View>(R.id.oneTimeIncomeMetric).setOnClickListener {
             openDashboardSection(MyIncome::class.java, "one-time")
         }
-        findViewById<View>(R.id.savingsTargetCard).setOnClickListener {
+        findViewById<View>(R.id.savingsTargetActionRow).setOnClickListener {
             openSavingsTarget()
         }
     }
@@ -286,7 +296,7 @@ class MainMenu : AppCompatActivity() {
             )
         }
 
-        applyState(preferences.getBoolean("financial_insights_expanded", false), false)
+        applyState(preferences.getBoolean("financial_insights_expanded", true), false)
         findViewById<View>(R.id.financialInsightsHeader).setOnClickListener {
             val expanded = content.visibility != View.VISIBLE
             preferences.edit().putBoolean("financial_insights_expanded", expanded).apply()
@@ -307,28 +317,45 @@ class MainMenu : AppCompatActivity() {
             selectInsightPeriod(1)
         }
         findViewById<Button>(R.id.btnInsightsSixMonths).setOnClickListener {
-            if (PremiumAccess.isPremiumUser(this)) selectInsightPeriod(6)
-            else PremiumUpgradeDialog.show(this, R.string.premium_insights_upgrade, userEmail)
+            selectInsightPeriod(6)
         }
         findViewById<Button>(R.id.btnInsightsTwelveMonths).setOnClickListener {
-            if (PremiumAccess.isPremiumUser(this)) selectInsightPeriod(12)
-            else PremiumUpgradeDialog.show(this, R.string.premium_insights_upgrade, userEmail)
+            selectInsightPeriod(12)
         }
         refreshPremiumInsightsState(selectDefaultPeriod = true)
+    }
+
+    private fun setupSavingsTargetCollapse() {
+        val preferences = getSharedPreferences("dashboard_preferences", MODE_PRIVATE)
+        val content = findViewById<LinearLayout>(R.id.savingsTargetContent)
+        val arrow = findViewById<ImageView>(R.id.savingsTargetArrow)
+
+        fun applyState(expanded: Boolean, animate: Boolean) {
+            content.visibility = if (expanded) View.VISIBLE else View.GONE
+            if (animate) {
+                arrow.animate().rotation(if (expanded) 180f else 0f).setDuration(180L).start()
+            } else {
+                arrow.rotation = if (expanded) 180f else 0f
+            }
+            arrow.contentDescription = getString(
+                if (expanded) R.string.hide_details else R.string.show_details
+            )
+        }
+
+        applyState(preferences.getBoolean("savings_target_expanded", true), false)
+        findViewById<View>(R.id.savingsTargetHeader).setOnClickListener {
+            val expanded = content.visibility != View.VISIBLE
+            preferences.edit().putBoolean("savings_target_expanded", expanded).apply()
+            applyState(expanded, true)
+        }
     }
 
     private fun refreshPremiumInsightsState(selectDefaultPeriod: Boolean) {
         val hasPremium = PremiumAccess.isPremiumUser(this)
         listOf(R.id.btnInsightsSixMonths, R.id.btnInsightsTwelveMonths).forEach { id ->
             findViewById<Button>(id).apply {
-                setCompoundDrawablesWithIntrinsicBounds(
-                    0,
-                    0,
-                    if (hasPremium) 0 else R.drawable.ic_star_orange,
-                    0
-                )
-                compoundDrawablePadding = if (hasPremium) 0
-                    else (4 * resources.displayMetrics.density).toInt()
+                setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+                compoundDrawablePadding = 0
             }
         }
         findViewById<View>(R.id.premiumInsightsLocked).visibility =
@@ -336,7 +363,6 @@ class MainMenu : AppCompatActivity() {
 
         when {
             hasPremium && selectDefaultPeriod -> selectInsightPeriod(6)
-            !hasPremium && selectedInsightMonths > 1 -> selectInsightPeriod(1)
             else -> selectInsightPeriod(selectedInsightMonths)
         }
         displayedPremiumState = hasPremium
@@ -366,6 +392,286 @@ class MainMenu : AppCompatActivity() {
         updateFinancialInsights()
     }
 
+    private fun setupMonthlyExport() {
+        findViewById<View>(R.id.btnExportMonthlyOverview).setOnClickListener {
+            showMonthlyExportFormatPicker()
+        }
+    }
+
+    private fun showMonthlyExportFormatPicker() {
+        AlertDialog.Builder(this)
+            .setCustomTitle(monthlyExportTitleView())
+            .setItems(
+                arrayOf(
+                    getString(R.string.export_pdf_summary),
+                    getString(R.string.export_csv_data)
+                )
+            ) { _, which ->
+                runCatching {
+                    if (which == 0) exportSelectedMonthPdf() else exportSelectedMonthCsv()
+                }.onFailure { error ->
+                    Toast.makeText(
+                        this,
+                        getString(R.string.export_failed, error.message.orEmpty()),
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+            .show()
+    }
+
+    private fun monthlyExportTitleView(): View {
+        val density = resources.displayMetrics.density
+        val paddingHorizontal = (24 * density).toInt()
+        val paddingTop = (20 * density).toInt()
+        val paddingBottom = (8 * density).toInt()
+        return LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity = Gravity.CENTER_VERTICAL
+            setPadding(paddingHorizontal, paddingTop, paddingHorizontal, paddingBottom)
+
+            addView(TextView(this@MainMenu).apply {
+                text = getString(R.string.export_monthly_title)
+                textSize = 20f
+                setTextColor(ContextCompat.getColor(this@MainMenu, R.color.textPrimary))
+                layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
+            })
+
+            addView(ImageButton(this@MainMenu).apply {
+                setImageResource(R.drawable.ic_info)
+                background = null
+                contentDescription = getString(R.string.export_scope_info_content_description)
+                setColorFilter(ContextCompat.getColor(this@MainMenu, R.color.colorPrimary))
+                setPadding((8 * density).toInt(), (8 * density).toInt(), (8 * density).toInt(), (8 * density).toInt())
+                layoutParams = LinearLayout.LayoutParams((40 * density).toInt(), (40 * density).toInt())
+                setOnClickListener { showMonthlyExportScopeInfo() }
+            })
+        }
+    }
+
+    private fun showMonthlyExportScopeInfo() {
+        AlertDialog.Builder(this)
+            .setTitle(R.string.export_scope_info_title)
+            .setMessage(R.string.export_scope_info_bullets)
+            .setPositiveButton(android.R.string.ok, null)
+            .show()
+    }
+
+    private data class MonthlyExportRow(
+        val date: Date?,
+        val type: String,
+        val title: String,
+        val category: String,
+        val subcategory: String,
+        val amount: Double,
+        val currency: String,
+        val status: String
+    )
+
+    private fun selectedMonthRows(): List<MonthlyExportRow> {
+        val monthKey = SimpleDateFormat("MM-yyyy", Locale.getDefault())
+        fun isSelectedMonth(date: Date?): Boolean =
+            date?.let { monthKey.format(it) == monthKey.format(currentMonth.time) } == true
+
+        val appCurrency = CurrencyPreferences.selectedCode(this)
+        val openRows = billsList
+            .filter { isSelectedMonth(it.date?.toDate()) }
+            .map {
+                MonthlyExportRow(
+                    it.date?.toDate(),
+                    getString(R.string.export_open_payments),
+                    it.name.orEmpty(),
+                    FinancialEntryOptions.displayCategory(this, it.category),
+                    FinancialEntryOptions.displaySubcategory(this, it.category, it.subcategory),
+                    it.amount,
+                    it.currency?.takeIf { currency -> currency.isNotBlank() } ?: appCurrency,
+                    if (it.paid) getString(R.string.paid) else getString(R.string.open_payments)
+                )
+            }
+        val closedRows = spendingsList
+            .filter { isSelectedMonth(it.date?.toDate()) }
+            .map {
+                MonthlyExportRow(
+                    it.date?.toDate(),
+                    getString(R.string.export_closed_payments),
+                    it.name.orEmpty(),
+                    FinancialEntryOptions.displayCategory(this, it.category),
+                    FinancialEntryOptions.displaySubcategory(this, it.category, it.subcategory),
+                    it.amount,
+                    it.currency?.takeIf { currency -> currency.isNotBlank() } ?: appCurrency,
+                    getString(R.string.paid)
+                )
+            }
+        val incomeRows = incomeList
+            .filter { isSelectedMonth(it.date?.toDate()) }
+            .map {
+                MonthlyExportRow(
+                    it.date?.toDate(),
+                    getString(R.string.export_income),
+                    it.name.orEmpty(),
+                    FinancialEntryOptions.displayCategory(this, it.category),
+                    FinancialEntryOptions.displaySubcategory(this, it.category, it.subcategory),
+                    it.amount,
+                    it.currency?.takeIf { currency -> currency.isNotBlank() } ?: appCurrency,
+                    it.repeat?.takeIf { repeat -> repeat.isNotBlank() } ?: "-"
+                )
+            }
+        return (openRows + closedRows + incomeRows).sortedBy { it.date ?: Date(0) }
+    }
+
+    private fun exportBaseName(): String {
+        val month = SimpleDateFormat("yyyy-MM", Locale.US).format(currentMonth.time)
+        return "SmartStack-$month"
+    }
+
+    private fun exportDirectory(): File =
+        File(cacheDir, "exports").apply { mkdirs() }
+
+    private fun shareExport(file: File, mimeType: String) {
+        val uri = FileProvider.getUriForFile(this, "${applicationContext.packageName}.provider", file)
+        val shareIntent = Intent(Intent.ACTION_SEND).apply {
+            type = mimeType
+            putExtra(Intent.EXTRA_STREAM, uri)
+            clipData = ClipData.newUri(contentResolver, file.name, uri)
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        }
+        startActivity(Intent.createChooser(shareIntent, getString(R.string.export_share_chooser)))
+    }
+
+    private fun exportSelectedMonthCsv() {
+        val rows = selectedMonthRows()
+        fun csv(value: String): String = "\"" + value.replace("\"", "\"\"") + "\""
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val content = buildString {
+            appendLine("Date,Type,Title,Category,Subcategory,Amount,Currency,Status")
+            rows.forEach { row ->
+                appendLine(
+                    listOf(
+                        row.date?.let { dateFormat.format(it) }.orEmpty(),
+                        row.type,
+                        row.title,
+                        row.category,
+                        row.subcategory,
+                        CurrencyPreferences.formatPlain(row.amount),
+                        row.currency,
+                        row.status
+                    ).joinToString(",") { csv(it) }
+                )
+            }
+        }
+        val file = File(exportDirectory(), "${exportBaseName()}.csv")
+        file.writeText(content, Charsets.UTF_8)
+        shareExport(file, "text/csv")
+    }
+
+    private fun exportSelectedMonthPdf() {
+        val rows = selectedMonthRows()
+        val incomeTotal = rows.filter { it.type == getString(R.string.export_income) }.sumOf { it.amount }
+        val openTotal = rows.filter { it.type == getString(R.string.export_open_payments) }.sumOf { it.amount }
+        val closedTotal = rows.filter { it.type == getString(R.string.export_closed_payments) }.sumOf { it.amount }
+        val balance = incomeTotal - openTotal - closedTotal
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val monthLabel = SimpleDateFormat("MMMM yyyy", Locale.getDefault()).format(currentMonth.time)
+        val categoryTotals = rows
+            .filter { it.type == getString(R.string.export_closed_payments) }
+            .groupBy { it.category }
+            .mapValues { (_, values) -> values.sumOf { it.amount } }
+            .entries
+            .sortedByDescending { it.value }
+
+        val lines = buildList {
+            add(getString(R.string.export_report_title))
+            add(monthLabel)
+            add("")
+            add(getString(R.string.export_summary))
+            add("${getString(R.string.export_income)}: ${formatAmount(incomeTotal)}")
+            add("${getString(R.string.export_open_payments)}: ${formatAmount(openTotal)}")
+            add("${getString(R.string.export_closed_payments)}: ${formatAmount(closedTotal)}")
+            add("${getString(R.string.export_balance)}: ${formatAmount(balance)}")
+            add("")
+            add(getString(R.string.export_category_totals))
+            if (categoryTotals.isEmpty()) {
+                add(getString(R.string.export_no_entries))
+            } else {
+                categoryTotals.take(12).forEach { add("${it.key}: ${formatAmount(it.value)}") }
+            }
+            add("")
+            add(getString(R.string.export_entries))
+            if (rows.isEmpty()) {
+                add(getString(R.string.export_no_entries))
+            } else {
+                rows.forEach { row ->
+                    add(
+                        "${row.date?.let { dateFormat.format(it) }.orEmpty()} · ${row.type} · " +
+                            "${row.title.ifBlank { "-" }} · ${row.category} · ${formatAmount(row.amount)}"
+                    )
+                }
+            }
+        }
+
+        val document = PdfDocument()
+        val titlePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            color = Color.rgb(2, 48, 71)
+            textSize = 18f
+            isFakeBoldText = true
+        }
+        val bodyPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            color = Color.rgb(55, 71, 79)
+            textSize = 11f
+        }
+        val pageWidth = 595
+        val pageHeight = 842
+        val margin = 42f
+        var pageNumber = 0
+        var page = document.startPage(PdfDocument.PageInfo.Builder(pageWidth, pageHeight, ++pageNumber).create())
+        var canvas = page.canvas
+        var y = margin
+
+        fun finishAndStartPage() {
+            document.finishPage(page)
+            page = document.startPage(PdfDocument.PageInfo.Builder(pageWidth, pageHeight, ++pageNumber).create())
+            canvas = page.canvas
+            y = margin
+        }
+
+        fun drawWrapped(text: String, paint: Paint) {
+            if (text.isBlank()) {
+                y += 12f
+                return
+            }
+            val maxWidth = pageWidth - (margin * 2)
+            val words = text.split(" ")
+            var line = ""
+            words.forEach { word ->
+                val candidate = if (line.isBlank()) word else "$line $word"
+                if (paint.measureText(candidate) <= maxWidth) {
+                    line = candidate
+                } else {
+                    if (y > pageHeight - margin) finishAndStartPage()
+                    canvas.drawText(line, margin, y, paint)
+                    y += 16f
+                    line = word
+                }
+            }
+            if (line.isNotBlank()) {
+                if (y > pageHeight - margin) finishAndStartPage()
+                canvas.drawText(line, margin, y, paint)
+                y += 16f
+            }
+        }
+
+        lines.forEachIndexed { index, line ->
+            drawWrapped(line, if (index == 0) titlePaint else bodyPaint)
+            if (index == 1) y += 8f
+        }
+        document.finishPage(page)
+
+        val file = File(exportDirectory(), "${exportBaseName()}.pdf")
+        FileOutputStream(file).use { output -> document.writeTo(output) }
+        document.close()
+        shareExport(file, "application/pdf")
+    }
+
     override fun onResume() {
         super.onResume()
         if (::currentMonth.isInitialized) {
@@ -381,7 +687,7 @@ class MainMenu : AppCompatActivity() {
     private fun setupDashboardListeners() {
         val uid = userUid
         if (uid == null) {
-            Toast.makeText(this, "User not logged in.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.user_not_authenticated, Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -390,7 +696,7 @@ class MainMenu : AppCompatActivity() {
         billsListenerRegistration = userRef.collection("bills")
             .addSnapshotListener { snapshots, error ->
                 if (error != null) {
-                    Toast.makeText(this, "Error loading open payments: ${error.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getString(R.string.load_open_payments_failed, error.message.orEmpty()), Toast.LENGTH_SHORT).show()
                     return@addSnapshotListener
                 }
                 billsList.clear()
@@ -408,7 +714,7 @@ class MainMenu : AppCompatActivity() {
         spendingsListenerRegistration = userRef.collection("spendings")
             .addSnapshotListener { snapshots, error ->
                 if (error != null) {
-                    Toast.makeText(this, "Error loading closed payments: ${error.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getString(R.string.load_closed_payments_failed, error.message.orEmpty()), Toast.LENGTH_SHORT).show()
                     return@addSnapshotListener
                 }
                 spendingsList.clear()
@@ -422,7 +728,7 @@ class MainMenu : AppCompatActivity() {
         incomeListenerRegistration = userRef.collection("income")
             .addSnapshotListener { snapshots, error ->
                 if (error != null) {
-                    Toast.makeText(this, "Error loading income: ${error.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getString(R.string.load_income_failed, error.message.orEmpty()), Toast.LENGTH_SHORT).show()
                     return@addSnapshotListener
                 }
                 incomeList.clear()
@@ -610,10 +916,141 @@ class MainMenu : AppCompatActivity() {
                 FinancialEntryOptions.displayCategory(this, category)
             }
         findViewById<SpendingCompositionView>(R.id.spendingCompositionView).setData(categoryTotals)
+        updateBiggestChangeInsight()
         if (selectedInsightMonths > 1 && PremiumAccess.isPremiumUser(this)) {
             updatePremiumInsights(selectedInsightMonths)
         }
     }
+
+    private fun updateBiggestChangeInsight() {
+        if (!::currentMonth.isInitialized) return
+
+        val monthKey = SimpleDateFormat("MM-yyyy", Locale.getDefault())
+        fun sameMonth(date: Date?, calendar: Calendar): Boolean =
+            date?.let { monthKey.format(it) == monthKey.format(calendar.time) } == true
+
+        fun billsFor(calendar: Calendar) = billsList.filter { sameMonth(it.date?.toDate(), calendar) }
+        fun spendingsFor(calendar: Calendar) = spendingsList.filter { sameMonth(it.date?.toDate(), calendar) }
+        fun incomeFor(calendar: Calendar) = incomeList.filter { sameMonth(it.date?.toDate(), calendar) }
+
+        fun recurringCommitments(calendar: Calendar): Double {
+            val recurringOpen = billsFor(calendar)
+                .filter { !it.paid && it.repeat != "No" }
+                .sumOf { it.amount }
+            val recurringClosed = spendingsFor(calendar)
+                .filter { it.repeat != "No" || it.isRecurring }
+                .sumOf { it.amount }
+            return recurringOpen + recurringClosed
+        }
+
+        fun valuesFor(calendar: Calendar): Map<String, BiggestChangeValue> {
+            val spendingCategories = spendingsFor(calendar)
+                .groupBy { it.category?.takeIf { category -> category.isNotBlank() } ?: getString(R.string.uncategorized) }
+                .mapKeys { (category, _) -> "spending:$category" }
+                .mapValues { (categoryKey, values) ->
+                    BiggestChangeValue(
+                        FinancialEntryOptions.displayCategory(this, categoryKey.removePrefix("spending:")),
+                        values.sumOf { it.amount }
+                    )
+                }
+
+            val incomeCategories = incomeFor(calendar)
+                .groupBy { it.category?.takeIf { category -> category.isNotBlank() } ?: getString(R.string.uncategorized) }
+                .mapKeys { (category, _) -> "income:$category" }
+                .mapValues { (categoryKey, values) ->
+                    BiggestChangeValue(
+                        FinancialEntryOptions.displayCategory(this, categoryKey.removePrefix("income:")),
+                        values.sumOf { it.amount }
+                    )
+                }
+
+            return spendingCategories +
+                incomeCategories +
+                mapOf(
+                    "metric:open_payments" to BiggestChangeValue(
+                        getString(R.string.biggest_change_open_payments),
+                        billsFor(calendar).filter { !it.paid }.sumOf { it.amount }
+                    ),
+                    "metric:income" to BiggestChangeValue(
+                        getString(R.string.biggest_change_income),
+                        incomeFor(calendar).sumOf { it.amount }
+                    ),
+                    "metric:recurring" to BiggestChangeValue(
+                        getString(R.string.biggest_change_recurring_commitments),
+                        recurringCommitments(calendar)
+                    )
+                )
+        }
+
+        fun labelForKey(key: String): String =
+            when {
+                key == "metric:open_payments" -> getString(R.string.biggest_change_open_payments)
+                key == "metric:income" -> getString(R.string.biggest_change_income)
+                key == "metric:recurring" -> getString(R.string.biggest_change_recurring_commitments)
+                key.startsWith("spending:") -> FinancialEntryOptions.displayCategory(this, key.removePrefix("spending:"))
+                key.startsWith("income:") -> FinancialEntryOptions.displayCategory(this, key.removePrefix("income:"))
+                else -> key
+            }
+
+        val currentValues = valuesFor(currentMonth)
+        val previousCalendars = (1 until selectedInsightMonths.coerceAtLeast(2)).map { offset ->
+            (currentMonth.clone() as Calendar).apply { add(Calendar.MONTH, -offset) }
+        }.ifEmpty {
+            listOf((currentMonth.clone() as Calendar).apply { add(Calendar.MONTH, -1) })
+        }
+
+        val referenceValues = previousCalendars
+            .map { valuesFor(it) }
+            .fold(mutableMapOf<String, Double>()) { totals, values ->
+                values.forEach { (key, value) -> totals[key] = (totals[key] ?: 0.0) + value.amount }
+                totals
+            }
+            .mapValues { (_, total) -> total / previousCalendars.size.coerceAtLeast(1) }
+
+        val labels = currentValues.keys + referenceValues.keys
+        val biggest = labels.map { key ->
+                val current = currentValues[key]?.amount ?: 0.0
+                val reference = referenceValues[key] ?: 0.0
+                val label = currentValues[key]?.label ?: labelForKey(key)
+                BiggestChange(label, current - reference)
+            }
+            .filter { kotlin.math.abs(it.delta) > 0.005 }
+            .maxByOrNull { kotlin.math.abs(it.delta) }
+
+        val insight = findViewById<TextView>(R.id.tvBiggestChangeInsight)
+        val insightIcon = findViewById<ImageView>(R.id.imgBiggestChangeIcon)
+        if (biggest == null) {
+            val hasAnyData = currentValues.values.any { it.amount > 0.005 } || referenceValues.values.any { it > 0.005 }
+            insight.setText(if (hasAnyData) R.string.biggest_change_stable else R.string.biggest_change_no_data)
+            insightIcon.setImageResource(R.drawable.ic_change)
+            insightIcon.clearColorFilter()
+            return
+        }
+
+        val referenceLabel = if (selectedInsightMonths <= 1) {
+            getString(R.string.biggest_change_previous_month)
+        } else {
+            getString(R.string.biggest_change_period_average, selectedInsightMonths - 1)
+        }
+        insight.text = getString(
+            if (biggest.delta > 0.0) R.string.biggest_change_increased else R.string.biggest_change_decreased,
+            biggest.label,
+            formatAmount(kotlin.math.abs(biggest.delta)),
+            referenceLabel
+        )
+        insightIcon.setImageResource(R.drawable.ic_change)
+        insightIcon.clearColorFilter()
+    }
+
+    private data class BiggestChange(
+        val label: String,
+        val delta: Double
+    )
+
+    private data class BiggestChangeValue(
+        val label: String,
+        val amount: Double
+    )
 
     private fun updatePremiumInsights(monthCount: Int) {
         val calendars = (monthCount - 1 downTo 0).map { offset ->
@@ -778,29 +1215,33 @@ class MainMenu : AppCompatActivity() {
         startDateEditText: EditText,
         endDateEditText: EditText
     ): Boolean {
+        setTodayIfBlank(startDateEditText)
         val targetAmount = targetAmountEditText.text.toString().toDoubleOrNull()
+            ?.let(CurrencyPreferences::roundToTwoDecimals)
         val startDate = getDateFromEditText(startDateEditText)
         val endDate = getDateFromEditText(endDateEditText)
 
         // Check if all mandatory fields are filled
         return when {
             targetAmount == null || targetAmount <= 0f -> {
-                Toast.makeText(this, "Please enter a valid target amount", Toast.LENGTH_SHORT).show()
-                false
-            }
-            startDate == null -> {
-                Toast.makeText(this, "Please select a valid start date", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.invalid_target_amount, Toast.LENGTH_SHORT).show()
                 false
             }
             endDate == null -> {
-                Toast.makeText(this, "Please select a valid end date", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.invalid_end_date, Toast.LENGTH_SHORT).show()
                 false
             }
-            !startDate.before(endDate) -> {
-                Toast.makeText(this, "Start date must be before the end date", Toast.LENGTH_SHORT).show()
+            startDate == null || !startDate.before(endDate) -> {
+                Toast.makeText(this, R.string.start_date_before_end_date, Toast.LENGTH_SHORT).show()
                 false
             }
             else -> true
+        }
+    }
+
+    private fun setTodayIfBlank(editText: EditText) {
+        if (editText.text.isNullOrBlank()) {
+            editText.setText(SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date()))
         }
     }
 
@@ -878,10 +1319,11 @@ class MainMenu : AppCompatActivity() {
     private fun createSavings() {
         val dialogView = layoutInflater.inflate(R.layout.dialog_box_savings, null)
         val dialogBuilder = AlertDialog.Builder(this)
-        dialogBuilder.setView(dialogView).setCancelable(true)
+        dialogBuilder.setView(dialogView).setCancelable(false)
 
         val dialog = dialogBuilder.create()
         dialog.show()
+        dialog.setCanceledOnTouchOutside(false)
         styleSavingsDialogWindow(dialog)
 
         // Find views
@@ -893,6 +1335,7 @@ class MainMenu : AppCompatActivity() {
         val btnSaveTarget = dialogView.findViewById<Button>(R.id.btnSaveTargetSavings)
 
         dialogView.findViewById<View>(R.id.savingsDialogActions).visibility = View.GONE
+        setTodayIfBlank(startDateEditText)
 
         // Initialize Spinner Adapter
         val targetNames = resources.getStringArray(R.array.savings_target_names).toList()
@@ -928,7 +1371,9 @@ class MainMenu : AppCompatActivity() {
         // Save button logic
         btnSaveTarget.setOnClickListener {
             if (validateMandatoryFields(targetAmountEditText, startDateEditText, endDateEditText)) {
-                val targetAmount = targetAmountEditText.text.toString().toDoubleOrNull() ?: 0.0
+                val targetAmount = CurrencyPreferences.roundToTwoDecimals(
+                    targetAmountEditText.text.toString().toDoubleOrNull() ?: 0.0
+                )
                 val startDate = getDateFromEditText(startDateEditText)?.time
                 val endDate = getDateFromEditText(endDateEditText)?.time
                 val targetName = targetNameSpinner.selectedItem.toString()
@@ -948,8 +1393,44 @@ class MainMenu : AppCompatActivity() {
 
         // Close dialog
         dialogView.findViewById<Button>(R.id.btnCloseDialogSavings).setOnClickListener {
-            dialog.dismiss()
+            confirmDismissSavingsCreateDialog(
+                dialog,
+                targetAmountEditText,
+                endDateEditText
+            )
         }
+        dialog.setOnKeyListener { _, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_UP) {
+                confirmDismissSavingsCreateDialog(
+                    dialog,
+                    targetAmountEditText,
+                    endDateEditText
+                )
+                true
+            } else {
+                false
+            }
+        }
+    }
+
+    private fun confirmDismissSavingsCreateDialog(
+        dialog: Dialog,
+        targetAmountEditText: EditText,
+        endDateEditText: EditText
+    ) {
+        val hasUnsavedInput =
+            targetAmountEditText.text?.toString()?.trim().orEmpty().isNotBlank() ||
+                endDateEditText.text?.toString()?.trim().orEmpty().isNotBlank()
+        if (!hasUnsavedInput) {
+            dialog.dismiss()
+            return
+        }
+        AlertDialog.Builder(this)
+            .setTitle(R.string.unsaved_changes_title)
+            .setMessage(R.string.unsaved_changes_message)
+            .setNegativeButton(R.string.keep_editing, null)
+            .setPositiveButton(R.string.discard_changes) { _, _ -> dialog.dismiss() }
+            .show()
     }
 
 
@@ -981,7 +1462,7 @@ class MainMenu : AppCompatActivity() {
 
         val uid = userUid
         if (uid == null) {
-            Toast.makeText(this, "User not logged in.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.user_not_authenticated, Toast.LENGTH_SHORT).show()
             dialog.dismiss()
             return
         }
@@ -1107,14 +1588,16 @@ class MainMenu : AppCompatActivity() {
         endDateEditText: EditText,
         monthlySavingsEditText: EditText
     ) {
-        val targetAmount = targetAmountEditText.text.toString().toDoubleOrNull() ?: 0.0
+        val targetAmount = CurrencyPreferences.roundToTwoDecimals(
+            targetAmountEditText.text.toString().toDoubleOrNull() ?: 0.0
+        )
         val startDate = getDateFromEditText(startDateEditText)
         val endDate = getDateFromEditText(endDateEditText)
 
         if (targetAmount > 0 && startDate != null && endDate != null && startDate.before(endDate)) {
             val monthsDifference = getMonthsBetweenDates(startDate, endDate)
             val monthlySavings = targetAmount / monthsDifference
-            monthlySavingsEditText.setText(String.format("%.2f", monthlySavings))
+            monthlySavingsEditText.setText(CurrencyPreferences.formatPlain(monthlySavings))
         } else {
             monthlySavingsEditText.setText("")
 
@@ -1158,7 +1641,7 @@ class MainMenu : AppCompatActivity() {
         val userUid = FirebaseAuth.getInstance().currentUser?.uid
 
         if (userUid == null) {
-            Toast.makeText(this, "User not logged in!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.user_not_authenticated, Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -1257,7 +1740,7 @@ class MainMenu : AppCompatActivity() {
         val userUid = FirebaseAuth.getInstance().currentUser?.uid
 
         if (userUid == null) {
-            Toast.makeText(this, "User not logged in!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.user_not_authenticated, Toast.LENGTH_SHORT).show()
             onCompletion(false)
             return
         }
@@ -1274,7 +1757,7 @@ class MainMenu : AppCompatActivity() {
                     val endDate = document.getTimestamp("endDate")?.toDate()
 
                     if (startDate == null || endDate == null) {
-                        Toast.makeText(this, "Invalid target date range.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, R.string.invalid_target_date_range, Toast.LENGTH_SHORT).show()
                         onCompletion(false)
                         return@addOnSuccessListener
                     }
@@ -1298,12 +1781,12 @@ class MainMenu : AppCompatActivity() {
 
                     onCompletion(currentSavingsAmount >= targetAmount)
                 } else {
-                    Toast.makeText(this, "Savings target not found.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, R.string.savings_target_not_found, Toast.LENGTH_SHORT).show()
                     onCompletion(false)
                 }
             }
             .addOnFailureListener { e ->
-                Toast.makeText(this, "Error fetching savings target: ${e.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.load_savings_target_failed, e.message.orEmpty()), Toast.LENGTH_SHORT).show()
                 onCompletion(false)
             }
     }
@@ -1378,7 +1861,7 @@ class MainMenu : AppCompatActivity() {
                         findViewById<TextView>(R.id.tvSetSavingTarget).text = getString(R.string.set_savings_target)
                         currentSavingsTargetDocumentId = null
                         updateProgressBar(progressBarSavings, tvProgressPercentage, 0.0, currentActualMonthlySavings)
-                        tvTargetAchieved.visibility = View.GONE
+                        tvTargetAchieved.visibility = View.VISIBLE
                         tvProgressPercentage.visibility = View.GONE
                         progressBarSavings.visibility = View.GONE
                         updateFinancialInsights()
@@ -1398,44 +1881,40 @@ class MainMenu : AppCompatActivity() {
                             tvProgressPercentage.visibility = View.VISIBLE
                             progressBarSavings.visibility = View.VISIBLE
                         } else {
-                            tvTargetAchieved.visibility = View.GONE
+                            tvTargetAchieved.visibility = View.VISIBLE
                             tvProgressPercentage.visibility = View.GONE
                             progressBarSavings.visibility = View.GONE
                         }
                         updateFinancialInsights()
-                        // Only check if the savings target is achieved for the first time this month
-                        if (!isSavingsTargetCheckedForMonth(document.id)) {
-                            isSavingsTargetAchieved(document.id) { isAchieved ->
-                                if (isAchieved && !hasSavingsDialogBeenShown(document.id)) {
-                                    showSavingsCompleteDialog()
-                                    markSavingsDialogAsShown(document.id)
-                                }
-                                markSavingsTargetCheckedForMonth(document.id)
+                        isSavingsTargetAchieved(document.id) { isAchieved ->
+                            if (isAchieved && !hasSavingsDialogBeenShown(document.id)) {
+                                showSavingsCompleteDialog()
+                                markSavingsDialogAsShown(document.id)
                             }
                         }
                     }
                 }
                 .addOnFailureListener { e ->
-                    Toast.makeText(this, "Error loading savings target: ${e.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getString(R.string.load_savings_target_failed, e.message.orEmpty()), Toast.LENGTH_SHORT).show()
                     savingsTargetsForInsights = emptyList()
                     currentMonthlySavingsTarget = 0.0
                     etMonthlySavingsMain.text = "0.00"
                     etMonthlySavingsMain.visibility = View.GONE
                     findViewById<TextView>(R.id.tvSetSavingTarget).text = getString(R.string.set_savings_target)
                     updateProgressBar(progressBarSavings, tvProgressPercentage, 0.0, currentActualMonthlySavings)
-                    tvTargetAchieved.visibility = View.GONE
+                    tvTargetAchieved.visibility = View.VISIBLE
                     tvProgressPercentage.visibility = View.GONE
                     progressBarSavings.visibility = View.GONE
                     updateFinancialInsights()
                 }
         } else {
-            Toast.makeText(this, "User not logged in.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.user_not_authenticated, Toast.LENGTH_SHORT).show()
             currentMonthlySavingsTarget = 0.0
             etMonthlySavingsMain.text = "0.00"
             etMonthlySavingsMain.visibility = View.GONE
             findViewById<TextView>(R.id.tvSetSavingTarget).text = getString(R.string.set_savings_target)
             updateProgressBar(progressBarSavings, tvProgressPercentage, 0.0, currentActualMonthlySavings)
-            tvTargetAchieved.visibility = View.GONE
+            tvTargetAchieved.visibility = View.VISIBLE
             tvProgressPercentage.visibility = View.GONE
             progressBarSavings.visibility = View.GONE
             updateFinancialInsights()
@@ -1479,7 +1958,7 @@ class MainMenu : AppCompatActivity() {
                     )
                 )
                 .addOnFailureListener { e ->
-                    Toast.makeText(this, "Error saving monthly savings: ${e.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getString(R.string.savings_target_update_failed, e.message.orEmpty()), Toast.LENGTH_SHORT).show()
                 }
         }
     }
@@ -1492,6 +1971,7 @@ class MainMenu : AppCompatActivity() {
     ) {
         val userUid = FirebaseAuth.getInstance().currentUser?.uid
         val targetAmount = targetAmountEditText.text.toString().toDoubleOrNull()
+            ?.let(CurrencyPreferences::roundToTwoDecimals)
         val targetName = targetNameSpinner.selectedItem.toString()
 
         // Ensure Firebase is updated with all relevant fields, including dates
@@ -1563,12 +2043,12 @@ class MainMenu : AppCompatActivity() {
                                         if (monthsDifference > 0) targetAmount / monthsDifference else 0.0
                                     distributeSavingsAcrossMonths(startDate, endDate, newMonthlySavings, documentId)
                                 }
-                                Toast.makeText(this, "Savings target updated!", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this, R.string.savings_target_updated, Toast.LENGTH_SHORT).show()
                                 dialog.dismiss()
                                 loadSavingsTarget() // Refresh the target list
                             }
                             .addOnFailureListener { e ->
-                                Toast.makeText(this, "Error updating target: ${e.message}", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this, getString(R.string.savings_target_update_failed, e.message.orEmpty()), Toast.LENGTH_SHORT).show()
                             }
                     }
                 }
@@ -1580,7 +2060,7 @@ class MainMenu : AppCompatActivity() {
                     ).show()
                 }
         } else {
-            Toast.makeText(this, "Please enter valid inputs.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.valid_inputs_required, Toast.LENGTH_SHORT).show()
         }
     }
     // 09.01. added as part of update to clear old monthly savings in editSavingsTarget
@@ -1598,7 +2078,7 @@ class MainMenu : AppCompatActivity() {
                 onComplete()
             }
         }.addOnFailureListener { e ->
-            Toast.makeText(this, "Failed to clear monthly savings: ${e.message}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.monthly_savings_clear_failed, e.message.orEmpty()), Toast.LENGTH_SHORT).show()
             onComplete() // Proceed even if clearing fails
         }
     }
@@ -1620,19 +2100,19 @@ class MainMenu : AppCompatActivity() {
                     // After deleting nested collections, delete the main document
                     targetRef.delete()
                         .addOnSuccessListener {
-                            Toast.makeText(this, "Savings target deleted successfully.", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, R.string.savings_target_deleted, Toast.LENGTH_SHORT).show()
                             dialog.dismiss()
                             loadSavingsTarget() // Refresh the target list
                         }
                         .addOnFailureListener { e ->
-                            Toast.makeText(this, "Failed to delete savings target: ${e.message}", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, getString(R.string.savings_target_delete_failed, e.message.orEmpty()), Toast.LENGTH_SHORT).show()
                         }
                 }
                 .addOnFailureListener { e ->
-                    Toast.makeText(this, "Failed to retrieve associated data: ${e.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getString(R.string.associated_data_failed, e.message.orEmpty()), Toast.LENGTH_SHORT).show()
                 }
         } else {
-            Toast.makeText(this, "User not logged in!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.user_not_authenticated, Toast.LENGTH_SHORT).show()
         }
     }
 

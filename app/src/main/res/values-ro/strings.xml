@@ -1,0 +1,1222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="notification_details">Detalii notificare</string>
+
+    <string name="main">Principal</string>
+
+    <string name="app_name">SmartStack Solutions</string>
+
+    <string name="target_name">Nume obiectiv</string>
+
+    <string name="log_in">Conectare</string>
+
+    <string name="email">E-mail</string>
+
+    <string name="password">Parolă</string>
+
+    <string name="don_t_have_an_account">Nu ai un cont?</string>
+
+    <string name="sign_up">Înregistrare</string>
+
+    <string name="forgot_password">Ai uitat parola?</string>
+
+    <string name="already_have_an_account">Ai deja un cont?</string>
+
+    <string name="log_in_with_google">Conectare cu Google</string>
+
+    <string name="sign_up_with_google">Înregistrare cu Google</string>
+
+    <string name="login_title">Bine ai revenit</string>
+
+    <string name="login_subtitle">Conectează-te pentru a continua gestionarea plăților deschise, cheltuielilor și veniturilor.</string>
+
+    <string name="signup_title">Creează-ți contul</string>
+
+    <string name="signup_subtitle">Începe să îți urmărești finanțele cu un cont SmartStack securizat.</string>
+
+    <string name="continue_with_email">Continuă cu e-mailul</string>
+
+    <string name="email_required">Introdu adresa de e-mail.</string>
+
+    <string name="email_invalid">Introdu o adresă de e-mail validă.</string>
+
+    <string name="password_required">Introdu parola.</string>
+
+    <string name="password_too_short">Folosește cel puțin 6 caractere.</string>
+
+    <string name="auth_generic_error">Nu te-am putut conecta. Verifică datele și încearcă din nou.</string>
+
+    <string name="auth_network_error">Problemă de conexiune. Verifică internetul și încearcă din nou.</string>
+
+    <string name="account_exists_error">Există deja un cont asociat acestui e-mail.</string>
+
+    <string name="password_reset_sent">E-mailul pentru resetarea parolei a fost trimis. Verifică inboxul.</string>
+
+    <string name="password_reset_failed">Nu am putut trimite e-mailul de resetare. Verifică adresa și încearcă din nou.</string>
+
+    <string name="or">sau</string>
+
+    <string name="all">Toate</string>
+
+    <string name="you_still_do_not_have_any_bill_registered">Încă nu ai nicio plată înregistrată</string>
+
+    <string name="my_bills">Plățile mele</string>
+
+    <string name="my_spendings">Cheltuielile mele</string>
+
+    <string name="income">Venituri</string>
+
+    <string name="calendar">Calendar</string>
+
+    <string name="account">Cont</string>
+
+    <string name="incoming">Următoare</string>
+
+    <string name="overdue">Întârziate</string>
+
+    <string name="recurring">Recurente</string>
+
+    <string name="paid">Plătite</string>
+
+    <string name="select_date">Selectează data</string>
+
+    <string name="amount">Sumă</string>
+
+    <string name="vendor">Furnizor</string>
+
+    <string name="category">Categorie</string>
+
+    <string name="write_your_title">Introdu titlul</string>
+
+    <string name="write_your_comments">Introdu comentariile</string>
+
+    <string name="cancel">Anulează</string>
+
+    <string name="unsaved_changes_title">Modificări nesalvate</string>
+
+    <string name="unsaved_changes_message">Ai modificări nesalvate. Vrei să le elimini?</string>
+
+    <string name="unsaved_import_message">Ai verificat sugestii de import care nu au fost încă salvate. Vrei să le elimini?</string>
+
+    <string name="keep_editing">Continuă editarea</string>
+
+    <string name="discard_changes">Renunță</string>
+
+    <string name="save">Salvează</string>
+
+    <string name="attachment">Atașament</string>
+
+    <string name="create_new_open_payment">Creează o nouă plată deschisă</string>
+
+    <string name="open_payments">Plăți deschise</string>
+
+    <string name="open_payments_hint">Plăți viitoare și întârziate care necesită încă atenție.</string>
+
+    <string name="no_open_payments">Nicio plată deschisă nu corespunde acestei vizualizări.</string>
+
+    <string name="mark_paid">Marchează ca plătită</string>
+
+    <string name="bill_details">Detalii plată deschisă</string>
+
+    <string name="untitled_payment">Plată fără titlu</string>
+
+    <string name="uncategorized">Necategorizată</string>
+
+    <string name="delete_open_payment">Șterge plata deschisă</string>
+
+    <string name="delete_open_payment_confirmation">Ștergi această plată deschisă?</string>
+
+    <string name="delete_recurring_payment">Șterge plata recurentă</string>
+
+    <string name="delete_this_occurrence">Șterge doar această plată</string>
+
+    <string name="delete_this_and_future">Șterge această plată și pe cele viitoare</string>
+
+    <string name="open_payment_deleted">Plata deschisă a fost ștearsă.</string>
+
+    <string name="future_open_payments_deleted">Această plată și cele viitoare au fost șterse.</string>
+
+    <string name="open_payment_delete_failed">Plata nu a putut fi ștearsă.</string>
+
+    <string name="add_attachment">Adaugă atașament</string>
+
+    <string name="take_photo">Fă o fotografie</string>
+
+    <string name="choose_from_gallery">Alege din galerie</string>
+
+    <string name="attachment_added">Atașament adăugat</string>
+
+    <string name="attachment_failed">Atașamentul nu a putut fi adăugat</string>
+
+    <string name="edit_open_payment">Editează plata deschisă</string>
+
+    <string name="open_payment_attachment">Atașament plată deschisă</string>
+
+    <string name="create_new_closed_payment">Creează o nouă plată închisă</string>
+
+    <string name="closed_payments">Plăți închise</string>
+
+    <string name="closed_payment_details">Detalii plată închisă</string>
+
+    <string name="edit_closed_payment">Editează plata închisă</string>
+
+    <string name="delete_closed_payment">Șterge plata închisă</string>
+
+    <string name="closed_payment_attachment">Atașament plată închisă</string>
+
+    <string name="create_new_income">Adaugă un nou venit</string>
+
+    <string name="create_new_spending">Adaugă o nouă cheltuială</string>
+
+    <string name="date">Dată</string>
+
+    <string name="type">Tip</string>
+
+    <string name="date_header">Antet dată</string>
+
+    <string name="due_date">Data scadenței</string>
+
+    <string name="comments">Comentarii</string>
+
+    <string name="close">Închide</string>
+
+    <string name="set_savings_target">Setează obiectivul de economii</string>
+
+    <string name="delete_target">Șterge obiectivul</string>
+
+    <string name="delete">Șterge</string>
+
+    <string name="delete_savings_target_confirmation">Ștergi acest obiectiv de economii? Istoricul progresului va fi de asemenea eliminat.</string>
+
+    <string name="edit_target">Editează obiectivul</string>
+
+    <string name="name_target">Nume obiectiv</string>
+
+    <string name="target_amount">Valoare obiectiv</string>
+    <string name="start_date">Data de început</string>
+
+    <string name="end_date">Data de sfârșit</string>
+
+    <string name="monthly_savings">Economii lunare</string>
+
+    <string name="savings_goal_image">Imagine obiectiv economii</string>
+
+    <string name="search_vendor">Caută furnizor</string>
+
+    <string name="welcome_title">Bine ai venit la SmartStack Solutions!</string>
+
+    <string name="welcome_icon_description">Pictogramă de bun venit</string>
+
+    <string name="welcome_body_message">Instrumentul tău pentru organizarea finanțelor și simplificarea vieții!</string>
+
+    <string name="get_started">Începe</string>
+
+    <string name="unlock_premium">Deblochează funcțiile Premium &#9733;</string>
+
+    <string name="about_us">Despre noi</string>
+
+    <string name="faqs">Întrebări frecvente</string>
+
+    <string name="search_faqs">Caută în întrebările frecvente</string>
+
+    <string name="data_security">Securitatea datelor</string>
+
+    <string name="help_support">Ajutor și suport</string>
+
+    <string name="terms_conditions">Termeni și condiții</string>
+
+    <string name="logout">Deconectare</string>
+
+    <string name="logout_confirmation">Te deconectezi din SmartStack Solutions pe acest dispozitiv?</string>
+
+    <string name="about_us_subtitle">De ce există SmartStack și cum sprijină decizii financiare mai clare.</string>
+
+    <string name="faqs_subtitle">Răspunsuri rapide despre plăți, venituri, obiective de economii, Premium și notificări.</string>
+
+    <string name="data_security_subtitle">Cum sunt gestionate accesul la cont și înregistrările tale financiare.</string>
+
+    <string name="help_subtitle">Găsește răspunsuri sau contactează echipa de suport SmartStack.</string>
+
+    <string name="terms_subtitle">Condiții importante aplicabile utilizării SmartStack Solutions.</string>
+
+    <string name="about_us_image_description">Prezentare generală SmartStack Solutions</string>
+
+    <string name="income_date">Data venitului</string>
+
+    <string name="repeat">Repetare</string>
+
+    <string name="purchase_date">Data achiziției</string>
+
+    <string name="details">Detalii</string>
+
+    <string name="upload">Încarcă</string>
+
+    <string name="alarm">Alarmă</string>
+
+    <string name="categorydbx">Categorie</string>
+
+    <string name="essential">Esențial</string>
+
+    <string name="non_essential">Neesențial</string>
+
+    <string name="one_time">O singură dată</string>
+
+    <string name="delete_income">Șterge venitul</string>
+
+    <string name="edit_income">Editează venitul</string>
+
+    <string name="income_details">Detalii venit</string>
+
+    <string name="previous_month">Luna anterioară</string>
+
+    <string name="next_month">Luna următoare</string>
+
+    <string name="mark_as_paid">Marchează ca plătit</string>
+
+    <string name="calendar_title">Calendar</string>
+
+    <string name="content_description_navigation_menu">Deschide meniul de navigare</string>
+
+    <string name="search_or_select_vendor">Caută sau selectează furnizorul</string>
+
+    <string name="enter_custom_vendor">Introdu un furnizor personalizat</string>
+
+    <string name="subcategory">Subcategorie</string>
+
+    <string name="image_added">Imagine adăugată</string>
+
+    <string name="title">Titlu</string>
+
+    <string name="select_a_category">Selectează o categorie</string>
+
+    <string name="data_security_title">Securitatea datelor</string>
+
+    <string name="data_security_question_1">1. Cum îmi protejează SmartStack Solutions datele?</string>
+
+    <string name="data_security_answer_1">
+Răspuns: SmartStack Solutions implementează măsuri de securitate pentru protejarea datelor tale. Acestea includ protocoale de autentificare securizate și controale de acces de bază. Ne bazăm pe servicii cloud de încredere pentru stocarea și gestionarea securizată a datelor.
+</string>
+
+    <string name="data_security_question_2">2. Informațiile mele financiare sunt stocate în siguranță?</string>
+
+    <string name="data_security_answer_2">
+Răspuns: SmartStack Solutions este conceput pentru utilizatorii care introduc manual date financiare, fără a necesita tranzacții de plată.
+</string>
+
+    <string name="data_security_question_3">3. Cum sunt gestionate informațiile mele personale?</string>
+
+    <string name="data_security_answer_3">
+Răspuns: Informațiile personale sunt colectate la minimum și utilizate exclusiv pentru furnizarea serviciilor noastre. Acestea sunt stocate în siguranță în cloud. Pentru mai multe detalii, consultă Politica noastră de confidențialitate.
+</string>
+
+    <string name="data_security_question_4">4. Ce măsuri există pentru a preveni accesul neautorizat?</string>
+
+    <string name="data_security_answer_4">
+Răspuns: Pentru a preveni accesul neautorizat, SmartStack Solutions utilizează cerințe stricte pentru parole și protocoale de gestionare a sesiunilor. De asemenea, recomandăm utilizatorilor să își actualizeze regulat parolele și să nu își partajeze datele de autentificare.
+</string>
+
+    <string name="data_security_question_5">5. Cum asigură SmartStack Solutions integritatea datelor mele?</string>
+
+    <string name="data_security_answer_5">
+Răspuns: Înregistrările financiare sunt sincronizate cu Firebase atunci când există conexiune. Totuși, ar trebui să verifici informațiile importante și să păstrezi copii ale documentelor esențiale.
+</string>
+
+    <string name="data_security_question_6">6. Ce trebuie să fac dacă suspectez o breșă de securitate?</string>
+
+    <string name="data_security_answer_6">
+Răspuns: Dacă suspectezi o breșă de securitate, contactează imediat echipa noastră de suport prin secțiunea Ajutor și suport a aplicației. Vom investiga situația și vom lua măsurile necesare pentru securizarea contului tău.
+</string>
+
+    <string name="data_security_question_7">7. Cum îmi pot îmbunătăți propria securitate în timp ce folosesc SmartStack Solutions?</string>
+
+    <string name="data_security_answer_7">
+Răspuns: Folosește o parolă puternică și unică pentru contul SmartStack Solutions. Asigură-te că dispozitivul este protejat prin parolă sau autentificare biometrică și evită utilizarea rețelelor Wi-Fi publice atunci când accesezi aplicația.
+</string>
+
+    <string name="data_security_question_8">8. Respectă SmartStack Solutions reglementările privind protecția datelor?</string>
+
+    <string name="data_security_answer_8">
+Răspuns: SmartStack Solutions este conceput pentru a colecta doar datele necesare furnizării serviciului. Drepturile privind confidențialitatea pot varia în funcție de locație; contactează suportul pentru întrebări sau solicitări privind datele.
+</string>
+
+    <string name="data_security_question_9">9. Ce tip de criptare utilizează SmartStack Solutions?</string>
+
+    <string name="data_security_answer_9">
+Răspuns: SmartStack Solutions utilizează metode standard din industrie pentru criptarea datelor în tranzit, protejând informațiile împotriva accesului neautorizat în timpul transmiterii.
+</string>
+
+    <string name="data_security_question_10">10. Cât de des sunt efectuate audituri de securitate?</string>
+
+    <string name="data_security_answer_10">
+Răspuns: Practicile de securitate și dependențele sunt revizuite pe măsură ce aplicația evoluează. Nicio aplicație nu poate garanta protecție completă, astfel încât utilizatorii trebuie să își securizeze și contul, și dispozitivul.
+</string>
+
+    <string name="data_security_question_11">11. Ce se întâmplă cu datele mele dacă îmi șterg contul?</string>
+
+    <string name="data_security_answer_11">
+Răspuns: Solicitările de ștergere a contului sunt destinate eliminării datelor asociate aplicației. Unele informații pot fi păstrate temporar atunci când acest lucru este necesar pentru securitate, facturare sau obligații legale.
+</string>
+
+    <string name="data_security_question_12">12. Cum pot contacta SmartStack Solutions cu privire la probleme de securitate a datelor?</string>
+
+    <string name="data_security_answer_12">
+Răspuns: Dacă ai întrebări privind securitatea datelor, poți contacta echipa noastră de suport prin secțiunea Ajutor și suport din aplicație. Echipa noastră este disponibilă pentru a răspunde întrebărilor tale și pentru a te ajuta.
+</string>
+
+    <string name="data_security_question_13">13. Ce măsuri există pentru protecția împotriva pierderii datelor?</string>
+
+    <string name="data_security_answer_13">
+Răspuns: Înregistrările sunt stocate prin serviciile cloud Firebase. Disponibilitatea și recuperarea pot fi afectate de probleme ale serviciului, rețelei sau dispozitivului, de aceea documentele importante ar trebui păstrate și în altă parte.
+</string>
+
+    <string name="data_security_question_14">14. Oferiți autentificare în doi pași (2FA)?</string>
+
+    <string name="data_security_answer_14">
+Răspuns: În prezent nu oferim autentificare în doi pași, însă analizăm implementarea acesteia pentru a îmbunătăți securitatea conturilor. Totuși, utilizarea unei parole puternice și unice și securizarea dispozitivului oferă deja o protecție semnificativă.
+</string>
+
+    <string name="faqs_question_1">1. Ce este SmartStack Solutions?</string>
+
+    <string name="faqs_answer_1">
+Răspuns: SmartStack Solutions este o aplicație completă de gestionare financiară, concepută pentru a ajuta utilizatorii să își urmărească plățile și veniturile. Permite clasificarea tranzacțiilor, setarea de mementouri și vizualizarea datelor financiare în diferite formate pentru bugetare și planificare financiară.
+</string>
+    <string name="faqs_question_2">2. Cum adaug o nouă plată deschisă?</string>
+
+    <string name="faqs_answer_2">
+Răspuns: Pentru a adăuga o nouă plată deschisă, accesează secțiunea Plăți deschise din aplicație, apasă butonul Plus și completează informațiile necesare, precum titlul, suma și data. De asemenea, poți adăuga un document sau alte informații relevante.
+</string>
+
+    <string name="faqs_question_3">3. Pot categoriza plățile/cheltuielile mele?</string>
+
+    <string name="faqs_answer_3">
+Răspuns: Da, SmartStack Solutions îți permite să clasifici plățile și cheltuielile în categorii și subcategorii predefinite.
+</string>
+
+    <string name="faqs_question_4">4. Cum pot vizualiza plățile/cheltuielile după stare (viitoare, restante, recurente)?</string>
+
+    <string name="faqs_answer_4">
+Răspuns: În secțiunea Plăți deschise, poți filtra plățile după stare. Plățile efectuate sunt mutate în Plăți închise. Plățile restante apar la Restante, iar cele viitoare sunt afișate la Viitoare. Plățile recurente apar în secțiunea Recurente.
+</string>
+
+    <string name="faqs_question_5">5. Ce sunt cheltuielile esențiale și neesențiale și care este diferența?</string>
+
+    <string name="faqs_answer_5">
+Răspuns: Cheltuielile esențiale includ necesități precum chiria, alimentele de bază, serviciile medicale și transportul necesar. Cheltuielile neesențiale includ achiziții opționale, cum ar fi serviciile de streaming sau articolele de lux. SmartStack clasifică în mod consecvent subcategoriile acceptate; înregistrările care nu pot fi clasificate sunt incluse în total, dar nu în niciunul dintre subtotaluri.
+</string>
+
+    <string name="faqs_question_6">6. Este posibilă scanarea plăților?</string>
+
+    <string name="faqs_answer_6">
+Răspuns: Da. Atunci când creezi o plată deschisă, o cheltuială finalizată sau o înregistrare de venit, selectează Scanare document. SmartStack decupează documentul, recunoaște textul imprimat direct pe dispozitiv și sugerează câmpuri precum titlu, sumă, dată, furnizor sau plătitor. Verifică toate sugestiile înainte de salvare.
+</string>
+
+    <string name="faqs_question_7">7. Pot urmări veniturile cu SmartStack Solutions?</string>
+
+    <string name="faqs_answer_7">
+Răspuns: Da, poți urmări veniturile prin adăugarea de înregistrări în secțiunea Venituri a aplicației. Completează informații precum titlul, suma și data încasării pentru a păstra o evidență exactă a câștigurilor tale.
+</string>
+
+    <string name="faqs_question_8">8. Ce măsuri de securitate utilizează SmartStack Solutions pentru protejarea datelor mele?</string>
+
+    <string name="faqs_answer_8">
+Răspuns: SmartStack Solutions utilizează măsuri solide de securitate, precum criptarea datelor, protocoale sigure de autentificare și copii de siguranță regulate pentru a proteja informațiile financiare. În plus, aplicația nu stochează informații sensibile de plată.
+</string>
+
+    <string name="faqs_question_9">9. Ce este contul Premium și care sunt avantajele sale?</string>
+
+    <string name="faqs_answer_9">
+Răspuns: Premium elimină reclamele și deblochează gestionarea plăților închise, gestionarea veniturilor, obiectivele de economii și analize financiare pe șase și douăsprezece luni, inclusiv tendințe ale fluxului de numerar, modificări ale categoriilor, angajamente recurente și consecvența economiilor. Plățile deschise, mementourile, informațiile lunare, exportul datelor și calendarul rămân disponibile în versiunea gratuită.
+</string>
+
+    <string name="faqs_question_10">10. Cum pot face upgrade la contul Premium?</string>
+
+    <string name="faqs_answer_10">
+Răspuns: Pentru a trece la contul Premium, accesează meniul aplicației și selectează Deblochează funcțiile Premium. Urmează instrucțiunile pentru finalizarea achiziției și activarea tuturor funcțiilor.
+</string>
+
+    <string name="faqs_question_11">11. Care este diferența dintre plățile deschise și cele închise?</string>
+
+    <string name="faqs_answer_11">
+Răspuns: Plățile deschise reprezintă tranzacții pentru care ai primit deja un produs sau serviciu, dar încă nu ai efectuat plata. Plățile închise reprezintă cheltuieli deja efectuate. Aplicația îți permite să urmărești ambele tipuri pentru o gestionare mai eficientă a finanțelor.
+</string>
+
+    <string name="faqs_question_12">12. Cum stabilesc un obiectiv de economii?</string>
+
+    <string name="faqs_answer_12">
+Răspuns: Accesează secțiunea Obiectiv de economii din meniul principal. Introdu obiectivul, suma țintă, data de început și data de sfârșit. Panoul principal va afișa apoi suma lunară necesară și progresul pentru luna selectată.
+</string>
+
+    <string name="faqs_question_13">13. Pot seta mai multe obiective de economii?</string>
+
+    <string name="faqs_answer_13">
+Răspuns: Da, poți seta mai multe obiective de economii pentru perioade diferite. Fiecare obiectiv este urmărit separat în meniul principal, unde poți vedea progresul fiecăruia. Reține că perioadele nu se pot suprapune.
+</string>
+
+    <string name="faqs_question_14">14. Ce trebuie să fac dacă întâmpin o problemă cu aplicația?</string>
+
+    <string name="faqs_answer_14">
+Răspuns: Dacă întâmpini probleme cu aplicația, deschide secțiunea Ajutor și suport și oferă o descriere clară a problemei, inclusiv ce s-a întâmplat și pașii necesari pentru reproducerea acesteia.
+</string>
+
+    <string name="faqs_question_15">15. Cum funcționează sistemul de notificări în SmartStack Solutions și ce include?</string>
+
+    <string name="faqs_answer_15">
+Răspuns: În SmartStack Solutions, notificările sunt create automat cu trei zile înainte de data scadenței unei plăți deschise, oferind mementouri la timp. Notificările apar în aplicație și te ajută să rămâi informat. Utilizatorii pot vizualiza, marca drept citite sau șterge notificările direct din aplicație. Notificările mai vechi de 30 de zile sunt eliminate automat.
+</string>
+
+    <string name="help_title">Ajutor și suport</string>
+
+    <string name="main_tagline">Organizează-ți finanțele\n\nși simplifică-ți viața!</string>
+
+    <string name="content_description_logo">Sigla aplicației</string>
+
+    <string name="app_title">SmartStack Solutions</string>
+
+    <string name="total_net_savings">Sold lunar estimat</string>
+
+    <string name="monthly_overview">Prezentare lunară</string>
+
+    <string name="dashboard_hint">Vezi obligațiile viitoare, cheltuielile plătite, veniturile și progresul către obiectivul tău.</string>
+
+    <string name="savings_target_progress">Progresul obiectivului de economii</string>
+
+    <string name="set_saving_target">Stabilește un obiectiv de economii</string>
+
+    <string name="target_achieved">Obiectiv atins</string>
+
+    <string name="savings_target_reached_message">Felicitări! Ai atins 100%% din obiectivul tău de economii.</string>
+
+    <string name="goal_summary">Trebuie să economisești %1$s pe lună pentru a-ți atinge obiectivul până la %2$s.</string>
+
+    <string name="add_new_entry">Adaugă o nouă înregistrare</string>
+
+    <string name="notifications">Notificări</string>
+
+    <string name="content_description_back_arrow">Înapoi la ecranul anterior</string>
+
+    <string name="content_description_notifications_list">Lista notificărilor</string>
+
+    <string name="unlock_premium_features">Deblochează funcțiile Premium</string>
+
+    <string name="premium_intro_text">Păstrează funcțiile esențiale gratuite. Fă upgrade atunci când dorești un spațiu financiar complet, cu istoric extins, gestionarea veniturilor, obiective și fără reclame.</string>
+    <string name="premium_compare_import">Import CSV/PDF</string>
+    <string name="premium_compare_import_free">50/fișier · 100 în total</string>
+    <string name="premium_compare_import_premium">200/fișier</string>
+
+    <string name="premium_compare_insights">Perspective financiare</string>
+    <string name="premium_compare_insights_free">Informații lunare de bază</string>
+    <string name="premium_compare_insights_premium">Tendințe pe 6/12 luni</string>
+
+    <string name="premium_compare_ads">Reclame</string>
+    <string name="premium_compare_ads_free">Afișate</string>
+    <string name="premium_compare_ads_premium">Eliminate</string>
+
+    <string name="premium_preview_closed_payments">Mod previzualizare: poți consulta plățile închise. Treci la Premium pentru a crea, edita sau șterge plăți închise.</string>
+
+    <string name="premium_preview_income">Mod previzualizare: poți consulta înregistrările de venit. Treci la Premium pentru a crea, edita sau șterge venituri.</string>
+
+    <string name="premium_upgrade_required">Treci la Premium pentru a crea plăți închise, înregistrări de venit și obiective de economii.</string>
+
+    <string name="features">Funcții</string>
+
+    <string name="feature_open_payments_title">Plăți deschise</string>
+    <string name="feature_open_payments_desc">Gestionează plățile deschise și rămâi la curent cu facturile viitoare.</string>
+    <string name="feature_open_payments_expandable">Versiunea gratuită include până la 30 de plăți deschise active individuale plus programe recurente în limita utilizării corecte. Premium oferă o limită semnificativ mai mare pentru înregistrările active și viitoare.</string>
+
+    <string name="feature_closed_payments_title">Plăți închise</string>
+    <string name="feature_closed_payments_desc">Urmărește facturile plătite și gestionează istoricul tranzacțiilor.</string>
+    <string name="feature_closed_payments_expandable">Toată lumea poate marca o plată deschisă ca plătită. Premium deblochează și crearea, editarea, ștergerea și gestionarea completă a istoricului detaliat.</string>
+
+    <string name="feature_income_management_title">Gestionarea veniturilor</string>
+    <string name="feature_income_management_desc">Urmărește și clasifică sursele de venit.</string>
+    <string name="feature_income_management_expandable">Monitorizează salarii, activități independente, beneficii, investiții și venituri recurente alături de cheltuieli și soldul estimat.</string>
+
+    <string name="feature_notifications_title">Notificări</string>
+    <string name="feature_notifications_desc">Primește mementouri la timp pentru plățile deschise.</string>
+    <string name="feature_notifications_expandable">Configurează mementouri înainte de scadență, în ziua scadenței și pentru întârzieri. Poți marca o plată ca efectuată direct din notificare.</string>
+
+    <string name="feature_calendar_title">Calendar</string>
+    <string name="feature_calendar_desc">Obține o imagine de ansamblu a tuturor tranzacțiilor într-o vizualizare de calendar.</string>
+    <string name="feature_calendar_expandable">Calendarul rămâne disponibil în versiunea gratuită și combină plățile deschise, cheltuielile finalizate și veniturile după dată.</string>
+
+    <string name="feature_saving_target_title">Obiectiv de economii</string>
+    <string name="feature_saving_target_desc">Stabilește un obiectiv de economii și urmărește progresul.</string>
+    <string name="feature_saving_target_expandable">Definește o sumă țintă și o perioadă de timp, apoi compară suma lunară necesară cu soldul estimat real.</string>
+
+    <string name="feature_financial_insights_title">Perspective financiare avansate</string>
+    <string name="feature_financial_insights_desc">Transformă istoricul tău în tendințe relevante.</string>
+    <string name="feature_financial_insights_expandable">Compară fluxul de numerar pe șase și douăsprezece luni, identifică schimbările categoriilor de cheltuieli, urmărește angajamentele recurente și analizează consecvența economiilor. Analiza urmează luna selectată în panoul principal.</string>
+
+    <string name="unlock_button_text">Deblochează SmartStack Solutions Premium</string>
+    <string name="unlock_button_with_price">Deblochează Premium · %1$s</string>
+
+    <string name="more_information">Mai multe informații</string>
+
+    <string name="premium_still_loading">Premium se încarcă încă. Încearcă din nou.</string>
+
+    <string name="billing_not_ready">Facturarea nu este încă pregătită. Încearcă din nou.</string>
+
+    <string name="premium_activated">Premium activat</string>
+
+    <string name="premium_active">Premium activ</string>
+
+    <string name="premium_unavailable">Premium nu este disponibil momentan. Apasă pentru a reîncerca.</string>
+
+    <string name="premium_loading">Se încarcă opțiunile Premium...</string>
+
+    <string name="less_information">Mai puține informații</string>
+
+    <string name="show_details">Afișează detalii</string>
+
+    <string name="hide_details">Ascunde detalii</string>
+
+    <string name="quick_entry_hint">Este necesară doar suma. Data este completată automat, iar detaliile pot fi adăugate ulterior.</string>
+
+    <string name="optional_details">Detalii opționale</string>
+
+    <string name="savings_quick_entry_hint">Introdu suma țintă și data de sfârșit. Data de început este completată automat cu ziua de astăzi.</string>
+
+    <string name="title_optional">Titlu (opțional)</string>
+
+    <string name="free_open_payment_limit_reached">Ai atins limita gratuită de 30 de plăți deschise active individuale. Marchează elementele finalizate ca plătite sau treci la Premium.</string>
+
+    <string name="free_closed_payment_limit_reached">Ai atins limita gratuită de 100 de plăți închise. Șterge istoricul mai vechi sau treci la Premium.</string>
+
+    <string name="free_recurring_limit_reached">Acest program recurent ar depăși limita gratuită de 250 de apariții viitoare ale plăților recurente. Elimină un program neutilizat sau treci la Premium.</string>
+
+    <string name="premium_usage_limit_reached">Această înregistrare ar depăși limita de utilizare corectă Premium de 2.000 de înregistrări viitoare combinate de plăți și venituri. Elimină înregistrările viitoare învechite sau contactează suportul.</string>
+
+    <string name="usage_limit_check_failed">SmartStack nu a putut verifica limita disponibilă de înregistrări. Verifică conexiunea și încearcă din nou.</string>
+
+    <string name="terms_and_conditions_title">Termeni și condiții</string>
+
+    <string name="help_hub_title">Cum vă putem ajuta?</string>
+
+    <string name="help_hub_intro">Găsește rapid un răspuns, gestionează datele contului sau contactează-ne direct.</string>
+
+    <string name="help_choose_option">Alege o opțiune de suport</string>
+
+    <string name="help_faq_title">Răsfoiește întrebările frecvente</string>
+
+    <string name="help_faq_description">Primește răspunsuri despre plăți, mementouri, Premium, limite și utilizarea contului.</string>
+
+    <string name="help_contact_title">Trimite un e-mail echipei SmartStack Support</string>
+
+    <string name="help_contact_description">Deschide un e-mail pregătit către appdev.jr2024@gmail.com.</string>
+
+    <string name="help_data_title">Asistență pentru date și cont</string>
+
+    <string name="help_data_description">Exportă informațiile tale sau revizuiește opțiunile de ștergere a contului.</string>
+
+    <string name="help_message_title">Pentru un răspuns mai rapid</string>
+
+    <string name="help_response_note">Nu trimite niciodată parole, tokenuri de achiziție sau evidențe financiare complete prin e-mail.</string>
+
+    <string name="support_email_subject">Solicitare de asistență SmartStack Solutions</string>
+
+    <string name="support_email_copied">Nu a fost găsită nicio aplicație de e-mail. Adresa de suport a fost copiată în clipboard.</string>
+
+    <string name="faqs_question_16">16. Ce limite de utilizare se aplică conturilor gratuite și Premium?</string>
+
+    <string name="faqs_answer_16">Conturile gratuite pot păstra până la 30 de plăți deschise active, 100 de plăți închise și 250 de înregistrări viitoare de plăți recurente. Premium mărește aceste limite și permite până la 2.000 de înregistrări viitoare combinate de plăți și venituri. Aceste limite de siguranță protejează funcționarea fiabilă a serviciului și previn creșterile accidentale ale numărului de înregistrări.</string>
+
+    <string name="faqs_question_17">17. Utilizatorii versiunii gratuite pot în continuare marca plățile ca plătite?</string>
+    <string name="faqs_answer_17">Da. Finalizarea fluxului normal de mutare a unei plăți din categoria deschisă în categoria închisă nu este niciodată blocată de limitele versiunii gratuite. Crearea, editarea și ștergerea directă a plăților închise sunt funcții de gestionare Premium.</string>
+
+    <string name="faqs_question_18">18. Va șterge SmartStack automat istoricul meu financiar?</string>
+
+    <string name="faqs_answer_18">În prezent, SmartStack nu aplică o perioadă de ștergere automată pentru istoricul plăților. Poți exporta datele contului în orice moment. Dacă va fi introdusă în viitor o politică importantă de retenție a datelor, aplicația va oferi informații în avans, acolo unde este posibil.</string>
+
+    <string name="faqs_question_19">19. Ce informații financiare sunt incluse?</string>
+
+    <string name="faqs_answer_19">Versiunea gratuită include fluxul financiar al lunii selectate, urgența plăților deschise și compoziția cheltuielilor. Premium adaugă tendințe ale fluxului de numerar pe șase și douăsprezece luni, modificări ale categoriilor, tendințe ale angajamentelor recurente și consecvența economiilor. Perioadele multi-lunare se încheie cu luna selectată în panoul principal.</string>
+
+    <string name="back">Înapoi</string>
+
+    <string name="content_description_back">Înapoi</string>
+
+    <string name="about_us_title">Despre noi</string>
+
+    <string name="about_us_content">
+SmartStack Solutions a fost creat pentru a face finanțele de zi cu zi mai ușor de înțeles. Aplicația reunește plățile viitoare, cheltuielile efectuate, veniturile, obiectivele de economii, mementourile și activitatea din calendar într-o singură vizualizare organizată.\n\n
+Accentul nostru este pus pe organizarea practică a finanțelor: informații clare, categorii utile și instrumente care îi ajută pe utilizatori să observe ce este scadent, ce a fost deja plătit și ce sumă rămâne disponibilă în fiecare lună. SmartStack este un instrument de organizare și nu oferă consultanță financiară, fiscală sau investițională.\n\n
+Întrebările și feedbackul sunt binevenite la appdev.jr2024@gmail.com.
+</string>
+
+    <string name="delete_recurring_income">Șterge venitul recurent</string>
+
+    <string name="delete_this_income_entry">Șterge doar această înregistrare de venit</string>
+
+    <string name="delete_this_and_future_income">Șterge această înregistrare și pe cele viitoare</string>
+
+    <string name="delete_all_recurring_income">Șterge toate înregistrările din această serie de venituri recurente</string>
+
+    <string name="delete_income_entry">Șterge înregistrarea de venit</string>
+
+    <string name="delete_income_confirmation">Ștergi această înregistrare de venit?</string>
+
+    <string name="income_deleted">Înregistrarea de venit a fost ștearsă.</string>
+
+    <string name="future_income_deleted">Această înregistrare și cele viitoare au fost șterse.</string>
+
+    <string name="all_recurring_income_deleted">Toate înregistrările din această serie de venituri recurente au fost șterse.</string>
+
+    <string name="income_delete_failed">Înregistrarea de venit nu a putut fi ștearsă.</string>
+
+    <string name="empty_open_payments_title">Fii pregătit pentru plățile viitoare</string>
+
+    <string name="empty_open_payments_message">Adaugă facturi și alte plăți care sunt încă neachitate. SmartStack organizează elementele viitoare și restante și îți amintește înainte de data scadenței.</string>
+
+    <string name="empty_closed_payments_title">Construiește istoricul cheltuielilor tale</string>
+
+    <string name="empty_closed_payments_message">Plățile închise reprezintă cheltuieli deja plătite. Le poți adăuga direct sau poți marca o plată deschisă ca plătită pentru a o muta aici.</string>
+
+    <string name="empty_income_title">Vezi de unde provin veniturile tale</string>
+
+    <string name="empty_income_message">Adaugă salarii, activități independente, beneficii sau alte venituri. Marchează veniturile recurente pentru ca SmartStack să creeze automat înregistrările viitoare.</string>
+
+    <string name="add_open_payment">Adaugă plată deschisă</string>
+
+    <string name="add_closed_payment">Adaugă plată închisă</string>
+
+    <string name="add_income">Adaugă venit</string>
+
+    <string name="explore_premium">Descoperă Premium</string>
+
+    <string name="not_now">Nu acum</string>
+
+    <string name="no_entries_match_filter">Nicio înregistrare nu corespunde acestui filtru</string>
+
+    <string name="show_tutorial_again">Afișează din nou tutorialul secțiunii</string>
+
+    <string name="payment_reminders">Mementouri de plată</string>
+
+    <string name="payment_reminders_channel_description">Mementouri pentru plăți deschise viitoare, scadente și restante.</string>
+
+    <string name="notification_settings">Setări notificări</string>
+
+    <string name="payment_notifications">Notificări de plată</string>
+
+    <string name="advance_reminder">Memento în avans</string>
+
+    <string name="due_today_reminder">Memento pentru scadența de astăzi</string>
+
+    <string name="overdue_reminder">Memento pentru plăți restante</string>
+
+    <string name="weekly_overdue_reminder">Repetă săptămânal mementoul pentru plățile restante</string>
+
+    <string name="reminder_off">Dezactivat</string>
+
+    <string name="reminder_one_day">Cu 1 zi înainte</string>
+
+    <string name="reminder_three_days">Cu 3 zile înainte</string>
+
+    <string name="reminder_seven_days">Cu 7 zile înainte</string>
+
+    <string name="notification_settings_saved">Setările notificărilor au fost salvate.</string>
+
+    <string name="notifications_load_failed">Notificările nu au putut fi încărcate.</string>
+
+    <string name="notification_due_soon_title">Plată scadentă în curând</string>
+
+    <string name="notification_due_soon_text">%1$s · %2$s · Scadentă la %3$s</string>
+
+    <string name="notification_due_today_title">Plată scadentă astăzi</string>
+
+    <string name="notification_due_today_text">%1$s · %2$s · Scadentă astăzi</string>
+
+    <string name="notification_overdue_title">Plată restantă</string>
+
+    <string name="view_payment">Vezi plata</string>
+
+    <string name="notification_due_date_short">Scadentă %1$s</string>
+
+    <string name="empty_notifications_title">Nu rata niciodată o plată importantă</string>
+
+    <string name="empty_notifications_message">SmartStack îți amintește când o plată deschisă se apropie de scadență, este scadentă astăzi sau devine restantă. Mementourile se opresc atunci când plata este marcată ca efectuată.</string>
+
+    <string name="notifications_all_caught_up_title">Ești la zi</string>
+
+    <string name="notifications_all_caught_up_message">Momentan nu există mementouri de plată. Notificările noi vor apărea aici atunci când o plată se apropie de scadență sau devine restantă.</string>
+
+    <string name="notifications_turned_off_title">Notificările sunt dezactivate</string>
+
+    <string name="notifications_turned_off_message">Activează notificările pentru ca SmartStack să îți amintească despre plățile viitoare și restante.</string>
+
+    <string name="enable_notifications">Activează notificările</string>
+
+    <string name="payment_reminders_paused_title">Mementourile de plată sunt întrerupte</string>
+
+    <string name="payment_reminders_paused_message">Reactivează notificările de plată oricând dorești ca SmartStack să programeze din nou mementouri.</string>
+
+    <plurals name="notification_overdue_text">
+        <item quantity="one">%1$s · %2$s · întârziată cu %3$d zi</item>
+        <item quantity="other">%1$s · %2$s · întârziată cu %3$d zile</item>
+    </plurals>
+
+    <string name="open_payment">Plată deschisă</string>
+
+    <string name="closed_payment">Plată închisă</string>
+
+    <string name="overdue_open_payment">Plată deschisă restantă</string>
+
+    <string name="untitled_entry">Înregistrare fără titlu</string>
+
+    <string name="no_category">Fără categorie</string>
+
+    <string name="no_entries_for_date">Nu există înregistrări pentru această dată</string>
+
+    <string name="no_entries_for_date_explanation">Plățile deschise, plățile închise și veniturile programate pentru data selectată vor apărea aici.</string>
+
+    <string name="payment_date">Data plății</string>
+
+    <string name="source_payer">Sursă / plătitor</string>
+
+    <string name="source_payer_hint">Angajator, client, chiriaș, instituție…</string>
+
+    <string name="recurrence_one_year_explanation">SmartStack pregătește înregistrări recurente pentru următoarele 12 luni, astfel încât imaginea de ansamblu a obligațiilor viitoare să rămână actualizată și ușor de gestionat.</string>
+
+    <string name="open_payment_saved">Seria de plăți deschise a fost salvată cu succes.</string>
+
+    <string name="open_payment_save_failed">Plata deschisă nu a putut fi salvată: %1$s</string>
+
+    <string name="income_saved">Seria de venituri a fost salvată cu succes.</string>
+
+    <string name="income_save_failed">Venitul nu a putut fi salvat: %1$s</string>
+
+    <string name="payment_moved_to_closed">Plata a fost mutată la Plăți închise.</string>
+
+    <string name="payment_moved_to_open">Plata a fost mutată înapoi la Plăți deschise.</string>
+
+    <string name="payment_move_failed">Plata nu a putut fi mutată: %1$s</string>
+
+    <string name="data_account">Date și cont</string>
+
+    <string name="export_data_title">Exportă datele tale</string>
+
+    <string name="export_data_explanation">Descarcă plățile, veniturile, obiectivele de economii și notificările SmartStack într-un fișier JSON.</string>
+
+    <string name="export_my_data">Exportă datele mele</string>
+
+    <string name="export_complete">Exportul datelor a fost salvat.</string>
+
+    <string name="export_failed">Datele nu au putut fi exportate.</string>
+
+    <string name="delete_account_title">Șterge contul și datele</string>
+
+    <string name="delete_account_explanation">Șterge permanent contul SmartStack și datele financiare stocate. Această acțiune nu poate fi anulată.</string>
+
+    <string name="delete_my_account">Șterge contul meu</string>
+    <string name="delete_account_confirmation">Ștergi permanent contul, plățile, veniturile, obiectivele de economii și notificările?</string>
+
+    <string name="delete_account_relogin">Pentru securitate, autentifică-te din nou și apoi revino aici pentru a șterge contul.</string>
+
+    <string name="delete_account_failed">Contul nu a putut fi șters. Încearcă din nou.</string>
+
+    <string name="enter_open_payment_name">Te rugăm să introduci un nume pentru plata deschisă.</string>
+
+    <string name="enter_valid_amount">Te rugăm să introduci o sumă validă.</string>
+
+    <string name="select_valid_due_date">Te rugăm să selectezi o dată scadentă validă.</string>
+
+    <string name="title_required">Titlul este obligatoriu.</string>
+
+    <string name="date_required">Data este obligatorie.</string>
+
+    <string name="invalid_date_format">Te rugăm să introduci o dată validă.</string>
+
+    <string name="currency">Monedă</string>
+
+    <string name="currency_menu_title">Monedă (%1$s)</string>
+
+    <string name="select_currency">Selectează moneda</string>
+
+    <string name="billing_insufficient_funds">Plata a fost refuzată din cauza fondurilor insuficiente.</string>
+
+    <string name="billing_user_ineligible">Această ofertă de abonament nu este disponibilă pentru acest cont.</string>
+
+    <string name="financial_insights">Perspective financiare</string>
+
+    <string name="financial_insights_subtitle">Înțelege luna selectată dintr-o privire</string>
+
+    <string name="monthly_money_map">Hartă financiară lunară</string>
+
+    <string name="monthly_money_map_description">Vezi cum se îmbină veniturile, cheltuielile finalizate, obligațiile viitoare și obiectivul tău de economii.</string>
+
+    <string name="open_payment_risk_timeline">Cronologia riscului plăților deschise</string>
+
+    <string name="open_payment_risk_description">Concentrează-te mai întâi asupra obligațiilor restante și apropiate.</string>
+
+    <string name="spending_composition">Structura cheltuielilor</string>
+
+    <string name="spending_composition_description">Vezi ce categorii reprezintă cheltuielile finalizate din această lună.</string>
+
+    <string name="available_after_commitments">Disponibil</string>
+
+    <string name="paid_expenses_short">Plătit</string>
+
+    <string name="still_due_short">Încă datorat</string>
+
+    <string name="savings_target">Obiectiv de economii</string>
+
+    <string name="no_savings_target_insight">Nu există un obiectiv de economii activ pentru această lună.</string>
+
+    <string name="savings_target_cushion">Rămân %1$s după atingerea obiectivului de economii.</string>
+
+    <string name="savings_target_shortfall">Mai sunt necesari %1$s pentru atingerea obiectivului de economii.</string>
+
+    <string name="due_next_seven_days">Următoarele 7 zile</string>
+
+    <string name="later_this_month">Mai târziu</string>
+
+    <string name="other">Altele</string>
+
+    <string name="no_closed_payments_for_month">Nu există cheltuieli finalizate pentru această lună.</string>
+
+    <plurals name="payment_count">
+        <item quantity="one">%1$d plată</item>
+        <item quantity="other">%1$d plăți</item>
+    </plurals>
+
+    <string name="positive_balance_status">Sold pozitiv</string>
+
+    <string name="balance">Sold</string>
+
+    <string name="shortfall_status">Deficit</string>
+
+    <string name="no_activity_status">Fără activitate</string>
+
+    <string name="balanced_status">Echilibrat</string>
+
+    <string name="selected_month">Această lună</string>
+
+    <string name="six_months">6 luni</string>
+
+    <string name="twelve_months">12 luni</string>
+
+    <string name="premium_insights_teaser_title">Cifrele tale spun o poveste mai lungă</string>
+
+    <string name="premium_insights_teaser_message">Premium dezvăluie tendințe, schimbări ale categoriilor, angajamente recurente și cât de constant îți urmezi planurile de economii.</string>
+
+    <string name="unlock_deeper_insights">Deblochează analize mai detaliate →</string>
+
+    <string name="premium_insights_upgrade">Treci la Premium pentru a explora tendințele financiare pe șase și douăsprezece luni.</string>
+
+    <string name="cash_flow_trend">Tendința fluxului de numerar</string>
+
+    <string name="cash_flow_trend_description">Compară veniturile și obligațiile totale; barele verzi și roșii arată soldul fiecărei luni.</string>
+
+    <string name="category_changes">Schimbări ale categoriilor</string>
+
+    <string name="category_changes_description">Vezi ce categorii de cheltuieli au crescut sau au scăzut comparativ cu lunile anterioare din această perioadă.</string>
+
+    <string name="category_changes_info_title">Cum sunt calculate schimbările categoriilor</string>
+
+    <string name="category_changes_info_message">Luna selectată este comparată cu media lunară a lunilor anterioare din perioada de șase sau douăsprezece luni aleasă.\n\nSchimbare = suma lunii selectate minus media lunară anterioară, împărțită la acea medie.\n\nO săgeată în sus indică o creștere a cheltuielii; o săgeată în jos indică o scădere. O liniuță indică faptul că nu a existat o cheltuială anterioară pentru a calcula un procent. Sunt afișate cele mai mari patru categorii din luna selectată.</string>
+
+    <string name="category_changes_info_content_description">Explică schimbările categoriilor</string>
+
+    <string name="recurring_commitment_trend">Tendința angajamentelor recurente</string>
+
+    <string name="recurring_commitment_trend_description">Urmărește modul în care obligațiile recurente programate evoluează în timp.</string>
+
+    <string name="savings_consistency">Consecvența economiilor</string>
+
+    <string name="savings_consistency_description">Vezi cât de des soldul lunar estimat a îndeplinit un obiectiv activ de economii.</string>
+
+    <string name="total_obligations">Obligații</string>
+
+    <string name="not_enough_category_data">Adaugă cheltuieli finalizate pe mai multe luni pentru a compara categoriile.</string>
+
+    <string name="commitments_increased">Angajamentele recurente au crescut cu %1$s.</string>
+
+    <string name="commitments_decreased">Angajamentele recurente au scăzut cu %1$s.</string>
+
+    <string name="commitments_steady">Angajamentele recurente au rămas stabile.</string>
+
+    <string name="no_savings_goals_in_period">Nu au existat obiective de economii active în această perioadă.</string>
+
+    <string name="savings_goals_achieved">%1$d din %2$d luni cu obiectiv atins</string>
+
+    <string name="dashboard_welcome_title">Construiește prima ta imagine financiară de ansamblu</string>
+
+    <string name="dashboard_welcome_message">Începe cu o plată viitoare. SmartStack devine mai util pe măsură ce veniturile și cheltuielile finalizate construiesc imaginea lunară.</string>
+
+    <string name="dashboard_welcome_steps">1. Adaugă o plată viitoare\n2. Adaugă venituri pentru a calcula soldul\n3. Marchează plățile ca efectuate pentru a debloca analizele cheltuielilor</string>
+
+    <string name="add_first_payment">Adaugă prima plată</string>
+
+    <string name="how_smartstack_works">Cum funcționează SmartStack</string>
+
+    <string name="dashboard_tutorial_title">Fluxul tău SmartStack</string>
+
+    <string name="dashboard_tutorial_message">Plățile deschise arată ce este încă datorat. Când marchezi una ca plătită, aceasta devine parte a istoricului cheltuielilor finalizate. Veniturile și obiectivele de economii completează imaginea lunară, iar mementourile și analizele te ajută să observi ce necesită atenție.</string>
+
+    <string name="about_us_hero_title">Claritate pentru finanțele de zi cu zi</string>
+
+    <string name="about_why_title">De ce există SmartStack</string>
+
+    <string name="about_why_body">Organizarea financiară ar trebui să fie ușor de înțeles, nu copleșitoare. SmartStack a fost creat pentru a reuni plățile viitoare, cheltuielile finalizate, veniturile, obiectivele de economii și mementourile într-o imagine lunară clară.</string>
+
+    <string name="about_manage_title">Ce te ajută SmartStack să gestionezi</string>
+
+    <string name="about_manage_body">Urmărește ce este scadent, identifică plățile restante, organizează angajamentele recurente, analizează categoriile de cheltuieli și înțelege ce sumă rămâne disponibilă în fiecare lună.</string>
+    <string name="guide_step_5_description">Folosește mementouri, înregistrări recurente și calendarul pentru a observa datele care se apropie și pentru a reduce munca repetitivă.</string>
+
+    <string name="getting_started_open_faq">Mai ai întrebări? Deschide Întrebările frecvente</string>
+
+    <string name="help_getting_started_title">Ghid de început</string>
+
+    <string name="help_getting_started_description">Învață fluxul recomandat pentru plăți, venituri, mementouri și informații financiare lunare.</string>
+
+    <string name="entry_method_subtitle">Alege cea mai rapidă opțiune pentru această înregistrare.</string>
+
+    <string name="entry_method_open_payment">Cum dorești să adaugi această plată deschisă?</string>
+
+    <string name="entry_method_closed_payment">Cum dorești să adaugi această cheltuială finalizată?</string>
+
+    <string name="entry_method_income">Cum dorești să adaugi acest venit?</string>
+
+    <string name="scan_document">Scanează documentul</string>
+
+    <string name="scan_document_description">O singură înregistrare: scanează o factură, o chitanță sau un document de venit.</string>
+
+    <string name="scan_review_disclaimer">Detaliile scanate sunt doar sugestii. Verifică titlul, suma, data, categoria și atașamentul înainte de salvare.</string>
+
+    <string name="enter_manually">Introdu manual</string>
+
+    <string name="enter_manually_description">O singură înregistrare: introdu singur detaliile.</string>
+
+    <string name="scan_and_prefill">Scanează și completează automat câmpurile</string>
+
+    <string name="preparing_document_scanner">Se pregătește scannerul de documente…</string>
+
+    <string name="reading_document">Se citește documentul și se pregătesc sugestiile…</string>
+
+    <string name="document_text_not_recognized">Documentul a fost atașat, dar textul său nu a putut fi recunoscut. Te rugăm să introduci detaliile manual.</string>
+
+    <string name="document_scan_failed_title">Documentul nu a putut fi scanat</string>
+
+    <string name="document_scan_failed_message">Încearcă din nou cu un document clar și bine iluminat sau continuă cu introducerea manuală.</string>
+
+    <string name="try_again">Încearcă din nou</string>
+
+    <string name="faqs_question_20">20. Cât de precisă este scanarea documentelor?</string>
+
+    <string name="faqs_answer_20">Răspuns: Scanarea este concepută pentru a reduce tastarea, nu pentru a înlocui verificarea ta. Rezultatele depind de calitatea imaginii, aspectul documentului, limba și dacă apar mai multe date sau totaluri. SmartStack poate selecta greșit totalul, data, furnizorul sau plătitorul. Verifică întotdeauna fiecare câmp sugerat înainte de salvare. Scanarea este procesată pe dispozitiv; documentul nu este încărcat în Firebase prin funcția de scanare. Serviciile Google Play pot descărca componente pentru scanare și recunoaștere text și pot colecta date operaționale privind performanța, însă ML Kit nu trimite documentul sau textul recunoscut către serverele Google.</string>
+
+    <string name="import_transactions">Importă tranzacții</string>
+
+    <string name="import_transactions_description">Adaugă mai multe plăți închise și venituri din extrase CSV sau PDF.</string>
+
+    <string name="closed_payments_expenses">Plăți închise</string>
+
+    <string name="ignore_transaction">Ignoră</string>
+
+    <string name="possible_duplicate">Posibil duplicat. Acest rând a fost debifat; selectează-l doar dacă dorești să îl imporți din nou.</string>
+
+    <string name="import_row_needs_review">Te rugăm să verifici cu atenție acest rând. Poate fi un transfer sau o rambursare ori valorile sale nu au putut fi verificate complet.</string>
+
+    <string name="reading_statement">Se citește extrasul…</string>
+
+    <string name="reading_statement_page">Se citește pagina %1$d din %2$d…</string>
+
+    <string name="no_transactions_detected">Nu au fost detectate tranzacții compatibile. Încearcă un export CSV sau un PDF mai clar.</string>
+
+    <string name="checking_duplicates">Se verifică posibilele duplicate…</string>
+
+    <string name="import_summary">%1$d plăți închise · %2$d venituri · %3$d excluse</string>
+
+    <string name="import_currency_mismatch">Moneda extrasului: %1$s · Moneda aplicației: %2$s. Rândurile importate folosesc moneda aplicației. Te rugăm să iei în considerare cursul de schimb și să ajustezi sumele înainte de import.</string>
+
+    <string name="import_currency_detected">Moneda extrasului: %1$s. Rândurile importate folosesc moneda aplicației.</string>
+
+    <string name="import_currency_not_detected">Moneda extrasului nu a putut fi detectată. Valorile importate vor utiliza moneda aplicației: %1$s.</string>
+
+    <string name="scan_currency_mismatch">Moneda detectată în document: %1$s · Moneda aplicației: %2$s. Înregistrarea va utiliza moneda aplicației. Te rugăm să iei în considerare cursul de schimb și să ajustezi suma înainte de salvare.</string>
+
+    <string name="closed_payment_saved">Plata închisă a fost salvată cu succes.</string>
+
+    <string name="closed_payment_save_failed">Plata închisă nu a putut fi salvată: %1$s</string>
+
+    <string name="user_session_unavailable">Sesiunea ta nu a putut fi verificată. Te rugăm să te autentifici din nou.</string>
+
+    <string name="user_not_authenticated">Te rugăm să te autentifici din nou.</string>
+
+    <string name="unknown_item_clicked">Acest element nu a putut fi deschis.</string>
+
+    <string name="load_open_payments_failed">Plățile deschise nu au putut fi încărcate: %1$s</string>
+
+    <string name="load_closed_payments_failed">Plățile închise nu au putut fi încărcate: %1$s</string>
+
+    <string name="load_income_failed">Veniturile nu au putut fi încărcate: %1$s</string>
+
+    <string name="load_savings_target_failed">Obiectivul de economii nu a putut fi încărcat: %1$s</string>
+
+    <string name="invalid_target_amount">Te rugăm să introduci o valoare validă pentru obiectiv.</string>
+
+    <string name="invalid_end_date">Te rugăm să selectezi o dată de final validă.</string>
+
+    <string name="start_date_before_end_date">Data de început trebuie să fie înaintea datei de final.</string>
+
+    <string name="invalid_target_date_range">Interval invalid pentru obiectiv.</string>
+
+    <string name="savings_target_not_found">Obiectivul de economii nu a fost găsit.</string>
+
+    <string name="savings_target_updated">Obiectivul de economii a fost actualizat.</string>
+
+    <string name="savings_target_update_failed">Obiectivul de economii nu a putut fi actualizat: %1$s</string>
+
+    <string name="savings_target_deleted">Obiectivul de economii a fost șters cu succes.</string>
+
+    <string name="savings_target_delete_failed">Obiectivul de economii nu a putut fi șters: %1$s</string>
+
+    <string name="valid_inputs_required">Te rugăm să introduci valori valide.</string>
+
+    <string name="monthly_savings_clear_failed">Economiile lunare nu au putut fi șterse: %1$s</string>
+
+    <string name="associated_data_failed">Datele asociate nu au putut fi obținute: %1$s</string>
+
+    <string name="bill_not_found">Plata deschisă nu a fost găsită.</string>
+
+    <string name="open_payment_updated">Plata deschisă a fost actualizată cu succes.</string>
+
+    <string name="open_payment_update_failed">Plata deschisă nu a putut fi actualizată: %1$s</string>
+
+    <string name="open_payment_update_unavailable">Plata deschisă nu a putut fi actualizată.</string>
+
+    <string name="closed_payment_updated">Plata închisă a fost actualizată cu succes.</string>
+
+    <string name="closed_payment_update_failed">Plata închisă nu a putut fi actualizată: %1$s</string>
+
+    <string name="closed_payment_update_unavailable">Plata închisă nu a putut fi actualizată.</string>
+
+    <string name="closed_payment_deleted">Plata închisă a fost ștearsă cu succes.</string>
+
+    <string name="closed_payment_delete_failed">Plata închisă nu a putut fi ștearsă.</string>
+
+    <string name="image_permission_denied">Permisiunea de stocare a fost refuzată. Imaginea nu poate fi afișată.</string>
+
+    <string name="image_display_failed">Imaginea nu a putut fi afișată: %1$s</string>
+
+    <string name="income_updated">Venitul a fost actualizat cu succes.</string>
+
+    <string name="income_update_failed">Venitul nu a putut fi actualizat: %1$s</string>
+
+    <string name="income_update_unavailable">Venitul nu a putut fi actualizat.</string>
+
+    <string name="payment_login_required">Te rugăm să te autentifici din nou pentru a actualiza această plată.</string>
+
+    <string name="payment_id_missing">Această plată nu poate fi mutată deoarece lipsește ID-ul său.</string>
+
+    <string name="help_content">
+    Dacă aveți nevoie de asistență sau suport în timp ce utilizați SmartStack Solutions, puteți contacta echipa noastră de asistență.\n\n
+    Contactați-ne\n\n
+    Pentru orice problemă, întrebare sau feedback, vă rugăm să contactați echipa noastră de suport prin e-mail la appdev.jr2024@gmail.com. Echipa noastră vă va răspunde cât mai curând posibil.\n\n
+    Întrebări frecvente (FAQ)\n\n
+    Înainte de a ne contacta, vă recomandăm să consultați secțiunea Întrebări frecvente, unde am adunat răspunsuri la cele mai comune întrebări despre utilizarea SmartStack Solutions. Această secțiune acoperă subiecte precum crearea înregistrărilor, administrarea contului și utilizarea eficientă a funcțiilor aplicației.\n\n
+    Pentru orice alte întrebări sau solicitări de asistență, nu ezitați să ne contactați prin e-mail. Suntem aici pentru a vă ajuta să profitați la maximum de SmartStack Solutions!
+</string>
+    <string name="export_monthly_overview">Exportă prezentarea lunară</string>
+    <string name="export_monthly_title">Exportă prezentarea lunară</string>
+    <string name="export_scope_info_title">Ce va fi exportat?</string>
+    <string name="export_scope_info_content_description">Afișează informațiile despre export</string>
+    <string name="export_scope_info_bullets">• Luna selectată&#10;• Total venituri&#10;• Total plăți deschise&#10;• Total plăți închise&#10;• Sold&#10;• Totaluri pe categorii pentru plățile închise&#10;• Înregistrările lunii selectate</string>
+    <string name="export_pdf_summary">Rezumat PDF</string>
+    <string name="export_csv_data">Date CSV</string>
+    <string name="export_share_chooser">Partajează prezentarea lunară</string>
+
+    <string name="export_report_title">Prezentare lunară SmartStack</string>
+    <string name="export_summary">Rezumat</string>
+    <string name="export_category_totals">Totaluri pe categorii</string>
+    <string name="export_entries">Înregistrări</string>
+    <string name="export_open_payments">Plăți deschise</string>
+    <string name="export_closed_payments">Plăți închise</string>
+    <string name="export_income">Venituri</string>
+    <string name="export_balance">Sold</string>
+    <string name="export_no_entries">Nu există înregistrări pentru această lună.</string>
+    <string name="premium_feature_closed_payments">Creează, editează și organizează istoricul detaliat al plăților.</string>
+    <string name="premium_feature_income_management">Creează, editează și organizează venituri recurente și ocazionale.</string>
+    <string name="premium_feature_saving_target">Stabilește obiective de economisire și urmărește progresul lunar.</string>
+    <string name="premium_feature_financial_insights">Explorează tendințele financiare pe 6 și 12 luni.</string>
+    <string name="premium_closing_text">Plățile deschise, notificările, calendarul, exportul datelor și marcarea plăților ca achitate rămân disponibile în versiunea gratuită.</string>
+
+    <string name="premium_compare_title">Gratuit vs Premium</string>
+    <string name="premium_compare_subtitle">Începe gratuit cu funcțiile de bază. Treci la Premium când dorești un istoric mai detaliat, instrumente pentru venituri, obiective de economisire, tendințe pe mai multe luni, limite mai mari și fără reclame.</string>
+
+    <string name="premium_compare_feature">Funcție</string>
+    <string name="premium_compare_free">Gratuit</string>
+    <string name="premium_compare_premium">Premium</string>
+
+    <string name="premium_compare_open_payments">Plăți deschise</string>
+    <string name="premium_compare_open_payments_free">30 de plăți deschise active, unice</string>
+    <string name="premium_compare_open_payments_premium">Până la 2.000 de înregistrări viitoare combinate</string>
+
+    <string name="premium_compare_recurring">Înregistrări recurente viitoare</string>
+    <string name="premium_compare_recurring_free">Până la 250 de plăți viitoare</string>
+    <string name="premium_compare_recurring_premium">Până la 2.000 de înregistrări viitoare</string>
+
+    <string name="premium_compare_closed">Plăți închise</string>
+    <string name="premium_compare_closed_free">Până la 100 de plăți achitate</string>
+    <string name="premium_compare_closed_premium">Instrumente complete pentru istoricul plăților</string>
+    <string name="terms_and_conditions_content">
+    1. Acceptarea termenilor&#10;&#10;Prin utilizarea aplicației SmartStack Solutions, sunteți de acord să respectați acești termeni și condiții. Dacă nu sunteți de acord, vă rugăm să nu utilizați aplicația.&#10;&#10;
+    2. Modificarea termenilor&#10;&#10;SmartStack Solutions își rezervă dreptul de a modifica acești termeni în orice moment. Vom informa utilizatorii despre orice modificări prin aplicație sau prin e-mail. Utilizarea în continuare a aplicației după publicarea modificărilor constituie acceptarea noilor termeni.&#10;&#10;
+    3. Responsabilitățile utilizatorului&#10;&#10;Securitatea contului: Utilizatorii sunt responsabili pentru păstrarea confidențialității informațiilor contului lor și pentru toate activitățile desfășurate prin intermediul acestuia.&#10;&#10;Informații corecte: Utilizatorii trebuie să furnizeze informații corecte și complete atunci când își creează și administrează conturile.\nAcțiuni interzise: Utilizatorii nu trebuie să folosească aplicația în scopuri ilegale sau pentru activități care ar putea dăuna aplicației sau altor utilizatori.&#10;&#10;
+    4. Politica de confidențialitate&#10;&#10;Confidențialitatea dumneavoastră este importantă pentru noi. Vă rugăm să consultați Politica noastră de confidențialitate pentru informații despre modul în care colectăm, utilizăm și protejăm datele dumneavoastră cu caracter personal.&#10;&#10;
+    5. Utilizarea aplicației&#10;&#10;Funcționalități: SmartStack Solutions oferă instrumente pentru gestionarea veniturilor și cheltuielilor financiare. Aplicația permite utilizatorilor să introducă, să organizeze și să revizuiască datele lor financiare.\nLimitări: Deși depunem toate eforturile pentru a oferi funcționalități corecte și fiabile, SmartStack Solutions nu poate garanta că toate funcțiile vor fi lipsite de erori sau disponibile fără întreruperi.&#10;&#10;
+    6. Cont Premium&#10;&#10;Funcționalități: Premium oferă acces la funcțiile prezentate pe ecranul Premium. Funcțiile disponibile și prețurile se pot modifica pe măsură ce serviciul evoluează.&#10;&#10;Plăți: Taxele Premium sunt percepute prin Google Play conform ofertei afișate înainte de achiziție. Rambursările și anulările sunt gestionate conform termenilor Google Play și legislației locale aplicabile.&#10;&#10;
+    7. Răspundere&#10;&#10;Fără garanții: Aplicația este furnizată „ca atare”, fără niciun fel de garanții. SmartStack Solutions nu garantează exactitatea, caracterul complet sau fiabilitatea aplicației.&#10;&#10;Limitarea răspunderii: SmartStack Solutions nu va fi răspunzătoare pentru niciun prejudiciu rezultat din utilizarea sau imposibilitatea utilizării aplicației.&#10;&#10;
+    8. Încetarea accesului&#10;&#10;SmartStack Solutions își rezervă dreptul de a suspenda sau de a înceta accesul la aplicație pentru orice utilizator care încalcă acești termeni și condiții.&#10;&#10;
+    9. Informații de contact&#10;&#10;Pentru întrebări sau nelămuriri privind acești termeni și condiții, contactați-ne la appdev.jr2024@gmail.com.
+</string>
+
+    <string name="premium_compare_income">Gestionarea veniturilor</string>
+    <string name="premium_compare_income_free">Doar import</string>
+    <string name="premium_compare_income_premium">Creează și gestionează veniturile</string>
+    <string name="premium_compare_convenience">Instrumente de confort</string>
+    <string name="premium_compare_convenience_free">Șabloane, introducere prin scanare și export lunar</string>
+    <string name="premium_compare_convenience_premium">Incluse, cu limite de import mai mari</string>
+    <string name="use_template">Folosește șablonul</string>
+    <string name="hide_templates">Ascunde șabloanele</string>
+    <string name="save_as_template">Salvează ca șablon</string>
+    <string name="template_name">Numele șablonului</string>
+    <string name="template_name_hint">de ex. Cumpărături alimentare, Stație de alimentare, Dividende</string>
+    <string name="template_saved">Șablon salvat.</string>
+    <string name="template_name_required">Te rugăm să introduci un nume pentru șablon.</string>
+    <string name="about_privacy_title">Confidențialitate prin design</string>
+    <string name="about_privacy_body">Aplicația colectează doar informațiile necesare pentru a furniza funcționalitățile sale. Înregistrările financiare sunt asociate contului dvs. autentificat. Imaginile atașate rămân în spațiul de stocare privat al aplicației pe acest dispozitiv și nu sunt încărcate în Firebase.</string>
+
+    <string name="about_independent_title">Dezvoltată independent</string>
+    <string name="about_independent_body">SmartStack este dezvoltat independent, cu accent pe utilitate practică, limite echitabile și îmbunătățire continuă. Este un instrument de organizare și nu oferă consultanță financiară, fiscală sau de investiții.</string>
+
+    <string name="about_contact_title">Întrebări și feedback</string>
+    <string name="about_contact_body">Feedbackul dvs. contribuie la îmbunătățirea SmartStack. Contactați-ne la appdev.jr2024@gmail.com.</string>
+
+    <string name="about_version">Versiunea aplicației %1$s</string>
+
+    <string name="income_attachment">Atașament pentru venit</string>
+
+    <string name="data_security_question_15">15. Unde sunt stocate imaginile atașate?</string>
+    <string name="data_security_answer_15">Răspuns: Imaginile atașate plăților deschise, cheltuielilor finalizate sau veniturilor sunt copiate în spațiul de stocare privat al aplicației de pe acest dispozitiv. Firebase stochează înregistrarea financiară și referința locală către atașament, însă imaginea în sine nu este încărcată și nici sincronizată. Eliminarea aplicației sau a datelor sale locale poate șterge aceste imagini, așadar documentele importante ar trebui păstrate și în altă parte.</string>
+
+    <string name="getting_started_title">Noțiuni introductive</string>
+    <string name="getting_started_hero_title">Prima ta lună cu SmartStack</string>
+    <string name="getting_started_intro">Urmează acest flux de lucru simplu pentru a transforma înregistrările individuale într-o imagine de ansamblu utilă a lunii.</string>
+
+    <string name="guide_step_1_title">Adaugă ceea ce este încă de plată</string>
+    <string name="guide_step_1_description">Alege introducerea manuală sau scanarea unui document. Adaugă data scadenței și recurența, apoi verifică toate sugestiile rezultate din scanare înainte de salvare.</string>
+
+    <string name="guide_step_2_title">Înregistrează veniturile</string>
+    <string name="guide_step_2_description">Adaugă venituri recurente sau unice, astfel încât tabloul de bord să poată calcula soldul lunar estimat.</string>
+
+    <string name="guide_step_3_title">Marchează plățile ca efectuate</string>
+    <string name="guide_step_3_description">Folosește caseta de bifare „Plătit” atunci când o plată este finalizată. Aceasta va fi mutată automat în istoricul cheltuielilor finalizate.</string>
+
+    <string name="guide_step_4_title">Înțelege-ți luna</string>
+    <string name="guide_step_4_description">Analizează plățile deschise și finalizate, veniturile, progresul economiilor, structura pe categorii și informațiile financiare din tabloul de bord.</string>
+
+    <string name="guide_step_5_title">Rămâi pe drumul cel bun</string>
+
+
+</resources>

@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
+import kotlin.Unit;
 
 public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -71,7 +72,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             Bills bill = (Bills) itemsArrayList.get(position);
 
             billHolder.title.setText(isBlank(bill.getName()) ? context.getString(R.string.untitled_payment) : bill.getName());
-            billHolder.amount.setText(CurrencyPreferences.format(context, bill.getAmount()));
+            billHolder.amount.setText(CurrencyPreferences.format(context, bill.getAmount(), bill.getCurrency()));
             boolean overdue = bill.getDate() != null
                     && AppDateUtils.INSTANCE.isBeforeToday(bill.getDate().toDate())
                     && !bill.isPaid();
@@ -128,7 +129,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private void saveBillToSpendings(Bills bill, int adapterPosition) {
         if (FirebaseAuth.getInstance().getCurrentUser() == null) {
             bill.setPaid(false);
-            Toast.makeText(context, "Please log in again to update this payment.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, R.string.payment_login_required, Toast.LENGTH_SHORT).show();
             notifyDataSetChanged();
             return;
         }
@@ -137,55 +138,73 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         String billId = bill.getBillId();
         if (billId == null) {
             bill.setPaid(false);
-            Toast.makeText(context, "Unable to move this payment because its ID is missing.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, R.string.payment_id_missing, Toast.LENGTH_SHORT).show();
             notifyDataSetChanged();
             return;  // Exit the method to avoid a crash
         }
         if (userUid != null) {
-            // Convert the Bills object to a Spendings object
-            Spendings spending = new Spendings();
-            spending.setSpendingId(billId);  // Using the bill ID as the spending ID
-            spending.setName(bill.getName());
-            spending.setAmount(bill.getAmount());
-            spending.setCategory(bill.getCategory());
-            spending.setSubcategory(bill.getSubcategory());
-            spending.setVendor(bill.getVendor());
-            spending.setDate(bill.getDate());
-            spending.setComment(bill.getComment());
-            spending.setAttachment(bill.getAttachment());
-            spending.setPaid(true);  // Set it as paid since it's moving to spendings
-            spending.setRepeat(bill.getRepeat());
-            spending.setRecurring(!"No".equals(bill.getRepeat()));
-            spending.setBillId(bill.getBillId());
-            spending.setParentBillId(bill.getParentBillId());
-
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
-            com.google.firebase.firestore.DocumentReference spendingRef = db.collection("users")
-                    .document(userUid).collection("spendings").document(bill.getBillId());
-            com.google.firebase.firestore.DocumentReference billRef = db.collection("users")
-                    .document(userUid).collection("bills").document(bill.getBillId());
-
-            db.runBatch(batch -> {
-                        batch.set(spendingRef, spending);
-                        batch.delete(billRef);
-                    })
-                    .addOnSuccessListener(aVoid -> {
-                        Toast.makeText(context, R.string.payment_moved_to_closed, Toast.LENGTH_SHORT).show();
-                        PaymentNotificationScheduler.INSTANCE.cancelBill(context, bill.getBillId());
-                        if (adapterPosition >= 0 && adapterPosition < itemsArrayList.size()) {
-                            itemsArrayList.remove(adapterPosition);
-                            notifyItemRemoved(adapterPosition);
-                            notifyItemRangeChanged(adapterPosition, itemsArrayList.size());
-                        } else {
-                            notifyDataSetChanged();
-                        }
-                    })
-                    .addOnFailureListener(e -> {
-                        bill.setPaid(false);
-                        billHolderRollback(adapterPosition);
-                        Toast.makeText(context, context.getString(R.string.payment_move_failed, e.getMessage()), Toast.LENGTH_SHORT).show();
-                    });
+            UsageLimits.checkClosedPaymentCreation(context, userUid, 1L, (allowed, messageRes) -> {
+                if (allowed) {
+                    moveBillToSpendings(bill, adapterPosition, userUid);
+                } else {
+                    bill.setPaid(false);
+                    billHolderRollback(adapterPosition);
+                    Toast.makeText(
+                            context,
+                            messageRes != null ? context.getString(messageRes) : context.getString(R.string.usage_limit_check_failed),
+                            Toast.LENGTH_LONG
+                    ).show();
+                }
+                return Unit.INSTANCE;
+            });
         }
+    }
+
+    private void moveBillToSpendings(Bills bill, int adapterPosition, String userUid) {
+        // Convert the Bills object to a Spendings object
+        Spendings spending = new Spendings();
+        spending.setSpendingId(bill.getBillId());  // Using the bill ID as the spending ID
+        spending.setName(bill.getName());
+        spending.setAmount(bill.getAmount());
+        spending.setCurrency(bill.getCurrency());
+        spending.setCategory(bill.getCategory());
+        spending.setSubcategory(bill.getSubcategory());
+        spending.setVendor(bill.getVendor());
+        spending.setDate(bill.getDate());
+        spending.setComment(bill.getComment());
+        spending.setAttachment(bill.getAttachment());
+        spending.setPaid(true);  // Set it as paid since it's moving to spendings
+        spending.setRepeat(bill.getRepeat());
+        spending.setRecurring(!"No".equals(bill.getRepeat()));
+        spending.setBillId(bill.getBillId());
+        spending.setParentBillId(bill.getParentBillId());
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        com.google.firebase.firestore.DocumentReference spendingRef = db.collection("users")
+                .document(userUid).collection("spendings").document(bill.getBillId());
+        com.google.firebase.firestore.DocumentReference billRef = db.collection("users")
+                .document(userUid).collection("bills").document(bill.getBillId());
+
+        db.runBatch(batch -> {
+                    batch.set(spendingRef, spending);
+                    batch.delete(billRef);
+                })
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(context, R.string.payment_moved_to_closed, Toast.LENGTH_SHORT).show();
+                    PaymentNotificationScheduler.INSTANCE.cancelBill(context, bill.getBillId());
+                    if (adapterPosition >= 0 && adapterPosition < itemsArrayList.size()) {
+                        itemsArrayList.remove(adapterPosition);
+                        notifyItemRemoved(adapterPosition);
+                        notifyItemRangeChanged(adapterPosition, itemsArrayList.size());
+                    } else {
+                        notifyDataSetChanged();
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    bill.setPaid(false);
+                    billHolderRollback(adapterPosition);
+                    Toast.makeText(context, context.getString(R.string.payment_move_failed, e.getMessage()), Toast.LENGTH_SHORT).show();
+                });
     }
 
     private void billHolderRollback(int adapterPosition) {

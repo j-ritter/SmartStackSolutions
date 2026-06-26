@@ -177,7 +177,7 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
             listenerRegistration = db.collection("users").document(userUid).collection("bills")
                 .addSnapshotListener { snapshots, e ->
                     if (e != null) {
-                        Toast.makeText(this, "Error loading bills: ${e.message}", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, getString(R.string.load_open_payments_failed, e.message.orEmpty()), Toast.LENGTH_SHORT).show()
                         return@addSnapshotListener
                     }
 
@@ -212,7 +212,7 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
                     }
                 }
         } else {
-            Toast.makeText(this, "Error: User not authenticated", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.user_not_authenticated, Toast.LENGTH_SHORT).show()
         }
     }
     private fun repairLegacyBill(userUid: String, documentId: String, bill: Bills) {
@@ -229,6 +229,10 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
         if (bill.parentBillId.isNullOrBlank()) {
             bill.parentBillId = documentId
             updates["parentBillId"] = documentId
+        }
+        if (bill.currency.isNullOrBlank()) {
+            bill.currency = CurrencyPreferences.selectedCode(this)
+            updates["currency"] = bill.currency
         }
         if (updates.isNotEmpty()) {
             db.collection("users").document(userUid)
@@ -299,7 +303,7 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
         dialog.show()
 
         edtTitleDialog.setText(bill.name)
-        edtAmountDialog.setText(String.format(Locale.getDefault(), "%.2f", bill.amount))
+        edtAmountDialog.setText(CurrencyPreferences.formatPlain(bill.amount))
         edtAmountDialog.setTextColor(
             ContextCompat.getColor(
                 this,
@@ -343,7 +347,7 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
             if (userUid != null && bill != null) {
                 // Update the bill object with new values
                 bill.name = edtTitleDialog.text.toString()
-                bill.amount = edtAmountDialog.text.toString().toDoubleOrNull() ?: 0.0
+                bill.amount = CurrencyPreferences.roundToTwoDecimals(edtAmountDialog.text.toString().toDoubleOrNull() ?: 0.0)
                 bill.comment = edtCommentDialog.text.toString()
 
                 btnSaveChanges.visibility = View.VISIBLE
@@ -360,15 +364,15 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
                             billsArrayList[index] = bill
                             myAdapter.notifyItemChanged(index)
                         }
-                        Toast.makeText(this, "'Open Payment' updated successfully", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, R.string.open_payment_updated, Toast.LENGTH_SHORT).show()
                         btnCloseDialog.text = getString(R.string.close)
                         dialog.dismiss()
                     }
                     .addOnFailureListener { e ->
-                        Toast.makeText(this, "Failed to update 'Open Payment': ${e.message}", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, getString(R.string.open_payment_update_failed, e.message.orEmpty()), Toast.LENGTH_SHORT).show()
                     }
             } else {
-                Toast.makeText(this, "Error: Unable to update 'Open Payment'", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.open_payment_update_unavailable, Toast.LENGTH_SHORT).show()
             }
         }}
 
@@ -552,7 +556,7 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
         if (bill != null) {
             showBillDetailsDialog(bill)
         } else {
-            Toast.makeText(this, "Bill not found", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.bill_not_found, Toast.LENGTH_SHORT).show()
         }
     }
 

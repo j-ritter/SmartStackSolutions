@@ -25,8 +25,6 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
@@ -106,7 +104,7 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
                         }
                     }
                 } else {
-                    Toast.makeText(this, "Storage permission denied. Cannot display image.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, R.string.image_permission_denied, Toast.LENGTH_SHORT).show()
                     // Hide image view or show placeholder if permission is denied
                     pendingDialogImageView?.visibility = View.GONE
                     pendingDialogDetailsLayout?.visibility = View.VISIBLE // Show other details
@@ -200,7 +198,7 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
         }
 
         imgDeleteSpending.setOnClickListener {
-            if (hasPremiumAccess) {
+            if (hasPremiumAccess || !selectedSpending?.importHash.isNullOrBlank()) {
                 deleteSpending()
             } else {
                 showUpgradeDialog()
@@ -214,7 +212,7 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
             listenerRegistration = db.collection("users").document(userUid).collection("spendings")
                 .addSnapshotListener { snapshots, e ->
                     if (e != null) {
-                        Toast.makeText(this, "Error loading spendings: ${e.message}", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, getString(R.string.load_closed_payments_failed, e.message.orEmpty()), Toast.LENGTH_SHORT).show()
                         Log.e("Firestore Error", e.message.toString())
                         return@addSnapshotListener
                     }
@@ -251,7 +249,7 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
                     }
                 }
         } else {
-            Toast.makeText(this, "Error: User not authenticated", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.user_not_authenticated, Toast.LENGTH_SHORT).show()
             Log.e("Authentication Error", "User not authenticated")
         }
     }
@@ -265,6 +263,10 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
         if (spending.subcategory == null) {
             spending.subcategory = "-"
             updates["subcategory"] = "-"
+        }
+        if (spending.currency.isNullOrBlank()) {
+            spending.currency = CurrencyPreferences.selectedCode(this)
+            updates["currency"] = spending.currency
         }
         if (updates.isNotEmpty()) {
             db.collection("users").document(userUid)
@@ -360,7 +362,7 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
         styleDetailsDialogWindow(dialog)
 
         edtTitleDialog.setText(spending.name)
-        edtAmountDialog.setText(String.format(Locale.getDefault(), "%.2f", spending.amount))
+        edtAmountDialog.setText(CurrencyPreferences.formatPlain(spending.amount))
 
         edtCategoryDialog.setText(FinancialEntryOptions.displayCategory(this, spending.category))
         edtSubcategoryDialog.setText(
@@ -378,7 +380,7 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
         // Hide save button initially
         btnSaveChanges.visibility = View.GONE
         btnEditChanges.visibility = if (hasPremiumAccess) View.VISIBLE else View.GONE
-        btnDelete.visibility = if (hasPremiumAccess) View.VISIBLE else View.GONE
+        btnDelete.visibility = View.VISIBLE
 
         btnEditChanges.setOnClickListener {
             if (!hasPremiumAccess) {
@@ -403,7 +405,7 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
             if (userUid != null && spending != null) {
                 // Update the bill object with new values
                 spending.name = edtTitleDialog.text.toString()
-                spending.amount = edtAmountDialog.text.toString().toDoubleOrNull() ?: 0.0
+                spending.amount = CurrencyPreferences.roundToTwoDecimals(edtAmountDialog.text.toString().toDoubleOrNull() ?: 0.0)
 
                 spending.comment = edtCommentDialog.text.toString()
 
@@ -420,15 +422,15 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
                             spendingsArrayList[index] = spending
                             myAdapter.notifyItemChanged(index)
                         }
-                        Toast.makeText(this, "'Closed Payment' updated successfully", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, R.string.closed_payment_updated, Toast.LENGTH_SHORT).show()
                         btnCloseDialog.text = getString(R.string.close)
                         dialog.dismiss()
                     }
                     .addOnFailureListener { e ->
-                        Toast.makeText(this, "Failed to update 'Closed Payment': ${e.message}", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, getString(R.string.closed_payment_update_failed, e.message.orEmpty()), Toast.LENGTH_SHORT).show()
                     }
             } else {
-                Toast.makeText(this, "Error: Unable to update 'Closed Payment'", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.closed_payment_update_unavailable, Toast.LENGTH_SHORT).show()
             }
         }}
 
@@ -436,18 +438,33 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
         selectedSpending?.let { spending ->
             val userUid = FirebaseAuth.getInstance().currentUser?.uid
             if (userUid != null) {
-                db.collection("users").document(userUid).collection("spendings")
-                    .document(spending.spendingId)
-                    .delete()
+                val userRef = db.collection("users").document(userUid)
+                val spendingRef = userRef.collection("spendings").document(spending.spendingId)
+                val usageRef = userRef.collection("usage").document("statement_imports")
+                db.runTransaction { transaction ->
+                    val spendingDocument = transaction.get(spendingRef)
+                    val usageDocument = transaction.get(usageRef)
+                    transaction.delete(spendingRef)
+                    if (!spendingDocument.getString("importHash").isNullOrBlank()) {
+                        val current = usageDocument.getLong("count") ?: 0L
+                        transaction.set(
+                            usageRef,
+                            mapOf(
+                                "count" to (current - 1L).coerceAtLeast(0L),
+                                "updatedAt" to com.google.firebase.Timestamp.now()
+                            )
+                        )
+                    }
+                }
                     .addOnSuccessListener {
-                        Toast.makeText(this, "Spending deleted successfully", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, R.string.closed_payment_deleted, Toast.LENGTH_SHORT).show()
                         dialog.dismiss()
                     }
                     .addOnFailureListener {
-                        Toast.makeText(this, "Failed to delete bill", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, R.string.closed_payment_delete_failed, Toast.LENGTH_SHORT).show()
                     }
             } else {
-                Toast.makeText(this, "Error: User not authenticated", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.user_not_authenticated, Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -523,7 +540,7 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
     }
 
     private fun handleAddSpending() {
-        if (hasPremiumAccess) openCreateSpending() else showUpgradeDialog()
+        openCreateSpending()
     }
 
     private fun openCreateSpending() {
@@ -538,15 +555,13 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
         if (!attachmentUriString.isNullOrEmpty()) {
             try {
                 val uri = Uri.parse(attachmentUriString)
-                Glide.with(this)
-                    .load(uri)
-                    .error(R.drawable.ic_image_error) // Ensure you have this drawable
-                    .into(imageView)
+                imageView.setImageURI(null)
+                imageView.setImageURI(uri)
                 imageView.visibility = View.VISIBLE
                 detailsLayout?.visibility =View.VISIBLE // Or however you manage layout visibility
             } catch (e: Exception) {
                 Log.e("ImageLoad", "Error loading image in loadImageIntoView", e)
-                Toast.makeText(this, "Error displaying image: ${e.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.image_display_failed, e.message.orEmpty()), Toast.LENGTH_SHORT).show()
                 imageView.visibility = View.GONE
                 detailsLayout?.visibility = View.VISIBLE // Still show other details
             }

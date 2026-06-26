@@ -1,0 +1,978 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="notification_details">Bildirim ayrıntıları</string>
+    <string name="main">Ana</string>
+    <string name="app_name">SmartStack Solutions</string>
+    <string name="target_name">Hedef adı</string>
+    <string name="log_in">Giriş yap</string>
+    <string name="email">E-posta</string>
+    <string name="password">Şifre</string>
+    <string name="don_t_have_an_account">Hesabın yok mu?</string>
+    <string name="sign_up">Kaydol</string>
+    <string name="forgot_password">Şifreni mi unuttun?</string>
+    <string name="already_have_an_account">Zaten hesabın var mı?</string>
+    <string name="log_in_with_google">Google ile giriş yap</string>
+    <string name="sign_up_with_google">Google ile kaydol</string>
+    <string name="login_title">Tekrar hoş geldin</string>
+    <string name="login_subtitle">Açık ödemelerini, giderlerini ve gelirlerini yönetmeye devam etmek için giriş yap.</string>
+    <string name="signup_title">Hesabını oluştur</string>
+    <string name="signup_subtitle">Güvenli bir SmartStack hesabıyla finansal durumunu takip etmeye başla.</string>
+    <string name="continue_with_email">E-posta ile devam et</string>
+    <string name="email_required">E-posta adresini gir.</string>
+    <string name="email_invalid">Geçerli bir e-posta adresi gir.</string>
+    <string name="password_required">Şifreni gir.</string>
+    <string name="password_too_short">En az 6 karakter kullan.</string>
+    <string name="auth_generic_error">Giriş yapılamadı. Bilgilerini kontrol edip tekrar dene.</string>
+    <string name="auth_network_error">Bağlantı sorunu. İnternetini kontrol edip tekrar dene.</string>
+    <string name="account_exists_error">Bu e-posta ile zaten bir hesap mevcut.</string>
+    <string name="password_reset_sent">Şifre sıfırlama e-postası gönderildi. Gelen kutunu kontrol et.</string>
+    <string name="password_reset_failed">Sıfırlama e-postası gönderilemedi. Adresi kontrol edip tekrar dene.</string>
+    <string name="default_web_client_id">335330685775-busm9leph5emh7ifp13925ncer4vrq4q.apps.googleusercontent.com</string>
+    <string name="or">veya</string>
+    <string name="all">Tümü</string>
+    <string name="you_still_do_not_have_any_bill_registered">Henüz kayıtlı bir ödemen yok</string>
+    <string name="my_bills">Ödemelerim</string>
+    <string name="my_spendings">Giderlerim</string>
+    <string name="income">Gelir</string>
+    <string name="calendar">Takvim</string>
+    <string name="account">Hesap</string>
+    <string name="incoming">Yaklaşan</string>
+    <string name="overdue">Gecikmiş</string>
+    <string name="recurring">Tekrarlayan</string>
+    <string name="paid">Ödenmiş</string>
+    <string name="select_date">Tarih seç</string>
+    <string name="amount">Tutar</string>
+    <string name="vendor">Satıcı</string>
+    <string name="category">Kategori</string>
+    <string name="write_your_title">Başlık gir</string>
+    <string name="write_your_comments">Yorumlarını yaz</string>
+    <string name="cancel">İptal</string>
+    <string name="unsaved_changes_title">Kaydedilmemiş değişiklikler</string>
+    <string name="unsaved_changes_message">Kaydedilmemiş değişikliklerin var. Bunları silmek istiyor musun?</string>
+    <string name="unsaved_import_message">Henüz kaydedilmemiş içe aktarma önerilerini inceledin. Bunları silmek istiyor musun?</string>
+    <string name="keep_editing">Düzenlemeye devam et</string>
+    <string name="discard_changes">Vazgeç</string>
+    <string name="save">Kaydet</string>
+    <string name="attachment">Ek</string>
+    <string name="create_new_open_payment">Yeni açık ödeme oluştur</string>
+    <string name="open_payments">Açık ödemeler</string>
+    <string name="open_payments_hint">Hâlâ ilgilenilmesi gereken yaklaşan ve gecikmiş ödemeler.</string>
+    <string name="no_open_payments">Bu görünüme uyan açık ödeme yok.</string>
+    <string name="mark_paid">Ödenmiş olarak işaretle</string>
+    <string name="bill_details">Açık ödeme ayrıntıları</string>
+    <string name="untitled_payment">Başlıksız ödeme</string>
+    <string name="uncategorized">Kategorisiz</string>
+    <string name="delete_open_payment">Açık ödemeyi sil</string>
+    <string name="delete_open_payment_confirmation">Bu açık ödeme silinsin mi?</string>
+    <string name="delete_recurring_payment">Tekrarlayan ödemeyi sil</string>
+    <string name="delete_this_occurrence">Yalnızca bu ödemeyi sil</string>
+    <string name="delete_this_and_future">Bu ve gelecekteki ödemeleri sil</string>
+    <string name="open_payment_deleted">Açık ödeme silindi.</string>
+    <string name="future_open_payments_deleted">Bu ve gelecekteki ödemeler silindi.</string>
+    <string name="open_payment_delete_failed">Ödeme silinemedi.</string>
+    <string name="add_attachment">Ek ekle</string>
+    <string name="take_photo">Fotoğraf çek</string>
+    <string name="choose_from_gallery">Galeriden seç</string>
+    <string name="attachment_added">Ek eklendi</string>
+    <string name="attachment_failed">Ek eklenemedi</string>
+    <string name="edit_open_payment">Açık ödemeyi düzenle</string>
+    <string name="open_payment_attachment">Açık ödeme eki</string>
+    <string name="create_new_closed_payment">Yeni kapalı ödeme oluştur</string>
+    <string name="closed_payments">Kapalı ödemeler</string>
+    <string name="closed_payment_details">Kapalı ödeme ayrıntıları</string>
+    <string name="edit_closed_payment">Kapalı ödemeyi düzenle</string>
+    <string name="delete_closed_payment">Kapalı ödemeyi sil</string>
+    <string name="closed_payment_attachment">Kapalı ödeme eki</string>
+    <string name="create_new_income">Yeni gelir oluştur</string>
+    <string name="create_new_spending">Yeni gider oluştur</string>
+    <string name="date">Tarih</string>
+    <string name="type">Tür</string>
+    <string name="date_header">Tarih başlığı</string>
+    <string name="due_date">Son ödeme tarihi</string>
+    <string name="comments">Yorumlar</string>
+    <string name="close">Kapat</string>
+    <string name="set_savings_target">Tasarruf hedefi belirle</string>
+    <string name="delete_target">Hedefi sil</string>
+    <string name="delete">Sil</string>
+    <string name="delete_savings_target_confirmation">Bu tasarruf hedefi silinsin mi? İlerleme geçmişi de kaldırılacak.</string>
+    <string name="edit_target">Hedefi düzenle</string>
+    <string name="name_target">Hedef adı</string>
+    <string name="target_amount">Hedef tutar</string>
+    <string name="start_date">Başlangıç tarihi</string>
+    <string name="end_date">Bitiş tarihi</string>
+    <string name="monthly_savings">Aylık tasarruf</string>
+    <string name="savings_goal_image">Tasarruf hedefi görseli</string>
+    <string name="search_vendor">Satıcı ara</string>
+    <string name="welcome_title">SmartStack Solutions’a hoş geldin!</string>
+    <string name="welcome_icon_description">Hoş geldin simgesi</string>
+    <string name="welcome_body_message">Finansını düzenlemek ve hayatını kolaylaştırmak için aracın!</string>
+    <string name="get_started">Başla</string>
+    <string name="unlock_premium">Premium özellikleri aç &#9733;</string>
+    <string name="about_us">Hakkımızda</string>
+    <string name="faqs">SSS</string>
+    <string name="search_faqs">SSS’de ara</string>
+    <string name="data_security">Veri güvenliği</string>
+    <string name="help_support">Yardım ve destek</string>
+    <string name="terms_conditions">Şartlar ve koşullar</string>
+    <string name="logout">Çıkış yap</string>
+    <string name="logout_confirmation">Bu cihazda SmartStack Solutions hesabından çıkış yapılsın mı?</string>
+    <string name="about_us_subtitle">SmartStack\'in neden var olduğunu ve daha bilinçli finansal kararlar almanıza nasıl yardımcı olduğunu öğrenin.</string>
+    <string name="faqs_subtitle">Ödemeler, gelir, tasarruf hedefleri, Premium ve bildirimler hakkında hızlı yanıtlar.</string>
+    <string name="data_security_subtitle">Hesap erişiminizin ve finansal kayıtlarınızın nasıl yönetildiğini öğrenin.</string>
+    <string name="help_subtitle">Yanıtları bulun veya SmartStack destek ekibiyle iletişime geçin.</string>
+    <string name="terms_subtitle">SmartStack Solutions\'ı kullanırken geçerli olan önemli koşullar.</string>
+    <string name="about_us_image_description">SmartStack Solutions genel görünümü</string>
+    <string name="income_date">Gelir tarihi</string>
+    <string name="repeat">Tekrarla</string>
+    <string name="purchase_date">Satın alma tarihi</string>
+    <string name="details">Ayrıntılar</string>
+    <string name="upload">Yükle</string>
+    <string name="alarm">Hatırlatıcı</string>
+    <string name="categorydbx">Kategori</string>
+    <string name="essential">Zorunlu</string>
+    <string name="non_essential">Zorunlu olmayan</string>
+    <string name="one_time">Tek seferlik</string>
+    <string name="delete_income">Geliri sil</string>
+    <string name="edit_income">Geliri düzenle</string>
+    <string name="income_details">Gelir ayrıntıları</string>
+    <string name="previous_month">Önceki ay</string>
+    <string name="next_month">Sonraki ay</string>
+    <string name="mark_as_paid">Ödendi olarak işaretle</string>
+    <string name="calendar_title">Takvim</string>
+    <string name="content_description_navigation_menu">Gezinme menüsünü aç</string>
+    <string name="search_or_select_vendor">Satıcı ara veya seç</string>
+    <string name="enter_custom_vendor">Özel satıcı gir</string>
+    <string name="subcategory">Alt kategori</string>
+    <string name="image_added">Resim eklendi</string>
+    <string name="title">Başlık</string>
+    <string name="select_a_category">Bir kategori seç</string>
+    <string name="data_security_title">Veri güvenliği</string>
+
+    <string name="data_security_question_1">1. SmartStack Solutions verilerimi nasıl koruyor?</string>
+    <string name="data_security_answer_1">
+Cevap: SmartStack Solutions verilerinizi korumak için güvenlik önlemleri uygular. Buna güvenli oturum açma protokolleri ve temel erişim kontrolleri dahildir. Verileri güvenli şekilde depolamak ve yönetmek için güvenilir bulut hizmetlerinden yararlanıyoruz.
+</string>
+
+    <string name="data_security_question_2">2. Ödeme bilgilerim güvenli bir şekilde saklanıyor mu?</string>
+    <string name="data_security_answer_2">
+Cevap: SmartStack Solutions, ödeme işlemlerine ihtiyaç duymadan kullanıcıların finansal verileri manuel olarak girmesi için tasarlanmıştır.
+</string>
+
+    <string name="data_security_question_3">3. Kişisel bilgilerim nasıl işleniyor?</string>
+    <string name="data_security_answer_3">
+Cevap: Kişisel bilgiler yalnızca hizmetlerimizi sunmak için gerekli olan en düşük düzeyde toplanır ve güvenli şekilde bulutta saklanır. Daha fazla bilgi için PrivacyPolicies tarafından barındırılan Gizlilik Politikamızı okuyabilirsiniz.
+</string>
+
+    <string name="data_security_question_4">4. Yetkisiz erişimi önlemek için hangi önlemler uygulanıyor?</string>
+    <string name="data_security_answer_4">
+Cevap: Yetkisiz erişimi önlemek için SmartStack Solutions güçlü parola gereksinimleri ve oturum yönetimi protokolleri kullanır. Ayrıca kullanıcıların parolalarını düzenli olarak güncellemelerini ve giriş bilgilerini paylaşmamalarını öneriyoruz.
+</string>
+
+    <string name="data_security_question_5">5. SmartStack Solutions verilerimin bütünlüğünü nasıl sağlar?</string>
+    <string name="data_security_answer_5">
+Cevap: Finansal kayıtlar bağlantı mevcut olduğunda Firebase ile senkronize edilir. Yine de önemli kayıtları gözden geçirmeniz ve kritik eklerin kopyalarını saklamanız önerilir.
+</string>
+
+    <string name="data_security_question_6">6. Bir güvenlik ihlalinden şüphelenirsem ne yapmalıyım?</string>
+    <string name="data_security_answer_6">
+Cevap: Bir güvenlik ihlalinden şüpheleniyorsanız, uygulamadaki Yardım ve Destek bölümünden destek ekibimizle hemen iletişime geçin. Sorunu derhal inceleyip hesabınızı güvence altına almak için gerekli adımları atacağız.
+</string>
+
+    <string name="data_security_question_7">7. SmartStack Solutions kullanırken güvenliğimi nasıl artırabilirim?</string>
+    <string name="data_security_answer_7">
+Cevap: SmartStack Solutions hesabınız için güçlü ve benzersiz bir parola kullanın. Cihazınızı parola veya biyometrik kilitle koruyun ve uygulamaya erişirken herkese açık Wi-Fi ağlarını kullanmaktan kaçının.
+</string>
+
+    <string name="data_security_question_8">8. SmartStack Solutions veri koruma düzenlemelerine uyuyor mu?</string>
+    <string name="data_security_answer_8">
+Cevap: SmartStack Solutions yalnızca hizmeti sunmak için gerekli verileri toplamak üzere tasarlanmıştır. Geçerli gizlilik hakları bulunduğunuz konuma göre değişebilir; sorularınız veya veri talepleriniz için destek ekibiyle iletişime geçebilirsiniz.
+</string>
+
+    <string name="data_security_question_9">9. SmartStack Solutions hangi şifreleme yöntemini kullanıyor?</string>
+    <string name="data_security_answer_9">
+Cevap: SmartStack Solutions, aktarım sırasında bilgilerinizi yetkisiz erişime karşı korumak için sektör standardı şifreleme yöntemleri kullanır.
+</string>
+
+    <string name="data_security_question_10">10. Güvenlik denetimleri ne sıklıkla yapılıyor?</string>
+    <string name="data_security_answer_10">
+Cevap: Güvenlik uygulamaları ve bağımlılıklar uygulama geliştikçe gözden geçirilir. Hiçbir uygulama tam koruma garanti edemez; bu nedenle kullanıcılar hesaplarını ve cihazlarını da güvence altına almalıdır.
+</string>
+
+    <string name="data_security_question_11">11. Hesabımı silersem verilerime ne olur?</string>
+    <string name="data_security_answer_11">
+Cevap: Hesap silme talepleri, hesaba bağlı uygulama verilerini kaldırmayı amaçlar. Güvenlik, faturalandırma veya yasal yükümlülükler nedeniyle bazı bilgiler geçici olarak saklanabilir.
+</string>
+
+    <string name="data_security_question_12">12. Veri güvenliğiyle ilgili endişelerim için SmartStack Solutions ile nasıl iletişime geçebilirim?</string>
+    <string name="data_security_answer_12">
+Cevap: Veri güvenliğiyle ilgili herhangi bir endişeniz varsa uygulamadaki Yardım ve Destek bölümünden destek ekibimizle iletişime geçebilirsiniz. Ekibimiz sorularınızı yanıtlamak ve verilerinizin güvenliğini sağlamak için hizmetinizdedir.
+</string>
+
+    <string name="data_security_question_13">13. Veri kaybını önlemek için hangi önlemler uygulanıyor?</string>
+    <string name="data_security_answer_13">
+Cevap: Kayıtlar Firebase bulut hizmetleri üzerinden saklanır. Hizmet, ağ veya cihaz sorunları erişilebilirliği ve kurtarmayı etkileyebileceğinden, kritik belgelerin başka bir yerde de saklanması önerilir.
+</string>
+
+    <string name="data_security_question_14">14. İki Faktörlü Kimlik Doğrulama (2FA) sunuyor musunuz?</string>
+    <string name="data_security_answer_14">
+Cevap: Şu anda 2FA sunmuyoruz, ancak hesap güvenliğini artırmak için bunu uygulamayı değerlendiriyoruz. Yine de güçlü ve benzersiz bir parola kullanmanız ve cihazınızı güvenli tutmanız önemli ölçüde koruma sağlar.
+</string>
+
+    <string name="faqs_question_1">1. SmartStack Solutions nedir?</string>
+    <string name="faqs_answer_1">
+Cevap: SmartStack Solutions, kullanıcıların ödemelerini ve gelirlerini takip etmelerine yardımcı olmak için tasarlanmış kapsamlı bir finans yönetimi uygulamasıdır. İşlemleri kategorilere ayırmanıza, hatırlatıcılar oluşturmanıza ve bütçeleme ile finansal planlama için verilerinizi farklı görünümlerde incelemenize olanak tanır.
+</string>
+
+    <string name="faqs_question_2">2. Yeni bir açık ödeme nasıl eklerim?</string>
+    <string name="faqs_answer_2">
+Cevap: Yeni bir açık ödeme eklemek için uygulamadaki Açık Ödemeler bölümüne gidin, Artı düğmesine dokunun ve başlık, tutar ve tarih gibi gerekli bilgileri doldurun. Ayrıca bir belge veya ilgili diğer bilgileri de ekleyebilirsiniz.
+</string>
+
+    <string name="faqs_question_3">3. Ödemelerimi/giderlerimi kategorilere ayırabilir miyim?</string>
+    <string name="faqs_answer_3">
+Cevap: Evet. SmartStack Solutions ödemelerinizi ve giderlerinizi önceden tanımlanmış kategori ve alt kategorilere ayırmanıza olanak tanır.
+</string>
+
+    <string name="faqs_question_4">4. Ödemelerimi/giderlerimi duruma göre (yaklaşan, gecikmiş, tekrarlayan) nasıl görüntüleyebilirim?</string>
+    <string name="faqs_answer_4">
+Cevap: Açık Ödemeler bölümünde açık ödemelerinizi durumlarına göre filtreleyebilirsiniz. Ödenen ödemeler Kapalı Ödemeler bölümüne taşınır. Gecikmiş ödemeler Gecikmiş altında, yaklaşan ödemeler ise Yaklaşan altında gösterilir. Tekrarlayan ödemeler Tekrarlayan bölümünde görüntülenir.
+</string>
+    <string name="faqs_question_11">11. Açık ödemeler ile kapalı ödemeler arasındaki fark nedir?</string>
+    <string name="faqs_answer_11">
+Cevap: Açık ödemeler, bir hizmet veya ürün aldığınız ancak ödemesini henüz yapmadığınız işlemlerin kayıtlarıdır. Kapalı ödemeler ise daha önce ödediğiniz giderlerin kayıtlarıdır. Uygulama, mali durumunuzu daha iyi yönetebilmeniz için her ikisini de takip etmenizi sağlar.
+</string>
+
+    <string name="faqs_question_12">12. Nasıl bir tasarruf hedefi oluşturabilirim?</string>
+    <string name="faqs_answer_12">
+Cevap: Ana menüdeki Tasarruf Hedefi bölümüne dokunun. Hedef adını, hedef tutarı, başlangıç tarihini ve bitiş tarihini girin. Kontrol paneli daha sonra seçilen ay için aylık tutarı ve ilerlemeyi gösterir.
+</string>
+
+    <string name="faqs_question_13">13. Birden fazla tasarruf hedefi oluşturabilir miyim?</string>
+    <string name="faqs_answer_13">
+Cevap: Evet. Farklı dönemler için birden fazla tasarruf hedefi oluşturabilirsiniz. Her hedef ana menüde ayrı ayrı takip edilir ve her biri için ilerlemenizi görebilirsiniz. Dönemlerin çakışamayacağını unutmayın; bu nedenle farklı hedefler için çakışmayan tarih aralıkları seçin.
+</string>
+
+    <string name="faqs_question_14">14. Uygulamada bir sorunla karşılaşırsam ne yapmalıyım?</string>
+    <string name="faqs_answer_14">
+Cevap: Uygulamada bir sorunla karşılaşırsanız Yardım ve Destek bölümünü açın ve ne olduğunu ve sorunun nasıl yeniden oluşturulabileceğini de içeren açık bir açıklama sağlayın.
+</string>
+
+    <string name="faqs_question_15">15. SmartStack Solutions bildirim sistemi nasıl çalışır ve hangi özellikleri içerir?</string>
+    <string name="faqs_answer_15">
+Cevap: SmartStack Solutions\'ta bildirimler, açık bir ödemenin vade tarihinden üç gün önce otomatik olarak oluşturulur ve zamanında hatırlatma sağlar. Bildirimler uygulama içinde görünerek sizi bilgilendirir. Kullanıcılar bildirimleri görüntüleyebilir, okundu olarak işaretleyebilir veya doğrudan uygulama içinden silebilir. 30 günden eski bildirimler otomatik olarak kaldırılır. Bu sayede ayarları manuel olarak değiştirmenize gerek kalmadan yaklaşan ödemeler sürekli hatırlatılır.
+</string>
+
+    <string name="help_title">Yardım ve Destek</string>
+    <string name="help_content">
+SmartStack Solutions\'ı kullanırken yardıma veya desteğe ihtiyacınız olursa destek ekibimizle iletişime geçebilirsiniz.\n\n
+
+Bizimle İletişime Geçin\n\n
+
+Herhangi bir sorun, soru veya geri bildiriminiz için appdev.jr2024@gmail.com adresinden destek ekibimize e-posta gönderebilirsiniz. Ekibimiz en kısa sürede size dönüş yapacaktır.\n\n
+
+Sık Sorulan Sorular (SSS)\n\n
+
+Bize ulaşmadan önce SmartStack Solutions\'ın kullanımıyla ilgili sık sorulan soruların yanıtlarını derlediğimiz SSS bölümüne göz atabilirsiniz. Bu bölüm kayıt oluşturma, hesabınızı yönetme ve özellikleri etkili kullanma gibi konuları kapsar.\n\n
+
+Diğer tüm yardım veya destek ihtiyaçlarınız için bizimle e-posta yoluyla iletişime geçmekten çekinmeyin. SmartStack Solutions\'tan en iyi şekilde yararlanmanıza yardımcı olmak için buradayız!
+</string>
+
+    <string name="main_tagline">Finansınızı Düzenleyin\n\nve Hayatınızı Kolaylaştırın!</string>
+    <string name="content_description_logo">Uygulama logosu</string>
+    <string name="app_title">SmartStack Solutions</string>
+    <string name="total_net_savings">Tahmini aylık bakiye</string>
+    <string name="monthly_overview">Aylık genel bakış</string>
+    <string name="dashboard_hint">Yaklaşan yükümlülükleri, ödenen giderleri, gelirleri ve hedefinize doğru ilerlemenizi görün.</string>
+    <string name="savings_target_progress">Tasarruf hedefi ilerlemesi</string>
+    <string name="set_saving_target">Tasarruf hedefi belirle</string>
+    <string name="target_achieved">Hedefe ulaşıldı</string>
+    <string name="savings_target_reached_message">Tebrikler. Tasarruf hedefinizin %%100\'üne ulaştınız.</string>
+    <string name="goal_summary">%2$s tarihine kadar hedefinize ulaşmak için ayda %1$s tasarruf etmeniz gerekiyor.</string>
+    <string name="add_new_entry">Yeni kayıt ekle</string>
+    <string name="notifications">Bildirimler</string>
+    <string name="content_description_back_arrow">Önceki ekrana dön</string>
+    <string name="content_description_notifications_list">Bildirim listesi</string>
+
+    <string name="unlock_premium_features">Premium Özelliklerin Kilidini Aç</string>
+    <string name="premium_intro_text">Temel özellikler ücretsiz kalsın. Daha kapsamlı geçmiş, gelir yönetimi, hedefler ve reklamsız tam bir finans çalışma alanı istediğinizde yükseltin.</string>
+    <string name="premium_feature_closed_payments">Ayrıntılı ödeme geçmişinizi oluşturun, düzenleyin ve yönetin.</string>
+    <string name="premium_feature_income_management">Tek seferlik ve tekrarlayan gelirleri oluşturun, düzenleyin ve yönetin.</string>
+    <string name="premium_feature_saving_target">Tasarruf hedefleri belirleyin ve aylık ilerlemeyi takip edin.</string>
+    <string name="premium_feature_financial_insights">Altı ve on iki aylık finansal eğilimleri inceleyin.</string>
+    <string name="premium_closing_text">Açık ödemeler, hatırlatıcılar, takvim, veri dışa aktarma ve ödemeleri ödendi olarak işaretleme ücretsiz sürümde kullanılmaya devam eder.</string>
+
+    <string name="premium_compare_title">Ücretsiz ve Premium</string>
+    <string name="premium_compare_subtitle">Ücretsiz başlayın. Daha kapsamlı geçmiş, gelir araçları, hedefler, eğilimler ve daha az sınırlama istediğinizde yükseltin.</string>
+    <string name="premium_compare_feature">Özellik</string>
+    <string name="premium_compare_free">Ücretsiz</string>
+    <string name="premium_compare_premium">Premium</string>
+
+    <string name="premium_compare_open_payments">Açık ödemeler</string>
+    <string name="premium_compare_open_payments_free">30 aktif tek seferlik açık ödeme</string>
+    <string name="premium_compare_open_payments_premium">En fazla 2.000 toplam gelecek kayıt</string>
+
+    <string name="premium_compare_recurring">Tekrarlayan gelecek kayıtlar</string>
+    <string name="premium_compare_recurring_free">En fazla 250 gelecek ödeme</string>
+    <string name="premium_compare_recurring_premium">En fazla 2.000 gelecek kayıt</string>
+
+    <string name="premium_compare_closed">Kapalı ödemeler</string>
+    <string name="premium_compare_closed_free">En fazla 100 ödenmiş ödeme</string>
+    <string name="premium_compare_closed_premium">Tam geçmiş yönetimi araçları</string>
+
+    <string name="premium_compare_income">Gelir yönetimi</string>
+    <string name="premium_compare_income_free">Yalnızca içe aktarma</string>
+    <string name="premium_compare_income_premium">Gelir oluşturma ve yönetme</string>
+
+    <string name="premium_compare_import">CSV/PDF içe aktarma</string>
+    <string name="premium_compare_import_free">Dosya başına 50 · Toplam 100</string>
+    <string name="premium_compare_import_premium">Dosya başına 200</string>
+
+    <string name="premium_compare_insights">Finansal analizler</string>
+    <string name="premium_compare_insights_free">Aylık temel analizler</string>
+    <string name="premium_compare_insights_premium">6/12 aylık eğilimler</string>
+
+    <string name="premium_compare_ads">Reklamlar</string>
+    <string name="premium_compare_ads_free">Gösterilir</string>
+    <string name="premium_compare_ads_premium">Kaldırılır</string>
+
+    <string name="premium_preview_closed_payments">Önizleme modu: Kapalı ödemeleri inceleyebilirsiniz. Kapalı ödemeleri oluşturmak, düzenlemek veya silmek için Premium\'a yükseltin.</string>
+    <string name="premium_preview_income">Önizleme modu: Gelir kayıtlarını inceleyebilirsiniz. Gelir oluşturmak, düzenlemek veya silmek için Premium\'a yükseltin.</string>
+    <string name="premium_upgrade_required">Kapalı ödemeler, gelir kayıtları ve tasarruf hedefleri oluşturmak için Premium\'a yükseltin.</string>
+
+    <string name="features">Özellikler</string>
+
+    <string name="feature_open_payments_title">Açık Ödemeler</string>
+    <string name="feature_open_payments_desc">Açık ödemelerinizi yönetin ve yaklaşan faturaları takip edin.</string>
+    <string name="feature_open_payments_expandable">Ücretsiz sürüm, adil kullanım sınırları içinde 30 bağımsız aktif açık ödeme ve tekrarlayan ödeme planlarını içerir. Premium, aktif ve gelecekteki kayıtlar için çok daha yüksek kullanım limiti sunar.</string>
+
+    <string name="feature_closed_payments_title">Kapalı Ödemeler</string>
+    <string name="feature_closed_payments_desc">Ödenmiş faturalarınızı takip edin ve işlem geçmişinizi yönetin.</string>
+    <string name="feature_closed_payments_expandable">Herkes açık bir ödemeyi ödendi olarak işaretleyebilir. Premium ayrıca doğrudan oluşturma, düzenleme, silme ve ayrıntılı geçmiş yönetiminin tamamını sunar.</string>
+
+    <string name="feature_income_management_title">Gelir Yönetimi</string>
+    <string name="feature_income_management_desc">Gelir kaynaklarınızı takip edin ve kategorilere ayırın.</string>
+    <string name="feature_income_management_expandable">Maaş, serbest çalışma gelirleri, sosyal yardımlar, yatırımlar ve tekrarlayan gelirleri giderleriniz ve tahmini bakiyenizle birlikte takip edin.</string>
+
+    <string name="feature_notifications_title">Bildirimler</string>
+    <string name="feature_notifications_desc">Açık ödemeleriniz için zamanında hatırlatmalar alın.</string>
+    <string name="feature_notifications_expandable">Önceden, vade günü ve gecikmiş ödeme hatırlatmalarını yapılandırın. Bir ödemeyi doğrudan bildirimden ödendi olarak işaretleyin.</string>
+
+    <string name="feature_calendar_title">Takvim</string>
+    <string name="feature_calendar_desc">Tüm işlemlerinizi takvim görünümünde görüntüleyin.</string>
+    <string name="feature_calendar_expandable">Takvim ücretsiz sürümde de kullanılabilir ve açık ödemeleri, tamamlanan giderleri ve gelirleri tarihe göre bir araya getirir.</string>
+
+    <string name="feature_saving_target_title">Tasarruf Hedefi</string>
+    <string name="feature_saving_target_desc">Kendinize bir tasarruf hedefi belirleyin ve ilerlemesini takip edin.</string>
+    <string name="feature_saving_target_expandable">Bir hedef tutar ve dönem belirleyin, ardından gerekli aylık tasarruf tutarını gerçek tahmini bakiyenizle karşılaştırın.</string>
+
+    <string name="feature_financial_insights_title">Gelişmiş Finansal Analizler</string>
+    <string name="feature_financial_insights_desc">Geçmişinizi anlamlı eğilimlere dönüştürün.</string>
+    <string name="feature_financial_insights_expandable">Altı ve on iki aylık nakit akışını karşılaştırın, değişen gider kategorilerini belirleyin, tekrarlayan yükümlülükleri takip edin ve tasarruf istikrarını inceleyin. Analiz, kontrol panelinizde seçilen aya göre yapılır.</string>
+
+    <string name="unlock_button_text">SmartStack Solutions Premium\'un Kilidini Aç</string>
+    <string name="unlock_button_with_price">Premium\'u Aç · %1$s</string>
+
+    <string name="more_information">Daha fazla bilgi</string>
+    <string name="premium_still_loading">Premium hâlâ yükleniyor. Lütfen tekrar deneyin.</string>
+    <string name="billing_not_ready">Faturalandırma henüz hazır değil. Lütfen tekrar deneyin.</string>
+    <string name="premium_activated">Premium etkinleştirildi</string>
+    <string name="premium_active">Premium etkin</string>
+    <string name="premium_unavailable">Premium şu anda kullanılamıyor. Yeniden denemek için dokunun.</string>
+    <string name="premium_loading">Premium seçenekleri yükleniyor...</string>
+    <string name="less_information">Daha az bilgi</string>
+    <string name="show_details">Ayrıntıları göster</string>
+    <string name="hide_details">Ayrıntıları gizle</string>
+    <string name="quick_entry_hint">Yalnızca tutar gereklidir. Tarih otomatik olarak doldurulur ve ayrıntılar daha sonra eklenebilir.</string>
+    <string name="optional_details">İsteğe bağlı ayrıntılar</string>
+    <string name="savings_quick_entry_hint">Hedef tutarınızı ve bitiş tarihinizi girin. Başlangıç tarihi bugünün tarihi olarak otomatik doldurulur.</string>
+    <string name="title_optional">Başlık (isteğe bağlı)</string>
+
+    <string name="free_open_payment_limit_reached">30 bağımsız aktif açık ödeme için ücretsiz kullanım sınırına ulaştınız. Tamamlanan ödemeleri ödendi olarak işaretleyin veya Premium\'a yükseltin.</string>
+    <string name="free_closed_payment_limit_reached">100 kapalı ödeme için ücretsiz kullanım sınırına ulaştınız. Eski geçmişi silin veya Premium\'a yükseltin.</string>
+    <string name="free_recurring_limit_reached">Bu tekrarlayan plan, ücretsiz sürümde izin verilen 250 gelecekteki tekrarlayan ödeme kaydı sınırını aşacaktır. Kullanılmayan bir planı kaldırın veya Premium\'a yükseltin.</string>
+    <string name="premium_usage_limit_reached">Bu kayıt, Premium adil kullanım sınırı olan toplam 2.000 gelecekteki ödeme ve gelir kaydını aşacaktır. Lütfen gereksiz gelecekteki kayıtları kaldırın veya destek ekibiyle iletişime geçin.</string>
+    <string name="usage_limit_check_failed">SmartStack kullanılabilir kayıt sınırını doğrulayamadı. Bağlantınızı kontrol edip tekrar deneyin.</string>
+
+    <string name="terms_and_conditions_title">Şartlar ve Koşullar</string>
+
+    <string name="help_hub_title">Size nasıl yardımcı olabiliriz?</string>
+    <string name="help_hub_intro">Hızlı bir yanıt bulun, hesap verilerinizi yönetin veya doğrudan bizimle iletişime geçin.</string>
+    <string name="help_choose_option">Bir destek seçeneği seçin</string>
+
+    <string name="help_faq_title">Sık sorulan soruları inceleyin</string>
+    <string name="help_faq_description">Ödemeler, hatırlatmalar, Premium, kullanım sınırları ve hesap kullanımı hakkında yanıtlar alın.</string>
+
+    <string name="help_contact_title">SmartStack Destek\'e e-posta gönder</string>
+    <string name="help_contact_description">appdev.jr2024@gmail.com adresine hazırlanmış bir e-posta açın.</string>
+
+    <string name="help_data_title">Veri ve hesap desteği</string>
+    <string name="help_data_description">Bilgilerinizi dışa aktarın veya hesap silme seçeneklerini inceleyin.</string>
+
+    <string name="help_message_title">Daha hızlı yanıt almak için</string>
+    <string name="help_message_checklist">Lütfen şunları ekleyin:\n• Ne yapmaya çalışıyordunuz\n• Bunun yerine ne oldu\n• Sorunu yeniden oluşturma adımları\n• Hassas finansal bilgiler içermiyorsa bir ekran görüntüsü</string>
+
+    <string name="help_response_note">Parolalarınızı, satın alma belirteçlerinizi veya tam finansal kayıtlarınızı asla e-posta ile göndermeyin.</string>
+
+    <string name="support_email_subject">SmartStack Solutions destek talebi</string>
+
+    <string name="support_email_template">Merhaba SmartStack Destek,\n\nŞu konuda yardıma ihtiyacım var:\n\nBeklediğim:\n\nGerçekleşen:\n\nSorunu yeniden oluşturma adımları:\n\nUygulama sürümü: %1$s\n\nLütfen parola veya hassas finansal kayıtlar eklemeyin.</string>
+
+    <string name="support_email_copied">Bir e-posta uygulaması bulunamadı. Destek adresi panonuza kopyalandı.</string>
+
+    <string name="terms_section_title_1">1. Kabul ve kapsam</string>
+    <string name="terms_section_body_1">Bir hesap oluşturarak veya SmartStack Solutions\'ı kullanarak bu şartları kabul etmiş olursunuz. Kabul etmiyorsanız uygulamayı kullanmayın.</string>
+
+    <string name="terms_section_title_2">2. Hizmetin amacı</string>
+    <string name="terms_section_body_2">SmartStack; ödemeler, giderler, gelirler, hatırlatmalar ve tasarruf hedefleri için organizasyon araçları sunar. Finansal, vergisel, hukuki veya yatırım tavsiyesi sağlamaz.</string>
+
+    <string name="terms_section_title_3">3. Hesap sorumluluğu</string>
+    <string name="terms_section_body_3">Hesabınızı korumak, doğru bilgiler sağlamak ve kayıtlar ile hatırlatmaları gözden geçirmek sizin sorumluluğunuzdadır. Hizmeti yasa dışı amaçlarla kullanmayın ve teknik korumalarını bozmayı, kötüye kullanımı otomatikleştirmeyi veya atlatmayı denemeyin.</string>
+
+    <string name="terms_section_title_4">4. Ücretsiz hizmet ve reklamlar</string>
+    <string name="terms_section_body_4">Ücretsiz sürüm reklam desteklidir ve temel açık ödeme, hatırlatma, takvim, veri dışa aktarma ve ödeme tamamlama işlevlerini içerir. Bazı oluşturma, düzenleme, geçmiş, gelir, hedef ve analiz özellikleri Premium gerektirir.</string>
+
+    <string name="terms_section_title_5">5. Adil kullanım sınırları</string>
+    <string name="terms_section_body_5">Güvenilir ve sürdürülebilir bir hizmet sunabilmek için ücretsiz hesaplar en fazla 30 bağımsız aktif açık ödeme, 100 kapalı ödeme ve 250 gelecekteki tekrarlayan ödeme kaydını destekler. Premium hesaplar, toplam 2.000 gelecekteki ödeme ve gelir kaydı dahil olmak üzere daha yüksek adil kullanım sınırlarına sahiptir. Güvenlik, güvenilirlik veya hizmetin sürdürülebilirliği için bu sınırlar gerektiğinde makul ölçüde önceden bildirim yapılarak değiştirilebilir.</string>
+
+    <string name="terms_section_title_6">6. Premium aboneliği</string>
+    <string name="terms_section_body_6">Premium özellikleri ve güncel fiyat satın alma öncesinde gösterilir. Faturalandırma, yenileme, iptal ve uygun iadeler Google Play üzerinden, kendi şartlarına ve yürürlükteki yasalara göre gerçekleştirilir. Premium reklamları kaldırır ve Premium ekranında açıklanan işlevleri adil kullanım korumaları kapsamında açar.</string>
+
+    <string name="terms_section_title_7">7. Veri erişilebilirliği ve dışa aktarma</string>
+    <string name="terms_section_body_7">Hesap verilerinizi erişilebilir tutmayı hedefliyoruz ancak hiçbir çevrimiçi hizmet kalıcı veya kesintisiz depolamayı garanti edemez. Saklamak istediğiniz kayıtlar için düzenli olarak dışa aktarma işlevini kullanmalısınız. Güvenlik, yasal gereklilikler veya hesap silme talepleri dışında önemli otomatik saklama veya silme politikaları uygulanmadan önce sizi bilgilendiririz.</string>
+
+    <string name="terms_section_title_8">8. Hizmetin kullanılabilirliği ve sorumluluk</string>
+    <string name="terms_section_body_8">Hizmet mevcut olduğu şekliyle sunulur. Yasanın izin verdiği ölçüde SmartStack Solutions; hizmet kesintileri, hatalı kullanıcı girişleri, kaçırılan hatırlatmalar, cihaz arızaları veya uygulamanın profesyonel tavsiye yerine kullanılmasından kaynaklanan dolaylı zararlardan sorumlu değildir. Yasal tüketici hakları bundan etkilenmez.</string>
+
+    <string name="terms_section_title_9">9. Değişiklikler ve fesih</string>
+    <string name="terms_section_body_9">Hizmet geliştikçe özellikler ve bu şartlar değişebilir. Önemli değişiklikler mümkün olduğunda önceden bildirilir. Dolandırıcılık, kötüye kullanım, yasa dışı kullanım, güvenlik riskleri veya bu şartların ciddi ihlali durumunda erişim kısıtlanabilir.</string>
+
+    <string name="terms_section_title_10">10. İletişim</string>
+    <string name="terms_section_body_10">Bu şartlar veya hizmet hakkında sorularınızı appdev.jr2024@gmail.com adresine gönderebilirsiniz.</string>
+
+    <string name="faqs_question_16">16. Ücretsiz ve Premium hesaplar için hangi kullanım sınırları geçerlidir?</string>
+    <string name="faqs_answer_16">Ücretsiz hesaplar en fazla 30 aktif açık ödeme, 100 kapalı ödeme ve 250 gelecekteki tekrarlayan ödeme kaydı tutabilir. Premium bu sınırları artırır ve toplam 2.000 gelecekteki ödeme ve gelir kaydını destekler. Bu güvenlik sınırları hizmetin güvenilirliğini korur ve yanlışlıkla çok fazla kayıt oluşturulmasını önler.</string>
+
+    <string name="faqs_question_17">17. Ücretsiz kullanıcılar ödemeleri yine de ödendi olarak işaretleyebilir mi?</string>
+    <string name="faqs_answer_17">Evet. Açık ödemeyi kapalı ödemeye dönüştüren normal işlem ücretsiz kullanım sınırı nedeniyle hiçbir zaman engellenmez. Kapalı ödemelerin doğrudan oluşturulması, düzenlenmesi ve silinmesi Premium yönetim özellikleridir.</string>
+
+    <string name="faqs_question_18">18. SmartStack finansal geçmişimi otomatik olarak siler mi?</string>
+    <string name="faqs_answer_18">SmartStack şu anda ödeme geçmişine otomatik bir silme süresi uygulamaz. Hesap verilerinizi istediğiniz zaman dışa aktarabilirsiniz. İleride önemli bir veri saklama politikası uygulanırsa uygulama mümkün olduğunca önceden bilgi verecektir.</string>
+
+    <string name="faqs_question_19">19. Hangi finansal analizler sunulmaktadır?</string>
+    <string name="faqs_answer_19">Ücretsiz sürüm seçilen aya ait para akışı, açık ödeme önceliği ve gider dağılımını içerir. Premium; altı ve on iki aylık nakit akışı eğilimleri, kategori değişimleri, tekrarlayan yükümlülük eğilimleri ve tasarruf tutarlılığı analizlerini ekler. Çok aylı analizler kontrol panelinde seçilen ayda sona erer.</string>
+
+    <string name="back">Geri</string>
+    <string name="content_description_back">Geri</string>
+
+    <string name="about_us_title">Hakkımızda</string>
+    <string name="about_us_content">
+SmartStack Solutions, günlük finansı anlamayı kolaylaştırmak için oluşturuldu. Uygulama; yaklaşan ödemeleri, tamamlanan giderleri, gelirleri, tasarruf hedeflerini, hatırlatmaları ve takvim etkinliklerini tek bir düzenli görünümde bir araya getirir.\n\n
+Odak noktamız pratik finansal organizasyondur: net bilgiler, kullanışlı kategoriler ve insanların vadesi gelenleri, ödenmiş olanları ve her ay ellerinde kalan tutarı kolayca görmelerine yardımcı olan araçlar. SmartStack bir organizasyon aracıdır ve finansal, vergisel veya yatırım tavsiyesi sunmaz.\n\n
+Sorularınızı ve geri bildirimlerinizi appdev.jr2024@gmail.com adresine gönderebilirsiniz.
+</string>
+
+    <string name="delete_recurring_income">Tekrarlayan geliri sil</string>
+    <string name="delete_this_income_entry">Yalnızca bu gelir kaydını sil</string>
+    <string name="delete_this_and_future_income">Bu ve gelecekteki gelirleri sil</string>
+    <string name="delete_all_recurring_income">Tüm tekrarlayan gelir kayıtlarını sil</string>
+    <string name="delete_income_entry">Gelir kaydını sil</string>
+    <string name="delete_income_confirmation">Bu gelir kaydı silinsin mi?</string>
+    <string name="income_deleted">Gelir kaydı silindi.</string>
+    <string name="future_income_deleted">Bu ve gelecekteki gelir kayıtları silindi.</string>
+    <string name="all_recurring_income_deleted">Bu tekrarlayan gelir serisindeki tüm kayıtlar silindi.</string>
+    <string name="income_delete_failed">Gelir kaydı silinemedi.</string>
+
+    <string name="empty_open_payments_title">Yaklaşan ödemelerinizi önceden yönetin</string>
+    <string name="empty_open_payments_message">Henüz ödenmemiş faturaları ve diğer ödemeleri ekleyin. SmartStack yaklaşan ve gecikmiş ödemeleri düzenler ve vade tarihinden önce sizi hatırlatır.</string>
+
+    <string name="empty_closed_payments_title">Gider geçmişinizi oluşturun</string>
+    <string name="empty_closed_payments_message">Kapalı ödemeler, daha önce ödediğiniz giderlerdir. Bunları doğrudan ekleyebilir veya açık bir ödemeyi ödendi olarak işaretleyerek buraya taşıyabilirsiniz.</string>
+
+    <string name="empty_income_title">Paranızın nereden geldiğini görün</string>
+    <string name="empty_income_message">Maaş, serbest çalışma, sosyal yardımlar veya diğer gelirleri ekleyin. SmartStack\'in gelecekteki kayıtları otomatik oluşturabilmesi için tekrarlayan gelirleri işaretleyin.</string>
+
+    <string name="add_open_payment">Açık ödeme ekle</string>
+    <string name="add_closed_payment">Kapalı ödeme ekle</string>
+    <string name="add_income">Gelir ekle</string>
+
+    <string name="explore_premium">Premium\'u keşfet</string>
+    <string name="not_now">Şimdi değil</string>
+
+    <string name="no_entries_match_filter">Bu filtreyle eşleşen kayıt bulunamadı</string>
+
+    <string name="show_tutorial_again">Bölüm eğitimini göster</string>
+
+    <string name="payment_reminders">Ödeme hatırlatmaları</string>
+    <string name="payment_reminders_channel_description">Yaklaşan, vadesi gelen ve gecikmiş açık ödemeler için hatırlatmalar.</string>
+
+    <string name="notification_settings">Bildirim ayarları</string>
+    <string name="payment_notifications">Ödeme bildirimleri</string>
+
+    <string name="advance_reminder">Önceden hatırlatma</string>
+    <string name="due_today_reminder">Bugün vadesi gelen hatırlatma</string>
+    <string name="overdue_reminder">Gecikmiş ödeme hatırlatması</string>
+    <string name="weekly_overdue_reminder">Gecikmiş ödeme hatırlatmasını haftalık tekrarla</string>
+
+    <string name="reminder_off">Kapalı</string>
+    <string name="reminder_one_day">1 gün önce</string>
+    <string name="reminder_three_days">3 gün önce</string>
+    <string name="reminder_seven_days">7 gün önce</string>
+
+    <string name="notification_settings_saved">Bildirim ayarları kaydedildi.</string>
+    <string name="notifications_load_failed">Bildirimler yüklenemedi.</string>
+
+    <string name="notification_due_soon_title">Ödeme yakında vadesine ulaşıyor</string>
+    <string name="notification_due_soon_text">%1$s · %2$s · Vade: %3$s</string>
+
+    <string name="notification_due_today_title">Ödeme bugün vadesinde</string>
+    <string name="notification_due_today_text">%1$s · %2$s · Vadesi bugün</string>
+
+    <string name="notification_overdue_title">Ödeme gecikti</string>
+
+    <string name="view_payment">Ödemeyi görüntüle</string>
+
+    <string name="notification_due_date_short">Vade: %1$s</string>
+
+    <string name="empty_notifications_title">Önemli hiçbir ödemeyi kaçırmayın</string>
+    <string name="empty_notifications_message">SmartStack, açık bir ödeme yaklaşırken, bugün vadesi geldiğinde veya geciktiğinde size hatırlatma gönderir. Ödeme ödendi olarak işaretlendiğinde hatırlatmalar durur.</string>
+
+    <string name="notifications_all_caught_up_title">Her şey güncel</string>
+    <string name="notifications_all_caught_up_message">Şu anda ödeme hatırlatması bulunmuyor. Bir ödeme yaklaşırken veya geciktiğinde yeni bildirimler burada görünecektir.</string>
+
+    <string name="notifications_turned_off_title">Bildirimler kapalı</string>
+    <string name="notifications_turned_off_message">SmartStack\'in yaklaşan ve gecikmiş ödemeleri size hatırlatabilmesi için bildirimleri etkinleştirin.</string>
+
+    <string name="enable_notifications">Bildirimleri etkinleştir</string>
+
+    <string name="payment_reminders_paused_title">Ödeme hatırlatmaları duraklatıldı</string>
+    <string name="payment_reminders_paused_message">SmartStack\'in tekrar hatırlatmalar planlamasını istediğinizde ödeme bildirimlerini yeniden açabilirsiniz.</string>
+
+    <plurals name="notification_overdue_text">
+        <item quantity="one">%1$s · %2$s · %3$d gündür gecikmiş</item>
+        <item quantity="other">%1$s · %2$s · %3$d gündür gecikmiş</item>
+    </plurals>
+
+    <string name="open_payment">Açık ödeme</string>
+    <string name="positive_balance_status">Pozitif bakiye</string>
+    <string name="balance">Bakiye</string>
+    <string name="shortfall_status">Açık</string>
+    <string name="no_activity_status">Etkinlik yok</string>
+    <string name="balanced_status">Dengede</string>
+    <string name="selected_month">Bu ay</string>
+    <string name="six_months">6 ay</string>
+    <string name="twelve_months">12 ay</string>
+
+    <string name="premium_insights_teaser_title">Rakamlarınız daha büyük bir hikâye anlatıyor</string>
+    <string name="premium_insights_teaser_message">Premium; eğilimleri, kategori değişimlerini, tekrarlayan yükümlülükleri ve tasarruf planlarınızın ne kadar tutarlı ilerlediğini gösterir.</string>
+    <string name="unlock_deeper_insights">Daha derin analizlerin kilidini aç →</string>
+    <string name="premium_insights_upgrade">Altı ve on iki aylık finansal eğilimleri keşfetmek için Premium\'a yükseltin.</string>
+
+    <string name="cash_flow_trend">Nakit akışı eğilimi</string>
+    <string name="cash_flow_trend_description">Gelir ile toplam yükümlülükleri karşılaştırın; yeşil ve kırmızı çubuklar her ayın bakiyesini gösterir.</string>
+
+    <string name="category_changes">Kategori değişiklikleri</string>
+    <string name="category_changes_description">Bu dönemde hangi gider kategorilerinin önceki aylara göre arttığını veya azaldığını görün.</string>
+
+    <string name="category_changes_info_title">Kategori değişiklikleri nasıl hesaplanır?</string>
+    <string name="category_changes_info_message">Seçilen ay, seçilen altı veya on iki aylık dönemdeki önceki ayların aylık ortalamasıyla karşılaştırılır.\n\nDeğişim = seçilen aydaki tutar eksi önceki ayların ortalaması, ardından bu farkın önceki ortalamaya bölünmesi.\n\nYukarı ok giderin arttığını, aşağı ok ise azaldığını gösterir. Kısa çizgi (-), yüzde hesaplamak için önceki gider bulunmadığı anlamına gelir. Seçilen aydaki en büyük dört kategori gösterilir.</string>
+
+    <string name="category_changes_info_content_description">Kategori değişikliklerini açıkla</string>
+
+    <string name="recurring_commitment_trend">Tekrarlayan yükümlülük eğilimi</string>
+    <string name="recurring_commitment_trend_description">Planlanan tekrarlayan yükümlülüklerin zaman içindeki değişimini takip edin.</string>
+
+    <string name="savings_consistency">Tasarruf tutarlılığı</string>
+    <string name="savings_consistency_description">Tahmini aylık bakiyenin etkin tasarruf hedefini ne sıklıkla karşıladığını görün.</string>
+
+    <string name="total_obligations">Yükümlülükler</string>
+
+    <string name="not_enough_category_data">Kategorileri karşılaştırabilmek için daha fazla ayda tamamlanmış gider ekleyin.</string>
+
+    <string name="commitments_increased">Tekrarlayan yükümlülükler %1$s arttı.</string>
+    <string name="commitments_decreased">Tekrarlayan yükümlülükler %1$s azaldı.</string>
+    <string name="commitments_steady">Tekrarlayan yükümlülükler sabit kaldı.</string>
+
+    <string name="no_savings_goals_in_period">Bu dönemde etkin bir tasarruf hedefi yoktu.</string>
+    <string name="savings_goals_achieved">%2$d hedef ayının %1$d tanesine ulaşıldı</string>
+
+    <string name="dashboard_welcome_title">İlk finansal görünümünüzü oluşturun</string>
+    <string name="dashboard_welcome_message">İlk olarak yaklaşan bir ödeme ekleyin. Gelirler ve tamamlanmış giderler eklendikçe SmartStack aylık görünümünüzü daha faydalı hale getirir.</string>
+
+    <string name="dashboard_welcome_steps">1. Yaklaşan bir ödeme ekleyin\n2. Bakiyenizi hesaplamak için gelir ekleyin\n3. Gider analizlerini açmak için ödemeleri ödendi olarak işaretleyin</string>
+
+    <string name="add_first_payment">İlk ödemeyi ekle</string>
+
+    <string name="how_smartstack_works">SmartStack nasıl çalışır?</string>
+
+    <string name="dashboard_tutorial_title">SmartStack iş akışınız</string>
+    <string name="dashboard_tutorial_message">Açık ödemeler hâlâ ödenmesi gerekenleri gösterir. Bir ödemeyi ödendi olarak işaretlediğinizde, tamamlanmış gider geçmişinizin bir parçası olur. Gelirler ve tasarruf hedefleri aylık görünümü tamamlar; hatırlatmalar ve analizler ise dikkat edilmesi gereken noktaları fark etmenize yardımcı olur.</string>
+
+    <string name="about_us_hero_title">Günlük finans için netlik</string>
+
+    <string name="about_why_title">SmartStack neden var?</string>
+    <string name="about_why_body">Finansal organizasyon karmaşık değil, anlaşılır olmalıdır. SmartStack; yaklaşan ödemeleri, tamamlanan giderleri, gelirleri, tasarruf hedeflerini ve hatırlatmaları tek ve net bir aylık görünümde bir araya getirmek için geliştirildi.</string>
+
+    <string name="about_manage_title">SmartStack ile neleri yönetebilirsiniz?</string>
+    <string name="about_manage_body">Vadesi gelenleri takip edin, gecikmiş ödemeleri görün, tekrarlayan yükümlülükleri düzenleyin, gider kategorilerini inceleyin ve her ay elinizde kalan tutarı anlayın.</string>
+
+    <string name="about_privacy_title">Gizlilik odaklı tasarım</string>
+    <string name="about_privacy_body">Uygulama yalnızca sunduğu özellikler için gerekli bilgileri toplar. Finansal kayıtlar doğrulanmış hesabınızla ilişkilendirilir. Ek görseller bu cihazdaki uygulamanın özel depolama alanında saklanır ve Firebase\'e yüklenmez.</string>
+
+    <string name="about_independent_title">Bağımsız olarak geliştirildi</string>
+    <string name="about_independent_body">SmartStack; pratik kullanım, adil sınırlar ve sürekli gelişim odağıyla bağımsız olarak geliştirilmektedir. Organizasyon amacıyla tasarlanmıştır; finansal, vergisel veya yatırım tavsiyesi sunmaz.</string>
+
+    <string name="about_contact_title">Sorular ve geri bildirim</string>
+    <string name="about_contact_body">Geri bildirimleriniz SmartStack\'in gelişmesine yardımcı olur. appdev.jr2024@gmail.com adresinden bize ulaşabilirsiniz.</string>
+
+    <string name="about_version">Uygulama sürümü %1$s</string>
+
+    <string name="income_attachment">Gelir eki</string>
+
+    <string name="data_security_question_15">15. Eklenen görseller nerede saklanır?</string>
+
+    <string name="data_security_answer_15">Cevap: Açık ödemelere, tamamlanmış giderlere veya gelirlere eklenen görseller bu cihazdaki uygulamanın özel depolama alanına kopyalanır. Firebase finansal kaydı ve yerel ek referansını saklar, ancak görselin kendisi yüklenmez veya senkronize edilmez. Uygulamayı veya yerel verilerini silmek bu görselleri de kaldırabilir; bu nedenle önemli belgeleri başka bir yerde de saklamanız önerilir.</string>
+
+    <string name="getting_started_title">Başlarken</string>
+    <string name="getting_started_hero_title">SmartStack ile ilk ayınız</string>
+    <string name="getting_started_intro">Tek tek kayıtları faydalı bir aylık görünüme dönüştürmek için bu basit iş akışını izleyin.</string>
+
+    <string name="guide_step_1_title">Henüz ödenmemiş olanları ekleyin</string>
+    <string name="guide_step_1_description">Manuel giriş yapın veya bir belge tarayın. Vade tarihini ve tekrar sıklığını ekleyin, ardından kaydetmeden önce taranan tüm önerileri gözden geçirin.</string>
+
+    <string name="guide_step_2_title">Gelirinizi kaydedin</string>
+    <string name="guide_step_2_description">Gösterge panelinin tahmini aylık bakiyenizi hesaplayabilmesi için tek seferlik veya tekrarlayan gelir ekleyin.</string>
+
+    <string name="guide_step_3_title">Ödemeleri ödendi olarak işaretleyin</string>
+    <string name="guide_step_3_description">Bir ödeme tamamlandığında "ödendi" kutusunu işaretleyin. Böylece otomatik olarak tamamlanmış gider geçmişinize taşınır.</string>
+
+    <string name="guide_step_4_title">Ayınızı anlayın</string>
+    <string name="guide_step_4_description">Gösterge panelinden açık ve tamamlanmış ödemeleri, gelirleri, tasarruf ilerlemesini, kategori dağılımını ve finansal analizleri inceleyin.</string>
+
+    <string name="guide_step_5_title">Kontrolü elinizde tutun</string>
+    <string name="guide_step_5_description">Yaklaşan tarihleri kaçırmamak ve tekrar eden işleri azaltmak için hatırlatmaları, tekrarlayan kayıtları ve takvimi kullanın.</string>
+
+    <string name="getting_started_open_faq">Hâlâ sorularınız mı var? SSS\'yi açın</string>
+
+    <string name="help_getting_started_title">Başlangıç rehberi</string>
+    <string name="help_getting_started_description">Ödemeler, gelirler, hatırlatmalar ve aylık analizler için önerilen iş akışını öğrenin.</string>
+
+    <string name="entry_method_subtitle">Bu kayıt için en hızlı seçeneği belirleyin.</string>
+
+    <string name="entry_method_open_payment">Bu açık ödemeyi nasıl eklemek istersiniz?</string>
+    <string name="entry_method_closed_payment">Bu tamamlanmış gideri nasıl eklemek istersiniz?</string>
+    <string name="entry_method_income">Bu geliri nasıl eklemek istersiniz?</string>
+    <string name="closed_payment">Kapalı ödeme</string>
+    <string name="overdue_open_payment">Gecikmiş açık ödeme</string>
+    <string name="untitled_entry">Başlıksız kayıt</string>
+    <string name="no_category">Kategori yok</string>
+
+    <string name="no_entries_for_date">Bu tarih için kayıt yok</string>
+    <string name="no_entries_for_date_explanation">Seçilen tarihe planlanan açık ödemeler, kapalı ödemeler ve gelirler burada görüntülenecektir.</string>
+
+    <string name="payment_date">Ödeme tarihi</string>
+
+    <string name="source_payer">Kaynak / Ödeyen</string>
+    <string name="source_payer_hint">İşveren, müşteri, kiracı, kurum…</string>
+
+    <string name="recurrence_one_year_explanation">SmartStack, yaklaşan görünümünüzün güncel ve yönetilebilir kalması için tekrarlayan kayıtları önümüzdeki 12 ay için oluşturur.</string>
+
+    <string name="open_payment_saved">Açık ödeme serisi başarıyla kaydedildi.</string>
+    <string name="open_payment_save_failed">Açık ödeme kaydedilemedi: %1$s</string>
+
+    <string name="income_saved">Gelir serisi başarıyla kaydedildi.</string>
+    <string name="income_save_failed">Gelir kaydedilemedi: %1$s</string>
+
+    <string name="payment_moved_to_closed">Ödeme Kapalı Ödemelere taşındı.</string>
+    <string name="payment_moved_to_open">Ödeme tekrar Açık Ödemelere taşındı.</string>
+    <string name="payment_move_failed">Ödeme taşınamadı: %1$s</string>
+
+    <string name="data_account">Veriler ve hesap</string>
+
+    <string name="export_data_title">Verilerinizi dışa aktarın</string>
+    <string name="export_data_explanation">SmartStack ödemelerinizi, gelirlerinizi, tasarruf hedeflerinizi ve bildirimlerinizi JSON dosyası olarak indirin.</string>
+    <string name="export_my_data">Verilerimi dışa aktar</string>
+    <string name="export_complete">Verileriniz başarıyla dışa aktarıldı.</string>
+    <string name="export_failed">Verileriniz dışa aktarılamadı.</string>
+
+    <string name="delete_account_title">Hesabı ve verileri sil</string>
+    <string name="delete_account_explanation">SmartStack hesabınızı ve kayıtlı finansal verilerinizi kalıcı olarak silin. Bu işlem geri alınamaz.</string>
+    <string name="delete_my_account">Hesabımı sil</string>
+    <string name="delete_account_confirmation">Hesabınızı, ödemelerinizi, gelirlerinizi, tasarruf hedeflerinizi ve bildirimlerinizi kalıcı olarak silmek istiyor musunuz?</string>
+    <string name="delete_account_relogin">Güvenlik nedeniyle lütfen tekrar oturum açın ve ardından hesabınızı silmek için buraya geri dönün.</string>
+    <string name="delete_account_failed">Hesap silinemedi. Lütfen tekrar deneyin.</string>
+
+    <string name="enter_open_payment_name">Lütfen açık ödeme için bir ad girin.</string>
+    <string name="enter_valid_amount">Lütfen geçerli bir tutar girin.</string>
+    <string name="select_valid_due_date">Lütfen geçerli bir vade tarihi seçin.</string>
+
+    <string name="title_required">Başlık gereklidir.</string>
+    <string name="date_required">Tarih gereklidir.</string>
+    <string name="invalid_date_format">Lütfen geçerli bir tarih girin.</string>
+
+    <string name="currency">Para birimi</string>
+    <string name="currency_menu_title">Para birimi (%1$s)</string>
+    <string name="select_currency">Para birimini seçin</string>
+
+    <string name="billing_insufficient_funds">Yetersiz bakiye nedeniyle ödeme reddedildi.</string>
+    <string name="billing_user_ineligible">Bu abonelik teklifi bu hesap için kullanılamıyor.</string>
+
+    <string name="financial_insights">Finansal analizler</string>
+    <string name="financial_insights_subtitle">Seçilen ayı tek bakışta anlayın</string>
+
+    <string name="monthly_money_map">Aylık para akışı</string>
+    <string name="monthly_money_map_description">Gelirlerin, tamamlanmış giderlerin, yaklaşan yükümlülüklerin ve tasarruf hedefinizin birbirleriyle nasıl ilişkili olduğunu görün.</string>
+
+    <string name="open_payment_risk_timeline">Açık ödeme risk zaman çizelgesi</string>
+    <string name="open_payment_risk_description">Öncelikle gecikmiş ve yakında vadesi gelecek yükümlülüklere odaklanın.</string>
+
+    <string name="spending_composition">Gider dağılımı</string>
+    <string name="spending_composition_description">Bu ay tamamlanan giderlerin hangi kategorilerden oluştuğunu görün.</string>
+
+    <string name="available_after_commitments">Kalan</string>
+    <string name="paid_expenses_short">Ödendi</string>
+    <string name="still_due_short">Kalan</string>
+
+    <string name="savings_target">Tasarruf hedefi</string>
+
+    <string name="no_savings_target_insight">Bu ay için etkin bir tasarruf hedefi yok.</string>
+
+    <string name="savings_target_cushion">Tasarruf hedefinden sonra %1$s kalıyor.</string>
+    <string name="savings_target_shortfall">Tasarruf hedefine ulaşmak için %1$s daha gerekiyor.</string>
+
+    <string name="due_next_seven_days">Önümüzdeki 7 gün</string>
+    <string name="later_this_month">Daha sonra</string>
+    <string name="other">Diğer</string>
+
+    <string name="no_closed_payments_for_month">Bu ay için tamamlanmış gider bulunmuyor.</string>
+
+    <plurals name="payment_count">
+        <item quantity="one">%1$d ödeme</item>
+        <item quantity="other">%1$d ödeme</item>
+    </plurals>
+    <string name="scan_document">Belgeyi tara</string>
+    <string name="scan_document_description">Tek kayıt: fatura, makbuz veya gelir belgesini tarayın.</string>
+    <string name="scan_review_disclaimer">Taranan bilgiler yalnızca öneridir. Kaydetmeden önce başlık, tutar, tarih, kategori ve eki kontrol edin.</string>
+
+    <string name="enter_manually">Manuel gir</string>
+    <string name="enter_manually_description">Tek kayıt: bilgileri kendiniz girin.</string>
+
+    <string name="scan_and_prefill">Tara ve alanları otomatik doldur</string>
+
+    <string name="preparing_document_scanner">Belge tarayıcı hazırlanıyor…</string>
+    <string name="reading_document">Belge okunuyor ve öneriler hazırlanıyor…</string>
+
+    <string name="document_text_not_recognized">Belge eklendi ancak metni tanınamadı. Lütfen bilgileri manuel olarak girin.</string>
+
+    <string name="document_scan_failed_title">Belge taranamadı</string>
+    <string name="document_scan_failed_message">Belgeyi iyi aydınlatılmış ve net bir şekilde yeniden deneyin veya manuel girişe devam edin.</string>
+
+    <string name="try_again">Tekrar dene</string>
+
+    <string name="faqs_question_20">20. Belge tarama ne kadar doğrudur?</string>
+    <string name="faqs_answer_20">Cevap: Tarama, yazma ihtiyacını azaltmak için tasarlanmıştır; incelemenizin yerine geçmez. Sonuçlar görüntü kalitesine, belge düzenine, dile ve birden fazla tarih veya toplamın bulunmasına bağlıdır. SmartStack yanlış toplamı, tarihi, satıcıyı veya ödeyeni seçebilir. Kaydetmeden önce önerilen tüm alanları mutlaka doğrulayın. Tarama cihaz üzerinde işlenir; tarama özelliği belgeyi Firebase\'e yüklemez. Google Play Hizmetleri tarayıcı ve metin tanıma bileşenlerini indirebilir ve operasyonel performans verileri toplayabilir; ancak ML Kit belgeyi veya tanınan metni Google sunucularına göndermez.</string>
+
+    <string name="import_transactions">İşlemleri içe aktar</string>
+    <string name="import_transactions_description">CSV veya PDF hesap dökümünden birden fazla Kapalı Ödeme ve Gelir kaydı ekleyin.</string>
+
+    <string name="closed_payments_expenses">Kapalı ödemeler</string>
+
+    <string name="ignore_transaction">Yoksay</string>
+
+    <string name="possible_duplicate">Olası yinelenen kayıt. Bu satırın seçimi kaldırıldı; yalnızca tekrar içe aktarmak istiyorsanız seçin.</string>
+
+    <string name="import_row_needs_review">Lütfen bu satırı dikkatlice kontrol edin. Bu bir transfer veya iade olabilir ya da değerleri tam olarak doğrulanamamış olabilir.</string>
+
+    <string name="reading_statement">Hesap dökümü okunuyor…</string>
+    <string name="reading_statement_page">%2$d sayfanın %1$d. sayfası okunuyor…</string>
+
+    <string name="no_transactions_detected">Desteklenen işlem bulunamadı. Bir CSV dışa aktarımı veya daha net bir PDF deneyin.</string>
+
+    <string name="checking_duplicates">Olası yinelenen kayıtlar kontrol ediliyor…</string>
+
+    <string name="import_summary">%1$d Kapalı ödeme · %2$d Gelir · %3$d hariç tutuldu</string>
+
+    <string name="import_currency_mismatch">Hesap dökümü para birimi: %1$s · Uygulama para birimi: %2$s. İçe aktarılan satırlar uygulamanın para birimini kullanacaktır. Lütfen döviz kurunu dikkate alın ve içe aktarmadan önce tutarları gerekirse düzeltin.</string>
+
+    <string name="import_currency_detected">Hesap dökümü para birimi: %1$s. İçe aktarılan satırlar uygulamanızın para birimini kullanacaktır.</string>
+
+    <string name="import_currency_not_detected">Hesap dökümünün para birimi tespit edilemedi. İçe aktarılan değerler uygulamanın para birimini kullanacaktır: %1$s.</string>
+
+    <string name="scan_currency_mismatch">Algılanan belge para birimi: %1$s · Uygulama para birimi: %2$s. Kayıt uygulamanın para birimini kullanacaktır. Lütfen döviz kurunu dikkate alın ve kaydetmeden önce tutarı gerektiğinde düzeltin.</string>
+
+    <string name="closed_payment_saved">Kapalı ödeme başarıyla kaydedildi.</string>
+    <string name="closed_payment_save_failed">Kapalı ödeme kaydedilemedi: %1$s</string>
+
+    <string name="user_session_unavailable">Oturumunuz doğrulanamadı. Lütfen tekrar giriş yapın.</string>
+    <string name="user_not_authenticated">Lütfen tekrar giriş yapın.</string>
+
+    <string name="unknown_item_clicked">Bu öğe açılamadı.</string>
+
+    <string name="load_open_payments_failed">Açık ödemeler yüklenemedi: %1$s</string>
+    <string name="load_closed_payments_failed">Kapalı ödemeler yüklenemedi: %1$s</string>
+    <string name="load_income_failed">Gelir yüklenemedi: %1$s</string>
+    <string name="load_savings_target_failed">Tasarruf hedefi yüklenemedi: %1$s</string>
+
+    <string name="invalid_target_amount">Lütfen geçerli bir hedef tutar girin.</string>
+    <string name="invalid_end_date">Lütfen geçerli bir bitiş tarihi seçin.</string>
+    <string name="start_date_before_end_date">Başlangıç tarihi bitiş tarihinden önce olmalıdır.</string>
+    <string name="invalid_target_date_range">Geçersiz hedef tarih aralığı.</string>
+
+    <string name="savings_target_not_found">Tasarruf hedefi bulunamadı.</string>
+    <string name="savings_target_updated">Tasarruf hedefi güncellendi.</string>
+    <string name="savings_target_update_failed">Tasarruf hedefi güncellenemedi: %1$s</string>
+
+    <string name="savings_target_deleted">Tasarruf hedefi başarıyla silindi.</string>
+    <string name="savings_target_delete_failed">Tasarruf hedefi silinemedi: %1$s</string>
+
+    <string name="valid_inputs_required">Lütfen geçerli değerler girin.</string>
+
+    <string name="monthly_savings_clear_failed">Aylık tasarruf temizlenemedi: %1$s</string>
+
+    <string name="associated_data_failed">İlgili veriler alınamadı: %1$s</string>
+
+    <string name="bill_not_found">Açık ödeme bulunamadı.</string>
+
+    <string name="open_payment_updated">Açık ödeme başarıyla güncellendi.</string>
+    <string name="open_payment_update_failed">Açık ödeme güncellenemedi: %1$s</string>
+    <string name="open_payment_update_unavailable">Açık ödeme güncellenemedi.</string>
+
+    <string name="closed_payment_updated">Kapalı ödeme başarıyla güncellendi.</string>
+    <string name="closed_payment_update_failed">Kapalı ödeme güncellenemedi: %1$s</string>
+    <string name="closed_payment_update_unavailable">Kapalı ödeme güncellenemedi.</string>
+
+    <string name="closed_payment_deleted">Kapalı ödeme başarıyla silindi.</string>
+    <string name="closed_payment_delete_failed">Kapalı ödeme silinemedi.</string>
+
+    <string name="image_permission_denied">Depolama izni reddedildi. Görüntü gösterilemiyor.</string>
+    <string name="image_display_failed">Görüntü gösterilemedi: %1$s</string>
+
+    <string name="income_updated">Gelir başarıyla güncellendi.</string>
+    <string name="income_update_failed">Gelir güncellenemedi: %1$s</string>
+    <string name="income_update_unavailable">Gelir güncellenemedi.</string>
+
+    <string name="payment_login_required">Bu ödemeyi güncellemek için lütfen tekrar giriş yapın.</string>
+
+    <string name="payment_id_missing">Kimliği eksik olduğu için bu ödeme taşınamıyor.</string>
+
+    <plurals name="import_selected_transactions">
+        <item quantity="one">%d işlemi içe aktar</item>
+        <item quantity="other">%d işlemi içe aktar</item>
+    </plurals>
+
+    <string name="premium_preview_import_transactions">CSV veya PDF hesap dökümlerinden birden fazla Kapalı Ödeme ve Gelir kaydı içe aktarın.</string>
+
+    <string name="imported_from_statement">Banka hesap dökümünden içe aktarıldı</string>
+
+    <string name="importing_transactions">Seçilen işlemler kaydediliyor…</string>
+
+    <string name="import_complete">İçe aktarma tamamlandı</string>
+
+    <plurals name="transactions_imported">
+        <item quantity="one">%d işlem içe aktarıldı.</item>
+        <item quantity="other">%d işlem içe aktarıldı.</item>
+    </plurals>
+
+    <string name="import_failed">İşlemler içe aktarılamadı. Lütfen tekrar deneyin.</string>
+
+    <string name="statement_read_failed">Hesap dökümü okunamadı.</string>
+
+    <string name="import_review_explanation">İçe aktarmadan önce tüm önerileri gözden geçirin. SmartStack toplamlarını etkilememesi gereken transferlerin, yinelenen kayıtların veya işlemlerin işaretini kaldırın.</string>
+
+    <string name="choose_another_file">Dosya seç</string>
+    <string name="choose_file">Dosya seç</string>
+    <string name="change_file">Dosyayı değiştir</string>
+
+    <string name="selected_file">Seçilen dosya: %1$s</string>
+
+    <string name="include_in_import">İçe aktar</string>
+
+    <string name="import_blocked_no_selection">İçe aktarmak için en az bir işlem seçin.</string>
+
+    <string name="import_blocked_currency">Hesap dökümünün para birimi ile uygulamanın para birimi eşleşmiyor.</string>
+
+    <string name="import_blocked_invalid_entry">Seçilen işlemlerden birinde başlık veya geçerli tutar eksik.</string>
+
+    <string name="import_blocked_free_per_file">Ücretsiz hesaplar tek seferde en fazla %1$d seçili işlemi içe aktarabilir. Fazladan satırların seçimini kaldırın veya Premium\'a yükseltin.</string>
+
+    <string name="import_blocked_free_total">Ücretsiz kullanım hakkı toplam %1$d içe aktarılan işlemdir. Şu anda %2$d işlem daha içe aktarabilirsiniz.</string>
+
+    <string name="import_blocked_limit_check">SmartStack kalan ücretsiz içe aktarma hakkınızı doğrulayamadı. Bağlantınızı kontrol edip tekrar deneyin.</string>
+
+    <string name="import_free_allowance">Ücretsiz hak: Dosya başına %1$d, toplam %2$d · %3$d kaldı</string>
+
+    <string name="import_free_allowance_pending">Ücretsiz hak: Dosya başına %1$d, toplam %2$d · kalan hak kontrol ediliyor…</string>
+
+    <string name="import_premium_allowance">Premium hakkı: Dosya başına en fazla %1$d işlem</string>
+
+    <string name="faqs_question_21">21. Banka hesap dökümü içe aktarma nasıl çalışır ve ne kadar doğrudur?</string>
+
+    <string name="faqs_answer_21">Cevap: SmartStack desteklenen CSV ve PDF hesap dökümlerini okuyabilir ve Kapalı Ödeme ile Gelir kayıtları önerebilir. PDF tanıma işlemi cihaz üzerindeki OCR teknolojisini kullanır ve tarihleri, açıklamaları veya tutarları yanlış okuyabilir. İçe aktarmadan önce her satırı mutlaka gözden geçirin ve toplamlarınızı etkilememesi gereken transferlerin, yinelenen kayıtların veya işlemlerin işaretini kaldırın. Ücretsiz hesaplar bir seferde en fazla 50, toplamda ise 100 işlem içe aktarabilir; Premium ise dosya başına en fazla 200 işlemi destekler. Hesap dökümü geçici olarak cihaz üzerinde işlenir ve Firebase\'e yüklenmez; yalnızca seçilen kayıtlar kaydedilir.</string>
+    <string name="faqs_question_5">5. Temel ve temel olmayan ödemeler nelerdir ve aralarındaki fark nedir?</string>
+    <string name="faqs_answer_5">
+  Cevap: Temel giderler kira, temel gıda alışverişi, sağlık hizmetleri ve gerekli ulaşım gibi ihtiyaçları kapsar. Temel olmayan giderler ise dijital yayın abonelikleri veya lüks ürünler gibi isteğe bağlı harcamaları kapsar. SmartStack desteklenen alt kategorileri tutarlı şekilde sınıflandırır; sınıflandırılamayan kayıtlar toplam tutara dahil edilir, ancak iki alt toplamdan hiçbirine dahil edilmez.
+</string>
+
+    <string name="faqs_question_6">6. Ödemeleri taramak mümkün mü?</string>
+    <string name="faqs_answer_6">
+  Cevap: Evet. Açık ödeme, tamamlanmış gider veya gelir kaydı oluştururken Belgeyi tara seçeneğini kullanın. SmartStack belgeyi kırpar, cihaz üzerinde yazdırılmış metni tanır ve başlık, tutar, tarih, satıcı veya ödeyen gibi alanlar önerir. Kaydetmeden önce tüm önerileri gözden geçirin.
+</string>
+
+    <string name="faqs_question_7">7. SmartStack Solutions ile gelirimi takip edebilir miyim?</string>
+    <string name="faqs_answer_7">
+  Cevap: Evet. Uygulamanın Gelir bölümüne gelir kayıtları ekleyerek gelirinizi takip edebilirsiniz. Kazançlarınızın doğru bir kaydını tutmak için başlık, tutar ve alınma tarihi gibi bilgileri girin.
+</string>
+
+    <string name="faqs_question_8">8. SmartStack Solutions verilerimi korumak için hangi güvenlik önlemlerini kullanıyor?</string>
+    <string name="faqs_answer_8">
+  Cevap: SmartStack Solutions, finansal verilerinizi korumak için veri şifreleme, güvenli oturum açma protokolleri ve düzenli yedeklemeler gibi güçlü güvenlik önlemleri kullanır. Ayrıca uygulama hassas ödeme bilgilerini saklamaz.
+</string>
+
+    <string name="faqs_question_9">9. Premium Hesap nedir ve avantajları nelerdir?</string>
+    <string name="faqs_answer_9">
+  Cevap: Premium, reklamları kaldırır ve tamamlanmış ödeme yönetimi, gelir yönetimi, tasarruf hedefleri, daha yüksek kullanım limitleri ve nakit akışı eğilimleri, kategori değişiklikleri, düzenli yükümlülükler ve tasarruf tutarlılığı dahil olmak üzere 6 ve 12 aylık finansal analizlerin kilidini açar. Açık ödemeler, hatırlatmalar, şablonlar, belge tarama, aylık dışa aktarma, En Büyük Değişim, aylık içgörüler ve takvim temel sürümde kullanılmaya devam eder.
+</string>
+
+    <string name="faqs_question_10">10. Premium Hesaba nasıl yükseltebilirim?</string>
+    <string name="faqs_answer_10">
+  Cevap: Premium Hesaba yükseltmek için Menü bölümüne gidin ve Premium Özelliklerin Kilidini Aç seçeneğini seçin. Satın alma işlemini tamamlamak ve tüm özelliklerin kilidini açmak için ekrandaki talimatları izleyin.
+</string>
+    <string name="export_monthly_overview">Aylık özeti dışa aktar</string>
+    <string name="export_monthly_title">Aylık özeti dışa aktar</string>
+    <string name="export_scope_info_title">Neler dışa aktarılacak?</string>
+    <string name="export_scope_info_content_description">Dışa aktarma bilgilerini göster</string>
+    <string name="export_scope_info_bullets">• Seçilen ay&#10;• Toplam gelir&#10;• Toplam açık ödemeler&#10;• Toplam tamamlanmış ödemeler&#10;• Bakiye&#10;• Tamamlanmış ödemelerin kategori toplamları&#10;• Seçilen aya ait kayıtlar</string>
+    <string name="export_pdf_summary">PDF özeti</string>
+    <string name="export_csv_data">CSV verileri</string>
+    <string name="export_share_chooser">Aylık özeti paylaş</string>
+    <string name="premium_compare_convenience">Kullanım kolaylığı araçları</string>
+    <string name="premium_compare_convenience_free">Şablonlar, tarayarak giriş ve aylık dışa aktarma</string>
+    <string name="premium_compare_convenience_premium">Dahil, daha yüksek içe aktarma sınırlarıyla</string>
+    <string name="export_report_title">SmartStack aylık özeti</string>
+    <string name="export_summary">Özet</string>
+    <string name="export_category_totals">Kategori toplamları</string>
+    <string name="export_entries">Kayıtlar</string>
+    <string name="export_open_payments">Açık ödemeler</string>
+    <string name="export_closed_payments">Tamamlanmış ödemeler</string>
+    <string name="export_income">Gelir</string>
+    <string name="export_balance">Bakiye</string>
+    <string name="export_no_entries">Bu ay için kayıt bulunmuyor.</string>
+    <string name="use_template">Şablonu kullan</string>
+    <string name="hide_templates">Şablonları gizle</string>
+    <string name="save_as_template">Şablon olarak kaydet</string>
+    <string name="template_name">Şablon adı</string>
+    <string name="template_name_hint">örn. Market alışverişi, Benzin istasyonu, Temettüler</string>
+    <string name="template_saved">Şablon kaydedildi.</string>
+    <string name="template_name_required">Lütfen bir şablon adı girin.</string>
+    <string name="terms_and_conditions_content">
+    1. Şartların Kabulü&#10;&#10;SmartStack Solutions uygulamasını kullanarak bu hüküm ve koşullara bağlı kalmayı kabul etmiş olursunuz. Kabul etmiyorsanız lütfen uygulamayı kullanmayın.&#10;&#10;
+    2. Şartlarda Değişiklikler&#10;&#10;SmartStack Solutions bu şartları dilediği zaman değiştirme hakkını saklı tutar. Herhangi bir değişiklik uygulama veya e-posta yoluyla kullanıcılara bildirilecektir. Değişikliklerin yayımlanmasının ardından uygulamayı kullanmaya devam etmeniz, yeni şartları kabul ettiğiniz anlamına gelir.&#10;&#10;
+    3. Kullanıcının Sorumlulukları&#10;&#10;Hesap Güvenliği: Kullanıcılar hesap bilgilerinin gizliliğini korumaktan ve hesapları üzerinden gerçekleştirilen tüm işlemlerden sorumludur.&#10;&#10;Doğru Bilgi: Kullanıcılar hesap oluştururken ve yönetirken doğru ve eksiksiz bilgi sağlamalıdır.\nYasaklanan Faaliyetler: Kullanıcılar uygulamayı yasa dışı amaçlarla veya uygulamaya ya da diğer kullanıcılara zarar verebilecek faaliyetler için kullanmamalıdır.&#10;&#10;
+    4. Gizlilik Politikası&#10;&#10;Gizliliğiniz bizim için önemlidir. Kişisel verilerinizi nasıl topladığımız, kullandığımız ve koruduğumuz hakkında bilgi almak için lütfen Gizlilik Politikamızı inceleyin.&#10;&#10;
+    5. Uygulamanın Kullanımı&#10;&#10;Özellikler: SmartStack Solutions, finansal gelir ve giderlerinizi yönetmeniz için araçlar sunar. Uygulama, kullanıcıların finansal verilerini girmesine, düzenlemesine ve incelemesine olanak tanır.\nSınırlamalar: Doğru ve güvenilir özellikler sunmak için çaba göstersek de SmartStack Solutions tüm özelliklerin hatasız veya kesintisiz çalışacağını garanti etmez.&#10;&#10;
+    6. Premium Hesap&#10;&#10;Özellikler: Premium, Premium ekranında gösterilen özelliklere erişim sağlar. Sunulan özellikler ve fiyatlandırma hizmet geliştikçe değişebilir.&#10;&#10;Ödemeler: Premium ücretleri, satın alma öncesinde gösterilen teklif doğrultusunda Google Play üzerinden tahsil edilir. İade ve iptal işlemleri, geçerli Google Play şartlarına ve yerel yasalara göre yürütülür.&#10;&#10;
+    7. Sorumluluk&#10;&#10;Garanti Yoktur: Uygulama hiçbir garanti verilmeden "olduğu gibi" sunulmaktadır. SmartStack Solutions uygulamanın doğruluğunu, eksiksizliğini veya güvenilirliğini garanti etmez.&#10;&#10;Sorumluluğun Sınırlandırılması: SmartStack Solutions, uygulamanın kullanılmasından veya kullanılamamasından kaynaklanan hiçbir zarardan sorumlu tutulamaz.&#10;&#10;
+    8. Hizmetin Sonlandırılması&#10;&#10;SmartStack Solutions, bu hüküm ve koşulları ihlal eden kullanıcıların uygulamaya erişimini askıya alma veya sonlandırma hakkını saklı tutar.&#10;&#10;
+    9. İletişim Bilgileri&#10;&#10;Bu hüküm ve koşullarla ilgili sorularınız veya endişeleriniz için appdev.jr2024@gmail.com adresinden bizimle iletişime geçebilirsiniz.
+</string>
+</resources>
+

@@ -89,14 +89,32 @@
                             app:tint="@color/colorSecondary" />
                     </LinearLayout>
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="18dp"
-                        android:text="@string/monthly_overview"
-                        android:textColor="@color/colorSecondary"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/monthly_overview"
+                            android:textColor="@color/colorSecondary"
+                            android:textSize="22sp"
+                            android:textStyle="bold" />
+
+                        <ImageButton
+                            android:id="@+id/btnExportMonthlyOverview"
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:contentDescription="@string/export_monthly_overview"
+                            android:padding="9dp"
+                            android:src="@drawable/ic_export"
+                            app:tint="@color/colorPrimary" />
+                    </LinearLayout>
 
                     <TextView
                         android:layout_width="match_parent"
@@ -590,90 +608,131 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="14dp"
                         android:background="@drawable/main_menu_card"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:foreground="?attr/selectableItemBackground"
                         android:orientation="vertical"
-                        android:padding="16dp">
-
-                        <TextView
-                            android:id="@+id/tvTargetAchieved"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/savings_target_progress"
-                            android:textColor="@color/colorSecondary"
-                            android:textSize="17sp"
-                            android:textStyle="bold" />
+                        android:paddingStart="16dp"
+                        android:paddingTop="12dp"
+                        android:paddingEnd="12dp"
+                        android:paddingBottom="16dp">
 
                         <LinearLayout
+                            android:id="@+id/savingsTargetHeader"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
+                            android:background="?attr/selectableItemBackground"
+                            android:clickable="true"
+                            android:focusable="true"
                             android:gravity="center_vertical"
+                            android:minHeight="58dp"
                             android:orientation="horizontal">
 
-                            <TextView
-                                android:id="@+id/tvSetSavingTarget"
-                                android:layout_width="0dp"
-                                android:layout_height="44dp"
-                                android:layout_weight="1"
-                                android:gravity="center_vertical"
-                                android:text="@string/set_saving_target"
-                                android:textColor="@color/colorSecondary"
-                                android:textSize="15sp"
-                                android:textStyle="bold" />
+                            <ImageView
+                                android:layout_width="42dp"
+                                android:layout_height="42dp"
+                                android:background="@drawable/savings_target_icon_bg"
+                                android:contentDescription="@null"
+                                android:padding="8dp"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/piggybank_1" />
 
-                            <EditText
-                                android:id="@+id/etMonthlySavings"
-                                android:layout_width="wrap_content"
+                            <LinearLayout
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:background="@null"
-                                android:clickable="false"
-                                android:cursorVisible="false"
-                                android:focusable="false"
-                                android:hint="+0.00"
-                                android:inputType="none"
-                            android:textColor="@color/savings_color"
-                                android:textSize="15sp"
-                                android:textStyle="bold"
-                                android:visibility="gone" />
+                                android:layout_marginStart="14dp"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tvTargetAchieved"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/savings_target_progress"
+                                    android:textColor="@color/colorSecondary"
+                                    android:textSize="17sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
 
                             <ImageView
-                                android:layout_width="20dp"
-                                android:layout_height="20dp"
-                                android:layout_marginStart="8dp"
-                                android:importantForAccessibility="no"
-                                android:src="@drawable/ic_arrow_right"
-                                app:tint="@color/colorSecondary" />
+                                android:id="@+id/savingsTargetArrow"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:contentDescription="@string/show_details"
+                                android:padding="11dp"
+                                android:src="@drawable/ic_arrow_down"
+                                app:tint="@color/colorPrimary" />
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/savingsTargetContent"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
+                            android:orientation="vertical">
 
-                            <com.google.android.material.progressindicator.LinearProgressIndicator
-                                android:id="@+id/progressBarSavings"
-                                android:layout_width="0dp"
+                            <LinearLayout
+                                android:id="@+id/savingsTargetActionRow"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:max="100"
-                                android:progress="0"
-                                app:indicatorColor="@color/colorPrimary"
-                                app:trackColor="#DDE7EF"
-                                app:trackThickness="10dp" />
+                                android:layout_marginTop="12dp"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:foreground="?attr/selectableItemBackground"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
 
-                            <TextView
-                                android:id="@+id/tvProgressPercentage"
-                                android:layout_width="56dp"
+                                <TextView
+                                    android:id="@+id/tvSetSavingTarget"
+                                    android:layout_width="0dp"
+                                    android:layout_height="44dp"
+                                    android:layout_weight="1"
+                                    android:gravity="center_vertical"
+                                    android:text="@string/set_saving_target"
+                                    android:textColor="@color/colorSecondary"
+                                    android:textSize="15sp"
+                                    android:textStyle="bold" />
+
+                                <EditText
+                                    android:id="@+id/etMonthlySavings"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="@null"
+                                    android:clickable="false"
+                                    android:cursorVisible="false"
+                                    android:focusable="false"
+                                    android:hint="+0.00"
+                                    android:inputType="none"
+                                    android:textColor="@color/savings_color"
+                                android:textSize="15sp"
+                                android:textStyle="bold"
+                                android:visibility="gone" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:gravity="end"
-                                android:text="0%"
-                                android:textColor="@color/colorSecondary"
-                                android:textSize="14sp"
-                                android:textStyle="bold" />
+                                android:layout_marginTop="8dp"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
+
+                                <com.google.android.material.progressindicator.LinearProgressIndicator
+                                    android:id="@+id/progressBarSavings"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:max="100"
+                                    android:progress="0"
+                                    app:indicatorColor="@color/colorPrimary"
+                                    app:trackColor="#DDE7EF"
+                                    app:trackThickness="10dp" />
+
+                                <TextView
+                                    android:id="@+id/tvProgressPercentage"
+                                    android:layout_width="56dp"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="end"
+                                    android:text="0%%"
+                                    android:textColor="@color/colorSecondary"
+                                    android:textSize="14sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
                         </LinearLayout>
                     </LinearLayout>
 
@@ -856,6 +915,59 @@
                                     android:layout_height="178dp"
                                     android:layout_marginTop="8dp" />
                             </LinearLayout>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/biggestChangeCard"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="12dp"
+                                android:background="@drawable/insight_panel_background"
+                                android:orientation="vertical"
+                                android:padding="14dp">
+
+                                <TextView
+                                    style="@style/InsightTitle"
+                                    android:text="@string/biggest_change" />
+
+                                <TextView
+                                    style="@style/InsightDescription"
+                                    android:text="@string/biggest_change_description" />
+
+                                <LinearLayout
+                                    android:id="@+id/biggestChangeCallout"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    android:background="@drawable/insight_change_callout_background"
+                                    android:gravity="center_vertical"
+                                    android:orientation="horizontal"
+                                    android:paddingStart="12dp"
+                                    android:paddingTop="10dp"
+                                    android:paddingEnd="12dp"
+                                    android:paddingBottom="10dp">
+
+                                    <ImageView
+                                        android:id="@+id/imgBiggestChangeIcon"
+                                        android:layout_width="40dp"
+                                        android:layout_height="40dp"
+                                        android:background="@drawable/insight_change_icon_background"
+                                        android:contentDescription="@string/biggest_change"
+                                        android:padding="9dp"
+                                        android:src="@drawable/ic_change" />
+
+                                    <TextView
+                                        android:id="@+id/tvBiggestChangeInsight"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="12dp"
+                                        android:layout_weight="1"
+                                        android:lineSpacingExtra="2dp"
+                                        android:text="@string/biggest_change_no_data"
+                                        android:textColor="@color/colorSecondary"
+                                        android:textSize="14sp"
+                                        android:textStyle="bold" />
+                                </LinearLayout>
                             </LinearLayout>
 
                             <LinearLayout

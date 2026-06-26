@@ -5,7 +5,7 @@ import com.google.firebase.Timestamp;
 public class Income {
 
     String incomeId, parentIncomeId;
-    String name, comment, category, repeat, subcategory, source, attachment;
+    String name, comment, category, repeat, subcategory, source, attachment, importHash, currency;
     double amount;
     Timestamp date;
 
@@ -102,4 +102,10 @@ public class Income {
 
     public String getAttachment() { return attachment; }
     public void setAttachment(String attachment) { this.attachment = attachment; }
+
+    public String getImportHash() { return importHash; }
+    public void setImportHash(String importHash) { this.importHash = importHash; }
+
+    public String getCurrency() { return currency; }
+    public void setCurrency(String currency) { this.currency = currency; }
 }

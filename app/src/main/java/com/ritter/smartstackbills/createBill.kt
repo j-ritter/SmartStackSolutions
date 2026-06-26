@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.Environment
 import android.view.View
 import android.widget.*
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -16,6 +17,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import android.text.InputType
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.FileProvider
+import androidx.core.content.ContextCompat
 import java.text.SimpleDateFormat
 import java.util.*
 import com.google.firebase.Timestamp
@@ -220,6 +222,7 @@ class createBill : AppCompatActivity() {
         edtDate.inputType = InputType.TYPE_NULL
         edtDate.setOnClickListener { showDatePickerDialog() }
         edtDate.setOnFocusChangeListener { _, hasFocus -> if (hasFocus) showDatePickerDialog() }
+        setTodayIfBlank(edtDate)
 
         val spinnerCategories = findViewById<Spinner>(R.id.spinnerCategoriesBill)
         val spinnerSubcategories = findViewById<Spinner>(R.id.spinnerSubcategoriesBill)
@@ -230,9 +233,27 @@ class createBill : AppCompatActivity() {
         spinnerRepeat.adapter = arrayAdapterRepeat
 
         loadCategories(spinnerCategories)
+        selectOptionByKey(spinnerCategories, "Other")
         spinnerCategories.selectedItem?.let {
-            loadSubcategories(FinancialEntryOptions.selectedKey(it), spinnerSubcategories)
+            val selectedCategory = FinancialEntryOptions.selectedKey(it)
+            loadSubcategories(selectedCategory, spinnerSubcategories)
+            selectDefaultSubcategory(spinnerSubcategories, selectedCategory)
         }
+        setupMoreDetailsToggle(
+            R.id.tvMoreDetailsBill,
+            R.id.txtRepeatBill,
+            R.id.spinnerRepeatBill,
+            R.id.tvRecurrenceNoteBill,
+            R.id.txtCategoryBill,
+            R.id.spinnerCategoriesBill,
+            R.id.txtSubcategoryBill,
+            R.id.spinnerSubcategoriesBill,
+            R.id.txtVendorBill,
+            R.id.autoCompleteVendorBill,
+            R.id.txtCommentBill,
+            R.id.edtCommentBill,
+            R.id.layoutAttachmentBill
+        )
 
         // Load vendors based on selected category
         spinnerCategories.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -240,33 +261,73 @@ class createBill : AppCompatActivity() {
                 val selectedCategory = FinancialEntryOptions.selectedKey(spinnerCategories.selectedItem)
                 loadVendors(selectedCategory, autoCompleteVendors)
                 loadSubcategories(selectedCategory, spinnerSubcategories)
+                selectDefaultSubcategory(spinnerSubcategories, selectedCategory)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 // Handle case where no category is selected
             }
         }
+        setupTemplates(spinnerCategories, spinnerSubcategories, autoCompleteVendors, spinnerRepeat)
 
         val saveButton = findViewById<Button>(R.id.btnSaveBill)
         saveButton.setOnClickListener { saveBill() }
 
         val btnCancel = findViewById<Button>(R.id.btnCancelBill)
         btnCancel.setOnClickListener {
-            finish()
+            confirmDiscardIfNeeded()
         }
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                confirmDiscardIfNeeded()
+            }
+        })
         // Image upload handling
         findViewById<Button>(R.id.btnUploadImageBill).setOnClickListener { handleImageUpload() }
         applyScanPrefill()
     }
 
+    private fun confirmDiscardIfNeeded() {
+        if (!hasUnsavedInput()) {
+            finish()
+            return
+        }
+        AlertDialog.Builder(this)
+            .setTitle(R.string.unsaved_changes_title)
+            .setMessage(R.string.unsaved_changes_message)
+            .setNegativeButton(R.string.keep_editing, null)
+            .setPositiveButton(R.string.discard_changes) { _, _ -> finish() }
+            .show()
+    }
+
+    private fun hasUnsavedInput(): Boolean {
+        fun text(id: Int): String = findViewById<EditText>(id).text?.toString()?.trim().orEmpty()
+        return text(R.id.edtTitleBill).isNotBlank() ||
+            text(R.id.edtAmountBill).isNotBlank() ||
+            findViewById<AutoCompleteTextView>(R.id.autoCompleteVendorBill).text?.toString()?.trim().orEmpty().isNotBlank() ||
+            text(R.id.edtCommentBill).isNotBlank() ||
+            imageUri != null ||
+            hasScanPrefill()
+    }
+
+    private fun hasScanPrefill(): Boolean =
+        listOf(
+            ScanPrefill.EXTRA_SCAN_TITLE,
+            ScanPrefill.EXTRA_SCAN_AMOUNT,
+            ScanPrefill.EXTRA_SCAN_DATE,
+            ScanPrefill.EXTRA_SCAN_PARTY,
+            ScanPrefill.EXTRA_SCAN_ATTACHMENT
+        ).any { intent.getStringExtra(it).isNullOrBlank().not() }
+
     private fun applyScanPrefill() {
+        showScanReviewHintIfNeeded()
         intent.getStringExtra(ScanPrefill.EXTRA_SCAN_TITLE)?.takeIf { it.isNotBlank() }?.let {
             findViewById<EditText>(R.id.edtTitleBill).setText(it)
         }
         intent.getStringExtra(ScanPrefill.EXTRA_SCAN_AMOUNT)?.takeIf { it.isNotBlank() }?.let {
             findViewById<EditText>(R.id.edtAmountBill).setText(it)
         }
-        intent.getStringExtra(ScanPrefill.EXTRA_SCAN_DATE)?.takeIf { it.isNotBlank() }?.let {
+        ScanDateValidator.sanitizeDisplayDate(intent.getStringExtra(ScanPrefill.EXTRA_SCAN_DATE))?.let {
             findViewById<EditText>(R.id.edtDateBill).setText(it)
         }
         intent.getStringExtra(ScanPrefill.EXTRA_SCAN_PARTY)?.takeIf { it.isNotBlank() }?.let {
@@ -275,6 +336,29 @@ class createBill : AppCompatActivity() {
         intent.getStringExtra(ScanPrefill.EXTRA_SCAN_ATTACHMENT)?.takeIf { it.isNotBlank() }?.let {
             imageUri = Uri.parse(it)
             updateAttachmentStatus()
+        }
+        showScanCurrencyWarningIfNeeded()
+    }
+
+    private fun showScanReviewHintIfNeeded() {
+        findViewById<TextView>(R.id.tvScanReviewHintBill).visibility =
+            if (hasScanPrefill()) View.VISIBLE else View.GONE
+    }
+
+    private fun entryCurrency(): String =
+        CurrencyPreferences.selectedCode(this)
+
+    private fun showScanCurrencyWarningIfNeeded() {
+        val scannedCurrency = intent.getStringExtra(ScanPrefill.EXTRA_SCAN_CURRENCY)
+            ?.takeIf { it.isNotBlank() }
+            ?: return
+        val appCurrency = CurrencyPreferences.selectedCode(this)
+        if (scannedCurrency != appCurrency) {
+            Toast.makeText(
+                this,
+                getString(R.string.scan_currency_mismatch, scannedCurrency, appCurrency),
+                Toast.LENGTH_LONG
+            ).show()
         }
     }
     // Load categories dynamically (not pre-selected)
@@ -323,6 +407,157 @@ class createBill : AppCompatActivity() {
     private fun onDateSelected(day: Int, month: Int, year: Int) {
         val edtDate = findViewById<EditText>(R.id.edtDateBill)
         edtDate.setText("$day/${month + 1}/$year")
+    }
+
+    private fun setTodayIfBlank(editText: EditText) {
+        if (editText.text.isNullOrBlank()) {
+            editText.setText(SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date()))
+        }
+    }
+
+    private fun setupMoreDetailsToggle(toggleId: Int, vararg detailIds: Int) {
+        val toggle = findViewById<TextView>(toggleId)
+        var expanded = false
+        fun applyState() {
+            detailIds.forEach { id -> findViewById<View>(id).visibility = if (expanded) View.VISIBLE else View.GONE }
+            toggle.text = getString(if (expanded) R.string.hide_details else R.string.show_details)
+        }
+        toggle.setOnClickListener {
+            expanded = !expanded
+            applyState()
+        }
+        applyState()
+    }
+
+    private fun selectOptionByKey(spinner: Spinner, key: String) {
+        val adapter = spinner.adapter ?: return
+        for (index in 0 until adapter.count) {
+            val option = adapter.getItem(index) as? FinancialEntryOptions.Option
+            if (option?.key == key) {
+                spinner.setSelection(index)
+                return
+            }
+        }
+    }
+
+    private fun selectDefaultSubcategory(spinner: Spinner, category: String) {
+        if (category == "Other") {
+            selectOptionByKey(spinner, "Miscellaneous")
+        }
+    }
+
+    private fun selectOptionByText(spinner: Spinner, value: String) {
+        val adapter = spinner.adapter ?: return
+        for (index in 0 until adapter.count) {
+            if (adapter.getItem(index)?.toString() == value) {
+                spinner.setSelection(index)
+                return
+            }
+        }
+    }
+
+    private fun setupTemplates(
+        spinnerCategories: Spinner,
+        spinnerSubcategories: Spinner,
+        autoCompleteVendors: AutoCompleteTextView,
+        spinnerRepeat: Spinner
+    ) {
+        findViewById<CheckBox>(R.id.checkSaveTemplateBill).setOnCheckedChangeListener { _, checked ->
+            findViewById<EditText>(R.id.edtTemplateNameBill).visibility = if (checked) View.VISIBLE else View.GONE
+        }
+
+        val templates = EntryTemplateStore.templates(this, EntryTemplateStore.Type.OPEN_PAYMENT)
+        val container = findViewById<LinearLayout>(R.id.layoutTemplatesBill)
+        val chips = findViewById<LinearLayout>(R.id.templateChipsBill)
+        if (templates.isEmpty()) {
+            container.visibility = View.GONE
+            return
+        }
+        container.visibility = View.VISIBLE
+        val toggle = findViewById<TextView>(R.id.tvUseTemplateBill)
+        val toggleRow = findViewById<LinearLayout>(R.id.templateToggleBill)
+        val arrow = findViewById<ImageView>(R.id.templateArrowBill)
+        val scroll = findViewById<HorizontalScrollView>(R.id.templateScrollBill)
+        scroll.visibility = View.GONE
+        toggle.text = getString(R.string.use_template)
+        arrow.rotation = 0f
+        toggleRow.setOnClickListener {
+            val expanded = scroll.visibility != View.VISIBLE
+            scroll.visibility = if (expanded) View.VISIBLE else View.GONE
+            toggle.text = getString(if (expanded) R.string.hide_templates else R.string.use_template)
+            arrow.animate().rotation(if (expanded) 180f else 0f).setDuration(180L).start()
+        }
+        chips.removeAllViews()
+        templates.forEach { template ->
+            chips.addView(templateButton(template.templateName) {
+                findViewById<EditText>(R.id.edtTitleBill).setText(template.title)
+                findViewById<EditText>(R.id.edtAmountBill).setText(
+                    if (template.amount > 0.0) CurrencyPreferences.formatPlain(template.amount) else ""
+                )
+                selectOptionByKey(spinnerCategories, template.category)
+                loadVendors(template.category, autoCompleteVendors)
+                loadSubcategories(template.category, spinnerSubcategories)
+                selectOptionByKey(spinnerSubcategories, template.subcategory)
+                autoCompleteVendors.setText(template.vendorOrSource)
+                selectOptionByText(spinnerRepeat, template.repeat)
+                findViewById<EditText>(R.id.edtCommentBill).setText(template.comment)
+            })
+        }
+    }
+
+    private fun templateButton(label: String, onClick: () -> Unit): Button =
+        Button(this).apply {
+            text = label
+            isAllCaps = false
+            setTextColor(ContextCompat.getColor(this@createBill, R.color.colorPrimary))
+            setBackgroundResource(R.drawable.create_upload_button)
+            setPadding(20, 0, 20, 0)
+            setOnClickListener { onClick() }
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                (38 * resources.displayMetrics.density).toInt()
+            ).apply {
+                marginEnd = (8 * resources.displayMetrics.density).toInt()
+            }
+        }
+
+    private fun validateTemplateNameIfNeeded(): Boolean {
+        val saveTemplate = findViewById<CheckBox>(R.id.checkSaveTemplateBill).isChecked
+        val templateName = findViewById<EditText>(R.id.edtTemplateNameBill).text.toString().trim()
+        if (saveTemplate && templateName.isBlank()) {
+            Toast.makeText(this, R.string.template_name_required, Toast.LENGTH_SHORT).show()
+            return false
+        }
+        return true
+    }
+
+    private fun saveTemplateIfRequested(
+        title: String,
+        amount: Double,
+        category: String,
+        subcategory: String,
+        vendor: String,
+        repeat: String,
+        comment: String
+    ) {
+        if (!findViewById<CheckBox>(R.id.checkSaveTemplateBill).isChecked) return
+        val templateName = findViewById<EditText>(R.id.edtTemplateNameBill).text.toString().trim()
+        EntryTemplateStore.save(
+            this,
+            EntryTemplateStore.Template(
+                id = "open_payment_${templateName.lowercase(Locale.US)}",
+                type = EntryTemplateStore.Type.OPEN_PAYMENT,
+                templateName = templateName,
+                title = title,
+                amount = amount,
+                category = category,
+                subcategory = subcategory,
+                vendorOrSource = vendor,
+                repeat = repeat,
+                comment = comment
+            )
+        )
+        Toast.makeText(this, R.string.template_saved, Toast.LENGTH_SHORT).show()
     }
     private fun handleImageUpload() {
         val options = arrayOf(
@@ -406,15 +641,20 @@ class createBill : AppCompatActivity() {
 
     private fun saveBill() {
         // Retrieve values from input fields
-        val billName = findViewById<EditText>(R.id.edtTitleBill).text.toString()
-        val billAmount = findViewById<EditText>(R.id.edtAmountBill).text.toString().toDoubleOrNull() ?: 0.0
-        val billDateString = findViewById<EditText>(R.id.edtDateBill).text.toString()
+        val billName = findViewById<EditText>(R.id.edtTitleBill).text.toString().trim()
+            .ifBlank { getString(R.string.open_payment) }
+        val billAmount = CurrencyPreferences.roundToTwoDecimals(
+            findViewById<EditText>(R.id.edtAmountBill).text.toString().toDoubleOrNull() ?: 0.0
+        )
+        val dateEditText = findViewById<EditText>(R.id.edtDateBill)
+        setTodayIfBlank(dateEditText)
+        val billDateString = dateEditText.text.toString()
         val billCategory = FinancialEntryOptions.selectedKey(
             findViewById<Spinner>(R.id.spinnerCategoriesBill).selectedItem
-        ).ifBlank { "-" }
+        ).ifBlank { "Other" }
         val billSubcategory = FinancialEntryOptions.selectedKey(
             findViewById<Spinner>(R.id.spinnerSubcategoriesBill).selectedItem
-        ).ifBlank { "-" }
+        ).ifBlank { "Miscellaneous" }
         val billVendor = findViewById<AutoCompleteTextView>(R.id.autoCompleteVendorBill).text.toString()
         val billRepeat = findViewById<Spinner>(R.id.spinnerRepeatBill).selectedItem?.toString() ?: "-"
         val billComment = findViewById<EditText>(R.id.edtCommentBill).text.toString()
@@ -422,18 +662,11 @@ class createBill : AppCompatActivity() {
         val billAttachment = imageUri?.toString()
 
         // Validate mandatory fields
-        if (billName.isBlank()) {
-            Toast.makeText(this, R.string.enter_open_payment_name, Toast.LENGTH_SHORT).show()
-            return
-        }
         if (billAmount <= 0) {
             Toast.makeText(this, R.string.enter_valid_amount, Toast.LENGTH_SHORT).show()
             return
         }
-        if (billDateString.isBlank()) {
-            Toast.makeText(this, R.string.select_valid_due_date, Toast.LENGTH_SHORT).show()
-            return
-        }
+        if (!validateTemplateNameIfNeeded()) return
 
         // Convert date string to Timestamp
         val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
@@ -459,9 +692,11 @@ class createBill : AppCompatActivity() {
                     return@checkBillCreation
                 }
 
+                val entryCurrency = entryCurrency()
                 val bill = hashMapOf(
                     "name" to billName,
                     "amount" to billAmount,
+                    "currency" to entryCurrency,
                     "date" to timestamp,
                     "category" to billCategory,
                     "subcategory" to billSubcategory,
@@ -484,6 +719,7 @@ class createBill : AppCompatActivity() {
                     this.billId = billId
                     this.name = billName
                     this.amount = billAmount
+                    this.currency = entryCurrency
                     this.date = timestamp
                     this.paid = billPaid
                 }
@@ -492,13 +728,17 @@ class createBill : AppCompatActivity() {
                     addRecurringBillsToBatch(
                         batch, billsToSchedule, uid, billName, billAmount, billDate,
                         billCategory, billSubcategory, billVendor, billRepeat,
-                        billComment, billAttachment, billId
+                        billComment, billAttachment, billId, entryCurrency
                     )
                 }
 
                 batch.commit()
                     .addOnSuccessListener {
                         Toast.makeText(this, R.string.open_payment_saved, Toast.LENGTH_SHORT).show()
+                        saveTemplateIfRequested(
+                            billName, billAmount, billCategory, billSubcategory,
+                            billVendor, billRepeat, billComment
+                        )
                         FinancialEntryOptions.rememberVendor(this, billVendor)
                         billsToSchedule.forEach {
                             PaymentNotificationScheduler.scheduleBill(this, uid, it)
@@ -518,7 +758,7 @@ class createBill : AppCompatActivity() {
         billsToSchedule: MutableList<Bills>,
         uid: String, billTitle: String, billAmount: Double, startDate: Date, billCategory: String,
         billSubcategory: String, billVendor: String, billRepeat: String, billComment: String,
-        billAttachment: String?, parentBillId: String
+        billAttachment: String?, parentBillId: String, entryCurrency: String
     ) {
         val calendar = Calendar.getInstance()
         calendar.time = startDate
@@ -541,6 +781,7 @@ class createBill : AppCompatActivity() {
             val recurringBill = hashMapOf(
                 "name" to billTitle,
                 "amount" to billAmount,
+                "currency" to entryCurrency,
                 "date" to com.google.firebase.Timestamp(occurrenceDate),
                 "category" to billCategory,
                 "subcategory" to billSubcategory,
@@ -561,6 +802,7 @@ class createBill : AppCompatActivity() {
                 this.billId = newBillId
                 this.name = billTitle
                 this.amount = billAmount
+                this.currency = entryCurrency
                 this.date = Timestamp(occurrenceDate)
                 this.paid = false
             }

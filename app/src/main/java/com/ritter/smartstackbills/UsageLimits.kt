@@ -10,6 +10,7 @@ import java.util.Date
 
 object UsageLimits {
     const val FREE_STANDALONE_OPEN_PAYMENTS = 30L
+    const val FREE_CLOSED_PAYMENTS = 100L
     const val FREE_FUTURE_RECURRING_OCCURRENCES = 250L
     const val PREMIUM_FUTURE_ENTRIES = 2_000L
 
@@ -101,6 +102,34 @@ object UsageLimits {
                 R.string.premium_usage_limit_reached
             )
         }
+    }
+
+    @JvmStatic
+    fun checkClosedPaymentCreation(
+        context: Context,
+        uid: String,
+        newEntries: Long = 1L,
+        onResult: (allowed: Boolean, messageRes: Int?) -> Unit
+    ) {
+        if (PremiumAccess.isPremiumUser(context)) {
+            onResult(true, null)
+            return
+        }
+        FirebaseFirestore.getInstance()
+            .collection("users")
+            .document(uid)
+            .collection("spendings")
+            .count()
+            .get(AggregateSource.SERVER)
+            .addOnSuccessListener { current ->
+                onResult(
+                    current.count + newEntries <= FREE_CLOSED_PAYMENTS,
+                    R.string.free_closed_payment_limit_reached
+                )
+            }
+            .addOnFailureListener {
+                onResult(false, R.string.usage_limit_check_failed)
+            }
     }
 
     private fun countFutureEntries(

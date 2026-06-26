@@ -7,10 +7,12 @@ import android.os.Environment
 import android.text.InputType
 import android.view.View
 import android.widget.*
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -90,6 +92,7 @@ class createIncome : AppCompatActivity() {
         edtDate.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) { showDatePickerDialog() }
         }
+        setTodayIfBlank(edtDate)
 
         val spinnerCategories = findViewById<Spinner>(R.id.spinnerCategoriesIncome)
         val spinnerSubcategories = findViewById<Spinner>(R.id.spinnerSubcategoriesIncome)
@@ -101,9 +104,25 @@ class createIncome : AppCompatActivity() {
         spinnerRepeat.adapter = arrayAdapterRepeat
 
         loadCategories(spinnerCategories)
+        selectOptionByKey(spinnerCategories, "Other income")
         spinnerCategories.selectedItem?.let {
             loadSubcategories(FinancialEntryOptions.selectedKey(it), spinnerSubcategories)
         }
+        setupMoreDetailsToggle(
+            R.id.tvMoreDetailsIncome,
+            R.id.txtSourceIncome,
+            R.id.edtSourceIncome,
+            R.id.txtCategoryIncome,
+            R.id.spinnerCategoriesIncome,
+            R.id.txtSubcategoryIncome,
+            R.id.spinnerSubcategoriesIncome,
+            R.id.txtRepeatIncome,
+            R.id.spinnerRepeatIncome,
+            R.id.tvRecurrenceNoteIncome,
+            R.id.txtCommentIncome,
+            R.id.edtCommentIncome,
+            R.id.layoutAttachmentIncome
+        )
         spinnerCategories.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 spinnerCategories.selectedItem?.let {
@@ -113,6 +132,7 @@ class createIncome : AppCompatActivity() {
 
             override fun onNothingSelected(parent: AdapterView<*>?) = Unit
         }
+        setupTemplates(spinnerCategories, spinnerSubcategories, spinnerRepeat)
 
         saveButton.setOnClickListener {
             saveIncome()
@@ -120,22 +140,60 @@ class createIncome : AppCompatActivity() {
 
         val btnCancel = findViewById<Button>(R.id.btnCancelIncome)
         btnCancel.setOnClickListener {
-            finish()
+            confirmDiscardIfNeeded()
         }
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                confirmDiscardIfNeeded()
+            }
+        })
         findViewById<Button>(R.id.btnUploadImageIncome).setOnClickListener {
             handleImageUpload()
         }
         applyScanPrefill()
     }
 
+    private fun confirmDiscardIfNeeded() {
+        if (!hasUnsavedInput()) {
+            finish()
+            return
+        }
+        AlertDialog.Builder(this)
+            .setTitle(R.string.unsaved_changes_title)
+            .setMessage(R.string.unsaved_changes_message)
+            .setNegativeButton(R.string.keep_editing, null)
+            .setPositiveButton(R.string.discard_changes) { _, _ -> finish() }
+            .show()
+    }
+
+    private fun hasUnsavedInput(): Boolean {
+        fun text(id: Int): String = findViewById<EditText>(id).text?.toString()?.trim().orEmpty()
+        return text(R.id.edtTitleIncome).isNotBlank() ||
+            text(R.id.edtAmountIncome).isNotBlank() ||
+            text(R.id.edtSourceIncome).isNotBlank() ||
+            text(R.id.edtCommentIncome).isNotBlank() ||
+            imageUri != null ||
+            hasScanPrefill()
+    }
+
+    private fun hasScanPrefill(): Boolean =
+        listOf(
+            ScanPrefill.EXTRA_SCAN_TITLE,
+            ScanPrefill.EXTRA_SCAN_AMOUNT,
+            ScanPrefill.EXTRA_SCAN_DATE,
+            ScanPrefill.EXTRA_SCAN_PARTY,
+            ScanPrefill.EXTRA_SCAN_ATTACHMENT
+        ).any { intent.getStringExtra(it).isNullOrBlank().not() }
+
     private fun applyScanPrefill() {
+        showScanReviewHintIfNeeded()
         intent.getStringExtra(ScanPrefill.EXTRA_SCAN_TITLE)?.takeIf { it.isNotBlank() }?.let {
             findViewById<EditText>(R.id.edtTitleIncome).setText(it)
         }
         intent.getStringExtra(ScanPrefill.EXTRA_SCAN_AMOUNT)?.takeIf { it.isNotBlank() }?.let {
             findViewById<EditText>(R.id.edtAmountIncome).setText(it)
         }
-        intent.getStringExtra(ScanPrefill.EXTRA_SCAN_DATE)?.takeIf { it.isNotBlank() }?.let {
+        ScanDateValidator.sanitizeDisplayDate(intent.getStringExtra(ScanPrefill.EXTRA_SCAN_DATE))?.let {
             findViewById<EditText>(R.id.edtDateIncome).setText(it)
         }
         intent.getStringExtra(ScanPrefill.EXTRA_SCAN_PARTY)?.takeIf { it.isNotBlank() }?.let {
@@ -144,6 +202,29 @@ class createIncome : AppCompatActivity() {
         intent.getStringExtra(ScanPrefill.EXTRA_SCAN_ATTACHMENT)?.takeIf { it.isNotBlank() }?.let {
             imageUri = Uri.parse(it)
             updateAttachmentStatus()
+        }
+        showScanCurrencyWarningIfNeeded()
+    }
+
+    private fun showScanReviewHintIfNeeded() {
+        findViewById<TextView>(R.id.tvScanReviewHintIncome).visibility =
+            if (hasScanPrefill()) View.VISIBLE else View.GONE
+    }
+
+    private fun entryCurrency(): String =
+        CurrencyPreferences.selectedCode(this)
+
+    private fun showScanCurrencyWarningIfNeeded() {
+        val scannedCurrency = intent.getStringExtra(ScanPrefill.EXTRA_SCAN_CURRENCY)
+            ?.takeIf { it.isNotBlank() }
+            ?: return
+        val appCurrency = CurrencyPreferences.selectedCode(this)
+        if (scannedCurrency != appCurrency) {
+            Toast.makeText(
+                this,
+                getString(R.string.scan_currency_mismatch, scannedCurrency, appCurrency),
+                Toast.LENGTH_LONG
+            ).show()
         }
     }
 
@@ -166,6 +247,149 @@ class createIncome : AppCompatActivity() {
         edtDate.setText("$day/${month + 1}/$year")
     }
 
+    private fun setTodayIfBlank(editText: EditText) {
+        if (editText.text.isNullOrBlank()) {
+            editText.setText(SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date()))
+        }
+    }
+
+    private fun setupMoreDetailsToggle(toggleId: Int, vararg detailIds: Int) {
+        val toggle = findViewById<TextView>(toggleId)
+        var expanded = false
+        fun applyState() {
+            detailIds.forEach { id -> findViewById<View>(id).visibility = if (expanded) View.VISIBLE else View.GONE }
+            toggle.text = getString(if (expanded) R.string.hide_details else R.string.show_details)
+        }
+        toggle.setOnClickListener {
+            expanded = !expanded
+            applyState()
+        }
+        applyState()
+    }
+
+    private fun selectOptionByKey(spinner: Spinner, key: String) {
+        val adapter = spinner.adapter ?: return
+        for (index in 0 until adapter.count) {
+            val option = adapter.getItem(index) as? FinancialEntryOptions.Option
+            if (option?.key == key) {
+                spinner.setSelection(index)
+                return
+            }
+        }
+    }
+
+    private fun selectOptionByText(spinner: Spinner, value: String) {
+        val adapter = spinner.adapter ?: return
+        for (index in 0 until adapter.count) {
+            if (adapter.getItem(index)?.toString() == value) {
+                spinner.setSelection(index)
+                return
+            }
+        }
+    }
+
+    private fun setupTemplates(
+        spinnerCategories: Spinner,
+        spinnerSubcategories: Spinner,
+        spinnerRepeat: Spinner
+    ) {
+        findViewById<CheckBox>(R.id.checkSaveTemplateIncome).setOnCheckedChangeListener { _, checked ->
+            findViewById<EditText>(R.id.edtTemplateNameIncome).visibility = if (checked) View.VISIBLE else View.GONE
+        }
+
+        val templates = EntryTemplateStore.templates(this, EntryTemplateStore.Type.INCOME)
+        val container = findViewById<LinearLayout>(R.id.layoutTemplatesIncome)
+        val chips = findViewById<LinearLayout>(R.id.templateChipsIncome)
+        if (templates.isEmpty()) {
+            container.visibility = View.GONE
+            return
+        }
+        container.visibility = View.VISIBLE
+        val toggle = findViewById<TextView>(R.id.tvUseTemplateIncome)
+        val toggleRow = findViewById<LinearLayout>(R.id.templateToggleIncome)
+        val arrow = findViewById<ImageView>(R.id.templateArrowIncome)
+        val scroll = findViewById<HorizontalScrollView>(R.id.templateScrollIncome)
+        scroll.visibility = View.GONE
+        toggle.text = getString(R.string.use_template)
+        arrow.rotation = 0f
+        toggleRow.setOnClickListener {
+            val expanded = scroll.visibility != View.VISIBLE
+            scroll.visibility = if (expanded) View.VISIBLE else View.GONE
+            toggle.text = getString(if (expanded) R.string.hide_templates else R.string.use_template)
+            arrow.animate().rotation(if (expanded) 180f else 0f).setDuration(180L).start()
+        }
+        chips.removeAllViews()
+        templates.forEach { template ->
+            chips.addView(templateButton(template.templateName) {
+                findViewById<EditText>(R.id.edtTitleIncome).setText(template.title)
+                findViewById<EditText>(R.id.edtAmountIncome).setText(
+                    if (template.amount > 0.0) CurrencyPreferences.formatPlain(template.amount) else ""
+                )
+                selectOptionByKey(spinnerCategories, template.category)
+                loadSubcategories(template.category, spinnerSubcategories)
+                selectOptionByKey(spinnerSubcategories, template.subcategory)
+                findViewById<EditText>(R.id.edtSourceIncome).setText(template.vendorOrSource)
+                selectOptionByText(spinnerRepeat, template.repeat)
+                findViewById<EditText>(R.id.edtCommentIncome).setText(template.comment)
+            })
+        }
+    }
+
+    private fun templateButton(label: String, onClick: () -> Unit): Button =
+        Button(this).apply {
+            text = label
+            isAllCaps = false
+            setTextColor(ContextCompat.getColor(this@createIncome, R.color.colorPrimary))
+            setBackgroundResource(R.drawable.create_upload_button)
+            setPadding(20, 0, 20, 0)
+            setOnClickListener { onClick() }
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                (38 * resources.displayMetrics.density).toInt()
+            ).apply {
+                marginEnd = (8 * resources.displayMetrics.density).toInt()
+            }
+        }
+
+    private fun validateTemplateNameIfNeeded(): Boolean {
+        val saveTemplate = findViewById<CheckBox>(R.id.checkSaveTemplateIncome).isChecked
+        val templateName = findViewById<EditText>(R.id.edtTemplateNameIncome).text.toString().trim()
+        if (saveTemplate && templateName.isBlank()) {
+            Toast.makeText(this, R.string.template_name_required, Toast.LENGTH_SHORT).show()
+            return false
+        }
+        return true
+    }
+
+    private fun saveTemplateIfRequested(
+        title: String,
+        amount: Double,
+        category: String,
+        subcategory: String,
+        source: String,
+        repeat: String,
+        comment: String
+    ) {
+        if (!findViewById<CheckBox>(R.id.checkSaveTemplateIncome).isChecked) return
+        val templateName = findViewById<EditText>(R.id.edtTemplateNameIncome).text.toString().trim()
+        EntryTemplateStore.save(
+            this,
+            EntryTemplateStore.Template(
+                id = "income_${templateName.lowercase(Locale.US)}",
+                type = EntryTemplateStore.Type.INCOME,
+                templateName = templateName,
+                title = title,
+                amount = amount,
+                category = category,
+                subcategory = subcategory,
+                vendorOrSource = source,
+                repeat = repeat,
+                comment = comment
+            )
+        )
+        Toast.makeText(this, R.string.template_saved, Toast.LENGTH_SHORT).show()
+    }
+
     private fun validateDateField(): Boolean {
         val edtDate = findViewById<EditText>(R.id.edtDateIncome)
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
@@ -176,7 +400,7 @@ class createIncome : AppCompatActivity() {
             if (incomeDate != null) {
                 true
             } else {
-                Toast.makeText(this, "Please select a valid future date", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.invalid_date_format, Toast.LENGTH_SHORT).show()
                 false
             }
         } catch (e: Exception) {
@@ -186,19 +410,24 @@ class createIncome : AppCompatActivity() {
     }
 
     private fun saveIncome() {
-        if (validateMandatoryFields() && validateDateField()) {
+        if (validateMandatoryFields() && validateDateField() && validateTemplateNameIfNeeded()) {
             val uid = userUid
             if (uid != null) {
-                val incomeTitle = findViewById<EditText>(R.id.edtTitleIncome).text.toString()
-                val incomeAmount = findViewById<EditText>(R.id.edtAmountIncome).text.toString().toDoubleOrNull() ?: 0.0
+                val incomeTitle = findViewById<EditText>(R.id.edtTitleIncome).text.toString().trim()
+                    .ifBlank { getString(R.string.income) }
+                val incomeAmount = CurrencyPreferences.roundToTwoDecimals(
+                    findViewById<EditText>(R.id.edtAmountIncome).text.toString().toDoubleOrNull() ?: 0.0
+                )
                 val incomeSource = findViewById<EditText>(R.id.edtSourceIncome).text.toString().trim()
-                val incomeDateString = findViewById<EditText>(R.id.edtDateIncome).text.toString()
+                val dateEditText = findViewById<EditText>(R.id.edtDateIncome)
+                setTodayIfBlank(dateEditText)
+                val incomeDateString = dateEditText.text.toString()
                 val incomeCategory = FinancialEntryOptions.selectedKey(
                     findViewById<Spinner>(R.id.spinnerCategoriesIncome).selectedItem
-                ).ifBlank { "-" }
+                ).ifBlank { "Other income" }
                 val incomeSubcategory = FinancialEntryOptions.selectedKey(
                     findViewById<Spinner>(R.id.spinnerSubcategoriesIncome).selectedItem
-                ).ifBlank { "-" }
+                ).ifBlank { "Miscellaneous" }
                 val incomeRepeat = findViewById<Spinner>(R.id.spinnerRepeatIncome).selectedItem.toString()
                 val incomeComment = findViewById<EditText>(R.id.edtCommentIncome).text.toString()
                 val incomeAttachment = imageUri?.toString()
@@ -226,9 +455,11 @@ class createIncome : AppCompatActivity() {
                             return@checkIncomeCreation
                         }
 
+                        val entryCurrency = entryCurrency()
                         val income = hashMapOf(
                             "name" to incomeTitle,
                             "amount" to incomeAmount,
+                            "currency" to entryCurrency,
                             "date" to timestamp,
                             "category" to incomeCategory,
                             "subcategory" to incomeSubcategory,
@@ -250,13 +481,17 @@ class createIncome : AppCompatActivity() {
                             addRecurringIncomeToBatch(
                                 batch, uid, incomeTitle, incomeAmount, incomeDate,
                                 incomeCategory, incomeSubcategory, incomeRepeat,
-                                incomeComment, incomeSource, incomeAttachment, incomeId
+                                incomeComment, incomeSource, incomeAttachment, incomeId, entryCurrency
                             )
                         }
 
                         batch.commit()
                             .addOnSuccessListener {
                                 Toast.makeText(this, R.string.income_saved, Toast.LENGTH_SHORT).show()
+                                saveTemplateIfRequested(
+                                    incomeTitle, incomeAmount, incomeCategory, incomeSubcategory,
+                                    incomeSource, incomeRepeat, incomeComment
+                                )
                                 val intent = Intent(this, MyIncome::class.java)
                                 intent.putExtra(AuthUtils.EXTRA_USER_EMAIL, userEmail)
                                 startActivity(intent)
@@ -269,7 +504,7 @@ class createIncome : AppCompatActivity() {
                     }
                 }
             } else {
-                Toast.makeText(this, "Error: Unable to retrieve user UID", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.user_session_unavailable, Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -277,7 +512,7 @@ class createIncome : AppCompatActivity() {
         batch: com.google.firebase.firestore.WriteBatch,
         uid: String, incomeTitle: String, incomeAmount: Double, incomeDate: Date, incomeCategory: String, incomeSubcategory: String,
         incomeRepeat: String, incomeComment: String, incomeSource: String,
-        incomeAttachment: String?, parentIncomeId: String
+        incomeAttachment: String?, parentIncomeId: String, entryCurrency: String
     ) {
         val calendar = Calendar.getInstance()
         calendar.time = incomeDate
@@ -308,6 +543,7 @@ class createIncome : AppCompatActivity() {
             val recurringIncome = hashMapOf(
                 "name" to incomeTitle,
                 "amount" to incomeAmount,
+                "currency" to entryCurrency,
                 "date" to com.google.firebase.Timestamp(calendar.time),
                 "category" to incomeCategory,
                 "subcategory" to incomeSubcategory,
@@ -326,22 +562,10 @@ class createIncome : AppCompatActivity() {
     }
 
     private fun validateMandatoryFields(): Boolean {
-        val incomeTitle = findViewById<EditText>(R.id.edtTitleIncome).text.toString()
         val incomeAmount = findViewById<EditText>(R.id.edtAmountIncome).text.toString()
-        val incomeDate = findViewById<EditText>(R.id.edtDateIncome).text.toString()
-
-        if (incomeTitle.isEmpty()) {
-            Toast.makeText(this, R.string.title_required, Toast.LENGTH_SHORT).show()
-            return false
-        }
 
         if (incomeAmount.toDoubleOrNull()?.let { it > 0 } != true) {
             Toast.makeText(this, R.string.enter_valid_amount, Toast.LENGTH_SHORT).show()
-            return false
-        }
-
-        if (incomeDate.isEmpty()) {
-            Toast.makeText(this, R.string.date_required, Toast.LENGTH_SHORT).show()
             return false
         }
 

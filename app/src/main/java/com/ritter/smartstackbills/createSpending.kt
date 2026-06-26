@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.*
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +14,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import android.net.Uri
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import android.os.Environment
 import android.text.InputType
@@ -229,6 +231,7 @@ class createSpending : AppCompatActivity() {
         edtDate.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) showDatePickerDialog()
         }
+        setTodayIfBlank(edtDate)
 
         val checkBoxPaid = findViewById<CheckBox>(R.id.checkBoxPaidSpending).apply {
             isChecked = true
@@ -240,9 +243,24 @@ class createSpending : AppCompatActivity() {
         val autoCompleteVendors = findViewById<AutoCompleteTextView>(R.id.autoCompleteVendorSpending)
 
         loadCategories(spinnerCategories)
+        selectOptionByKey(spinnerCategories, "Other")
         spinnerCategories.selectedItem?.let {
-            loadSubcategories(FinancialEntryOptions.selectedKey(it), spinnerSubcategories)
+            val selectedCategory = FinancialEntryOptions.selectedKey(it)
+            loadSubcategories(selectedCategory, spinnerSubcategories)
+            selectDefaultSubcategory(spinnerSubcategories, selectedCategory)
         }
+        setupMoreDetailsToggle(
+            R.id.tvMoreDetailsSpending,
+            R.id.txtCategorySpending,
+            R.id.spinnerCategoriesSpending,
+            R.id.txtSubcategorySpending,
+            R.id.spinnerSubcategoriesSpending,
+            R.id.txtVendorSpending,
+            R.id.autoCompleteVendorSpending,
+            R.id.txtCommentSpending,
+            R.id.edtCommentSpending,
+            R.id.layoutAttachmentSpending
+        )
 
         // Load vendors based on selected category
         spinnerCategories.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -250,33 +268,74 @@ class createSpending : AppCompatActivity() {
                 val selectedCategory = FinancialEntryOptions.selectedKey(spinnerCategories.selectedItem)
                 loadVendors(selectedCategory, autoCompleteVendors)
                 loadSubcategories(selectedCategory, spinnerSubcategories)
+                selectDefaultSubcategory(spinnerSubcategories, selectedCategory)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 // Handle case where no category is selected
             }
         }
+        setupTemplates(spinnerCategories, spinnerSubcategories, autoCompleteVendors)
 
         val saveButton = findViewById<Button>(R.id.btnSaveSpending)
         saveButton.setOnClickListener { saveSpending() }
 
         val btnCancel = findViewById<Button>(R.id.btnCancelSpending)
         btnCancel.setOnClickListener {
-            finish()}
+            confirmDiscardIfNeeded()
+        }
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                confirmDiscardIfNeeded()
+            }
+        })
 
         // Image upload handling
         findViewById<Button>(R.id.btnUploadImageSpending).setOnClickListener { handleImageUpload() }
         applyScanPrefill()
     }
 
+    private fun confirmDiscardIfNeeded() {
+        if (!hasUnsavedInput()) {
+            finish()
+            return
+        }
+        AlertDialog.Builder(this)
+            .setTitle(R.string.unsaved_changes_title)
+            .setMessage(R.string.unsaved_changes_message)
+            .setNegativeButton(R.string.keep_editing, null)
+            .setPositiveButton(R.string.discard_changes) { _, _ -> finish() }
+            .show()
+    }
+
+    private fun hasUnsavedInput(): Boolean {
+        fun text(id: Int): String = findViewById<EditText>(id).text?.toString()?.trim().orEmpty()
+        return text(R.id.edtTitleSpending).isNotBlank() ||
+            text(R.id.edtAmountSpending).isNotBlank() ||
+            findViewById<AutoCompleteTextView>(R.id.autoCompleteVendorSpending).text?.toString()?.trim().orEmpty().isNotBlank() ||
+            text(R.id.edtCommentSpending).isNotBlank() ||
+            imageUri != null ||
+            hasScanPrefill()
+    }
+
+    private fun hasScanPrefill(): Boolean =
+        listOf(
+            ScanPrefill.EXTRA_SCAN_TITLE,
+            ScanPrefill.EXTRA_SCAN_AMOUNT,
+            ScanPrefill.EXTRA_SCAN_DATE,
+            ScanPrefill.EXTRA_SCAN_PARTY,
+            ScanPrefill.EXTRA_SCAN_ATTACHMENT
+        ).any { intent.getStringExtra(it).isNullOrBlank().not() }
+
     private fun applyScanPrefill() {
+        showScanReviewHintIfNeeded()
         intent.getStringExtra(ScanPrefill.EXTRA_SCAN_TITLE)?.takeIf { it.isNotBlank() }?.let {
             findViewById<EditText>(R.id.edtTitleSpending).setText(it)
         }
         intent.getStringExtra(ScanPrefill.EXTRA_SCAN_AMOUNT)?.takeIf { it.isNotBlank() }?.let {
             findViewById<EditText>(R.id.edtAmountSpending).setText(it)
         }
-        intent.getStringExtra(ScanPrefill.EXTRA_SCAN_DATE)?.takeIf { it.isNotBlank() }?.let {
+        ScanDateValidator.sanitizeDisplayDate(intent.getStringExtra(ScanPrefill.EXTRA_SCAN_DATE))?.let {
             findViewById<EditText>(R.id.edtDateSpending).setText(it)
         }
         intent.getStringExtra(ScanPrefill.EXTRA_SCAN_PARTY)?.takeIf { it.isNotBlank() }?.let {
@@ -285,6 +344,29 @@ class createSpending : AppCompatActivity() {
         intent.getStringExtra(ScanPrefill.EXTRA_SCAN_ATTACHMENT)?.takeIf { it.isNotBlank() }?.let {
             imageUri = Uri.parse(it)
             updateAttachmentStatus()
+        }
+        showScanCurrencyWarningIfNeeded()
+    }
+
+    private fun showScanReviewHintIfNeeded() {
+        findViewById<TextView>(R.id.tvScanReviewHintSpending).visibility =
+            if (hasScanPrefill()) View.VISIBLE else View.GONE
+    }
+
+    private fun entryCurrency(): String =
+        CurrencyPreferences.selectedCode(this)
+
+    private fun showScanCurrencyWarningIfNeeded() {
+        val scannedCurrency = intent.getStringExtra(ScanPrefill.EXTRA_SCAN_CURRENCY)
+            ?.takeIf { it.isNotBlank() }
+            ?: return
+        val appCurrency = CurrencyPreferences.selectedCode(this)
+        if (scannedCurrency != appCurrency) {
+            Toast.makeText(
+                this,
+                getString(R.string.scan_currency_mismatch, scannedCurrency, appCurrency),
+                Toast.LENGTH_LONG
+            ).show()
         }
     }
 
@@ -326,6 +408,144 @@ class createSpending : AppCompatActivity() {
         findViewById<EditText>(R.id.edtDateSpending).setText("$day/${month + 1}/$year")
     }
 
+    private fun setTodayIfBlank(editText: EditText) {
+        if (editText.text.isNullOrBlank()) {
+            editText.setText(SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date()))
+        }
+    }
+
+    private fun setupMoreDetailsToggle(toggleId: Int, vararg detailIds: Int) {
+        val toggle = findViewById<TextView>(toggleId)
+        var expanded = false
+        fun applyState() {
+            detailIds.forEach { id -> findViewById<View>(id).visibility = if (expanded) View.VISIBLE else View.GONE }
+            toggle.text = getString(if (expanded) R.string.hide_details else R.string.show_details)
+        }
+        toggle.setOnClickListener {
+            expanded = !expanded
+            applyState()
+        }
+        applyState()
+    }
+
+    private fun selectOptionByKey(spinner: Spinner, key: String) {
+        val adapter = spinner.adapter ?: return
+        for (index in 0 until adapter.count) {
+            val option = adapter.getItem(index) as? FinancialEntryOptions.Option
+            if (option?.key == key) {
+                spinner.setSelection(index)
+                return
+            }
+        }
+    }
+
+    private fun selectDefaultSubcategory(spinner: Spinner, category: String) {
+        if (category == "Other") {
+            selectOptionByKey(spinner, "Miscellaneous")
+        }
+    }
+
+    private fun setupTemplates(
+        spinnerCategories: Spinner,
+        spinnerSubcategories: Spinner,
+        autoCompleteVendors: AutoCompleteTextView
+    ) {
+        findViewById<CheckBox>(R.id.checkSaveTemplateSpending).setOnCheckedChangeListener { _, checked ->
+            findViewById<EditText>(R.id.edtTemplateNameSpending).visibility = if (checked) View.VISIBLE else View.GONE
+        }
+
+        val templates = EntryTemplateStore.templates(this, EntryTemplateStore.Type.CLOSED_PAYMENT)
+        val container = findViewById<LinearLayout>(R.id.layoutTemplatesSpending)
+        val chips = findViewById<LinearLayout>(R.id.templateChipsSpending)
+        if (templates.isEmpty()) {
+            container.visibility = View.GONE
+            return
+        }
+        container.visibility = View.VISIBLE
+        val toggle = findViewById<TextView>(R.id.tvUseTemplateSpending)
+        val toggleRow = findViewById<LinearLayout>(R.id.templateToggleSpending)
+        val arrow = findViewById<ImageView>(R.id.templateArrowSpending)
+        val scroll = findViewById<HorizontalScrollView>(R.id.templateScrollSpending)
+        scroll.visibility = View.GONE
+        toggle.text = getString(R.string.use_template)
+        arrow.rotation = 0f
+        toggleRow.setOnClickListener {
+            val expanded = scroll.visibility != View.VISIBLE
+            scroll.visibility = if (expanded) View.VISIBLE else View.GONE
+            toggle.text = getString(if (expanded) R.string.hide_templates else R.string.use_template)
+            arrow.animate().rotation(if (expanded) 180f else 0f).setDuration(180L).start()
+        }
+        chips.removeAllViews()
+        templates.forEach { template ->
+            chips.addView(templateButton(template.templateName) {
+                findViewById<EditText>(R.id.edtTitleSpending).setText(template.title)
+                findViewById<EditText>(R.id.edtAmountSpending).setText(
+                    if (template.amount > 0.0) CurrencyPreferences.formatPlain(template.amount) else ""
+                )
+                selectOptionByKey(spinnerCategories, template.category)
+                loadVendors(template.category, autoCompleteVendors)
+                loadSubcategories(template.category, spinnerSubcategories)
+                selectOptionByKey(spinnerSubcategories, template.subcategory)
+                autoCompleteVendors.setText(template.vendorOrSource)
+                findViewById<EditText>(R.id.edtCommentSpending).setText(template.comment)
+            })
+        }
+    }
+
+    private fun templateButton(label: String, onClick: () -> Unit): Button =
+        Button(this).apply {
+            text = label
+            isAllCaps = false
+            setTextColor(ContextCompat.getColor(this@createSpending, R.color.colorPrimary))
+            setBackgroundResource(R.drawable.create_upload_button)
+            setPadding(20, 0, 20, 0)
+            setOnClickListener { onClick() }
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                (38 * resources.displayMetrics.density).toInt()
+            ).apply {
+                marginEnd = (8 * resources.displayMetrics.density).toInt()
+            }
+        }
+
+    private fun validateTemplateNameIfNeeded(): Boolean {
+        val saveTemplate = findViewById<CheckBox>(R.id.checkSaveTemplateSpending).isChecked
+        val templateName = findViewById<EditText>(R.id.edtTemplateNameSpending).text.toString().trim()
+        if (saveTemplate && templateName.isBlank()) {
+            Toast.makeText(this, R.string.template_name_required, Toast.LENGTH_SHORT).show()
+            return false
+        }
+        return true
+    }
+
+    private fun saveTemplateIfRequested(
+        title: String,
+        amount: Double,
+        category: String,
+        subcategory: String,
+        vendor: String,
+        comment: String
+    ) {
+        if (!findViewById<CheckBox>(R.id.checkSaveTemplateSpending).isChecked) return
+        val templateName = findViewById<EditText>(R.id.edtTemplateNameSpending).text.toString().trim()
+        EntryTemplateStore.save(
+            this,
+            EntryTemplateStore.Template(
+                id = "closed_payment_${templateName.lowercase(Locale.US)}",
+                type = EntryTemplateStore.Type.CLOSED_PAYMENT,
+                templateName = templateName,
+                title = title,
+                amount = amount,
+                category = category,
+                subcategory = subcategory,
+                vendorOrSource = vendor,
+                repeat = "No",
+                comment = comment
+            )
+        )
+        Toast.makeText(this, R.string.template_saved, Toast.LENGTH_SHORT).show()
+    }
+
     private fun handleImageUpload() {
         val options = arrayOf(
             getString(R.string.scan_and_prefill),
@@ -360,7 +580,7 @@ class createSpending : AppCompatActivity() {
             dateFormat.isLenient = false
             dateFormat.parse(edtDate.text.toString()) != null
         } catch (e: Exception) {
-            Toast.makeText(this, "Invalid date format. Please use dd/MM/yyyy", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.invalid_date_format, Toast.LENGTH_SHORT).show()
             false
         }
     }
@@ -381,17 +601,22 @@ class createSpending : AppCompatActivity() {
     }
 
     private fun saveSpending() {
-        if (validateMandatoryFields() && validateDateField()) {
+        if (validateMandatoryFields() && validateDateField() && validateTemplateNameIfNeeded()) {
             userUid?.let {
-                val spendingName = findViewById<EditText>(R.id.edtTitleSpending).text.toString()
-                val spendingAmount = findViewById<EditText>(R.id.edtAmountSpending).text.toString().toDoubleOrNull() ?: 0.0
-                val spendingDateString = findViewById<EditText>(R.id.edtDateSpending).text.toString()
+                val spendingName = findViewById<EditText>(R.id.edtTitleSpending).text.toString().trim()
+                    .ifBlank { getString(R.string.closed_payment) }
+                val spendingAmount = CurrencyPreferences.roundToTwoDecimals(
+                    findViewById<EditText>(R.id.edtAmountSpending).text.toString().toDoubleOrNull() ?: 0.0
+                )
+                val dateEditText = findViewById<EditText>(R.id.edtDateSpending)
+                setTodayIfBlank(dateEditText)
+                val spendingDateString = dateEditText.text.toString()
                 val spendingCategory = FinancialEntryOptions.selectedKey(
                     findViewById<Spinner>(R.id.spinnerCategoriesSpending).selectedItem
-                )
+                ).ifBlank { "Other" }
                 val spendingSubcategory = FinancialEntryOptions.selectedKey(
                     findViewById<Spinner>(R.id.spinnerSubcategoriesSpending).selectedItem
-                )
+                ).ifBlank { "Miscellaneous" }
                 val spendingVendor = findViewById<AutoCompleteTextView>(R.id.autoCompleteVendorSpending).text.toString()
                 val spendingComment = findViewById<EditText>(R.id.edtCommentSpending).text.toString()
                 val spendingAttachment = imageUri?.toString()
@@ -408,6 +633,7 @@ class createSpending : AppCompatActivity() {
                     "spendingId" to spendingId,
                     "name" to spendingName,
                     "amount" to spendingAmount,
+                    "currency" to entryCurrency(),
                     "date" to timestamp,
                     "category" to spendingCategory,
                     "subcategory" to spendingSubcategory,
@@ -423,30 +649,28 @@ class createSpending : AppCompatActivity() {
                 db.collection("users").document(it).collection("spendings").document(spendingId)
                     .set(spending)
                     .addOnSuccessListener {
-                        Toast.makeText(this, "Spending saved successfully", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, R.string.closed_payment_saved, Toast.LENGTH_SHORT).show()
+                        saveTemplateIfRequested(
+                            spendingName, spendingAmount, spendingCategory, spendingSubcategory,
+                            spendingVendor, spendingComment
+                        )
                         FinancialEntryOptions.rememberVendor(this, spendingVendor)
                         finish()
                     }
                     .addOnFailureListener { e ->
-                        Toast.makeText(this, "Error saving spending: ${e.message}", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, getString(R.string.closed_payment_save_failed, e.message.orEmpty()), Toast.LENGTH_SHORT).show()
                     }
             } ?: run {
-                Toast.makeText(this, "Error: No user ID available", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.user_session_unavailable, Toast.LENGTH_SHORT).show()
             }
         }
     }
 
     private fun validateMandatoryFields(): Boolean {
-        val spendingName = findViewById<EditText>(R.id.edtTitleSpending).text.toString()
         val spendingAmount = findViewById<EditText>(R.id.edtAmountSpending).text.toString()
 
-        if (spendingName.isEmpty()) {
-            Toast.makeText(this, "Title is required", Toast.LENGTH_SHORT).show()
-            return false
-        }
-
         if (spendingAmount.toDoubleOrNull()?.let { it > 0 } != true) {
-            Toast.makeText(this, "Please enter a valid amount", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.enter_valid_amount, Toast.LENGTH_SHORT).show()
             return false
         }
 
