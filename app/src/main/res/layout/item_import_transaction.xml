@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="6dp"
+    app:cardElevation="6dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp">
+
+        <TextView
+            android:id="@+id/importTransactionLabelTitle"
+            android:layout_width="90dp"
+            android:layout_height="22dp"
+            android:gravity="center_vertical"
+            android:text="@string/title"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/importTransactionTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="8dp"
+            android:background="@android:color/transparent"
+            android:ellipsize="end"
+            android:hint="@string/title"
+            android:inputType="textCapSentences"
+            android:maxLines="1"
+            android:minHeight="18dp"
+            android:padding="0dp"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@id/importTransactionIncludedGroup"
+            app:layout_constraintStart_toEndOf="@id/importTransactionLabelTitle"
+            app:layout_constraintTop_toTopOf="@id/importTransactionLabelTitle"
+            tools:text="Supermarket purchase" />
+
+        <LinearLayout
+            android:id="@+id/importTransactionIncludedGroup"
+            android:layout_width="56dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="@id/importTransactionDate"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.46">
+
+            <CheckBox
+                android:id="@+id/importTransactionIncluded"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/checkbox_color_selector"
+                android:checked="true"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:padding="0dp"
+                android:text="" />
+
+            <TextView
+                android:id="@+id/importTransactionIncludedLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/include_in_import"
+                android:textColor="@color/colorSecondary"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/importTransactionLabelType"
+            android:layout_width="90dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="8dp"
+            android:gravity="center_vertical"
+            android:text="@string/type"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/importTransactionLabelTitle" />
+
+        <Spinner
+            android:id="@+id/importTransactionType"
+            android:layout_width="0dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="8dp"
+            android:background="@android:color/transparent"
+            android:padding="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/importTransactionLabelType"
+            app:layout_constraintEnd_toStartOf="@id/importTransactionIncludedGroup"
+            app:layout_constraintStart_toEndOf="@id/importTransactionLabelType"
+            app:layout_constraintTop_toTopOf="@id/importTransactionLabelType" />
+
+        <TextView
+            android:id="@+id/importTransactionLabelCategory"
+            android:layout_width="90dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="6dp"
+            android:gravity="center_vertical"
+            android:text="@string/category"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/importTransactionLabelType" />
+
+        <Spinner
+            android:id="@+id/importTransactionCategory"
+            android:layout_width="0dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="8dp"
+            android:background="@android:color/transparent"
+            android:padding="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/importTransactionLabelCategory"
+            app:layout_constraintEnd_toStartOf="@id/importTransactionIncludedGroup"
+            app:layout_constraintStart_toEndOf="@id/importTransactionLabelCategory"
+            app:layout_constraintTop_toTopOf="@id/importTransactionLabelCategory" />
+
+        <TextView
+            android:id="@+id/importTransactionLabelAmount"
+            android:layout_width="90dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="6dp"
+            android:gravity="center_vertical"
+            android:text="@string/amount"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/importTransactionLabelCategory" />
+
+        <LinearLayout
+            android:id="@+id/importTransactionAmountGroup"
+            android:layout_width="0dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="8dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@id/importTransactionLabelAmount"
+            app:layout_constraintEnd_toStartOf="@id/importTransactionIncludedGroup"
+            app:layout_constraintStart_toEndOf="@id/importTransactionLabelAmount"
+            app:layout_constraintTop_toTopOf="@id/importTransactionLabelAmount">
+
+            <EditText
+                android:id="@+id/importTransactionAmount"
+                android:layout_width="match_parent"
+                android:layout_height="22dp"
+                android:background="@android:color/transparent"
+                android:gravity="start|center_vertical"
+                android:hint="@string/amount"
+                android:inputType="numberDecimal"
+                android:minWidth="72dp"
+                android:padding="0dp"
+                android:textColor="@color/spending_color"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                tools:text="120.00" />
+
+            <TextView
+                android:id="@+id/importTransactionCurrency"
+                android:layout_width="wrap_content"
+                android:layout_height="22dp"
+                android:layout_marginStart="4dp"
+                android:gravity="center_vertical"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:visibility="gone"
+                tools:text="USD" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/importTransactionLabelDate"
+            android:layout_width="90dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="6dp"
+            android:gravity="center_vertical"
+            android:text="@string/date"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/importTransactionLabelAmount" />
+
+        <TextView
+            android:id="@+id/importTransactionDate"
+            android:layout_width="0dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="8dp"
+            android:gravity="center_vertical"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/importTransactionLabelDate"
+            app:layout_constraintEnd_toStartOf="@id/importTransactionIncludedGroup"
+            app:layout_constraintStart_toEndOf="@id/importTransactionLabelDate"
+            app:layout_constraintTop_toTopOf="@id/importTransactionLabelDate"
+            tools:text="23/06/2026" />
+
+        <TextView
+            android:id="@+id/importTransactionWarning"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColor="#B45309"
+            android:textSize="12sp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/importTransactionLabelDate" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>
