@@ -103,11 +103,11 @@ class ImportTransactionsAdapter(
                         }
                     )
                     if (transaction.type == ImportedTransactionType.CLOSED_PAYMENT) {
-                        transaction.category = "Other"
-                        transaction.subcategory = "Miscellaneous"
+                        transaction.category = FinancialEntryOptions.DEFAULT_EXPENSE_CATEGORY
+                        transaction.subcategory = FinancialEntryOptions.DEFAULT_EXPENSE_SUBCATEGORY
                     } else {
-                        transaction.category = "Other income"
-                        transaction.subcategory = "Miscellaneous"
+                        transaction.category = FinancialEntryOptions.DEFAULT_INCOME_CATEGORY
+                        transaction.subcategory = FinancialEntryOptions.DEFAULT_INCOME_SUBCATEGORY
                     }
                     bindCategories(transaction)
                     updateEnabledState(transaction)
@@ -173,9 +173,9 @@ class ImportTransactionsAdapter(
                 .takeIf { it >= 0 }
                 ?: options.indexOfFirst {
                     it.key == if (transaction.type == ImportedTransactionType.INCOME) {
-                        "Other income"
+                        FinancialEntryOptions.DEFAULT_INCOME_CATEGORY
                     } else {
-                        "Other"
+                        FinancialEntryOptions.DEFAULT_EXPENSE_CATEGORY
                     }
                 }.coerceAtLeast(0)
             options.getOrNull(selected)?.let { selectedOption ->
@@ -184,10 +184,10 @@ class ImportTransactionsAdapter(
                     transaction.subcategory = when {
                         options === incomeOptions ->
                             FinancialEntryOptions.incomeSubcategories(itemView.context, selectedOption.key)
-                                .lastOrNull()?.key ?: "Miscellaneous"
+                                .lastOrNull()?.key ?: FinancialEntryOptions.DEFAULT_INCOME_SUBCATEGORY
                         else ->
                             FinancialEntryOptions.expenseSubcategories(itemView.context, selectedOption.key)
-                                .lastOrNull()?.key ?: "Miscellaneous"
+                                .lastOrNull()?.key ?: FinancialEntryOptions.DEFAULT_EXPENSE_SUBCATEGORY
                     }
                 }
             }
@@ -200,10 +200,10 @@ class ImportTransactionsAdapter(
                     transaction.subcategory = when (transaction.type) {
                         ImportedTransactionType.INCOME ->
                             FinancialEntryOptions.incomeSubcategories(itemView.context, option.key)
-                                .lastOrNull()?.key ?: "Miscellaneous"
+                                .lastOrNull()?.key ?: FinancialEntryOptions.DEFAULT_INCOME_SUBCATEGORY
                         else ->
                             FinancialEntryOptions.expenseSubcategories(itemView.context, option.key)
-                                .lastOrNull()?.key ?: "Miscellaneous"
+                                .lastOrNull()?.key ?: FinancialEntryOptions.DEFAULT_EXPENSE_SUBCATEGORY
                     }
                     onChanged()
                 }

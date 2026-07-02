@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="notification_details">Értesítés részletei</string>
     <string name="main">Főoldal</string>
@@ -405,11 +405,11 @@
     <string name="premium_compare_premium">Premium</string>
 
     <string name="premium_compare_open_payments">Nyitott fizetések</string>
-    <string name="premium_compare_open_payments_free">30 aktív egyszeri nyitott fizetés</string>
+    <string name="premium_compare_open_payments_free">100 aktív nyitott fizetés</string>
     <string name="premium_compare_open_payments_premium">Legfeljebb 2 000 jövőbeli bejegyzés összesen</string>
 
     <string name="premium_compare_recurring">Jövőbeli ismétlődő bejegyzések</string>
-    <string name="premium_compare_recurring_free">Legfeljebb 250 jövőbeli fizetés</string>
+    <string name="premium_compare_recurring_free">A 100 aktív nyitott fizetéses limit része</string>
     <string name="premium_compare_recurring_premium">Legfeljebb 2 000 jövőbeli bejegyzés</string>
 
     <string name="premium_compare_closed">Lezárt fizetések</string>
@@ -421,7 +421,10 @@
     <string name="premium_compare_income_premium">Bevételek létrehozása és kezelése</string>
 
     <string name="premium_compare_import">CSV/PDF importálás</string>
-    <string name="premium_compare_import_free">50/fájl · összesen 100</string>
+    <string name="premium_compare_savings_goals">Megtakarítási célok</string>
+    <string name="premium_compare_savings_goals_free">Nem tartalmazza</string>
+    <string name="premium_compare_savings_goals_premium">Akár 3 átfedő aktív cél</string>
+    <string name="premium_compare_import_free">100/fájl · összesen 100</string>
     <string name="premium_compare_import_premium">200/fájl</string>
 
     <string name="premium_compare_insights">Pénzügyi elemzések</string>
@@ -439,11 +442,11 @@
 
     <string name="feature_open_payments_title">Nyitott fizetések</string>
     <string name="feature_open_payments_desc">Kezelje nyitott fizetéseit, és tartsa kézben a közelgő számlákat.</string>
-    <string name="feature_open_payments_expandable">Az ingyenes verzió legfeljebb 30 önálló aktív nyitott fizetést, valamint ismétlődő ütemezéseket tartalmaz a méltányos használati korlátokon belül. A Premium lényegesen magasabb korlátot biztosít az aktív és jövőbeli bejegyzésekhez.</string>
+    <string name="feature_open_payments_expandable">Az ingyenes verzió legfeljebb 100 aktív nyitott fizetést tartalmaz, beleértve az ismétlődő előfordulásokat is. A Premium lényegesen magasabb korlátot biztosít az aktív és jövőbeli bejegyzésekhez.</string>
 
     <string name="feature_closed_payments_title">Lezárt fizetések</string>
     <string name="feature_closed_payments_desc">Kövesse nyomon a már kifizetett számlákat, és kezelje tranzakciós előzményeit.</string>
-    <string name="feature_closed_payments_expandable">Mindenki megjelölhet egy nyitott fizetést kifizetettként. A Premium emellett lehetővé teszi a közvetlen létrehozást, szerkesztést, törlést és a teljes részletes előzménykezelést.</string>
+    <string name="feature_closed_payments_expandable">Mindenki megjelölheti a nyitott fizetéseket kifizetettként az 100 kifizetett fizetéses ingyenes előzménylimitig. A Premium emellett lehetővé teszi a közvetlen létrehozást, szerkesztést, törlést és a teljes részletes előzménykezelést.</string>
 
     <string name="feature_income_management_title">Bevételkezelés</string>
     <string name="feature_income_management_desc">Kövesse nyomon és kategorizálja bevételi forrásait.</string>
@@ -485,11 +488,11 @@
     <string name="savings_quick_entry_hint">Adja meg a célösszeget és a befejező dátumot. A kezdő dátum automatikusan a mai nap.</string>
     <string name="title_optional">Cím (opcionális)</string>
 
-    <string name="free_open_payment_limit_reached">Elérte az ingyenes verzió 30 önálló aktív nyitott fizetésre vonatkozó korlátját. Jelölje a teljesített tételeket kifizetettként, vagy váltson Premiumra.</string>
+    <string name="free_open_payment_limit_reached">Elérte az ingyenes verzió 100 aktív nyitott fizetésre vonatkozó korlátját. Jelölje a teljesített tételeket kifizetettként, vagy váltson Premiumra.</string>
 
-    <string name="free_closed_payment_limit_reached">Elérte az ingyenes verzió 100 lezárt fizetésre vonatkozó korlátját. Törölje a régebbi előzményeket, vagy váltson Premiumra.</string>
+    <string name="free_closed_payment_limit_reached">Elérte az ingyenes verzió 100 kifizetett fizetésre vonatkozó korlátját. Törölje a régebbi előzményeket, vagy váltson Premiumra.</string>
 
-    <string name="free_recurring_limit_reached">Ez az ismétlődő ütemezés túllépné az ingyenes verzió 250 jövőbeli ismétlődő fizetésre vonatkozó korlátját. Távolítson el egy már nem használt ütemezést, vagy váltson Premiumra.</string>
+    <string name="free_recurring_limit_reached">Ez az ismétlődő ütemezés túllépné az ingyenes verzió 100 aktív nyitott fizetésre vonatkozó korlátját. Távolítson el egy már nem használt ütemezést, jelölje a teljesített tételeket kifizetettként, vagy váltson Premiumra.</string>
 
     <string name="premium_usage_limit_reached">Ez a bejegyzés túllépné a Premium méltányos használati korlátját, amely legfeljebb 2 000 jövőbeli fizetési és bevételi bejegyzést engedélyez. Távolítsa el a már elavult jövőbeli bejegyzéseket, vagy lépjen kapcsolatba az ügyfélszolgálattal.</string>
 
@@ -538,7 +541,7 @@
     <string name="terms_section_body_4">Az ingyenes verziót hirdetések támogatják, és tartalmazza a nyitott fizetések, emlékeztetők, naptár, exportálás és fizetések lezárásának alapfunkcióit. Egyes létrehozási, szerkesztési, előzménykezelési, bevételkezelési, célkezelési és elemzési funkciók Premium előfizetést igényelnek.</string>
 
     <string name="terms_section_title_5">5. Méltányos használati korlátok</string>
-    <string name="terms_section_body_5">A megbízható és fenntartható szolgáltatás érdekében az ingyenes fiókok legfeljebb 30 önálló aktív nyitott fizetést, 100 lezárt fizetést és 250 jövőbeli ismétlődő fizetési bejegyzést támogatnak. A Premium fiókok magasabb használati korlátokat kínálnak, beleértve akár 2000 együttes jövőbeli fizetési és bevételi bejegyzést. Ezek a korlátok a biztonság, a megbízhatóság vagy a szolgáltatás fenntarthatósága érdekében előzetes értesítés mellett módosíthatók, ahol ez ésszerűen lehetséges.</string>
+    <string name="terms_section_body_5">A megbízható és fenntartható szolgáltatás érdekében az ingyenes fiókok legfeljebb 100 aktív nyitott fizetést és 100 kifizetett fizetést támogatnak, amelyeket nyitott fizetések kifizetettként jelölésével hoztak létre. Az ismétlődő nyitott fizetések beleszámítanak a 100 aktív nyitott fizetéses limitbe. A Premium fiókok magasabb használati korlátokat kínálnak, beleértve akár 2000 együttes jövőbeli fizetési és bevételi bejegyzést. Ezek a korlátok a biztonság, a megbízhatóság vagy a szolgáltatás fenntarthatósága érdekében előzetes értesítés mellett módosíthatók, ahol ez ésszerűen lehetséges.</string>
 
     <string name="terms_section_title_6">6. Premium előfizetés</string>
     <string name="terms_section_body_6">A Premium funkciók és az aktuális ár a vásárlás előtt jelennek meg. A számlázást, megújítást, lemondást és az esetleges visszatérítéseket a Google Play kezeli saját feltételei és a vonatkozó jogszabályok szerint. A Premium eltávolítja a hirdetéseket, és feloldja a Premium képernyőn ismertetett funkciókat, a méltányos használati korlátok betartása mellett.</string>
@@ -556,10 +559,10 @@
     <string name="terms_section_body_10">A jelen feltételekkel vagy a szolgáltatással kapcsolatos kérdéseit az appdev.jr2024@gmail.com címre küldheti.</string>
 
     <string name="faqs_question_16">16. Milyen használati korlátok vonatkoznak az ingyenes és a Premium fiókokra?</string>
-    <string name="faqs_answer_16">Válasz: Az ingyenes fiókok legfeljebb 30 aktív nyitott fizetést, 100 lezárt fizetést és 250 jövőbeli ismétlődő fizetési bejegyzést kezelhetnek. A Premium magasabb korlátokat biztosít, és akár 2000 együttes jövőbeli fizetési és bevételi bejegyzést támogat. Ezek a biztonsági korlátok a szolgáltatás megbízhatóságát szolgálják, és segítenek megelőzni a véletlenül létrehozott túl nagy mennyiségű bejegyzést.</string>
+    <string name="faqs_answer_16">Válasz: Az ingyenes fiókok legfeljebb 100 aktív nyitott fizetést és 100 kifizetett fizetést tarthatnak meg, amelyeket nyitott fizetések kifizetettként jelölésével hoztak létre. Az ismétlődő nyitott fizetések beleszámítanak a 100 aktív nyitott fizetéses limitbe. A Premium magasabb korlátokat biztosít, és akár 2000 együttes jövőbeli fizetési és bevételi bejegyzést támogat.</string>
 
     <string name="faqs_question_17">17. Az ingyenes felhasználók továbbra is megjelölhetik a fizetéseket kifizetettként?</string>
-    <string name="faqs_answer_17">Válasz: Igen. A nyitott fizetés lezárt fizetéssé alakításának normál folyamata soha nincs korlátozva az ingyenes csomagban. A lezárt fizetések közvetlen létrehozása, szerkesztése és törlése Premium funkció.</string>
+    <string name="faqs_answer_17">Válasz: Igen. Az ingyenes felhasználók az 100 kifizetett fizetéses ingyenes előzménylimitig jelölhetik a nyitott fizetéseket kifizetettként. A lezárt fizetések közvetlen létrehozása, szerkesztése és törlése Premium funkció.</string>
 
     <string name="faqs_question_18">18. A SmartStack automatikusan törli a pénzügyi előzményeimet?</string>
     <string name="faqs_answer_18">Válasz: A SmartStack jelenleg nem alkalmaz automatikus törlési időszakot a fizetési előzményekre. Fiókadatait bármikor exportálhatja. Ha a jövőben jelentős adatmegőrzési szabály kerül bevezetésre, az alkalmazás erről előzetesen tájékoztatja Önt, amennyiben ez ésszerűen lehetséges.</string>
@@ -701,6 +704,13 @@ Kérdéseit és visszajelzéseit örömmel fogadjuk az appdev.jr2024@gmail.com c
     <string name="currency">Pénznem</string>
     <string name="currency_menu_title">Pénznem (%1$s)</string>
     <string name="select_currency">Pénznem kiválasztása</string>
+    <string name="amount_display">Összegek megjelenítése</string>
+    <string name="amount_display_menu_title">Összegek megjelenítése (%1$s)</string>
+    <string name="select_amount_display">Összegmegjelenítés kiválasztása</string>
+    <string name="amount_display_two_decimals">Mindig 2 tizedesjegy megjelenítése</string>
+    <string name="amount_display_no_decimals">Tizedesjegyek elrejtése</string>
+    <string name="amount_display_two_decimals_short">2 tizedesjegy</string>
+    <string name="amount_display_no_decimals_short">nincs tizedesjegy</string>
 
     <string name="billing_insufficient_funds">A fizetés elutasításra került, mert nincs elegendő fedezet.</string>
     <string name="billing_user_ineligible">Ez az előfizetési ajánlat nem érhető el ehhez a fiókhoz.</string>
@@ -710,6 +720,8 @@ Kérdéseit és visszajelzéseit örömmel fogadjuk az appdev.jr2024@gmail.com c
 
     <string name="monthly_money_map">Havi pénzügyi áttekintés</string>
     <string name="monthly_money_map_description">Nézze meg, hogyan illeszkedik egymáshoz a bevétel, a teljesített kiadások, a közelgő kötelezettségek és a megtakarítási cél.</string>
+    <string name="money_flow_development">Pénzáramlás alakulása</string>
+    <string name="money_flow_development_description">Nézze meg, hogyan alakulnak a bevételek, lezárt fizetések, nyitott fizetések és megtakarítási célok %1$d hónap alatt.</string>
 
     <string name="open_payment_risk_timeline">Nyitott fizetések kockázati idővonala</string>
     <string name="open_payment_risk_description">Először a lejárt és a hamarosan esedékes kötelezettségekre összpontosítson.</string>
@@ -1077,4 +1089,29 @@ Kérdéseit és visszajelzéseit örömmel fogadjuk az appdev.jr2024@gmail.com c
     <string name="template_name_hint">pl. Élelmiszer, Benzinkút, Osztalék</string>
     <string name="template_saved">A sablon elmentve.</string>
     <string name="template_name_required">Kérjük, adjon meg egy sablonnevet.</string>
+    <string name="section_this_month_open_payments">Nyitott fizetések ebben a hónapban</string>
+    <string name="section_this_month_short">Ez a hónap</string>
+    <string name="section_overdue_open_payments">Lejárt nyitott fizetések</string>
+    <string name="section_upcoming_open_payments">Közelgő nyitott fizetések</string>
+    <string name="section_past_closed_payments">Korábbi lezárt fizetések</string>
+    <string name="section_future_closed_payments">Jövőbeli lezárt fizetések</string>
+    <string name="section_upcoming_income">Közelgő bevételek</string>
+    <string name="section_past_income">Korábbi bevételek</string>
+    <string name="section_no_date">Dátum nélkül</string>
+    <string name="open_payment_outlook_by_month">Nyitott fizetések kilátása hónaponként</string>
+    <string name="open_payment_outlook_by_month_description">Nézze meg, mennyi marad nyitva a kiválasztott %1$d hónapos időszak egyes hónapjaiban.</string>
+    <string name="open_payment_outlook_period">Nyitott fizetések kilátása a kiválasztott időszakban</string>
+    <string name="open_payment_outlook_period_description">Nézze meg, hogyan oszlanak meg a kifizetetlen nyitott fizetések a kiválasztott %1$d hónapos időszakban.</string>
+    <string name="period_balance_positive">%1$s marad a kötelezettségek és megtakarítási célok után ebben az időszakban.</string>
+    <string name="period_balance_negative">%1$s hiány marad a kötelezettségek és megtakarítási célok után ebben az időszakban.</string>
+    <string name="edit_recurring_payment">Ismétlődő fizetés szerkesztése</string>
+    <string name="edit_this_payment_only">Csak ezt a fizetést szerkessze</string>
+    <string name="edit_this_and_future_payments">Ezt és a jövőbeli fizetéseket szerkessze</string>
+    <string name="future_open_payments_updated">Ez és a jövőbeli fizetések frissítve lettek.</string>
+    <string name="edit_recurring_income">Ismétlődő bevétel szerkesztése</string>
+    <string name="edit_this_income_only">Csak ezt a bevételi bejegyzést szerkessze</string>
+    <string name="edit_this_and_future_income">Ezt és a jövőbeli bevételeket szerkessze</string>
+    <string name="future_income_updated">Ez és a jövőbeli bevételi bejegyzések frissítve lettek.</string>
 </resources>
+
+

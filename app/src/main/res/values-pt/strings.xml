@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="notification_details">Notification Details</string>
     <string name="main">Main</string>
@@ -238,19 +238,22 @@
     <string name="premium_compare_free">Grátis</string>
     <string name="premium_compare_premium">Premium</string>
     <string name="premium_compare_open_payments">Pagamentos abertos</string>
-    <string name="premium_compare_open_payments_free">30 pagamentos abertos únicos ativos</string>
+    <string name="premium_compare_open_payments_free">100 pagamentos em aberto ativos</string>
     <string name="premium_compare_open_payments_premium">Até 2.000 entradas futuras combinadas</string>
     <string name="premium_compare_recurring">Entradas futuras recorrentes</string>
-    <string name="premium_compare_recurring_free">Até 250 pagamentos futuros</string>
+    <string name="premium_compare_recurring_free">Incluído no limite de 100 pagamentos em aberto ativos</string>
     <string name="premium_compare_recurring_premium">Até 2.000 entradas futuras</string>
     <string name="premium_compare_closed">Pagamentos fechados</string>
-    <string name="premium_compare_closed_free">Até 100 pagamentos fechados</string>
+    <string name="premium_compare_closed_free">Até 100 pagamentos pagos</string>
     <string name="premium_compare_closed_premium">Ferramentas completas de histórico</string>
     <string name="premium_compare_income">Gestão de receitas</string>
     <string name="premium_compare_income_free">Apenas importação</string>
     <string name="premium_compare_income_premium">Criar e gerir receitas</string>
     <string name="premium_compare_import">Importação CSV/PDF</string>
-    <string name="premium_compare_import_free">50/ficheiro · 100 no total</string>
+    <string name="premium_compare_savings_goals">Metas de poupança</string>
+    <string name="premium_compare_savings_goals_free">Não incluído</string>
+    <string name="premium_compare_savings_goals_premium">Até 3 metas ativas sobrepostas</string>
+    <string name="premium_compare_import_free">100/ficheiro · 100 no total</string>
     <string name="premium_compare_import_premium">200/ficheiro</string>
     <string name="premium_compare_insights">Análises financeiras</string>
     <string name="premium_compare_insights_free">Básico mensal</string>
@@ -264,10 +267,10 @@
     <string name="features">Recursos</string>
     <string name="feature_open_payments_title">Pagamentos em aberto</string>
     <string name="feature_open_payments_desc">Manage open payments and stay on top of upcoming bills.</string>
-    <string name="feature_open_payments_expandable">Open Payments allow you to manage your upcoming bills, set reminders, track payments, and help you pay on time.</string>
+    <string name="feature_open_payments_expandable">A versão gratuita inclui até 100 pagamentos em aberto ativos, incluindo ocorrências recorrentes. O Premium oferece um limite de segurança muito maior para registros ativos e futuros.</string>
     <string name="feature_closed_payments_title">Pagamentos fechados</string>
     <string name="feature_closed_payments_desc">Track bills you have paid and manage your transaction history.</string>
-    <string name="feature_closed_payments_expandable">Closed Payments help you track paid bills for financial history.</string>
+    <string name="feature_closed_payments_expandable">Todos podem marcar pagamentos em aberto como pagos até o limite gratuito de histórico de 100 pagamentos pagos. O Premium também desbloqueia criação direta, edição, exclusão e gerenciamento completo do histórico.</string>
     <string name="feature_income_management_title">Gestão de receitas</string>
     <string name="feature_income_management_desc">Track and categorize your income sources.</string>
     <string name="feature_income_management_expandable">Income Management helps you track your different income streams, including salaries, freelance work, and investments.</string>
@@ -378,10 +381,10 @@ For any questions or concerns regarding these terms and conditions, please conta
     <string name="optional_details">Detalhes opcionais</string>
     <string name="savings_quick_entry_hint">Digite o valor da sua meta e a data de término. A data de início já vem preenchida com a data de hoje.</string>
     <string name="title_optional">Título (opcional)</string>
-    <string name="free_recurring_limit_reached">Esta recorrência excederia o limite gratuito de 250 ocorrências futuras de pagamentos recorrentes. Remova uma recorrência não utilizada ou faça upgrade para o Premium.</string>
+    <string name="free_recurring_limit_reached">Esta recorrência excederia o limite gratuito de 100 pagamentos em aberto ativos. Remova uma recorrência não utilizada, marque itens concluídos como pagos ou faça upgrade para o Premium.</string>
     <string name="premium_usage_limit_reached">Esta entrada excederia o limite de uso justo do Premium de 2.000 entradas futuras combinadas de pagamentos e receitas. Remova entradas futuras obsoletas ou entre em contato com o suporte.</string>
     <string name="usage_limit_check_failed">O SmartStack não conseguiu verificar o limite disponível de entradas. Verifique sua conexão e tente novamente.</string>
-    <string name="free_open_payment_limit_reached">Você atingiu o limite gratuito de 30 pagamentos em aberto ativos e independentes. Marque os itens concluídos como pagos ou faça upgrade para o Premium.</string>
+    <string name="free_open_payment_limit_reached">Você atingiu o limite gratuito de 100 pagamentos em aberto ativos. Marque os itens concluídos como pagos ou faça upgrade para o Premium.</string>
 
     <string name="feature_financial_insights_title">Análises Financeiras Avançadas</string>
     <string name="feature_financial_insights_desc">Transforme o seu histórico em tendências significativas.</string>
@@ -447,7 +450,7 @@ For any questions or concerns regarding these terms and conditions, please conta
     <string name="terms_section_title_4">4. Serviço gratuito e publicidade</string>
     <string name="terms_section_body_4">A versão gratuita é financiada por publicidade e inclui funções essenciais para pagamentos em aberto, lembretes, calendário, exportação e conclusão de pagamentos. Algumas funções de criação, edição, histórico, rendimentos, metas e análises exigem o Premium.</string>
     <string name="terms_section_title_5">5. Limites de uso justo</string>
-    <string name="terms_section_body_5">Para manter um serviço confiável e sustentável, as contas gratuitas suportam até 30 pagamentos em aberto ativos independentes, 100 pagamentos concluídos e 250 ocorrências futuras de pagamentos recorrentes. As contas Premium suportam limites maiores, incluindo até 2.000 entradas futuras combinadas de pagamentos e rendimentos. Esses limites podem ser ajustados futuramente por motivos de segurança, confiabilidade ou sustentabilidade do serviço, sempre que possível com aviso prévio.</string>
+    <string name="terms_section_body_5">Para manter um serviço confiável e sustentável, as contas gratuitas suportam até 100 pagamentos em aberto ativos e 100 pagamentos pagos criados ao marcar pagamentos em aberto como pagos. Ocorrências recorrentes de pagamentos em aberto contam para o limite de 100 pagamentos em aberto ativos. As contas Premium suportam limites maiores, incluindo até 2.000 entradas futuras combinadas de pagamentos e rendimentos. Esses limites podem ser ajustados futuramente por motivos de segurança, confiabilidade ou sustentabilidade do serviço, sempre que possível com aviso prévio.</string>
     <string name="terms_section_title_6">6. Assinatura Premium</string>
     <string name="terms_section_body_6">Os recursos Premium e o preço atual são exibidos antes da compra. Cobrança, renovação, cancelamento e reembolsos elegíveis são gerenciados pelo Google Play de acordo com seus termos e a legislação aplicável. O Premium remove anúncios e desbloqueia as funções descritas na tela Premium, sujeito aos limites de uso justo.</string>
     <string name="terms_section_title_7">7. Disponibilidade e exportação de dados</string>
@@ -459,9 +462,9 @@ For any questions or concerns regarding these terms and conditions, please conta
     <string name="terms_section_title_10">10. Contato</string>
     <string name="terms_section_body_10">Dúvidas sobre estes termos ou sobre o serviço podem ser enviadas para appdev.jr2024@gmail.com.</string>
     <string name="faqs_question_16">16. Quais limites de uso se aplicam às contas Gratuita e Premium?</string>
-    <string name="faqs_answer_16">As contas gratuitas podem manter até 30 pagamentos em aberto ativos, 100 pagamentos concluídos e 250 entradas futuras de pagamentos recorrentes. O Premium aumenta esses limites e suporta até 2.000 entradas futuras combinadas de pagamentos e rendimentos. Esses limites de segurança ajudam a manter um serviço confiável e evitam a criação acidental de um número excessivo de registros.</string>
+    <string name="faqs_answer_16">As contas gratuitas podem manter até 100 pagamentos em aberto ativos e 100 pagamentos pagos criados ao marcar pagamentos em aberto como pagos. Ocorrências recorrentes de pagamentos em aberto contam para o limite de 100 pagamentos em aberto ativos. O Premium aumenta esses limites e suporta até 2.000 entradas futuras combinadas de pagamentos e rendimentos.</string>
     <string name="faqs_question_17">17. Usuários gratuitos ainda podem marcar pagamentos como pagos?</string>
-    <string name="faqs_answer_17">Sim. Concluir o fluxo normal de pagamento em aberto para pagamento concluído nunca é bloqueado pelos limites da versão gratuita. A criação, edição e exclusão diretas de pagamentos concluídos são recursos de gerenciamento Premium.</string>
+    <string name="faqs_answer_17">Sim. Usuários gratuitos podem marcar pagamentos em aberto como pagos até atingir o limite gratuito de histórico de 100 pagamentos pagos. A criação, edição e exclusão diretas de pagamentos concluídos são recursos de gerenciamento Premium.</string>
     <string name="faqs_question_18">18. O SmartStack excluirá automaticamente meu histórico financeiro?</string>
     <string name="faqs_answer_18">Atualmente, o SmartStack não aplica exclusão automática ao histórico de pagamentos. Você pode exportar os dados da sua conta a qualquer momento. Caso uma política importante de retenção seja introduzida no futuro, o aplicativo informará com antecedência sempre que razoavelmente possível.</string>
     <string name="faqs_question_19">19. Quais análises financeiras estão incluídas?</string>
@@ -518,6 +521,8 @@ For any questions or concerns regarding these terms and conditions, please conta
     <string name="financial_insights_subtitle">Entenda o mês selecionado rapidamente</string>
     <string name="monthly_money_map">Mapa financeiro mensal</string>
     <string name="monthly_money_map_description">Veja como receitas, despesas concluídas, obrigações futuras e sua meta de poupança se relacionam.</string>
+    <string name="money_flow_development">Evolução do fluxo de dinheiro</string>
+    <string name="money_flow_development_description">Veja como rendimentos, pagamentos fechados, pagamentos em aberto e metas de poupança evoluem ao longo de %1$d meses.</string>
     <string name="biggest_change">Maior alteração</string>
     <string name="biggest_change_description">A movimentação mais perceptível em receitas, gastos, pagamentos em aberto ou compromissos recorrentes.</string>
     <string name="biggest_change_no_data">Adicione outro mês para ver alterações significativas.</string>
@@ -746,5 +751,30 @@ For any questions or concerns regarding these terms and conditions, please conta
     <string name="import_premium_allowance">Limite Premium: até %1$d transações por ficheiro</string>
     <string name="faqs_question_21">21. Como funciona a importação de extratos bancários e qual é a sua precisão?</string>
     <string name="faqs_answer_21">Resposta: O SmartStack pode ler extratos CSV e PDF compatíveis e sugerir pagamentos fechados e rendimentos. O OCR pode interpretar incorretamente datas, descrições ou valores. Reveja cada linha e desmarque transferências, duplicados ou movimentos indesejados. As contas gratuitas podem importar 50 transações de cada vez e 100 no total; Premium suporta até 200 por ficheiro. O extrato é processado temporariamente no dispositivo e não é enviado para o Firebase; apenas as entradas selecionadas são guardadas.</string>
-    <string name="free_closed_payment_limit_reached">Atingiu o limite gratuito de 100 pagamentos fechados. Elimine histórico antigo ou atualize para Premium.</string>
+    <string name="free_closed_payment_limit_reached">Atingiu o limite gratuito de 100 pagamentos pagos. Elimine histórico antigo ou atualize para Premium.</string>
+    <string name="section_this_month_open_payments">Pagamentos em aberto este mês</string>
+    <string name="section_this_month_short">Este mês</string>
+    <string name="section_overdue_open_payments">Pagamentos em aberto vencidos</string>
+    <string name="section_upcoming_open_payments">Próximos pagamentos em aberto</string>
+    <string name="section_past_closed_payments">Pagamentos fechados anteriores</string>
+    <string name="section_future_closed_payments">Pagamentos fechados futuros</string>
+    <string name="section_upcoming_income">Rendimentos futuros</string>
+    <string name="section_past_income">Rendimentos anteriores</string>
+    <string name="section_no_date">Sem data</string>
+    <string name="open_payment_outlook_by_month">Perspetiva de pagamentos em aberto por mês</string>
+    <string name="open_payment_outlook_by_month_description">Veja quanto ainda está em aberto em cada mês do período selecionado de %1$d meses.</string>
+    <string name="open_payment_outlook_period">Perspetiva de pagamentos em aberto no período selecionado</string>
+    <string name="open_payment_outlook_period_description">Veja como os pagamentos em aberto não pagos se distribuem no período selecionado de %1$d meses.</string>
+    <string name="period_balance_positive">Restam %1$s após obrigações e metas de poupança neste período.</string>
+    <string name="period_balance_negative">Faltam %1$s após obrigações e metas de poupança neste período.</string>
+    <string name="edit_recurring_payment">Editar pagamento recorrente</string>
+    <string name="edit_this_payment_only">Editar apenas este pagamento</string>
+    <string name="edit_this_and_future_payments">Editar este pagamento e os futuros</string>
+    <string name="future_open_payments_updated">Este pagamento e os futuros foram atualizados.</string>
+    <string name="edit_recurring_income">Editar rendimento recorrente</string>
+    <string name="edit_this_income_only">Editar apenas este rendimento</string>
+    <string name="edit_this_and_future_income">Editar este rendimento e os futuros</string>
+    <string name="future_income_updated">Este rendimento e os futuros foram atualizados.</string>
 </resources>
+
+

@@ -308,11 +308,11 @@ Diğer tüm yardım veya destek ihtiyaçlarınız için bizimle e-posta yoluyla 
     <string name="premium_compare_premium">Premium</string>
 
     <string name="premium_compare_open_payments">Açık ödemeler</string>
-    <string name="premium_compare_open_payments_free">30 aktif tek seferlik açık ödeme</string>
+    <string name="premium_compare_open_payments_free">100 aktif açık ödeme</string>
     <string name="premium_compare_open_payments_premium">En fazla 2.000 toplam gelecek kayıt</string>
 
     <string name="premium_compare_recurring">Tekrarlayan gelecek kayıtlar</string>
-    <string name="premium_compare_recurring_free">En fazla 250 gelecek ödeme</string>
+    <string name="premium_compare_recurring_free">100 aktif açık ödeme sınırına dahildir</string>
     <string name="premium_compare_recurring_premium">En fazla 2.000 gelecek kayıt</string>
 
     <string name="premium_compare_closed">Kapalı ödemeler</string>
@@ -324,7 +324,10 @@ Diğer tüm yardım veya destek ihtiyaçlarınız için bizimle e-posta yoluyla 
     <string name="premium_compare_income_premium">Gelir oluşturma ve yönetme</string>
 
     <string name="premium_compare_import">CSV/PDF içe aktarma</string>
-    <string name="premium_compare_import_free">Dosya başına 50 · Toplam 100</string>
+    <string name="premium_compare_savings_goals">Tasarruf hedefleri</string>
+    <string name="premium_compare_savings_goals_free">Dahil değil</string>
+    <string name="premium_compare_savings_goals_premium">En fazla 3 çakışan aktif hedef</string>
+    <string name="premium_compare_import_free">Dosya başına 100 · Toplam 100</string>
     <string name="premium_compare_import_premium">Dosya başına 200</string>
 
     <string name="premium_compare_insights">Finansal analizler</string>
@@ -343,11 +346,11 @@ Diğer tüm yardım veya destek ihtiyaçlarınız için bizimle e-posta yoluyla 
 
     <string name="feature_open_payments_title">Açık Ödemeler</string>
     <string name="feature_open_payments_desc">Açık ödemelerinizi yönetin ve yaklaşan faturaları takip edin.</string>
-    <string name="feature_open_payments_expandable">Ücretsiz sürüm, adil kullanım sınırları içinde 30 bağımsız aktif açık ödeme ve tekrarlayan ödeme planlarını içerir. Premium, aktif ve gelecekteki kayıtlar için çok daha yüksek kullanım limiti sunar.</string>
+    <string name="feature_open_payments_expandable">Ücretsiz sürüm, tekrarlayan kayıtlar dahil en fazla 100 aktif açık ödeme içerir. Premium, aktif ve gelecekteki kayıtlar için çok daha yüksek kullanım limiti sunar.</string>
 
     <string name="feature_closed_payments_title">Kapalı Ödemeler</string>
     <string name="feature_closed_payments_desc">Ödenmiş faturalarınızı takip edin ve işlem geçmişinizi yönetin.</string>
-    <string name="feature_closed_payments_expandable">Herkes açık bir ödemeyi ödendi olarak işaretleyebilir. Premium ayrıca doğrudan oluşturma, düzenleme, silme ve ayrıntılı geçmiş yönetiminin tamamını sunar.</string>
+    <string name="feature_closed_payments_expandable">Herkes açık ödemeleri, 100 ödenmiş ödeme olan ücretsiz geçmiş sınırına kadar ödendi olarak işaretleyebilir. Premium ayrıca doğrudan oluşturma, düzenleme, silme ve ayrıntılı geçmiş yönetiminin tamamını sunar.</string>
 
     <string name="feature_income_management_title">Gelir Yönetimi</string>
     <string name="feature_income_management_desc">Gelir kaynaklarınızı takip edin ve kategorilere ayırın.</string>
@@ -387,9 +390,9 @@ Diğer tüm yardım veya destek ihtiyaçlarınız için bizimle e-posta yoluyla 
     <string name="savings_quick_entry_hint">Hedef tutarınızı ve bitiş tarihinizi girin. Başlangıç tarihi bugünün tarihi olarak otomatik doldurulur.</string>
     <string name="title_optional">Başlık (isteğe bağlı)</string>
 
-    <string name="free_open_payment_limit_reached">30 bağımsız aktif açık ödeme için ücretsiz kullanım sınırına ulaştınız. Tamamlanan ödemeleri ödendi olarak işaretleyin veya Premium\'a yükseltin.</string>
-    <string name="free_closed_payment_limit_reached">100 kapalı ödeme için ücretsiz kullanım sınırına ulaştınız. Eski geçmişi silin veya Premium\'a yükseltin.</string>
-    <string name="free_recurring_limit_reached">Bu tekrarlayan plan, ücretsiz sürümde izin verilen 250 gelecekteki tekrarlayan ödeme kaydı sınırını aşacaktır. Kullanılmayan bir planı kaldırın veya Premium\'a yükseltin.</string>
+    <string name="free_open_payment_limit_reached">100 aktif açık ödeme için ücretsiz kullanım sınırına ulaştınız. Tamamlanan ödemeleri ödendi olarak işaretleyin veya Premium\'a yükseltin.</string>
+    <string name="free_closed_payment_limit_reached">100 ödenmiş ödeme için ücretsiz kullanım sınırına ulaştınız. Eski geçmişi silin veya Premium\'a yükseltin.</string>
+    <string name="free_recurring_limit_reached">Bu tekrarlayan plan, ücretsiz sürümde izin verilen 100 aktif açık ödeme sınırını aşacaktır. Kullanılmayan bir planı kaldırın, tamamlanan ödemeleri ödendi olarak işaretleyin veya Premium\'a yükseltin.</string>
     <string name="premium_usage_limit_reached">Bu kayıt, Premium adil kullanım sınırı olan toplam 2.000 gelecekteki ödeme ve gelir kaydını aşacaktır. Lütfen gereksiz gelecekteki kayıtları kaldırın veya destek ekibiyle iletişime geçin.</string>
     <string name="usage_limit_check_failed">SmartStack kullanılabilir kayıt sınırını doğrulayamadı. Bağlantınızı kontrol edip tekrar deneyin.</string>
 
@@ -432,7 +435,7 @@ Diğer tüm yardım veya destek ihtiyaçlarınız için bizimle e-posta yoluyla 
     <string name="terms_section_body_4">Ücretsiz sürüm reklam desteklidir ve temel açık ödeme, hatırlatma, takvim, veri dışa aktarma ve ödeme tamamlama işlevlerini içerir. Bazı oluşturma, düzenleme, geçmiş, gelir, hedef ve analiz özellikleri Premium gerektirir.</string>
 
     <string name="terms_section_title_5">5. Adil kullanım sınırları</string>
-    <string name="terms_section_body_5">Güvenilir ve sürdürülebilir bir hizmet sunabilmek için ücretsiz hesaplar en fazla 30 bağımsız aktif açık ödeme, 100 kapalı ödeme ve 250 gelecekteki tekrarlayan ödeme kaydını destekler. Premium hesaplar, toplam 2.000 gelecekteki ödeme ve gelir kaydı dahil olmak üzere daha yüksek adil kullanım sınırlarına sahiptir. Güvenlik, güvenilirlik veya hizmetin sürdürülebilirliği için bu sınırlar gerektiğinde makul ölçüde önceden bildirim yapılarak değiştirilebilir.</string>
+    <string name="terms_section_body_5">Güvenilir ve sürdürülebilir bir hizmet sunabilmek için ücretsiz hesaplar en fazla 100 aktif açık ödeme ve açık ödemeleri ödendi olarak işaretleyerek oluşturulan 100 ödenmiş ödemeyi destekler. Tekrarlayan açık ödemeler 100 aktif açık ödeme sınırına dahildir. Premium hesaplar, toplam 2.000 gelecekteki ödeme ve gelir kaydı dahil olmak üzere daha yüksek adil kullanım sınırlarına sahiptir. Güvenlik, güvenilirlik veya hizmetin sürdürülebilirliği için bu sınırlar gerektiğinde makul ölçüde önceden bildirim yapılarak değiştirilebilir.</string>
 
     <string name="terms_section_title_6">6. Premium aboneliği</string>
     <string name="terms_section_body_6">Premium özellikleri ve güncel fiyat satın alma öncesinde gösterilir. Faturalandırma, yenileme, iptal ve uygun iadeler Google Play üzerinden, kendi şartlarına ve yürürlükteki yasalara göre gerçekleştirilir. Premium reklamları kaldırır ve Premium ekranında açıklanan işlevleri adil kullanım korumaları kapsamında açar.</string>
@@ -450,10 +453,10 @@ Diğer tüm yardım veya destek ihtiyaçlarınız için bizimle e-posta yoluyla 
     <string name="terms_section_body_10">Bu şartlar veya hizmet hakkında sorularınızı appdev.jr2024@gmail.com adresine gönderebilirsiniz.</string>
 
     <string name="faqs_question_16">16. Ücretsiz ve Premium hesaplar için hangi kullanım sınırları geçerlidir?</string>
-    <string name="faqs_answer_16">Ücretsiz hesaplar en fazla 30 aktif açık ödeme, 100 kapalı ödeme ve 250 gelecekteki tekrarlayan ödeme kaydı tutabilir. Premium bu sınırları artırır ve toplam 2.000 gelecekteki ödeme ve gelir kaydını destekler. Bu güvenlik sınırları hizmetin güvenilirliğini korur ve yanlışlıkla çok fazla kayıt oluşturulmasını önler.</string>
+    <string name="faqs_answer_16">Ücretsiz hesaplar en fazla 100 aktif açık ödeme ve açık ödemeleri ödendi olarak işaretleyerek oluşturulan 100 ödenmiş ödeme tutabilir. Tekrarlayan açık ödeme kayıtları 100 aktif açık ödeme sınırına dahildir. Premium bu sınırları artırır ve toplam 2.000 gelecekteki ödeme ve gelir kaydını destekler.</string>
 
     <string name="faqs_question_17">17. Ücretsiz kullanıcılar ödemeleri yine de ödendi olarak işaretleyebilir mi?</string>
-    <string name="faqs_answer_17">Evet. Açık ödemeyi kapalı ödemeye dönüştüren normal işlem ücretsiz kullanım sınırı nedeniyle hiçbir zaman engellenmez. Kapalı ödemelerin doğrudan oluşturulması, düzenlenmesi ve silinmesi Premium yönetim özellikleridir.</string>
+    <string name="faqs_answer_17">Evet. Ücretsiz kullanıcılar, 100 ödenmiş ödeme olan ücretsiz geçmiş sınırına ulaşana kadar açık ödemeleri ödendi olarak işaretleyebilir. Kapalı ödemelerin doğrudan oluşturulması, düzenlenmesi ve silinmesi Premium yönetim özellikleridir.</string>
 
     <string name="faqs_question_18">18. SmartStack finansal geçmişimi otomatik olarak siler mi?</string>
     <string name="faqs_answer_18">SmartStack şu anda ödeme geçmişine otomatik bir silme süresi uygulamaz. Hesap verilerinizi istediğiniz zaman dışa aktarabilirsiniz. İleride önemli bir veri saklama politikası uygulanırsa uygulama mümkün olduğunca önceden bilgi verecektir.</string>
@@ -712,6 +715,13 @@ Sorularınızı ve geri bildirimlerinizi appdev.jr2024@gmail.com adresine gönde
     <string name="currency">Para birimi</string>
     <string name="currency_menu_title">Para birimi (%1$s)</string>
     <string name="select_currency">Para birimini seçin</string>
+    <string name="amount_display">Tutar gösterimi</string>
+    <string name="amount_display_menu_title">Tutar gösterimi (%1$s)</string>
+    <string name="select_amount_display">Tutar gösterimini seçin</string>
+    <string name="amount_display_two_decimals">Her zaman 2 ondalık göster</string>
+    <string name="amount_display_no_decimals">Ondalık gösterme</string>
+    <string name="amount_display_two_decimals_short">2 ondalık</string>
+    <string name="amount_display_no_decimals_short">ondalıksız</string>
 
     <string name="billing_insufficient_funds">Yetersiz bakiye nedeniyle ödeme reddedildi.</string>
     <string name="billing_user_ineligible">Bu abonelik teklifi bu hesap için kullanılamıyor.</string>
@@ -721,6 +731,8 @@ Sorularınızı ve geri bildirimlerinizi appdev.jr2024@gmail.com adresine gönde
 
     <string name="monthly_money_map">Aylık para akışı</string>
     <string name="monthly_money_map_description">Gelirlerin, tamamlanmış giderlerin, yaklaşan yükümlülüklerin ve tasarruf hedefinizin birbirleriyle nasıl ilişkili olduğunu görün.</string>
+    <string name="money_flow_development">Para akışı gelişimi</string>
+    <string name="money_flow_development_description">Gelirlerin, kapalı ödemelerin, açık ödemelerin ve tasarruf hedeflerinin %1$d ayda nasıl geliştiğini görün.</string>
 
     <string name="open_payment_risk_timeline">Açık ödeme risk zaman çizelgesi</string>
     <string name="open_payment_risk_description">Öncelikle gecikmiş ve yakında vadesi gelecek yükümlülüklere odaklanın.</string>
@@ -974,5 +986,30 @@ Sorularınızı ve geri bildirimlerinizi appdev.jr2024@gmail.com adresine gönde
     8. Hizmetin Sonlandırılması&#10;&#10;SmartStack Solutions, bu hüküm ve koşulları ihlal eden kullanıcıların uygulamaya erişimini askıya alma veya sonlandırma hakkını saklı tutar.&#10;&#10;
     9. İletişim Bilgileri&#10;&#10;Bu hüküm ve koşullarla ilgili sorularınız veya endişeleriniz için appdev.jr2024@gmail.com adresinden bizimle iletişime geçebilirsiniz.
 </string>
+    <string name="section_this_month_open_payments">Bu ay açık ödemeler</string>
+    <string name="section_this_month_short">Bu ay</string>
+    <string name="section_overdue_open_payments">Gecikmiş açık ödemeler</string>
+    <string name="section_upcoming_open_payments">Yaklaşan açık ödemeler</string>
+    <string name="section_past_closed_payments">Geçmiş kapalı ödemeler</string>
+    <string name="section_future_closed_payments">Gelecekteki kapalı ödemeler</string>
+    <string name="section_upcoming_income">Yaklaşan gelir</string>
+    <string name="section_past_income">Geçmiş gelir</string>
+    <string name="section_no_date">Tarih yok</string>
+    <string name="open_payment_outlook_by_month">Aylara göre açık ödeme görünümü</string>
+    <string name="open_payment_outlook_by_month_description">Seçilen %1$d aylık dönemde her ay ne kadar açık ödeme kaldığını görün.</string>
+    <string name="open_payment_outlook_period">Seçilen dönem için açık ödeme görünümü</string>
+    <string name="open_payment_outlook_period_description">Ödenmemiş açık ödemelerin seçilen %1$d aylık döneme nasıl dağıldığını görün.</string>
+    <string name="period_balance_positive">Bu dönemde yükümlülükler ve tasarruf hedeflerinden sonra %1$s kalır.</string>
+    <string name="period_balance_negative">Bu dönemde yükümlülükler ve tasarruf hedeflerinden sonra %1$s açık kalır.</string>
+    <string name="edit_recurring_payment">Tekrarlanan ödemeyi düzenle</string>
+    <string name="edit_this_payment_only">Yalnızca bu ödemeyi düzenle</string>
+    <string name="edit_this_and_future_payments">Bu ve gelecekteki ödemeleri düzenle</string>
+    <string name="future_open_payments_updated">Bu ve gelecekteki ödemeler güncellendi.</string>
+    <string name="edit_recurring_income">Tekrarlanan geliri düzenle</string>
+    <string name="edit_this_income_only">Yalnızca bu gelir kaydını düzenle</string>
+    <string name="edit_this_and_future_income">Bu ve gelecekteki geliri düzenle</string>
+    <string name="future_income_updated">Bu ve gelecekteki gelir kayıtları güncellendi.</string>
 </resources>
+
+
 

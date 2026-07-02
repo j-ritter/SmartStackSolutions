@@ -611,12 +611,21 @@ class createSpending : AppCompatActivity() {
                 val dateEditText = findViewById<EditText>(R.id.edtDateSpending)
                 setTodayIfBlank(dateEditText)
                 val spendingDateString = dateEditText.text.toString()
-                val spendingCategory = FinancialEntryOptions.selectedKey(
+                val selectedSpendingCategory = FinancialEntryOptions.selectedKey(
                     findViewById<Spinner>(R.id.spinnerCategoriesSpending).selectedItem
-                ).ifBlank { "Other" }
-                val spendingSubcategory = FinancialEntryOptions.selectedKey(
+                )
+                val selectedSpendingSubcategory = FinancialEntryOptions.selectedKey(
                     findViewById<Spinner>(R.id.spinnerSubcategoriesSpending).selectedItem
-                ).ifBlank { "Miscellaneous" }
+                )
+                val spendingCategory = FinancialEntryOptions.normalizedExpenseCategory(
+                    this,
+                    selectedSpendingCategory
+                )
+                val spendingSubcategory = FinancialEntryOptions.normalizedExpenseSubcategory(
+                    this,
+                    spendingCategory,
+                    selectedSpendingSubcategory
+                )
                 val spendingVendor = findViewById<AutoCompleteTextView>(R.id.autoCompleteVendorSpending).text.toString()
                 val spendingComment = findViewById<EditText>(R.id.edtCommentSpending).text.toString()
                 val spendingAttachment = imageUri?.toString()

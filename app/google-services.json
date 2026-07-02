@@ -51,6 +51,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "335330685775-bi5hvk3mueqkoqa3e16vpjejb353jell.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ritter.smartstackbills",
+            "certificate_hash": "e2ef971b1834e2e80fcf7bcf2f4802c4c86fe822"
+          }
+        },
+        {
           "client_id": "335330685775-l3fnp4ob7c9p1vu4eaet3i3o6fcjrt11.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

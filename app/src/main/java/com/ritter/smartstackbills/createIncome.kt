@@ -104,7 +104,7 @@ class createIncome : AppCompatActivity() {
         spinnerRepeat.adapter = arrayAdapterRepeat
 
         loadCategories(spinnerCategories)
-        selectOptionByKey(spinnerCategories, "Other income")
+        selectOptionByKey(spinnerCategories, FinancialEntryOptions.DEFAULT_INCOME_CATEGORY)
         spinnerCategories.selectedItem?.let {
             loadSubcategories(FinancialEntryOptions.selectedKey(it), spinnerSubcategories)
         }
@@ -422,12 +422,21 @@ class createIncome : AppCompatActivity() {
                 val dateEditText = findViewById<EditText>(R.id.edtDateIncome)
                 setTodayIfBlank(dateEditText)
                 val incomeDateString = dateEditText.text.toString()
-                val incomeCategory = FinancialEntryOptions.selectedKey(
+                val selectedIncomeCategory = FinancialEntryOptions.selectedKey(
                     findViewById<Spinner>(R.id.spinnerCategoriesIncome).selectedItem
-                ).ifBlank { "Other income" }
-                val incomeSubcategory = FinancialEntryOptions.selectedKey(
+                )
+                val selectedIncomeSubcategory = FinancialEntryOptions.selectedKey(
                     findViewById<Spinner>(R.id.spinnerSubcategoriesIncome).selectedItem
-                ).ifBlank { "Miscellaneous" }
+                )
+                val incomeCategory = FinancialEntryOptions.normalizedIncomeCategory(
+                    this,
+                    selectedIncomeCategory
+                )
+                val incomeSubcategory = FinancialEntryOptions.normalizedIncomeSubcategory(
+                    this,
+                    incomeCategory,
+                    selectedIncomeSubcategory
+                )
                 val incomeRepeat = findViewById<Spinner>(R.id.spinnerRepeatIncome).selectedItem.toString()
                 val incomeComment = findViewById<EditText>(R.id.edtCommentIncome).text.toString()
                 val incomeAttachment = imageUri?.toString()

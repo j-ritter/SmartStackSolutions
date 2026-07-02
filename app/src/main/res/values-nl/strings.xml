@@ -381,11 +381,11 @@
     <string name="premium_compare_premium">Premium</string>
 
     <string name="premium_compare_open_payments">Open betalingen</string>
-    <string name="premium_compare_open_payments_free">30 actieve eenmalige open betalingen</string>
+    <string name="premium_compare_open_payments_free">100 actieve open betalingen</string>
     <string name="premium_compare_open_payments_premium">Tot 2.000 gecombineerde toekomstige items</string>
 
     <string name="premium_compare_recurring">Toekomstige terugkerende items</string>
-    <string name="premium_compare_recurring_free">Tot 250 toekomstige betalingen</string>
+    <string name="premium_compare_recurring_free">Inbegrepen in de limiet van 100 actieve open betalingen</string>
     <string name="premium_compare_recurring_premium">Tot 2.000 toekomstige items</string>
 
     <string name="premium_compare_closed">Afgesloten betalingen</string>
@@ -397,7 +397,10 @@
     <string name="premium_compare_income_premium">Inkomsten aanmaken en beheren</string>
 
     <string name="premium_compare_import">CSV/PDF-import</string>
-    <string name="premium_compare_import_free">50 per bestand · 100 totaal</string>
+    <string name="premium_compare_savings_goals">Spaardoelen</string>
+    <string name="premium_compare_savings_goals_free">Niet inbegrepen</string>
+    <string name="premium_compare_savings_goals_premium">Tot 3 overlappende actieve doelen</string>
+    <string name="premium_compare_import_free">100 per bestand · 100 totaal</string>
     <string name="premium_compare_import_premium">200 per bestand</string>
 
     <string name="premium_compare_insights">Financiële inzichten</string>
@@ -418,11 +421,11 @@
 
     <string name="feature_open_payments_title">Open betalingen</string>
     <string name="feature_open_payments_desc">Beheer open betalingen en houd aankomende rekeningen onder controle.</string>
-    <string name="feature_open_payments_expandable">Gratis bevat tot 30 zelfstandige actieve open betalingen plus terugkerende schema\'s binnen de fair-use-limiet. Premium biedt een aanzienlijk hogere limiet voor actieve en toekomstige items.</string>
+    <string name="feature_open_payments_expandable">Gratis bevat tot 100 actieve open betalingen, inclusief terugkerende items. Premium biedt een aanzienlijk hogere limiet voor actieve en toekomstige items.</string>
 
     <string name="feature_closed_payments_title">Afgesloten betalingen</string>
     <string name="feature_closed_payments_desc">Houd betaalde rekeningen bij en beheer je transactiegeschiedenis.</string>
-    <string name="feature_closed_payments_expandable">Iedereen kan een open betaling als betaald markeren. Premium ontgrendelt daarnaast direct aanmaken, bewerken, verwijderen en volledig geschiedenisbeheer.</string>
+    <string name="feature_closed_payments_expandable">Iedereen kan open betalingen als betaald markeren tot de gratis geschiedenislimiet van 100 betaalde betalingen. Premium ontgrendelt daarnaast direct aanmaken, bewerken, verwijderen en volledig geschiedenisbeheer.</string>
 
     <string name="feature_income_management_title">Inkomstenbeheer</string>
     <string name="feature_income_management_desc">Houd je inkomstenbronnen bij en categoriseer ze.</string>
@@ -469,11 +472,11 @@
 
     <string name="title_optional">Titel (optioneel)</string>
 
-    <string name="free_open_payment_limit_reached">Je hebt de gratis limiet van 30 zelfstandige actieve open betalingen bereikt. Markeer afgeronde items als betaald of upgrade naar Premium.</string>
+    <string name="free_open_payment_limit_reached">Je hebt de gratis limiet van 100 actieve open betalingen bereikt. Markeer afgeronde items als betaald of upgrade naar Premium.</string>
 
-    <string name="free_closed_payment_limit_reached">Je hebt de gratis limiet van 100 afgesloten betalingen bereikt. Verwijder oudere geschiedenis of upgrade naar Premium.</string>
+    <string name="free_closed_payment_limit_reached">Je hebt de gratis limiet van 100 betaalde betalingen bereikt. Verwijder oudere geschiedenis of upgrade naar Premium.</string>
 
-    <string name="free_recurring_limit_reached">Dit terugkerende schema overschrijdt de gratis limiet van 250 toekomstige terugkerende betalingen. Verwijder een ongebruikt schema of upgrade naar Premium.</string>
+    <string name="free_recurring_limit_reached">Dit terugkerende schema overschrijdt de gratis limiet van 100 actieve open betalingen. Verwijder een ongebruikt schema, markeer afgeronde items als betaald of upgrade naar Premium.</string>
 
     <string name="premium_usage_limit_reached">Dit item zou de Premium fair-use-limiet van 2.000 gecombineerde toekomstige betalingen en inkomsten overschrijden. Verwijder verouderde toekomstige items of neem contact op met ondersteuning.</string>
 
@@ -519,7 +522,7 @@
     <string name="terms_section_body_4">De gratis versie wordt ondersteund door advertenties en bevat de belangrijkste functies voor open betalingen, herinneringen, kalender, export en het afronden van betalingen. Sommige functies voor aanmaken, bewerken, geschiedenis, inkomsten, doelen en analyses vereisen Premium.</string>
 
     <string name="terms_section_title_5">5. Fair-use-limieten</string>
-    <string name="terms_section_body_5">Om een betrouwbare en duurzame dienst te garanderen ondersteunen gratis accounts maximaal 30 zelfstandige actieve open betalingen, 100 afgesloten betalingen en 250 toekomstige terugkerende betalingsitems. Premium-accounts ondersteunen hogere fair-use-limieten, waaronder maximaal 2.000 gecombineerde toekomstige betalings- en inkomstenitems. Limieten kunnen in de toekomst worden aangepast voor beveiliging, betrouwbaarheid of duurzaamheid van de dienst.</string>
+    <string name="terms_section_body_5">Om een betrouwbare en duurzame dienst te garanderen ondersteunen gratis accounts maximaal 100 actieve open betalingen en 100 betaalde betalingen die ontstaan door open betalingen als betaald te markeren. Terugkerende open betalingen tellen mee voor de limiet van 100 actieve open betalingen. Premium-accounts ondersteunen hogere fair-use-limieten, waaronder maximaal 2.000 gecombineerde toekomstige betalings- en inkomstenitems. Limieten kunnen in de toekomst worden aangepast voor beveiliging, betrouwbaarheid of duurzaamheid van de dienst.</string>
 
     <string name="terms_section_title_6">6. Premium-abonnement</string>
     <string name="terms_section_body_6">Premium-functies en de actuele prijs worden vóór aankoop getoond. Facturering, verlenging, annulering en eventuele terugbetalingen worden verwerkt via Google Play volgens diens voorwaarden en toepasselijke wetgeving.</string>
@@ -538,11 +541,11 @@
 
     <string name="faqs_question_16">16. Welke gebruikslimieten gelden voor gratis en Premium-accounts?</string>
 
-    <string name="faqs_answer_16">Gratis accounts kunnen maximaal 30 actieve open betalingen, 100 afgesloten betalingen en 250 toekomstige terugkerende betalingsitems bevatten. Premium verhoogt deze limieten en ondersteunt tot 2.000 gecombineerde toekomstige betalings- en inkomstenitems.</string>
+    <string name="faqs_answer_16">Gratis accounts kunnen maximaal 100 actieve open betalingen en 100 betaalde betalingen bewaren die zijn ontstaan door open betalingen als betaald te markeren. Terugkerende open betalingen tellen mee voor de limiet van 100 actieve open betalingen. Premium verhoogt deze limieten en ondersteunt tot 2.000 gecombineerde toekomstige betalings- en inkomstenitems.</string>
 
     <string name="faqs_question_17">17. Kunnen gratis gebruikers betalingen nog steeds als betaald markeren?</string>
 
-    <string name="faqs_answer_17">Ja. Het normale proces van open naar afgesloten betaling wordt nooit geblokkeerd door de gratis limieten. Het rechtstreeks aanmaken, bewerken en verwijderen van afgesloten betalingen zijn Premium-functies.</string>
+    <string name="faqs_answer_17">Ja. Gratis gebruikers kunnen open betalingen als betaald markeren tot de gratis geschiedenislimiet van 100 betaalde betalingen is bereikt. Het rechtstreeks aanmaken, bewerken en verwijderen van afgesloten betalingen zijn Premium-functies.</string>
 
     <string name="faqs_question_18">18. Verwijdert SmartStack automatisch mijn financiële geschiedenis?</string>
 
@@ -701,6 +704,13 @@
     <string name="currency">Valuta</string>
     <string name="currency_menu_title">Valuta (%1$s)</string>
     <string name="select_currency">Valuta selecteren</string>
+    <string name="amount_display">Bedragen weergeven</string>
+    <string name="amount_display_menu_title">Bedragen weergeven (%1$s)</string>
+    <string name="select_amount_display">Bedragweergave selecteren</string>
+    <string name="amount_display_two_decimals">Altijd 2 decimalen tonen</string>
+    <string name="amount_display_no_decimals">Geen decimalen tonen</string>
+    <string name="amount_display_two_decimals_short">2 decimalen</string>
+    <string name="amount_display_no_decimals_short">geen decimalen</string>
 
     <string name="billing_insufficient_funds">De betaling is geweigerd wegens onvoldoende saldo.</string>
     <string name="billing_user_ineligible">Deze abonnementsaanbieding is niet beschikbaar voor dit account.</string>
@@ -710,6 +720,8 @@
 
     <string name="monthly_money_map">Maandelijkse geldkaart</string>
     <string name="monthly_money_map_description">Zie hoe inkomsten, betaalde uitgaven, aankomende verplichtingen en je spaardoel samenhangen.</string>
+    <string name="money_flow_development">Ontwikkeling van geldstroom</string>
+    <string name="money_flow_development_description">Bekijk hoe inkomsten, afgesloten betalingen, open betalingen en spaardoelen zich over %1$d maanden ontwikkelen.</string>
 
     <string name="open_payment_risk_timeline">Risicotijdlijn open betalingen</string>
     <string name="open_payment_risk_description">Richt je eerst op achterstallige en bijna vervallende verplichtingen.</string>
@@ -1098,4 +1110,29 @@
     8. Beëindiging&#10;&#10;SmartStack Solutions behoudt zich het recht voor de toegang tot de applicatie te beëindigen of op te schorten voor gebruikers die deze algemene voorwaarden overtreden.&#10;&#10;
     9. Contactinformatie&#10;&#10;Voor vragen of opmerkingen over deze algemene voorwaarden kunt u contact opnemen via appdev.jr2024@gmail.com.
 </string>
+    <string name="section_this_month_open_payments">Open betalingen deze maand</string>
+    <string name="section_this_month_short">Deze maand</string>
+    <string name="section_overdue_open_payments">Achterstallige open betalingen</string>
+    <string name="section_upcoming_open_payments">Aankomende open betalingen</string>
+    <string name="section_past_closed_payments">Eerdere gesloten betalingen</string>
+    <string name="section_future_closed_payments">Toekomstige gesloten betalingen</string>
+    <string name="section_upcoming_income">Aankomend inkomen</string>
+    <string name="section_past_income">Eerder inkomen</string>
+    <string name="section_no_date">Geen datum</string>
+    <string name="open_payment_outlook_by_month">Vooruitblik open betalingen per maand</string>
+    <string name="open_payment_outlook_by_month_description">Bekijk hoeveel er nog openstaat in elke maand van de geselecteerde periode van %1$d maanden.</string>
+    <string name="open_payment_outlook_period">Vooruitblik open betalingen voor geselecteerde periode</string>
+    <string name="open_payment_outlook_period_description">Bekijk hoe onbetaalde open betalingen zijn verdeeld over de geselecteerde periode van %1$d maanden.</string>
+    <string name="period_balance_positive">Er blijft %1$s over na verplichtingen en spaardoelen in deze periode.</string>
+    <string name="period_balance_negative">Er is een tekort van %1$s na verplichtingen en spaardoelen in deze periode.</string>
+    <string name="edit_recurring_payment">Terugkerende betaling bewerken</string>
+    <string name="edit_this_payment_only">Alleen deze betaling bewerken</string>
+    <string name="edit_this_and_future_payments">Deze en toekomstige betalingen bewerken</string>
+    <string name="future_open_payments_updated">Deze en toekomstige betalingen zijn bijgewerkt.</string>
+    <string name="edit_recurring_income">Terugkerend inkomen bewerken</string>
+    <string name="edit_this_income_only">Alleen deze inkomstenpost bewerken</string>
+    <string name="edit_this_and_future_income">Dit en toekomstig inkomen bewerken</string>
+    <string name="future_income_updated">Deze en toekomstige inkomstenposten zijn bijgewerkt.</string>
 </resources>
+
+

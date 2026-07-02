@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="notification_details">Benachrichtigungsdetails</string>
     <string name="main">Hauptmenü</string>
@@ -220,7 +220,7 @@
 
     <string name="faqs_question_9">9. Was ist das Premium-Konto, und welche Vorteile bietet es?</string>
     <string name="faqs_answer_9">
-  Antwort: Premium entfernt Werbung und schaltet die Verwaltung geschlossener Zahlungen, Einnahmenverwaltung, Sparziele sowie Finanzanalysen über sechs und zwölf Monate frei. Dazu gehören Cashflow-Trends, Kategorieveränderungen, wiederkehrende Verpflichtungen und Sparkonsistenz. Offene Zahlungen, Erinnerungen, monatliche Einblicke, Export und Kalender bleiben in der Basisversion verfügbar.
+  Antwort: Premium entfernt Werbung und schaltet die Verwaltung geschlossener Zahlungen, Einnahmenverwaltung, bis zu drei überlappende Sparziele sowie Finanzanalysen über sechs und zwölf Monate frei. Dazu gehören Cashflow-Trends, Kategorieveränderungen, wiederkehrende Verpflichtungen und Sparkonsistenz. Offene Zahlungen, Erinnerungen, monatliche Einblicke, Export und Kalender bleiben in der Basisversion verfügbar.
 </string>
 
     <string name="faqs_question_10">10. Wie kann ich auf das Premium-Konto upgraden?</string>
@@ -235,12 +235,12 @@
 
     <string name="faqs_question_12">12. Wie lege ich ein Sparziel fest?</string>
     <string name="faqs_answer_12">
-  Antwort: Um ein Sparziel festzulegen, navigieren Sie zur Schaltfläche im Hauptmenü. Klicken Sie darauf und wählen Sie „Sparziel festlegen“, geben Sie Ihren Zielgrund, den Zielbetrag und den Zeitraum an. Sie können Ihren monatlichen Fortschritt zur Erreichung Ihres Ziels im Hauptmenü verfolgen.
+  Antwort: Tippen Sie im Hauptmenü auf den Sparzielbereich oder nutzen Sie die Plus-Schaltfläche und wählen Sie „Sparziel festlegen“. Geben Sie Ziel, Zielbetrag, Startdatum und Enddatum ein. Das Dashboard zeigt jedes aktive Ziel für den ausgewählten Monat mit Icon, Monatsbetrag, Fortschrittsbalken und Prozentwert.
 </string>
 
     <string name="faqs_question_13">13. Kann ich mehrere Sparziele festlegen?</string>
     <string name="faqs_answer_13">
-  Antwort: Ja, Sie können mehrere Sparziele in unterschiedlichen Zeiträumen festlegen. Jedes Ziel wird im Hauptmenü individuell verfolgt, wo Sie Ihren Fortschritt für jedes Ziel sehen können. Beachten Sie, dass sich die Zeiträume nicht überschneiden dürfen. Wählen Sie daher für jedes Ziel nicht überlappende Zeiträume.
+  Antwort: Ja. Premium erlaubt bis zu drei aktive oder zukünftige Sparziele, und die Zeiträume dürfen sich überschneiden. Das Dashboard zeigt jedes aktive Ziel einzeln und verwendet die kombinierte monatliche Sparsumme in den Finanzanalysen.
 </string>
 
     <string name="faqs_question_14">14. Was soll ich tun, wenn ich ein Problem mit der App habe?</string>
@@ -302,6 +302,7 @@
     <string name="export_balance">Saldo</string>
     <string name="export_no_entries">Keine Einträge für diesen Monat.</string>
     <string name="dashboard_hint">Sehen Sie fällige Zahlungen, bezahlte Ausgaben, Einnahmen und Ihren Sparfortschritt.</string>
+    <string name="savings_target_limit_reached">Premium erlaubt bis zu 3 aktive oder zukünftige Sparziele.</string>
     <string name="savings_target_reached_message">Glückwunsch. Sie haben 100 %% Ihres Sparziels erreicht.</string>
     <string name="goal_summary">Sie müssen %1$s pro Monat sparen, um Ihr Ziel bis %2$s zu erreichen.</string>
     <string name="add_new_entry">Neuen Eintrag hinzufügen</string>
@@ -313,7 +314,7 @@
     <string name="premium_intro_text">Die wichtigsten Funktionen bleiben kostenlos. Wechseln Sie zu Premium, wenn Sie einen vollständigen Finanzarbeitsbereich mit umfangreicher Historie, Einnahmenverwaltung, Sparzielen und ohne Werbung möchten.</string>
     <string name="premium_feature_closed_payments">Erstellen, bearbeiten und organisieren Sie Ihre detaillierte Zahlungshistorie.</string>
     <string name="premium_feature_income_management">Erstellen und verwalten Sie einmalige und wiederkehrende Einnahmen.</string>
-    <string name="premium_feature_saving_target">Legen Sie Sparziele fest und verfolgen Sie den monatlichen Fortschritt.</string>
+    <string name="premium_feature_saving_target">Legen Sie bis zu drei Sparziele fest und verfolgen Sie den monatlichen Fortschritt.</string>
     <string name="premium_feature_financial_insights">Entdecken Sie Finanztrends über sechs und zwölf Monate.</string>
     <string name="premium_closing_text">Offene Zahlungen, Erinnerungen, Kalender, Datenexport und das Markieren als bezahlt bleiben in der kostenlosen Version verfügbar.</string>
     <string name="premium_compare_title">Kostenlos vs. Premium</string>
@@ -322,10 +323,10 @@
     <string name="premium_compare_free">Kostenlos</string>
     <string name="premium_compare_premium">Premium</string>
     <string name="premium_compare_open_payments">Offene Zahlungen</string>
-    <string name="premium_compare_open_payments_free">30 aktive einmalige offene Zahlungen</string>
+    <string name="premium_compare_open_payments_free">100 aktive offene Zahlungen</string>
     <string name="premium_compare_open_payments_premium">Bis zu 2.000 zukünftige Einträge insgesamt</string>
     <string name="premium_compare_recurring">Wiederkehrende zukünftige Einträge</string>
-    <string name="premium_compare_recurring_free">Bis zu 250 zukünftige Zahlungen</string>
+    <string name="premium_compare_recurring_free">Im Limit von 100 aktiven offenen Zahlungen enthalten</string>
     <string name="premium_compare_recurring_premium">Bis zu 2.000 zukünftige Einträge</string>
     <string name="premium_compare_closed">Geschlossene Zahlungen</string>
     <string name="premium_compare_closed_free">Bis zu 100 bezahlte Zahlungen</string>
@@ -333,8 +334,11 @@
     <string name="premium_compare_income">Einnahmenverwaltung</string>
     <string name="premium_compare_income_free">Nur Import</string>
     <string name="premium_compare_income_premium">Einnahmen erstellen und verwalten</string>
+    <string name="premium_compare_savings_goals">Sparziele</string>
+    <string name="premium_compare_savings_goals_free">Nicht enthalten</string>
+    <string name="premium_compare_savings_goals_premium">Bis zu 3 überlappende aktive Ziele</string>
     <string name="premium_compare_import">CSV/PDF-Import</string>
-    <string name="premium_compare_import_free">50/Datei · 100 gesamt</string>
+    <string name="premium_compare_import_free">100/Datei · 100 gesamt</string>
     <string name="premium_compare_import_premium">200/Datei</string>
     <string name="premium_compare_insights">Finanzanalysen</string>
     <string name="premium_compare_insights_free">Monatliche Einblicke + größte Veränderung</string>
@@ -349,10 +353,10 @@
     <string name="features">Funktionen</string>
     <string name="feature_open_payments_title">Offene Zahlungen</string>
     <string name="feature_open_payments_desc">Verwalten Sie offene Zahlungen und behalten Sie anstehende Rechnungen im Blick.</string>
-    <string name="feature_open_payments_expandable">Mit offenen Zahlungen können Sie Ihre anstehenden Rechnungen verwalten, Erinnerungen einstellen, Zahlungen verfolgen und rechtzeitig bezahlen.</string>
+    <string name="feature_open_payments_expandable">Kostenlos sind bis zu 100 aktive offene Zahlungen enthalten, einschließlich wiederkehrender Einträge. Premium bietet ein deutlich höheres Sicherheitskontingent für aktive und zukünftige Einträge.</string>
     <string name="feature_closed_payments_title">Geschlossene Zahlungen</string>
     <string name="feature_closed_payments_desc">Verfolgen Sie bezahlte Rechnungen und verwalten Sie Ihre Transaktionshistorie.</string>
-    <string name="feature_closed_payments_expandable">Geschlossene Zahlungen helfen Ihnen, bezahlte Rechnungen für Ihre Finanzhistorie zu verfolgen.</string>
+    <string name="feature_closed_payments_expandable">Offene Zahlungen können bis zum kostenlosen Historienlimit von 100 bezahlten Zahlungen als bezahlt markiert werden. Premium schaltet zusätzlich direktes Erstellen, Bearbeiten, Löschen und vollständige Historienverwaltung frei.</string>
     <string name="feature_income_management_title">Einkommensverwaltung</string>
     <string name="feature_income_management_desc">Verfolgen und kategorisieren Sie Ihre Einkommensquellen.</string>
     <string name="feature_income_management_expandable">Die Einkommensverwaltung hilft Ihnen, Ihre verschiedenen Einkommensquellen wie Gehälter, freiberufliche Arbeit und Investitionen zu verfolgen.</string>
@@ -364,7 +368,7 @@
     <string name="feature_calendar_expandable">Die Kalenderfunktion bietet einen Überblick über Zahlungen, Einkommen und Transaktionen in einer Monatsansicht.</string>
     <string name="feature_saving_target_title">Sparziel</string>
     <string name="feature_saving_target_desc">Legen Sie ein Sparziel fest und verfolgen Sie den Fortschritt.</string>
-    <string name="feature_saving_target_expandable">Die Sparziel-Funktion ermöglicht es Ihnen, personalisierte Finanzziele festzulegen. Definieren Sie einen Zielbetrag, legen Sie einen Zeitraum fest und verfolgen Sie Ihren monatlichen Fortschritt auf dem Weg zu Ihren finanziellen Zielen.</string>
+    <string name="feature_saving_target_expandable">Definieren Sie bis zu drei Ziele mit überlappenden Zeiträumen und vergleichen Sie den jeweils erforderlichen Monatsbetrag mit Ihrem tatsächlichen voraussichtlichen Saldo.</string>
     <string name="feature_financial_insights_title">Erweiterte finanzielle Einblicke</string>
     <string name="feature_financial_insights_desc">Verwandeln Sie Ihre Historie in aussagekräftige Trends.</string>
     <string name="feature_financial_insights_expandable">Vergleichen Sie Cashflow über sechs und zwölf Monate, erkennen Sie veränderte Ausgabenkategorien, verfolgen Sie wiederkehrende Verpflichtungen und prüfen Sie Ihre Sparkonsistenz. Die Analyse folgt dem im Dashboard ausgewählten Monat.</string>
@@ -474,9 +478,9 @@ Wenn Sie Fragen haben oder weitere Informationen zu unserer Mission und unseren 
     <string name="recurrence_one_year_explanation">SmartStack erstellt wiederkehrende Einträge für die nächsten 12 Monate, damit Ihre Vorschau aktuell und übersichtlich bleibt.</string>
     <string name="show_details">Details anzeigen</string>
     <string name="hide_details">Details ausblenden</string>
-    <string name="free_open_payment_limit_reached">Sie haben das kostenlose Kontingent von 30 einzelnen aktiven offenen Zahlungen erreicht. Markieren Sie abgeschlossene Einträge als bezahlt oder wechseln Sie zu Premium.</string>
-    <string name="free_closed_payment_limit_reached">Sie haben das kostenlose Kontingent von 100 geschlossenen Zahlungen erreicht. Löschen Sie ältere Historie oder wechseln Sie zu Premium.</string>
-    <string name="free_recurring_limit_reached">Dieser Zahlungsplan würde das kostenlose Kontingent von 250 zukünftigen wiederkehrenden Zahlungsvorgängen überschreiten. Entfernen Sie einen nicht mehr benötigten Plan oder wechseln Sie zu Premium.</string>
+    <string name="free_open_payment_limit_reached">Sie haben das kostenlose Kontingent von 100 aktiven offenen Zahlungen erreicht. Markieren Sie abgeschlossene Einträge als bezahlt oder wechseln Sie zu Premium.</string>
+    <string name="free_closed_payment_limit_reached">Sie haben das kostenlose Kontingent von 100 bezahlten Zahlungen erreicht. Löschen Sie ältere Historie oder wechseln Sie zu Premium.</string>
+    <string name="free_recurring_limit_reached">Dieser Zahlungsplan würde das kostenlose Kontingent von 100 aktiven offenen Zahlungen überschreiten. Entfernen Sie einen nicht mehr benötigten Plan, markieren Sie abgeschlossene Einträge als bezahlt oder wechseln Sie zu Premium.</string>
     <string name="premium_usage_limit_reached">Dieser Eintrag würde das Premium-Kontingent von 2.000 kombinierten zukünftigen Zahlungs- und Einnahmeneinträgen überschreiten. Entfernen Sie nicht mehr benötigte zukünftige Einträge oder kontaktieren Sie den Support.</string>
     <string name="usage_limit_check_failed">SmartStack konnte das verfügbare Eintragskontingent nicht prüfen. Überprüfen Sie Ihre Verbindung und versuchen Sie es erneut.</string>
     <string name="terms_section_title_1">1. Zustimmung und Geltungsbereich</string>
@@ -488,7 +492,7 @@ Wenn Sie Fragen haben oder weitere Informationen zu unserer Mission und unseren 
     <string name="terms_section_title_4">4. Kostenlose Version und Werbung</string>
     <string name="terms_section_body_4">Die kostenlose Version wird durch Werbung unterstützt und umfasst grundlegende Funktionen für offene Zahlungen, Erinnerungen, Kalender, Datenexport und das Abschließen von Zahlungen. Einige Funktionen für Erstellung, Bearbeitung, Historie, Einnahmen, Ziele und Analysen erfordern Premium.</string>
     <string name="terms_section_title_5">5. Kontingente für faire Nutzung</string>
-    <string name="terms_section_body_5">Für einen zuverlässigen und nachhaltigen Dienst unterstützen kostenlose Konten bis zu 30 aktive offene Zahlungen, 100 geschlossene Zahlungen und 250 zukünftige wiederkehrende Zahlungseinträge. Premium-Konten unterstützen höhere Fair-Use-Kontingente, einschließlich bis zu 2.000 kombinierter zukünftiger Zahlungs- und Einnahmeneinträge. Kontingente können für Sicherheit, Zuverlässigkeit oder Nachhaltigkeit mit angemessener Vorabinformation angepasst werden, soweit dies praktisch möglich ist.</string>
+    <string name="terms_section_body_5">Für einen zuverlässigen und nachhaltigen Dienst unterstützen kostenlose Konten bis zu 100 aktive offene Zahlungen und 100 bezahlte Zahlungen, die durch das Markieren offener Zahlungen als bezahlt entstehen. Wiederkehrende offene Zahlungen zählen zum Limit von 100 aktiven offenen Zahlungen. Premium-Konten unterstützen höhere Fair-Use-Kontingente, einschließlich bis zu 2.000 kombinierter zukünftiger Zahlungs- und Einnahmeneinträge. Kontingente können für Sicherheit, Zuverlässigkeit oder Nachhaltigkeit mit angemessener Vorabinformation angepasst werden, soweit dies praktisch möglich ist.</string>
     <string name="terms_section_title_6">6. Premium-Abonnement</string>
     <string name="terms_section_body_6">Premium-Funktionen und der aktuelle Preis werden vor dem Kauf angezeigt. Abrechnung, Verlängerung, Kündigung und berechtigte Erstattungen werden über Google Play gemäß dessen Bedingungen und dem geltenden Recht abgewickelt. Premium entfernt Werbung und schaltet die auf der Premium-Seite beschriebenen Funktionen frei, vorbehaltlich der Fair-Use-Schutzmaßnahmen.</string>
     <string name="terms_section_title_7">7. Datenverfügbarkeit und Export</string>
@@ -500,9 +504,9 @@ Wenn Sie Fragen haben oder weitere Informationen zu unserer Mission und unseren 
     <string name="terms_section_title_10">10. Kontakt</string>
     <string name="terms_section_body_10">Fragen zu diesen Nutzungsbedingungen oder zum Dienst können an appdev.jr2024@gmail.com gesendet werden.</string>
     <string name="faqs_question_16">16. Welche Nutzungskontingente gelten für kostenlose und Premium-Konten?</string>
-    <string name="faqs_answer_16">Kostenlose Konten können bis zu 30 aktive offene Zahlungen, 100 geschlossene Zahlungen und 250 zukünftige wiederkehrende Zahlungseinträge verwalten. Premium erhöht diese Kontingente und unterstützt bis zu 2.000 kombinierte zukünftige Zahlungs- und Einnahmeneinträge. Diese Sicherheitsgrenzen schützen einen zuverlässigen Dienst und verhindern versehentliche Eintragsexplosionen.</string>
+    <string name="faqs_answer_16">Kostenlose Konten können bis zu 100 aktive offene Zahlungen und 100 bezahlte Zahlungen behalten, die durch das Markieren offener Zahlungen als bezahlt entstehen. Wiederkehrende offene Zahlungen zählen zum Limit von 100 aktiven offenen Zahlungen. Premium erhöht diese Kontingente und unterstützt bis zu 2.000 kombinierte zukünftige Zahlungs- und Einnahmeneinträge. Diese Sicherheitsgrenzen schützen einen zuverlässigen Dienst und verhindern versehentliche Eintragsexplosionen.</string>
     <string name="faqs_question_17">17. Können kostenlose Nutzer Zahlungen weiterhin als bezahlt markieren?</string>
-    <string name="faqs_answer_17">Ja. Der normale Ablauf von offen zu bezahlt wird durch das kostenlose Kontingent nicht blockiert. Das direkte Erstellen, Bearbeiten und Löschen geschlossener Zahlungen gehört zu den Premium-Verwaltungsfunktionen.</string>
+    <string name="faqs_answer_17">Ja. Kostenlose Nutzer können offene Zahlungen als bezahlt markieren, bis das kostenlose Historienlimit von 100 bezahlten Zahlungen erreicht ist. Das direkte Erstellen, Bearbeiten und Löschen geschlossener Zahlungen gehört zu den Premium-Verwaltungsfunktionen.</string>
     <string name="faqs_question_18">18. Löscht SmartStack meine Finanzhistorie automatisch?</string>
     <string name="faqs_answer_18">SmartStack verwendet derzeit keine automatische Löschfrist für die Zahlungshistorie. Sie können Ihre Kontodaten jederzeit exportieren. Falls später eine wesentliche Aufbewahrungsregel eingeführt wird, informiert die App nach Möglichkeit im Voraus.</string>
     <string name="faqs_question_19">19. Welche finanziellen Einblicke sind enthalten?</string>
@@ -511,6 +515,8 @@ Wenn Sie Fragen haben oder weitere Informationen zu unserer Mission und unseren 
     <string name="financial_insights_subtitle">Den ausgewählten Monat auf einen Blick verstehen</string>
     <string name="monthly_money_map">Monatlicher Geldfluss</string>
     <string name="monthly_money_map_description">Sehen Sie, wie Einnahmen, abgeschlossene Ausgaben, offene Verpflichtungen und Ihr Sparziel zusammenwirken.</string>
+    <string name="money_flow_development">Entwicklung des Geldflusses</string>
+    <string name="money_flow_development_description">Sehen Sie, wie sich Einnahmen, geschlossene Zahlungen, offene Zahlungen und Sparziele über %1$d Monate entwickeln.</string>
     <string name="biggest_change">Größte Veränderung</string>
     <string name="biggest_change_description">Die auffälligste Veränderung bei Einnahmen, Ausgaben, offenen Zahlungen oder wiederkehrenden Verpflichtungen.</string>
     <string name="biggest_change_no_data">Fügen Sie einen weiteren Monat hinzu, um aussagekräftige Veränderungen zu sehen.</string>
@@ -524,8 +530,13 @@ Wenn Sie Fragen haben oder weitere Informationen zu unserer Mission und unseren 
     <string name="biggest_change_recurring_commitments">Wiederkehrende Verpflichtungen</string>
     <string name="open_payment_risk_timeline">Dringlichkeit offener Zahlungen</string>
     <string name="open_payment_risk_description">Konzentrieren Sie sich zuerst auf überfällige und kurzfristige Verpflichtungen.</string>
+    <string name="open_payment_outlook_by_month">Ausblick offener Zahlungen nach Monat</string>
+    <string name="open_payment_outlook_by_month_description">Sehen Sie, wie viel in jedem Monat des ausgewählten %1$d-Monatszeitraums noch offen ist.</string>
+    <string name="open_payment_outlook_period">Ausblick offener Zahlungen im ausgewählten Zeitraum</string>
+    <string name="open_payment_outlook_period_description">Sehen Sie, wie sich unbezahlte offene Zahlungen über den ausgewählten %1$d-Monatszeitraum verteilen.</string>
     <string name="spending_composition">Zusammensetzung der Ausgaben</string>
     <string name="spending_composition_description">Sehen Sie, welche Kategorien die abgeschlossenen Ausgaben dieses Monats bestimmen.</string>
+    <string name="spending_composition_period_description">Sehen Sie, welche Kategorien die geschlossenen Zahlungen im ausgewählten %1$d-Monatszeitraum bestimmen.</string>
     <string name="available_after_commitments">Verfügbar</string>
     <string name="paid_expenses_short">Bezahlt</string>
     <string name="still_due_short">Noch offen</string>
@@ -533,6 +544,8 @@ Wenn Sie Fragen haben oder weitere Informationen zu unserer Mission und unseren 
     <string name="no_savings_target_insight">Für diesen Monat ist kein Sparziel aktiv.</string>
     <string name="savings_target_cushion">Nach dem Sparziel bleiben %1$s übrig.</string>
     <string name="savings_target_shortfall">Zum Erreichen des Sparziels fehlen noch %1$s.</string>
+    <string name="period_balance_positive">Nach Verpflichtungen und Sparzielen bleiben in diesem Zeitraum %1$s übrig.</string>
+    <string name="period_balance_negative">Nach Verpflichtungen und Sparzielen fehlen in diesem Zeitraum %1$s.</string>
     <string name="due_next_seven_days">Nächste 7 Tage</string>
     <string name="later_this_month">Später</string>
     <string name="other">Sonstige</string>
@@ -786,4 +799,22 @@ Wenn Sie Fragen haben oder weitere Informationen zu unserer Mission und unseren 
     <string name="type">Typ</string>
     <string name="uncategorized">Nicht kategorisiert</string>
     <string name="untitled_payment">Unbenannte Zahlung</string>
+    <string name="section_this_month_open_payments">Offene Zahlungen diesen Monat</string>
+    <string name="section_this_month_short">Dieser Monat</string>
+    <string name="section_overdue_open_payments">Überfällige offene Zahlungen</string>
+    <string name="section_upcoming_open_payments">Anstehende offene Zahlungen</string>
+    <string name="section_past_closed_payments">Vergangene geschlossene Zahlungen</string>
+    <string name="section_future_closed_payments">Zukünftige geschlossene Zahlungen</string>
+    <string name="section_upcoming_income">Zukünftige Einnahmen</string>
+    <string name="section_past_income">Vergangene Einnahmen</string>
+    <string name="section_no_date">Ohne Datum</string>
+    <string name="edit_recurring_payment">Wiederkehrende Zahlung bearbeiten</string>
+    <string name="edit_this_payment_only">Nur diese Zahlung bearbeiten</string>
+    <string name="edit_this_and_future_payments">Diese und zukünftige Zahlungen bearbeiten</string>
+    <string name="future_open_payments_updated">Diese und zukünftige Zahlungen wurden aktualisiert.</string>
+    <string name="edit_recurring_income">Wiederkehrende Einnahme bearbeiten</string>
+    <string name="edit_this_income_only">Nur diesen Einnahmeneintrag bearbeiten</string>
+    <string name="edit_this_and_future_income">Diese und zukünftige Einnahmen bearbeiten</string>
+    <string name="future_income_updated">Diese und zukünftige Einnahmeneinträge wurden aktualisiert.</string>
 </resources>
+

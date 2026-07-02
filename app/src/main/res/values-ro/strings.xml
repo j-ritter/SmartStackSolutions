@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="notification_details">Detalii notificare</string>
 
@@ -500,7 +500,10 @@ Răspuns: În SmartStack Solutions, notificările sunt create automat cu trei zi
 
     <string name="premium_intro_text">Păstrează funcțiile esențiale gratuite. Fă upgrade atunci când dorești un spațiu financiar complet, cu istoric extins, gestionarea veniturilor, obiective și fără reclame.</string>
     <string name="premium_compare_import">Import CSV/PDF</string>
-    <string name="premium_compare_import_free">50/fișier · 100 în total</string>
+    <string name="premium_compare_savings_goals">Obiective de economisire</string>
+    <string name="premium_compare_savings_goals_free">Nu este inclus</string>
+    <string name="premium_compare_savings_goals_premium">Până la 3 obiective active suprapuse</string>
+    <string name="premium_compare_import_free">100/fișier · 100 în total</string>
     <string name="premium_compare_import_premium">200/fișier</string>
 
     <string name="premium_compare_insights">Perspective financiare</string>
@@ -521,11 +524,11 @@ Răspuns: În SmartStack Solutions, notificările sunt create automat cu trei zi
 
     <string name="feature_open_payments_title">Plăți deschise</string>
     <string name="feature_open_payments_desc">Gestionează plățile deschise și rămâi la curent cu facturile viitoare.</string>
-    <string name="feature_open_payments_expandable">Versiunea gratuită include până la 30 de plăți deschise active individuale plus programe recurente în limita utilizării corecte. Premium oferă o limită semnificativ mai mare pentru înregistrările active și viitoare.</string>
+    <string name="feature_open_payments_expandable">Versiunea gratuită include până la 100 de plăți deschise active, inclusiv aparițiile recurente. Premium oferă o limită semnificativ mai mare pentru înregistrările active și viitoare.</string>
 
     <string name="feature_closed_payments_title">Plăți închise</string>
     <string name="feature_closed_payments_desc">Urmărește facturile plătite și gestionează istoricul tranzacțiilor.</string>
-    <string name="feature_closed_payments_expandable">Toată lumea poate marca o plată deschisă ca plătită. Premium deblochează și crearea, editarea, ștergerea și gestionarea completă a istoricului detaliat.</string>
+    <string name="feature_closed_payments_expandable">Toată lumea poate marca plăți deschise ca plătite până la limita gratuită de istoric de 100 de plăți achitate. Premium deblochează și crearea, editarea, ștergerea și gestionarea completă a istoricului detaliat.</string>
 
     <string name="feature_income_management_title">Gestionarea veniturilor</string>
     <string name="feature_income_management_desc">Urmărește și clasifică sursele de venit.</string>
@@ -578,11 +581,11 @@ Răspuns: În SmartStack Solutions, notificările sunt create automat cu trei zi
 
     <string name="title_optional">Titlu (opțional)</string>
 
-    <string name="free_open_payment_limit_reached">Ai atins limita gratuită de 30 de plăți deschise active individuale. Marchează elementele finalizate ca plătite sau treci la Premium.</string>
+    <string name="free_open_payment_limit_reached">Ai atins limita gratuită de 100 de plăți deschise active. Marchează elementele finalizate ca plătite sau treci la Premium.</string>
 
-    <string name="free_closed_payment_limit_reached">Ai atins limita gratuită de 100 de plăți închise. Șterge istoricul mai vechi sau treci la Premium.</string>
+    <string name="free_closed_payment_limit_reached">Ai atins limita gratuită de 100 de plăți achitate. Șterge istoricul mai vechi sau treci la Premium.</string>
 
-    <string name="free_recurring_limit_reached">Acest program recurent ar depăși limita gratuită de 250 de apariții viitoare ale plăților recurente. Elimină un program neutilizat sau treci la Premium.</string>
+    <string name="free_recurring_limit_reached">Acest program recurent ar depăși limita gratuită de 100 de plăți deschise active. Elimină un program neutilizat, marchează elementele finalizate ca plătite sau treci la Premium.</string>
 
     <string name="premium_usage_limit_reached">Această înregistrare ar depăși limita de utilizare corectă Premium de 2.000 de înregistrări viitoare combinate de plăți și venituri. Elimină înregistrările viitoare învechite sau contactează suportul.</string>
 
@@ -618,10 +621,10 @@ Răspuns: În SmartStack Solutions, notificările sunt create automat cu trei zi
 
     <string name="faqs_question_16">16. Ce limite de utilizare se aplică conturilor gratuite și Premium?</string>
 
-    <string name="faqs_answer_16">Conturile gratuite pot păstra până la 30 de plăți deschise active, 100 de plăți închise și 250 de înregistrări viitoare de plăți recurente. Premium mărește aceste limite și permite până la 2.000 de înregistrări viitoare combinate de plăți și venituri. Aceste limite de siguranță protejează funcționarea fiabilă a serviciului și previn creșterile accidentale ale numărului de înregistrări.</string>
+    <string name="faqs_answer_16">Conturile gratuite pot păstra până la 100 de plăți deschise active și 100 de plăți achitate create prin marcarea plăților deschise ca plătite. Aparițiile recurente ale plăților deschise se includ în limita de 100 de plăți deschise active. Premium mărește aceste limite și permite până la 2.000 de înregistrări viitoare combinate de plăți și venituri.</string>
 
     <string name="faqs_question_17">17. Utilizatorii versiunii gratuite pot în continuare marca plățile ca plătite?</string>
-    <string name="faqs_answer_17">Da. Finalizarea fluxului normal de mutare a unei plăți din categoria deschisă în categoria închisă nu este niciodată blocată de limitele versiunii gratuite. Crearea, editarea și ștergerea directă a plăților închise sunt funcții de gestionare Premium.</string>
+    <string name="faqs_answer_17">Da. Utilizatorii gratuiți pot marca plăți deschise ca plătite până când ating limita gratuită de istoric de 100 de plăți achitate. Crearea, editarea și ștergerea directă a plăților închise sunt funcții de gestionare Premium.</string>
 
     <string name="faqs_question_18">18. Va șterge SmartStack automat istoricul meu financiar?</string>
 
@@ -830,6 +833,13 @@ Accentul nostru este pus pe organizarea practică a finanțelor: informații cla
     <string name="currency_menu_title">Monedă (%1$s)</string>
 
     <string name="select_currency">Selectează moneda</string>
+    <string name="amount_display">Afișarea sumelor</string>
+    <string name="amount_display_menu_title">Afișarea sumelor (%1$s)</string>
+    <string name="select_amount_display">Selectează afișarea sumelor</string>
+    <string name="amount_display_two_decimals">Afișează mereu 2 zecimale</string>
+    <string name="amount_display_no_decimals">Nu afișa zecimale</string>
+    <string name="amount_display_two_decimals_short">2 zecimale</string>
+    <string name="amount_display_no_decimals_short">fără zecimale</string>
 
     <string name="billing_insufficient_funds">Plata a fost refuzată din cauza fondurilor insuficiente.</string>
 
@@ -842,6 +852,8 @@ Accentul nostru este pus pe organizarea practică a finanțelor: informații cla
     <string name="monthly_money_map">Hartă financiară lunară</string>
 
     <string name="monthly_money_map_description">Vezi cum se îmbină veniturile, cheltuielile finalizate, obligațiile viitoare și obiectivul tău de economii.</string>
+    <string name="money_flow_development">Evoluția fluxului de bani</string>
+    <string name="money_flow_development_description">Vedeți cum evoluează veniturile, plățile închise, plățile deschise și obiectivele de economisire pe parcursul a %1$d luni.</string>
 
     <string name="open_payment_risk_timeline">Cronologia riscului plăților deschise</string>
 
@@ -1149,11 +1161,11 @@ Accentul nostru este pus pe organizarea practică a finanțelor: informații cla
     <string name="premium_compare_premium">Premium</string>
 
     <string name="premium_compare_open_payments">Plăți deschise</string>
-    <string name="premium_compare_open_payments_free">30 de plăți deschise active, unice</string>
+    <string name="premium_compare_open_payments_free">100 de plăți deschise active</string>
     <string name="premium_compare_open_payments_premium">Până la 2.000 de înregistrări viitoare combinate</string>
 
     <string name="premium_compare_recurring">Înregistrări recurente viitoare</string>
-    <string name="premium_compare_recurring_free">Până la 250 de plăți viitoare</string>
+    <string name="premium_compare_recurring_free">Inclus în limita de 100 de plăți deschise active</string>
     <string name="premium_compare_recurring_premium">Până la 2.000 de înregistrări viitoare</string>
 
     <string name="premium_compare_closed">Plăți închise</string>
@@ -1219,4 +1231,29 @@ Accentul nostru este pus pe organizarea practică a finanțelor: informații cla
     <string name="guide_step_5_title">Rămâi pe drumul cel bun</string>
 
 
+    <string name="section_this_month_open_payments">Plăți deschise luna aceasta</string>
+    <string name="section_this_month_short">Luna aceasta</string>
+    <string name="section_overdue_open_payments">Plăți deschise restante</string>
+    <string name="section_upcoming_open_payments">Plăți deschise viitoare</string>
+    <string name="section_past_closed_payments">Plăți închise anterioare</string>
+    <string name="section_future_closed_payments">Plăți închise viitoare</string>
+    <string name="section_upcoming_income">Venituri viitoare</string>
+    <string name="section_past_income">Venituri anterioare</string>
+    <string name="section_no_date">Fără dată</string>
+    <string name="open_payment_outlook_by_month">Perspectiva plăților deschise pe lună</string>
+    <string name="open_payment_outlook_by_month_description">Vedeți cât rămâne deschis în fiecare lună din perioada selectată de %1$d luni.</string>
+    <string name="open_payment_outlook_period">Perspectiva plăților deschise pentru perioada selectată</string>
+    <string name="open_payment_outlook_period_description">Vedeți cum sunt distribuite plățile deschise neplătite în perioada selectată de %1$d luni.</string>
+    <string name="period_balance_positive">Rămân %1$s după obligații și obiective de economisire în această perioadă.</string>
+    <string name="period_balance_negative">Lipsesc %1$s după obligații și obiective de economisire în această perioadă.</string>
+    <string name="edit_recurring_payment">Editează plata recurentă</string>
+    <string name="edit_this_payment_only">Editează doar această plată</string>
+    <string name="edit_this_and_future_payments">Editează această plată și plățile viitoare</string>
+    <string name="future_open_payments_updated">Această plată și plățile viitoare au fost actualizate.</string>
+    <string name="edit_recurring_income">Editează venitul recurent</string>
+    <string name="edit_this_income_only">Editează doar această intrare de venit</string>
+    <string name="edit_this_and_future_income">Editează acest venit și veniturile viitoare</string>
+    <string name="future_income_updated">Această intrare de venit și cele viitoare au fost actualizate.</string>
 </resources>
+
+

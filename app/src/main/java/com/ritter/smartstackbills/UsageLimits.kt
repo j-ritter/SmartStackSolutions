@@ -9,9 +9,8 @@ import java.util.Calendar
 import java.util.Date
 
 object UsageLimits {
-    const val FREE_STANDALONE_OPEN_PAYMENTS = 30L
+    const val FREE_ACTIVE_OPEN_PAYMENTS = 100L
     const val FREE_CLOSED_PAYMENTS = 100L
-    const val FREE_FUTURE_RECURRING_OCCURRENCES = 250L
     const val PREMIUM_FUTURE_ENTRIES = 2_000L
 
     private val recurringValues = listOf(
@@ -50,28 +49,14 @@ object UsageLimits {
             return
         }
 
-        if (repeat == "No") {
-            countStandaloneBills(userRef.collection("bills")) { current ->
-                if (current == null) {
-                    onResult(false, R.string.usage_limit_check_failed)
-                } else {
-                    onResult(
-                        current < FREE_STANDALONE_OPEN_PAYMENTS,
-                        R.string.free_open_payment_limit_reached
-                    )
-                }
-            }
-            return
-        }
-
-        countRecurringFutureBills(userRef.collection("bills")) { current ->
+        countActiveOpenBills(userRef.collection("bills")) { current ->
             if (current == null) {
                 onResult(false, R.string.usage_limit_check_failed)
-                return@countRecurringFutureBills
+                return@countActiveOpenBills
             }
             onResult(
-                current + futureNewEntries <= FREE_FUTURE_RECURRING_OCCURRENCES,
-                R.string.free_recurring_limit_reached
+                current + newDates.size.toLong() <= FREE_ACTIVE_OPEN_PAYMENTS,
+                R.string.free_open_payment_limit_reached
             )
         }
     }
@@ -149,19 +134,11 @@ object UsageLimits {
             .addOnFailureListener { onResult(null) }
     }
 
-    private fun countStandaloneBills(query: Query, onResult: (Long?) -> Unit) {
-        query.count().get(AggregateSource.SERVER)
-            .addOnSuccessListener { total ->
-                countMatchingRepeats(query, null) { recurring ->
-                    onResult(recurring?.let { (total.count - it).coerceAtLeast(0L) })
-                }
-            }
+    private fun countActiveOpenBills(query: Query, onResult: (Long?) -> Unit) {
+        query.count()
+            .get(AggregateSource.SERVER)
+            .addOnSuccessListener { onResult(it.count) }
             .addOnFailureListener { onResult(null) }
-    }
-
-    private fun countRecurringFutureBills(query: Query, onResult: (Long?) -> Unit) {
-        val today = Timestamp(startOfToday())
-        countMatchingRepeats(query, today, onResult)
     }
 
     private fun countMatchingRepeats(

@@ -5,7 +5,9 @@ import com.google.firebase.Timestamp;
 public class Bills {
 
     String billId;
-    String name, comment, category, vendor, repeat, subcategory, attachment, currency;
+    String name, comment, vendor, repeat, attachment, currency;
+    String category = "Other";
+    String subcategory = "Miscellaneous";
     String parentBillId;
     Timestamp date;
     double amount;

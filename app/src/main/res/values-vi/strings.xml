@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="notification_details">Chi tiết thông báo</string>
     <string name="main">Chính</string>
@@ -255,11 +255,11 @@ Nếu cần thêm hỗ trợ, đừng ngần ngại liên hệ với chúng tôi
     <string name="premium_compare_premium">Premium</string>
 
     <string name="premium_compare_open_payments">Khoản thanh toán đang chờ</string>
-    <string name="premium_compare_open_payments_free">30 khoản thanh toán một lần đang hoạt động</string>
+    <string name="premium_compare_open_payments_free">100 khoản thanh toán mở đang hoạt động</string>
     <string name="premium_compare_open_payments_premium">Tối đa 2.000 mục trong tương lai</string>
 
     <string name="premium_compare_recurring">Các mục định kỳ trong tương lai</string>
-    <string name="premium_compare_recurring_free">Tối đa 250 khoản thanh toán trong tương lai</string>
+    <string name="premium_compare_recurring_free">Bao gồm trong giới hạn 100 khoản thanh toán mở đang hoạt động</string>
     <string name="premium_compare_recurring_premium">Tối đa 2.000 mục trong tương lai</string>
 
     <string name="premium_compare_closed">Khoản thanh toán đã hoàn tất</string>
@@ -271,7 +271,10 @@ Nếu cần thêm hỗ trợ, đừng ngần ngại liên hệ với chúng tôi
     <string name="premium_compare_income_premium">Tạo và quản lý thu nhập</string>
 
     <string name="premium_compare_import">Nhập CSV/PDF</string>
-    <string name="premium_compare_import_free">50/tệp · 100 tổng cộng</string>
+    <string name="premium_compare_savings_goals">Mục tiêu tiết kiệm</string>
+    <string name="premium_compare_savings_goals_free">Không bao gồm</string>
+    <string name="premium_compare_savings_goals_premium">Tối đa 3 mục tiêu đang hoạt động chồng lấp</string>
+    <string name="premium_compare_import_free">100/tệp · 100 tổng cộng</string>
     <string name="premium_compare_import_premium">200/tệp</string>
 
     <string name="premium_compare_insights">Thông tin tài chính</string>
@@ -291,11 +294,11 @@ Nếu cần thêm hỗ trợ, đừng ngần ngại liên hệ với chúng tôi
 
     <string name="feature_open_payments_title">Khoản thanh toán đang chờ</string>
     <string name="feature_open_payments_desc">Quản lý các khoản thanh toán đang chờ và luôn theo dõi các hóa đơn sắp đến hạn.</string>
-    <string name="feature_open_payments_expandable">Phiên bản miễn phí bao gồm tối đa 30 khoản thanh toán một lần đang hoạt động cùng với các lịch thanh toán định kỳ trong giới hạn sử dụng hợp lý. Premium cung cấp giới hạn cao hơn đáng kể cho các mục hiện tại và trong tương lai.</string>
+    <string name="feature_open_payments_expandable">Phiên bản miễn phí bao gồm tối đa 100 khoản thanh toán mở đang hoạt động, bao gồm cả các mục định kỳ. Premium cung cấp giới hạn cao hơn đáng kể cho các mục hiện tại và trong tương lai.</string>
 
     <string name="feature_closed_payments_title">Khoản thanh toán đã hoàn tất</string>
     <string name="feature_closed_payments_desc">Theo dõi các hóa đơn đã thanh toán và quản lý lịch sử giao dịch của bạn.</string>
-    <string name="feature_closed_payments_expandable">Mọi người đều có thể đánh dấu một khoản thanh toán đang chờ là đã thanh toán. Premium còn mở khóa tính năng tạo trực tiếp, chỉnh sửa, xóa và quản lý đầy đủ lịch sử thanh toán.</string>
+    <string name="feature_closed_payments_expandable">Mọi người đều có thể đánh dấu khoản thanh toán mở là đã thanh toán cho đến giới hạn lịch sử miễn phí 100 khoản đã thanh toán. Premium còn mở khóa tính năng tạo trực tiếp, chỉnh sửa, xóa và quản lý đầy đủ lịch sử thanh toán.</string>
 
     <string name="feature_income_management_title">Quản lý thu nhập</string>
     <string name="feature_income_management_desc">Theo dõi và phân loại các nguồn thu nhập của bạn.</string>
@@ -337,11 +340,11 @@ Nếu cần thêm hỗ trợ, đừng ngần ngại liên hệ với chúng tôi
     <string name="savings_quick_entry_hint">Nhập số tiền mục tiêu và ngày kết thúc. Ngày bắt đầu sẽ được đặt là hôm nay.</string>
     <string name="title_optional">Tiêu đề (tùy chọn)</string>
 
-    <string name="free_open_payment_limit_reached">Bạn đã đạt giới hạn miễn phí là 30 khoản thanh toán một lần đang hoạt động. Hãy đánh dấu các khoản đã hoàn thành là đã thanh toán hoặc nâng cấp lên Premium.</string>
+    <string name="free_open_payment_limit_reached">Bạn đã đạt giới hạn miễn phí là 100 khoản thanh toán mở đang hoạt động. Hãy đánh dấu các khoản đã hoàn thành là đã thanh toán hoặc nâng cấp lên Premium.</string>
 
-    <string name="free_closed_payment_limit_reached">Bạn đã đạt giới hạn miễn phí là 100 khoản thanh toán đã hoàn tất. Hãy xóa lịch sử cũ hoặc nâng cấp lên Premium.</string>
+    <string name="free_closed_payment_limit_reached">Bạn đã đạt giới hạn miễn phí là 100 khoản thanh toán đã thanh toán. Hãy xóa lịch sử cũ hoặc nâng cấp lên Premium.</string>
 
-    <string name="free_recurring_limit_reached">Lịch thanh toán định kỳ này sẽ vượt quá giới hạn miễn phí là 250 lần thanh toán định kỳ trong tương lai. Hãy xóa một lịch không còn sử dụng hoặc nâng cấp lên Premium.</string>
+    <string name="free_recurring_limit_reached">Lịch thanh toán định kỳ này sẽ vượt quá giới hạn miễn phí là 100 khoản thanh toán mở đang hoạt động. Hãy xóa một lịch không còn sử dụng, đánh dấu các khoản đã hoàn thành là đã thanh toán hoặc nâng cấp lên Premium.</string>
 
     <string name="premium_usage_limit_reached">Mục này sẽ vượt quá giới hạn sử dụng hợp lý của Premium là 2.000 mục thanh toán và thu nhập trong tương lai. Vui lòng xóa các mục không còn cần thiết hoặc liên hệ bộ phận hỗ trợ.</string>
 
@@ -485,6 +488,13 @@ Nếu cần thêm hỗ trợ, đừng ngần ngại liên hệ với chúng tôi
     <string name="currency">Tiền tệ</string>
     <string name="currency_menu_title">Tiền tệ (%1$s)</string>
     <string name="select_currency">Chọn tiền tệ</string>
+    <string name="amount_display">Hiển thị số tiền</string>
+    <string name="amount_display_menu_title">Hiển thị số tiền (%1$s)</string>
+    <string name="select_amount_display">Chọn cách hiển thị số tiền</string>
+    <string name="amount_display_two_decimals">Luôn hiển thị 2 chữ số thập phân</string>
+    <string name="amount_display_no_decimals">Không hiển thị chữ số thập phân</string>
+    <string name="amount_display_two_decimals_short">2 chữ số thập phân</string>
+    <string name="amount_display_no_decimals_short">không thập phân</string>
 
     <string name="billing_insufficient_funds">Thanh toán đã bị từ chối do không đủ số dư.</string>
 
@@ -495,6 +505,8 @@ Nếu cần thêm hỗ trợ, đừng ngần ngại liên hệ với chúng tôi
 
     <string name="monthly_money_map">Tổng quan dòng tiền theo tháng</string>
     <string name="monthly_money_map_description">Xem thu nhập, các khoản chi đã hoàn tất, các nghĩa vụ sắp đến và mục tiêu tiết kiệm của bạn liên kết với nhau như thế nào.</string>
+    <string name="money_flow_development">Diễn biến dòng tiền</string>
+    <string name="money_flow_development_description">Xem thu nhập, khoản thanh toán đã đóng, khoản thanh toán mở và mục tiêu tiết kiệm thay đổi trong %1$d tháng.</string>
 
     <string name="open_payment_risk_timeline">Dòng thời gian rủi ro của các khoản thanh toán đang chờ</string>
     <string name="open_payment_risk_description">Ưu tiên xử lý các khoản quá hạn và sắp đến hạn.</string>
@@ -980,7 +992,7 @@ Nếu cần thêm hỗ trợ, đừng ngần ngại liên hệ với chúng tôi
     <string name="terms_section_body_4">Phiên bản miễn phí được hỗ trợ bằng quảng cáo và bao gồm các chức năng cốt lõi như quản lý khoản thanh toán mở, lời nhắc, lịch, xuất dữ liệu và đánh dấu thanh toán đã hoàn tất. Một số chức năng tạo, chỉnh sửa, lịch sử, thu nhập, mục tiêu và phân tích yêu cầu Premium.</string>
 
     <string name="terms_section_title_5">5. Giới hạn sử dụng hợp lý</string>
-    <string name="terms_section_body_5">Để duy trì dịch vụ ổn định và bền vững, tài khoản miễn phí hỗ trợ tối đa 30 khoản thanh toán mở độc lập đang hoạt động, 100 khoản thanh toán đã hoàn tất và 250 mục thanh toán định kỳ trong tương lai. Tài khoản Premium hỗ trợ giới hạn cao hơn, bao gồm tối đa 2.000 mục thanh toán và thu nhập kết hợp trong tương lai. Các giới hạn này có thể được điều chỉnh trong tương lai vì lý do bảo mật, độ tin cậy hoặc tính bền vững của dịch vụ với thông báo hợp lý khi có thể.</string>
+    <string name="terms_section_body_5">Để duy trì dịch vụ ổn định và bền vững, tài khoản miễn phí hỗ trợ tối đa 100 khoản thanh toán mở đang hoạt động và 100 khoản thanh toán đã thanh toán được tạo bằng cách đánh dấu khoản thanh toán mở là đã thanh toán. Các mục thanh toán mở định kỳ được tính vào giới hạn 100 khoản thanh toán mở đang hoạt động. Tài khoản Premium hỗ trợ giới hạn cao hơn, bao gồm tối đa 2.000 mục thanh toán và thu nhập kết hợp trong tương lai. Các giới hạn này có thể được điều chỉnh trong tương lai vì lý do bảo mật, độ tin cậy hoặc tính bền vững của dịch vụ với thông báo hợp lý khi có thể.</string>
 
     <string name="terms_section_title_6">6. Đăng ký Premium</string>
     <string name="terms_section_body_6">Các tính năng Premium và mức giá hiện tại được hiển thị trước khi mua. Việc thanh toán, gia hạn, hủy đăng ký và hoàn tiền đủ điều kiện được xử lý thông qua Google Play theo điều khoản của Google Play và pháp luật hiện hành. Premium loại bỏ quảng cáo và mở khóa các chức năng được mô tả trên màn hình Premium, tuân theo các giới hạn sử dụng hợp lý.</string>
@@ -998,10 +1010,10 @@ Nếu cần thêm hỗ trợ, đừng ngần ngại liên hệ với chúng tôi
     <string name="terms_section_body_10">Mọi câu hỏi về các điều khoản này hoặc dịch vụ có thể được gửi tới appdev.jr2024@gmail.com.</string>
 
     <string name="faqs_question_16">16. Những giới hạn sử dụng nào áp dụng cho tài khoản miễn phí và Premium?</string>
-    <string name="faqs_answer_16">Trả lời: Tài khoản miễn phí có thể lưu tối đa 30 khoản thanh toán mở đang hoạt động, 100 khoản thanh toán đã hoàn tất và 250 mục thanh toán định kỳ trong tương lai. Premium tăng các giới hạn này và hỗ trợ tối đa 2.000 mục thanh toán và thu nhập kết hợp trong tương lai. Các giới hạn này giúp đảm bảo dịch vụ hoạt động ổn định và ngăn chặn việc tạo quá nhiều mục ngoài ý muốn.</string>
+    <string name="faqs_answer_16">Trả lời: Tài khoản miễn phí có thể lưu tối đa 100 khoản thanh toán mở đang hoạt động và 100 khoản thanh toán đã thanh toán được tạo bằng cách đánh dấu khoản thanh toán mở là đã thanh toán. Các mục thanh toán mở định kỳ được tính vào giới hạn 100 khoản thanh toán mở đang hoạt động. Premium tăng các giới hạn này và hỗ trợ tối đa 2.000 mục thanh toán và thu nhập kết hợp trong tương lai.</string>
 
     <string name="faqs_question_17">17. Người dùng miễn phí vẫn có thể đánh dấu thanh toán là đã thanh toán không?</string>
-    <string name="faqs_answer_17">Trả lời: Có. Quy trình thông thường từ khoản thanh toán mở sang khoản thanh toán đã hoàn tất sẽ không bao giờ bị chặn bởi giới hạn của tài khoản miễn phí. Việc tạo, chỉnh sửa và xóa trực tiếp các khoản thanh toán đã hoàn tất là tính năng quản lý của Premium.</string>
+    <string name="faqs_answer_17">Trả lời: Có. Người dùng miễn phí có thể đánh dấu khoản thanh toán mở là đã thanh toán cho đến khi đạt giới hạn lịch sử miễn phí 100 khoản đã thanh toán. Việc tạo, chỉnh sửa và xóa trực tiếp các khoản thanh toán đã hoàn tất là tính năng quản lý của Premium.</string>
 
     <string name="faqs_question_18">18. SmartStack có tự động xóa lịch sử tài chính của tôi không?</string>
     <string name="faqs_answer_18">Trả lời: Hiện tại SmartStack không áp dụng thời hạn tự động xóa lịch sử thanh toán. Bạn có thể xuất dữ liệu tài khoản của mình bất cứ lúc nào. Nếu sau này áp dụng chính sách lưu giữ dữ liệu mới, ứng dụng sẽ thông báo trước khi có thể.</string>
@@ -1019,4 +1031,29 @@ Nếu cần thêm hỗ trợ, đừng ngần ngại liên hệ với chúng tôi
     Mọi câu hỏi và góp ý xin gửi đến appdev.jr2024@gmail.com.
 </string>
 
+    <string name="section_this_month_open_payments">Khoản thanh toán mở tháng này</string>
+    <string name="section_this_month_short">Tháng này</string>
+    <string name="section_overdue_open_payments">Khoản thanh toán mở quá hạn</string>
+    <string name="section_upcoming_open_payments">Khoản thanh toán mở sắp tới</string>
+    <string name="section_past_closed_payments">Khoản thanh toán đã đóng trước đây</string>
+    <string name="section_future_closed_payments">Khoản thanh toán đã đóng trong tương lai</string>
+    <string name="section_upcoming_income">Thu nhập sắp tới</string>
+    <string name="section_past_income">Thu nhập trước đây</string>
+    <string name="section_no_date">Không có ngày</string>
+    <string name="open_payment_outlook_by_month">Triển vọng khoản thanh toán mở theo tháng</string>
+    <string name="open_payment_outlook_by_month_description">Xem còn bao nhiêu khoản mở trong từng tháng của giai đoạn %1$d tháng đã chọn.</string>
+    <string name="open_payment_outlook_period">Triển vọng khoản thanh toán mở trong giai đoạn đã chọn</string>
+    <string name="open_payment_outlook_period_description">Xem các khoản thanh toán mở chưa trả được phân bổ như thế nào trong giai đoạn %1$d tháng đã chọn.</string>
+    <string name="period_balance_positive">Còn lại %1$s sau các nghĩa vụ và mục tiêu tiết kiệm trong giai đoạn này.</string>
+    <string name="period_balance_negative">Thiếu %1$s sau các nghĩa vụ và mục tiêu tiết kiệm trong giai đoạn này.</string>
+    <string name="edit_recurring_payment">Chỉnh sửa khoản thanh toán định kỳ</string>
+    <string name="edit_this_payment_only">Chỉ chỉnh sửa khoản thanh toán này</string>
+    <string name="edit_this_and_future_payments">Chỉnh sửa khoản này và các khoản tương lai</string>
+    <string name="future_open_payments_updated">Khoản này và các khoản tương lai đã được cập nhật.</string>
+    <string name="edit_recurring_income">Chỉnh sửa thu nhập định kỳ</string>
+    <string name="edit_this_income_only">Chỉ chỉnh sửa mục thu nhập này</string>
+    <string name="edit_this_and_future_income">Chỉnh sửa thu nhập này và các khoản tương lai</string>
+    <string name="future_income_updated">Mục thu nhập này và các mục tương lai đã được cập nhật.</string>
 </resources>
+
+

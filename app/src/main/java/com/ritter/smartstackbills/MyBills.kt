@@ -1,6 +1,7 @@
 package com.ritter.smartstackbills
 
 import android.app.Dialog
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -160,7 +161,19 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
                 // Disable fields again
                 dialog.findViewById<EditText>(R.id.edtTitleDialog).isEnabled = false
                 dialog.findViewById<EditText>(R.id.edtAmountDialog).isEnabled = false
+                dialog.findViewById<EditText>(R.id.edtDateDialog).isEnabled = false
+                dialog.findViewById<EditText>(R.id.edtRepeatDialog).isEnabled = false
+                dialog.findViewById<EditText>(R.id.edtCategoryDialog).isEnabled = false
+                dialog.findViewById<EditText>(R.id.edtSubcategoryDialog).isEnabled = false
+                dialog.findViewById<EditText>(R.id.edtVendorDialog).isEnabled = false
                 dialog.findViewById<EditText>(R.id.edtCommentDialog).isEnabled = false
+                configureBillPickers(
+                    dialog.findViewById(R.id.edtDateDialog),
+                    dialog.findViewById(R.id.edtRepeatDialog),
+                    dialog.findViewById(R.id.edtCategoryDialog),
+                    dialog.findViewById(R.id.edtSubcategoryDialog),
+                    false
+                )
             } else {
                 dialog.dismiss()
             }
@@ -222,9 +235,17 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
             bill.billId = documentId
             updates["billId"] = documentId
         }
-        if (bill.subcategory == null) {
-            bill.subcategory = "-"
-            updates["subcategory"] = "-"
+        if (bill.category.isNullOrBlank()) {
+            bill.category = FinancialEntryOptions.DEFAULT_EXPENSE_CATEGORY
+            updates["category"] = bill.category
+        }
+        if (bill.subcategory.isNullOrBlank() || bill.subcategory == "-") {
+            bill.subcategory = FinancialEntryOptions.normalizedExpenseSubcategory(
+                this,
+                bill.category,
+                bill.subcategory
+            )
+            updates["subcategory"] = bill.subcategory
         }
         if (bill.parentBillId.isNullOrBlank()) {
             bill.parentBillId = documentId
@@ -326,7 +347,19 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
         // Initially disable fields
         edtTitleDialog.isEnabled = false
         edtAmountDialog.isEnabled = false
+        edtDateDialog.isEnabled = false
+        edtRepeatDialog.isEnabled = false
+        edtCategoryDialog.isEnabled = false
+        edtSubcategoryDialog.isEnabled = false
+        edtVendorDialog.isEnabled = false
         edtCommentDialog.isEnabled = false
+        configureBillPickers(
+            edtDateDialog,
+            edtRepeatDialog,
+            edtCategoryDialog,
+            edtSubcategoryDialog,
+            false
+        )
 
 
         // Hide save button initially
@@ -335,7 +368,19 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
         btnEditChanges.setOnClickListener {
             edtTitleDialog.isEnabled = true
             edtAmountDialog.isEnabled = true
+            edtDateDialog.isEnabled = true
+            edtRepeatDialog.isEnabled = true
+            edtCategoryDialog.isEnabled = true
+            edtSubcategoryDialog.isEnabled = true
+            edtVendorDialog.isEnabled = true
             edtCommentDialog.isEnabled = true
+            configureBillPickers(
+                edtDateDialog,
+                edtRepeatDialog,
+                edtCategoryDialog,
+                edtSubcategoryDialog,
+                true
+            )
 
             btnSaveChanges.visibility = View.VISIBLE
             btnCloseDialog.text = getString(R.string.cancel)
@@ -345,36 +390,149 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
             val userUid = FirebaseAuth.getInstance().currentUser?.uid
             val bill = selectedBill
             if (userUid != null && bill != null) {
+                val originalSelectedDate = bill.date
+                val parsedDate = try {
+                    dateFormat.isLenient = false
+                    dateFormat.parse(edtDateDialog.text.toString().trim())
+                } catch (e: Exception) {
+                    null
+                }
+                if (parsedDate == null) {
+                    Toast.makeText(this, R.string.invalid_date_format, Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+                val category = FinancialEntryOptions.normalizedExpenseCategory(
+                    this,
+                    edtCategoryDialog.text.toString()
+                )
+                val subcategory = FinancialEntryOptions.normalizedExpenseSubcategory(
+                    this,
+                    category,
+                    edtSubcategoryDialog.text.toString()
+                )
                 // Update the bill object with new values
-                bill.name = edtTitleDialog.text.toString()
+                bill.name = edtTitleDialog.text.toString().trim().ifBlank { getString(R.string.open_payment) }
                 bill.amount = CurrencyPreferences.roundToTwoDecimals(edtAmountDialog.text.toString().toDoubleOrNull() ?: 0.0)
-                bill.comment = edtCommentDialog.text.toString()
+                if (bill.amount <= 0.0) {
+                    Toast.makeText(this, R.string.enter_valid_amount, Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+                bill.date = com.google.firebase.Timestamp(parsedDate)
+                bill.repeat = edtRepeatDialog.text.toString().trim().ifBlank { "No" }
+                bill.category = category
+                bill.subcategory = subcategory
+                bill.vendor = edtVendorDialog.text.toString().trim()
+                bill.comment = edtCommentDialog.text.toString().trim()
 
                 btnSaveChanges.visibility = View.VISIBLE
 
-                // Save the updated bill to Firebase
-                db.collection("users").document(userUid).collection("bills")
-                    .document(bill.billId)
-                    .set(bill)
-                    .addOnSuccessListener {
-                        PaymentNotificationScheduler.scheduleBill(this, userUid, bill, forceReplace = true)
-                        // Update the local list
-                        val index = billsArrayList.indexOfFirst { it.billId == bill.billId }
-                        if (index != -1) {
-                            billsArrayList[index] = bill
-                            myAdapter.notifyItemChanged(index)
+                if (!bill.repeat.isNullOrBlank() && bill.repeat != "No") {
+                    AlertDialog.Builder(this)
+                        .setTitle(R.string.edit_recurring_payment)
+                        .setItems(
+                            arrayOf(
+                                getString(R.string.edit_this_payment_only),
+                                getString(R.string.edit_this_and_future_payments)
+                            )
+                        ) { _, choice ->
+                            if (choice == 0) {
+                                saveSingleBillEdit(userUid, bill)
+                            } else {
+                                saveCurrentAndFutureBillEdits(userUid, bill, originalSelectedDate)
+                            }
                         }
-                        Toast.makeText(this, R.string.open_payment_updated, Toast.LENGTH_SHORT).show()
+                        .setNegativeButton(R.string.cancel, null)
+                        .show()
+                } else {
+                    saveSingleBillEdit(userUid, bill)
+                }
+            } else {
+                Toast.makeText(this, R.string.open_payment_update_unavailable, Toast.LENGTH_SHORT).show()
+            }
+        }}
+
+    private fun saveSingleBillEdit(userUid: String, bill: Bills) {
+        db.collection("users").document(userUid).collection("bills")
+            .document(bill.billId)
+            .set(bill)
+            .addOnSuccessListener {
+                PaymentNotificationScheduler.scheduleBill(this, userUid, bill, forceReplace = true)
+                val index = billsArrayList.indexOfFirst { it.billId == bill.billId }
+                if (index != -1) {
+                    billsArrayList[index] = bill
+                    myAdapter.notifyItemChanged(index)
+                }
+                Toast.makeText(this, R.string.open_payment_updated, Toast.LENGTH_SHORT).show()
+                btnCloseDialog.text = getString(R.string.close)
+                dialog.dismiss()
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(this, getString(R.string.open_payment_update_failed, e.message.orEmpty()), Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    private fun saveCurrentAndFutureBillEdits(
+        userUid: String,
+        editedBill: Bills,
+        originalSelectedDate: com.google.firebase.Timestamp?
+    ) {
+        val selectedDate = originalSelectedDate ?: editedBill.date ?: return saveSingleBillEdit(userUid, editedBill)
+        val seriesId = editedBill.parentBillId?.takeIf { it.isNotBlank() } ?: editedBill.billId
+        val billsReference = db.collection("users").document(userUid).collection("bills")
+
+        billsReference.get()
+            .addOnSuccessListener { documents ->
+                val batch = db.batch()
+                val updatedFutureBills = mutableListOf<Bills>()
+                documents.forEach { document ->
+                    val occurrenceDate = document.getTimestamp("date")
+                    val parentId = document.getString("parentBillId")
+                    val belongsToSeries =
+                        document.id == seriesId || parentId == seriesId
+                    if (belongsToSeries && occurrenceDate != null && occurrenceDate >= selectedDate) {
+                        if (document.id == editedBill.billId) {
+                            batch.set(document.reference, editedBill)
+                            updatedFutureBills.add(editedBill)
+                        } else {
+                            val futureBill = document.toObject(Bills::class.java)
+                            futureBill.name = editedBill.name
+                            futureBill.amount = editedBill.amount
+                            futureBill.currency = editedBill.currency
+                            futureBill.repeat = editedBill.repeat
+                            futureBill.category = editedBill.category
+                            futureBill.subcategory = editedBill.subcategory
+                            futureBill.vendor = editedBill.vendor
+                            futureBill.comment = editedBill.comment
+                            futureBill.attachment = editedBill.attachment
+                            futureBill.parentBillId = editedBill.parentBillId
+                            batch.set(document.reference, futureBill)
+                            updatedFutureBills.add(futureBill)
+                        }
+                    }
+                }
+
+                if (updatedFutureBills.isEmpty()) {
+                    saveSingleBillEdit(userUid, editedBill)
+                    return@addOnSuccessListener
+                }
+
+                batch.commit()
+                    .addOnSuccessListener {
+                        updatedFutureBills.forEach {
+                            PaymentNotificationScheduler.scheduleBill(this, userUid, it, forceReplace = true)
+                        }
+                        Toast.makeText(this, R.string.future_open_payments_updated, Toast.LENGTH_SHORT).show()
                         btnCloseDialog.text = getString(R.string.close)
                         dialog.dismiss()
                     }
                     .addOnFailureListener { e ->
                         Toast.makeText(this, getString(R.string.open_payment_update_failed, e.message.orEmpty()), Toast.LENGTH_SHORT).show()
                     }
-            } else {
-                Toast.makeText(this, R.string.open_payment_update_unavailable, Toast.LENGTH_SHORT).show()
             }
-        }}
+            .addOnFailureListener { e ->
+                Toast.makeText(this, getString(R.string.open_payment_update_failed, e.message.orEmpty()), Toast.LENGTH_SHORT).show()
+            }
+    }
 
     private fun deleteBill() {
         val bill = selectedBill ?: return
@@ -529,6 +687,108 @@ class MyBills : AppCompatActivity(), MyAdapter.OnBillClickListener {
 
     private fun openCreateBill() {
         EntryCreationFlow.show(this, EntryType.OPEN_PAYMENT, userEmail)
+    }
+
+    private fun configureBillPickers(
+        dateField: EditText,
+        repeatField: EditText,
+        categoryField: EditText,
+        subcategoryField: EditText,
+        enabled: Boolean
+    ) {
+        listOf(dateField, repeatField, categoryField, subcategoryField).forEach {
+            it.isEnabled = enabled
+            it.isFocusable = false
+            it.isFocusableInTouchMode = false
+            it.isCursorVisible = false
+        }
+        dateField.setOnClickListener(if (enabled) View.OnClickListener { showDatePicker(dateField) } else null)
+        repeatField.setOnClickListener(if (enabled) View.OnClickListener { showRepeatPicker(repeatField) } else null)
+        categoryField.setOnClickListener(
+            if (enabled) {
+                View.OnClickListener { showExpenseCategoryPicker(categoryField, subcategoryField) }
+            } else null
+        )
+        subcategoryField.setOnClickListener(
+            if (enabled) {
+                View.OnClickListener { showExpenseSubcategoryPicker(categoryField, subcategoryField) }
+            } else null
+        )
+    }
+
+    private fun showDatePicker(field: EditText) {
+        val calendar = Calendar.getInstance()
+        runCatching {
+            SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).apply { isLenient = false }
+                .parse(field.text.toString().trim())
+        }.getOrNull()?.let(calendar::setTime)
+        DatePickerDialog(
+            this,
+            { _, year, month, day ->
+                field.setText(String.format(Locale.getDefault(), "%02d/%02d/%04d", day, month + 1, year))
+            },
+            calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH),
+            calendar.get(Calendar.DAY_OF_MONTH)
+        ).show()
+    }
+
+    private fun showRepeatPicker(field: EditText) {
+        val options = arrayOf(
+            "No", "Weekly", "Every 2 Weeks", "Monthly", "Every 2 Months",
+            "Quarterly", "Every 6 months", "Yearly"
+        )
+        val selected = options.indexOf(field.text.toString()).coerceAtLeast(0)
+        AlertDialog.Builder(this)
+            .setTitle(R.string.repeat)
+            .setSingleChoiceItems(options, selected) { dialog, which ->
+                field.setText(options[which])
+                dialog.dismiss()
+            }
+            .show()
+    }
+
+    private fun showExpenseCategoryPicker(categoryField: EditText, subcategoryField: EditText) {
+        val options = FinancialEntryOptions.expenseCategories(this)
+        val labels = options.map { it.label }.toTypedArray()
+        val current = options.indexOfFirst {
+            it.key == FinancialEntryOptions.normalizedExpenseCategory(this, categoryField.text.toString())
+        }.coerceAtLeast(0)
+        AlertDialog.Builder(this)
+            .setTitle(R.string.category)
+            .setSingleChoiceItems(labels, current) { dialog, which ->
+                val selected = options[which]
+                categoryField.setText(selected.label)
+                subcategoryField.setText(defaultExpenseSubcategoryLabel(selected.key))
+                dialog.dismiss()
+            }
+            .show()
+    }
+
+    private fun showExpenseSubcategoryPicker(categoryField: EditText, subcategoryField: EditText) {
+        val category = FinancialEntryOptions.normalizedExpenseCategory(this, categoryField.text.toString())
+        val options = FinancialEntryOptions.expenseSubcategories(this, category)
+        val labels = options.map { it.label }.toTypedArray()
+        val current = options.indexOfFirst {
+            it.key == FinancialEntryOptions.normalizedExpenseSubcategory(this, category, subcategoryField.text.toString())
+        }.coerceAtLeast(0)
+        AlertDialog.Builder(this)
+            .setTitle(R.string.subcategory)
+            .setSingleChoiceItems(labels, current) { dialog, which ->
+                subcategoryField.setText(options[which].label)
+                dialog.dismiss()
+            }
+            .show()
+    }
+
+    private fun defaultExpenseSubcategoryLabel(categoryKey: String): String {
+        val options = FinancialEntryOptions.expenseSubcategories(this, categoryKey)
+        val defaultKey = if (categoryKey == FinancialEntryOptions.DEFAULT_EXPENSE_CATEGORY) {
+            FinancialEntryOptions.DEFAULT_EXPENSE_SUBCATEGORY
+        } else {
+            options.firstOrNull()?.key ?: FinancialEntryOptions.DEFAULT_EXPENSE_SUBCATEGORY
+        }
+        return options.firstOrNull { it.key == defaultKey }?.label ?: defaultKey
     }
 
 

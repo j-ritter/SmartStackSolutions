@@ -5,7 +5,9 @@ import com.google.firebase.Timestamp;
 public class Income {
 
     String incomeId, parentIncomeId;
-    String name, comment, category, repeat, subcategory, source, attachment, importHash, currency;
+    String name, comment, repeat, source, attachment, importHash, currency;
+    String category = "Salary & wages";
+    String subcategory = "Regular salary";
     double amount;
     Timestamp date;
 

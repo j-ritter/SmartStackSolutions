@@ -16,6 +16,7 @@ class OpenPaymentRiskView @JvmOverloads constructor(
     private var overdue = Segment()
     private var dueSoon = Segment()
     private var later = Segment()
+    private var monthlyOutlook: List<MonthlyOutlook> = emptyList()
 
     fun setData(
         overdueAmount: Double,
@@ -28,11 +29,21 @@ class OpenPaymentRiskView @JvmOverloads constructor(
         overdue = Segment(overdueAmount, overdueCount)
         dueSoon = Segment(dueSoonAmount, dueSoonCount)
         later = Segment(laterAmount, laterCount)
+        monthlyOutlook = emptyList()
+        invalidate()
+    }
+
+    fun setMonthlyOutlook(months: List<MonthlyOutlook>) {
+        monthlyOutlook = months
         invalidate()
     }
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
+        if (monthlyOutlook.isNotEmpty()) {
+            drawMonthlyOutlook(canvas)
+            return
+        }
         val gap = 8f.dp
         val usable = width - paddingLeft - paddingRight - gap * 2
         val cardWidth = usable / 3f
@@ -41,6 +52,52 @@ class OpenPaymentRiskView @JvmOverloads constructor(
         drawSegment(canvas, paddingLeft.toFloat(), top, cardWidth, bottom, overdue, R.string.overdue, R.color.red)
         drawSegment(canvas, paddingLeft + cardWidth + gap, top, cardWidth, bottom, dueSoon, R.string.due_next_seven_days, R.color.colorPrimary)
         drawSegment(canvas, paddingLeft + (cardWidth + gap) * 2, top, cardWidth, bottom, later, R.string.later_this_month, R.color.bill_color)
+    }
+
+    private fun drawMonthlyOutlook(canvas: Canvas) {
+        val left = paddingLeft.toFloat()
+        val right = width - paddingRight.toFloat()
+        val top = paddingTop + 8f.dp
+        val chartTop = top + 24f.dp
+        val bottom = height - paddingBottom - 23f.dp
+        val maxValue = monthlyOutlook.maxOfOrNull { it.amount }?.coerceAtLeast(1.0) ?: 1.0
+        val monthWidth = (right - left) / monthlyOutlook.size.coerceAtLeast(1)
+        val barWidth = (monthWidth * 0.46f).coerceIn(8f.dp, 24f.dp)
+
+        paint.color = 0xFFE6ECF1.toInt()
+        paint.strokeWidth = 1f.dp
+        canvas.drawLine(left, bottom, right, bottom, paint)
+
+        monthlyOutlook.forEachIndexed { index, month ->
+            val centerX = left + monthWidth * index + monthWidth / 2f
+            val barHeight = (month.amount / maxValue * (bottom - chartTop)).toFloat()
+            val color = when {
+                month.isPast -> R.color.red
+                month.isCurrent -> R.color.colorPrimary
+                else -> R.color.bill_color
+            }
+            paint.color = ContextCompat.getColor(context, color)
+            val barTop = bottom - barHeight
+            canvas.drawRoundRect(
+                RectF(centerX - barWidth / 2f, barTop, centerX + barWidth / 2f, bottom),
+                5f.dp,
+                5f.dp,
+                paint
+            )
+
+            if (month.amount > 0.0) {
+                drawCentered(
+                    canvas,
+                    CurrencyPreferences.format(context, month.amount),
+                    centerX,
+                    (barTop - 7f.dp).coerceAtLeast(top + 10f.dp),
+                    8.5f.sp,
+                    ContextCompat.getColor(context, R.color.colorSecondary),
+                    true
+                )
+            }
+            drawCentered(canvas, month.label, centerX, height - paddingBottom - 10f.dp, 9.5f.sp, 0xFF647383.toInt(), false)
+        }
     }
 
     private fun drawSegment(
@@ -100,4 +157,12 @@ class OpenPaymentRiskView @JvmOverloads constructor(
     private val Float.dp get() = this * resources.displayMetrics.density
     private val Float.sp get() = this * resources.displayMetrics.scaledDensity
     private data class Segment(val amount: Double = 0.0, val count: Int = 0)
+
+    data class MonthlyOutlook(
+        val label: String,
+        val amount: Double,
+        val count: Int,
+        val isPast: Boolean,
+        val isCurrent: Boolean
+    )
 }

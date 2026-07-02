@@ -649,12 +649,18 @@ class createBill : AppCompatActivity() {
         val dateEditText = findViewById<EditText>(R.id.edtDateBill)
         setTodayIfBlank(dateEditText)
         val billDateString = dateEditText.text.toString()
-        val billCategory = FinancialEntryOptions.selectedKey(
+        val selectedBillCategory = FinancialEntryOptions.selectedKey(
             findViewById<Spinner>(R.id.spinnerCategoriesBill).selectedItem
-        ).ifBlank { "Other" }
-        val billSubcategory = FinancialEntryOptions.selectedKey(
+        )
+        val selectedBillSubcategory = FinancialEntryOptions.selectedKey(
             findViewById<Spinner>(R.id.spinnerSubcategoriesBill).selectedItem
-        ).ifBlank { "Miscellaneous" }
+        )
+        val billCategory = FinancialEntryOptions.normalizedExpenseCategory(this, selectedBillCategory)
+        val billSubcategory = FinancialEntryOptions.normalizedExpenseSubcategory(
+            this,
+            billCategory,
+            selectedBillSubcategory
+        )
         val billVendor = findViewById<AutoCompleteTextView>(R.id.autoCompleteVendorBill).text.toString()
         val billRepeat = findViewById<Spinner>(R.id.spinnerRepeatBill).selectedItem?.toString() ?: "-"
         val billComment = findViewById<EditText>(R.id.edtCommentBill).text.toString()

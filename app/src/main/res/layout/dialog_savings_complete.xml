@@ -10,9 +10,12 @@
         android:layout_width="132dp"
         android:layout_height="132dp"
         android:layout_gravity="center_horizontal"
+        android:background="@drawable/savings_target_icon_bg"
         android:contentDescription="@string/savings_goal_image"
-        android:scaleType="centerCrop"
-        android:src="@drawable/piggybank_1" />
+        android:padding="34dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_goal_general"
+        android:tint="@color/colorPrimary" />
 
     <TextView
         android:layout_width="match_parent"

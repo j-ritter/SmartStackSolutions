@@ -1,6 +1,7 @@
 ﻿package com.ritter.smartstackbills
 
 import android.app.Dialog
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -16,6 +17,7 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
@@ -191,7 +193,17 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
                 // Disable inputs again
                 dialog.findViewById<EditText>(R.id.edtTitleDialogSpendings).isEnabled = false
                 dialog.findViewById<EditText>(R.id.edtAmountDialogSpendings).isEnabled = false
+                dialog.findViewById<EditText>(R.id.edtDateDialogSpendings).isEnabled = false
+                dialog.findViewById<EditText>(R.id.edtCategoryDialogSpendings).isEnabled = false
+                dialog.findViewById<EditText>(R.id.edtSubcategoryDialogSpendings).isEnabled = false
+                dialog.findViewById<EditText>(R.id.edtVendorDialogSpendings).isEnabled = false
                 dialog.findViewById<EditText>(R.id.edtCommentDialogSpendings).isEnabled = false
+                configureSpendingPickers(
+                    dialog.findViewById(R.id.edtDateDialogSpendings),
+                    dialog.findViewById(R.id.edtCategoryDialogSpendings),
+                    dialog.findViewById(R.id.edtSubcategoryDialogSpendings),
+                    false
+                )
             } else {
                 dialog.dismiss()
             }
@@ -260,9 +272,17 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
             spending.spendingId = documentId
             updates["spendingId"] = documentId
         }
-        if (spending.subcategory == null) {
-            spending.subcategory = "-"
-            updates["subcategory"] = "-"
+        if (spending.category.isNullOrBlank()) {
+            spending.category = FinancialEntryOptions.DEFAULT_EXPENSE_CATEGORY
+            updates["category"] = spending.category
+        }
+        if (spending.subcategory.isNullOrBlank() || spending.subcategory == "-") {
+            spending.subcategory = FinancialEntryOptions.normalizedExpenseSubcategory(
+                this,
+                spending.category,
+                spending.subcategory
+            )
+            updates["subcategory"] = spending.subcategory
         }
         if (spending.currency.isNullOrBlank()) {
             spending.currency = CurrencyPreferences.selectedCode(this)
@@ -375,7 +395,17 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
         // Initially disable fields
         edtTitleDialog.isEnabled = false
         edtAmountDialog.isEnabled = false
+        edtDateDialog.isEnabled = false
+        edtCategoryDialog.isEnabled = false
+        edtSubcategoryDialog.isEnabled = false
+        edtVendorDialog.isEnabled = false
         edtCommentDialog.isEnabled = false
+        configureSpendingPickers(
+            edtDateDialog,
+            edtCategoryDialog,
+            edtSubcategoryDialog,
+            false
+        )
 
         // Hide save button initially
         btnSaveChanges.visibility = View.GONE
@@ -389,7 +419,17 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
             }
             edtTitleDialog.isEnabled = true
             edtAmountDialog.isEnabled = true
+            edtDateDialog.isEnabled = true
+            edtCategoryDialog.isEnabled = true
+            edtSubcategoryDialog.isEnabled = true
+            edtVendorDialog.isEnabled = true
             edtCommentDialog.isEnabled = true
+            configureSpendingPickers(
+                edtDateDialog,
+                edtCategoryDialog,
+                edtSubcategoryDialog,
+                true
+            )
 
             btnSaveChanges.visibility = View.VISIBLE
             btnCloseDialog.text = getString(R.string.cancel)
@@ -403,11 +443,37 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
             val userUid = FirebaseAuth.getInstance().currentUser?.uid
             val spending = selectedSpending
             if (userUid != null && spending != null) {
+                val parsedDate = try {
+                    dateFormat.isLenient = false
+                    dateFormat.parse(edtDateDialog.text.toString().trim())
+                } catch (e: Exception) {
+                    null
+                }
+                if (parsedDate == null) {
+                    Toast.makeText(this, R.string.invalid_date_format, Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+                val category = FinancialEntryOptions.normalizedExpenseCategory(
+                    this,
+                    edtCategoryDialog.text.toString()
+                )
+                val subcategory = FinancialEntryOptions.normalizedExpenseSubcategory(
+                    this,
+                    category,
+                    edtSubcategoryDialog.text.toString()
+                )
                 // Update the bill object with new values
-                spending.name = edtTitleDialog.text.toString()
+                spending.name = edtTitleDialog.text.toString().trim().ifBlank { getString(R.string.closed_payment) }
                 spending.amount = CurrencyPreferences.roundToTwoDecimals(edtAmountDialog.text.toString().toDoubleOrNull() ?: 0.0)
-
-                spending.comment = edtCommentDialog.text.toString()
+                if (spending.amount <= 0.0) {
+                    Toast.makeText(this, R.string.enter_valid_amount, Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+                spending.date = com.google.firebase.Timestamp(parsedDate)
+                spending.category = category
+                spending.subcategory = subcategory
+                spending.vendor = edtVendorDialog.text.toString().trim()
+                spending.comment = edtCommentDialog.text.toString().trim()
 
                 btnSaveChanges.visibility = View.VISIBLE
 
@@ -480,7 +546,7 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
 
         for (spending in allSpendingsArrayList) {
             val classification =
-                SpendingClassification.classify(spending.category, spending.subcategory)
+                SpendingClassification.classify(this, spending.category, spending.subcategory)
 
             when (filter) {
                 "essential" -> {
@@ -545,6 +611,91 @@ class MySpendings : AppCompatActivity(), MyAdapterSpendings.OnSpendingClickListe
 
     private fun openCreateSpending() {
         EntryCreationFlow.show(this, EntryType.CLOSED_PAYMENT, userEmail)
+    }
+
+    private fun configureSpendingPickers(
+        dateField: EditText,
+        categoryField: EditText,
+        subcategoryField: EditText,
+        enabled: Boolean
+    ) {
+        listOf(dateField, categoryField, subcategoryField).forEach {
+            it.isEnabled = enabled
+            it.isFocusable = false
+            it.isFocusableInTouchMode = false
+            it.isCursorVisible = false
+        }
+        dateField.setOnClickListener(if (enabled) View.OnClickListener { showDatePicker(dateField) } else null)
+        categoryField.setOnClickListener(
+            if (enabled) {
+                View.OnClickListener { showExpenseCategoryPicker(categoryField, subcategoryField) }
+            } else null
+        )
+        subcategoryField.setOnClickListener(
+            if (enabled) {
+                View.OnClickListener { showExpenseSubcategoryPicker(categoryField, subcategoryField) }
+            } else null
+        )
+    }
+
+    private fun showDatePicker(field: EditText) {
+        val calendar = Calendar.getInstance()
+        runCatching {
+            SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).apply { isLenient = false }
+                .parse(field.text.toString().trim())
+        }.getOrNull()?.let(calendar::setTime)
+        DatePickerDialog(
+            this,
+            { _, year, month, day ->
+                field.setText(String.format(Locale.getDefault(), "%02d/%02d/%04d", day, month + 1, year))
+            },
+            calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH),
+            calendar.get(Calendar.DAY_OF_MONTH)
+        ).show()
+    }
+
+    private fun showExpenseCategoryPicker(categoryField: EditText, subcategoryField: EditText) {
+        val options = FinancialEntryOptions.expenseCategories(this)
+        val labels = options.map { it.label }.toTypedArray()
+        val current = options.indexOfFirst {
+            it.key == FinancialEntryOptions.normalizedExpenseCategory(this, categoryField.text.toString())
+        }.coerceAtLeast(0)
+        AlertDialog.Builder(this)
+            .setTitle(R.string.category)
+            .setSingleChoiceItems(labels, current) { dialog, which ->
+                val selected = options[which]
+                categoryField.setText(selected.label)
+                subcategoryField.setText(defaultExpenseSubcategoryLabel(selected.key))
+                dialog.dismiss()
+            }
+            .show()
+    }
+
+    private fun showExpenseSubcategoryPicker(categoryField: EditText, subcategoryField: EditText) {
+        val category = FinancialEntryOptions.normalizedExpenseCategory(this, categoryField.text.toString())
+        val options = FinancialEntryOptions.expenseSubcategories(this, category)
+        val labels = options.map { it.label }.toTypedArray()
+        val current = options.indexOfFirst {
+            it.key == FinancialEntryOptions.normalizedExpenseSubcategory(this, category, subcategoryField.text.toString())
+        }.coerceAtLeast(0)
+        AlertDialog.Builder(this)
+            .setTitle(R.string.subcategory)
+            .setSingleChoiceItems(labels, current) { dialog, which ->
+                subcategoryField.setText(options[which].label)
+                dialog.dismiss()
+            }
+            .show()
+    }
+
+    private fun defaultExpenseSubcategoryLabel(categoryKey: String): String {
+        val options = FinancialEntryOptions.expenseSubcategories(this, categoryKey)
+        val defaultKey = if (categoryKey == FinancialEntryOptions.DEFAULT_EXPENSE_CATEGORY) {
+            FinancialEntryOptions.DEFAULT_EXPENSE_SUBCATEGORY
+        } else {
+            options.firstOrNull()?.key ?: FinancialEntryOptions.DEFAULT_EXPENSE_SUBCATEGORY
+        }
+        return options.firstOrNull { it.key == defaultKey }?.label ?: defaultKey
     }
 
     private fun styleDetailsDialogWindow(dialog: Dialog) {

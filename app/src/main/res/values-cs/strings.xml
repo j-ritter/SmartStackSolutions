@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="notification_details">Podrobnosti oznámení</string>
     <string name="main">Hlavní</string>
@@ -460,11 +460,11 @@ Pokud potřebujete další pomoc nebo podporu, neváhejte nás kontaktovat e-mai
     <string name="premium_compare_premium">Premium</string>
 
     <string name="premium_compare_open_payments">Otevřené platby</string>
-    <string name="premium_compare_open_payments_free">30 aktivních jednorázových otevřených plateb</string>
+    <string name="premium_compare_open_payments_free">100 aktivních otevřených plateb</string>
     <string name="premium_compare_open_payments_premium">Až 2 000 budoucích položek celkem</string>
 
     <string name="premium_compare_recurring">Budoucí opakující se položky</string>
-    <string name="premium_compare_recurring_free">Až 250 budoucích plateb</string>
+    <string name="premium_compare_recurring_free">Zahrnuto v limitu 100 aktivních otevřených plateb</string>
     <string name="premium_compare_recurring_premium">Až 2 000 budoucích položek</string>
 
     <string name="premium_compare_closed">Uzavřené platby</string>
@@ -476,7 +476,10 @@ Pokud potřebujete další pomoc nebo podporu, neváhejte nás kontaktovat e-mai
     <string name="premium_compare_income_premium">Vytváření a správa příjmů</string>
 
     <string name="premium_compare_import">Import CSV/PDF</string>
-    <string name="premium_compare_import_free">50/soubor · 100 celkem</string>
+    <string name="premium_compare_savings_goals">Cíle úspor</string>
+    <string name="premium_compare_savings_goals_free">Není zahrnuto</string>
+    <string name="premium_compare_savings_goals_premium">Až 3 překrývající se aktivní cíle</string>
+    <string name="premium_compare_import_free">100/soubor · 100 celkem</string>
     <string name="premium_compare_import_premium">200/soubor</string>
 
     <string name="premium_compare_insights">Finanční analýzy</string>
@@ -497,11 +500,11 @@ Pokud potřebujete další pomoc nebo podporu, neváhejte nás kontaktovat e-mai
 
     <string name="feature_open_payments_title">Otevřené platby</string>
     <string name="feature_open_payments_desc">Spravujte otevřené platby a mějte přehled o nadcházejících účtech.</string>
-    <string name="feature_open_payments_expandable">Bezplatná verze zahrnuje až 30 samostatných aktivních otevřených plateb plus opakující se plány v rámci povoleného limitu. Premium nabízí výrazně vyšší limit pro aktivní i budoucí položky.</string>
+    <string name="feature_open_payments_expandable">Bezplatná verze zahrnuje až 100 aktivních otevřených plateb včetně opakujících se výskytů. Premium nabízí výrazně vyšší limit pro aktivní i budoucí položky.</string>
 
     <string name="feature_closed_payments_title">Uzavřené platby</string>
     <string name="feature_closed_payments_desc">Sledujte zaplacené účty a spravujte historii transakcí.</string>
-    <string name="feature_closed_payments_expandable">Každý může označit otevřenou platbu jako zaplacenou. Premium navíc odemyká přímé vytváření, úpravy, mazání a kompletní správu historie.</string>
+    <string name="feature_closed_payments_expandable">Každý může označit otevřené platby jako zaplacené až do bezplatného limitu historie 100 zaplacených plateb. Premium navíc odemyká přímé vytváření, úpravy, mazání a kompletní správu historie.</string>
 
     <string name="feature_income_management_title">Správa příjmů</string>
     <string name="feature_income_management_desc">Sledujte a kategorizujte své zdroje příjmů.</string>
@@ -555,11 +558,11 @@ Pokud potřebujete další pomoc nebo podporu, neváhejte nás kontaktovat e-mai
 
     <string name="title_optional">Název (volitelné)</string>
 
-    <string name="free_open_payment_limit_reached">Dosáhli jste bezplatného limitu 30 samostatných aktivních otevřených plateb. Označte dokončené položky jako zaplacené nebo přejděte na Premium.</string>
+    <string name="free_open_payment_limit_reached">Dosáhli jste bezplatného limitu 100 aktivních otevřených plateb. Označte dokončené položky jako zaplacené nebo přejděte na Premium.</string>
 
-    <string name="free_closed_payment_limit_reached">Dosáhli jste bezplatného limitu 100 uzavřených plateb. Odstraňte starší historii nebo přejděte na Premium.</string>
+    <string name="free_closed_payment_limit_reached">Dosáhli jste bezplatného limitu 100 zaplacených plateb. Odstraňte starší historii nebo přejděte na Premium.</string>
 
-    <string name="free_recurring_limit_reached">Tento opakující se plán by překročil bezplatný limit 250 budoucích opakujících se plateb. Odstraňte nepoužívaný plán nebo přejděte na Premium.</string>
+    <string name="free_recurring_limit_reached">Tento opakující se plán by překročil bezplatný limit 100 aktivních otevřených plateb. Odstraňte nepoužívaný plán, označte dokončené položky jako zaplacené nebo přejděte na Premium.</string>
 
     <string name="premium_usage_limit_reached">Tato položka by překročila Premium limit spravedlivého používání 2 000 budoucích plateb a příjmů. Odstraňte zastaralé budoucí položky nebo kontaktujte podporu.</string>
 
@@ -594,7 +597,7 @@ Pokud potřebujete další pomoc nebo podporu, neváhejte nás kontaktovat e-mai
     <string name="terms_section_body_4">Bezplatná verze je podporována reklamou a zahrnuje základní funkce otevřených plateb, připomenutí, kalendáře, exportu a označování plateb jako zaplacených. Některé funkce vytváření, úprav, historie, příjmů, cílů a analýz vyžadují Premium.</string>
 
     <string name="terms_section_title_5">5. Limity spravedlivého používání</string>
-    <string name="terms_section_body_5">Pro zachování spolehlivé a udržitelné služby podporují bezplatné účty až 30 samostatných aktivních otevřených plateb, 100 uzavřených plateb a 250 budoucích opakujících se plateb. Účty Premium podporují vyšší limity, včetně až 2 000 budoucích plateb a příjmů dohromady. Tyto limity mohou být v budoucnu upraveny z důvodů bezpečnosti, spolehlivosti nebo udržitelnosti služby.</string>
+    <string name="terms_section_body_5">Pro zachování spolehlivé a udržitelné služby podporují bezplatné účty až 100 aktivních otevřených plateb a 100 zaplacených plateb vytvořených označením otevřených plateb jako zaplacených. Opakující se otevřené platby se započítávají do limitu 100 aktivních otevřených plateb. Účty Premium podporují vyšší limity, včetně až 2 000 budoucích plateb a příjmů dohromady. Tyto limity mohou být v budoucnu upraveny z důvodů bezpečnosti, spolehlivosti nebo udržitelnosti služby.</string>
 
     <string name="terms_section_title_6">6. Předplatné Premium</string>
     <string name="terms_section_body_6">Funkce Premium a aktuální cena jsou zobrazeny před nákupem. Fakturace, obnovení, zrušení a případné vrácení peněz se řídí podmínkami Google Play a platnými právními předpisy. Premium odstraňuje reklamy a odemyká funkce popsané na obrazovce Premium.</string>
@@ -613,11 +616,11 @@ Pokud potřebujete další pomoc nebo podporu, neváhejte nás kontaktovat e-mai
 
     <string name="faqs_question_16">16. Jaké limity používání platí pro bezplatné a Premium účty?</string>
 
-    <string name="faqs_answer_16">Bezplatné účty mohou mít až 30 aktivních otevřených plateb, 100 uzavřených plateb a 250 budoucích opakujících se plateb. Premium tyto limity zvyšuje a podporuje až 2 000 budoucích plateb a příjmů dohromady.</string>
+    <string name="faqs_answer_16">Bezplatné účty mohou mít až 100 aktivních otevřených plateb a 100 zaplacených plateb vytvořených označením otevřených plateb jako zaplacených. Opakující se otevřené platby se započítávají do limitu 100 aktivních otevřených plateb. Premium tyto limity zvyšuje a podporuje až 2 000 budoucích plateb a příjmů dohromady.</string>
 
     <string name="faqs_question_17">17. Mohou uživatelé bezplatné verze stále označovat platby jako zaplacené?</string>
 
-    <string name="faqs_answer_17">Ano. Běžný proces přesunu otevřené platby mezi zaplacené není nikdy blokován limity bezplatné verze. Přímé vytváření, úpravy a mazání uzavřených plateb jsou funkcemi Premium.</string>
+    <string name="faqs_answer_17">Ano. Bezplatní uživatelé mohou označovat otevřené platby jako zaplacené, dokud nedosáhnou limitu historie 100 zaplacených plateb. Přímé vytváření, úpravy a mazání uzavřených plateb jsou funkcemi Premium.</string>
 
     <string name="faqs_question_18">18. Bude SmartStack automaticky mazat moji finanční historii?</string>
 
@@ -805,6 +808,13 @@ Dotazy a zpětnou vazbu můžete zasílat na appdev.jr2024@gmail.com.
     <string name="currency_menu_title">Měna (%1$s)</string>
 
     <string name="select_currency">Vybrat měnu</string>
+    <string name="amount_display">Zobrazení částek</string>
+    <string name="amount_display_menu_title">Zobrazení částek (%1$s)</string>
+    <string name="select_amount_display">Vybrat zobrazení částek</string>
+    <string name="amount_display_two_decimals">Vždy zobrazovat 2 desetinná místa</string>
+    <string name="amount_display_no_decimals">Nezobrazovat desetinná místa</string>
+    <string name="amount_display_two_decimals_short">2 desetinná místa</string>
+    <string name="amount_display_no_decimals_short">bez desetinných míst</string>
 
     <string name="billing_insufficient_funds">Platba byla zamítnuta z důvodu nedostatku prostředků.</string>
 
@@ -817,6 +827,8 @@ Dotazy a zpětnou vazbu můžete zasílat na appdev.jr2024@gmail.com.
     <string name="monthly_money_map">Měsíční přehled financí</string>
 
     <string name="monthly_money_map_description">Podívejte se, jak do sebe zapadají příjmy, dokončené výdaje, budoucí závazky a váš cíl úspor.</string>
+    <string name="money_flow_development">Vývoj peněžního toku</string>
+    <string name="money_flow_development_description">Podívejte se, jak se příjmy, uzavřené platby, otevřené platby a cíle úspor vyvíjejí za %1$d měsíců.</string>
 
     <string name="open_payment_risk_timeline">Časová osa rizik otevřených plateb</string>
 
@@ -1124,5 +1136,30 @@ Dotazy a zpětnou vazbu můžete zasílat na appdev.jr2024@gmail.com.
     <string name="monthly_savings_clear_failed">Měsíční úspory se nepodařilo vymazat: %1$s</string>
     <string name="associated_data_failed">Nepodařilo se načíst související data: %1$s</string>
     <string name="bill_not_found">Otevřená platba nebyla nalezena.</string>
+    <string name="section_this_month_open_payments">Otevřené platby tento měsíc</string>
+    <string name="section_this_month_short">Tento měsíc</string>
+    <string name="section_overdue_open_payments">Otevřené platby po splatnosti</string>
+    <string name="section_upcoming_open_payments">Nadcházející otevřené platby</string>
+    <string name="section_past_closed_payments">Minulé uzavřené platby</string>
+    <string name="section_future_closed_payments">Budoucí uzavřené platby</string>
+    <string name="section_upcoming_income">Nadcházející příjmy</string>
+    <string name="section_past_income">Minulé příjmy</string>
+    <string name="section_no_date">Bez data</string>
 
+    <string name="open_payment_outlook_by_month">Výhled otevřených plateb podle měsíce</string>
+    <string name="open_payment_outlook_by_month_description">Podívejte se, kolik zůstává otevřeno v každém měsíci vybraného období %1$d měsíců.</string>
+    <string name="open_payment_outlook_period">Výhled otevřených plateb ve vybraném období</string>
+    <string name="open_payment_outlook_period_description">Podívejte se, jak jsou nezaplacené otevřené platby rozloženy ve vybraném období %1$d měsíců.</string>
+    <string name="period_balance_positive">Po závazcích a cílech úspor v tomto období zbývá %1$s.</string>
+    <string name="period_balance_negative">Po závazcích a cílech úspor v tomto období chybí %1$s.</string>
+    <string name="edit_recurring_payment">Upravit opakovanou platbu</string>
+    <string name="edit_this_payment_only">Upravit pouze tuto platbu</string>
+    <string name="edit_this_and_future_payments">Upravit tuto a budoucí platby</string>
+    <string name="future_open_payments_updated">Tato a budoucí platby byly aktualizovány.</string>
+    <string name="edit_recurring_income">Upravit opakovaný příjem</string>
+    <string name="edit_this_income_only">Upravit pouze tento příjem</string>
+    <string name="edit_this_and_future_income">Upravit tento a budoucí příjmy</string>
+    <string name="future_income_updated">Tento a budoucí příjmy byly aktualizovány.</string>
 </resources>
+
+

@@ -19,6 +19,7 @@ class MonthlyMoneyMapView @JvmOverloads constructor(
     private var open = 0.0
     private var available = 0.0
     private var target = 0.0
+    private var trendPoints: List<TrendPoint> = emptyList()
 
     fun setData(income: Double, paid: Double, open: Double, available: Double, target: Double) {
         this.income = income.coerceAtLeast(0.0)
@@ -26,11 +27,21 @@ class MonthlyMoneyMapView @JvmOverloads constructor(
         this.open = open.coerceAtLeast(0.0)
         this.available = available.coerceAtLeast(0.0)
         this.target = target.coerceAtLeast(0.0)
+        this.trendPoints = emptyList()
+        invalidate()
+    }
+
+    fun setTrendData(points: List<TrendPoint>) {
+        trendPoints = points
         invalidate()
     }
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
+        if (trendPoints.isNotEmpty()) {
+            drawTrend(canvas)
+            return
+        }
         val left = paddingLeft.toFloat()
         val right = width - paddingRight.toFloat()
         val labelWidth = 94f.dp
@@ -96,6 +107,87 @@ class MonthlyMoneyMapView @JvmOverloads constructor(
         )
     }
 
+    private fun drawTrend(canvas: Canvas) {
+        val left = paddingLeft.toFloat()
+        val right = width - paddingRight.toFloat()
+        val top = paddingTop + 28f.dp
+        val bottom = height - paddingBottom - 48f.dp
+        val chartHeight = (bottom - top).coerceAtLeast(40f.dp)
+        val maxValue = trendPoints
+            .flatMap { listOf(it.income, it.paid, it.open, it.target) }
+            .maxOrNull()
+            ?.coerceAtLeast(1.0)
+            ?: 1.0
+
+        val legend = listOf(
+            Legend(context.getString(R.string.income), R.color.income_color),
+            Legend(context.getString(R.string.paid_expenses_short), R.color.spending_color),
+            Legend(context.getString(R.string.still_due_short), R.color.bill_color),
+            Legend(context.getString(R.string.savings_target), R.color.savings_color)
+        )
+        var legendX = left
+        legend.forEach { item ->
+            paint.color = color(item.color)
+            canvas.drawCircle(legendX + 4f.dp, paddingTop + 10f.dp, 4f.dp, paint)
+            drawText(canvas, item.label, legendX + 11f.dp, paddingTop + 14f.dp, 9.5f.sp, color(R.color.textSecondary), Paint.Align.LEFT, false)
+            legendX += (paint.measureText(item.label) + 28f.dp).coerceAtLeast(58f.dp)
+        }
+
+        paint.color = 0xFFE6ECF1.toInt()
+        paint.strokeWidth = 1f.dp
+        canvas.drawLine(left, bottom, right, bottom, paint)
+
+        val monthWidth = (right - left) / trendPoints.size.coerceAtLeast(1)
+        val barWidth = (monthWidth / 6.2f).coerceIn(3f.dp, 10f.dp)
+        trendPoints.forEachIndexed { index, point ->
+            val centerX = left + monthWidth * index + monthWidth / 2f
+            val values = listOf(
+                point.income to R.color.income_color,
+                point.paid to R.color.spending_color,
+                point.open to R.color.bill_color,
+                point.target to R.color.savings_color
+            )
+            val startX = centerX - barWidth * 2f - 2f.dp
+            values.forEachIndexed { valueIndex, (value, colorRes) ->
+                val barHeight = (value.coerceAtLeast(0.0) / maxValue * chartHeight).toFloat()
+                val barLeft = startX + valueIndex * (barWidth + 2f.dp)
+                paint.color = color(colorRes)
+                canvas.drawRoundRect(
+                    RectF(barLeft, bottom - barHeight, barLeft + barWidth, bottom),
+                    3f.dp,
+                    3f.dp,
+                    paint
+                )
+            }
+            drawText(canvas, point.label, centerX, height - paddingBottom - 27f.dp, 9.5f.sp, color(R.color.textSecondary), Paint.Align.CENTER, false)
+        }
+
+        val totals = trendPoints.fold(TrendPoint("", 0.0, 0.0, 0.0, 0.0)) { acc, point ->
+            TrendPoint(
+                "",
+                acc.income + point.income,
+                acc.paid + point.paid,
+                acc.open + point.open,
+                acc.target + point.target
+            )
+        }
+        val balance = totals.income - totals.paid - totals.open - totals.target
+        val message = context.getString(
+            if (balance >= 0.0) R.string.period_balance_positive else R.string.period_balance_negative,
+            CurrencyPreferences.format(context, kotlin.math.abs(balance))
+        )
+        drawText(
+            canvas,
+            fitText(message, (right - left).coerceAtLeast(40f.dp), 10.5f.sp, false),
+            left,
+            height - paddingBottom - 6f.dp,
+            10.5f.sp,
+            color(R.color.textSecondary),
+            Paint.Align.LEFT,
+            false
+        )
+    }
+
     private fun drawTrack(canvas: Canvas, left: Float, top: Float, right: Float, bottom: Float) {
         paint.color = 0xFFE6ECF1.toInt()
         canvas.drawRoundRect(RectF(left, top, right, bottom), 7f.dp, 7f.dp, paint)
@@ -122,5 +214,26 @@ class MonthlyMoneyMapView @JvmOverloads constructor(
     private val Float.dp get() = this * resources.displayMetrics.density
     private val Float.sp get() = this * resources.displayMetrics.scaledDensity
 
+    private fun fitText(text: String, maxWidth: Float, size: Float, bold: Boolean): String {
+        paint.textSize = size
+        paint.typeface = if (bold) android.graphics.Typeface.DEFAULT_BOLD else android.graphics.Typeface.DEFAULT
+        if (paint.measureText(text) <= maxWidth) return text
+        val ellipsis = "\u2026"
+        var end = text.length
+        while (end > 1 && paint.measureText(text.substring(0, end) + ellipsis) > maxWidth) {
+            end--
+        }
+        return text.substring(0, end).trimEnd() + ellipsis
+    }
+
     private data class Row(val label: String, val value: Double, val color: Int)
+    private data class Legend(val label: String, val color: Int)
+
+    data class TrendPoint(
+        val label: String,
+        val income: Double,
+        val paid: Double,
+        val open: Double,
+        val target: Double
+    )
 }

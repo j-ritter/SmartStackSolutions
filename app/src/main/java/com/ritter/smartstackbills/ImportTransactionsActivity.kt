@@ -40,7 +40,7 @@ import java.util.concurrent.Executors
 class ImportTransactionsActivity : AppCompatActivity() {
     private companion object {
         const val MAX_PDF_BYTES = 25 * 1024 * 1024
-        const val FREE_IMPORTS_PER_FILE = 50
+        const val FREE_IMPORTS_PER_FILE = 100
         const val FREE_TOTAL_IMPORTED_TRANSACTIONS = 100L
     }
     private val transactions = mutableListOf<ImportedTransaction>()
@@ -561,6 +561,16 @@ class ImportTransactionsActivity : AppCompatActivity() {
         imported: ImportedTransaction,
         documentId: String
     ): HashMap<String, Any?> {
+        val category = if (imported.type == ImportedTransactionType.INCOME) {
+            FinancialEntryOptions.normalizedIncomeCategory(this, imported.category)
+        } else {
+            FinancialEntryOptions.normalizedExpenseCategory(this, imported.category)
+        }
+        val subcategory = if (imported.type == ImportedTransactionType.INCOME) {
+            FinancialEntryOptions.normalizedIncomeSubcategory(this, category, imported.subcategory)
+        } else {
+            FinancialEntryOptions.normalizedExpenseSubcategory(this, category, imported.subcategory)
+        }
         val fingerprint = imported.fingerprint()
         val importHash = MessageDigest.getInstance("SHA-256")
             .digest(fingerprint.toByteArray())
@@ -570,8 +580,8 @@ class ImportTransactionsActivity : AppCompatActivity() {
             "amount" to CurrencyPreferences.roundToTwoDecimals(imported.amount),
             "currency" to CurrencyPreferences.selectedCode(this),
             "date" to Timestamp(imported.date),
-            "category" to imported.category,
-            "subcategory" to imported.subcategory,
+            "category" to category,
+            "subcategory" to subcategory,
             "repeat" to "No",
             "isRecurring" to false,
             "comment" to getString(R.string.imported_from_statement),

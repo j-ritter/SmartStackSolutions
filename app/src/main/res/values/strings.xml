@@ -1,4 +1,4 @@
-<resources>
+﻿<resources>
     <string name="notification_details">Notification Details</string>
     <string name="main">Main</string>
     <string name="app_name">SmartStack Solutions</string>
@@ -243,7 +243,7 @@
 
     <string name="faqs_question_9">9. What is the Premium Account, and what are its benefits?</string>
     <string name="faqs_answer_9">
-  Answer: Premium removes advertising and unlocks closed-payment management, income management, savings goals, higher limits, and six- and twelve-month financial analysis, including cash-flow trends, category changes, recurring commitments, and savings consistency. Open payments, reminders, templates, scanning, monthly export, Biggest Change, monthly insights, and the calendar remain available in the basic version.
+  Answer: Premium removes advertising and unlocks closed-payment management, income management, up to three overlapping savings goals, higher limits, and six- and twelve-month financial analysis, including cash-flow trends, category changes, recurring commitments, and savings consistency. Open payments, reminders, templates, scanning, monthly export, Biggest Change, monthly insights, and the calendar remain available in the basic version.
 </string>
 
     <string name="faqs_question_10">10. How can I upgrade to the Premium Account?</string>
@@ -258,12 +258,12 @@
 
     <string name="faqs_question_12">12. How do I set a saving target?</string>
     <string name="faqs_answer_12">
-  Answer: Tap the Savings Goal section on the main menu. Enter the goal, target amount, start date, and end date. The dashboard then shows the monthly amount and progress for the selected month.
+  Answer: Tap the Savings Goal section on the main menu or use the plus button and choose Set Savings Target. Enter the goal, target amount, start date, and end date. The dashboard then shows each active goal for the selected month with its icon, monthly amount, progress bar, and percentage.
 </string>
 
     <string name="faqs_question_13">13. Can I set multiple saving targets?</string>
     <string name="faqs_answer_13">
-  Answer: Yes, you can set multiple saving targets in different time periods. Each target is tracked individually in the main menu, where you can see your progress for each. Note that overlapping periods are not possible, so be sure to choose non-overlapping periods for different targets.
+  Answer: Yes. Premium allows up to three active or future savings targets, and their periods may overlap. The dashboard shows each active target separately and uses the combined monthly savings amount in the financial insights.
 </string>
     <string name="faqs_question_14">14. What do I do if I encounter a problem with the app?</string>
     <string name="faqs_answer_14">
@@ -310,6 +310,7 @@
     <string name="dashboard_hint">See upcoming obligations, paid expenses, income, and progress toward your goal.</string>
     <string name="savings_target_progress">Savings target progress</string>
     <string name="set_saving_target">Set a savings goal</string>
+    <string name="savings_target_limit_reached">Premium allows up to 3 active or future savings targets.</string>
     <string name="target_achieved">Target Achieved</string>
     <string name="savings_target_reached_message">Congratulations. You reached 100%% of your saving target.</string>
     <string name="goal_summary">You need to save %1$s per month to reach your goal by %2$s.</string>
@@ -322,7 +323,7 @@
     <string name="premium_intro_text">Keep the essentials free. Upgrade when you want a complete financial workspace with richer history, income management, goals, and no advertising.</string>
     <string name="premium_feature_closed_payments">Create, edit, and organize your detailed payment history.</string>
     <string name="premium_feature_income_management">Create, edit, and organize recurring and one-time income.</string>
-    <string name="premium_feature_saving_target">Set savings goals and follow monthly progress.</string>
+    <string name="premium_feature_saving_target">Set up to three savings goals and follow monthly progress.</string>
     <string name="premium_feature_financial_insights">Explore six- and twelve-month financial trends.</string>
     <string name="premium_closing_text">Open payments, reminders, the calendar, data export, and marking payments as paid remain available in the free version.</string>
     <string name="premium_compare_title">Free vs Premium</string>
@@ -331,10 +332,10 @@
     <string name="premium_compare_free">Free</string>
     <string name="premium_compare_premium">Premium</string>
     <string name="premium_compare_open_payments">Open payments</string>
-    <string name="premium_compare_open_payments_free">30 active one-time open payments</string>
+    <string name="premium_compare_open_payments_free">100 active open payments</string>
     <string name="premium_compare_open_payments_premium">Up to 2,000 combined future entries</string>
     <string name="premium_compare_recurring">Recurring future entries</string>
-    <string name="premium_compare_recurring_free">Up to 250 future payments</string>
+    <string name="premium_compare_recurring_free">Included in the 100 active open-payment limit</string>
     <string name="premium_compare_recurring_premium">Up to 2,000 future entries</string>
     <string name="premium_compare_closed">Closed payments</string>
     <string name="premium_compare_closed_free">Up to 100 paid payments</string>
@@ -342,8 +343,11 @@
     <string name="premium_compare_income">Income management</string>
     <string name="premium_compare_income_free">Import only</string>
     <string name="premium_compare_income_premium">Create and manage income</string>
+    <string name="premium_compare_savings_goals">Savings goals</string>
+    <string name="premium_compare_savings_goals_free">Not included</string>
+    <string name="premium_compare_savings_goals_premium">Up to 3 overlapping active goals</string>
     <string name="premium_compare_import">CSV/PDF import</string>
-    <string name="premium_compare_import_free">50/file · 100 total</string>
+    <string name="premium_compare_import_free">100/file · 100 total</string>
     <string name="premium_compare_import_premium">200/file</string>
     <string name="premium_compare_insights">Financial insights</string>
     <string name="premium_compare_insights_free">Monthly insights + Biggest Change</string>
@@ -356,14 +360,14 @@
     <string name="premium_compare_ads_premium">Removed</string>
     <string name="premium_preview_closed_payments">Preview mode: you can review closed payments. Upgrade to Premium to create, edit, or delete closed payments.</string>
     <string name="premium_preview_income">Preview mode: you can review income entries. Upgrade to Premium to create, edit, or delete income.</string>
-    <string name="premium_upgrade_required">Upgrade to Premium to create closed payments, income entries, and saving targets.</string>
+    <string name="premium_upgrade_required">Upgrade to Premium to create closed payments, income entries, and savings goals.</string>
     <string name="features">Features</string>
     <string name="feature_open_payments_title">Open Payments</string>
     <string name="feature_open_payments_desc">Manage open payments and stay on top of upcoming bills.</string>
-    <string name="feature_open_payments_expandable">Free includes up to 30 standalone active open payments plus recurring schedules within the fair-use allowance. Premium provides a substantially higher safety allowance for active and future entries.</string>
+    <string name="feature_open_payments_expandable">Free includes up to 100 active open payments, including recurring occurrences. Premium provides a substantially higher safety allowance for active and future entries.</string>
     <string name="feature_closed_payments_title">Closed Payments</string>
     <string name="feature_closed_payments_desc">Track bills you have paid and manage your transaction history.</string>
-    <string name="feature_closed_payments_expandable">Everyone can mark an open payment as paid. Premium also unlocks direct creation, editing, deletion, and complete detailed-history management.</string>
+    <string name="feature_closed_payments_expandable">Everyone can mark open payments as paid up to the free history limit of 100 paid payments. Premium also unlocks direct creation, editing, deletion, and complete detailed-history management.</string>
     <string name="feature_income_management_title">Income Management</string>
     <string name="feature_income_management_desc">Track and categorize your income sources.</string>
     <string name="feature_income_management_expandable">Track salary, freelance work, benefits, investments, and recurring income alongside your expenses and projected balance.</string>
@@ -375,7 +379,7 @@
     <string name="feature_calendar_expandable">The calendar remains available in the free version and combines open payments, completed expenses, and income by date.</string>
     <string name="feature_saving_target_title">Saving Target</string>
     <string name="feature_saving_target_desc">Set yourself a saving target and track the progress.</string>
-    <string name="feature_saving_target_expandable">Define a target amount and time period, then compare the required monthly amount with your actual projected balance.</string>
+    <string name="feature_saving_target_expandable">Define up to three goals with overlapping periods, then compare each required monthly amount with your actual projected balance.</string>
     <string name="feature_financial_insights_title">Advanced Financial Insights</string>
     <string name="feature_financial_insights_desc">Turn your history into meaningful trends.</string>
     <string name="feature_financial_insights_expandable">Compare six- and twelve-month cash flow, identify changing expense categories, track recurring commitments, and review savings consistency. The analysis follows the month selected on your dashboard.</string>
@@ -402,9 +406,9 @@
     <string name="optional_details">Optional details</string>
     <string name="savings_quick_entry_hint">Enter your target amount and end date. Start date is prefilled with today.</string>
     <string name="title_optional">Title (optional)</string>
-    <string name="free_open_payment_limit_reached">You have reached the free allowance of 30 standalone active open payments. Mark completed items as paid or upgrade to Premium.</string>
-    <string name="free_closed_payment_limit_reached">You have reached the free allowance of 100 closed payments. Delete older history or upgrade to Premium.</string>
-    <string name="free_recurring_limit_reached">This recurring schedule would exceed the free allowance of 250 future recurring payment occurrences. Remove an unused schedule or upgrade to Premium.</string>
+    <string name="free_open_payment_limit_reached">You have reached the free allowance of 100 active open payments. Mark completed items as paid or upgrade to Premium.</string>
+    <string name="free_closed_payment_limit_reached">You have reached the free allowance of 100 paid payments. Delete older history or upgrade to Premium.</string>
+    <string name="free_recurring_limit_reached">This recurring schedule would exceed the free allowance of 100 active open payments. Remove an unused schedule, mark completed items as paid, or upgrade to Premium.</string>
     <string name="premium_usage_limit_reached">This entry would exceed the Premium fair-use allowance of 2,000 combined future payment and income entries. Please remove obsolete future entries or contact support.</string>
     <string name="usage_limit_check_failed">SmartStack could not verify the available entry allowance. Check your connection and try again.</string>
     <string name="terms_and_conditions_title">Terms &amp; Conditions</string>
@@ -443,7 +447,7 @@
     <string name="terms_section_title_4">4. Free service and advertising</string>
     <string name="terms_section_body_4">The free version is supported by advertising and includes core open-payment, reminder, calendar, export, and payment-completion functions. Some creation, editing, history, income, goal, and analysis functions require Premium.</string>
     <string name="terms_section_title_5">5. Fair-use allowances</string>
-    <string name="terms_section_body_5">To maintain reliable and sustainable service, free accounts support up to 30 standalone active open payments, 100 closed payments, and 250 future recurring payment entries. Premium accounts support higher fair-use allowances, including up to 2,000 combined future payment and income entries. Allowances may be adjusted prospectively for security, reliability, or service sustainability with reasonable notice where practical.</string>
+    <string name="terms_section_body_5">To maintain reliable and sustainable service, free accounts support up to 100 active open payments and 100 paid payments created by marking open payments as paid. Recurring open-payment occurrences count toward the 100 active open-payment limit. Premium accounts support higher fair-use allowances, including up to 2,000 combined future payment and income entries. Allowances may be adjusted prospectively for security, reliability, or service sustainability with reasonable notice where practical.</string>
     <string name="terms_section_title_6">6. Premium subscription</string>
     <string name="terms_section_body_6">Premium features and the current price are shown before purchase. Billing, renewal, cancellation, and eligible refunds are handled through Google Play under its terms and applicable law. Premium removes advertising and unlocks the functions described on the Premium screen, subject to fair-use safeguards.</string>
     <string name="terms_section_title_7">7. Data availability and export</string>
@@ -455,9 +459,9 @@
     <string name="terms_section_title_10">10. Contact</string>
     <string name="terms_section_body_10">Questions about these terms or the service can be sent to appdev.jr2024@gmail.com.</string>
     <string name="faqs_question_16">16. What usage allowances apply to free and Premium accounts?</string>
-    <string name="faqs_answer_16">Free accounts can keep up to 30 active open payments, 100 closed payments, and 250 future recurring payment entries. Premium raises these allowances and supports up to 2,000 combined future payment and income entries. These safety limits protect reliable service and prevent accidental entry explosions.</string>
+    <string name="faqs_answer_16">Free accounts can keep up to 100 active open payments and 100 paid payments created by marking open payments as paid. Recurring open-payment occurrences count toward the 100 active open-payment limit. Premium raises these allowances and supports up to 2,000 combined future payment and income entries. These safety limits protect reliable service and prevent accidental entry explosions.</string>
     <string name="faqs_question_17">17. Can free users still mark payments as paid?</string>
-    <string name="faqs_answer_17">Yes. Completing the normal open-to-closed workflow is never blocked by the free allowance. Direct creation, editing, and deletion of closed payments are Premium management features.</string>
+    <string name="faqs_answer_17">Yes. Free users can mark open payments as paid until they reach the free history limit of 100 paid payments. Direct creation, editing, and deletion of closed payments are Premium management features.</string>
     <string name="faqs_question_18">18. Will SmartStack automatically delete my financial history?</string>
     <string name="faqs_answer_18">SmartStack does not currently apply an automatic deletion period to payment history. You can export your account data at any time. If a material retention policy is introduced later, the app will provide advance information where reasonably possible.</string>
     <string name="faqs_question_19">19. What financial insights are included?</string>
@@ -581,6 +585,8 @@
     <string name="financial_insights_subtitle">Understand the selected month at a glance</string>
     <string name="monthly_money_map">Monthly money map</string>
     <string name="monthly_money_map_description">See how income, completed expenses, upcoming obligations, and your savings goal fit together.</string>
+    <string name="money_flow_development">Money flow development</string>
+    <string name="money_flow_development_description">See how income, closed payments, open payments, and savings goals develop over %1$d months.</string>
     <string name="biggest_change">Biggest change</string>
     <string name="biggest_change_description">The most noticeable movement in income, spending, open payments, or recurring commitments.</string>
     <string name="biggest_change_no_data">Add another month to see meaningful changes.</string>
@@ -594,8 +600,13 @@
     <string name="biggest_change_recurring_commitments">Recurring commitments</string>
     <string name="open_payment_risk_timeline">Open-payment risk timeline</string>
     <string name="open_payment_risk_description">Focus first on overdue and near-term obligations.</string>
+    <string name="open_payment_outlook_by_month">Open-payment outlook by month</string>
+    <string name="open_payment_outlook_by_month_description">See how much is still open in each month of the selected %1$d-month period.</string>
+    <string name="open_payment_outlook_period">Open-payment outlook for selected period</string>
+    <string name="open_payment_outlook_period_description">See how unpaid open payments are distributed across the selected %1$d-month period.</string>
     <string name="spending_composition">Expense composition</string>
     <string name="spending_composition_description">See which categories account for this month’s completed expenses.</string>
+    <string name="spending_composition_period_description">See which categories account for completed expenses across the selected %1$d-month period.</string>
     <string name="available_after_commitments">Available</string>
     <string name="paid_expenses_short">Paid</string>
     <string name="still_due_short">Still due</string>
@@ -603,6 +614,8 @@
     <string name="no_savings_target_insight">No savings goal is active for this month.</string>
     <string name="savings_target_cushion">%1$s remains after the savings goal.</string>
     <string name="savings_target_shortfall">%1$s more is needed to reach the savings goal.</string>
+    <string name="period_balance_positive">%1$s remains after obligations and savings goals in this period.</string>
+    <string name="period_balance_negative">%1$s shortfall after obligations and savings goals in this period.</string>
     <string name="due_next_seven_days">Next 7 days</string>
     <string name="later_this_month">Later</string>
     <string name="other">Other</string>
@@ -735,6 +748,10 @@
     <string name="associated_data_failed">Related data could not be retrieved: %1$s</string>
     <string name="bill_not_found">Open payment not found.</string>
     <string name="open_payment_updated">Open payment updated successfully.</string>
+    <string name="edit_recurring_payment">Edit recurring payment</string>
+    <string name="edit_this_payment_only">Edit only this payment</string>
+    <string name="edit_this_and_future_payments">Edit this and future payments</string>
+    <string name="future_open_payments_updated">This and future payments were updated.</string>
     <string name="open_payment_update_failed">Open payment could not be updated: %1$s</string>
     <string name="open_payment_update_unavailable">Open payment could not be updated.</string>
     <string name="closed_payment_updated">Closed payment updated successfully.</string>
@@ -745,6 +762,10 @@
     <string name="image_permission_denied">Storage permission denied. The image cannot be displayed.</string>
     <string name="image_display_failed">Image could not be displayed: %1$s</string>
     <string name="income_updated">Income updated successfully.</string>
+    <string name="edit_recurring_income">Edit recurring income</string>
+    <string name="edit_this_income_only">Edit only this income entry</string>
+    <string name="edit_this_and_future_income">Edit this and future income</string>
+    <string name="future_income_updated">This and future income entries were updated.</string>
     <string name="income_update_failed">Income could not be updated: %1$s</string>
     <string name="income_update_unavailable">Income could not be updated.</string>
     <string name="payment_login_required">Please sign in again to update this payment.</string>
@@ -780,4 +801,13 @@
     <string name="import_premium_allowance">Premium allowance: up to %1$d transactions per file</string>
     <string name="faqs_question_21">21. How does bank-statement import work, and how accurate is it?</string>
     <string name="faqs_answer_21">Answer: SmartStack can read supported CSV and PDF statements and suggest Closed payments and Income entries. PDF recognition uses on-device OCR and may misread dates, descriptions, or amounts. Always review every row before importing and uncheck transfers, duplicates, or transactions that should not affect your totals. Free accounts can import up to 50 transactions at once and 100 in total; Premium supports up to 200 per file. The statement is processed temporarily on the device and is not uploaded to Firebase; only selected entries are saved.</string>
+    <string name="section_this_month_open_payments">This month open payments</string>
+    <string name="section_this_month_short">This month</string>
+    <string name="section_overdue_open_payments">Overdue open payments</string>
+    <string name="section_upcoming_open_payments">Upcoming open payments</string>
+    <string name="section_past_closed_payments">Past closed payments</string>
+    <string name="section_future_closed_payments">Future closed payments</string>
+    <string name="section_upcoming_income">Upcoming income</string>
+    <string name="section_past_income">Past income</string>
+    <string name="section_no_date">No date</string>
 </resources>

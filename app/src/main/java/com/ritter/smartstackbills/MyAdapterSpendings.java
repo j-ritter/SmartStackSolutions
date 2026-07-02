@@ -1,6 +1,8 @@
 package com.ritter.smartstackbills;
 
 import android.content.Context;
+import android.graphics.Typeface;
+import android.graphics.drawable.GradientDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.Timestamp;
@@ -23,29 +26,40 @@ import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 
 public class MyAdapterSpendings extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context context;
     private ArrayList<Object> itemsArrayList;
+    private ArrayList<Spendings> sourceSpendingsArrayList;
+    private final Set<Integer> collapsedSections = new HashSet<>();
     private OnSpendingClickListener onSpendingClickListener;
 
     private static final int ITEM_SPENDING = 0;
     private static final int ITEM_MONTH_HEADER = 1;
+    private static final int ITEM_SECTION_HEADER = 2;
 
     public MyAdapterSpendings(Context context, ArrayList<Spendings> spendingsArrayList, OnSpendingClickListener onSpendingClickListener) {
         this.context = context;
+        this.sourceSpendingsArrayList = new ArrayList<>(spendingsArrayList);
         this.itemsArrayList = groupSpendingsByMonth(spendingsArrayList);
         this.onSpendingClickListener = onSpendingClickListener;
     }
 
     @Override
     public int getItemViewType(int position) {
-        return itemsArrayList.get(position) instanceof Spendings ? ITEM_SPENDING : ITEM_MONTH_HEADER;
+        if (itemsArrayList.get(position) instanceof Spendings) {
+            return ITEM_SPENDING;
+        } else if (itemsArrayList.get(position) instanceof SectionHeader) {
+            return ITEM_SECTION_HEADER;
+        }
+        return ITEM_MONTH_HEADER;
     }
 
     @NonNull
@@ -54,6 +68,9 @@ public class MyAdapterSpendings extends RecyclerView.Adapter<RecyclerView.ViewHo
         if (viewType == ITEM_SPENDING) {
             View v = LayoutInflater.from(context).inflate(R.layout.items_spendings, parent, false);
             return new SpendingViewHolder(v, onSpendingClickListener);
+        } else if (viewType == ITEM_SECTION_HEADER) {
+            View v = LayoutInflater.from(context).inflate(R.layout.item_section_header, parent, false);
+            return new SectionHeaderViewHolder(v);
         } else {
             View v = LayoutInflater.from(context).inflate(R.layout.item_month_header, parent, false);
             return new MonthHeaderViewHolder(v);
@@ -93,16 +110,20 @@ public class MyAdapterSpendings extends RecyclerView.Adapter<RecyclerView.ViewHo
             spendingHolder.checkBoxPaid.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 if (!isChecked) {  // Se ejecutará solo cuando se quite el check
                     spendingHolder.checkBoxPaid.setEnabled(false);
-                    spending.setPaid(false);
-
                     saveSpendingToBills(spending, position, spendingHolder);
                 }
             });
 
-        } else {
+        } else if (holder.getItemViewType() == ITEM_MONTH_HEADER) {
             MonthHeaderViewHolder headerHolder = (MonthHeaderViewHolder) holder;
             String monthHeader = (String) itemsArrayList.get(position);
+            styleMonthHeader(headerHolder);
             headerHolder.monthHeader.setText(monthHeader);
+        } else {
+            SectionHeaderViewHolder headerHolder = (SectionHeaderViewHolder) holder;
+            SectionHeader sectionHeader = (SectionHeader) itemsArrayList.get(position);
+            styleSectionHeader(headerHolder, sectionHeader, R.color.spending_color, R.color.filter_closed_active);
+            headerHolder.monthHeader.setText(context.getString(sectionHeader.titleRes));
         }
     }
     private void saveSpendingToBills(Spendings spending, int adapterPosition, SpendingViewHolder holder) {
@@ -156,16 +177,10 @@ public class MyAdapterSpendings extends RecyclerView.Adapter<RecyclerView.ViewHo
                     .addOnSuccessListener(aVoid -> {
                         Toast.makeText(context, R.string.payment_moved_to_open, Toast.LENGTH_SHORT).show();
                         PaymentNotificationScheduler.INSTANCE.scheduleBill(context, userUid, bill, false);
-                        if (adapterPosition >= 0 && adapterPosition < itemsArrayList.size()) {
-                            itemsArrayList.remove(adapterPosition);
-                            notifyItemRemoved(adapterPosition);
-                            notifyItemRangeChanged(adapterPosition, itemsArrayList.size());
-                        } else {
-                            notifyDataSetChanged();
-                        }
+                        // Let the Firestore listener rebuild the grouped, filtered list.
+                        notifyDataSetChanged();
                     })
                     .addOnFailureListener(e -> {
-                        spending.setPaid(true);
                         holder.checkBoxPaid.setEnabled(true);
                         Toast.makeText(context, context.getString(R.string.payment_move_failed, e.getMessage()), Toast.LENGTH_SHORT).show();
                         notifyDataSetChanged();
@@ -221,8 +236,65 @@ public class MyAdapterSpendings extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     public void updateSpendings(ArrayList<Spendings> newSpendings) {
+        sourceSpendingsArrayList = new ArrayList<>(newSpendings);
         itemsArrayList = groupSpendingsByMonth(newSpendings);
         notifyDataSetChanged();
+    }
+
+    private static class SectionHeader {
+        final int titleRes;
+
+        SectionHeader(int titleRes) {
+            this.titleRes = titleRes;
+        }
+    }
+
+    public static class SectionHeaderViewHolder extends RecyclerView.ViewHolder {
+        TextView monthHeader;
+        View chip;
+        ImageView arrow;
+
+        public SectionHeaderViewHolder(@NonNull View itemView) {
+            super(itemView);
+            monthHeader = itemView.findViewById(R.id.textviewSectionHeader);
+            chip = itemView.findViewById(R.id.sectionHeaderChip);
+            arrow = itemView.findViewById(R.id.imageSectionArrow);
+        }
+    }
+
+    private void styleMonthHeader(MonthHeaderViewHolder holder) {
+        holder.monthHeader.setTextColor(ContextCompat.getColor(context, android.R.color.black));
+        holder.monthHeader.setTextSize(16);
+        holder.monthHeader.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+        holder.monthHeader.setAllCaps(false);
+    }
+
+    private void styleSectionHeader(SectionHeaderViewHolder holder, SectionHeader sectionHeader, int colorRes, int backgroundColorRes) {
+        int color = ContextCompat.getColor(context, colorRes);
+        int backgroundColor = ContextCompat.getColor(context, backgroundColorRes);
+        GradientDrawable chipBackground = new GradientDrawable();
+        chipBackground.setColor(backgroundColor);
+        chipBackground.setCornerRadius(4f);
+        holder.chip.setBackground(chipBackground);
+        holder.monthHeader.setTextColor(color);
+        holder.arrow.setColorFilter(color);
+        holder.arrow.setImageResource(
+                collapsedSections.contains(sectionHeader.titleRes)
+                        ? R.drawable.ic_arrow_right
+                        : R.drawable.ic_arrow_down
+        );
+        holder.chip.setOnClickListener(v -> {
+            if (collapsedSections.contains(sectionHeader.titleRes)) {
+                collapsedSections.remove(sectionHeader.titleRes);
+            } else {
+                collapsedSections.add(sectionHeader.titleRes);
+            }
+            itemsArrayList = groupSpendingsByMonth(sourceSpendingsArrayList);
+            notifyDataSetChanged();
+        });
+        holder.monthHeader.setTextSize(16);
+        holder.monthHeader.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+        holder.monthHeader.setAllCaps(true);
     }
 
     private ArrayList<Object> groupSpendingsByMonth(ArrayList<Spendings> spendingsArrayList) {
@@ -232,12 +304,16 @@ public class MyAdapterSpendings extends RecyclerView.Adapter<RecyclerView.ViewHo
         int currentMonth = currentDate.get(Calendar.MONTH);
         int currentYear = currentDate.get(Calendar.YEAR);
 
-        // Separate spendings into past, current, and future groups
         Map<Integer, Map<Integer, List<Spendings>>> currentMonthSpendings = new TreeMap<>();
-        Map<Integer, Map<Integer, List<Spendings>>> futureMonthSpendings = new TreeMap<>();
         Map<Integer, Map<Integer, List<Spendings>>> pastMonthSpendings = new TreeMap<>(Comparator.reverseOrder());
+        Map<Integer, Map<Integer, List<Spendings>>> futureMonthSpendings = new TreeMap<>();
+        List<Spendings> noDateSpendings = new ArrayList<>();
 
         for (Spendings spending : spendingsArrayList) {
+            if (spending.getDate() == null) {
+                noDateSpendings.add(spending);
+                continue;
+            }
             Date spendingDate = spending.getDate().toDate();
             Calendar spendingCalendar = Calendar.getInstance();
             spendingCalendar.setTime(spendingDate);
@@ -261,44 +337,47 @@ public class MyAdapterSpendings extends RecyclerView.Adapter<RecyclerView.ViewHo
             }
         }
 
-        // Sort spendings within each month group by date in ascending order
         Comparator<Spendings> dateComparator = Comparator.comparing(s -> s.getDate().toDate());
-        currentMonthSpendings.values().forEach(monthMap -> monthMap.values().forEach(spendings -> spendings.sort(dateComparator)));
+        currentMonthSpendings.values().forEach(monthMap -> monthMap.values().forEach(spendings -> spendings.sort(dateComparator.reversed())));
         futureMonthSpendings.values().forEach(monthMap -> monthMap.values().forEach(spendings -> spendings.sort(dateComparator)));
         pastMonthSpendings.values().forEach(monthMap -> monthMap.values().forEach(spendings -> spendings.sort(dateComparator.reversed())));
+        noDateSpendings.sort(Comparator.comparing(s -> s.getName() == null ? "" : s.getName().toLowerCase(Locale.getDefault())));
 
         ArrayList<Object> items = new ArrayList<>();
 
-        // Add current month spendings (if any)
-        if (!currentMonthSpendings.isEmpty()) {
-            for (Map.Entry<Integer, Map<Integer, List<Spendings>>> entry : currentMonthSpendings.entrySet()) {
-                for (Map.Entry<Integer, List<Spendings>> monthEntry : entry.getValue().entrySet()) {
-                    String monthYear = sdf.format(new GregorianCalendar(entry.getKey(), monthEntry.getKey(), 1).getTime());
-                    items.add(monthYear);
-                    items.addAll(monthEntry.getValue());
-                }
-            }
-        }
-
-        // Add future months in ascending order by year and month
-        for (Map.Entry<Integer, Map<Integer, List<Spendings>>> entry : futureMonthSpendings.entrySet()) {
-            for (Map.Entry<Integer, List<Spendings>> monthEntry : entry.getValue().entrySet()) {
-                String monthYear = sdf.format(new GregorianCalendar(entry.getKey(), monthEntry.getKey(), 1).getTime());
-                items.add(monthYear);
-                items.addAll(monthEntry.getValue());
-            }
-        }
-
-        // Add past months in descending order by year and month
-        for (Map.Entry<Integer, Map<Integer, List<Spendings>>> entry : pastMonthSpendings.entrySet()) {
-            for (Map.Entry<Integer, List<Spendings>> monthEntry : entry.getValue().entrySet()) {
-                String monthYear = sdf.format(new GregorianCalendar(entry.getKey(), monthEntry.getKey(), 1).getTime());
-                items.add(monthYear);
-                items.addAll(monthEntry.getValue());
+        addGroupedSection(items, currentMonthSpendings, sdf, R.string.section_this_month_short);
+        addGroupedSection(items, pastMonthSpendings, sdf, R.string.section_past_closed_payments);
+        addGroupedSection(items, futureMonthSpendings, sdf, R.string.section_future_closed_payments);
+        if (!noDateSpendings.isEmpty()) {
+            items.add(new SectionHeader(R.string.section_no_date));
+            if (!collapsedSections.contains(R.string.section_no_date)) {
+                items.addAll(noDateSpendings);
             }
         }
 
         return items;
+    }
+
+    private void addGroupedSection(
+            ArrayList<Object> items,
+            Map<Integer, Map<Integer, List<Spendings>>> groupedSpendings,
+            SimpleDateFormat sdf,
+            int sectionTitleRes
+    ) {
+        if (groupedSpendings.isEmpty()) {
+            return;
+        }
+        items.add(new SectionHeader(sectionTitleRes));
+        if (collapsedSections.contains(sectionTitleRes)) {
+            return;
+        }
+        for (Map.Entry<Integer, Map<Integer, List<Spendings>>> entry : groupedSpendings.entrySet()) {
+            for (Map.Entry<Integer, List<Spendings>> monthEntry : entry.getValue().entrySet()) {
+                String monthYear = sdf.format(new GregorianCalendar(entry.getKey(), monthEntry.getKey(), 1).getTime());
+                items.add(monthYear);
+                items.addAll(monthEntry.getValue());
+            }
+        }
     }
 
     private String formatTimestamp(Timestamp timestamp) {

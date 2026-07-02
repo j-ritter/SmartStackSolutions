@@ -4,6 +4,11 @@ import android.content.Context
 import androidx.annotation.ArrayRes
 
 object FinancialEntryOptions {
+    const val DEFAULT_EXPENSE_CATEGORY = "Other"
+    const val DEFAULT_EXPENSE_SUBCATEGORY = "Miscellaneous"
+    const val DEFAULT_INCOME_CATEGORY = "Salary & wages"
+    const val DEFAULT_INCOME_SUBCATEGORY = "Regular salary"
+
     data class Option(val key: String, val label: String) {
         override fun toString(): String = label
     }
@@ -173,6 +178,40 @@ object FinancialEntryOptions {
     @JvmStatic
     fun canonicalCategoryKey(context: Context, value: String): String =
         canonicalCategory(context, value)
+
+    fun normalizedExpenseCategory(context: Context, value: String?): String =
+        canonicalCategory(context, value.orEmpty())
+            .takeIf { it in expenseCategoryKeys }
+            ?: DEFAULT_EXPENSE_CATEGORY
+
+    fun normalizedExpenseSubcategory(context: Context, category: String?, value: String?): String {
+        val categoryKey = normalizedExpenseCategory(context, category)
+        val subcategory = value?.trim().orEmpty()
+        val options = expenseSubcategories(context, categoryKey)
+        return options.firstOrNull { it.key == subcategory || it.label == subcategory }?.key
+            ?: if (categoryKey == DEFAULT_EXPENSE_CATEGORY) {
+                DEFAULT_EXPENSE_SUBCATEGORY
+            } else {
+                options.lastOrNull()?.key ?: DEFAULT_EXPENSE_SUBCATEGORY
+            }
+    }
+
+    fun normalizedIncomeCategory(context: Context, value: String?): String =
+        canonicalCategory(context, value.orEmpty())
+            .takeIf { it in incomeCategoryKeys }
+            ?: DEFAULT_INCOME_CATEGORY
+
+    fun normalizedIncomeSubcategory(context: Context, category: String?, value: String?): String {
+        val categoryKey = normalizedIncomeCategory(context, category)
+        val subcategory = value?.trim().orEmpty()
+        val options = incomeSubcategories(context, categoryKey)
+        return options.firstOrNull { it.key == subcategory || it.label == subcategory }?.key
+            ?: if (categoryKey == DEFAULT_INCOME_CATEGORY) {
+                DEFAULT_INCOME_SUBCATEGORY
+            } else {
+                options.lastOrNull()?.key ?: DEFAULT_INCOME_SUBCATEGORY
+            }
+    }
 
     private fun canonicalCategory(context: Context, value: String): String {
         val normalized = value.trim()

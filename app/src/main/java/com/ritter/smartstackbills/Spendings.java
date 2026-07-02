@@ -5,7 +5,9 @@ import com.google.firebase.Timestamp;
 public class Spendings {
 
     String spendingId;
-    String name, comment, category, vendor, subcategory, attachment, importHash, currency;
+    String name, comment, vendor, attachment, importHash, currency;
+    String category = "Other";
+    String subcategory = "Miscellaneous";
     double amount;
     Timestamp date;
     boolean paid;

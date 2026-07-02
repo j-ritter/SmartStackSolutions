@@ -16,7 +16,10 @@ object ImportCategorySuggester {
                     Suggestion("Refunds & reimbursements", "Purchase refund")
                 value.containsAny("interest", "interes", "zinsen", "dividend") ->
                     Suggestion("Investment income", "Interest")
-                else -> Suggestion("Other income", "Miscellaneous")
+                else -> Suggestion(
+                    FinancialEntryOptions.DEFAULT_INCOME_CATEGORY,
+                    FinancialEntryOptions.DEFAULT_INCOME_SUBCATEGORY
+                )
             }
         }
         return when {
@@ -38,7 +41,10 @@ object ImportCategorySuggester {
                 Suggestion("Housing & utilities", "Rent")
             value.containsAny("restaurant", "restaurante", "cafe", "coffee", "tacos") ->
                 Suggestion("Groceries", "Dining & takeaway")
-            else -> Suggestion("Other", "Miscellaneous")
+            else -> Suggestion(
+                FinancialEntryOptions.DEFAULT_EXPENSE_CATEGORY,
+                FinancialEntryOptions.DEFAULT_EXPENSE_SUBCATEGORY
+            )
         }
     }
 

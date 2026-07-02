@@ -631,8 +631,9 @@
                                 android:background="@drawable/savings_target_icon_bg"
                                 android:contentDescription="@null"
                                 android:padding="8dp"
-                                android:scaleType="centerCrop"
-                                android:src="@drawable/piggybank_1" />
+                                android:scaleType="center"
+                                android:src="@drawable/baseline_savings_24"
+                                app:tint="@color/colorPrimary" />
 
                             <LinearLayout
                                 android:layout_width="0dp"
@@ -666,6 +667,13 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical">
+
+                            <LinearLayout
+                                android:id="@+id/savingsTargetsList"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:orientation="vertical" />
 
                             <LinearLayout
                                 android:id="@+id/savingsTargetActionRow"
@@ -706,6 +714,7 @@
                             </LinearLayout>
 
                             <LinearLayout
+                                android:id="@+id/savingsTargetLegacyProgressRow"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
@@ -847,17 +856,23 @@
                                 android:orientation="vertical">
 
                             <LinearLayout
+                                android:id="@+id/monthlyMoneyMapPanel"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/insight_panel_background"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:foreground="?attr/selectableItemBackground"
                                 android:orientation="vertical"
                                 android:padding="14dp">
 
                                 <TextView
+                                    android:id="@+id/monthlyMoneyMapTitle"
                                     style="@style/InsightTitle"
                                     android:text="@string/monthly_money_map" />
 
                                 <TextView
+                                    android:id="@+id/monthlyMoneyMapDescription"
                                     style="@style/InsightDescription"
                                     android:text="@string/monthly_money_map_description" />
 
@@ -871,18 +886,24 @@
                             </LinearLayout>
 
                             <LinearLayout
+                                android:id="@+id/openPaymentRiskPanel"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="12dp"
                                 android:background="@drawable/insight_panel_background"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:foreground="?attr/selectableItemBackground"
                                 android:orientation="vertical"
                                 android:padding="14dp">
 
                                 <TextView
+                                    android:id="@+id/openPaymentRiskTitle"
                                     style="@style/InsightTitle"
                                     android:text="@string/open_payment_risk_timeline" />
 
                                 <TextView
+                                    android:id="@+id/openPaymentRiskDescription"
                                     style="@style/InsightDescription"
                                     android:text="@string/open_payment_risk_description" />
 
@@ -894,18 +915,24 @@
                             </LinearLayout>
 
                             <LinearLayout
+                                android:id="@+id/spendingCompositionPanel"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="12dp"
                                 android:background="@drawable/insight_panel_background"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:foreground="?attr/selectableItemBackground"
                                 android:orientation="vertical"
                                 android:padding="14dp">
 
                                 <TextView
+                                    android:id="@+id/spendingCompositionTitle"
                                     style="@style/InsightTitle"
                                     android:text="@string/spending_composition" />
 
                                 <TextView
+                                    android:id="@+id/spendingCompositionDescription"
                                     style="@style/InsightDescription"
                                     android:text="@string/spending_composition_description" />
 

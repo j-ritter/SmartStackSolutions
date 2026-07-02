@@ -12,8 +12,8 @@ android {
         applicationId = "com.ritter.smartstackbills"
         minSdk = 24
         targetSdk = 35
-        versionCode = 21
-        versionName = "1.14"
+        versionCode = 31
+        versionName = "1.4.7"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

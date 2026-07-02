@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="notification_details">Detalles de la Notificación</string>
     <string name="main">Menú principal</string>
@@ -290,19 +290,22 @@
     <string name="premium_compare_free">Gratis</string>
     <string name="premium_compare_premium">Premium</string>
     <string name="premium_compare_open_payments">Pagos pendientes</string>
-    <string name="premium_compare_open_payments_free">30 pagos pendientes únicos activos</string>
+    <string name="premium_compare_open_payments_free">100 pagos pendientes activos</string>
     <string name="premium_compare_open_payments_premium">Hasta 2.000 entradas futuras combinadas</string>
     <string name="premium_compare_recurring">Entradas futuras recurrentes</string>
-    <string name="premium_compare_recurring_free">Hasta 250 pagos futuros</string>
+    <string name="premium_compare_recurring_free">Incluido en el límite de 100 pagos pendientes activos</string>
     <string name="premium_compare_recurring_premium">Hasta 2.000 entradas futuras</string>
     <string name="premium_compare_closed">Pagos cerrados</string>
-    <string name="premium_compare_closed_free">Hasta 100 pagos cerrados</string>
+    <string name="premium_compare_closed_free">Hasta 100 pagos pagados</string>
     <string name="premium_compare_closed_premium">Historial completo</string>
     <string name="premium_compare_income">Gestión de ingresos</string>
     <string name="premium_compare_income_free">Solo importación</string>
     <string name="premium_compare_income_premium">Crear y gestionar ingresos</string>
     <string name="premium_compare_import">Importación CSV/PDF</string>
-    <string name="premium_compare_import_free">50/archivo · 100 total</string>
+    <string name="premium_compare_savings_goals">Objetivos de ahorro</string>
+    <string name="premium_compare_savings_goals_free">No incluido</string>
+    <string name="premium_compare_savings_goals_premium">Hasta 3 objetivos activos superpuestos</string>
+    <string name="premium_compare_import_free">100/archivo · 100 total</string>
     <string name="premium_compare_import_premium">200/archivo</string>
     <string name="premium_compare_insights">Análisis financieros</string>
     <string name="premium_compare_insights_free">Básicos mensuales</string>
@@ -314,10 +317,10 @@
     <string name="features">Características</string>
     <string name="feature_open_payments_title">Pagos pendientes</string>
     <string name="feature_open_payments_desc">Gestiona los pagos pendientes y mantente al día con tus facturas próximas.</string>
-    <string name="feature_open_payments_expandable">Los pagos pendientes te permiten gestionar tus facturas próximas, establecer recordatorios, realizar un seguimiento de los pagos y ayudarte a pagar a tiempo.</string>
+    <string name="feature_open_payments_expandable">La versión gratuita incluye hasta 100 pagos pendientes activos, incluidas las ocurrencias recurrentes. Premium ofrece un límite de seguridad mucho más alto para entradas activas y futuras.</string>
     <string name="feature_closed_payments_title">Pagos cerrados</string>
     <string name="feature_closed_payments_desc">Haz un seguimiento de las facturas que has pagado y gestiona tu historial de transacciones.</string>
-    <string name="feature_closed_payments_expandable">Los pagos cerrados te ayudan a hacer un seguimiento de las facturas pagadas para tu historial financiero.</string>
+    <string name="feature_closed_payments_expandable">Todos pueden marcar pagos pendientes como pagados hasta el límite gratuito de historial de 100 pagos pagados. Premium también desbloquea creación directa, edición, eliminación y gestión completa del historial.</string>
     <string name="feature_income_management_title">Gestión de ingresos</string>
     <string name="feature_income_management_desc">Haz un seguimiento y clasifica tus fuentes de ingresos.</string>
     <string name="feature_income_management_expandable">La gestión de ingresos te ayuda a realizar un seguimiento de tus diferentes flujos de ingresos, incluidos salarios, trabajos freelance e inversiones.</string>
@@ -539,7 +542,7 @@
     <string name="import_premium_allowance">Límite Premium: hasta %1$d transacciones por archivo</string>
     <string name="faqs_question_21">21. ¿Cómo funciona la importación de estados de cuenta y qué precisión tiene?</string>
     <string name="faqs_answer_21">Respuesta: SmartStack puede leer estados CSV y PDF compatibles y sugerir pagos cerrados e ingresos. El OCR puede interpretar incorrectamente fechas, descripciones o importes. Revisa cada fila y desmarca transferencias, duplicados o movimientos no deseados. Las cuentas gratuitas pueden importar 50 transacciones a la vez y 100 en total; Premium admite hasta 200 por archivo. El estado se procesa temporalmente en el dispositivo y no se sube a Firebase; solo se guardan las entradas seleccionadas.</string>
-    <string name="free_closed_payment_limit_reached">Has alcanzado el límite gratuito de 100 pagos cerrados. Elimina historial antiguo o actualiza a Premium.</string>
+    <string name="free_closed_payment_limit_reached">Has alcanzado el límite gratuito de 100 pagos pagados. Elimina historial antiguo o actualiza a Premium.</string>
     <string name="log_in_with_google">Iniciar sesión con Google</string>
     <string name="login_title">Bienvenido de nuevo</string>
     <string name="login_subtitle">Inicia sesión para seguir gestionando tus pagos, gastos e ingresos.</string>
@@ -582,8 +585,8 @@
     <string name="savings_quick_entry_hint">Introduce el importe objetivo y la fecha final. La fecha de inicio se rellena con la fecha de hoy.</string>
     <string name="title_optional">Título opcional</string>
 
-    <string name="free_open_payment_limit_reached">Has alcanzado el límite gratuito de 30 pagos pendientes activos únicos. Marca elementos completados como pagados o actualiza a Premium.</string>
-    <string name="free_recurring_limit_reached">Esta programación recurrente superaría el límite gratuito de 250 pagos futuros recurrentes. Elimina una programación que ya no uses o actualiza a Premium.</string>
+    <string name="free_open_payment_limit_reached">Has alcanzado el límite gratuito de 100 pagos pendientes activos. Marca elementos completados como pagados o actualiza a Premium.</string>
+    <string name="free_recurring_limit_reached">Esta programación recurrente superaría el límite gratuito de 100 pagos pendientes activos. Elimina una programación que ya no uses, marca elementos completados como pagados o actualiza a Premium.</string>
     <string name="premium_usage_limit_reached">Esta entrada superaría el límite de uso justo de Premium de 2.000 entradas futuras combinadas de pagos e ingresos. Elimina entradas futuras obsoletas o contacta al soporte.</string>
     <string name="usage_limit_check_failed">SmartStack no pudo verificar el límite disponible de entradas. Revisa tu conexión e inténtalo de nuevo.</string>
 
@@ -612,7 +615,7 @@
     <string name="terms_section_title_4">4. Servicio gratuito y publicidad</string>
     <string name="terms_section_body_4">La versión gratuita se financia con publicidad e incluye funciones básicas de pagos pendientes, recordatorios, calendario, exportación y finalización de pagos. Algunas funciones de creación, edición, historial, ingresos, metas y análisis requieren Premium.</string>
     <string name="terms_section_title_5">5. Límites de uso justo</string>
-    <string name="terms_section_body_5">Para mantener un servicio fiable y sostenible, las cuentas gratuitas admiten hasta 30 pagos pendientes activos únicos, 100 pagos cerrados y 250 entradas futuras de pagos recurrentes. Las cuentas Premium admiten límites de uso justo más altos, incluido un máximo de 2.000 entradas futuras combinadas de pagos e ingresos. Los límites pueden ajustarse en el futuro por seguridad, fiabilidad o sostenibilidad del servicio, con aviso razonable cuando sea posible.</string>
+    <string name="terms_section_body_5">Para mantener un servicio fiable y sostenible, las cuentas gratuitas admiten hasta 100 pagos pendientes activos y 100 pagos pagados creados al marcar pagos pendientes como pagados. Las ocurrencias recurrentes de pagos pendientes cuentan dentro del límite de 100 pagos pendientes activos. Las cuentas Premium admiten límites de uso justo más altos, incluido un máximo de 2.000 entradas futuras combinadas de pagos e ingresos. Los límites pueden ajustarse en el futuro por seguridad, fiabilidad o sostenibilidad del servicio, con aviso razonable cuando sea posible.</string>
     <string name="terms_section_title_6">6. Suscripción Premium</string>
     <string name="terms_section_body_6">Las funciones Premium y el precio vigente se muestran antes de la compra. La facturación, renovación, cancelación y reembolsos elegibles se gestionan a través de Google Play según sus términos y la ley aplicable. Premium elimina la publicidad y desbloquea las funciones descritas en la pantalla Premium, sujetas a límites de uso justo.</string>
     <string name="terms_section_title_7">7. Disponibilidad y exportación de datos</string>
@@ -625,9 +628,9 @@
     <string name="terms_section_body_10">Las preguntas sobre estos términos o el servicio pueden enviarse a appdev.jr2024@gmail.com.</string>
 
     <string name="faqs_question_16">16. ¿Qué límites de uso aplican a las cuentas gratuitas y Premium?</string>
-    <string name="faqs_answer_16">Las cuentas gratuitas pueden mantener hasta 30 pagos pendientes activos, 100 pagos cerrados y 250 entradas futuras de pagos recurrentes. Premium aumenta estos límites y admite hasta 2.000 entradas futuras combinadas de pagos e ingresos. Estos límites de seguridad protegen la fiabilidad del servicio y evitan creaciones accidentales masivas de entradas.</string>
+    <string name="faqs_answer_16">Las cuentas gratuitas pueden mantener hasta 100 pagos pendientes activos y 100 pagos pagados creados al marcar pagos pendientes como pagados. Las ocurrencias recurrentes de pagos pendientes cuentan dentro del límite de 100 pagos pendientes activos. Premium aumenta estos límites y admite hasta 2.000 entradas futuras combinadas de pagos e ingresos. Estos límites de seguridad protegen la fiabilidad del servicio y evitan creaciones accidentales masivas de entradas.</string>
     <string name="faqs_question_17">17. ¿Los usuarios gratuitos pueden seguir marcando pagos como pagados?</string>
-    <string name="faqs_answer_17">Sí. Completar el flujo normal de pago pendiente a pago cerrado nunca está bloqueado por el límite gratuito. La creación, edición y eliminación directa de pagos cerrados son funciones de gestión Premium.</string>
+    <string name="faqs_answer_17">Sí. Los usuarios gratuitos pueden marcar pagos pendientes como pagados hasta alcanzar el límite gratuito de historial de 100 pagos pagados. La creación, edición y eliminación directa de pagos cerrados son funciones de gestión Premium.</string>
     <string name="faqs_question_18">18. ¿SmartStack eliminará automáticamente mi historial financiero?</string>
     <string name="faqs_answer_18">SmartStack actualmente no aplica un período de eliminación automática al historial de pagos. Puedes exportar los datos de tu cuenta en cualquier momento. Si se introduce una política material de retención más adelante, la app proporcionará información previa cuando sea razonablemente posible.</string>
     <string name="faqs_question_19">19. ¿Qué análisis financieros están incluidos?</string>
@@ -663,6 +666,13 @@
     <string name="currency">Moneda</string>
     <string name="currency_menu_title">Moneda (%1$s)</string>
     <string name="select_currency">Seleccionar moneda</string>
+    <string name="amount_display">Visualización de importes</string>
+    <string name="amount_display_menu_title">Visualización de importes (%1$s)</string>
+    <string name="select_amount_display">Seleccionar visualización de importes</string>
+    <string name="amount_display_two_decimals">Mostrar siempre 2 decimales</string>
+    <string name="amount_display_no_decimals">No mostrar decimales</string>
+    <string name="amount_display_two_decimals_short">2 decimales</string>
+    <string name="amount_display_no_decimals_short">sin decimales</string>
     <string name="billing_insufficient_funds">El pago fue rechazado porque no hay fondos suficientes.</string>
     <string name="billing_user_ineligible">Esta oferta de suscripción no está disponible para esta cuenta.</string>
 
@@ -670,6 +680,8 @@
     <string name="financial_insights_subtitle">Comprende el mes seleccionado de un vistazo</string>
     <string name="monthly_money_map">Mapa mensual del dinero</string>
     <string name="monthly_money_map_description">Ve cómo encajan ingresos, gastos completados, obligaciones próximas y tu meta de ahorro.</string>
+    <string name="money_flow_development">Evolución del flujo de dinero</string>
+    <string name="money_flow_development_description">Mira cómo evolucionan los ingresos, pagos cerrados, pagos pendientes y objetivos de ahorro durante %1$d meses.</string>
     <string name="open_payment_risk_timeline">Línea de riesgo de pagos pendientes</string>
     <string name="open_payment_risk_description">Prioriza primero los pagos atrasados y las obligaciones cercanas.</string>
     <string name="spending_composition">Composición del gasto</string>
@@ -779,4 +791,29 @@
     <string name="template_name_hint">p. ej. Supermercado, Gasolinera, Dividendos</string>
     <string name="template_saved">Plantilla guardada.</string>
     <string name="template_name_required">Introduce un nombre para la plantilla.</string>
+    <string name="section_this_month_open_payments">Pagos abiertos este mes</string>
+    <string name="section_this_month_short">Este mes</string>
+    <string name="section_overdue_open_payments">Pagos abiertos vencidos</string>
+    <string name="section_upcoming_open_payments">Pagos abiertos próximos</string>
+    <string name="section_past_closed_payments">Pagos cerrados anteriores</string>
+    <string name="section_future_closed_payments">Pagos cerrados futuros</string>
+    <string name="section_upcoming_income">Ingresos próximos</string>
+    <string name="section_past_income">Ingresos anteriores</string>
+    <string name="section_no_date">Sin fecha</string>
+    <string name="open_payment_outlook_by_month">Perspectiva de pagos pendientes por mes</string>
+    <string name="open_payment_outlook_by_month_description">Mira cuánto queda pendiente en cada mes del período seleccionado de %1$d meses.</string>
+    <string name="open_payment_outlook_period">Perspectiva de pagos pendientes en el período seleccionado</string>
+    <string name="open_payment_outlook_period_description">Mira cómo se distribuyen los pagos pendientes no pagados en el período seleccionado de %1$d meses.</string>
+    <string name="period_balance_positive">Quedan %1$s después de obligaciones y objetivos de ahorro en este período.</string>
+    <string name="period_balance_negative">Faltan %1$s después de obligaciones y objetivos de ahorro en este período.</string>
+    <string name="edit_recurring_payment">Editar pago recurrente</string>
+    <string name="edit_this_payment_only">Editar solo este pago</string>
+    <string name="edit_this_and_future_payments">Editar este pago y los futuros</string>
+    <string name="future_open_payments_updated">Este pago y los futuros se actualizaron.</string>
+    <string name="edit_recurring_income">Editar ingreso recurrente</string>
+    <string name="edit_this_income_only">Editar solo este ingreso</string>
+    <string name="edit_this_and_future_income">Editar este ingreso y los futuros</string>
+    <string name="future_income_updated">Este ingreso y los futuros se actualizaron.</string>
 </resources>
+
+

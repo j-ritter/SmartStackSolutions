@@ -1,6 +1,7 @@
 ﻿package com.ritter.smartstackbills
 
 import android.app.Dialog
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -32,6 +33,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import java.text.SimpleDateFormat
 import java.io.File
+import java.util.Calendar
 import java.util.Locale
 import kotlin.collections.ArrayList
 
@@ -168,8 +170,19 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
 
                 dialog.findViewById<EditText>(R.id.edtTitleDialogIncome).isEnabled = false
                 dialog.findViewById<EditText>(R.id.edtAmountDialogIncome).isEnabled = false
+                dialog.findViewById<EditText>(R.id.edtDateDialogIncome).isEnabled = false
+                dialog.findViewById<EditText>(R.id.edtRepeatDialogIncome).isEnabled = false
+                dialog.findViewById<EditText>(R.id.edtCategoryDialogIncome).isEnabled = false
+                dialog.findViewById<EditText>(R.id.edtSubcategoryDialogIncome).isEnabled = false
                 dialog.findViewById<EditText>(R.id.edtCommentDialogIncome).isEnabled = false
                 dialog.findViewById<EditText>(R.id.edtSourceDialogIncome).isEnabled = false
+                configureIncomePickers(
+                    dialog.findViewById(R.id.edtDateDialogIncome),
+                    dialog.findViewById(R.id.edtRepeatDialogIncome),
+                    dialog.findViewById(R.id.edtCategoryDialogIncome),
+                    dialog.findViewById(R.id.edtSubcategoryDialogIncome),
+                    false
+                )
             } else {
                 dialog.dismiss()
             }
@@ -252,9 +265,17 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
             income.parentIncomeId = documentId
             updates["parentIncomeId"] = documentId
         }
-        if (income.subcategory == null) {
-            income.subcategory = "-"
-            updates["subcategory"] = "-"
+        if (income.category.isNullOrBlank()) {
+            income.category = FinancialEntryOptions.DEFAULT_INCOME_CATEGORY
+            updates["category"] = income.category
+        }
+        if (income.subcategory.isNullOrBlank() || income.subcategory == "-") {
+            income.subcategory = FinancialEntryOptions.normalizedIncomeSubcategory(
+                this,
+                income.category,
+                income.subcategory
+            )
+            updates["subcategory"] = income.subcategory
         }
         if (income.currency.isNullOrBlank()) {
             income.currency = CurrencyPreferences.selectedCode(this)
@@ -339,8 +360,19 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
         // Disable inputs initially
         edtTitleDialog.isEnabled = false
         edtAmountDialog.isEnabled = false
+        edtDateDialog.isEnabled = false
+        edtRepeatDialog.isEnabled = false
+        edtCategoryDialog.isEnabled = false
+        edtSubcategoryDialog.isEnabled = false
         edtCommentDialog.isEnabled = false
         edtSourceDialog.isEnabled = false
+        configureIncomePickers(
+            edtDateDialog,
+            edtRepeatDialog,
+            edtCategoryDialog,
+            edtSubcategoryDialog,
+            false
+        )
 
         btnSaveChanges.visibility = View.GONE
         btnEditChanges.visibility = View.VISIBLE
@@ -357,8 +389,19 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
             }
             edtTitleDialog.isEnabled = true
             edtAmountDialog.isEnabled = true
+            edtDateDialog.isEnabled = true
+            edtRepeatDialog.isEnabled = true
+            edtCategoryDialog.isEnabled = true
+            edtSubcategoryDialog.isEnabled = true
             edtCommentDialog.isEnabled = true
             edtSourceDialog.isEnabled = true
+            configureIncomePickers(
+                edtDateDialog,
+                edtRepeatDialog,
+                edtCategoryDialog,
+                edtSubcategoryDialog,
+                true
+            )
 
             btnSaveChanges.visibility = View.VISIBLE
             btnCloseDialog.text = getString(R.string.cancel)
@@ -372,31 +415,134 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
             val userUid = FirebaseAuth.getInstance().currentUser?.uid
             val income = selectedIncome
             if (userUid != null && income != null) {
-                income.name = edtTitleDialog.text.toString()
+                val originalSelectedDate = income.date
+                val parsedDate = try {
+                    dateFormat.isLenient = false
+                    dateFormat.parse(edtDateDialog.text.toString().trim())
+                } catch (e: Exception) {
+                    null
+                }
+                if (parsedDate == null) {
+                    Toast.makeText(this, R.string.invalid_date_format, Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+                val category = FinancialEntryOptions.normalizedIncomeCategory(
+                    this,
+                    edtCategoryDialog.text.toString()
+                )
+                val subcategory = FinancialEntryOptions.normalizedIncomeSubcategory(
+                    this,
+                    category,
+                    edtSubcategoryDialog.text.toString()
+                )
+                income.name = edtTitleDialog.text.toString().trim().ifBlank { getString(R.string.income) }
                 income.amount = CurrencyPreferences.roundToTwoDecimals(edtAmountDialog.text.toString().toDoubleOrNull() ?: 0.0)
-                income.comment = edtCommentDialog.text.toString()
-                income.source = edtSourceDialog.text.toString()
+                if (income.amount <= 0.0) {
+                    Toast.makeText(this, R.string.enter_valid_amount, Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+                income.date = com.google.firebase.Timestamp(parsedDate)
+                income.repeat = edtRepeatDialog.text.toString().trim().ifBlank { "No" }
+                income.category = category
+                income.subcategory = subcategory
+                income.comment = edtCommentDialog.text.toString().trim()
+                income.source = edtSourceDialog.text.toString().trim()
 
-                db.collection("users").document(userUid).collection("income")
-                    .document(income.incomeId)
-                    .set(income)
-                    .addOnSuccessListener {
-                        val index = incomeArrayList.indexOfFirst { it.incomeId == income.incomeId }
-                        if (index != -1) {
-                            incomeArrayList[index] = income
-                            myAdapterIncome.notifyItemChanged(index)
+                if (!income.repeat.isNullOrBlank() && income.repeat != "No") {
+                    AlertDialog.Builder(this)
+                        .setTitle(R.string.edit_recurring_income)
+                        .setItems(
+                            arrayOf(
+                                getString(R.string.edit_this_income_only),
+                                getString(R.string.edit_this_and_future_income)
+                            )
+                        ) { _, choice ->
+                            if (choice == 0) {
+                                saveSingleIncomeEdit(userUid, income)
+                            } else {
+                                saveCurrentAndFutureIncomeEdits(userUid, income, originalSelectedDate)
+                            }
                         }
-                        Toast.makeText(this, R.string.income_updated, Toast.LENGTH_SHORT).show()
+                        .setNegativeButton(R.string.cancel, null)
+                        .show()
+                } else {
+                    saveSingleIncomeEdit(userUid, income)
+                }
+            } else {
+                Toast.makeText(this, R.string.income_update_unavailable, Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun saveSingleIncomeEdit(userUid: String, income: Income) {
+        db.collection("users").document(userUid).collection("income")
+            .document(income.incomeId)
+            .set(income)
+            .addOnSuccessListener {
+                val index = incomeArrayList.indexOfFirst { it.incomeId == income.incomeId }
+                if (index != -1) {
+                    incomeArrayList[index] = income
+                    myAdapterIncome.notifyItemChanged(index)
+                }
+                Toast.makeText(this, R.string.income_updated, Toast.LENGTH_SHORT).show()
+                btnCloseDialog.text = getString(R.string.close)
+                dialog.dismiss()
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(this, getString(R.string.income_update_failed, e.message.orEmpty()), Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    private fun saveCurrentAndFutureIncomeEdits(
+        userUid: String,
+        editedIncome: Income,
+        originalSelectedDate: com.google.firebase.Timestamp?
+    ) {
+        val selectedDate = originalSelectedDate ?: editedIncome.date ?: return saveSingleIncomeEdit(userUid, editedIncome)
+        val seriesId = editedIncome.parentIncomeId?.takeIf { it.isNotBlank() } ?: editedIncome.incomeId
+        val incomeReference = db.collection("users").document(userUid).collection("income")
+
+        incomeReference.get()
+            .addOnSuccessListener { documents ->
+                val batch = db.batch()
+                documents.forEach { document ->
+                    val occurrenceDate = document.getTimestamp("date")
+                    val parentId = document.getString("parentIncomeId")
+                    val belongsToSeries =
+                        document.id == seriesId || parentId == seriesId
+                    if (belongsToSeries && occurrenceDate != null && occurrenceDate >= selectedDate) {
+                        if (document.id == editedIncome.incomeId) {
+                            batch.set(document.reference, editedIncome)
+                        } else {
+                            val futureIncome = document.toObject(Income::class.java)
+                            futureIncome.name = editedIncome.name
+                            futureIncome.amount = editedIncome.amount
+                            futureIncome.currency = editedIncome.currency
+                            futureIncome.repeat = editedIncome.repeat
+                            futureIncome.category = editedIncome.category
+                            futureIncome.subcategory = editedIncome.subcategory
+                            futureIncome.comment = editedIncome.comment
+                            futureIncome.source = editedIncome.source
+                            futureIncome.attachment = editedIncome.attachment
+                            futureIncome.parentIncomeId = editedIncome.parentIncomeId
+                            batch.set(document.reference, futureIncome)
+                        }
+                    }
+                }
+
+                batch.commit()
+                    .addOnSuccessListener {
+                        Toast.makeText(this, R.string.future_income_updated, Toast.LENGTH_SHORT).show()
                         btnCloseDialog.text = getString(R.string.close)
                         dialog.dismiss()
                     }
                     .addOnFailureListener { e ->
                         Toast.makeText(this, getString(R.string.income_update_failed, e.message.orEmpty()), Toast.LENGTH_SHORT).show()
                     }
-            } else {
-                Toast.makeText(this, R.string.income_update_unavailable, Toast.LENGTH_SHORT).show()
             }
-        }
+            .addOnFailureListener { e ->
+                Toast.makeText(this, getString(R.string.income_update_failed, e.message.orEmpty()), Toast.LENGTH_SHORT).show()
+            }
     }
 
     private fun deleteIncome() {
@@ -606,6 +752,108 @@ class MyIncome : AppCompatActivity(), MyAdapterIncome.OnIncomeClickListener {
 
     private fun openCreateIncome() {
         EntryCreationFlow.show(this, EntryType.INCOME, userEmail)
+    }
+
+    private fun configureIncomePickers(
+        dateField: EditText,
+        repeatField: EditText,
+        categoryField: EditText,
+        subcategoryField: EditText,
+        enabled: Boolean
+    ) {
+        listOf(dateField, repeatField, categoryField, subcategoryField).forEach {
+            it.isEnabled = enabled
+            it.isFocusable = false
+            it.isFocusableInTouchMode = false
+            it.isCursorVisible = false
+        }
+        dateField.setOnClickListener(if (enabled) View.OnClickListener { showDatePicker(dateField) } else null)
+        repeatField.setOnClickListener(if (enabled) View.OnClickListener { showRepeatPicker(repeatField) } else null)
+        categoryField.setOnClickListener(
+            if (enabled) {
+                View.OnClickListener { showIncomeCategoryPicker(categoryField, subcategoryField) }
+            } else null
+        )
+        subcategoryField.setOnClickListener(
+            if (enabled) {
+                View.OnClickListener { showIncomeSubcategoryPicker(categoryField, subcategoryField) }
+            } else null
+        )
+    }
+
+    private fun showDatePicker(field: EditText) {
+        val calendar = Calendar.getInstance()
+        runCatching {
+            SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).apply { isLenient = false }
+                .parse(field.text.toString().trim())
+        }.getOrNull()?.let(calendar::setTime)
+        DatePickerDialog(
+            this,
+            { _, year, month, day ->
+                field.setText(String.format(Locale.getDefault(), "%02d/%02d/%04d", day, month + 1, year))
+            },
+            calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH),
+            calendar.get(Calendar.DAY_OF_MONTH)
+        ).show()
+    }
+
+    private fun showRepeatPicker(field: EditText) {
+        val options = arrayOf(
+            "No", "Weekly", "Every 2 Weeks", "Monthly", "Every 2 Months",
+            "Quarterly", "Every 6 months", "Yearly"
+        )
+        val selected = options.indexOf(field.text.toString()).coerceAtLeast(0)
+        AlertDialog.Builder(this)
+            .setTitle(R.string.repeat)
+            .setSingleChoiceItems(options, selected) { dialog, which ->
+                field.setText(options[which])
+                dialog.dismiss()
+            }
+            .show()
+    }
+
+    private fun showIncomeCategoryPicker(categoryField: EditText, subcategoryField: EditText) {
+        val options = FinancialEntryOptions.incomeCategories(this)
+        val labels = options.map { it.label }.toTypedArray()
+        val current = options.indexOfFirst {
+            it.key == FinancialEntryOptions.normalizedIncomeCategory(this, categoryField.text.toString())
+        }.coerceAtLeast(0)
+        AlertDialog.Builder(this)
+            .setTitle(R.string.category)
+            .setSingleChoiceItems(labels, current) { dialog, which ->
+                val selected = options[which]
+                categoryField.setText(selected.label)
+                subcategoryField.setText(defaultIncomeSubcategoryLabel(selected.key))
+                dialog.dismiss()
+            }
+            .show()
+    }
+
+    private fun showIncomeSubcategoryPicker(categoryField: EditText, subcategoryField: EditText) {
+        val category = FinancialEntryOptions.normalizedIncomeCategory(this, categoryField.text.toString())
+        val options = FinancialEntryOptions.incomeSubcategories(this, category)
+        val labels = options.map { it.label }.toTypedArray()
+        val current = options.indexOfFirst {
+            it.key == FinancialEntryOptions.normalizedIncomeSubcategory(this, category, subcategoryField.text.toString())
+        }.coerceAtLeast(0)
+        AlertDialog.Builder(this)
+            .setTitle(R.string.subcategory)
+            .setSingleChoiceItems(labels, current) { dialog, which ->
+                subcategoryField.setText(options[which].label)
+                dialog.dismiss()
+            }
+            .show()
+    }
+
+    private fun defaultIncomeSubcategoryLabel(categoryKey: String): String {
+        val options = FinancialEntryOptions.incomeSubcategories(this, categoryKey)
+        val defaultKey = if (categoryKey == FinancialEntryOptions.DEFAULT_INCOME_CATEGORY) {
+            FinancialEntryOptions.DEFAULT_INCOME_SUBCATEGORY
+        } else {
+            options.firstOrNull()?.key ?: FinancialEntryOptions.DEFAULT_INCOME_SUBCATEGORY
+        }
+        return options.firstOrNull { it.key == defaultKey }?.label ?: defaultKey
     }
 
     private fun styleDetailsDialogWindow(dialog: Dialog) {

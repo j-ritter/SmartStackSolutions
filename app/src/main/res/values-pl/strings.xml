@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="notification_details">Notification Details</string>
     <string name="main">Main</string>
@@ -238,19 +238,22 @@
     <string name="premium_compare_free">Darmowe</string>
     <string name="premium_compare_premium">Premium</string>
     <string name="premium_compare_open_payments">Otwarte płatności</string>
-    <string name="premium_compare_open_payments_free">30 aktywnych jednorazowych otwartych płatności</string>
+    <string name="premium_compare_open_payments_free">100 aktywnych otwartych płatności</string>
     <string name="premium_compare_open_payments_premium">Do 2 000 łącznych przyszłych wpisów</string>
     <string name="premium_compare_recurring">Przyszłe wpisy cykliczne</string>
-    <string name="premium_compare_recurring_free">Do 250 przyszłych płatności</string>
+    <string name="premium_compare_recurring_free">Wliczone w limit 100 aktywnych otwartych płatności</string>
     <string name="premium_compare_recurring_premium">Do 2 000 przyszłych wpisów</string>
     <string name="premium_compare_closed">Zamknięte płatności</string>
-    <string name="premium_compare_closed_free">Do 100 zamkniętych płatności</string>
+    <string name="premium_compare_closed_free">Do 100 opłaconych płatności</string>
     <string name="premium_compare_closed_premium">Pełne narzędzia historii</string>
     <string name="premium_compare_income">Zarządzanie dochodem</string>
     <string name="premium_compare_income_free">Tylko import</string>
     <string name="premium_compare_income_premium">Tworzenie i zarządzanie dochodami</string>
     <string name="premium_compare_import">Import CSV/PDF</string>
-    <string name="premium_compare_import_free">50/plik · 100 łącznie</string>
+    <string name="premium_compare_savings_goals">Cele oszczędnościowe</string>
+    <string name="premium_compare_savings_goals_free">Brak</string>
+    <string name="premium_compare_savings_goals_premium">Do 3 nakładających się aktywnych celów</string>
+    <string name="premium_compare_import_free">100/plik · 100 łącznie</string>
     <string name="premium_compare_import_premium">200/plik</string>
     <string name="premium_compare_insights">Analizy finansowe</string>
     <string name="premium_compare_insights_free">Podstawy miesięczne</string>
@@ -264,10 +267,10 @@
     <string name="features">Funkcje</string>
     <string name="feature_open_payments_title">Otwarte płatności</string>
     <string name="feature_open_payments_desc">Manage open payments and stay on top of upcoming bills.</string>
-    <string name="feature_open_payments_expandable">Open Payments allow you to manage your upcoming bills, set reminders, track payments, and help you pay on time.</string>
+    <string name="feature_open_payments_expandable">Wersja bezpłatna obejmuje do 100 aktywnych otwartych płatności, w tym wystąpienia cykliczne. Premium zapewnia znacznie wyższy limit dla wpisów aktywnych i przyszłych.</string>
     <string name="feature_closed_payments_title">Zamknięte płatności</string>
     <string name="feature_closed_payments_desc">Track bills you have paid and manage your transaction history.</string>
-    <string name="feature_closed_payments_expandable">Closed Payments help you track paid bills for financial history.</string>
+    <string name="feature_closed_payments_expandable">Każdy może oznaczać otwarte płatności jako opłacone do bezpłatnego limitu historii 100 opłaconych płatności. Premium odblokowuje także bezpośrednie tworzenie, edycję, usuwanie i pełne zarządzanie historią.</string>
     <string name="feature_income_management_title">Zarządzanie dochodem</string>
     <string name="feature_income_management_desc">Track and categorize your income sources.</string>
     <string name="feature_income_management_expandable">Income Management helps you track your different income streams, including salaries, freelance work, and investments.</string>
@@ -530,7 +533,7 @@ For any questions or concerns regarding these terms and conditions, please conta
     <string name="import_premium_allowance">Limit Premium: do %1$d transakcji na plik</string>
     <string name="faqs_question_21">21. Jak działa import wyciągu bankowego i jaka jest jego dokładność?</string>
     <string name="faqs_answer_21">Odpowiedź: SmartStack może odczytywać obsługiwane wyciągi CSV i PDF oraz sugerować zamknięte płatności i dochody. OCR może błędnie odczytać daty, opisy lub kwoty. Sprawdź każdy wiersz i odznacz przelewy, duplikaty lub niechciane transakcje. Darmowe konta mogą importować 50 transakcji jednorazowo i 100 łącznie; Premium obsługuje do 200 na plik. Wyciąg jest przetwarzany tymczasowo na urządzeniu i nie jest przesyłany do Firebase; zapisywane są tylko wybrane wpisy.</string>
-    <string name="free_closed_payment_limit_reached">Osiągnięto darmowy limit 100 zamkniętych płatności. Usuń starszą historię albo przejdź na Premium.</string>
+    <string name="free_closed_payment_limit_reached">Osiągnięto darmowy limit 100 opłaconych płatności. Usuń starszą historię albo przejdź na Premium.</string>
     <string name="export_monthly_overview">Eksportuj miesięczny przegląd</string>
     <string name="export_monthly_title">Eksportuj miesięczny przegląd</string>
     <string name="export_scope_info_title">Co zostanie wyeksportowane?</string>
@@ -578,7 +581,7 @@ For any questions or concerns regarding these terms and conditions, please conta
     <string name="terms_section_title_4">4. Darmowa usługa i reklamy</string>
     <string name="terms_section_body_4">Darmowa wersja jest finansowana z reklam i obejmuje podstawowe funkcje otwartych płatności, przypomnień, kalendarza, eksportu oraz oznaczania płatności jako opłaconych. Niektóre funkcje tworzenia, edycji, historii, dochodów, celów i analiz wymagają wersji Premium.</string>
     <string name="terms_section_title_5">5. Limity uczciwego użytkowania</string>
-    <string name="terms_section_body_5">Aby zapewnić niezawodne i zrównoważone działanie usługi, darmowe konta obsługują do 30 aktywnych pojedynczych otwartych płatności, 100 zamkniętych płatności oraz 250 przyszłych wpisów płatności cyklicznych. Konta Premium oferują wyższe limity, w tym do 2 000 łącznych przyszłych wpisów płatności i dochodów. Limity mogą zostać zmienione w przyszłości ze względów bezpieczeństwa, niezawodności lub trwałości usługi, z odpowiednim wyprzedzeniem, jeśli będzie to możliwe.</string>
+    <string name="terms_section_body_5">Aby zapewnić niezawodne i zrównoważone działanie usługi, darmowe konta obsługują do 100 aktywnych otwartych płatności i 100 opłaconych płatności utworzonych przez oznaczenie otwartych płatności jako opłaconych. Cykliczne otwarte płatności wliczają się do limitu 100 aktywnych otwartych płatności. Konta Premium oferują wyższe limity, w tym do 2 000 łącznych przyszłych wpisów płatności i dochodów. Limity mogą zostać zmienione w przyszłości ze względów bezpieczeństwa, niezawodności lub trwałości usługi, z odpowiednim wyprzedzeniem, jeśli będzie to możliwe.</string>
     <string name="terms_section_title_6">6. Subskrypcja Premium</string>
     <string name="terms_section_body_6">Funkcje Premium oraz aktualna cena są wyświetlane przed zakupem. Rozliczenia, odnowienia, anulowanie i kwalifikujące się zwroty są obsługiwane przez Google Play zgodnie z jego warunkami i obowiązującym prawem. Premium usuwa reklamy i odblokowuje funkcje opisane na ekranie Premium, z zachowaniem zasad uczciwego użytkowania.</string>
     <string name="terms_section_title_7">7. Dostępność danych i eksport</string>
@@ -590,9 +593,9 @@ For any questions or concerns regarding these terms and conditions, please conta
     <string name="terms_section_title_10">10. Kontakt</string>
     <string name="terms_section_body_10">Pytania dotyczące niniejszych warunków lub usługi można przesyłać na adres appdev.jr2024@gmail.com.</string>
     <string name="faqs_question_16">16. Jakie limity obowiązują dla kont bezpłatnych i Premium?</string>
-    <string name="faqs_answer_16">Konta bezpłatne mogą przechowywać do 30 aktywnych otwartych płatności, 100 zamkniętych płatności oraz 250 przyszłych wpisów płatności cyklicznych. Premium zwiększa te limity i obsługuje do 2 000 łącznych przyszłych wpisów płatności i dochodów. Limity te pomagają zapewnić niezawodne działanie usługi i zapobiegają przypadkowemu tworzeniu nadmiernej liczby wpisów.</string>
+    <string name="faqs_answer_16">Konta bezpłatne mogą przechowywać do 100 aktywnych otwartych płatności i 100 opłaconych płatności utworzonych przez oznaczenie otwartych płatności jako opłaconych. Cykliczne otwarte płatności wliczają się do limitu 100 aktywnych otwartych płatności. Premium zwiększa te limity i obsługuje do 2 000 łącznych przyszłych wpisów płatności i dochodów.</string>
     <string name="faqs_question_17">17. Czy użytkownicy darmowej wersji nadal mogą oznaczać płatności jako opłacone?</string>
-    <string name="faqs_answer_17">Tak. Standardowy proces przenoszenia otwartej płatności do zamkniętej nigdy nie jest blokowany przez limity darmowej wersji. Bezpośrednie tworzenie, edycja i usuwanie zamkniętych płatności to funkcje zarządzania Premium.</string>
+    <string name="faqs_answer_17">Tak. Użytkownicy bezpłatni mogą oznaczać otwarte płatności jako opłacone do bezpłatnego limitu historii 100 opłaconych płatności. Bezpośrednie tworzenie, edycja i usuwanie zamkniętych płatności to funkcje zarządzania Premium.</string>
     <string name="faqs_question_18">18. Czy SmartStack automatycznie usunie moją historię finansową?</string>
     <string name="faqs_answer_18">Obecnie SmartStack nie stosuje automatycznego okresu usuwania historii płatności. Dane konta możesz wyeksportować w dowolnym momencie. Jeśli w przyszłości zostanie wprowadzona istotna polityka przechowywania danych, aplikacja poinformuje o tym z odpowiednim wyprzedzeniem, jeśli będzie to możliwe.</string>
     <string name="faqs_question_19">19. Jakie analizy finansowe są dostępne?</string>
@@ -614,8 +617,8 @@ For any questions or concerns regarding these terms and conditions, please conta
     <string name="optional_details">Szczegóły opcjonalne</string>
     <string name="savings_quick_entry_hint">Wprowadź kwotę celu i datę zakończenia. Data rozpoczęcia jest automatycznie ustawiona na dzisiejszy dzień.</string>
     <string name="title_optional">Tytuł (opcjonalnie)</string>
-    <string name="free_open_payment_limit_reached">Osiągnięto bezpłatny limit 30 aktywnych, jednorazowych otwartych płatności. Oznacz zrealizowane płatności jako opłacone lub przejdź na Premium.</string>
-    <string name="free_recurring_limit_reached">Ten harmonogram cykliczny przekroczyłby bezpłatny limit 250 przyszłych wystąpień płatności cyklicznych. Usuń nieużywany harmonogram lub przejdź na Premium.</string>
+    <string name="free_open_payment_limit_reached">Osiągnięto bezpłatny limit 100 aktywnych otwartych płatności. Oznacz zrealizowane płatności jako opłacone lub przejdź na Premium.</string>
+    <string name="free_recurring_limit_reached">Ten harmonogram cykliczny przekroczyłby bezpłatny limit 100 aktywnych otwartych płatności. Usuń nieużywany harmonogram, oznacz zrealizowane płatności jako opłacone lub przejdź na Premium.</string>
     <string name="premium_usage_limit_reached">Ten wpis przekroczyłby limit uczciwego użytkowania Premium wynoszący 2 000 łącznych przyszłych wpisów płatności i dochodów. Usuń nieaktualne przyszłe wpisy lub skontaktuj się z pomocą techniczną.</string>
     <string name="usage_limit_check_failed">SmartStack nie mógł zweryfikować dostępnego limitu wpisów. Sprawdź połączenie i spróbuj ponownie.</string>
     <string name="open_payment_saved">Seria otwartych płatności została zapisana.</string>
@@ -659,6 +662,8 @@ For any questions or concerns regarding these terms and conditions, please conta
     <string name="financial_insights_subtitle">Zrozum wybrany miesiąc jednym spojrzeniem</string>
     <string name="monthly_money_map">Miesięczna mapa pieniędzy</string>
     <string name="monthly_money_map_description">Zobacz, jak dochody, zakończone wydatki, nadchodzące zobowiązania i cel oszczędnościowy łączą się ze sobą.</string>
+    <string name="money_flow_development">Rozwój przepływu pieniędzy</string>
+    <string name="money_flow_development_description">Zobacz, jak przychody, zamknięte płatności, otwarte płatności i cele oszczędnościowe zmieniają się przez %1$d mies.</string>
     <string name="biggest_change">Największa zmiana</string>
     <string name="biggest_change_description">Najbardziej zauważalny ruch w dochodach, wydatkach, otwartych płatnościach lub zobowiązaniach cyklicznych.</string>
     <string name="biggest_change_no_data">Dodaj kolejny miesiąc, aby zobaczyć znaczące zmiany.</string>
@@ -751,4 +756,29 @@ For any questions or concerns regarding these terms and conditions, please conta
     <string name="income_update_unavailable">Nie udało się zaktualizować przychodu.</string>
     <string name="payment_login_required">Zaloguj się ponownie, aby zaktualizować tę płatność.</string>
     <string name="payment_id_missing">Nie można przenieść tej płatności, ponieważ brakuje jej identyfikatora.</string>
+    <string name="section_this_month_open_payments">Otwarte płatności w tym miesiącu</string>
+    <string name="section_this_month_short">Ten miesiąc</string>
+    <string name="section_overdue_open_payments">Zaległe otwarte płatności</string>
+    <string name="section_upcoming_open_payments">Nadchodzące otwarte płatności</string>
+    <string name="section_past_closed_payments">Poprzednie zamknięte płatności</string>
+    <string name="section_future_closed_payments">Przyszłe zamknięte płatności</string>
+    <string name="section_upcoming_income">Nadchodzące przychody</string>
+    <string name="section_past_income">Poprzednie przychody</string>
+    <string name="section_no_date">Bez daty</string>
+    <string name="open_payment_outlook_by_month">Perspektywa otwartych płatności według miesiąca</string>
+    <string name="open_payment_outlook_by_month_description">Zobacz, ile pozostaje otwarte w każdym miesiącu wybranego okresu %1$d mies.</string>
+    <string name="open_payment_outlook_period">Perspektywa otwartych płatności w wybranym okresie</string>
+    <string name="open_payment_outlook_period_description">Zobacz, jak niezapłacone otwarte płatności rozkładają się w wybranym okresie %1$d mies.</string>
+    <string name="period_balance_positive">Po zobowiązaniach i celach oszczędnościowych w tym okresie pozostaje %1$s.</string>
+    <string name="period_balance_negative">Po zobowiązaniach i celach oszczędnościowych w tym okresie brakuje %1$s.</string>
+    <string name="edit_recurring_payment">Edytuj płatność cykliczną</string>
+    <string name="edit_this_payment_only">Edytuj tylko tę płatność</string>
+    <string name="edit_this_and_future_payments">Edytuj tę i przyszłe płatności</string>
+    <string name="future_open_payments_updated">Ta i przyszłe płatności zostały zaktualizowane.</string>
+    <string name="edit_recurring_income">Edytuj dochód cykliczny</string>
+    <string name="edit_this_income_only">Edytuj tylko ten wpis dochodu</string>
+    <string name="edit_this_and_future_income">Edytuj ten i przyszły dochód</string>
+    <string name="future_income_updated">Ten i przyszłe wpisy dochodu zostały zaktualizowane.</string>
 </resources>
+
+

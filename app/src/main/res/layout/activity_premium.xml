@@ -294,6 +294,13 @@
 
                         <LinearLayout
                             style="@style/PremiumComparisonRow">
+                            <TextView style="@style/PremiumComparisonFeature" android:text="@string/premium_compare_savings_goals" />
+                            <TextView style="@style/PremiumComparisonFree" android:text="@string/premium_compare_savings_goals_free" />
+                            <TextView style="@style/PremiumComparisonPremium" android:text="@string/premium_compare_savings_goals_premium" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            style="@style/PremiumComparisonRow">
                             <TextView style="@style/PremiumComparisonFeature" android:text="@string/premium_compare_import" />
                             <TextView style="@style/PremiumComparisonFree" android:text="@string/premium_compare_import_free" />
                             <TextView style="@style/PremiumComparisonPremium" android:text="@string/premium_compare_import_premium" />

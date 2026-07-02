@@ -1,2 +1,37 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="section_this_month_open_payments">Pembayaran terbuka bulan ini</string>
+    <string name="section_this_month_short">Bulan ini</string>
+    <string name="section_overdue_open_payments">Pembayaran terbuka yang terlambat</string>
+    <string name="section_upcoming_open_payments">Pembayaran terbuka mendatang</string>
+    <string name="section_past_closed_payments">Pembayaran tertutup sebelumnya</string>
+    <string name="section_future_closed_payments">Pembayaran tertutup mendatang</string>
+    <string name="section_upcoming_income">Pendapatan mendatang</string>
+    <string name="section_past_income">Pendapatan sebelumnya</string>
+    <string name="section_no_date">Tanpa tanggal</string>
+    <string name="amount_display">Tampilan jumlah</string>
+    <string name="amount_display_menu_title">Tampilan jumlah (%1$s)</string>
+    <string name="select_amount_display">Pilih tampilan jumlah</string>
+    <string name="amount_display_two_decimals">Selalu tampilkan 2 desimal</string>
+    <string name="amount_display_no_decimals">Jangan tampilkan desimal</string>
+    <string name="amount_display_two_decimals_short">2 desimal</string>
+    <string name="amount_display_no_decimals_short">tanpa desimal</string>
+    <string name="money_flow_development">Perkembangan arus uang</string>
+    <string name="money_flow_development_description">Lihat bagaimana pendapatan, pembayaran tertutup, pembayaran terbuka, dan target tabungan berkembang selama %1$d bulan.</string>
+    <string name="open_payment_outlook_by_month">Prospek pembayaran terbuka per bulan</string>
+    <string name="open_payment_outlook_by_month_description">Lihat berapa banyak yang masih terbuka di setiap bulan dalam periode %1$d bulan yang dipilih.</string>
+    <string name="open_payment_outlook_period">Prospek pembayaran terbuka untuk periode yang dipilih</string>
+    <string name="open_payment_outlook_period_description">Lihat bagaimana pembayaran terbuka yang belum dibayar tersebar dalam periode %1$d bulan yang dipilih.</string>
+    <string name="period_balance_positive">%1$s tersisa setelah kewajiban dan target tabungan dalam periode ini.</string>
+    <string name="period_balance_negative">Kekurangan %1$s setelah kewajiban dan target tabungan dalam periode ini.</string>
+    <string name="edit_recurring_payment">Edit pembayaran berulang</string>
+    <string name="edit_this_payment_only">Edit hanya pembayaran ini</string>
+    <string name="edit_this_and_future_payments">Edit pembayaran ini dan yang akan datang</string>
+    <string name="future_open_payments_updated">Pembayaran ini dan yang akan datang telah diperbarui.</string>
+    <string name="edit_recurring_income">Edit pendapatan berulang</string>
+    <string name="edit_this_income_only">Edit hanya entri pendapatan ini</string>
+    <string name="edit_this_and_future_income">Edit pendapatan ini dan yang akan datang</string>
+    <string name="future_income_updated">Entri pendapatan ini dan yang akan datang telah diperbarui.</string>
+</resources>
+
+
